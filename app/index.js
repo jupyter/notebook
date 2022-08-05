@@ -91,7 +91,6 @@ async function main() {
         '@jupyterlab/apputils-extension:toolbar-registry'
       ].includes(id)
     ),
-    require('@jupyterlab/celltags-extension'),
     require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/codemirror-extension:services',
@@ -138,8 +137,6 @@ async function main() {
         '@jupyterlab/notebook-extension:code-console',
         '@jupyterlab/notebook-extension:export',
         '@jupyterlab/notebook-extension:factory',
-        '@jupyterlab/notebook-extension:toc',
-        '@jupyterlab/notebook-extension:tools',
         '@jupyterlab/notebook-extension:tracker',
         '@jupyterlab/notebook-extension:widget-factory'
       ].includes(id)
@@ -150,12 +147,6 @@ async function main() {
     require('@jupyterlab/terminal-extension'),
     require('@jupyterlab/theme-light-extension'),
     require('@jupyterlab/theme-dark-extension'),
-    require('@jupyterlab/toc-extension').default.filter(({ id }) =>
-      [
-        '@jupyterlab/toc-extension:registry',
-        '@jupyterlab/toc-extension:tracker'
-      ].includes(id)
-    ),
     require('@jupyterlab/translation-extension'),
     // Add the "Hub Control Panel" menu option when running in JupyterHub
     require('@jupyterlab/collaboration-extension'),
@@ -185,11 +176,20 @@ async function main() {
     }
     case 'notebooks': {
       baseMods = baseMods.concat([
+        require('@jupyterlab/celltags-extension'),
         require('@jupyterlab/cell-toolbar-extension'),
         require('@jupyterlab/notebook-extension').default.filter(({ id }) =>
           [
             '@jupyterlab/notebook-extension:completer',
-            '@jupyterlab/notebook-extension:search'
+            '@jupyterlab/notebook-extension:search',
+            '@jupyterlab/notebook-extension:toc',
+            '@jupyterlab/notebook-extension:tools'
+          ].includes(id)
+        ),
+        require('@jupyterlab/toc-extension').default.filter(({ id }) =>
+          [
+            '@jupyterlab/toc-extension:registry',
+            '@jupyterlab/toc-extension:tracker'
           ].includes(id)
         ),
         require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>
