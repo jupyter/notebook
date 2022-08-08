@@ -597,13 +597,14 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
 const sidebarVisibility: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:sidebar',
   requires: [INotebookShell, ITranslator],
-  optional: [IMainMenu, ISettingRegistry, INotebookTools],
+  optional: [IMainMenu, ICommandPalette, INotebookTools],
+  autoStart: true,
   activate: (
     app: JupyterFrontEnd<JupyterFrontEnd.IShell>,
     notebookShell: INotebookShell,
     translator: ITranslator,
     menu: IMainMenu | null,
-    settingRegistry: ISettingRegistry | null,
+    palette: ICommandPalette | null,
     notebookTools: INotebookTools | null
   ) => {
     if (!sidePanelsEnabled()) {
@@ -673,7 +674,10 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
     });
 
     app.restored.then(() => {
-      // Create a menu entry for left and right panel and update it with current widgets
+      // Add the notebook tools in right area.
+      if (notebookTools) notebookShell.add(notebookTools, 'right');
+
+      // Create a menu entry for left and right panel and update it with current widgets.
       if (menu) {
         notebookShell.leftHandler.createMenuEntry({
           mainMenuEntry: menu.viewMenu,
@@ -691,12 +695,22 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
 
         notebookShell.leftHandler.updateMenu();
         notebookShell.rightHandler.updateMenu();
+      }
 
-        if (notebookTools) notebookShell.add(notebookTools, 'right');
+      // Add palette entries associated to the side panels.
+      if (palette) {
+        notebookShell.leftHandler.createPaletteEntry({
+          commandPalette: palette,
+          command: CommandIDs.togglePanel
+        });
+
+        notebookShell.rightHandler.createPaletteEntry({
+          commandPalette: palette,
+          command: CommandIDs.togglePanel
+        });
       }
     });
-  },
-  autoStart: true
+  }
 };
 
 /**
