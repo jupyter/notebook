@@ -678,14 +678,14 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
         notebookShell.leftHandler.createMenuEntry({
           mainMenuEntry: menu.viewMenu,
           commandRegistry: app.commands,
-          entryLabel: trans.__('Show Left Sidebar'),
+          entryLabel: trans.__('Left Sidebar'),
           command: CommandIDs.togglePanel
         });
 
         notebookShell.rightHandler.createMenuEntry({
           mainMenuEntry: menu.viewMenu,
           commandRegistry: app.commands,
-          entryLabel: trans.__('Show Right Sidebar'),
+          entryLabel: trans.__('Right Sidebar'),
           command: CommandIDs.togglePanel
         });
 

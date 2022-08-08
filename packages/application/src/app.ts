@@ -35,9 +35,7 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
       }
     }
 
-    this.restored = this.shell.restored
-      .then(() => undefined)
-      .catch(() => undefined);
+    this.restored = this.shell.restored;
 
     this.restored.then(() => this._formatter.invoke());
   }

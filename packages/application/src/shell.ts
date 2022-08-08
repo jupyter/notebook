@@ -762,7 +762,7 @@ namespace Private {
           command: this._command,
           args: {
             side: area,
-            title: widget.title.caption,
+            title: `Show ${widget.title.caption}`,
             id: widget.id
           }
         });
