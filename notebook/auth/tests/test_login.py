@@ -31,6 +31,8 @@ class LoginTest(NotebookTestBase):
             "//host" + self.url_prefix + "tree",
             "https://google.com",
             "/absolute/not/base_url",
+            "///jupyter.org",
+            "/\\some-host",
         ):
             url = self.login(next=bad_next)
             self.assertEqual(url, self.url_prefix)
@@ -39,10 +41,14 @@ class LoginTest(NotebookTestBase):
     def test_next_ok(self):
         for next_path in (
             "tree/",
-            "//" + self.url_prefix + "tree",
+            self.base_url() + "has/host",
             "notebooks/notebook.ipynb",
             "tree//something",
         ):
-            expected = self.url_prefix + next_path
+            if "://" in next_path:
+                expected = next_path
+            else:
+                expected = self.url_prefix + next_path
+
             actual = self.login(next=expected)
             self.assertEqual(actual, expected)
