@@ -13,20 +13,13 @@ import { Widget } from '@lumino/widgets';
 
 describe('Shell for notebooks', () => {
   let shell: INotebookShell;
-  let sidePanelsVisibleSpy: jest.SpyInstance;
 
   beforeEach(() => {
     shell = new NotebookShell();
-    sidePanelsVisibleSpy = jest
-      .spyOn(shell, 'sidePanelsVisible')
-      .mockImplementation(() => {
-        return true;
-      });
     Widget.attach(shell, document.body);
   });
 
   afterEach(() => {
-    sidePanelsVisibleSpy.mockRestore();
     shell.dispose();
   });
 
@@ -121,20 +114,13 @@ describe('Shell for notebooks', () => {
 
 describe('Shell for tree view', () => {
   let shell: INotebookShell;
-  let sidePanelsVisibleSpy: jest.SpyInstance;
 
   beforeEach(() => {
     shell = new NotebookShell();
-    sidePanelsVisibleSpy = jest
-      .spyOn(shell, 'sidePanelsVisible')
-      .mockImplementation(() => {
-        return false;
-      });
     Widget.attach(shell, document.body);
   });
 
   afterEach(() => {
-    sidePanelsVisibleSpy.mockRestore();
     shell.dispose();
   });
 
