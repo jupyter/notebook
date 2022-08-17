@@ -3,7 +3,6 @@
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 import { ICommandPalette } from '@jupyterlab/apputils';
-import { PageConfig } from '@jupyterlab/coreutils';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 import { IRankedMenu } from '@jupyterlab/ui-components';
 
@@ -72,37 +71,9 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     menuWrapper.id = 'menu-panel-wrapper';
     menuWrapper.addWidget(this._menuHandler.panel);
 
-    BoxLayout.setStretch(this._topWrapper, 0);
-    BoxLayout.setStretch(this._menuWrapper, 0);
-
-    if (this.sidePanelsVisible()) {
-      this.layout = this.initLayoutWithSidePanels();
-    } else {
-      this.layout = this.initLayoutWithoutSidePanels();
-    }
-  }
-
-  initLayoutWithoutSidePanels(): Layout {
-    const rootLayout = new BoxLayout();
-    BoxLayout.setStretch(this._main, 1);
-
-    this._spacer = new Widget();
-    this._spacer.id = 'spacer-widget';
-
-    rootLayout.spacing = 0;
-    rootLayout.addWidget(this._topWrapper);
-    rootLayout.addWidget(this._menuWrapper);
-    rootLayout.addWidget(this._spacer);
-    rootLayout.addWidget(this._main);
-
-    return rootLayout;
-  }
-
-  initLayoutWithSidePanels(): Layout {
     const rootLayout = new BoxLayout();
     const leftHandler = this._leftHandler;
     const rightHandler = this._rightHandler;
-    const mainPanel = this._main;
 
     this.leftPanel.id = 'jp-left-stack';
     this.rightPanel.id = 'jp-right-stack';
@@ -111,23 +82,37 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     leftHandler.hide();
     rightHandler.hide();
 
-    // TODO: Consider storing this as an attribute this._hsplitPanel if saving/restoring layout needed
-    const hsplitPanel = new SplitPanel();
-    hsplitPanel.id = 'main-split-panel';
-    hsplitPanel.spacing = 1;
-
     // Catch current changed events on the side handlers.
     leftHandler.updated.connect(this._onLayoutModified, this);
     rightHandler.updated.connect(this._onLayoutModified, this);
 
+    const middleLayout = new BoxLayout({
+      spacing: 0,
+      direction: 'top-to-bottom'
+    });
+    BoxLayout.setStretch(this._topWrapper, 0);
+    BoxLayout.setStretch(this._menuWrapper, 0);
+    BoxLayout.setStretch(this._main, 1);
+
+    const middlePanel = new Panel({ layout: middleLayout });
+    middlePanel.addWidget(this._topWrapper);
+    middlePanel.addWidget(this._menuWrapper);
+    middlePanel.addWidget(this._spacer);
+    middlePanel.addWidget(this._main);
+    middlePanel.layout = middleLayout;
+
+    // TODO: Consider storing this as an attribute this._hsplitPanel if saving/restoring layout needed
+    const hsplitPanel = new SplitPanel();
+    hsplitPanel.id = 'main-split-panel';
+    hsplitPanel.spacing = 1;
     BoxLayout.setStretch(hsplitPanel, 1);
 
     SplitPanel.setStretch(leftHandler.stackedPanel, 0);
     SplitPanel.setStretch(rightHandler.stackedPanel, 0);
-    SplitPanel.setStretch(mainPanel, 1);
+    SplitPanel.setStretch(middlePanel, 1);
 
     hsplitPanel.addWidget(leftHandler.stackedPanel);
-    hsplitPanel.addWidget(mainPanel);
+    hsplitPanel.addWidget(middlePanel);
     hsplitPanel.addWidget(rightHandler.stackedPanel);
 
     // Use relative sizing to set the width of the side panels.
@@ -136,12 +121,9 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     hsplitPanel.setRelativeSizes([1, 2.5, 1]);
 
     rootLayout.spacing = 0;
-    rootLayout.addWidget(this._topWrapper);
-    rootLayout.addWidget(this._menuWrapper);
-    rootLayout.addWidget(this._spacer);
     rootLayout.addWidget(hsplitPanel);
 
-    return rootLayout;
+    this.layout = rootLayout;
   }
 
   /**
@@ -227,10 +209,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   activateById(id: string): void {
     // Search all areas that can have widgets for this widget, starting with main.
     for (const area of ['main', 'top', 'left', 'right', 'menu']) {
-      if ((area === 'left' || area === 'right') && !this.sidePanelsVisible()) {
-        continue;
-      }
-
       const widget = find(this.widgets(area), w => w.id === id);
       if (widget) {
         if (area === 'left') {
@@ -278,15 +256,9 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
         this._mainWidgetLoaded.resolve();
         break;
       case 'left':
-        if (this.sidePanelsVisible()) {
-          return this._leftHandler.addWidget(widget, rank);
-        }
-        console.warn(`${area} area is not available on this page`);
+        return this._leftHandler.addWidget(widget, rank);
       case 'right':
-        if (this.sidePanelsVisible()) {
-          return this._rightHandler.addWidget(widget, rank);
-        }
-        console.warn(`${area} area is not available on this page`);
+        return this._rightHandler.addWidget(widget, rank);
       default:
         console.warn(`Cannot add widget to area: ${area}`);
     }
@@ -331,9 +303,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    * Expand the left panel to show the sidebar with its widget.
    */
   expandLeft(id?: string): void {
-    if (!this.sidePanelsVisible()) {
-      throw new Error('Left panel is not available on this page');
-    }
     this.leftPanel.show();
     this._leftHandler.expand(id); // Show the current widget, if any
     this._onLayoutModified();
@@ -343,9 +312,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    * Collapse the left panel
    */
   collapseLeft(): void {
-    if (!this.sidePanelsVisible()) {
-      throw new Error('Left panel is not available on this page');
-    }
     this._leftHandler.collapse();
     this.leftPanel.hide();
     this._onLayoutModified();
@@ -355,9 +321,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    * Expand the right panel to show the sidebar with its widget.
    */
   expandRight(id?: string): void {
-    if (!this.sidePanelsVisible()) {
-      throw new Error('Right panel is not available on this page');
-    }
     this.rightPanel.show();
     this._rightHandler.expand(id); // Show the current widget, if any
     this._onLayoutModified();
@@ -367,9 +330,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    * Collapse the right panel
    */
   collapseRight(): void {
-    if (!this.sidePanelsVisible()) {
-      throw new Error('Right panel is not available on this page');
-    }
     this._rightHandler.collapse();
     this.rightPanel.hide();
     this._onLayoutModified();
@@ -384,15 +344,9 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
       case 'main':
         return this._main.widgets;
       case 'left':
-        if (this.sidePanelsVisible()) {
-          return this._leftHandler.stackedPanel.widgets;
-        }
-        throw new Error(`Invalid area: ${area}`);
+        return this._leftHandler.stackedPanel.widgets;
       case 'right':
-        if (this.sidePanelsVisible()) {
-          return this._rightHandler.stackedPanel.widgets;
-        }
-        throw new Error(`Invalid area: ${area}`);
+        return this._rightHandler.stackedPanel.widgets;
       default:
         console.error(`This shell has no area called "${area}"`);
         return;
@@ -407,15 +361,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    */
   isEmpty(area: Shell.Area): boolean {
     return this.widgetsList(area).length === 0;
-  }
-
-  /**
-   * Can the shell display a left or right panel?
-   *
-   * @returns True if the left and right side panels could be shown, false otherwise
-   */
-  sidePanelsVisible(): boolean {
-    return PageConfig.getOption('notebookPage') === 'notebooks';
   }
 
   /**
