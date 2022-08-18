@@ -8,7 +8,6 @@ USER root
 
 # Install some useful OS packages
 RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends --reinstall \
-    # certs for https
     ca-certificates \
     coreutils \
     sudo \
@@ -16,27 +15,15 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-ins
     watch \
     git \
     patch \
-    git-lfs \
     nano \
     vim \
     jq \
-    gnupg2 \
-    openssh-client \
     file \
     htop \
     zip \
     unzip \
-    p7zip-full \
     curl \
     wget \
-    lsof \
-    iputils-ping \
-    iproute2 \
-    net-tools \
-    dnsutils \
-    socat \
-    telnet \
-    libicu70 \
     #
     && rm -rf /var/lib/apt/lists/*
 
