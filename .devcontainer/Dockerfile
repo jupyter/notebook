@@ -1,7 +1,5 @@
 FROM mambaorg/micromamba:0.25
 
-ARG DEV_WORK_DIR=/workspaces
-
 USER root
 
 # Install some useful OS packages
@@ -31,8 +29,8 @@ RUN : \
     && echo "%sudo   ALL=(ALL:ALL) NOPASSWD:ALL" > /etc/sudoers.d/grant-to-sudo-group \
     ;
 
+ARG DEV_WORK_DIR=/workspaces
 # Make sure we own the working directory.
-ARG DEV_WORK_DIR
 RUN : \
     && mkdir -p "${DEV_WORK_DIR}" \
     && chown "$MAMBA_USER:$MAMBA_USER" "${DEV_WORK_DIR}"
