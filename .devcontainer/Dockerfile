@@ -1,8 +1,6 @@
-ARG BASE_IMAGE=mambaorg/micromamba:0.25
+FROM mambaorg/micromamba:0.25
 
 ARG DEV_WORK_DIR=/workspaces
-
-FROM ${BASE_IMAGE}
 
 USER root
 
@@ -44,6 +42,8 @@ ENV DEV_WORK_DIR="${DEV_WORK_DIR}"
 WORKDIR "${DEV_WORK_DIR}"
 
 USER $MAMBA_USER
+
+ARG DOCKERFILE_UMASK=0000
 
 # Install the Conda packages.
 COPY --chown=$MAMBA_USER:$MAMBA_USER .devcontainer/environment.yml /tmp/dev-conda-environment.yaml
