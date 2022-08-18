@@ -1,0 +1,9 @@
+name: notebook-dev
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - git
+  - mamba
+  - nodejs=14
+  - yarn=1

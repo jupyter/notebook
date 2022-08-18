@@ -1,0 +1,108 @@
+{
+	"name": "jupyter-notebook",
+	"containerEnv": {
+		"TZ": "Europe/Berlin",
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
+		"CONTAINER_WORKSPACE_FOLDER": "${containerWorkspaceFolder}",
+	},
+	"runArgs": [
+		"--hostname", "devcontainer",
+		// // Warning: loading .env into the environment will undermine the ability
+		// // to use .env to dynamically adjust the unspecified values.
+		// "--env-file", ".env"
+	],
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": "../",
+		"args": {
+			"CONTAINER_WORKSPACE_FOLDER": "${containerWorkspaceFolder}",
+		}
+	},
+	"overrideCommand": false,  // allow the entrypoint to run
+	// "onCreateCommand": ["/usr/local/bin/_configure_docker_group.sh"],
+	// "postCreateCommand": ["/usr/local/bin/_postCreateCommand.sh"],
+	"mounts": [
+		"source=${localWorkspaceFolder}/.devcontainer/cache,target=/mnt/cache,type=bind,consistency=cached",
+		"source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind,consistency=cached",
+	],
+	"extensions": [
+		"ms-python.python",
+		"ms-python.vscode-pylance",
+		"ms-toolsai.jupyter",
+		"donjayamanne.githistory",
+		"eamodio.gitlens",
+		"mutantdino.resourcemonitor",
+		"github.copilot",
+	],
+	"remoteUser": "mambauser",
+    "forwardPorts": [8888],
+	"settings": {
+		// Disable telemetry
+		"telemetry.enableTelemetry": false,
+
+		// Files to completely exclude from view
+		// (see also search.exclude and files.watcherExclude)
+		"files.exclude": {
+			// Ignore cached files
+			"**/__pycache__": true,
+			// Ignore files created for development installs
+			"**/*.egg-info": true,
+			// Ignore Jupyter checkpoint files
+			"**/.ipynb_checkpoints": true,
+			// Ignore cache directory, except for files which start with . (e.g. .gitignore)
+			".devcontainer/cache/*/[!\\.]*": true,
+		},
+
+		// For linting (code format checking), disable pylint and enable
+		// pydocstyle for docstrings and flake8 for code.
+		"python.linting.pylintEnabled": false,
+		"python.linting.pydocstyleEnabled": false,
+		"python.linting.flake8Enabled": true,
+		"python.linting.flake8Args": [
+			"--max-line-length=88",
+			// Let black handle formatting: <https://stackoverflow.com/q/59241007>
+			// Also exclude isort stuff: <https://stackoverflow.com/a/69396215>
+			// But don't exclude E5 for line length
+			"--extend-ignore=E101,E111,E114,E115,E116,E117,E12,E13,E2,E3,E401,E70,W1,W2,W3,W5,E4,W4",
+		],
+
+		// Turn on "black" for automatic code formatting
+		"python.formatting.provider": "black",
+
+		// Ruler for "black"-formatted line widths
+		"editor.rulers": [88],
+
+		// Disable barely usable scrollbar
+		"workbench.editor.wrapTabs": true,
+
+		// Turn on autosave
+	    "files.autoSave": "afterDelay",
+
+		// Show whitespace as tiny grey dots
+		"editor.renderWhitespace": "boundary",
+
+		// Use Pylance
+		"python.languageServer": "Pylance",
+		"python.analysis.typeCheckingMode": "basic",
+
+		// Use isort for imports
+		"python.sortImports.path": "/opt/conda/bin/isort",
+		"python.sortImports.args": [
+			"--profile=black",
+			"--src",
+			"${workspaceFolder}"
+		], // <https://github.com/microsoft/vscode-python/issues/14254#issuecomment-708151872>
+
+		// Interpret lines beginning with "# !%" as ipython magic commands
+		"jupyter.magicCommandsAsComments": true,
+
+		// Path of the default Python environment
+		"python.pythonPath": "/opt/conda/bin/python",
+		"python.defaultInterpreterPath": "/opt/conda/bin/python",
+
+		// Disable the "conda activate base" command when opening a new terminal
+		"python.terminal.activateEnvironment": false,
+
+		"terminal.integrated.inheritEnv": false,
+	},
+}
