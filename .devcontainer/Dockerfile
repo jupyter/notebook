@@ -4,7 +4,7 @@ FROM ghcr.io/mamba-org/micromamba-devcontainer:git-e56c5fc
 ARG DOCKERFILE_UMASK=0000
 
 # Install the Conda packages.
-COPY --chown=$MAMBA_USER:$MAMBA_USER .devcontainer/environment.yaml /tmp/dev-conda-environment.yaml
+COPY --chown=$MAMBA_USER:$MAMBA_USER .devcontainer/environment.yml /tmp/dev-conda-environment.yaml
 RUN : \
     # Configure Conda to use the conda-forge channel.
     && micromamba config append channels conda-forge \
@@ -21,10 +21,12 @@ ARG CONTAINER_WORKSPACE_FOLDER=/workspaces/default-workspace-folder
 RUN mkdir -p "${CONTAINER_WORKSPACE_FOLDER}"
 WORKDIR "${CONTAINER_WORKSPACE_FOLDER}"
 
-COPY --chown=$MAMBA_USER:$MAMBA_USER .
+COPY --chown=$MAMBA_USER:$MAMBA_USER . ./
 
 # Install package in development mode
 RUN : \
     && python -m pip install -e ".[dev,test]" \
+    && jlpm \
+    && jlpm run build \
     && jlpm develop \
     && jupyter server extension enable notebook
