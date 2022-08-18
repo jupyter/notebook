@@ -37,16 +37,23 @@ import { ITranslator } from '@jupyterlab/translation';
 import {
   NotebookApp,
   NotebookShell,
-  INotebookShell
+  INotebookShell,
+  SideBarPanel
 } from '@jupyter-notebook/application';
 
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
 
+import { each } from '@lumino/algorithm';
+
 import { PromiseDelegate } from '@lumino/coreutils';
 
-import { DisposableDelegate, DisposableSet } from '@lumino/disposable';
+import {
+  DisposableDelegate,
+  DisposableSet,
+  IDisposable
+} from '@lumino/disposable';
 
-import { Widget } from '@lumino/widgets';
+import { Menu, Widget } from '@lumino/widgets';
 
 /**
  * The default notebook factory.
@@ -673,28 +680,58 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
       }
     });
 
+    /**
+     * The function which adds entries to the View menu for each widget of a sidebar.
+     *
+     * @param area - 'left' or 'right', the area of the side bar.
+     * @param entryLabel - the name of the main entry in the View menu for that sidebar.
+     * @returns - The disposable menu added to the View menu or null.
+     */
+    const updateMenu: SideBarPanel.UpdateSideBarMenuFn = (area, entryLabel) => {
+      if (menu === null) {
+        return null;
+      }
+
+      let disposableMenu: IDisposable | null = null;
+
+      const newMenu = new Menu({ commands: app.commands });
+      newMenu.title.label = entryLabel;
+      const widgets = notebookShell.widgets(area);
+      let menuToAdd = false;
+
+      each(widgets, widget => {
+        newMenu.addItem({
+          command: CommandIDs.togglePanel,
+          args: {
+            side: area,
+            title: `Show ${widget.title.caption}`,
+            id: widget.id
+          }
+        });
+        menuToAdd = true;
+      });
+
+      // If there are widgets, add the menu to the main menu entry.
+      if (menuToAdd) {
+        disposableMenu = menu.viewMenu.addItem({
+          type: 'submenu',
+          submenu: newMenu
+        });
+      }
+
+      return disposableMenu;
+    };
+
     app.restored.then(() => {
       // Add the notebook tools in right area.
-      if (notebookTools) notebookShell.add(notebookTools, 'right');
+      if (notebookTools) {
+        notebookShell.add(notebookTools, 'right');
+      }
 
-      // Create a menu entry for left and right panel and update it with current widgets.
+      // Create  menu entries for left and right panel.
       if (menu) {
-        notebookShell.leftHandler.createMenuEntry({
-          mainMenuEntry: menu.viewMenu,
-          commandRegistry: app.commands,
-          entryLabel: trans.__('Left Sidebar'),
-          command: CommandIDs.togglePanel
-        });
-
-        notebookShell.rightHandler.createMenuEntry({
-          mainMenuEntry: menu.viewMenu,
-          commandRegistry: app.commands,
-          entryLabel: trans.__('Right Sidebar'),
-          command: CommandIDs.togglePanel
-        });
-
-        notebookShell.leftHandler.updateMenu();
-        notebookShell.rightHandler.updateMenu();
+        notebookShell.leftHandler.addUpdateMenuFn(updateMenu);
+        notebookShell.rightHandler.addUpdateMenuFn(updateMenu);
       }
 
       // Add palette entries associated to the side panels.

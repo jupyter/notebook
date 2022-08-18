@@ -4,10 +4,8 @@
 import { JupyterFrontEnd } from '@jupyterlab/application';
 import { ICommandPalette } from '@jupyterlab/apputils';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
-import { IRankedMenu } from '@jupyterlab/ui-components';
 
 import { ArrayExt, find } from '@lumino/algorithm';
-import { CommandRegistry } from '@lumino/commands';
 import { PromiseDelegate, Token } from '@lumino/coreutils';
 import { IDisposable } from '@lumino/disposable';
 import { Message, MessageLoop, IMessageHandler } from '@lumino/messaging';
@@ -16,7 +14,6 @@ import { ISignal, Signal } from '@lumino/signaling';
 
 import {
   BoxLayout,
-  Menu,
   Panel,
   SplitPanel,
   StackedPanel,
@@ -211,12 +208,20 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
       const widget = find(this.widgets(area), w => w.id === id);
       if (widget) {
         if (area === 'left') {
-          if (this.leftCollapsed) this.expandLeft(id);
-          else this.collapseLeft();
+          if (this.leftCollapsed) {
+            this.expandLeft(id);
+          } else {
+            this.collapseLeft();
+          }
         } else if (area === 'right') {
-          if (this.rightCollapsed) this.expandRight(id);
-          else this.collapseRight();
-        } else widget.activate();
+          if (this.rightCollapsed) {
+            this.expandRight(id);
+          } else {
+            this.collapseRight();
+          }
+        } else {
+          widget.activate();
+        }
       }
     }
   }
@@ -396,6 +401,19 @@ export namespace Shell {
 }
 
 /**
+ *
+ */
+export namespace SideBarPanel {
+  /**
+   * The function to update the sidebar menu.
+   */
+  export type UpdateSideBarMenuFn = (
+    area: 'left' | 'right',
+    entryLabel: string
+  ) => IDisposable | null;
+}
+
+/**
  * A namespace for private module data.
  */
 namespace Private {
@@ -499,8 +517,8 @@ namespace Private {
       this._current = null;
       this._lastCurrent = null;
       this._stackedPanel.widgetRemoved.connect(this._onWidgetRemoved, this);
-      this._sideBarMenu = null;
       this._sideBarPalette = null;
+      this._menuEntryLabel = `${area[0].toUpperCase()}${area.slice(1)} Sidebar`;
     }
 
     get current(): Widget | null {
@@ -533,10 +551,12 @@ namespace Private {
     }
 
     /**
-     * Associate a menu entry to the sidebar.
+     * Add a function to update the menus with the side bar widgets.
+     * @param updateMenu - the function to call to update the menu.
      */
-    createMenuEntry(options: SideBarMenuOption): void {
-      this._sideBarMenu = new SideBarMenu(options);
+    addUpdateMenuFn(updateMenu: SideBarPanel.UpdateSideBarMenuFn): void {
+      this._updateMenu = updateMenu;
+      this.updateMenu();
     }
 
     /**
@@ -557,8 +577,9 @@ namespace Private {
      * if there is no most recently used.
      */
     expand(id?: string): void {
-      if (id) this.activate(id);
-      else {
+      if (id) {
+        this.activate(id);
+      } else {
         const visibleWidget = this.current;
         if (visibleWidget) {
           this._current = visibleWidget;
@@ -636,10 +657,15 @@ namespace Private {
      * Update menu entries
      */
     updateMenu(): void {
-      if (!this._sideBarMenu) return;
-      const widgets = this.stackedPanel.widgets;
-      this._sideBarMenu?.updateMenu(widgets, this._area);
+      if (!this._updateMenu) {
+        return;
+      }
+      if (this._disposableMenu) {
+        this._disposableMenu.dispose();
+      }
+      this._disposableMenu = this._updateMenu(this._area, this._menuEntryLabel);
     }
+
     /**
      * Find the insertion index for a rank item.
      */
@@ -694,91 +720,11 @@ namespace Private {
     private _current: Widget | null;
     private _lastCurrent: Widget | null;
     private _updated: Signal<SideBarHandler, void> = new Signal(this);
-    private _sideBarMenu: SideBarMenu | null;
     private _sideBarPalette: SideBarPalette | null;
+    private _menuEntryLabel: string;
+    private _disposableMenu: IDisposable | null = null;
+    private _updateMenu: SideBarPanel.UpdateSideBarMenuFn | null = null;
   }
-
-  /**
-   * A class to manage the menu entries associated to the side bar.
-   */
-  export class SideBarMenu {
-    /**
-     * Construct a new side bar menu.
-     */
-    constructor(options: SideBarMenuOption) {
-      this._commandRegistry = options.commandRegistry;
-      this._command = options.command;
-      this._mainMenuEntry = options.mainMenuEntry;
-      this._entryLabel = options.entryLabel;
-    }
-
-    /**
-     * Update the menu by disposing the previous one and rebuilding a new one from widgets list.
-     */
-    updateMenu(widgets: Readonly<Widget[]>, area: 'left' | 'right'): void {
-      // Remove the previous menu entry.
-      if (this._menu) this._menu.dispose();
-
-      // Build the new menu entry from widgets list.
-      let menu = new Menu({ commands: this._commandRegistry });
-      menu.title.label = this._entryLabel;
-      widgets.forEach(widget => {
-        menu.addItem({
-          command: this._command,
-          args: {
-            side: area,
-            title: `Show ${widget.title.caption}`,
-            id: widget.id
-          }
-        });
-      });
-
-      // If there are widgets, add the menu to the main menu entry.
-      if (widgets.length > 0) {
-        this._menu = this._mainMenuEntry.addItem({
-          type: 'submenu',
-          submenu: menu
-        });
-      }
-    }
-
-    _entryLabel: string;
-    _command: string;
-    _mainMenuEntry: IRankedMenu;
-    _commandRegistry: CommandRegistry;
-    _menu: IDisposable | null = null;
-  }
-
-  /**
-   * An interface for the options to include in SideBarMenu constructor.
-   */
-  type SideBarMenuOption = {
-    /**
-     * The main menu entry where the sidebar menu should be added.
-     */
-    mainMenuEntry: IRankedMenu;
-
-    /**
-     * The label of the sidebar menu.
-     */
-    entryLabel: string;
-
-    /**
-     * The application command registry, necessary when updating the sidebar menu.
-     */
-    commandRegistry: CommandRegistry;
-
-    /**
-     * The command to call from each sidebar menu entry.
-     *
-     * ### Notes
-     * That command required 3 args :
-     *      side: 'left' | 'right', the area to toggle
-     *      title: string, label of the command
-     *      id: string, id of the widget to activate
-     */
-    command: string;
-  };
 
   /**
    * A class to manages the palette entries associated to the side bar.
@@ -801,7 +747,7 @@ namespace Private {
     ): SideBarPaletteItem | null {
       const itemList = this._items;
       for (let i = 0; i < itemList.length; i++) {
-        let item = itemList[i];
+        const item = itemList[i];
         if (item.widgetId == widget.id && item.area == area) {
           return item;
           break;
@@ -815,7 +761,9 @@ namespace Private {
      */
     addItem(widget: Readonly<Widget>, area: 'left' | 'right'): void {
       // Check if the item does not already exist.
-      if (this.getItem(widget, area)) return;
+      if (this.getItem(widget, area)) {
+        return;
+      }
 
       // Add a new item in command palette.
       const disposableDelegate = this._commandPalette.addItem({
@@ -842,7 +790,9 @@ namespace Private {
      */
     removeItem(widget: Readonly<Widget>, area: 'left' | 'right'): void {
       const item = this.getItem(widget, area);
-      if (item) item.disposable.dispose();
+      if (item) {
+        item.disposable.dispose();
+      }
     }
 
     _command: string;
