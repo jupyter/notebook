@@ -1,9 +1,7 @@
 {
 	"name": "jupyter-notebook",
 	"containerEnv": {
-		"TZ": "Europe/Berlin",
 		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
-		"CONTAINER_WORKSPACE_FOLDER": "${containerWorkspaceFolder}",
 	},
 	"runArgs": [
 		"--hostname",
@@ -14,10 +12,7 @@
 	],
 	"build": {
 		"dockerfile": "Dockerfile",
-		"context": "../",
-		"args": {
-			"CONTAINER_WORKSPACE_FOLDER": "${containerWorkspaceFolder}",
-		}
+		"context": "../"
 	},
 	"overrideCommand": false,
 	"extensions": [
