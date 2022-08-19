@@ -1,9 +1,6 @@
 FROM mcr.microsoft.com/vscode/devcontainers/universal:linux
 
-RUN curl micro.mamba.pm/install.sh | bash
-
 COPY .devcontainer/dev-environment.yml /tmp/dev-environment.yml
-
 COPY .devcontainer/_setup_env.sh /tmp/_setup_env.sh
 
 RUN /bin/bash /tmp/_setup_env.sh
