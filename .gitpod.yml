@@ -1,0 +1,41 @@
+github:
+  prebuilds:
+    master: true
+    pullRequests: true
+    pullRequestsFromForks: true
+    addCheck: false
+    addComment: false
+    addBadge: false
+    addLabel: false
+tasks:
+  - name: setup
+    init: |
+      pushd /workspace
+      wget -qO- https://micro.mamba.pm/api/micromamba/linux-64/latest | tar -xvj bin/micromamba
+      popd
+      # bootstrap activation commands for other tasks to reuse
+      cat <<EOT > /workspace/bin/activate-env.sh
+      export MAMBA_ROOT_PREFIX=/workspace/.micromamba
+      export MAMBA_EXE=/workspace/bin/micromamba
+      $(/workspace/bin/micromamba shell hook --shell=bash)
+      export JUPYTER_PREFER_ENV_PATH=1
+      micromamba activate
+      EOT
+      source /workspace/bin/activate-env.sh
+      echo "source /workspace/bin/activate-env.sh" >> ~/.bashrc
+      micromamba install -n base -y -c conda-forge python=3.10 nodejs=14 yarn
+      python -m pip install -e ".[dev,test]" && jlpm && jlpm run build && jlpm develop
+      gp sync-done setup
+    command: |
+      gp sync-done setup
+      source /workspace/bin/activate-env.sh
+      jupyter notebook --no-browser --JupyterNotebookApp.token='' --JupyterNotebookApp.allow_origin=* --JupyterNotebookApp.tornado_settings='{"headers": {"Content-Security-Policy": "frame-ancestors *"}}'
+
+  - name: watch
+    command: |
+      gp sync-await setup
+      source /workspace/bin/activate-env.sh
+      jlpm watch
+
+ports:
+  - port: 8888
