@@ -14,7 +14,7 @@
 		"github.copilot",
 	],
 	"postCreateCommand": "micromamba activate && python -m pip install -e \".[dev,test]\" && jlpm && jlpm run build && jlpm develop && jupyter server extension enable notebook",
-	"postStartCommand": "jupyter notebook --no-browser --JupyterNotebookApp.token='' --JupyterNotebookApp.allow_origin=* --JupyterNotebookApp.tornado_settings='{\"headers\": {\"Content-Security-Policy\": \"frame-ancestors *\"}}'",
+	"postStartCommand": "micromamba activate && jupyter notebook --no-browser --JupyterNotebookApp.token='' --JupyterNotebookApp.allow_origin=* --JupyterNotebookApp.tornado_settings='{\"headers\": {\"Content-Security-Policy\": \"frame-ancestors *\"}}'",
 	"forwardPorts": [
 		8888
 	],
