@@ -1,3 +1,5 @@
 FROM mcr.microsoft.com/vscode/devcontainers/universal:linux
 
-RUN conda env create -f .devcontainer/dev-environment.yml
+COPY .devcontainer/dev-environment.yaml /tmp/dev-environment.yaml
+
+RUN conda env create -f /tmp/devcontainer/dev-environment.yml
