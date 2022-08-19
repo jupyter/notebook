@@ -13,7 +13,7 @@
 		"mutantdino.resourcemonitor",
 		"github.copilot",
 	],
-	"postCreateCommand": "python -m pip install -e \".[dev,test]\" && jlpm && jlpm run build && jlpm develop && jupyter server extension enable notebook",
+	"postCreateCommand": "micromamba activate && python -m pip install -e \".[dev,test]\" && jlpm && jlpm run build && jlpm develop && jupyter server extension enable notebook",
 	"postStartCommand": "jupyter notebook --no-browser --JupyterNotebookApp.token='' --JupyterNotebookApp.allow_origin=* --JupyterNotebookApp.tornado_settings='{\"headers\": {\"Content-Security-Policy\": \"frame-ancestors *\"}}'",
 	"forwardPorts": [
 		8888
@@ -50,6 +50,6 @@
 		], // <https://github.com/microsoft/vscode-python/issues/14254#issuecomment-708151872>
 		// Interpret lines beginning with "# !%" as ipython magic commands
 		"jupyter.magicCommandsAsComments": true,
-		"python.pythonPath": "${HOME}/.conda/envs/notebook-dev/bin/python",
+		"python.pythonPath": "${HOME}/micromamba/bin/python",
 	},
 }
