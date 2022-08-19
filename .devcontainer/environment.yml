@@ -6,8 +6,3 @@ dependencies:
   - mamba
   - nodejs=14
   - yarn=1
-  - htop
-  - curl
-  - wget
-  - jq
-  - git

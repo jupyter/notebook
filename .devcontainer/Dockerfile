@@ -1,5 +1,17 @@
 FROM mambaorg/micromamba:0.25
 
+USER root
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y --no-install-recommends --reinstall \
+    git \
+    htop \
+    curl \
+    wget \
+    jq \
+    && rm -rf /var/lib/apt/lists/*
+
+USER $MAMBA_USER
+
 # Install the Conda packages.
 COPY --chown=$MAMBA_USER:$MAMBA_USER .devcontainer/environment.yml /tmp/dev-conda-environment.yaml
 RUN : \
