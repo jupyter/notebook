@@ -10,3 +10,4 @@ dependencies:
   - curl
   - wget
   - jq
+  - git
