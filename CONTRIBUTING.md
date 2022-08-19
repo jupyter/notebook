@@ -5,6 +5,8 @@ Thanks for contributing to Jupyter Notebook!
 Make sure to follow [Project Jupyter's Code of Conduct](https://github.com/jupyter/governance/blob/master/conduct/code_of_conduct.md)
 for a friendly and welcoming collaborative environment.
 
+## Contributing from the browser
+
 ## Setting up a development environment
 
 Note: You will need NodeJS to build the extension package.
