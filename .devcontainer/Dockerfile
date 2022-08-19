@@ -4,10 +4,9 @@ RUN curl micro.mamba.pm/install.sh | bash
 
 COPY .devcontainer/dev-environment.yml /tmp/dev-environment.yml
 
-SHELL ["/bin/bash", "-c"]
+COPY .devcontainer/_setup_env.sh /tmp/_setup_env.sh
 
-RUN source ${HOME}/.bashrc && \
-    micromamba install -n base -y -f ./environment.yml
+RUN /tmp/_setup_env.sh
 
 COPY .devcontainer/_dockerfile_shell.sh /usr/local/bin/_dockerfile_shell.sh
 
