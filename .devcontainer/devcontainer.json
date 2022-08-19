@@ -1,9 +1,5 @@
 {
 	"name": "jupyter-notebook",
-	"build": {
-		"dockerfile": "Dockerfile",
-		"context": "../"
-	},
 	"extensions": [
 		"ms-python.python",
 		"ms-python.vscode-pylance",
@@ -13,27 +9,18 @@
 		"mutantdino.resourcemonitor",
 		"github.copilot",
 	],
-	"remoteUser": "mambauser",
 	"postCreateCommand": "python -m pip install -e \".[dev,test]\" && jlpm && jlpm run build && jlpm develop && jupyter server extension enable notebook",
 	"postStartCommand": "jupyter notebook --no-browser --JupyterNotebookApp.token='' --JupyterNotebookApp.allow_origin=* --JupyterNotebookApp.tornado_settings='{\"headers\": {\"Content-Security-Policy\": \"frame-ancestors *\"}}'",
 	"forwardPorts": [
 		8888
 	],
 	"settings": {
-		// Disable telemetry
 		"telemetry.enableTelemetry": false,
-		// Files to completely exclude from view
-		// (see also search.exclude and files.watcherExclude)
 		"files.exclude": {
-			// Ignore cached files
 			"**/__pycache__": true,
-			// Ignore files created for development installs
 			"**/*.egg-info": true,
-			// Ignore Jupyter checkpoint files
 			"**/.ipynb_checkpoints": true,
 		},
-		// For linting (code format checking), disable pylint and enable
-		// pydocstyle for docstrings and flake8 for code.
 		"python.linting.pylintEnabled": false,
 		"python.linting.pydocstyleEnabled": false,
 		"python.linting.flake8Enabled": true,
@@ -46,21 +33,12 @@
 		],
 		// Turn on "black" for automatic code formatting
 		"python.formatting.provider": "black",
-		// Ruler for "black"-formatted line widths
 		"editor.rulers": [
 			88
 		],
-		// Disable barely usable scrollbar
 		"workbench.editor.wrapTabs": true,
-		// Turn on autosave
-		"files.autoSave": "afterDelay",
-		// Show whitespace as tiny grey dots
-		"editor.renderWhitespace": "boundary",
-		// Use Pylance
 		"python.languageServer": "Pylance",
 		"python.analysis.typeCheckingMode": "basic",
-		// Use isort for imports
-		"python.sortImports.path": "/opt/conda/bin/isort",
 		"python.sortImports.args": [
 			"--profile=black",
 			"--src",
@@ -68,11 +46,5 @@
 		], // <https://github.com/microsoft/vscode-python/issues/14254#issuecomment-708151872>
 		// Interpret lines beginning with "# !%" as ipython magic commands
 		"jupyter.magicCommandsAsComments": true,
-		// Path of the default Python environment
-		"python.pythonPath": "/opt/conda/bin/python",
-		"python.defaultInterpreterPath": "/opt/conda/bin/python",
-		// Disable the "conda activate base" command when opening a new terminal
-		"python.terminal.activateEnvironment": false,
-		"terminal.integrated.inheritEnv": false,
 	},
 }
