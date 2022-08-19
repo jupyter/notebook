@@ -1,5 +1,9 @@
 {
 	"name": "jupyter-notebook",
+	"build": {
+		"dockerfile": "./Dockerfile",
+		"context": "../"
+	},
 	"extensions": [
 		"ms-python.python",
 		"ms-python.vscode-pylance",
@@ -46,5 +50,6 @@
 		], // <https://github.com/microsoft/vscode-python/issues/14254#issuecomment-708151872>
 		// Interpret lines beginning with "# !%" as ipython magic commands
 		"jupyter.magicCommandsAsComments": true,
+		"python.pythonPath": "${HOME}/.conda/envs/notebook-dev/bin/python",
 	},
 }
