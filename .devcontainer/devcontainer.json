@@ -1,20 +1,9 @@
 {
 	"name": "jupyter-notebook",
-	"containerEnv": {
-		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
-	},
-	"runArgs": [
-		"--hostname",
-		"devcontainer",
-		// // Warning: loading .env into the environment will undermine the ability
-		// // to use .env to dynamically adjust the unspecified values.
-		// "--env-file", ".env"
-	],
 	"build": {
 		"dockerfile": "Dockerfile",
 		"context": "../"
 	},
-	"overrideCommand": false,
 	"extensions": [
 		"ms-python.python",
 		"ms-python.vscode-pylance",
@@ -42,8 +31,6 @@
 			"**/*.egg-info": true,
 			// Ignore Jupyter checkpoint files
 			"**/.ipynb_checkpoints": true,
-			// Ignore cache directory, except for files which start with . (e.g. .gitignore)
-			".devcontainer/cache/*/[!\\.]*": true,
 		},
 		// For linting (code format checking), disable pylint and enable
 		// pydocstyle for docstrings and flake8 for code.
