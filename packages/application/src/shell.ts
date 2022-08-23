@@ -2,7 +2,6 @@
 // Distributed under the terms of the Modified BSD License.
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
-import { ICommandPalette } from '@jupyterlab/apputils';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
 import { ArrayExt, find } from '@lumino/algorithm';
@@ -401,7 +400,7 @@ export namespace Shell {
 }
 
 /**
- *
+ * A name space for SidebarPanel functions.
  */
 export namespace SideBarPanel {
   /**
@@ -411,6 +410,22 @@ export namespace SideBarPanel {
     area: 'left' | 'right',
     entryLabel: string
   ) => IDisposable | null;
+
+  /**
+   * The function to add an item to the palette.
+   */
+  export type AddPaletteEntryFn = (
+    widget: Readonly<Widget>,
+    area: 'left' | 'right'
+  ) => void;
+
+  /**
+   * The function to remove an item from the palette.
+   */
+  export type RemovePaletteEntryFn = (
+    widget: Readonly<Widget>,
+    area: 'left' | 'right'
+  ) => void;
 }
 
 /**
@@ -517,7 +532,6 @@ namespace Private {
       this._current = null;
       this._lastCurrent = null;
       this._stackedPanel.widgetRemoved.connect(this._onWidgetRemoved, this);
-      this._sideBarPalette = null;
       this._menuEntryLabel = `${area[0].toUpperCase()}${area.slice(1)} Sidebar`;
     }
 
@@ -560,12 +574,19 @@ namespace Private {
     }
 
     /**
-     * Associate palette entries to the sidebar, and update it with the current widgets.
+     * Add functions to add or remove entry in CommandPalette.
      */
-    createPaletteEntry(options: SideBarPaletteOption): void {
-      this._sideBarPalette = new SideBarPalette(options);
+    addPaletteFn(
+      addEntry: SideBarPanel.AddPaletteEntryFn,
+      removeEntry: SideBarPanel.RemovePaletteEntryFn
+    ): void {
+      this._addPaletteEntry = addEntry;
+      this._removePaletteEntry = removeEntry;
+
       this.stackedPanel.widgets.forEach(widget => {
-        this._sideBarPalette!.addItem(widget, this._area);
+        if (this._addPaletteEntry != null) {
+          this._addPaletteEntry(widget, this._area);
+        }
       });
     }
 
@@ -632,8 +653,8 @@ namespace Private {
       this.updateMenu();
       this._refreshVisibility();
 
-      if (this._sideBarPalette) {
-        this._sideBarPalette.addItem(widget, this._area);
+      if (this._addPaletteEntry) {
+        this._addPaletteEntry(widget, this._area);
       }
     }
 
@@ -708,8 +729,8 @@ namespace Private {
       this.updateMenu();
       this._refreshVisibility();
 
-      if (this._sideBarPalette) {
-        this._sideBarPalette.removeItem(widget, this._area);
+      if (this._removePaletteEntry) {
+        this._removePaletteEntry(widget, this._area);
       }
     }
 
@@ -720,121 +741,10 @@ namespace Private {
     private _current: Widget | null;
     private _lastCurrent: Widget | null;
     private _updated: Signal<SideBarHandler, void> = new Signal(this);
-    private _sideBarPalette: SideBarPalette | null;
     private _menuEntryLabel: string;
     private _disposableMenu: IDisposable | null = null;
     private _updateMenu: SideBarPanel.UpdateSideBarMenuFn | null = null;
+    private _addPaletteEntry: SideBarPanel.AddPaletteEntryFn | null = null;
+    private _removePaletteEntry: SideBarPanel.RemovePaletteEntryFn | null = null;
   }
-
-  /**
-   * A class to manages the palette entries associated to the side bar.
-   */
-  export class SideBarPalette {
-    /**
-     * Construct a new side bar palette.
-     */
-    constructor(options: SideBarPaletteOption) {
-      this._commandPalette = options.commandPalette;
-      this._command = options.command;
-    }
-
-    /**
-     * Get a command palette item from the widget id and the area.
-     */
-    getItem(
-      widget: Readonly<Widget>,
-      area: 'left' | 'right'
-    ): SideBarPaletteItem | null {
-      const itemList = this._items;
-      for (let i = 0; i < itemList.length; i++) {
-        const item = itemList[i];
-        if (item.widgetId == widget.id && item.area == area) {
-          return item;
-          break;
-        }
-      }
-      return null;
-    }
-
-    /**
-     * Add an item to the command palette.
-     */
-    addItem(widget: Readonly<Widget>, area: 'left' | 'right'): void {
-      // Check if the item does not already exist.
-      if (this.getItem(widget, area)) {
-        return;
-      }
-
-      // Add a new item in command palette.
-      const disposableDelegate = this._commandPalette.addItem({
-        command: this._command,
-        category: 'View',
-        args: {
-          side: area,
-          title: `Show ${widget.title.caption}`,
-          id: widget.id
-        }
-      });
-
-      // Keep the disposableDelegate objet to be able to dispose of the item if the widget
-      // is remove from the side bar.
-      this._items.push({
-        widgetId: widget.id,
-        area: area,
-        disposable: disposableDelegate
-      });
-    }
-
-    /**
-     * Remove an item from the command palette.
-     */
-    removeItem(widget: Readonly<Widget>, area: 'left' | 'right'): void {
-      const item = this.getItem(widget, area);
-      if (item) {
-        item.disposable.dispose();
-      }
-    }
-
-    _command: string;
-    _commandPalette: ICommandPalette;
-    _items: SideBarPaletteItem[] = [];
-  }
-
-  type SideBarPaletteItem = {
-    /**
-     * The ID of the widget associated to the command palette.
-     */
-    widgetId: string;
-
-    /**
-     * The area of the panel associated to the command palette.
-     */
-    area: 'left' | 'right';
-
-    /**
-     * The disposable object to remove the item from command palette.
-     */
-    disposable: IDisposable;
-  };
-
-  /**
-   * An interface for the options to include in SideBarPalette constructor.
-   */
-  type SideBarPaletteOption = {
-    /**
-     * The commands palette.
-     */
-    commandPalette: ICommandPalette;
-
-    /**
-     * The command to call from each sidebar menu entry.
-     *
-     * ### Notes
-     * That command required 3 args :
-     *      side: 'left' | 'right', the area to toggle
-     *      title: string, label of the command
-     *      id: string, id of the widget to activate
-     */
-    command: string;
-  };
 }

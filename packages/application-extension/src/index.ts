@@ -55,6 +55,8 @@ import {
 
 import { Menu, Widget } from '@lumino/widgets';
 
+import { SideBarPalette } from './sidebarpalette';
+
 /**
  * The default notebook factory.
  */
@@ -620,6 +622,8 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
 
     const trans = translator.load('notebook');
 
+    var sideBarPalette: SideBarPalette | null = null;
+
     /* Arguments for togglePanel command:
      * side, left or right area
      * title, widget title to show in the menu
@@ -722,6 +726,31 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
       return disposableMenu;
     };
 
+    /**
+     * The function which adds an entry to the command palette.
+     * @param widget - the widget to open from the command palette.
+     * @param area - 'left' or 'right', the area of the side bar.
+     */
+    const addPaletteItem: SideBarPanel.AddPaletteEntryFn = (widget, area) => {
+      if (sideBarPalette) {
+        sideBarPalette.addItem(widget, area);
+      }
+    };
+
+    /**
+     * The function which removes an entry from the command palette.
+     * @param widget - the widget to open from the command palette.
+     * @param area - 'left' or 'right', the area of the side bar.
+     */
+    const removePaletteItem: SideBarPanel.RemovePaletteEntryFn = (
+      widget,
+      area
+    ) => {
+      if (sideBarPalette) {
+        sideBarPalette.removeItem(widget, area);
+      }
+    };
+
     app.restored.then(() => {
       // Add the notebook tools in right area.
       if (notebookTools) {
@@ -734,17 +763,22 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
         notebookShell.rightHandler.addUpdateMenuFn(updateMenu);
       }
 
-      // Add palette entries associated to the side panels.
+      // Add palette functions to the side panels.
       if (palette) {
-        notebookShell.leftHandler.createPaletteEntry({
-          commandPalette: palette,
+        sideBarPalette = new SideBarPalette({
+          commandPalette: palette as ICommandPalette,
           command: CommandIDs.togglePanel
         });
 
-        notebookShell.rightHandler.createPaletteEntry({
-          commandPalette: palette,
-          command: CommandIDs.togglePanel
-        });
+        notebookShell.leftHandler.addPaletteFn(
+          addPaletteItem,
+          removePaletteItem
+        );
+
+        notebookShell.rightHandler.addPaletteFn(
+          addPaletteItem,
+          removePaletteItem
+        );
       }
     });
   }
