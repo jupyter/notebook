@@ -18,7 +18,11 @@ import { Text, Time } from '@jupyterlab/coreutils';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
-import { NotebookPanel, INotebookTracker } from '@jupyterlab/notebook';
+import {
+  NotebookPanel,
+  INotebookTracker,
+  INotebookTools
+} from '@jupyterlab/notebook';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
@@ -328,13 +332,42 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to add the NotebookTools to the side panel;
+ */
+const notebookToolsWidget: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:notebook-tools',
+  autoStart: true,
+  requires: [INotebookShell],
+  optional: [INotebookTools],
+  activate: (
+    app: JupyterFrontEnd,
+    shell: INotebookShell,
+    notebookTools: INotebookTools
+  ) => {
+    const onChange = async () => {
+      const current = shell.currentWidget;
+      if (!(current instanceof NotebookPanel)) {
+        return;
+      }
+
+      // Add the notebook tools in right area.
+      if (notebookTools) {
+        shell.add(notebookTools, 'right');
+      }
+    };
+    shell.currentChanged.connect(onChange);
+  }
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   kernelLogo,
   kernelStatus,
-  scrollOutput
+  scrollOutput,
+  notebookToolsWidget
 ];
 
 export default plugins;

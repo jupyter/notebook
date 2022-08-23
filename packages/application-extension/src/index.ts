@@ -752,11 +752,6 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
     };
 
     app.restored.then(() => {
-      // Add the notebook tools in right area.
-      if (notebookTools) {
-        notebookShell.add(notebookTools, 'right');
-      }
-
       // Create  menu entries for left and right panel.
       if (menu) {
         notebookShell.leftHandler.addUpdateMenuFn(updateMenu);
