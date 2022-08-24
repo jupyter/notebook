@@ -15,6 +15,7 @@ concurrency:
 
 env:
   PIP_DISABLE_PIP_VERSION_CHECK: 1
+  SYSTEM_VERSION_COMPAT: 0
 
 defaults:
   run:
