@@ -79,15 +79,15 @@ jobs:
           - os: ubuntu-latest
             py_cmd: python
     steps:
-      - uses: actions/download-artifact@v2
-        with:
-          name: notebook-dist-${{ github.run_number }}
-          path: ./dist
       - name: Install Python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python }}
           architecture: 'x64'
+      - uses: actions/download-artifact@v2
+        with:
+          name: notebook-dist-${{ github.run_number }}
+          path: ./dist
       - name: Install the prerequisites
         run: |
           ${{ matrix.py_cmd }} -m pip install -U pip wheel
