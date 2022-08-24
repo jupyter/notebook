@@ -16,6 +16,10 @@ concurrency:
 env:
   PIP_DISABLE_PIP_VERSION_CHECK: 1
 
+defaults:
+  run:
+    shell: bash -e {0}
+
 jobs:
   build:
     runs-on: ubuntu-latest
