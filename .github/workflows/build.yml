@@ -13,9 +13,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
-defaults:
-  run:
-    shell: bash -l {0}
+env:
+  PIP_DISABLE_PIP_VERSION_CHECK: 1
 
 jobs:
   build:
