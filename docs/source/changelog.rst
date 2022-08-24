@@ -21,6 +21,13 @@ We strongly recommend that you upgrade pip to version 9+ of pip before upgrading
     Use ``pip install pip --upgrade`` to upgrade pip. Check pip version with
     ``pip --version``.
 
+.. _release-5.7.15:
+
+5.7.15
+--------
+
+- Fix compatibility with Python < 3.6(:ghpull:`6522`).
+
 .. _release-5.7.14a0:
 
 5.7.14a0
