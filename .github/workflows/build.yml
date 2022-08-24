@@ -87,7 +87,7 @@ jobs:
           architecture: 'x64'
       - name: Install the prerequisites
         run: |
-          ${{ matrix.py_cmd }} -m pip install pip wheel
+          ${{ matrix.py_cmd }} -m pip install -U pip wheel
       - name: Install the package
         run: |
           cd dist
