@@ -13,10 +13,6 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
-env:
-  PIP_DISABLE_PIP_VERSION_CHECK: 1
-  SYSTEM_VERSION_COMPAT: 0
-
 defaults:
   run:
     shell: bash -l {0}
