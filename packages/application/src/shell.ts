@@ -209,17 +209,9 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
       const widget = find(this.widgets(area), w => w.id === id);
       if (widget) {
         if (area === 'left') {
-          if (this.leftCollapsed) {
-            this.expandLeft(id);
-          } else {
-            this.collapseLeft();
-          }
+          this.expandLeft(id);
         } else if (area === 'right') {
-          if (this.rightCollapsed) {
-            this.expandRight(id);
-          } else {
-            this.collapseRight();
-          }
+          this.expandRight(id);
         } else {
           widget.activate();
         }
@@ -628,6 +620,9 @@ namespace Private {
      * if there is no most recently used.
      */
     expand(id?: string): void {
+      if (this._current) {
+        this.collapse();
+      }
       if (id) {
         this.activate(id);
       } else {

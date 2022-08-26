@@ -651,7 +651,9 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
         switch (args['side'] as string) {
           case 'left':
             if (notebookShell.leftCollapsed) {
-              notebookShell.activateById(args['id'] as string);
+              notebookShell.expandLeft(args.id as string);
+            } else if (notebookShell.leftHandler.current?.id !== args.id) {
+              notebookShell.expandLeft(args.id as string);
             } else {
               notebookShell.collapseLeft();
               if (notebookShell.currentWidget) {
@@ -661,7 +663,9 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
             break;
           case 'right':
             if (notebookShell.rightCollapsed) {
-              notebookShell.activateById(args['id'] as string);
+              notebookShell.expandRight(args.id as string);
+            } else if (notebookShell.rightHandler.current?.id !== args.id) {
+              notebookShell.expandRight(args.id as string);
             } else {
               notebookShell.collapseRight();
               if (notebookShell.currentWidget) {
