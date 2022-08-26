@@ -664,6 +664,7 @@ namespace Private {
      * Collapse the sidebar so no items are expanded.
      */
     collapse(): void {
+      this._current?.hide();
       this._current = null;
     }
 
