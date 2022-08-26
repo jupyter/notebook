@@ -43,11 +43,11 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/application": "^4.0.0-alpha.10",
-    "@jupyterlab/coreutils": "^6.0.0-alpha.10",
-    "@jupyterlab/docregistry": "^4.0.0-alpha.10",
-    "@jupyterlab/rendermime-interfaces": "^3.8.0-alpha.10",
-    "@jupyterlab/ui-components": "^4.0.0-alpha.25",
+    "@jupyterlab/application": "^4.0.0-alpha.12",
+    "@jupyterlab/coreutils": "^6.0.0-alpha.12",
+    "@jupyterlab/docregistry": "^4.0.0-alpha.12",
+    "@jupyterlab/rendermime-interfaces": "^4.0.0-alpha.9",
+    "@jupyterlab/ui-components": "^4.0.0-alpha.27",
     "@lumino/algorithm": "^1.9.1",
     "@lumino/coreutils": "^1.12.0",
     "@lumino/messaging": "^1.10.1",
@@ -58,7 +58,7 @@
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.12.1",
-    "@jupyterlab/testutils": "^4.0.0-alpha.10",
+    "@jupyterlab/testutils": "^4.0.0-alpha.12",
     "@types/jest": "^26.0.10",
     "jest": "^26.4.2",
     "rimraf": "~3.0.0",
