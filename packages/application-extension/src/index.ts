@@ -676,15 +676,31 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
         }
       },
       isToggled: args => {
-        if (notebookShell.leftCollapsed) {
-          return false;
-        }
-        const currentWidget = notebookShell.leftHandler.current;
-        if (!currentWidget) {
-          return false;
-        }
+        var currentWidget = null;
+        switch (args['side'] as string) {
+          case 'left':
+            if (notebookShell.leftCollapsed) {
+              return false;
+            }
+            currentWidget = notebookShell.leftHandler.current;
+            if (!currentWidget) {
+              return false;
+            }
 
-        return currentWidget.id === (args['id'] as string);
+            return currentWidget.id === (args['id'] as string);
+          case 'right':
+            if (notebookShell.rightCollapsed) {
+              return false;
+            }
+            currentWidget = notebookShell.rightHandler.current;
+            if (!currentWidget) {
+              return false;
+            }
+
+            return currentWidget.id === (args['id'] as string);
+          default:
+            return false;
+        }
       }
     });
 
