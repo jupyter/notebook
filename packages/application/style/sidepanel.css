@@ -28,10 +28,31 @@
   min-width: var(--jp-sidebar-min-width);
 }
 
+#jp-right-stack,
+#jp-left-stack {
+  display: flex;
+  flex-direction: column;
+}
+
 #jp-right-stack {
   border-left: var(--jp-border-width) solid var(--jp-border-color1);
 }
 
 #jp-left-stack {
   border-right: var(--jp-border-width) solid var(--jp-border-color1);
+}
+
+#jp-left-stack .jp-SidePanel-collapse,
+#jp-right-stack .jp-SidePanel-collapse {
+  display: flex;
+  flex: 0 0 auto;
+}
+
+#jp-left-stack .jp-SidePanel-collapse {
+  justify-content: right;
+}
+
+#jp-left-stack .lm-StackedPanel,
+#jp-right-stack .lm-StackedPanel {
+  flex: 1 1 auto;
 }

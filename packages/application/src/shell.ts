@@ -3,6 +3,7 @@
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
+import { closeIcon, LabIcon, ReactWidget } from '@jupyterlab/ui-components';
 
 import { ArrayExt, find } from '@lumino/algorithm';
 import { PromiseDelegate, Token } from '@lumino/coreutils';
@@ -18,6 +19,7 @@ import {
   StackedPanel,
   Widget
 } from '@lumino/widgets';
+import React from 'react';
 
 /**
  * The Jupyter Notebook application shell token.
@@ -102,13 +104,13 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     hsplitPanel.spacing = 1;
     BoxLayout.setStretch(hsplitPanel, 1);
 
-    SplitPanel.setStretch(leftHandler.stackedPanel, 0);
-    SplitPanel.setStretch(rightHandler.stackedPanel, 0);
+    SplitPanel.setStretch(leftHandler.panel, 0);
+    SplitPanel.setStretch(rightHandler.panel, 0);
     SplitPanel.setStretch(middlePanel, 1);
 
-    hsplitPanel.addWidget(leftHandler.stackedPanel);
+    hsplitPanel.addWidget(leftHandler.panel);
     hsplitPanel.addWidget(middlePanel);
-    hsplitPanel.addWidget(rightHandler.stackedPanel);
+    hsplitPanel.addWidget(rightHandler.panel);
 
     // Use relative sizing to set the width of the side panels.
     // This will still respect the min-size of children widget in the stacked
@@ -166,15 +168,15 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   /**
    * Shortcut to get the left area handler's stacked panel
    */
-  get leftPanel(): StackedPanel {
-    return this._leftHandler.stackedPanel;
+  get leftPanel(): Panel {
+    return this._leftHandler.panel;
   }
 
   /**
    * Shortcut to get the right area handler's stacked panel
    */
-  get rightPanel(): StackedPanel {
-    return this._rightHandler.stackedPanel;
+  get rightPanel(): Panel {
+    return this._rightHandler.panel;
   }
 
   /**
@@ -347,9 +349,9 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
       case 'main':
         return this._main.widgets;
       case 'left':
-        return this._leftHandler.stackedPanel.widgets;
+        return this._leftHandler.widgets;
       case 'right':
-        return this._rightHandler.stackedPanel.widgets;
+        return this._rightHandler.widgets;
       default:
         console.error(`This shell has no area called "${area}"`);
         return;
@@ -527,12 +529,33 @@ namespace Private {
      */
     constructor(area: 'left' | 'right') {
       this._area = area;
-      this._stackedPanel = new StackedPanel();
-      this._stackedPanel.hide();
+      this._panel = new Panel();
+      this._panel.hide();
+
       this._current = null;
       this._lastCurrent = null;
-      this._stackedPanel.widgetRemoved.connect(this._onWidgetRemoved, this);
       this._menuEntryLabel = `${area[0].toUpperCase()}${area.slice(1)} Sidebar`;
+
+      this._widgetPanel = new StackedPanel();
+      this._widgetPanel.widgetRemoved.connect(this._onWidgetRemoved, this);
+
+      const that = this;
+      const collapseIcon = React.createElement(
+        'div',
+        {
+          onClick: () => {
+            that.collapse();
+            that.hide();
+          }
+        },
+        LabIcon.resolveReact({
+          icon: closeIcon,
+          className: 'jp-SidePanel-collapse'
+        })
+      );
+
+      this._panel.addWidget(ReactWidget.create(collapseIcon));
+      this._panel.addWidget(this._widgetPanel);
     }
 
     get current(): Widget | null {
@@ -547,14 +570,21 @@ namespace Private {
      * Whether the panel is visible
      */
     get isVisible(): boolean {
-      return this._stackedPanel.isVisible;
+      return this._panel.isVisible;
     }
 
     /**
      * Get the stacked panel managed by the handler
      */
-    get stackedPanel(): StackedPanel {
-      return this._stackedPanel;
+    get panel(): Panel {
+      return this._panel;
+    }
+
+    /**
+     * Get the widgets list.
+     */
+    get widgets(): Readonly<Widget[]> {
+      return this._items.map(obj => obj.widget);
     }
 
     /**
@@ -583,7 +613,7 @@ namespace Private {
       this._addPaletteEntry = addEntry;
       this._removePaletteEntry = removeEntry;
 
-      this.stackedPanel.widgets.forEach(widget => {
+      this._widgetPanel.widgets.forEach(widget => {
         if (this._addPaletteEntry != null) {
           this._addPaletteEntry(widget, this._area);
         }
@@ -648,8 +678,7 @@ namespace Private {
       const item = { widget, rank };
       const index = this._findInsertIndex(item);
       ArrayExt.insert(this._items, index, item);
-      this._stackedPanel.insertWidget(index, widget);
-
+      this._widgetPanel.insertWidget(index, widget);
       this.updateMenu();
       this._refreshVisibility();
 
@@ -713,7 +742,7 @@ namespace Private {
      * Refresh the visibility of the stacked panel.
      */
     private _refreshVisibility(): void {
-      this._stackedPanel.setHidden(this._isHiddenByUser);
+      this._panel.setHidden(this._isHiddenByUser);
       this._updated.emit();
     }
 
@@ -737,7 +766,8 @@ namespace Private {
     private _area: 'left' | 'right';
     private _isHiddenByUser = false;
     private _items = new Array<Private.IRankItem>();
-    private _stackedPanel: StackedPanel;
+    private _panel: Panel;
+    private _widgetPanel: StackedPanel;
     private _current: Widget | null;
     private _lastCurrent: Widget | null;
     private _updated: Signal<SideBarHandler, void> = new Signal(this);
