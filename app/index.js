@@ -96,6 +96,7 @@ async function main() {
         '@jupyterlab/codemirror-extension:codemirror'
       ].includes(id)
     ),
+    require('@jupyterlab/collaboration-extension'),
     require('@jupyterlab/completer-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/completer-extension:base-service',
@@ -147,7 +148,6 @@ async function main() {
     require('@jupyterlab/theme-dark-extension'),
     require('@jupyterlab/translation-extension'),
     // Add the "Hub Control Panel" menu option when running in JupyterHub
-    require('@jupyterlab/user-extension'),
     require('@jupyterlab/hub-extension')
   ];
 
