@@ -40,6 +40,7 @@ tasks:
     command: |
       gp sync-await setup
       echo "source /workspace/bin/activate-env.sh" >> ~/.bashrc
+      source /workspace/bin/activate-env.sh
 
 ports:
   - port: 8888
