@@ -42,7 +42,7 @@
     "@jupyterlab/application": "^4.0.0-alpha.12",
     "@jupyterlab/console": "^4.0.0-alpha.12",
     "@jupyterlab/coreutils": "^6.0.0-alpha.12",
-    "@lumino/algorithm": "^1.9.1"
+    "@lumino/algorithm": "^1.9.2"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",

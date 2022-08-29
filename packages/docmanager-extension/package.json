@@ -44,7 +44,7 @@
     "@jupyterlab/docmanager": "^4.0.0-alpha.12",
     "@jupyterlab/docregistry": "^4.0.0-alpha.12",
     "@jupyterlab/services": "^7.0.0-alpha.12",
-    "@lumino/algorithm": "^1.9.1"
+    "@lumino/algorithm": "^1.9.2"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",

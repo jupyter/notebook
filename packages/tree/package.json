@@ -51,9 +51,9 @@
     "@jupyterlab/statedb": "^4.0.0-alpha.12",
     "@jupyterlab/translation": "^4.0.0-alpha.12",
     "@jupyterlab/ui-components": "^4.0.0-alpha.27",
-    "@lumino/algorithm": "^1.9.1",
-    "@lumino/commands": "^1.20.0",
-    "@lumino/widgets": "^1.32.0"
+    "@lumino/algorithm": "^1.9.2",
+    "@lumino/commands": "^1.20.1",
+    "@lumino/widgets": "^1.34.0"
   },
   "devDependencies": {
     "rimraf": "~3.0.0",
