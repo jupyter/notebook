@@ -22,7 +22,6 @@ tasks:
       micromamba activate
       EOT
       source /workspace/bin/activate-env.sh
-      echo "source /workspace/bin/activate-env.sh" >> ~/.bashrc
       micromamba install -n base -y -c conda-forge python=3.10 nodejs=14 yarn
       python -m pip install -e ".[dev,test]" && jlpm && jlpm run build && jlpm develop
       gp sync-done setup
@@ -31,11 +30,17 @@ tasks:
       source /workspace/bin/activate-env.sh
       jupyter notebook --no-browser --JupyterNotebookApp.token='' --JupyterNotebookApp.allow_origin=* --JupyterNotebookApp.tornado_settings='{"headers": {"Content-Security-Policy": "frame-ancestors *"}}'
 
-  - name: watch
+  - name: auto-activate
     command: |
       gp sync-await setup
       source /workspace/bin/activate-env.sh
       jlpm watch
+
+  - name: shell
+    command: |
+      gp sync-await setup
+      echo "source /workspace/bin/activate-env.sh" >> ~/.bashrc
+      source /workspace/bin/activate-env.sh
 
 ports:
   - port: 8888
