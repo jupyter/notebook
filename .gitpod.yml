@@ -30,7 +30,7 @@ tasks:
       source /workspace/bin/activate-env.sh
       jupyter notebook --no-browser --JupyterNotebookApp.token='' --JupyterNotebookApp.allow_origin=* --JupyterNotebookApp.tornado_settings='{"headers": {"Content-Security-Policy": "frame-ancestors *"}}'
 
-  - name: watch
+  - name: auto-activate
     command: |
       gp sync-await setup
       source /workspace/bin/activate-env.sh
