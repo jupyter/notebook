@@ -995,7 +995,7 @@ class NotebookApp(JupyterApp):
         if os.getenv('JUPYTER_TOKEN_FILE'):
             self._token_generated = False
             with open(os.getenv('JUPYTER_TOKEN_FILE')) as token_file:
-                return token_file.read()
+                return token_file.read().strip("\n\r")
         if self.password:
             # no token if password is enabled
             self._token_generated = False
