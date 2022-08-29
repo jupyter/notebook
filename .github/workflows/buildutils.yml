@@ -26,7 +26,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install -U "jupyterlab>=4.0.0a25,<5" ypy-websocket==0.2 hatch
+        python -m pip install -U "jupyterlab>=4.0.0a25,<5" hatch
         jlpm
         jlpm run build
 
@@ -81,6 +81,6 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install -U "jupyterlab>=4.0.0a25,<5" ypy-websocket==0.2 pip
+        python -m pip install -U "jupyterlab>=4.0.0a25,<5" pip
         jlpm
         jlpm run build

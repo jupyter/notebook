@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.0", "jupyterlab>=4.0.0a25,<5", "ypy-websocket==0.2"]
+requires = ["hatchling>=1.0", "jupyterlab>=4.0.0a25,<5"]
 build-backend = "hatchling.build"
 
 [project]
@@ -34,7 +34,6 @@ dependencies = [
     "jupyterlab_server>=2.13,<3",
     "notebook_shim>=0.1,<0.2",
     "tornado>=6.1.0",
-    "ypy-websocket==0.2",
 ]
 dynamic = ["version"]
 
