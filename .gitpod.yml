@@ -35,7 +35,7 @@ tasks:
       gp sync-await setup
       source /workspace/bin/activate-env.sh
       jlpm watch
-      
+
   - name: shell
     command: |
       gp sync-await setup
