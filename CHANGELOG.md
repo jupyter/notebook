@@ -14,11 +14,25 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 6.5.0rc0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.5.0b0...6d7109a6f39b8ad92d06ebf34e8dbbca5c9cbaf6))
+
+### Merged PRs
+
+- Update redirect logic and tests [#6511](https://github.com/jupyter/notebook/pull/6511) ([@RRosio](https://github.com/RRosio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-07-29&to=2022-08-30&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-07-29..2022-08-30&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-07-29..2022-08-30&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-07-29..2022-08-30&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 6.5.0b0
 
 No merged PRs
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.5.0a0
 
