@@ -130,7 +130,7 @@ describe('Shell for tree view', () => {
     });
 
     it('should make all areas empty initially', () => {
-      ['main', 'top', 'menu'].forEach(area =>
+      ['main', 'top', 'left', 'right', 'menu'].forEach(area =>
         expect(shell.isEmpty(area as Shell.Area)).toBe(true)
       );
     });
@@ -150,39 +150,23 @@ describe('Shell for tree view', () => {
         jupyterFrontEndShell.widgets('fake');
       }).toThrow('Invalid area: fake');
     });
-
-    it('should throw an exception if the left area does not exist', () => {
-      const jupyterFrontEndShell = shell as JupyterFrontEnd.IShell;
-      expect(() => {
-        jupyterFrontEndShell.widgets('left');
-      }).toThrow('Invalid area: left');
-    });
-
-    it('should throw an exception if the right area does not exist', () => {
-      const jupyterFrontEndShell = shell as JupyterFrontEnd.IShell;
-      expect(() => {
-        jupyterFrontEndShell.widgets('right');
-      }).toThrow('Invalid area: right');
-    });
   });
 
   describe('#add(widget, "left")', () => {
-    it('should fail to add a widget to the left area', () => {
+    it('should add a widget to the left area', () => {
       const widget = new Widget();
       widget.id = 'foo';
-      expect(() => {
-        shell.add(widget, 'left');
-      }).toThrow('left area is not available on this page');
+      shell.add(widget, 'left');
+      expect(shell.isEmpty('left')).toBe(false);
     });
   });
 
   describe('#add(widget, "right")', () => {
-    it('should fail to add a widget to the right area', () => {
+    it('should add a widget to the right area', () => {
       const widget = new Widget();
       widget.id = 'foo';
-      expect(() => {
-        shell.add(widget, 'right');
-      }).toThrow('right area is not available on this page');
+      shell.add(widget, 'right');
+      expect(shell.isEmpty('right')).toBe(false);
     });
   });
 });
