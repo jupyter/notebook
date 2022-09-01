@@ -48,8 +48,8 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
 
     this._topHandler = new Private.PanelHandler();
     this._menuHandler = new Private.PanelHandler();
-    this._leftHandler = new Private.SideBarHandler('left');
-    this._rightHandler = new Private.SideBarHandler('right');
+    this._leftHandler = new SideBarHandler('left');
+    this._rightHandler = new SideBarHandler('right');
     this._main = new Panel();
     const topWrapper = (this._topWrapper = new Panel());
     const menuWrapper = (this._menuWrapper = new Panel());
@@ -154,14 +154,14 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   /**
    * Get the left area handler
    */
-  get leftHandler(): Private.SideBarHandler {
+  get leftHandler(): SideBarHandler {
     return this._leftHandler;
   }
 
   /**
    * Get the right area handler
    */
-  get rightHandler(): Private.SideBarHandler {
+  get rightHandler(): SideBarHandler {
     return this._rightHandler;
   }
 
@@ -375,8 +375,8 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   private _topHandler: Private.PanelHandler;
   private _menuWrapper: Panel;
   private _menuHandler: Private.PanelHandler;
-  private _leftHandler: Private.SideBarHandler;
-  private _rightHandler: Private.SideBarHandler;
+  private _leftHandler: SideBarHandler;
+  private _rightHandler: SideBarHandler;
   private _spacer: Widget;
   private _main: Panel;
   private _currentChanged = new Signal<this, void>(this);
@@ -397,31 +397,256 @@ export namespace Shell {
  * A name space for SidebarPanel functions.
  */
 export namespace SideBarPanel {
-  /**
-   * The function to update the sidebar menu.
-   */
-  export type UpdateSideBarMenuFn = (
-    area: 'left' | 'right',
-    entryLabel: string
-  ) => IDisposable | null;
+  export type Area = 'left' | 'right';
 
-  /**
-   * The function to add an item to the palette.
-   */
-  export type AddPaletteEntryFn = (
-    widget: Readonly<Widget>,
-    area: 'left' | 'right'
-  ) => void;
-
-  /**
-   * The function to remove an item from the palette.
-   */
-  export type RemovePaletteEntryFn = (
-    widget: Readonly<Widget>,
-    area: 'left' | 'right'
-  ) => void;
+  export type sideBarMenu = {
+    [area in Area]: IDisposable | null;
+  };
 }
 
+/**
+ * A class which manages a side bar that can show at most one widget at a time.
+ */
+export class SideBarHandler {
+  /**
+   * Construct a new side bar handler.
+   */
+  constructor(area: SideBarPanel.Area) {
+    this._area = area;
+    this._panel = new Panel();
+    this._panel.hide();
+
+    this._current = null;
+    this._lastCurrent = null;
+    this._menuEntryLabel = `${area[0].toUpperCase()}${area.slice(1)} Sidebar`;
+
+    this._widgetPanel = new StackedPanel();
+    this._widgetPanel.widgetRemoved.connect(this._onWidgetRemoved, this);
+
+    const that = this;
+    const collapseIcon = React.createElement(
+      'div',
+      {
+        onClick: () => {
+          that.collapse();
+          that.hide();
+        }
+      },
+      LabIcon.resolveReact({
+        icon: closeIcon,
+        className: 'jp-SidePanel-collapse'
+      })
+    );
+
+    this._panel.addWidget(ReactWidget.create(collapseIcon));
+    this._panel.addWidget(this._widgetPanel);
+  }
+
+  get current(): Widget | null {
+    return (
+      this._current ||
+      this._lastCurrent ||
+      (this._items.length > 0 ? this._items[0].widget : null)
+    );
+  }
+
+  /**
+   * Get the area of the side panel
+   */
+  get area(): SideBarPanel.Area {
+    return this._area;
+  }
+
+  /**
+   * Get the menu entry label of the side panel
+   */
+  get menuEntryLabel(): string {
+    return this._menuEntryLabel;
+  }
+
+  /**
+   * Whether the panel is visible
+   */
+  get isVisible(): boolean {
+    return this._panel.isVisible;
+  }
+
+  /**
+   * Get the stacked panel managed by the handler
+   */
+  get panel(): Panel {
+    return this._panel;
+  }
+
+  /**
+   * Get the widgets list.
+   */
+  get widgets(): Readonly<Widget[]> {
+    return this._items.map(obj => obj.widget);
+  }
+
+  /**
+   * Signal fires when the stacked panel changes
+   */
+  get updated(): ISignal<SideBarHandler, void> {
+    return this._updated;
+  }
+
+  /**
+   * Signal fired when a widget is added to the panel
+   */
+  get widgetAdded(): ISignal<SideBarHandler, Widget> {
+    return this._widgetAdded;
+  }
+
+  /**
+   * Signal fired when a widget is removed from the panel
+   */
+  get widgetRemoved(): ISignal<SideBarHandler, Widget> {
+    return this._widgetRemoved;
+  }
+
+  /**
+   * Expand the sidebar.
+   *
+   * #### Notes
+   * This will open the most recently used widget, or the first widget
+   * if there is no most recently used.
+   */
+  expand(id?: string): void {
+    if (this._current) {
+      this.collapse();
+    }
+    if (id) {
+      this.activate(id);
+    } else {
+      const visibleWidget = this.current;
+      if (visibleWidget) {
+        this._current = visibleWidget;
+        this.activate(visibleWidget.id);
+      }
+    }
+  }
+
+  /**
+   * Activate a widget residing in the stacked panel by ID.
+   *
+   * @param id - The widget's unique ID.
+   */
+  activate(id: string): void {
+    const widget = this._findWidgetByID(id);
+    if (widget) {
+      this._current = widget;
+      widget.show();
+      widget.activate();
+    }
+  }
+
+  /**
+   * Test whether the sidebar has the given widget by id.
+   */
+  has(id: string): boolean {
+    return this._findWidgetByID(id) !== null;
+  }
+
+  /**
+   * Collapse the sidebar so no items are expanded.
+   */
+  collapse(): void {
+    this._current?.hide();
+    this._current = null;
+  }
+
+  /**
+   * Add a widget and its title to the stacked panel.
+   *
+   * If the widget is already added, it will be moved.
+   */
+  addWidget(widget: Widget, rank: number): void {
+    widget.parent = null;
+    widget.hide();
+    const item = { widget, rank };
+    const index = this._findInsertIndex(item);
+    ArrayExt.insert(this._items, index, item);
+    this._widgetPanel.insertWidget(index, widget);
+
+    this._refreshVisibility();
+
+    this._widgetAdded.emit(widget);
+  }
+
+  /**
+   * Hide the side panel
+   */
+  hide(): void {
+    this._isHiddenByUser = true;
+    this._refreshVisibility();
+  }
+
+  /**
+   * Show the side panel
+   */
+  show(): void {
+    this._isHiddenByUser = false;
+    this._refreshVisibility();
+  }
+
+  /**
+   * Find the insertion index for a rank item.
+   */
+  private _findInsertIndex(item: Private.IRankItem): number {
+    return ArrayExt.upperBound(this._items, item, Private.itemCmp);
+  }
+
+  /**
+   * Find the index of the item with the given widget, or `-1`.
+   */
+  private _findWidgetIndex(widget: Widget): number {
+    return ArrayExt.findFirstIndex(this._items, i => i.widget === widget);
+  }
+
+  /**
+   * Find the widget with the given id, or `null`.
+   */
+  private _findWidgetByID(id: string): Widget | null {
+    const item = find(this._items, value => value.widget.id === id);
+    return item ? item.widget : null;
+  }
+
+  /**
+   * Refresh the visibility of the stacked panel.
+   */
+  private _refreshVisibility(): void {
+    this._panel.setHidden(this._isHiddenByUser);
+    this._updated.emit();
+  }
+
+  /*
+   * Handle the `widgetRemoved` signal from the panel.
+   */
+  private _onWidgetRemoved(sender: StackedPanel, widget: Widget): void {
+    if (widget === this._lastCurrent) {
+      this._lastCurrent = null;
+    }
+    ArrayExt.removeAt(this._items, this._findWidgetIndex(widget));
+
+    this._refreshVisibility();
+
+    this._widgetRemoved.emit(widget);
+  }
+
+  private _area: SideBarPanel.Area;
+  private _isHiddenByUser = false;
+  private _items = new Array<Private.IRankItem>();
+  private _panel: Panel;
+  private _widgetPanel: StackedPanel;
+  private _current: Widget | null;
+  private _lastCurrent: Widget | null;
+  private _updated: Signal<SideBarHandler, void> = new Signal(this);
+  private _menuEntryLabel: string;
+  private _widgetAdded: Signal<SideBarHandler, Widget> = new Signal(this);
+  private _widgetRemoved: Signal<SideBarHandler, Widget> = new Signal(this);
+}
 /**
  * A namespace for private module data.
  */
@@ -510,267 +735,5 @@ namespace Private {
 
     private _items = new Array<Private.IRankItem>();
     private _panel = new Panel();
-  }
-
-  /**
-   * A class which manages a side bar that can show at most one widget at a time.
-   */
-  export class SideBarHandler {
-    /**
-     * Construct a new side bar handler.
-     */
-    constructor(area: 'left' | 'right') {
-      this._area = area;
-      this._panel = new Panel();
-      this._panel.hide();
-
-      this._current = null;
-      this._lastCurrent = null;
-      this._menuEntryLabel = `${area[0].toUpperCase()}${area.slice(1)} Sidebar`;
-
-      this._widgetPanel = new StackedPanel();
-      this._widgetPanel.widgetRemoved.connect(this._onWidgetRemoved, this);
-
-      const that = this;
-      const collapseIcon = React.createElement(
-        'div',
-        {
-          onClick: () => {
-            that.collapse();
-            that.hide();
-          }
-        },
-        LabIcon.resolveReact({
-          icon: closeIcon,
-          className: 'jp-SidePanel-collapse'
-        })
-      );
-
-      this._panel.addWidget(ReactWidget.create(collapseIcon));
-      this._panel.addWidget(this._widgetPanel);
-    }
-
-    get current(): Widget | null {
-      return (
-        this._current ||
-        this._lastCurrent ||
-        (this._items.length > 0 ? this._items[0].widget : null)
-      );
-    }
-
-    /**
-     * Whether the panel is visible
-     */
-    get isVisible(): boolean {
-      return this._panel.isVisible;
-    }
-
-    /**
-     * Get the stacked panel managed by the handler
-     */
-    get panel(): Panel {
-      return this._panel;
-    }
-
-    /**
-     * Get the widgets list.
-     */
-    get widgets(): Readonly<Widget[]> {
-      return this._items.map(obj => obj.widget);
-    }
-
-    /**
-     * Signal fires when the stacked panel changes
-     */
-    get updated(): ISignal<SideBarHandler, void> {
-      return this._updated;
-    }
-
-    /**
-     * Add a function to update the menus with the side bar widgets.
-     * @param updateMenu - the function to call to update the menu.
-     */
-    addUpdateMenuFn(updateMenu: SideBarPanel.UpdateSideBarMenuFn): void {
-      this._updateMenu = updateMenu;
-      this.updateMenu();
-    }
-
-    /**
-     * Add functions to add or remove entry in CommandPalette.
-     */
-    addPaletteFn(
-      addEntry: SideBarPanel.AddPaletteEntryFn,
-      removeEntry: SideBarPanel.RemovePaletteEntryFn
-    ): void {
-      this._addPaletteEntry = addEntry;
-      this._removePaletteEntry = removeEntry;
-
-      this._widgetPanel.widgets.forEach(widget => {
-        if (this._addPaletteEntry != null) {
-          this._addPaletteEntry(widget, this._area);
-        }
-      });
-    }
-
-    /**
-     * Expand the sidebar.
-     *
-     * #### Notes
-     * This will open the most recently used widget, or the first widget
-     * if there is no most recently used.
-     */
-    expand(id?: string): void {
-      if (this._current) {
-        this.collapse();
-      }
-      if (id) {
-        this.activate(id);
-      } else {
-        const visibleWidget = this.current;
-        if (visibleWidget) {
-          this._current = visibleWidget;
-          this.activate(visibleWidget.id);
-        }
-      }
-    }
-
-    /**
-     * Activate a widget residing in the stacked panel by ID.
-     *
-     * @param id - The widget's unique ID.
-     */
-    activate(id: string): void {
-      const widget = this._findWidgetByID(id);
-      if (widget) {
-        this._current = widget;
-        widget.show();
-        widget.activate();
-      }
-    }
-
-    /**
-     * Test whether the sidebar has the given widget by id.
-     */
-    has(id: string): boolean {
-      return this._findWidgetByID(id) !== null;
-    }
-
-    /**
-     * Collapse the sidebar so no items are expanded.
-     */
-    collapse(): void {
-      this._current?.hide();
-      this._current = null;
-    }
-
-    /**
-     * Add a widget and its title to the stacked panel.
-     *
-     * If the widget is already added, it will be moved.
-     */
-    addWidget(widget: Widget, rank: number): void {
-      widget.parent = null;
-      widget.hide();
-      const item = { widget, rank };
-      const index = this._findInsertIndex(item);
-      ArrayExt.insert(this._items, index, item);
-      this._widgetPanel.insertWidget(index, widget);
-      this.updateMenu();
-      this._refreshVisibility();
-
-      if (this._addPaletteEntry) {
-        this._addPaletteEntry(widget, this._area);
-      }
-    }
-
-    /**
-     * Hide the side panel
-     */
-    hide(): void {
-      this._isHiddenByUser = true;
-      this._refreshVisibility();
-    }
-
-    /**
-     * Show the side panel
-     */
-    show(): void {
-      this._isHiddenByUser = false;
-      this._refreshVisibility();
-    }
-
-    /**
-     * Update menu entries
-     */
-    updateMenu(): void {
-      if (!this._updateMenu) {
-        return;
-      }
-      if (this._disposableMenu) {
-        this._disposableMenu.dispose();
-      }
-      this._disposableMenu = this._updateMenu(this._area, this._menuEntryLabel);
-    }
-
-    /**
-     * Find the insertion index for a rank item.
-     */
-    private _findInsertIndex(item: Private.IRankItem): number {
-      return ArrayExt.upperBound(this._items, item, Private.itemCmp);
-    }
-
-    /**
-     * Find the index of the item with the given widget, or `-1`.
-     */
-    private _findWidgetIndex(widget: Widget): number {
-      return ArrayExt.findFirstIndex(this._items, i => i.widget === widget);
-    }
-
-    /**
-     * Find the widget with the given id, or `null`.
-     */
-    private _findWidgetByID(id: string): Widget | null {
-      const item = find(this._items, value => value.widget.id === id);
-      return item ? item.widget : null;
-    }
-
-    /**
-     * Refresh the visibility of the stacked panel.
-     */
-    private _refreshVisibility(): void {
-      this._panel.setHidden(this._isHiddenByUser);
-      this._updated.emit();
-    }
-
-    /*
-     * Handle the `widgetRemoved` signal from the panel.
-     */
-    private _onWidgetRemoved(sender: StackedPanel, widget: Widget): void {
-      if (widget === this._lastCurrent) {
-        this._lastCurrent = null;
-      }
-      ArrayExt.removeAt(this._items, this._findWidgetIndex(widget));
-
-      this.updateMenu();
-      this._refreshVisibility();
-
-      if (this._removePaletteEntry) {
-        this._removePaletteEntry(widget, this._area);
-      }
-    }
-
-    private _area: 'left' | 'right';
-    private _isHiddenByUser = false;
-    private _items = new Array<Private.IRankItem>();
-    private _panel: Panel;
-    private _widgetPanel: StackedPanel;
-    private _current: Widget | null;
-    private _lastCurrent: Widget | null;
-    private _updated: Signal<SideBarHandler, void> = new Signal(this);
-    private _menuEntryLabel: string;
-    private _disposableMenu: IDisposable | null = null;
-    private _updateMenu: SideBarPanel.UpdateSideBarMenuFn | null = null;
-    private _addPaletteEntry: SideBarPanel.AddPaletteEntryFn | null = null;
-    private _removePaletteEntry: SideBarPanel.RemovePaletteEntryFn | null = null;
   }
 }

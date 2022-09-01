@@ -38,7 +38,8 @@ import {
   NotebookApp,
   NotebookShell,
   INotebookShell,
-  SideBarPanel
+  SideBarPanel,
+  SideBarHandler
 } from '@jupyter-notebook/application';
 
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
@@ -47,11 +48,7 @@ import { each } from '@lumino/algorithm';
 
 import { PromiseDelegate } from '@lumino/coreutils';
 
-import {
-  DisposableDelegate,
-  DisposableSet,
-  IDisposable
-} from '@lumino/disposable';
+import { DisposableDelegate, DisposableSet } from '@lumino/disposable';
 
 import { Menu, Widget } from '@lumino/widgets';
 
@@ -622,6 +619,11 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
 
     const trans = translator.load('notebook');
 
+    var sideBarMenu: SideBarPanel.sideBarMenu = {
+      left: null,
+      right: null
+    };
+
     var sideBarPalette: SideBarPalette | null = null;
 
     /* Arguments for togglePanel command:
@@ -711,12 +713,12 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
      * @param entryLabel - the name of the main entry in the View menu for that sidebar.
      * @returns - The disposable menu added to the View menu or null.
      */
-    const updateMenu: SideBarPanel.UpdateSideBarMenuFn = (area, entryLabel) => {
+    const updateMenu = (area: SideBarPanel.Area, entryLabel: string) => {
       if (menu === null) {
         return null;
       }
 
-      let disposableMenu: IDisposable | null = null;
+      sideBarMenu[area]?.dispose();
 
       const newMenu = new Menu({ commands: app.commands });
       newMenu.title.label = entryLabel;
@@ -737,64 +739,79 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
 
       // If there are widgets, add the menu to the main menu entry.
       if (menuToAdd) {
-        disposableMenu = menu.viewMenu.addItem({
+        sideBarMenu[area] = menu.viewMenu.addItem({
           type: 'submenu',
           submenu: newMenu
         });
       }
-
-      return disposableMenu;
     };
 
     /**
-     * The function which adds an entry to the command palette.
-     * @param widget - the widget to open from the command palette.
-     * @param area - 'left' or 'right', the area of the side bar.
+     * Function called when a sidebar has a widget added or removed.
+     *
+     * @param sidebar - the sidebar updated
+     * @param widget - the widget added or removed from the sidebar
+     * @param status - 'add' or 'remove'
      */
-    const addPaletteItem: SideBarPanel.AddPaletteEntryFn = (widget, area) => {
-      if (sideBarPalette) {
-        sideBarPalette.addItem(widget, area);
-      }
-    };
-
-    /**
-     * The function which removes an entry from the command palette.
-     * @param widget - the widget to open from the command palette.
-     * @param area - 'left' or 'right', the area of the side bar.
-     */
-    const removePaletteItem: SideBarPanel.RemovePaletteEntryFn = (
-      widget,
-      area
+    const sidebarUpdated = (
+      sidebar: SideBarHandler,
+      widget: Widget,
+      status: 'add' | 'remove'
     ) => {
+      if (menu) {
+        updateMenu(sidebar.area, sidebar.menuEntryLabel);
+      }
       if (sideBarPalette) {
-        sideBarPalette.removeItem(widget, area);
+        if (status === 'add') {
+          sideBarPalette.addItem(widget, sidebar.area);
+        } else {
+          sideBarPalette.removeItem(widget, sidebar.area);
+        }
       }
     };
 
     app.restored.then(() => {
       // Create  menu entries for left and right panel.
       if (menu) {
-        notebookShell.leftHandler.addUpdateMenuFn(updateMenu);
-        notebookShell.rightHandler.addUpdateMenuFn(updateMenu);
+        updateMenu(
+          notebookShell.leftHandler.area,
+          notebookShell.leftHandler.menuEntryLabel
+        );
+        updateMenu(
+          notebookShell.rightHandler.area,
+          notebookShell.rightHandler.menuEntryLabel
+        );
       }
 
-      // Add palette functions to the side panels.
+      // Add palette entries for side panels.
       if (palette) {
-        sideBarPalette = new SideBarPalette({
+        const sideBarPalette = new SideBarPalette({
           commandPalette: palette as ICommandPalette,
           command: CommandIDs.togglePanel
         });
 
-        notebookShell.leftHandler.addPaletteFn(
-          addPaletteItem,
-          removePaletteItem
-        );
+        notebookShell.leftHandler.widgets.forEach(widget => {
+          sideBarPalette.addItem(widget, notebookShell.leftHandler.area);
+        });
 
-        notebookShell.rightHandler.addPaletteFn(
-          addPaletteItem,
-          removePaletteItem
-        );
+        notebookShell.rightHandler.widgets.forEach(widget => {
+          sideBarPalette.addItem(widget, notebookShell.rightHandler.area);
+        });
       }
+
+      // Update menu and palette when widgets are added or removed from sidebars
+      notebookShell.leftHandler.widgetAdded.connect((sidebar, widget) => {
+        sidebarUpdated(sidebar, widget, 'add');
+      });
+      notebookShell.leftHandler.widgetRemoved.connect((sidebar, widget) => {
+        sidebarUpdated(sidebar, widget, 'remove');
+      });
+      notebookShell.rightHandler.widgetAdded.connect((sidebar, widget) => {
+        sidebarUpdated(sidebar, widget, 'add');
+      });
+      notebookShell.rightHandler.widgetRemoved.connect((sidebar, widget) => {
+        sidebarUpdated(sidebar, widget, 'remove');
+      });
     });
   }
 };
