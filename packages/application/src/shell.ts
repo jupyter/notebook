@@ -397,8 +397,14 @@ export namespace Shell {
  * A name space for SidebarPanel functions.
  */
 export namespace SideBarPanel {
+  /**
+   * The areas of the sidebar panel
+   */
   export type Area = 'left' | 'right';
 
+  /**
+   * The sidebar menu type, one for each area
+   */
   export type sideBarMenu = {
     [area in Area]: IDisposable | null;
   };

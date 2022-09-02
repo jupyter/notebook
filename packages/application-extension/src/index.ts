@@ -718,8 +718,10 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
         return null;
       }
 
+      // Remove the previous menu entry for this sidebar.
       sideBarMenu[area]?.dispose();
 
+      // Creates a new menu entry and populates it with sidebar widgets.
       const newMenu = new Menu({ commands: app.commands });
       newMenu.title.label = entryLabel;
       const widgets = notebookShell.widgets(area);
@@ -749,20 +751,23 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
     /**
      * Function called when a sidebar has a widget added or removed.
      *
-     * @param sidebar - the sidebar updated
-     * @param widget - the widget added or removed from the sidebar
-     * @param status - 'add' or 'remove'
+     * @param sidebar - the sidebar updated.
+     * @param widget - the widget added or removed from the sidebar.
+     * @param action - 'add' or 'remove'.
      */
     const sidebarUpdated = (
       sidebar: SideBarHandler,
       widget: Widget,
-      status: 'add' | 'remove'
+      action: 'add' | 'remove'
     ) => {
+      // Update the menu entries.
       if (menu) {
         updateMenu(sidebar.area, sidebar.menuEntryLabel);
       }
+
+      // Update the palette entries.
       if (sideBarPalette) {
-        if (status === 'add') {
+        if (action === 'add') {
           sideBarPalette.addItem(widget, sidebar.area);
         } else {
           sideBarPalette.removeItem(widget, sidebar.area);
@@ -799,7 +804,7 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
         });
       }
 
-      // Update menu and palette when widgets are added or removed from sidebars
+      // Update menu and palette when widgets are added or removed from sidebars.
       notebookShell.leftHandler.widgetAdded.connect((sidebar, widget) => {
         sidebarUpdated(sidebar, widget, 'add');
       });
