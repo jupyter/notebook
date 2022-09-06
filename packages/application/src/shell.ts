@@ -180,7 +180,8 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
         yield* this._main.widgets;
         return;
       default:
-        throw new Error(`Invalid area: ${area}`);
+        console.error(`This shell has no area called "${area}"`);
+        return;
     }
   }
 
