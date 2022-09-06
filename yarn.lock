@@ -1479,7 +1479,7 @@
     "@jupyterlab/coreutils" "^6.0.0-alpha.13"
     "@jupyterlab/docmanager" "^4.0.0-alpha.13"
     "@jupyterlab/docregistry" "^4.0.0-alpha.13"
-    "@jupyterlab/services" "^7.0.0-alpha.10"
+    "@jupyterlab/services" "^7.0.0-alpha.13"
     "@lumino/algorithm" "^2.0.0-alpha.1"
 
 "@jupyter-notebook/documentsearch-extension@file:packages/documentsearch-extension":
@@ -1545,7 +1545,7 @@
     "@jupyterlab/docmanager" "^4.0.0-alpha.13"
     "@jupyterlab/filebrowser" "^4.0.0-alpha.13"
     "@jupyterlab/mainmenu" "^4.0.0-alpha.13"
-    "@jupyterlab/services" "^7.0.0-alpha.10"
+    "@jupyterlab/services" "^7.0.0-alpha.13"
     "@jupyterlab/settingregistry" "^4.0.0-alpha.13"
     "@jupyterlab/statedb" "^4.0.0-alpha.13"
     "@jupyterlab/translation" "^4.0.0-alpha.13"
@@ -1564,7 +1564,7 @@
     "@jupyterlab/docmanager" "^4.0.0-alpha.13"
     "@jupyterlab/filebrowser" "^4.0.0-alpha.13"
     "@jupyterlab/mainmenu" "^4.0.0-alpha.13"
-    "@jupyterlab/services" "^7.0.0-alpha.10"
+    "@jupyterlab/services" "^7.0.0-alpha.13"
     "@jupyterlab/settingregistry" "^4.0.0-alpha.13"
     "@jupyterlab/statedb" "^4.0.0-alpha.13"
     "@jupyterlab/translation" "^4.0.0-alpha.13"
@@ -2607,7 +2607,7 @@
     "@lumino/signaling" "^2.0.0-alpha.1"
     react "^17.0.1"
 
-"@jupyterlab/services@^7.0.0-alpha.10", "@jupyterlab/services@^7.0.0-alpha.13":
+"@jupyterlab/services@^7.0.0-alpha.13":
   version "7.0.0-alpha.13"
   resolved "https://registry.yarnpkg.com/@jupyterlab/services/-/services-7.0.0-alpha.13.tgz#ed5650f078693b45877c5662c9f3e3c894f22d9e"
   integrity sha512-5gf3V1OTXCz9RkSfsUIbbtyDhbtfPL/i1wKkNSpcnC5vMNDQAYc6+iRQ1Kvv0YRQfOGHLOBLL8u+x0M3JqRW3w==

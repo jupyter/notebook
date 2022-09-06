@@ -46,7 +46,7 @@
     "@jupyterlab/docmanager": "^4.0.0-alpha.13",
     "@jupyterlab/filebrowser": "^4.0.0-alpha.13",
     "@jupyterlab/mainmenu": "^4.0.0-alpha.13",
-    "@jupyterlab/services": "^7.0.0-alpha.10",
+    "@jupyterlab/services": "^7.0.0-alpha.13",
     "@jupyterlab/settingregistry": "^4.0.0-alpha.13",
     "@jupyterlab/statedb": "^4.0.0-alpha.13",
     "@jupyterlab/translation": "^4.0.0-alpha.13",

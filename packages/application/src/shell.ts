@@ -5,7 +5,7 @@ import { JupyterFrontEnd } from '@jupyterlab/application';
 
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
-import { ArrayExt, find } from '@lumino/algorithm';
+import { ArrayExt } from '@lumino/algorithm';
 
 import { Token } from '@lumino/coreutils';
 
@@ -107,7 +107,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    * Activate a widget in its area.
    */
   activateById(id: string): void {
-    const widget = find(this.widgets('main'), w => w.id === id);
+    const widget = this._main.widgets.find(w => w.id === id);
     if (widget) {
       widget.activate();
     }
