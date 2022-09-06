@@ -28,10 +28,7 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
    * @param options The instantiation options for an application.
    */
   constructor(options: NotebookApp.IOptions = { shell: new NotebookShell() }) {
-    super({
-      ...options,
-      shell: options.shell ?? new NotebookShell()
-    });
+    super({ ...options, shell: options.shell ?? new NotebookShell() });
     if (options.mimeExtensions) {
       for (const plugin of createRendermimePlugins(options.mimeExtensions)) {
         this.registerPlugin(plugin);

@@ -147,7 +147,7 @@ async function main() {
     require('@jupyterlab/theme-dark-extension'),
     require('@jupyterlab/translation-extension'),
     // Add the "Hub Control Panel" menu option when running in JupyterHub
-    require('@jupyterlab/user-extension'),
+    require('@jupyterlab/collaboration-extension'),
     require('@jupyterlab/hub-extension')
   ];
 

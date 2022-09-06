@@ -442,7 +442,7 @@ const title: JupyterFrontEndPlugin<void> = {
             return;
           }
 
-          const result = await renameDialog(docManager, current.context.path);
+          const result = await renameDialog(docManager, current.context);
 
           // activate the current widget to bring the focus
           if (current) {
@@ -453,7 +453,7 @@ const title: JupyterFrontEndPlugin<void> = {
             return;
           }
 
-          const newPath = current.context.path ?? result.path;
+          const newPath = current.context.path;
           const basename = PathExt.basename(newPath);
 
           h.textContent = basename.replace(STRIP_IPYNB, '');

@@ -5,7 +5,7 @@ import { JupyterFrontEnd } from '@jupyterlab/application';
 
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
-import { ArrayExt, find, IIterator, iter } from '@lumino/algorithm';
+import { ArrayExt, find } from '@lumino/algorithm';
 
 import { Token } from '@lumino/coreutils';
 
@@ -168,14 +168,17 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    *
    * @param area The area
    */
-  widgets(area: Shell.Area): IIterator<Widget> {
+  *widgets(area: Shell.Area): IterableIterator<Widget> {
     switch (area ?? 'main') {
       case 'top':
-        return iter(this._topHandler.panel.widgets);
+        yield* this._topHandler.panel.widgets;
+        return;
       case 'menu':
-        return iter(this._menuHandler.panel.widgets);
+        yield* this._menuHandler.panel.widgets;
+        return;
       case 'main':
-        return iter(this._main.widgets);
+        yield* this._main.widgets;
+        return;
       default:
         throw new Error(`Invalid area: ${area}`);
     }
