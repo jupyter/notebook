@@ -102,7 +102,7 @@ test.describe('Notebook', () => {
 
   test('Open table of content left panel', async ({ page, tmpPath }) => {
     const notebook = 'simple_toc.ipynb';
-    const menuPath = 'View>Show Left Sidebar>Table Of Contents';
+    const menuPath = 'View>Left Sidebar>Show Table of Contents';
     await page.contents.uploadFile(
       path.resolve(__dirname, `./notebooks/${notebook}`),
       `${tmpPath}/${notebook}`
@@ -111,23 +111,30 @@ test.describe('Notebook', () => {
 
     await waitForKernelReady(page);
 
-    await page.menu.open(menuPath);
+    await page.menu.clickMenuItem(menuPath);
+
+    const panel = page.locator('#jp-left-stack');
+    expect(await panel.isVisible());
 
     await expect(
-      page.locator(
+      panel.locator(
         '.jp-SidePanel-content > .jp-TableOfContents-tree > .jp-TableOfContents-content'
       )
     ).toHaveCount(1);
     await expect(
-      page.locator(
+      panel.locator(
         '.jp-SidePanel-content > .jp-TableOfContents-tree > .jp-TableOfContents-content > .jp-tocItem'
       )
     ).toHaveCount(3);
+
+    const imageName = `toc-left-panel.png`;
+
+    expect(await panel.screenshot()).toMatchSnapshot(imageName);
   });
 
   test('Open notebook tools right panel', async ({ page, tmpPath }) => {
     const notebook = 'simple.ipynb';
-    const menuPath = 'View>Show Right Sidebar>Table Of Contents';
+    const menuPath = 'View>Right Sidebar>Show Notebook Tools';
     await page.contents.uploadFile(
       path.resolve(__dirname, `./notebooks/${notebook}`),
       `${tmpPath}/${notebook}`
@@ -136,10 +143,16 @@ test.describe('Notebook', () => {
 
     await waitForKernelReady(page);
 
-    await page.menu.open(menuPath);
+    await page.menu.clickMenuItem(menuPath);
+
+    const panel = page.locator('#jp-right-stack');
+    expect(await panel.isVisible());
 
     await page.isVisible('#notebook-tools.jp-NotebookTools');
 
     await page.isVisible('#notebook-tools.jp-NotebookTools > #add-tag.tag');
+
+    const imageName = `notebooktools-right-panel.png`;
+    expect(await panel.screenshot()).toMatchSnapshot(imageName);
   });
 });
