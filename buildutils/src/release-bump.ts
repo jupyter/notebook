@@ -67,7 +67,7 @@ commander
     // just the Python version.
     if (prev.indexOf('a') !== -1 && spec === 'major') {
       // Bump the version.
-      utils.run(`hatch run ${spec}`);
+      utils.run(`hatch version ${spec}`);
 
       // Run the post-bump script.
       postbump(commit);
@@ -117,6 +117,8 @@ commander
         pySpec = 'rc';
       } else if (prev.indexOf('rc') !== -1) {
         pySpec = 'patch';
+      } else {
+        pySpec = 'alpha';
       }
     } else if (spec == 'build') {
       if (prev.indexOf('a') !== -1) {
