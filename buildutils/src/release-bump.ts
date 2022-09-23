@@ -109,7 +109,25 @@ commander
     }
 
     // Bump the version.
-    utils.run(`hatch version ${spec}`);
+    let pySpec = spec;
+    if (spec == 'release') {
+      if (prev.indexOf('a') !== -1) {
+        pySpec = 'beta';
+      } else if (prev.indexOf('b') !== -1) {
+        pySpec = 'rc';
+      } else if (prev.indexOf('rc') !== -1) {
+        pySpec = 'patch';
+      }
+    } else if (spec == 'build') {
+      if (prev.indexOf('a') !== -1) {
+        pySpec = 'a';
+      } else if (prev.indexOf('b') !== -1) {
+        pySpec = 'b';
+      } else if (prev.indexOf('rc') !== -1) {
+        pySpec = 'rc';
+      }
+    }
+    utils.run(`hatch version ${pySpec}`);
 
     // Run the post-bump script.
     postbump(commit);
