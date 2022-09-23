@@ -4,7 +4,7 @@ import { run } from '@jupyterlab/buildutils';
  * Get the current version of notebook
  */
 export function getPythonVersion(): string {
-  const cmd = 'hatchling version';
+  const cmd = 'hatch version';
   const lines = run(cmd, { stdio: 'pipe' }, true).split('\n');
   return lines[lines.length - 1];
 }

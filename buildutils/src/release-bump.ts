@@ -63,7 +63,6 @@ commander
 
     // Handle dry runs.
     if (opts.dryRun) {
-      utils.run(`bumpversion --dry-run --verbose ${spec}`);
       return;
     }
 
@@ -71,7 +70,7 @@ commander
     // just the Python version.
     if (prev.indexOf('a') !== -1 && spec === 'major') {
       // Bump the version.
-      utils.run(`bumpversion ${spec}`);
+      utils.run(`hatch run ${spec}`);
 
       // Run the post-bump script.
       postbump(commit);
@@ -113,7 +112,7 @@ commander
     }
 
     // Bump the version.
-    utils.run(`bumpversion ${spec} --allow-dirty`);
+    utils.run(`hatch version ${spec}`);
 
     // Run the post-bump script.
     postbump(commit);
