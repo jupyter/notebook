@@ -51,9 +51,6 @@ commander
     if (options.indexOf(spec) === -1) {
       throw new Error(`Version spec must be one of: ${options}`);
     }
-    if (isFinal && spec === 'release') {
-      throw new Error('Use "major" or "minor" to switch back to alpha release');
-    }
     if (isFinal && spec === 'build') {
       throw new Error('Cannot increment a build on a final release');
     }
