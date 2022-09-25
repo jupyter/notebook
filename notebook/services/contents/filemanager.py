@@ -576,7 +576,7 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
             return
 
         if (is_hidden(old_path, self.root_dir) or is_hidden(new_path, self.root_dir)) and not self.allow_hidden:
-            raise web.HTTPError(400, f'Cannot rename file or directory {os_path!r}')
+            raise web.HTTPError(400, f'Cannot rename file or directory {old_path!r}')
 
         # Perform path validation prior to converting to os-specific value since this
         # is still relative to root_dir.
