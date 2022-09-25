@@ -253,7 +253,7 @@ def to_os_path(path, root=''):
     parts = path.strip('/').split('/')
     parts = [p for p in parts if p != ''] # remove duplicate splits
     path = os.path.join(root, *parts)
-    return path
+    return os.path.normpath(path)
 
 def to_api_path(os_path, root=''):
     """Convert a filesystem path to an API path
