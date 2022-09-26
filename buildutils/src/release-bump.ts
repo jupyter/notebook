@@ -51,9 +51,6 @@ commander
     if (options.indexOf(spec) === -1) {
       throw new Error(`Version spec must be one of: ${options}`);
     }
-    if (isFinal && spec === 'release') {
-      throw new Error('Use "major" or "minor" to switch back to alpha release');
-    }
     if (isFinal && spec === 'build') {
       throw new Error('Cannot increment a build on a final release');
     }
@@ -63,7 +60,6 @@ commander
 
     // Handle dry runs.
     if (opts.dryRun) {
-      utils.run(`bumpversion --dry-run --verbose ${spec}`);
       return;
     }
 
@@ -71,7 +67,7 @@ commander
     // just the Python version.
     if (prev.indexOf('a') !== -1 && spec === 'major') {
       // Bump the version.
-      utils.run(`bumpversion ${spec}`);
+      utils.run(`hatch version ${spec}`);
 
       // Run the post-bump script.
       postbump(commit);
@@ -113,7 +109,27 @@ commander
     }
 
     // Bump the version.
-    utils.run(`bumpversion ${spec} --allow-dirty`);
+    let pySpec = spec;
+    if (spec == 'release') {
+      if (prev.indexOf('a') !== -1) {
+        pySpec = 'beta';
+      } else if (prev.indexOf('b') !== -1) {
+        pySpec = 'rc';
+      } else if (prev.indexOf('rc') !== -1) {
+        pySpec = 'patch';
+      } else {
+        pySpec = 'alpha';
+      }
+    } else if (spec == 'build') {
+      if (prev.indexOf('a') !== -1) {
+        pySpec = 'a';
+      } else if (prev.indexOf('b') !== -1) {
+        pySpec = 'b';
+      } else if (prev.indexOf('rc') !== -1) {
+        pySpec = 'rc';
+      }
+    }
+    utils.run(`hatch version ${pySpec}`);
 
     // Run the post-bump script.
     postbump(commit);

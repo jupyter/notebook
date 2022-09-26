@@ -70,7 +70,7 @@
       "before-build-python": [
         "jlpm clean"
       ],
-      "before-bump-version": "python -m pip install bump2version"
+      "before-bump-version": "python -m pip install hatch"
     },
     "options": {
       "version-cmd": [
