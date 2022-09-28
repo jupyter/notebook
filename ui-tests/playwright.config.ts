@@ -1,6 +1,6 @@
 import baseConfig from '@jupyterlab/galata/lib/playwright-config';
 
-module.exports = {
+export default {
   ...baseConfig,
   timeout: 240000,
   use: {
