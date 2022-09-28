@@ -9,7 +9,7 @@ runs:
     - name: Install dependencies
       shell: bash
       run: |
-        python -m pip install --upgrade jupyter_packaging~=0.10 "jupyterlab>=4.0.0a28,<5" build
+        python -m pip install --upgrade jupyter_packaging~=0.10 "jupyterlab>=4.0.0a29,<5" build
 
     - name: Build pypi distributions
       shell: bash
