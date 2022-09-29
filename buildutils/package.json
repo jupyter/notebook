@@ -38,6 +38,6 @@
   "devDependencies": {
     "@types/fs-extra": "^9.0.10",
     "@types/node": "^14.6.1",
-    "rimraf": "~3.0.0"
+    "rimraf": "^3.0.2"
   }
 }
