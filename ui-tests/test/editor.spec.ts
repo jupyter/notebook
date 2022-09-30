@@ -13,10 +13,9 @@ test.use({ autoGoto: false });
 
 const processRenameDialog = async (page, prevName: string, newName: string) => {
   // Rename in the input dialog
-  await page.fill(
-    `//div[normalize-space(.)='File Path${prevName}New Name']/input`,
-    newName
-  );
+  await page
+    .locator(`text=File Path${prevName}New Name >> input`)
+    .fill(newName);
 
   await Promise.all([
     await page.click('text="Rename"'),
@@ -44,7 +43,7 @@ test.describe('Editor', () => {
     await page.click(`text="${FILE}"`);
 
     const newName = 'test.yml';
-    await processRenameDialog(page, file, newName);
+    await processRenameDialog(page, FILE, newName);
 
     // Check the URL contains the new name
     const url = page.url();
@@ -61,7 +60,7 @@ test.describe('Editor', () => {
     // Rename in the input dialog
     const newName = 'test.yml';
 
-    await processRenameDialog(page, file, newName);
+    await processRenameDialog(page, FILE, newName);
 
     // Check the URL contains the new name
     const url = page.url();
