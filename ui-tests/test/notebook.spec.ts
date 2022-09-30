@@ -42,10 +42,9 @@ test.describe('Notebook', () => {
     // Rename in the input dialog
     const newName = 'test.ipynb';
     const newNameStripped = 'test';
-    await page.fill(
-      `//div[normalize-space(.)='File Path${notebook}New Name']/input`,
-      newName
-    );
+    await page
+      .locator(`text=File Path${NOTEBOOK}New Name >> input`)
+      .fill(newName);
 
     await Promise.all([
       await page.click('text="Rename"'),
