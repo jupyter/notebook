@@ -30,8 +30,6 @@ test.describe('Smoke', () => {
       page.click('text="Notebook"')
     ]);
 
-    await notebook.click('text="Select"');
-
     // Enter code in the first cell
     await notebook.locator(
       '.jp-Cell-inputArea >> .cm-editor >> .cm-content[contenteditable="true"]'
