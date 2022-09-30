@@ -2329,6 +2329,23 @@
     "@lumino/signaling" "^2.0.0-alpha.6"
     "@lumino/widgets" "^2.0.0-alpha.6"
 
+"@jupyterlab/lsp-extension@^4.0.0-alpha.14":
+  version "4.0.0-alpha.14"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/lsp-extension/-/lsp-extension-4.0.0-alpha.14.tgz#b471bfa1df87978767baff40fefb703e256c9de7"
+  integrity sha512-j3rDcmtDllO1X91LR1LaVnkxz8dKpM2RGdOEX8z6s3WaKirK0BTjuO0WR+95Ohp8UHVOMSO0lcz30HUNqgoAPg==
+  dependencies:
+    "@jupyterlab/application" "^4.0.0-alpha.14"
+    "@jupyterlab/lsp" "^4.0.0-alpha.14"
+    "@jupyterlab/running" "^4.0.0-alpha.14"
+    "@jupyterlab/settingregistry" "^4.0.0-alpha.14"
+    "@jupyterlab/translation" "^4.0.0-alpha.14"
+    "@jupyterlab/ui-components" "^4.0.0-alpha.29"
+    "@lumino/coreutils" "^2.0.0-alpha.6"
+    "@lumino/polling" "^2.0.0-alpha.6"
+    "@lumino/signaling" "^2.0.0-alpha.6"
+    "@rjsf/core" "^3.1.0"
+    react "^17.0.1"
+
 "@jupyterlab/lsp@^4.0.0-alpha.14":
   version "4.0.0-alpha.14"
   resolved "https://registry.yarnpkg.com/@jupyterlab/lsp/-/lsp-4.0.0-alpha.14.tgz#c6ac368cefade63efb04d0538c52e5b94c316a29"
