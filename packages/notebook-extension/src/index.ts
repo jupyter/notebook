@@ -18,7 +18,11 @@ import { Text, Time } from '@jupyterlab/coreutils';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
-import { NotebookPanel, INotebookTracker } from '@jupyterlab/notebook';
+import {
+  NotebookPanel,
+  INotebookTracker,
+  NotebookActions
+} from '@jupyterlab/notebook';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
@@ -280,25 +284,15 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
       cell.toggleClass(SCROLLED_OUTPUTS_CLASS, scroll);
     };
 
-    tracker.widgetAdded.connect((sender, notebook) => {
-      notebook.model?.cells.changed.connect((sender, changed) => {
-        // process new cells only
-        if (!(changed.type === 'add')) {
-          return;
-        }
-        const [cellModel] = changed.newValues;
-        notebook.content.widgets.forEach(cell => {
-          if (cell.model.id === cellModel.id && cell.model.type === 'code') {
-            const codeCell = cell as CodeCell;
-            codeCell.outputArea.model.changed.connect(() =>
-              autoScroll(codeCell)
-            );
-          }
-        });
-      });
+    NotebookActions.executed.connect((sender, change) => {
+      const { cell } = change;
+      if (cell.model.type === 'code') {
+        autoScroll(cell as CodeCell);
+      }
+    });
 
+    tracker.widgetAdded.connect((sender, notebook) => {
       // when the notebook widget is created, process all the cells
-      // TODO: investigate why notebook.content.fullyRendered is not enough
       notebook.sessionContext.ready.then(() => {
         notebook.content.widgets.forEach(cell => {
           if (cell.model.type === 'code') {
