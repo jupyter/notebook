@@ -172,3 +172,7 @@ body[data-format='mobile'] .jp-Notebook > *:first-child {
 body[data-notebook='notebooks'] .jp-WindowedPanel-window {
   width: unset;
 }
+
+body[data-notebook='notebooks'] .jp-WindowedPanel-inner {
+  width: unset;
+}
