@@ -31,19 +31,22 @@ test.describe('Smoke', () => {
     ]);
 
     // Enter code in the first cell
-    await notebook.fill('//textarea', 'import math');
-    await notebook.press('//textarea', 'Enter');
-    await notebook.press('//textarea', 'Enter');
-    await notebook.fill('//textarea', 'math.pi');
+    await notebook.locator(
+      '.jp-Cell-inputArea >> .cm-editor >> .cm-content[contenteditable="true"]'
+    ).type(`import math
+
+math.pi`);
 
     // Run the cell
     runAndAdvance(notebook);
 
     // Enter code in the next cell
-    await notebook.fill(
-      "//div[normalize-space(.)=' ​']/div[1]/textarea",
-      'import this'
-    );
+    await notebook
+      .locator(
+        '.jp-Cell-inputArea >> .cm-editor >> .cm-content[contenteditable="true"]'
+      )
+      .nth(1)
+      .type(`import this`);
 
     // Run the cell
     runAndAdvance(notebook);
@@ -63,7 +66,7 @@ test.describe('Smoke', () => {
     // Shut down the kernels
     await tree2.click('text="Running"');
     await tree2.click('text="Shut Down All"');
-    await tree2.click("//div[normalize-space(.)='Shut Down All']");
+    await tree2.press('.jp-Dialog', 'Enter');
 
     // Close the pages
     await tree2.close();
