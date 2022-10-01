@@ -15,7 +15,7 @@ body[data-notebook='notebooks'] .jp-NotebookPanel-toolbar {
 
 body[data-notebook='notebooks'] .jp-Notebook > * {
   background: var(--jp-layout-color0);
-  padding: var(--jp-notebook-padding);
+  padding-bottom: var(--jp-notebook-padding);
 }
 
 body[data-notebook='notebooks']
@@ -46,7 +46,9 @@ body[data-notebook='notebooks'] .jp-Notebook {
 }
 
 body[data-notebook='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
-  min-height: var(--jp-notebook-padding);
+  background: var(--jp-layout-color0);
+  min-height: var(--jp-notebook-toolbar-margin-bottom);
+  margin-top: var(--jp-cell-padding);
 }
 
 body[data-notebook='notebooks']
@@ -71,7 +73,12 @@ body[data-notebook='notebooks'] .jp-cell-toolbar {
 }
 
 @media only screen and (max-width: 760px) {
-  body[data-notebook='notebooks'] .jp-cell-toolbar {
+  body[data-notebook='notebooks'] .jp-CodeCell .jp-cell-toolbar {
+    top: 20px;
+  }
+
+  body[data-notebook='notebooks'] .jp-MarkdownCell .jp-cell-toolbar,
+  body[data-notebook='notebooks'] .jp-RawCell .jp-cell-toolbar {
     top: 5px;
   }
 }
@@ -169,10 +176,17 @@ body[data-format='mobile'] .jp-Notebook > *:first-child {
 }
 
 /* Virtual Notebook fixes */
+
+/* TODO: remove when https://github.com/jupyterlab/jupyterlab/pull/13154 is released */
 body[data-notebook='notebooks'] .jp-WindowedPanel-window {
   width: unset;
 }
 
+/* TODO: remove when https://github.com/jupyterlab/jupyterlab/pull/13157 is released */
 body[data-notebook='notebooks'] .jp-WindowedPanel-inner {
   width: unset;
+}
+
+body[data-notebook='notebooks'] .jp-Notebook-cell {
+  background: var(--jp-layout-color0);
 }
