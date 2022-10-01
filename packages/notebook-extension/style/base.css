@@ -187,4 +187,6 @@ body[data-notebook='notebooks'] .jp-WindowedPanel-inner {
 
 body[data-notebook='notebooks'] .jp-Notebook-cell {
   background: var(--jp-layout-color0);
+  padding-left: calc(2 * var(--jp-cell-padding));
+  padding-right: calc(2 * var(--jp-cell-padding));
 }
