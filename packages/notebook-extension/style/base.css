@@ -30,7 +30,7 @@ body[data-notebook='notebooks'] .jp-WindowedPanel-inner {
 }
 
 body[data-notebook='notebooks'] .jp-Notebook > *:first-child:not(:last-child) {
-  box-shadow: 0px 0px 12px 1px rgb(87 87 87 / 20%);
+  box-shadow: 0px 0px 12px 1px var(--jp-shadow-umbra-color);
 }
 
 body[data-notebook='notebooks'] .jp-Notebook {
@@ -47,8 +47,11 @@ body[data-notebook='notebooks'] .jp-Notebook {
 
 body[data-notebook='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
   background: var(--jp-layout-color0);
-  min-height: var(--jp-notebook-toolbar-margin-bottom);
-  margin-top: var(--jp-cell-padding);
+  min-height: 0;
+}
+
+body[data-notebook='notebooks'] .jp-WindowedPanel-window > *:last-child {
+  padding-bottom: 10px;
 }
 
 body[data-notebook='notebooks']
@@ -189,4 +192,36 @@ body[data-notebook='notebooks'] .jp-Notebook-cell {
   background: var(--jp-layout-color0);
   padding-left: calc(2 * var(--jp-cell-padding));
   padding-right: calc(2 * var(--jp-cell-padding));
+}
+
+/* Notebook box shadow */
+
+body[data-notebook='notebooks'] .jp-Notebook > *:first-child:not(:last-child) {
+  box-shadow: 0px 0px 12px 1px var(--jp-shadow-umbra-color);
+}
+
+body[data-notebook='notebooks']
+  .jp-Notebook
+  > *:first-child:last-child::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  box-shadow: 0px 0px 12px 1px var(--jp-shadow-umbra-color);
+  margin-bottom: -11px;
+}
+
+body[data-notebook='notebooks']
+  .jp-Notebook
+  .jp-Notebook-cell:not(:first-child)::after,
+body[data-notebook='notebooks']
+  .jp-Notebook
+  .jp-Notebook-cell:not(:first-child)::before {
+  content: ' ';
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 11px;
 }
