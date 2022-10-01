@@ -44,8 +44,7 @@ body[data-notebook='notebooks'] .jp-Notebook {
 }
 
 body[data-notebook='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
-  background: var(--jp-layout-color0);
-  min-height: 0;
+  min-height: 100px;
 }
 
 /* body[data-notebook='notebooks'] .jp-WindowedPanel-window > *:first-child { */
