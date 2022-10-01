@@ -15,7 +15,6 @@ body[data-notebook='notebooks'] .jp-NotebookPanel-toolbar {
 
 body[data-notebook='notebooks'] .jp-Notebook > * {
   background: var(--jp-layout-color0);
-  padding-bottom: var(--jp-notebook-padding);
 }
 
 body[data-notebook='notebooks']
@@ -24,7 +23,6 @@ body[data-notebook='notebooks']
   background: var(--jp-layout-color0) !important;
 }
 
-body[data-notebook='notebooks'] .jp-WindowedPanel-window,
 body[data-notebook='notebooks'] .jp-WindowedPanel-inner {
   margin-top: var(--jp-notebook-toolbar-margin-bottom);
 }
@@ -50,8 +48,14 @@ body[data-notebook='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
   min-height: 0;
 }
 
+/* body[data-notebook='notebooks'] .jp-WindowedPanel-window > *:first-child { */
+/* TODO: revisit when https://github.com/jupyterlab/jupyterlab/issues/13151 is fixed */
+.jp-Notebook-cell[data-windowed-list-index='0'] {
+  padding-top: calc(2 * var(--jp-notebook-padding));
+}
+
 body[data-notebook='notebooks'] .jp-WindowedPanel-window > *:last-child {
-  padding-bottom: 10px;
+  padding-bottom: calc(2 * var(--jp-notebook-padding));
 }
 
 body[data-notebook='notebooks']
@@ -210,7 +214,6 @@ body[data-notebook='notebooks']
   left: 0;
   right: 0;
   box-shadow: 0px 0px 12px 1px var(--jp-shadow-umbra-color);
-  margin-bottom: -11px;
 }
 
 body[data-notebook='notebooks']
