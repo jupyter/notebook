@@ -84,6 +84,15 @@ body[data-notebook='notebooks']
   top: calc(2 * var(--jp-notebook-padding));
 }
 
+/** first code cell on mobile
+    (keep the selector above the media query)
+*/
+body[data-notebook='notebooks']
+  .jp-CodeCell[data-windowed-list-index='0']
+  .jp-cell-toolbar {
+  top: unset;
+}
+
 @media only screen and (max-width: 760px) {
   /* first code cell on mobile */
   body[data-notebook='notebooks']
