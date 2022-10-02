@@ -12,17 +12,13 @@ import {
   IToolbarWidgetRegistry
 } from '@jupyterlab/apputils';
 
-import { CodeCell } from '@jupyterlab/cells';
+import { Cell, CodeCell } from '@jupyterlab/cells';
 
 import { Text, Time } from '@jupyterlab/coreutils';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
-import {
-  NotebookPanel,
-  INotebookTracker,
-  NotebookActions
-} from '@jupyterlab/notebook';
+import { NotebookPanel, INotebookTracker } from '@jupyterlab/notebook';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
@@ -284,21 +280,29 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
       cell.toggleClass(SCROLLED_OUTPUTS_CLASS, scroll);
     };
 
-    NotebookActions.executed.connect((sender, change) => {
-      const { cell } = change;
+    const handlers: { [id: string]: () => void } = {};
+
+    const setAutoScroll = (cell: Cell) => {
       if (cell.model.type === 'code') {
-        autoScroll(cell as CodeCell);
+        const codeCell = cell as CodeCell;
+        const id = codeCell.model.id;
+        autoScroll(codeCell);
+        if (handlers[id]) {
+          codeCell.outputArea.model.changed.disconnect(handlers[id]);
+        }
+        handlers[id] = () => autoScroll(codeCell);
+        codeCell.outputArea.model.changed.connect(handlers[id]);
       }
-    });
+    };
 
     tracker.widgetAdded.connect((sender, notebook) => {
       // when the notebook widget is created, process all the cells
       notebook.sessionContext.ready.then(() => {
-        notebook.content.widgets.forEach(cell => {
-          if (cell.model.type === 'code') {
-            autoScroll(cell as CodeCell);
-          }
-        });
+        notebook.content.widgets.forEach(setAutoScroll);
+      });
+
+      notebook.model?.cells.changed.connect((sender, args) => {
+        notebook.content.widgets.forEach(setAutoScroll);
       });
     });
 
