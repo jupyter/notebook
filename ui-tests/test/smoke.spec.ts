@@ -30,6 +30,13 @@ test.describe('Smoke', () => {
       page.click('text="Notebook"')
     ]);
 
+    try {
+      // we may have to select the kernel first
+      await notebook.click('text="Select"', { timeout: 2000 });
+    } catch (e) {
+      // The kernel is already selected
+    }
+
     // Enter code in the first cell
     await notebook.locator(
       '.jp-Cell-inputArea >> .cm-editor >> .cm-content[contenteditable="true"]'
