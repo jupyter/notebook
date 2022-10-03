@@ -43,20 +43,20 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/ui-components": "^4.0.0-alpha.25",
+    "@jupyterlab/ui-components": "^4.0.0-alpha.29",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
-    "@jupyterlab/testutils": "^4.0.0-alpha.10",
+    "@jupyterlab/testutils": "^4.0.0-alpha.14",
     "@types/jest": "^26.0.10",
     "babel-loader": "^8.0.6",
     "jest": "^26.4.2",
-    "rimraf": "~3.0.0",
+    "rimraf": "^3.0.2",
     "ts-jest": "^26.3.0",
-    "typescript": "~4.6.3"
+    "typescript": "~4.7.3"
   },
   "publishConfig": {
     "access": "public"

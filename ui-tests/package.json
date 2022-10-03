@@ -6,6 +6,7 @@
   "license": "BSD-3-Clause",
   "description": "Jupyter Notebook UI Tests",
   "scripts": {
+    "rimraf": "rimraf",
     "start": "jupyter notebook --config test/jupyter_server_config.py",
     "start:detached": "yarn run start&",
     "test": "playwright test",
@@ -14,10 +15,8 @@
     "test:update": "playwright test --update-snapshots"
   },
   "dependencies": {
-    "@jupyterlab/galata": "~5.0.0-alpha.9",
-    "@playwright/test": "~1.17.0"
-  },
-  "resolutions": {
-    "@playwright/test": "~1.17.0"
+    "@jupyterlab/galata": "~5.0.0-alpha.14",
+    "@playwright/test": "~1.26.0",
+    "rimraf": "^3.0.2"
   }
 }

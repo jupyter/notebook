@@ -12,7 +12,7 @@ import {
   IToolbarWidgetRegistry
 } from '@jupyterlab/apputils';
 
-import { CodeCell } from '@jupyterlab/cells';
+import { Cell, CodeCell } from '@jupyterlab/cells';
 
 import { Text, Time } from '@jupyterlab/coreutils';
 
@@ -280,31 +280,29 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
       cell.toggleClass(SCROLLED_OUTPUTS_CLASS, scroll);
     };
 
-    tracker.widgetAdded.connect((sender, notebook) => {
-      notebook.model?.cells.changed.connect((sender, changed) => {
-        // process new cells only
-        if (!(changed.type === 'add')) {
-          return;
+    const handlers: { [id: string]: () => void } = {};
+
+    const setAutoScroll = (cell: Cell) => {
+      if (cell.model.type === 'code') {
+        const codeCell = cell as CodeCell;
+        const id = codeCell.model.id;
+        autoScroll(codeCell);
+        if (handlers[id]) {
+          codeCell.outputArea.model.changed.disconnect(handlers[id]);
         }
-        const [cellModel] = changed.newValues;
-        notebook.content.widgets.forEach(cell => {
-          if (cell.model.id === cellModel.id && cell.model.type === 'code') {
-            const codeCell = cell as CodeCell;
-            codeCell.outputArea.model.changed.connect(() =>
-              autoScroll(codeCell)
-            );
-          }
-        });
+        handlers[id] = () => autoScroll(codeCell);
+        codeCell.outputArea.model.changed.connect(handlers[id]);
+      }
+    };
+
+    tracker.widgetAdded.connect((sender, notebook) => {
+      // when the notebook widget is created, process all the cells
+      notebook.sessionContext.ready.then(() => {
+        notebook.content.widgets.forEach(setAutoScroll);
       });
 
-      // when the notebook widget is created, process all the cells
-      // TODO: investigate why notebook.content.fullyRendered is not enough
-      notebook.sessionContext.ready.then(() => {
-        notebook.content.widgets.forEach(cell => {
-          if (cell.model.type === 'code') {
-            autoScroll(cell as CodeCell);
-          }
-        });
+      notebook.model?.cells.changed.connect((sender, args) => {
+        notebook.content.widgets.forEach(setAutoScroll);
       });
     });
 

@@ -5,8 +5,6 @@ import { NotebookShell, INotebookShell } from '@jupyter-notebook/application';
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 
-import { toArray } from '@lumino/algorithm';
-
 import { Widget } from '@lumino/widgets';
 
 describe('Shell', () => {
@@ -31,15 +29,15 @@ describe('Shell', () => {
     it('should add widgets to existing areas', () => {
       const widget = new Widget();
       shell.add(widget, 'main');
-      const widgets = toArray(shell.widgets('main'));
+      const widgets = Array.from(shell.widgets('main'));
       expect(widgets).toEqual([widget]);
     });
 
-    it('should throw an exception if the area does not exist', () => {
+    it('should be empty and console.error if area does not exist', () => {
+      const spy = jest.spyOn(console, 'error');
       const jupyterFrontEndShell = shell as JupyterFrontEnd.IShell;
-      expect(() => {
-        jupyterFrontEndShell.widgets('left');
-      }).toThrow('Invalid area: left');
+      expect(Array.from(jupyterFrontEndShell.widgets('left'))).toHaveLength(0);
+      expect(spy).toHaveBeenCalled();
     });
   });
 
@@ -62,7 +60,7 @@ describe('Shell', () => {
       const widget = new Widget();
       widget.id = 'foo';
       shell.add(widget, 'top');
-      const widgets = toArray(shell.widgets('top'));
+      const widgets = Array.from(shell.widgets('top'));
       expect(widgets.length).toBeGreaterThan(0);
     });
 
@@ -70,7 +68,7 @@ describe('Shell', () => {
       const widget = new Widget();
       widget.id = 'foo';
       shell.add(widget, 'top', { rank: 10 });
-      const widgets = toArray(shell.widgets('top'));
+      const widgets = Array.from(shell.widgets('top'));
       expect(widgets.length).toBeGreaterThan(0);
     });
   });
@@ -80,7 +78,7 @@ describe('Shell', () => {
       const widget = new Widget();
       widget.id = 'foo';
       shell.add(widget, 'main');
-      const widgets = toArray(shell.widgets('main'));
+      const widgets = Array.from(shell.widgets('main'));
       expect(widgets.length).toBeGreaterThan(0);
     });
   });

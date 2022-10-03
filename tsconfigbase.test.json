@@ -1,25 +1,18 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "noImplicitAny": true,
     "noEmitOnError": true,
+    "noImplicitAny": true,
     "noUnusedLocals": true,
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "es2015",
-    "outDir": "lib",
-    "lib": [
-      "es2015",
-      "es2015.collection",
-      "dom",
-      "es2015.iterable",
-      "es2017.object"
-    ],
+    "target": "ES2018",
+    "lib": ["DOM", "DOM.iterable"],
     "types": ["jest", "node"],
     "jsx": "react",
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "strictNullChecks": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "strictNullChecks": true
   }
 }

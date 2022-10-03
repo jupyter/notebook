@@ -8,7 +8,7 @@ import { Page } from '@playwright/test';
 export async function runAndAdvance(
   page: IJupyterLabPageFixture | Page
 ): Promise<void> {
-  await page.click(".jp-Toolbar-item [data-icon='ui-components:run']");
+  await page.keyboard.press('Shift+Enter');
 }
 
 /**

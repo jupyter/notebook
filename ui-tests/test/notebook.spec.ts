@@ -7,7 +7,7 @@ import { expect } from '@playwright/test';
 
 import { test } from './fixtures';
 
-import { runAndAdvance, waitForKernelReady } from './utils';
+import { runAndAdvance } from './utils';
 
 const NOTEBOOK = 'example.ipynb';
 
@@ -42,10 +42,9 @@ test.describe('Notebook', () => {
     // Rename in the input dialog
     const newName = 'test.ipynb';
     const newNameStripped = 'test';
-    await page.fill(
-      `//div[normalize-space(.)='File Path${notebook}New Name']/input`,
-      newName
-    );
+    await page
+      .locator(`text=File Path${NOTEBOOK}New Name >> input`)
+      .fill(newName);
 
     await Promise.all([
       await page.click('text="Rename"'),
@@ -71,12 +70,21 @@ test.describe('Notebook', () => {
     );
     await page.goto(`notebooks/${tmpPath}/${notebook}`);
 
-    await waitForKernelReady(page);
-    // run the two cells
-    await runAndAdvance(page);
-    await runAndAdvance(page);
+    // wait for the checkpoint indicator to be displayed before exexuting the cells
+    await page.waitForSelector('.jp-NotebookCheckpoint');
+    await page.click('.jp-Notebook');
 
-    await page.waitForSelector('.jp-Cell-outputArea pre');
+    // execute the first cell
+    await runAndAdvance(page);
+    await page
+      .locator('.jp-mod-outputsScrolled')
+      .nth(0)
+      .waitFor({ state: 'visible' });
+
+    // execute the second cell
+    await runAndAdvance(page);
+    // the second cell should not be auto scrolled
+    expect(page.locator('.jp-mod-outputsScrolled').nth(1)).toHaveCount(0);
 
     const checkCell = async (n: number): Promise<boolean> => {
       const scrolled = await page.$eval(`.jp-Notebook-cell >> nth=${n}`, el =>

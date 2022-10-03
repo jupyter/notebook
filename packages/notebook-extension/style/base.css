@@ -6,16 +6,53 @@
 
 @import './variables.css';
 
-/* Document oriented look for the notebook (scrollbar to the right of the page) */
+/**
+  Document oriented look for the notebook.
+  This includes changes to the look and feel of the JupyterLab Notebook
+  component like:
+  - scrollbar to the right of the page
+  - drop shadow on the notebook
+  - smaller empty space at the bottom of the notebook
+  - compact view on mobile
+*/
+
+/* Keep the notebook centered on the page */
 
 body[data-notebook='notebooks'] .jp-NotebookPanel-toolbar {
   padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
   padding-right: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
 }
 
+body[data-notebook='notebooks'] .jp-Notebook {
+  padding-top: unset;
+  padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
+  padding-right: calc(
+    calc(
+        100% - var(--jp-notebook-max-width) - var(--jp-notebook-padding-offset)
+      ) * 0.5
+  );
+  background: var(--jp-layout-color2);
+}
+
+body[data-notebook='notebooks'] .jp-WindowedPanel-inner {
+  margin-top: var(--jp-notebook-toolbar-margin-bottom);
+}
+
+body[data-notebook='notebooks'] .jp-Notebook-cell {
+  background: var(--jp-layout-color0);
+  padding-left: calc(2 * var(--jp-cell-padding));
+  padding-right: calc(2 * var(--jp-cell-padding));
+}
+
+/* Empty space at the bottom of the notebook (similar to classic) */
+body[data-notebook='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
+  min-height: 100px;
+}
+
+/* Fix background colors */
+
 body[data-notebook='notebooks'] .jp-Notebook > * {
   background: var(--jp-layout-color0);
-  padding: var(--jp-notebook-padding);
 }
 
 body[data-notebook='notebooks']
@@ -24,13 +61,98 @@ body[data-notebook='notebooks']
   background: var(--jp-layout-color0) !important;
 }
 
-body[data-notebook='notebooks'] .jp-Notebook > *:first-child {
-  padding-top: var(--jp-notebook-padding-offset);
-  margin-top: var(--jp-notebook-toolbar-margin-bottom);
+/**
+  Extra padding to the first and and last cell of the notebook.
+  TODO: revisit when https://github.com/jupyterlab/jupyterlab/issues/13151 is fixed
+*/
+.jp-Notebook-cell[data-windowed-list-index='0'] {
+  padding-top: calc(2 * var(--jp-notebook-padding));
+}
+
+body[data-notebook='notebooks'] .jp-WindowedPanel-window > *:last-child {
+  padding-bottom: calc(2 * var(--jp-notebook-padding));
+}
+
+body[data-notebook='notebooks']
+  .jp-Notebook
+  .jp-Notebook-cell:not(:first-child)::before {
+  content: ' ';
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 11px;
+}
+
+/* Cell toolbar adjustements */
+
+body[data-notebook='notebooks'] .jp-cell-toolbar {
+  background: unset;
+  box-shadow: unset;
+}
+
+body[data-notebook='notebooks']
+  .jp-RawCell[data-windowed-list-index='0']
+  .jp-cell-toolbar,
+body[data-notebook='notebooks']
+  .jp-MarkdownCell[data-windowed-list-index='0']
+  .jp-cell-toolbar {
+  top: calc(2 * var(--jp-notebook-padding));
+}
+
+/** first code cell on mobile
+    (keep the selector above the media query)
+*/
+body[data-notebook='notebooks']
+  .jp-CodeCell[data-windowed-list-index='0']
+  .jp-cell-toolbar {
+  top: unset;
+}
+
+@media only screen and (max-width: 760px) {
+  /* first code cell on mobile */
+  body[data-notebook='notebooks']
+    .jp-CodeCell[data-windowed-list-index='0']
+    .jp-cell-toolbar {
+    top: var(--jp-notebook-padding);
+  }
+
+  body[data-notebook='notebooks'] .jp-MarkdownCell .jp-cell-toolbar,
+  body[data-notebook='notebooks'] .jp-RawCell .jp-cell-toolbar {
+    top: calc(0.5 * var(--jp-notebook-padding));
+  }
+}
+
+/* Mobile View */
+
+body[data-format='mobile'] .jp-NotebookCheckpoint {
+  display: none;
+}
+
+body[data-format='mobile'] .jp-Notebook > *:first-child {
+  margin-top: 0;
+}
+
+/* Virtual Notebook fixes */
+
+body[data-notebook='notebooks'] .jp-WindowedPanel-window {
+  background: var(--jp-layout-color0);
+  /* TODO: remove when https://github.com/jupyterlab/jupyterlab/pull/13154 is released */
+  width: unset;
+}
+
+body[data-notebook='notebooks'] .jp-WindowedPanel-inner {
+  /* TODO: remove when https://github.com/jupyterlab/jupyterlab/pull/13157 is released */
+  width: unset;
+}
+
+/* Notebook box shadow */
+
+body[data-notebook='notebooks'] .jp-Notebook > *:first-child:not(:last-child) {
+  box-shadow: 0px 0px 12px 1px var(--jp-shadow-umbra-color);
 }
 
 body[data-notebook='notebooks'] .jp-Notebook > *:first-child:not(:last-child) {
-  box-shadow: 0px 0px 12px 1px rgb(87 87 87 / 20%);
+  box-shadow: 0px 0px 12px 1px var(--jp-shadow-umbra-color);
 }
 
 body[data-notebook='notebooks']
@@ -42,26 +164,7 @@ body[data-notebook='notebooks']
   bottom: 0;
   left: 0;
   right: 0;
-  box-shadow: 0px 0px 12px 1px rgb(87 87 87 / 20%);
-  margin-bottom: -11px;
-}
-
-body[data-notebook='notebooks'] .jp-Notebook {
-  padding-top: unset;
-  padding-bottom: unset;
-  padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
-  padding-right: calc(
-    calc(
-        100% - var(--jp-notebook-max-width) - var(--jp-notebook-padding-offset)
-      ) * 0.5
-  );
-  background: var(--jp-layout-color2);
-}
-
-body[data-notebook='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
-  background: var(--jp-layout-color0);
-  min-height: var(--jp-notebook-padding);
-  box-shadow: 0px 0px 12px 1px rgb(87 87 87 / 20%);
+  box-shadow: 0px 0px 12px 1px var(--jp-shadow-umbra-color);
 }
 
 body[data-notebook='notebooks']
@@ -77,35 +180,7 @@ body[data-notebook='notebooks']
   width: 11px;
 }
 
-body[data-notebook='notebooks']
-  .jp-Notebook
-  .jp-Notebook-cell:not(:first-child)::before {
-  box-shadow: -11px 0 11px -11px rgb(87 87 87 / 20%) inset;
-  left: -11px;
-}
-
-body[data-notebook='notebooks']
-  .jp-Notebook
-  .jp-Notebook-cell:not(:first-child)::after {
-  box-shadow: 12px 0 11px -11px rgb(87 87 87 / 20%) inset;
-  right: -11px;
-}
-
-/* Cell toolbar adjustements */
-
-body[data-notebook='notebooks'] .jp-cell-toolbar {
-  background: unset;
-  top: unset;
-  box-shadow: unset;
-}
-
-@media only screen and (max-width: 760px) {
-  body[data-notebook='notebooks'] .jp-cell-toolbar {
-    top: 5px;
-  }
-}
-
-/* ---- */
+/* Additional customizations of the components on the notebook page */
 
 .jp-NotebookKernelLogo {
   flex: 0 0 auto;
@@ -185,14 +260,4 @@ body[data-notebook='notebooks'] .jp-cell-toolbar {
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-}
-
-/* Mobile View */
-
-body[data-format='mobile'] .jp-NotebookCheckpoint {
-  display: none;
-}
-
-body[data-format='mobile'] .jp-Notebook > *:first-child {
-  margin-top: 0;
 }
