@@ -23,6 +23,9 @@ test.describe('General', () => {
       ".jp-Notebook-ExecutionIndicator[data-status='idle']"
     );
 
+    // wait for the checkpoint indicator to be displayed
+    await page.waitForSelector('.jp-NotebookCheckpoint');
+
     // force switching back to command mode to avoid capturing the cursor in the screenshot
     await page.evaluate(async () => {
       await window.jupyterapp.commands.execute('notebook:enter-command-mode');

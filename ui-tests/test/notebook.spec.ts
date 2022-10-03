@@ -7,7 +7,7 @@ import { expect } from '@playwright/test';
 
 import { test } from './fixtures';
 
-import { runAndAdvance, waitForKernelReady } from './utils';
+import { runAndAdvance } from './utils';
 
 const NOTEBOOK = 'example.ipynb';
 
@@ -69,8 +69,6 @@ test.describe('Notebook', () => {
       `${tmpPath}/${notebook}`
     );
     await page.goto(`notebooks/${tmpPath}/${notebook}`);
-
-    await waitForKernelReady(page);
 
     // execute the first cell
     await runAndAdvance(page);
