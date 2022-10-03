@@ -71,11 +71,18 @@ test.describe('Notebook', () => {
     await page.goto(`notebooks/${tmpPath}/${notebook}`);
 
     await waitForKernelReady(page);
-    // run the two cells
-    await runAndAdvance(page);
-    await runAndAdvance(page);
 
-    await page.waitForSelector('.jp-Cell-outputArea pre');
+    // execute the first cell
+    await runAndAdvance(page);
+    await page
+      .locator('.jp-mod-outputsScrolled')
+      .nth(0)
+      .waitFor({ state: 'visible' });
+
+    // execute the second cell
+    await runAndAdvance(page);
+    // the second cell should not be auto scrolled
+    expect(page.locator('.jp-mod-outputsScrolled').nth(1)).toHaveCount(0);
 
     const checkCell = async (n: number): Promise<boolean> => {
       const scrolled = await page.$eval(`.jp-Notebook-cell >> nth=${n}`, el =>
