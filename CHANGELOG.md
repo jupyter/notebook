@@ -14,6 +14,51 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a6
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a5...acbec17feca2ae8a0f56c5ec04ba2475a42619ee))
+
+### Enhancements made
+
+- Add token on tree widget [#6496](https://github.com/jupyter/notebook/pull/6496) ([@brichet](https://github.com/brichet))
+- Updates README to document maintained versions [#6480](https://github.com/jupyter/notebook/pull/6480) ([@jweill-aws](https://github.com/jweill-aws))
+- Change the tab renderer to allow adding closable tab [#6477](https://github.com/jupyter/notebook/pull/6477) ([@brichet](https://github.com/brichet))
+
+### Bugs fixed
+
+- Fix: No mouse pointer when hovering on the Jupyter icon [#6550](https://github.com/jupyter/notebook/pull/6550) ([@hawkeyes21](https://github.com/hawkeyes21))
+
+### Maintenance and upkeep improvements
+
+- Switch to hatch for python version [#6544](https://github.com/jupyter/notebook/pull/6544) ([@blink1073](https://github.com/blink1073))
+- Update to Lumino 2 and JupyterLab 4.0.0a29 [#6539](https://github.com/jupyter/notebook/pull/6539) ([@afshin](https://github.com/afshin))
+- Update lerna version [#6535](https://github.com/jupyter/notebook/pull/6535) ([@blink1073](https://github.com/blink1073))
+- Add task to auto activate the dev environment on Gitpod [#6527](https://github.com/jupyter/notebook/pull/6527) ([@jtpio](https://github.com/jtpio))
+- Troubleshoot failing `macos` check on CI [#6523](https://github.com/jupyter/notebook/pull/6523) ([@jtpio](https://github.com/jtpio))
+- Update reference snapshots [#6520](https://github.com/jupyter/notebook/pull/6520) ([@jtpio](https://github.com/jtpio))
+- Add Gitpod files [#6518](https://github.com/jupyter/notebook/pull/6518) ([@jtpio](https://github.com/jtpio))
+- Adding jupyterlab-probot yml file for labeling new issues [#6506](https://github.com/jupyter/notebook/pull/6506) ([@RRosio](https://github.com/RRosio))
+- Uninstall `nbclassic` on Binder so Notebook v7 can load [#6505](https://github.com/jupyter/notebook/pull/6505) ([@jtpio](https://github.com/jtpio))
+- Pin `ypy-websocket` to `0.2` [#6499](https://github.com/jupyter/notebook/pull/6499) ([@jtpio](https://github.com/jtpio))
+- Bump moment from 2.29.3 to 2.29.4 [#6483](https://github.com/jupyter/notebook/pull/6483) ([@dependabot](https://github.com/dependabot))
+- Bump moment from 2.29.2 to 2.29.4 in /ui-tests [#6482](https://github.com/jupyter/notebook/pull/6482) ([@dependabot](https://github.com/dependabot))
+- Bump terser from 5.13.1 to 5.14.2 [#6481](https://github.com/jupyter/notebook/pull/6481) ([@dependabot](https://github.com/dependabot))
+- Bump parse-url from 6.0.0 to 6.0.2 [#6465](https://github.com/jupyter/notebook/pull/6465) ([@dependabot](https://github.com/dependabot))
+- Fix tests [#6464](https://github.com/jupyter/notebook/pull/6464) ([@jtpio](https://github.com/jtpio))
+- Bump jpeg-js from 0.4.3 to 0.4.4 in /ui-tests [#6455](https://github.com/jupyter/notebook/pull/6455) ([@dependabot](https://github.com/dependabot))
+
+### Documentation improvements
+
+- Updates README to document maintained versions [#6480](https://github.com/jupyter/notebook/pull/6480) ([@jweill-aws](https://github.com/jweill-aws))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-06-14&to=2022-10-03&type=c))
+
+[@afshin](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafshin+updated%3A2022-06-14..2022-10-03&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-06-14..2022-10-03&type=Issues) | [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2022-06-14..2022-10-03&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2022-06-14..2022-10-03&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-06-14..2022-10-03&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-06-14..2022-10-03&type=Issues) | [@hawkeyes21](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahawkeyes21+updated%3A2022-06-14..2022-10-03&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-06-14..2022-10-03&type=Issues) | [@jweill-aws](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajweill-aws+updated%3A2022-06-14..2022-10-03&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-06-14..2022-10-03&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-06-14..2022-10-03&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0a5
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a4...614e4780b88f5cf5e2bfda39a55357a0be5ef161))
@@ -35,8 +80,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-05-20&to=2022-06-14&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-05-20..2022-06-14&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-05-20..2022-06-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-05-20..2022-06-14&type=Issues) | [@ofek](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aofek+updated%3A2022-05-20..2022-06-14&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-05-20..2022-06-14&type=Issues) | [@trungleduc](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atrungleduc+updated%3A2022-05-20..2022-06-14&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0a4
 
