@@ -138,7 +138,8 @@ const logo: JupyterFrontEndPlugin<void> = {
       elementPosition: 'center',
       padding: '2px 2px 2px 8px',
       height: '28px',
-      width: 'auto'
+      width: 'auto',
+      cursor: 'pointer'
     });
     logo.id = 'jp-NotebookLogo';
     app.shell.add(logo, 'top', { rank: 0 });
