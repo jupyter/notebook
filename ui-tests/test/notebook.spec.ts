@@ -70,6 +70,10 @@ test.describe('Notebook', () => {
     );
     await page.goto(`notebooks/${tmpPath}/${notebook}`);
 
+    // wait for the checkpoint indicator to be displayed before exexuting the cells
+    await page.waitForSelector('.jp-NotebookCheckpoint');
+    await page.click('.jp-Notebook');
+
     // execute the first cell
     await runAndAdvance(page);
     await page
