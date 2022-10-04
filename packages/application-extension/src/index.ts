@@ -113,13 +113,6 @@ namespace CommandIDs {
 }
 
 /**
- * Are the left and right panels available on the current page?
- */
-const sidePanelsEnabled: () => boolean = () => {
-  return PageConfig.getOption('notebookPage') === 'notebooks';
-};
-
-/**
  * Check if the application is dirty before closing the browser tab.
  */
 const dirty: JupyterFrontEndPlugin<void> = {
@@ -610,10 +603,6 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
     menu: IMainMenu | null,
     palette: ICommandPalette | null
   ) => {
-    if (!sidePanelsEnabled()) {
-      return;
-    }
-
     const trans = translator.load('notebook');
 
     const sideBarMenu: SideBarPanel.sideBarMenu = {
