@@ -3,7 +3,7 @@
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
-import { closeIcon, LabIcon, ReactWidget } from '@jupyterlab/ui-components';
+import { closeIcon } from '@jupyterlab/ui-components';
 
 import { ArrayExt, find } from '@lumino/algorithm';
 import { PromiseDelegate, Token } from '@lumino/coreutils';
@@ -19,7 +19,6 @@ import {
   StackedPanel,
   Widget
 } from '@lumino/widgets';
-import React from 'react';
 
 /**
  * The Jupyter Notebook application shell token.
@@ -420,22 +419,19 @@ export class SideBarHandler {
     this._widgetPanel = new StackedPanel();
     this._widgetPanel.widgetRemoved.connect(this._onWidgetRemoved, this);
 
-    const that = this;
-    const collapseIcon = React.createElement(
-      'div',
-      {
-        onClick: () => {
-          that.collapse();
-          that.hide();
-        }
-      },
-      LabIcon.resolveReact({
-        icon: closeIcon,
-        className: 'jp-SidePanel-collapse'
-      })
-    );
-
-    this._panel.addWidget(ReactWidget.create(collapseIcon));
+    const closeButton = document.createElement('button');
+    closeIcon.element({
+      container: closeButton,
+      height: '16px',
+      width: 'auto'
+    });
+    closeButton.onclick = () => {
+      this.collapse();
+      this.hide();
+    };
+    closeButton.className = 'jp-Button jp-SidePanel-collapse';
+    const icon = new Widget({ node: closeButton });
+    this._panel.addWidget(icon);
     this._panel.addWidget(this._widgetPanel);
   }
 

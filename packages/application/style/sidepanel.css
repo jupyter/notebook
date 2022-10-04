@@ -17,10 +17,6 @@
 | SideBar
 |----------------------------------------------------------------------------*/
 
-/* Left */
-
-/* Right */
-
 /* Stack panels */
 
 #jp-right-stack,
@@ -28,14 +24,6 @@
   display: flex;
   flex-direction: column;
   min-width: var(--jp-sidebar-min-width);
-}
-
-#jp-right-stack {
-  border-left: var(--jp-border-width) solid var(--jp-border-color1);
-}
-
-#jp-left-stack {
-  border-right: var(--jp-border-width) solid var(--jp-border-color1);
 }
 
 #jp-left-stack .jp-SidePanel-collapse,
@@ -46,6 +34,10 @@
 
 #jp-left-stack .jp-SidePanel-collapse {
   justify-content: right;
+}
+
+#jp-right-stack .jp-SidePanel-collapse {
+  justify-content: left;
 }
 
 #jp-left-stack .lm-StackedPanel,

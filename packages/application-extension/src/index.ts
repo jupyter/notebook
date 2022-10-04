@@ -28,8 +28,6 @@ import { DocumentWidget } from '@jupyterlab/docregistry';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
-import { INotebookTools } from '@jupyterlab/notebook';
-
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { ITranslator } from '@jupyterlab/translation';
@@ -603,15 +601,14 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
 const sidebarVisibility: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:sidebar',
   requires: [INotebookShell, ITranslator],
-  optional: [IMainMenu, ICommandPalette, INotebookTools],
+  optional: [IMainMenu, ICommandPalette],
   autoStart: true,
   activate: (
     app: JupyterFrontEnd<JupyterFrontEnd.IShell>,
     notebookShell: INotebookShell,
     translator: ITranslator,
     menu: IMainMenu | null,
-    palette: ICommandPalette | null,
-    notebookTools: INotebookTools | null
+    palette: ICommandPalette | null
   ) => {
     if (!sidePanelsEnabled()) {
       return;
@@ -619,7 +616,7 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
 
     const trans = translator.load('notebook');
 
-    var sideBarMenu: SideBarPanel.sideBarMenu = {
+    const sideBarMenu: SideBarPanel.sideBarMenu = {
       left: null,
       right: null
     };
