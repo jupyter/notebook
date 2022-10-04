@@ -145,10 +145,10 @@ describe('Shell for tree view', () => {
     });
 
     it('should throw an exception if a fake area does not exist', () => {
+      const spy = jest.spyOn(console, 'error');
       const jupyterFrontEndShell = shell as JupyterFrontEnd.IShell;
-      expect(() => {
-        jupyterFrontEndShell.widgets('fake');
-      }).toThrow('Invalid area: fake');
+      expect(Array.from(jupyterFrontEndShell.widgets('fake'))).toHaveLength(0);
+      expect(spy).toHaveBeenCalled();
     });
   });
 

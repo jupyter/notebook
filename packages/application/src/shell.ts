@@ -206,7 +206,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   activateById(id: string): void {
     // Search all areas that can have widgets for this widget, starting with main.
     for (const area of ['main', 'top', 'left', 'right', 'menu']) {
-      const widget = find(this.widgets(area), w => w.id === id);
+      const widget = find(this.widgets(area as Shell.Area), w => w.id === id);
       if (widget) {
         if (area === 'left') {
           this.expandLeft(id);
@@ -293,6 +293,15 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
       case 'main':
         yield* this._main.widgets;
         return;
+      case 'left':
+        yield* this._leftHandler.widgets;
+        return;
+      case 'right':
+        yield* this._rightHandler.widgets;
+        return;
+      default:
+        console.error(`This shell has no area called "${area}"`);
+        return;
     }
   }
 
@@ -332,24 +341,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     this._onLayoutModified();
   }
 
-  widgetsList(area?: string): readonly Widget[] {
-    switch (area ?? 'main') {
-      case 'top':
-        return this._topHandler.panel.widgets;
-      case 'menu':
-        return this._menuHandler.panel.widgets;
-      case 'main':
-        return this._main.widgets;
-      case 'left':
-        return this._leftHandler.widgets;
-      case 'right':
-        return this._rightHandler.widgets;
-      default:
-        console.error(`This shell has no area called "${area}"`);
-        return;
-    }
-  }
-
   /**
    * Is a particular area empty (no widgets)?
    *
@@ -357,7 +348,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    * @returns true if area has no widgets, false if at least one widget is present
    */
   isEmpty(area: Shell.Area): boolean {
-    return this.widgetsList(area).length === 0;
+    return Array.from(this.widgets(area)).length === 0;
   }
 
   /**

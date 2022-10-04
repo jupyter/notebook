@@ -1429,10 +1429,10 @@
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
 "@jupyter-notebook/application-extension@file:packages/application-extension":
-  version "7.0.0-alpha.5"
+  version "7.0.0-alpha.6"
   dependencies:
-    "@jupyter-notebook/application" "^7.0.0-alpha.5"
-    "@jupyter-notebook/ui-components" "^7.0.0-alpha.5"
+    "@jupyter-notebook/application" "^7.0.0-alpha.6"
+    "@jupyter-notebook/ui-components" "^7.0.0-alpha.6"
     "@jupyterlab/application" "^4.0.0-alpha.14"
     "@jupyterlab/apputils" "^4.0.0-alpha.14"
     "@jupyterlab/celltags" "^4.0.0-alpha.14"
@@ -1450,7 +1450,7 @@
     "@lumino/widgets" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/application@file:packages/application":
-  version "7.0.0-alpha.5"
+  version "7.0.0-alpha.6"
   dependencies:
     "@jupyterlab/application" "^4.0.0-alpha.14"
     "@jupyterlab/coreutils" "^6.0.0-alpha.14"
@@ -1465,7 +1465,7 @@
     "@lumino/widgets" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/console-extension@file:packages/console-extension":
-  version "7.0.0-alpha.5"
+  version "7.0.0-alpha.6"
   dependencies:
     "@jupyterlab/application" "^4.0.0-alpha.14"
     "@jupyterlab/console" "^4.0.0-alpha.14"
@@ -1473,7 +1473,7 @@
     "@lumino/algorithm" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/docmanager-extension@file:packages/docmanager-extension":
-  version "7.0.0-alpha.5"
+  version "7.0.0-alpha.6"
   dependencies:
     "@jupyterlab/application" "^4.0.0-alpha.14"
     "@jupyterlab/coreutils" "^6.0.0-alpha.14"
@@ -1483,26 +1483,26 @@
     "@lumino/algorithm" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/documentsearch-extension@file:packages/documentsearch-extension":
-  version "7.0.0-alpha.5"
+  version "7.0.0-alpha.6"
   dependencies:
-    "@jupyter-notebook/application" "^7.0.0-alpha.5"
+    "@jupyter-notebook/application" "^7.0.0-alpha.6"
     "@jupyterlab/application" "^4.0.0-alpha.14"
     "@jupyterlab/documentsearch" "^4.0.0-alpha.14"
     "@lumino/widgets" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/help-extension@file:packages/help-extension":
-  version "7.0.0-alpha.5"
+  version "7.0.0-alpha.6"
   dependencies:
-    "@jupyter-notebook/ui-components" "^7.0.0-alpha.5"
+    "@jupyter-notebook/ui-components" "^7.0.0-alpha.6"
     "@jupyterlab/application" "^4.0.0-alpha.14"
     "@jupyterlab/apputils" "^4.0.0-alpha.14"
     "@jupyterlab/mainmenu" "^4.0.0-alpha.14"
     "@jupyterlab/translation" "^4.0.0-alpha.14"
 
 "@jupyter-notebook/lab-extension@file:packages/lab-extension":
-  version "7.0.0-alpha.5"
+  version "7.0.0-alpha.6"
   dependencies:
-    "@jupyter-notebook/application" "^7.0.0-alpha.5"
+    "@jupyter-notebook/application" "^7.0.0-alpha.6"
     "@jupyterlab/application" "^4.0.0-alpha.14"
     "@jupyterlab/apputils" "^4.0.0-alpha.14"
     "@jupyterlab/coreutils" "^6.0.0-alpha.14"
@@ -1513,9 +1513,9 @@
     "@lumino/disposable" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/notebook-extension@file:packages/notebook-extension":
-  version "7.0.0-alpha.5"
+  version "7.0.0-alpha.6"
   dependencies:
-    "@jupyter-notebook/application" "^7.0.0-alpha.5"
+    "@jupyter-notebook/application" "^7.0.0-alpha.6"
     "@jupyterlab/application" "^4.0.0-alpha.14"
     "@jupyterlab/apputils" "^4.0.0-alpha.14"
     "@jupyterlab/cells" "^4.0.0-alpha.14"
@@ -1527,7 +1527,7 @@
     "@lumino/widgets" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/terminal-extension@file:packages/terminal-extension":
-  version "7.0.0-alpha.5"
+  version "7.0.0-alpha.6"
   dependencies:
     "@jupyterlab/application" "^4.0.0-alpha.14"
     "@jupyterlab/coreutils" "^6.0.0-alpha.14"
@@ -1535,10 +1535,10 @@
     "@lumino/algorithm" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/tree-extension@file:packages/tree-extension":
-  version "7.0.0-alpha.5"
+  version "7.0.0-alpha.6"
   dependencies:
-    "@jupyter-notebook/application" "^7.0.0-alpha.5"
-    "@jupyter-notebook/tree" "^7.0.0-alpha.5"
+    "@jupyter-notebook/application" "^7.0.0-alpha.6"
+    "@jupyter-notebook/tree" "^7.0.0-alpha.6"
     "@jupyterlab/application" "^4.0.0-alpha.14"
     "@jupyterlab/apputils" "^4.0.0-alpha.14"
     "@jupyterlab/coreutils" "^6.0.0-alpha.14"
@@ -1555,9 +1555,9 @@
     "@lumino/widgets" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/tree@file:packages/tree":
-  version "7.0.0-alpha.5"
+  version "7.0.0-alpha.6"
   dependencies:
-    "@jupyter-notebook/application" "^7.0.0-alpha.5"
+    "@jupyter-notebook/application" "^7.0.0-alpha.6"
     "@jupyterlab/application" "^4.0.0-alpha.14"
     "@jupyterlab/apputils" "^4.0.0-alpha.14"
     "@jupyterlab/coreutils" "^6.0.0-alpha.14"
@@ -1575,7 +1575,7 @@
     "@lumino/widgets" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/ui-components@file:packages/ui-components":
-  version "7.0.0-alpha.5"
+  version "7.0.0-alpha.6"
   dependencies:
     "@jupyterlab/ui-components" "^4.0.0-alpha.29"
     react "^17.0.1"
@@ -1812,6 +1812,16 @@
     "@lumino/virtualdom" "^2.0.0-alpha.6"
     "@lumino/widgets" "^2.0.0-alpha.6"
     react "^17.0.1"
+
+"@jupyterlab/celltags-extension@^4.0.0-alpha.14":
+  version "4.0.0-alpha.14"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/celltags-extension/-/celltags-extension-4.0.0-alpha.14.tgz#cad83537b31e31910f10099ae260a26aa66a65e8"
+  integrity sha512-S7o/l8n2K5eCnbXCFKsGaOlbl4PnQb10oeRo1PQDQSPAvpN2WgUzp83YYMXlLjngsDs41DGaSBj+7h6qfGCVmw==
+  dependencies:
+    "@jupyterlab/application" "^4.0.0-alpha.14"
+    "@jupyterlab/celltags" "^4.0.0-alpha.14"
+    "@jupyterlab/notebook" "^4.0.0-alpha.14"
+    "@jupyterlab/translation" "^4.0.0-alpha.14"
 
 "@jupyterlab/celltags@^4.0.0-alpha.14":
   version "4.0.0-alpha.14"
@@ -2794,6 +2804,17 @@
     "@jupyterlab/application" "^4.0.0-alpha.14"
     "@jupyterlab/apputils" "^4.0.0-alpha.14"
     "@jupyterlab/translation" "^4.0.0-alpha.14"
+
+"@jupyterlab/toc-extension@^6.0.0-alpha.14":
+  version "6.0.0-alpha.14"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/toc-extension/-/toc-extension-6.0.0-alpha.14.tgz#706e5c2f7abf72546592dea5f675c55dc257bcea"
+  integrity sha512-ilksYGjsXszgdhl9beZtFRmRJLm+ZN2lQ0WJDxsnRaNG+d6tRfiw8toAS111bbSmxyfRNBysdqNIbtNfbioFEg==
+  dependencies:
+    "@jupyterlab/application" "^4.0.0-alpha.14"
+    "@jupyterlab/settingregistry" "^4.0.0-alpha.14"
+    "@jupyterlab/toc" "^6.0.0-alpha.14"
+    "@jupyterlab/translation" "^4.0.0-alpha.14"
+    "@jupyterlab/ui-components" "^4.0.0-alpha.29"
 
 "@jupyterlab/toc@^6.0.0-alpha.14":
   version "6.0.0-alpha.14"

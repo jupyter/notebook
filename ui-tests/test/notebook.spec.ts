@@ -7,7 +7,7 @@ import { expect } from '@playwright/test';
 
 import { test } from './fixtures';
 
-import { runAndAdvance } from './utils';
+import { runAndAdvance, waitForKernelReady } from './utils';
 
 const NOTEBOOK = 'example.ipynb';
 
