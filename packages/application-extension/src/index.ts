@@ -734,6 +734,14 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
       }
     };
 
+    const getSidebarLabel = (area: SideBarPanel.Area) => {
+      if (area === 'left') {
+        return trans.__(`Left Sidebar`);
+      } else {
+        return trans.__(`Right Sidebar`);
+      }
+    };
+
     /**
      * Function called when a sidebar has a widget added or removed.
      *
@@ -748,7 +756,8 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
     ) => {
       // Update the menu entries.
       if (menu) {
-        updateMenu(sidebar.area, sidebar.menuEntryLabel);
+        const label = getSidebarLabel(sidebar.area);
+        updateMenu(sidebar.area, label);
       }
 
       // Update the palette entries.
@@ -764,14 +773,13 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
     app.restored.then(() => {
       // Create  menu entries for left and right panel.
       if (menu) {
-        updateMenu(
-          notebookShell.leftHandler.area,
-          notebookShell.leftHandler.menuEntryLabel
-        );
-        updateMenu(
-          notebookShell.rightHandler.area,
-          notebookShell.rightHandler.menuEntryLabel
-        );
+        const leftArea = notebookShell.leftHandler.area;
+        const leftLabel = getSidebarLabel(leftArea);
+        updateMenu(leftArea, leftLabel);
+
+        const rightArea = notebookShell.rightHandler.area;
+        const rightLabel = getSidebarLabel(rightArea);
+        updateMenu(rightArea, rightLabel);
       }
 
       // Add palette entries for side panels.

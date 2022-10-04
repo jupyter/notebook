@@ -71,8 +71,8 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     const leftHandler = this._leftHandler;
     const rightHandler = this._rightHandler;
 
-    this.leftPanel.id = 'jp-left-stack';
-    this.rightPanel.id = 'jp-right-stack';
+    leftHandler.panel.id = 'jp-left-stack';
+    rightHandler.panel.id = 'jp-right-stack';
 
     // Hide the side panels by default.
     leftHandler.hide();
@@ -165,31 +165,19 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   }
 
   /**
-   * Shortcut to get the left area handler's stacked panel
-   */
-  get leftPanel(): Panel {
-    return this._leftHandler.panel;
-  }
-
-  /**
-   * Shortcut to get the right area handler's stacked panel
-   */
-  get rightPanel(): Panel {
-    return this._rightHandler.panel;
-  }
-
-  /**
    * Is the left sidebar visible?
    */
   get leftCollapsed(): boolean {
-    return !(this._leftHandler.isVisible && this.leftPanel.isVisible);
+    return !(this._leftHandler.isVisible && this._leftHandler.panel.isVisible);
   }
 
   /**
    * Is the right sidebar visible?
    */
   get rightCollapsed(): boolean {
-    return !(this._rightHandler.isVisible && this.rightPanel.isVisible);
+    return !(
+      this._rightHandler.isVisible && this._rightHandler.panel.isVisible
+    );
   }
 
   /**
@@ -308,7 +296,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    * Expand the left panel to show the sidebar with its widget.
    */
   expandLeft(id?: string): void {
-    this.leftPanel.show();
+    this._leftHandler.panel.show();
     this._leftHandler.expand(id); // Show the current widget, if any
     this._onLayoutModified();
   }
@@ -318,7 +306,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    */
   collapseLeft(): void {
     this._leftHandler.collapse();
-    this.leftPanel.hide();
+    this._leftHandler.panel.hide();
     this._onLayoutModified();
   }
 
@@ -326,7 +314,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    * Expand the right panel to show the sidebar with its widget.
    */
   expandRight(id?: string): void {
-    this.rightPanel.show();
+    this._rightHandler.panel.show();
     this._rightHandler.expand(id); // Show the current widget, if any
     this._onLayoutModified();
   }
@@ -336,7 +324,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    */
   collapseRight(): void {
     this._rightHandler.collapse();
-    this.rightPanel.hide();
+    this._rightHandler.panel.hide();
     this._onLayoutModified();
   }
 
@@ -414,7 +402,6 @@ export class SideBarHandler {
 
     this._current = null;
     this._lastCurrent = null;
-    this._menuEntryLabel = `${area[0].toUpperCase()}${area.slice(1)} Sidebar`;
 
     this._widgetPanel = new StackedPanel();
     this._widgetPanel.widgetRemoved.connect(this._onWidgetRemoved, this);
@@ -448,13 +435,6 @@ export class SideBarHandler {
    */
   get area(): SideBarPanel.Area {
     return this._area;
-  }
-
-  /**
-   * Get the menu entry label of the side panel
-   */
-  get menuEntryLabel(): string {
-    return this._menuEntryLabel;
   }
 
   /**
@@ -636,7 +616,6 @@ export class SideBarHandler {
   private _current: Widget | null;
   private _lastCurrent: Widget | null;
   private _updated: Signal<SideBarHandler, void> = new Signal(this);
-  private _menuEntryLabel: string;
   private _widgetAdded: Signal<SideBarHandler, Widget> = new Signal(this);
   private _widgetRemoved: Signal<SideBarHandler, Widget> = new Signal(this);
 }

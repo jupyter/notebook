@@ -56,8 +56,7 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
   readonly status = new LabStatus(this);
 
   /**
-   * Promise that resolves when state is first restored, returning layout
-   * description.
+   * Promise that resolves when the state is first restored
    */
   readonly restored: Promise<void>;
 
