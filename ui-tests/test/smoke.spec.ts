@@ -72,7 +72,7 @@ math.pi`);
 
     // Shut down the kernels
     await tree2.click('text="Running"');
-    await tree2.click('text="Shut Down All"');
+    await tree2.click('#main-panel button :text("Shut Down All")');
     await tree2.press('.jp-Dialog', 'Enter');
 
     // Close the pages
