@@ -23,15 +23,11 @@
 
 /* Stack panels */
 
-#jp-left-stack > .lm-Widget,
-#jp-right-stack > .lm-Widget {
-  min-width: var(--jp-sidebar-min-width);
-}
-
 #jp-right-stack,
 #jp-left-stack {
   display: flex;
   flex-direction: column;
+  min-width: var(--jp-sidebar-min-width);
 }
 
 #jp-right-stack {
