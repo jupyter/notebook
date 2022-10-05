@@ -202,8 +202,10 @@ const opener: JupyterFrontEndPlugin<void> = {
           if (ext === '.ipynb') {
             // TODO: fix upstream?
             await settingRegistry?.load('@jupyterlab/notebook-extension:panel');
-            docManager.open(file, NOTEBOOK_FACTORY, undefined, {
-              ref: '_noref'
+            setTimeout(() => {
+              docManager.open(file, NOTEBOOK_FACTORY, undefined, {
+                ref: '_noref'
+              });
             });
           } else {
             docManager.open(file, EDITOR_FACTORY, undefined, {
