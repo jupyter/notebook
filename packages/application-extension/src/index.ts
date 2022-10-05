@@ -42,11 +42,13 @@ import {
 
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
 
-import { each } from '@lumino/algorithm';
-
 import { PromiseDelegate } from '@lumino/coreutils';
 
-import { DisposableDelegate, DisposableSet } from '@lumino/disposable';
+import {
+  DisposableDelegate,
+  DisposableSet,
+  IDisposable
+} from '@lumino/disposable';
 
 import { Menu, Widget } from '@lumino/widgets';
 
@@ -605,12 +607,12 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
   ) => {
     const trans = translator.load('notebook');
 
-    const sideBarMenu: SideBarPanel.sideBarMenu = {
+    const sideBarMenu: { [area in SideBarPanel.Area]: IDisposable | null } = {
       left: null,
       right: null
     };
 
-    var sideBarPalette: SideBarPalette | null = null;
+    let sideBarPalette: SideBarPalette | null = null;
 
     /* Arguments for togglePanel command:
      * side, left or right area
@@ -640,7 +642,9 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
           case 'left':
             if (notebookShell.leftCollapsed) {
               notebookShell.expandLeft(args.id as string);
-            } else if (notebookShell.leftHandler.current?.id !== args.id) {
+            } else if (
+              notebookShell.leftHandler.currentWidget?.id !== args.id
+            ) {
               notebookShell.expandLeft(args.id as string);
             } else {
               notebookShell.collapseLeft();
@@ -652,7 +656,9 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
           case 'right':
             if (notebookShell.rightCollapsed) {
               notebookShell.expandRight(args.id as string);
-            } else if (notebookShell.rightHandler.current?.id !== args.id) {
+            } else if (
+              notebookShell.rightHandler.currentWidget?.id !== args.id
+            ) {
               notebookShell.expandRight(args.id as string);
             } else {
               notebookShell.collapseRight();
@@ -664,31 +670,31 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
         }
       },
       isToggled: args => {
-        var currentWidget = null;
         switch (args['side'] as string) {
-          case 'left':
+          case 'left': {
             if (notebookShell.leftCollapsed) {
               return false;
             }
-            currentWidget = notebookShell.leftHandler.current;
+            const currentWidget = notebookShell.leftHandler.currentWidget;
             if (!currentWidget) {
               return false;
             }
 
             return currentWidget.id === (args['id'] as string);
-          case 'right':
+          }
+          case 'right': {
             if (notebookShell.rightCollapsed) {
               return false;
             }
-            currentWidget = notebookShell.rightHandler.current;
+            const currentWidget = notebookShell.rightHandler.currentWidget;
             if (!currentWidget) {
               return false;
             }
 
             return currentWidget.id === (args['id'] as string);
-          default:
-            return false;
+          }
         }
+        return false;
       }
     });
 
@@ -713,7 +719,7 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
       const widgets = notebookShell.widgets(area);
       let menuToAdd = false;
 
-      each(widgets, widget => {
+      for (let widget of widgets) {
         newMenu.addItem({
           command: CommandIDs.togglePanel,
           args: {
@@ -723,7 +729,7 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
           }
         });
         menuToAdd = true;
-      });
+      }
 
       // If there are widgets, add the menu to the main menu entry.
       if (menuToAdd) {
@@ -734,7 +740,13 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
       }
     };
 
-    const getSidebarLabel = (area: SideBarPanel.Area) => {
+    /**
+     * Get a label for a sidebar panel.
+     *
+     * @param area - 'left' or 'right', the area of the side bar.
+     * @returns the label for the sidebar menu entry.
+     */
+    const getSidebarLabel = (area: SideBarPanel.Area): string => {
       if (area === 'left') {
         return trans.__(`Left Sidebar`);
       } else {

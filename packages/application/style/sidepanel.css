@@ -30,6 +30,8 @@
 #jp-right-stack .jp-SidePanel-collapse {
   display: flex;
   flex: 0 0 auto;
+  min-height: 0;
+  padding: 0;
 }
 
 #jp-left-stack .jp-SidePanel-collapse {

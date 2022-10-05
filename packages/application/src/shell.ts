@@ -7,7 +7,6 @@ import { closeIcon } from '@jupyterlab/ui-components';
 
 import { ArrayExt, find } from '@lumino/algorithm';
 import { PromiseDelegate, Token } from '@lumino/coreutils';
-import { IDisposable } from '@lumino/disposable';
 import { Message, MessageLoop, IMessageHandler } from '@lumino/messaging';
 import { ISignal, Signal } from '@lumino/signaling';
 
@@ -176,7 +175,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   }
 
   /**
-   * Promise that resolves when main widget is loaded
+   * Promise that resolves when the main widget is loaded
    */
   get restored(): Promise<void> {
     return this._mainWidgetLoaded.promise;
@@ -214,7 +213,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    */
   add(
     widget: Widget,
-    area?: string,
+    area?: Shell.Area,
     options?: DocumentRegistry.IOpenOptions
   ): void {
     const rank = options?.rank ?? DEFAULT_RANK;
@@ -359,13 +358,6 @@ export namespace SideBarPanel {
    * The areas of the sidebar panel
    */
   export type Area = 'left' | 'right';
-
-  /**
-   * The sidebar menu type, one for each area
-   */
-  export type sideBarMenu = {
-    [area in Area]: IDisposable | null;
-  };
 }
 
 /**
@@ -380,8 +372,8 @@ export class SideBarHandler {
     this._panel = new Panel();
     this._panel.hide();
 
-    this._current = null;
-    this._lastCurrent = null;
+    this._currentWidget = null;
+    this._lastCurrentWidget = null;
 
     this._widgetPanel = new StackedPanel();
     this._widgetPanel.widgetRemoved.connect(this._onWidgetRemoved, this);
@@ -402,10 +394,13 @@ export class SideBarHandler {
     this._panel.addWidget(this._widgetPanel);
   }
 
-  get current(): Widget | null {
+  /**
+   * Get the current widget in the sidebar panel.
+   */
+  get currentWidget(): Widget | null {
     return (
-      this._current ||
-      this._lastCurrent ||
+      this._currentWidget ||
+      this._lastCurrentWidget ||
       (this._items.length > 0 ? this._items[0].widget : null)
     );
   }
@@ -460,15 +455,15 @@ export class SideBarHandler {
    * if there is no most recently used.
    */
   expand(id?: string): void {
-    if (this._current) {
+    if (this._currentWidget) {
       this.collapse();
     }
     if (id) {
       this.activate(id);
     } else {
-      const visibleWidget = this.current;
+      const visibleWidget = this.currentWidget;
       if (visibleWidget) {
-        this._current = visibleWidget;
+        this._currentWidget = visibleWidget;
         this.activate(visibleWidget.id);
       }
     }
@@ -482,7 +477,7 @@ export class SideBarHandler {
   activate(id: string): void {
     const widget = this._findWidgetByID(id);
     if (widget) {
-      this._current = widget;
+      this._currentWidget = widget;
       widget.show();
       widget.activate();
     }
@@ -499,8 +494,8 @@ export class SideBarHandler {
    * Collapse the sidebar so no items are expanded.
    */
   collapse(): void {
-    this._current?.hide();
-    this._current = null;
+    this._currentWidget?.hide();
+    this._currentWidget = null;
   }
 
   /**
@@ -570,8 +565,8 @@ export class SideBarHandler {
    * Handle the `widgetRemoved` signal from the panel.
    */
   private _onWidgetRemoved(sender: StackedPanel, widget: Widget): void {
-    if (widget === this._lastCurrent) {
-      this._lastCurrent = null;
+    if (widget === this._lastCurrentWidget) {
+      this._lastCurrentWidget = null;
     }
     ArrayExt.removeAt(this._items, this._findWidgetIndex(widget));
 
@@ -585,11 +580,12 @@ export class SideBarHandler {
   private _items = new Array<Private.IRankItem>();
   private _panel: Panel;
   private _widgetPanel: StackedPanel;
-  private _current: Widget | null;
-  private _lastCurrent: Widget | null;
+  private _currentWidget: Widget | null;
+  private _lastCurrentWidget: Widget | null;
   private _widgetAdded: Signal<SideBarHandler, Widget> = new Signal(this);
   private _widgetRemoved: Signal<SideBarHandler, Widget> = new Signal(this);
 }
+
 /**
  * A namespace for private module data.
  */
