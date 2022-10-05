@@ -197,15 +197,15 @@ const opener: JupyterFrontEndPlugin<void> = {
 
         const file = decodeURIComponent(path);
         const ext = PathExt.extname(file);
+
+        // TODO: fix upstream?
+        await settingRegistry?.load('@jupyterlab/notebook-extension:panel');
+
         await new Promise(async () => {
           // TODO: get factory from file type instead?
           if (ext === '.ipynb') {
-            // TODO: fix upstream?
-            await settingRegistry?.load('@jupyterlab/notebook-extension:panel');
-            setTimeout(() => {
-              docManager.open(file, NOTEBOOK_FACTORY, undefined, {
-                ref: '_noref'
-              });
+            docManager.open(file, NOTEBOOK_FACTORY, undefined, {
+              ref: '_noref'
             });
           } else {
             docManager.open(file, EDITOR_FACTORY, undefined, {
