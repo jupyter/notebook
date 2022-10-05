@@ -89,9 +89,10 @@ math.pi`);
     await page.goto(`tree/${tmpPath}`);
 
     // Open JupyterLab
-    await page.menu.clickMenuItem('View>Open JupyterLab');
-
-    const lab = await page.waitForEvent('popup');
+    const [lab] = await Promise.all([
+      page.waitForEvent('popup'),
+      page.menu.clickMenuItem('View>Open JupyterLab')
+    ]);
     await lab.waitForSelector('.jp-Launcher');
     await lab.close();
 
