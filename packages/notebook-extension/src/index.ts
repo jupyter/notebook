@@ -337,11 +337,12 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
 const notebookToolsWidget: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:notebook-tools',
   autoStart: true,
-  requires: [INotebookShell, INotebookTools],
+  requires: [INotebookShell],
+  optional: [INotebookTools],
   activate: (
     app: JupyterFrontEnd,
     shell: INotebookShell,
-    notebookTools: INotebookTools
+    notebookTools: INotebookTools | null
   ) => {
     const onChange = async () => {
       const current = shell.currentWidget;
