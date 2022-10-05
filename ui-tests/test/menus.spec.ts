@@ -32,10 +32,6 @@ test.describe('Notebook Menus', () => {
     );
   });
 
-  test.afterEach(async ({ page }) => {
-    await page.kernel.shutdownAll();
-  });
-
   MENU_PATHS.forEach(menuPath => {
     test(`Open menu item ${menuPath}`, async ({ page, tmpPath }) => {
       await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
