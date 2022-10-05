@@ -220,8 +220,6 @@ const opener: JupyterFrontEndPlugin<void> = {
 
 /**
  * A plugin to customize menus
- *
- * TODO: use this plugin to customize the menu items and their order
  */
 const menus: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:menus',
