@@ -351,7 +351,7 @@ export namespace Shell {
 }
 
 /**
- * A name space for SidebarPanel functions.
+ * A name space for SideBarPanel functions.
  */
 export namespace SideBarPanel {
   /**

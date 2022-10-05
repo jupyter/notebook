@@ -607,13 +607,6 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
   ) => {
     const trans = translator.load('notebook');
 
-    const sideBarMenu: { [area in SideBarPanel.Area]: IDisposable | null } = {
-      left: null,
-      right: null
-    };
-
-    let sideBarPalette: SideBarPalette | null = null;
-
     /* Arguments for togglePanel command:
      * side, left or right area
      * title, widget title to show in the menu
@@ -698,6 +691,11 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
       }
     });
 
+    const sideBarMenu: { [area in SideBarPanel.Area]: IDisposable | null } = {
+      left: null,
+      right: null
+    };
+
     /**
      * The function which adds entries to the View menu for each widget of a sidebar.
      *
@@ -740,58 +738,36 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
       }
     };
 
-    /**
-     * Get a label for a sidebar panel.
-     *
-     * @param area - 'left' or 'right', the area of the side bar.
-     * @returns the label for the sidebar menu entry.
-     */
-    const getSidebarLabel = (area: SideBarPanel.Area): string => {
-      if (area === 'left') {
-        return trans.__(`Left Sidebar`);
-      } else {
-        return trans.__(`Right Sidebar`);
-      }
-    };
-
-    /**
-     * Function called when a sidebar has a widget added or removed.
-     *
-     * @param sidebar - the sidebar updated.
-     * @param widget - the widget added or removed from the sidebar.
-     * @param action - 'add' or 'remove'.
-     */
-    const sidebarUpdated = (
-      sidebar: SideBarHandler,
-      widget: Widget,
-      action: 'add' | 'remove'
-    ) => {
-      // Update the menu entries.
-      if (menu) {
-        const label = getSidebarLabel(sidebar.area);
-        updateMenu(sidebar.area, label);
-      }
-
-      // Update the palette entries.
-      if (sideBarPalette) {
-        if (action === 'add') {
-          sideBarPalette.addItem(widget, sidebar.area);
-        } else {
-          sideBarPalette.removeItem(widget, sidebar.area);
-        }
-      }
-    };
-
     app.restored.then(() => {
-      // Create  menu entries for left and right panel.
+      // Create menu entries for the left and right panel.
       if (menu) {
+        const getSideBarLabel = (area: SideBarPanel.Area): string => {
+          if (area === 'left') {
+            return trans.__(`Left Sidebar`);
+          } else {
+            return trans.__(`Right Sidebar`);
+          }
+        };
         const leftArea = notebookShell.leftHandler.area;
-        const leftLabel = getSidebarLabel(leftArea);
+        const leftLabel = getSideBarLabel(leftArea);
         updateMenu(leftArea, leftLabel);
 
         const rightArea = notebookShell.rightHandler.area;
-        const rightLabel = getSidebarLabel(rightArea);
+        const rightLabel = getSideBarLabel(rightArea);
         updateMenu(rightArea, rightLabel);
+
+        const handleSideBarChange = (
+          sidebar: SideBarHandler,
+          widget: Widget
+        ) => {
+          const label = getSideBarLabel(sidebar.area);
+          updateMenu(sidebar.area, label);
+        };
+
+        notebookShell.leftHandler.widgetAdded.connect(handleSideBarChange);
+        notebookShell.leftHandler.widgetRemoved.connect(handleSideBarChange);
+        notebookShell.rightHandler.widgetAdded.connect(handleSideBarChange);
+        notebookShell.rightHandler.widgetRemoved.connect(handleSideBarChange);
       }
 
       // Add palette entries for side panels.
@@ -808,21 +784,21 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
         notebookShell.rightHandler.widgets.forEach(widget => {
           sideBarPalette.addItem(widget, notebookShell.rightHandler.area);
         });
-      }
 
-      // Update menu and palette when widgets are added or removed from sidebars.
-      notebookShell.leftHandler.widgetAdded.connect((sidebar, widget) => {
-        sidebarUpdated(sidebar, widget, 'add');
-      });
-      notebookShell.leftHandler.widgetRemoved.connect((sidebar, widget) => {
-        sidebarUpdated(sidebar, widget, 'remove');
-      });
-      notebookShell.rightHandler.widgetAdded.connect((sidebar, widget) => {
-        sidebarUpdated(sidebar, widget, 'add');
-      });
-      notebookShell.rightHandler.widgetRemoved.connect((sidebar, widget) => {
-        sidebarUpdated(sidebar, widget, 'remove');
-      });
+        // Update menu and palette when widgets are added or removed from sidebars.
+        notebookShell.leftHandler.widgetAdded.connect((sidebar, widget) => {
+          sideBarPalette.addItem(widget, sidebar.area);
+        });
+        notebookShell.leftHandler.widgetRemoved.connect((sidebar, widget) => {
+          sideBarPalette.removeItem(widget, sidebar.area);
+        });
+        notebookShell.rightHandler.widgetAdded.connect((sidebar, widget) => {
+          sideBarPalette.addItem(widget, sidebar.area);
+        });
+        notebookShell.rightHandler.widgetRemoved.connect((sidebar, widget) => {
+          sideBarPalette.removeItem(widget, sidebar.area);
+        });
+      }
     });
   }
 };
