@@ -9,7 +9,6 @@ import { ArrayExt, find } from '@lumino/algorithm';
 import { PromiseDelegate, Token } from '@lumino/coreutils';
 import { IDisposable } from '@lumino/disposable';
 import { Message, MessageLoop, IMessageHandler } from '@lumino/messaging';
-import { Debouncer } from '@lumino/polling';
 import { ISignal, Signal } from '@lumino/signaling';
 
 import {
@@ -77,10 +76,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     // Hide the side panels by default.
     leftHandler.hide();
     rightHandler.hide();
-
-    // Catch current changed events on the side handlers.
-    leftHandler.updated.connect(this._onLayoutModified, this);
-    rightHandler.updated.connect(this._onLayoutModified, this);
 
     const middleLayout = new BoxLayout({
       spacing: 0,
@@ -298,7 +293,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   expandLeft(id?: string): void {
     this._leftHandler.panel.show();
     this._leftHandler.expand(id); // Show the current widget, if any
-    this._onLayoutModified();
   }
 
   /**
@@ -307,7 +301,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   collapseLeft(): void {
     this._leftHandler.collapse();
     this._leftHandler.panel.hide();
-    this._onLayoutModified();
   }
 
   /**
@@ -316,7 +309,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   expandRight(id?: string): void {
     this._rightHandler.panel.show();
     this._rightHandler.expand(id); // Show the current widget, if any
-    this._onLayoutModified();
   }
 
   /**
@@ -325,7 +317,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   collapseRight(): void {
     this._rightHandler.collapse();
     this._rightHandler.panel.hide();
-    this._onLayoutModified();
   }
 
   /**
@@ -338,17 +329,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     return Array.from(this.widgets(area)).length === 0;
   }
 
-  /**
-   * Handle a change to the layout.
-   */
-  private _onLayoutModified(): void {
-    void this._layoutDebouncer.invoke();
-  }
-
-  private _layoutModified = new Signal<this, void>(this);
-  private _layoutDebouncer = new Debouncer(() => {
-    this._layoutModified.emit(undefined);
-  }, 0);
   private _topWrapper: Panel;
   private _topHandler: Private.PanelHandler;
   private _menuWrapper: Panel;
@@ -456,13 +436,6 @@ export class SideBarHandler {
    */
   get widgets(): Readonly<Widget[]> {
     return this._items.map(obj => obj.widget);
-  }
-
-  /**
-   * Signal fires when the stacked panel changes
-   */
-  get updated(): ISignal<SideBarHandler, void> {
-    return this._updated;
   }
 
   /**
@@ -591,7 +564,6 @@ export class SideBarHandler {
    */
   private _refreshVisibility(): void {
     this._panel.setHidden(this._isHiddenByUser);
-    this._updated.emit();
   }
 
   /*
@@ -615,7 +587,6 @@ export class SideBarHandler {
   private _widgetPanel: StackedPanel;
   private _current: Widget | null;
   private _lastCurrent: Widget | null;
-  private _updated: Signal<SideBarHandler, void> = new Signal(this);
   private _widgetAdded: Signal<SideBarHandler, Widget> = new Signal(this);
   private _widgetRemoved: Signal<SideBarHandler, Widget> = new Signal(this);
 }
