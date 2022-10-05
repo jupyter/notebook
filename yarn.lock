@@ -2051,6 +2051,61 @@
     path-browserify "^1.0.0"
     url-parse "~1.5.4"
 
+"@jupyterlab/debugger-extension@^4.0.0-alpha.14":
+  version "4.0.0-alpha.14"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/debugger-extension/-/debugger-extension-4.0.0-alpha.14.tgz#598b6046b40e10e3d811d11ae7b1b2c3611ce031"
+  integrity sha512-K5u32ACz4YNaz2inh+g4mYkUdJTuyAxQSquFvVAImp27oyGKn4GxYrtcHoUCoJlib/0DyDTOg2LOCup6iocMng==
+  dependencies:
+    "@jupyterlab/application" "^4.0.0-alpha.14"
+    "@jupyterlab/apputils" "^4.0.0-alpha.14"
+    "@jupyterlab/codeeditor" "^4.0.0-alpha.14"
+    "@jupyterlab/console" "^4.0.0-alpha.14"
+    "@jupyterlab/coreutils" "^6.0.0-alpha.14"
+    "@jupyterlab/debugger" "^4.0.0-alpha.14"
+    "@jupyterlab/docregistry" "^4.0.0-alpha.14"
+    "@jupyterlab/fileeditor" "^4.0.0-alpha.14"
+    "@jupyterlab/logconsole" "^4.0.0-alpha.14"
+    "@jupyterlab/notebook" "^4.0.0-alpha.14"
+    "@jupyterlab/rendermime" "^4.0.0-alpha.14"
+    "@jupyterlab/services" "^7.0.0-alpha.14"
+    "@jupyterlab/settingregistry" "^4.0.0-alpha.14"
+    "@jupyterlab/translation" "^4.0.0-alpha.14"
+
+"@jupyterlab/debugger@^4.0.0-alpha.14":
+  version "4.0.0-alpha.14"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/debugger/-/debugger-4.0.0-alpha.14.tgz#d9d0c48800b30ec9d083add8bde32cfac8a8c620"
+  integrity sha512-qtewnV9Dfkl2iV9KC911k1LU+Jv9vn7JABvaTM7vZyS8FqVuZ15zigk1HessvRGy657MD5SZoUtpBa4ETcerOQ==
+  dependencies:
+    "@codemirror/state" "^6.0.0"
+    "@codemirror/view" "^6.0.0"
+    "@jupyterlab/application" "^4.0.0-alpha.14"
+    "@jupyterlab/apputils" "^4.0.0-alpha.14"
+    "@jupyterlab/cells" "^4.0.0-alpha.14"
+    "@jupyterlab/codeeditor" "^4.0.0-alpha.14"
+    "@jupyterlab/codemirror" "^4.0.0-alpha.14"
+    "@jupyterlab/console" "^4.0.0-alpha.14"
+    "@jupyterlab/coreutils" "^6.0.0-alpha.14"
+    "@jupyterlab/docregistry" "^4.0.0-alpha.14"
+    "@jupyterlab/fileeditor" "^4.0.0-alpha.14"
+    "@jupyterlab/notebook" "^4.0.0-alpha.14"
+    "@jupyterlab/observables" "^5.0.0-alpha.14"
+    "@jupyterlab/rendermime" "^4.0.0-alpha.14"
+    "@jupyterlab/services" "^7.0.0-alpha.14"
+    "@jupyterlab/shared-models" "^4.0.0-alpha.14"
+    "@jupyterlab/translation" "^4.0.0-alpha.14"
+    "@jupyterlab/ui-components" "^4.0.0-alpha.29"
+    "@lumino/algorithm" "^2.0.0-alpha.6"
+    "@lumino/commands" "^2.0.0-alpha.6"
+    "@lumino/coreutils" "^2.0.0-alpha.6"
+    "@lumino/datagrid" "^1.0.0-alpha.6"
+    "@lumino/disposable" "^2.0.0-alpha.6"
+    "@lumino/messaging" "^2.0.0-alpha.6"
+    "@lumino/polling" "^2.0.0-alpha.6"
+    "@lumino/signaling" "^2.0.0-alpha.6"
+    "@lumino/widgets" "^2.0.0-alpha.6"
+    "@vscode/debugprotocol" "^1.51.0"
+    react "^17.0.1"
+
 "@jupyterlab/docmanager-extension@^4.0.0-alpha.14":
   version "4.0.0-alpha.14"
   resolved "https://registry.yarnpkg.com/@jupyterlab/docmanager-extension/-/docmanager-extension-4.0.0-alpha.14.tgz#dd31c98e924c12d44ced652410e09451bded155b"
@@ -3756,6 +3811,21 @@
   resolved "https://registry.yarnpkg.com/@lumino/coreutils/-/coreutils-2.0.0-alpha.6.tgz#77279303fc72932e3131a085dcaa34e808a09739"
   integrity sha512-W0qqJZoPRHscHL5k/DHSOea7LugPVx7DmART925bdrD8PU1Rw4K0mUzKb/Zsin4m1O5IMBoPuGEdEG5Jhq3KyA==
 
+"@lumino/datagrid@^1.0.0-alpha.6":
+  version "1.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/@lumino/datagrid/-/datagrid-1.0.0-alpha.6.tgz#90364797ab0cc7cdb60b72b6448462d56e07219c"
+  integrity sha512-dwQvaEzka8DBbaHHi/HHtzI4sW+U0iX/RgBFfOlFQWtprZfV+Rjeaw2TWPmXPiR/ugy8zGBYhwxPigfR4zO2Kg==
+  dependencies:
+    "@lumino/algorithm" "^2.0.0-alpha.6"
+    "@lumino/coreutils" "^2.0.0-alpha.6"
+    "@lumino/disposable" "^2.0.0-alpha.6"
+    "@lumino/domutils" "^2.0.0-alpha.6"
+    "@lumino/dragdrop" "^2.0.0-alpha.6"
+    "@lumino/keyboard" "^2.0.0-alpha.6"
+    "@lumino/messaging" "^2.0.0-alpha.6"
+    "@lumino/signaling" "^2.0.0-alpha.6"
+    "@lumino/widgets" "^2.0.0-alpha.6"
+
 "@lumino/disposable@^2.0.0-alpha.6":
   version "2.0.0-alpha.6"
   resolved "https://registry.yarnpkg.com/@lumino/disposable/-/disposable-2.0.0-alpha.6.tgz#ccb899b7b4ad6db359c351fe2b2ba989977b06a7"
@@ -4579,6 +4649,11 @@
   version "6.0.0-6-next.48"
   resolved "https://registry.yarnpkg.com/@verdaccio/ui-theme/-/ui-theme-6.0.0-6-next.48.tgz#23bbc8037bf9e1b27600f5160a0ff716982db48b"
   integrity sha512-1jls+cpfEXqXc1ZzqLGGNs6YCyG6B6QwDCezEkSvgKm+9A49FnSJ2n2dNIGcQYOszwHmd8EvwN98OEIx3Bbtrw==
+
+"@vscode/debugprotocol@^1.51.0":
+  version "1.57.0"
+  resolved "https://registry.yarnpkg.com/@vscode/debugprotocol/-/debugprotocol-1.57.0.tgz#f055c0422b1f77358a12b1415623099ba0541647"
+  integrity sha512-eww0WhAtj3lPX7+7tGkxQ3P7IRC3hS7+SVL7fmM8CAat2DMM+PVjg1FQbTCtMw6EwNSmT/qMx1iZCyzQguJJKA==
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"

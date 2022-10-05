@@ -178,6 +178,16 @@ async function main() {
       baseMods = baseMods.concat([
         require('@jupyterlab/celltags-extension'),
         require('@jupyterlab/cell-toolbar-extension'),
+        require('@jupyterlab/debugger-extension').default.filter(({ id }) =>
+          [
+            '@jupyterlab/debugger-extension:config',
+            '@jupyterlab/debugger-extension:main',
+            '@jupyterlab/debugger-extension:notebooks',
+            '@jupyterlab/debugger-extension:service',
+            '@jupyterlab/debugger-extension:sidebar',
+            '@jupyterlab/debugger-extension:sources'
+          ].includes(id)
+        ),
         require('@jupyterlab/notebook-extension').default.filter(({ id }) =>
           [
             '@jupyterlab/notebook-extension:completer',
