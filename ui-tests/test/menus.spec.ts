@@ -25,7 +25,7 @@ const MENU_PATHS = [
 test.use({ autoGoto: false });
 
 test.describe('Notebook Menus', () => {
-  test.beforeEach(async ({ page, tmpPath }) => {
+  test.beforeAll(async ({ page, tmpPath }) => {
     await page.contents.uploadFile(
       path.resolve(__dirname, `./notebooks/${NOTEBOOK}`),
       `${tmpPath}/${NOTEBOOK}`
@@ -40,7 +40,8 @@ test.describe('Notebook Menus', () => {
 
       const imageName = `opened-menu-${menuPath.replace(/>/g, '-')}.png`;
       const menu = await page.menu.getOpenMenu();
-      expect(await menu.screenshot()).toMatchSnapshot(imageName.toLowerCase());
+      expect(menu).toBeDefined();
+      expect(await menu!.screenshot()).toMatchSnapshot(imageName.toLowerCase());
     });
   });
 });
