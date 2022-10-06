@@ -72,7 +72,7 @@ math.pi`);
 
     // Shut down the kernels
     await tree2.click('text="Running"');
-    await tree2.click('text="Shut Down All"');
+    await tree2.click('#main-panel button :text("Shut Down All")');
     await tree2.press('.jp-Dialog', 'Enter');
 
     // Close the pages
@@ -89,9 +89,10 @@ math.pi`);
     await page.goto(`tree/${tmpPath}`);
 
     // Open JupyterLab
-    await page.menu.clickMenuItem('View>Open JupyterLab');
-
-    const lab = await page.waitForEvent('popup');
+    const [lab] = await Promise.all([
+      page.waitForEvent('popup'),
+      page.menu.clickMenuItem('View>Open JupyterLab')
+    ]);
     await lab.waitForSelector('.jp-Launcher');
     await lab.close();
 

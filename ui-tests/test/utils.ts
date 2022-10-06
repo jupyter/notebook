@@ -32,4 +32,5 @@ export async function waitForKernelReady(
     }, true);
     return finished;
   });
+  await page.waitForSelector('.jp-DebuggerBugButton[aria-disabled="false"]');
 }

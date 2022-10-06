@@ -34,6 +34,9 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
         this.registerPlugin(plugin);
       }
     }
+
+    this.restored = this.shell.restored;
+
     this.restored.then(() => this._formatter.invoke());
   }
 
@@ -51,6 +54,11 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
    * The application busy and dirty status signals and flags.
    */
   readonly status = new LabStatus(this);
+
+  /**
+   * Promise that resolves when the state is first restored
+   */
+  readonly restored: Promise<void>;
 
   /**
    * The version of the application.

@@ -83,6 +83,7 @@ async function main() {
     require('@jupyterlab/apputils-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/apputils-extension:palette',
+        '@jupyter/apputils-extension:sanitizer',
         '@jupyterlab/apputils-extension:settings',
         '@jupyterlab/apputils-extension:state',
         '@jupyterlab/apputils-extension:themes',
@@ -175,11 +176,30 @@ async function main() {
     }
     case 'notebooks': {
       baseMods = baseMods.concat([
+        require('@jupyterlab/celltags-extension'),
         require('@jupyterlab/cell-toolbar-extension'),
+        require('@jupyterlab/debugger-extension').default.filter(({ id }) =>
+          [
+            '@jupyterlab/debugger-extension:config',
+            '@jupyterlab/debugger-extension:main',
+            '@jupyterlab/debugger-extension:notebooks',
+            '@jupyterlab/debugger-extension:service',
+            '@jupyterlab/debugger-extension:sidebar',
+            '@jupyterlab/debugger-extension:sources'
+          ].includes(id)
+        ),
         require('@jupyterlab/notebook-extension').default.filter(({ id }) =>
           [
             '@jupyterlab/notebook-extension:completer',
-            '@jupyterlab/notebook-extension:search'
+            '@jupyterlab/notebook-extension:search',
+            '@jupyterlab/notebook-extension:toc',
+            '@jupyterlab/notebook-extension:tools'
+          ].includes(id)
+        ),
+        require('@jupyterlab/toc-extension').default.filter(({ id }) =>
+          [
+            '@jupyterlab/toc-extension:registry',
+            '@jupyterlab/toc-extension:tracker'
           ].includes(id)
         ),
         require('@jupyterlab/tooltip-extension').default.filter(({ id }) =>

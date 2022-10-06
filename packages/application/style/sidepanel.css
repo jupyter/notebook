@@ -1,0 +1,48 @@
+/*-----------------------------------------------------------------------------
+| Copyright (c) Jupyter Development Team.
+| Distributed under the terms of the Modified BSD License.
+|
+| Adapted from JupyterLab's packages/application/style/sidepanel.css.
+|----------------------------------------------------------------------------*/
+
+/*-----------------------------------------------------------------------------
+| Variables
+|----------------------------------------------------------------------------*/
+
+:root {
+  --jp-private-sidebar-tab-width: 32px;
+}
+
+/*-----------------------------------------------------------------------------
+| SideBar
+|----------------------------------------------------------------------------*/
+
+/* Stack panels */
+
+#jp-right-stack,
+#jp-left-stack {
+  display: flex;
+  flex-direction: column;
+  min-width: var(--jp-sidebar-min-width);
+}
+
+#jp-left-stack .jp-SidePanel-collapse,
+#jp-right-stack .jp-SidePanel-collapse {
+  display: flex;
+  flex: 0 0 auto;
+  min-height: 0;
+  padding: 0;
+}
+
+#jp-left-stack .jp-SidePanel-collapse {
+  justify-content: right;
+}
+
+#jp-right-stack .jp-SidePanel-collapse {
+  justify-content: left;
+}
+
+#jp-left-stack .lm-StackedPanel,
+#jp-right-stack .lm-StackedPanel {
+  flex: 1 1 auto;
+}

@@ -35,16 +35,24 @@ import { ITranslator } from '@jupyterlab/translation';
 import {
   NotebookApp,
   NotebookShell,
-  INotebookShell
+  INotebookShell,
+  SideBarPanel,
+  SideBarHandler
 } from '@jupyter-notebook/application';
 
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
 
 import { PromiseDelegate } from '@lumino/coreutils';
 
-import { DisposableDelegate, DisposableSet } from '@lumino/disposable';
+import {
+  DisposableDelegate,
+  DisposableSet,
+  IDisposable
+} from '@lumino/disposable';
 
-import { Widget } from '@lumino/widgets';
+import { Menu, Widget } from '@lumino/widgets';
+
+import { SideBarPalette } from './sidebarpalette';
 
 /**
  * A regular expression to match path to notebooks and documents
@@ -64,6 +72,11 @@ namespace CommandIDs {
    * Toggle Top Bar visibility
    */
   export const toggleTop = 'application:toggle-top';
+
+  /**
+   * Toggle sidebar visibility
+   */
+  export const togglePanel = 'application:toggle-panel';
 
   /**
    * Toggle the Zen mode
@@ -173,7 +186,7 @@ const opener: JupyterFrontEndPlugin<void> = {
         const file = decodeURIComponent(path);
         const urlParams = new URLSearchParams(parsed.search);
         const factory = urlParams.get('factory') ?? 'default';
-        app.restored.then(async () => {
+        app.started.then(async () => {
           docManager.open(file, factory, undefined, {
             ref: '_noref'
           });
@@ -187,8 +200,6 @@ const opener: JupyterFrontEndPlugin<void> = {
 
 /**
  * A plugin to customize menus
- *
- * TODO: use this plugin to customize the menu items and their order
  */
 const menus: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:menus',
@@ -558,6 +569,219 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * Plugin to toggle the left or right sidebar's visibility.
+ */
+const sidebarVisibility: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/application-extension:sidebar',
+  requires: [INotebookShell, ITranslator],
+  optional: [IMainMenu, ICommandPalette],
+  autoStart: true,
+  activate: (
+    app: JupyterFrontEnd<JupyterFrontEnd.IShell>,
+    notebookShell: INotebookShell,
+    translator: ITranslator,
+    menu: IMainMenu | null,
+    palette: ICommandPalette | null
+  ) => {
+    const trans = translator.load('notebook');
+
+    /* Arguments for togglePanel command:
+     * side, left or right area
+     * title, widget title to show in the menu
+     * id, widget ID to activate in the sidebar
+     */
+    app.commands.addCommand(CommandIDs.togglePanel, {
+      label: args => args['title'] as string,
+      caption: args => {
+        // We do not substitute the parameter into the string because the parameter is not
+        // localized (e.g., it is always 'left') even though the string is localized.
+        if (args['side'] === 'left') {
+          return trans.__(
+            'Show %1 in the left sidebar',
+            args['title'] as string
+          );
+        } else if (args['side'] === 'right') {
+          return trans.__(
+            'Show %1 in the right sidebar',
+            args['title'] as string
+          );
+        }
+        return trans.__('Show %1 in the sidebar', args['title'] as string);
+      },
+      execute: args => {
+        switch (args['side'] as string) {
+          case 'left':
+            if (notebookShell.leftCollapsed) {
+              notebookShell.expandLeft(args.id as string);
+            } else if (
+              notebookShell.leftHandler.currentWidget?.id !== args.id
+            ) {
+              notebookShell.expandLeft(args.id as string);
+            } else {
+              notebookShell.collapseLeft();
+              if (notebookShell.currentWidget) {
+                notebookShell.activateById(notebookShell.currentWidget.id);
+              }
+            }
+            break;
+          case 'right':
+            if (notebookShell.rightCollapsed) {
+              notebookShell.expandRight(args.id as string);
+            } else if (
+              notebookShell.rightHandler.currentWidget?.id !== args.id
+            ) {
+              notebookShell.expandRight(args.id as string);
+            } else {
+              notebookShell.collapseRight();
+              if (notebookShell.currentWidget) {
+                notebookShell.activateById(notebookShell.currentWidget.id);
+              }
+            }
+            break;
+        }
+      },
+      isToggled: args => {
+        switch (args['side'] as string) {
+          case 'left': {
+            if (notebookShell.leftCollapsed) {
+              return false;
+            }
+            const currentWidget = notebookShell.leftHandler.currentWidget;
+            if (!currentWidget) {
+              return false;
+            }
+
+            return currentWidget.id === (args['id'] as string);
+          }
+          case 'right': {
+            if (notebookShell.rightCollapsed) {
+              return false;
+            }
+            const currentWidget = notebookShell.rightHandler.currentWidget;
+            if (!currentWidget) {
+              return false;
+            }
+
+            return currentWidget.id === (args['id'] as string);
+          }
+        }
+        return false;
+      }
+    });
+
+    const sideBarMenu: { [area in SideBarPanel.Area]: IDisposable | null } = {
+      left: null,
+      right: null
+    };
+
+    /**
+     * The function which adds entries to the View menu for each widget of a sidebar.
+     *
+     * @param area - 'left' or 'right', the area of the side bar.
+     * @param entryLabel - the name of the main entry in the View menu for that sidebar.
+     * @returns - The disposable menu added to the View menu or null.
+     */
+    const updateMenu = (area: SideBarPanel.Area, entryLabel: string) => {
+      if (menu === null) {
+        return null;
+      }
+
+      // Remove the previous menu entry for this sidebar.
+      sideBarMenu[area]?.dispose();
+
+      // Creates a new menu entry and populates it with sidebar widgets.
+      const newMenu = new Menu({ commands: app.commands });
+      newMenu.title.label = entryLabel;
+      const widgets = notebookShell.widgets(area);
+      let menuToAdd = false;
+
+      for (let widget of widgets) {
+        newMenu.addItem({
+          command: CommandIDs.togglePanel,
+          args: {
+            side: area,
+            title: `Show ${widget.title.caption}`,
+            id: widget.id
+          }
+        });
+        menuToAdd = true;
+      }
+
+      // If there are widgets, add the menu to the main menu entry.
+      if (menuToAdd) {
+        sideBarMenu[area] = menu.viewMenu.addItem({
+          type: 'submenu',
+          submenu: newMenu
+        });
+      }
+    };
+
+    app.restored.then(() => {
+      // Create menu entries for the left and right panel.
+      if (menu) {
+        const getSideBarLabel = (area: SideBarPanel.Area): string => {
+          if (area === 'left') {
+            return trans.__(`Left Sidebar`);
+          } else {
+            return trans.__(`Right Sidebar`);
+          }
+        };
+        const leftArea = notebookShell.leftHandler.area;
+        const leftLabel = getSideBarLabel(leftArea);
+        updateMenu(leftArea, leftLabel);
+
+        const rightArea = notebookShell.rightHandler.area;
+        const rightLabel = getSideBarLabel(rightArea);
+        updateMenu(rightArea, rightLabel);
+
+        const handleSideBarChange = (
+          sidebar: SideBarHandler,
+          widget: Widget
+        ) => {
+          const label = getSideBarLabel(sidebar.area);
+          updateMenu(sidebar.area, label);
+        };
+
+        notebookShell.leftHandler.widgetAdded.connect(handleSideBarChange);
+        notebookShell.leftHandler.widgetRemoved.connect(handleSideBarChange);
+        notebookShell.rightHandler.widgetAdded.connect(handleSideBarChange);
+        notebookShell.rightHandler.widgetRemoved.connect(handleSideBarChange);
+      }
+
+      // Add palette entries for side panels.
+      if (palette) {
+        const sideBarPalette = new SideBarPalette({
+          commandPalette: palette as ICommandPalette,
+          command: CommandIDs.togglePanel
+        });
+
+        notebookShell.leftHandler.widgets.forEach(widget => {
+          sideBarPalette.addItem(widget, notebookShell.leftHandler.area);
+        });
+
+        notebookShell.rightHandler.widgets.forEach(widget => {
+          sideBarPalette.addItem(widget, notebookShell.rightHandler.area);
+        });
+
+        // Update menu and palette when widgets are added or removed from sidebars.
+        notebookShell.leftHandler.widgetAdded.connect((sidebar, widget) => {
+          sideBarPalette.addItem(widget, sidebar.area);
+        });
+        notebookShell.leftHandler.widgetRemoved.connect((sidebar, widget) => {
+          sideBarPalette.removeItem(widget, sidebar.area);
+        });
+        notebookShell.rightHandler.widgetAdded.connect((sidebar, widget) => {
+          sideBarPalette.addItem(widget, sidebar.area);
+        });
+        notebookShell.rightHandler.widgetRemoved.connect((sidebar, widget) => {
+          sideBarPalette.removeItem(widget, sidebar.area);
+        });
+      }
+    });
+  }
+};
+
+/**
  * The default tree route resolver plugin.
  */
 const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
@@ -711,6 +935,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   router,
   sessionDialogs,
   shell,
+  sidebarVisibility,
   status,
   tabTitle,
   title,
