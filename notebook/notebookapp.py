@@ -211,7 +211,7 @@ class NotebookWebApplication(web.Application):
             log.warning(_("""Alternatively use `%s` when working on the notebook's Javascript and LESS""") % 'npm run build:watch')
             warnings.warn(_("The `ignore_minified_js` flag is deprecated and will be removed in Notebook 6.0"), DeprecationWarning)
 
-        log.warning("Notebook version 5 is not longer being maintained. Please upgrade to version 6 or later.")
+        log.warning("Notebook version 5 is no longer maintained. Please upgrade to version 6 or later.")
         now = utcnow()
         
         root_dir = contents_manager.root_dir
