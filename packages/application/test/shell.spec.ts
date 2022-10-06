@@ -29,9 +29,10 @@ describe('Shell for notebooks', () => {
     });
 
     it('should make all areas empty initially', () => {
-      ['main', 'top', 'left', 'right', 'menu'].forEach(area =>
-        expect(shell.isEmpty(area as Shell.Area)).toBe(true)
-      );
+      ['main', 'top', 'left', 'right', 'menu'].forEach(area => {
+        const widgets = Array.from(shell.widgets(area as Shell.Area));
+        expect(widgets.length).toEqual(0);
+      });
     });
   });
 
@@ -98,7 +99,8 @@ describe('Shell for notebooks', () => {
       const widget = new Widget();
       widget.id = 'foo';
       shell.add(widget, 'left');
-      expect(shell.isEmpty('left')).toBe(false);
+      const widgets = Array.from(shell.widgets('left'));
+      expect(widgets.length).toBeGreaterThan(0);
     });
   });
 
@@ -107,7 +109,8 @@ describe('Shell for notebooks', () => {
       const widget = new Widget();
       widget.id = 'foo';
       shell.add(widget, 'right');
-      expect(shell.isEmpty('right')).toBe(false);
+      const widgets = Array.from(shell.widgets('right'));
+      expect(widgets.length).toBeGreaterThan(0);
     });
   });
 });
@@ -130,9 +133,10 @@ describe('Shell for tree view', () => {
     });
 
     it('should make all areas empty initially', () => {
-      ['main', 'top', 'left', 'right', 'menu'].forEach(area =>
-        expect(shell.isEmpty(area as Shell.Area)).toBe(true)
-      );
+      ['main', 'top', 'left', 'right', 'menu'].forEach(area => {
+        const widgets = Array.from(shell.widgets(area as Shell.Area));
+        expect(widgets.length).toEqual(0);
+      });
     });
   });
 
@@ -157,7 +161,8 @@ describe('Shell for tree view', () => {
       const widget = new Widget();
       widget.id = 'foo';
       shell.add(widget, 'left');
-      expect(shell.isEmpty('left')).toBe(false);
+      const widgets = Array.from(shell.widgets('left'));
+      expect(widgets.length).toBeGreaterThan(0);
     });
   });
 
@@ -166,7 +171,8 @@ describe('Shell for tree view', () => {
       const widget = new Widget();
       widget.id = 'foo';
       shell.add(widget, 'right');
-      expect(shell.isEmpty('right')).toBe(false);
+      const widgets = Array.from(shell.widgets('right'));
+      expect(widgets.length).toBeGreaterThan(0);
     });
   });
 });

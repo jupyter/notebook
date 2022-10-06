@@ -318,16 +318,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     this._rightHandler.panel.hide();
   }
 
-  /**
-   * Is a particular area empty (no widgets)?
-   *
-   * @param area Named area in the application
-   * @returns true if area has no widgets, false if at least one widget is present
-   */
-  isEmpty(area: Shell.Area): boolean {
-    return Array.from(this.widgets(area)).length === 0;
-  }
-
   private _topWrapper: Panel;
   private _topHandler: Private.PanelHandler;
   private _menuWrapper: Panel;
