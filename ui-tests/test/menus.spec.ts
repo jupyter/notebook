@@ -25,7 +25,7 @@ const MENU_PATHS = [
 test.use({ autoGoto: false });
 
 test.describe('Notebook Menus', () => {
-  test.beforeAll(async ({ page, tmpPath }) => {
+  test.beforeEach(async ({ page, tmpPath }) => {
     await page.contents.uploadFile(
       path.resolve(__dirname, `./notebooks/${NOTEBOOK}`),
       `${tmpPath}/${NOTEBOOK}`

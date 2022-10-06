@@ -50,21 +50,9 @@ import {
   IDisposable
 } from '@lumino/disposable';
 
-import { MessageLoop } from '@lumino/messaging';
-
 import { Menu, Widget } from '@lumino/widgets';
 
 import { SideBarPalette } from './sidebarpalette';
-
-/**
- * The default notebook factory.
- */
-const NOTEBOOK_FACTORY = 'Notebook';
-
-/**
- * The editor factory.
- */
-const EDITOR_FACTORY = 'Editor';
 
 /**
  * A regular expression to match path to notebooks and documents
@@ -178,12 +166,10 @@ const opener: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:opener',
   autoStart: true,
   requires: [IRouter, IDocumentManager],
-  optional: [ISettingRegistry],
   activate: (
     app: JupyterFrontEnd,
     router: IRouter,
-    docManager: IDocumentManager,
-    settingRegistry: ISettingRegistry | null
+    docManager: IDocumentManager
   ): void => {
     const { commands } = app;
 
@@ -198,34 +184,13 @@ const opener: JupyterFrontEndPlugin<void> = {
         }
 
         const file = decodeURIComponent(path);
-        const ext = PathExt.extname(file);
-
-        // TODO: fix upstream?
-        await settingRegistry?.load('@jupyterlab/notebook-extension:panel');
-
-        await new Promise(async (resolve, reject) => {
-          // TODO: get factory from file type instead?
-          if (ext === '.ipynb') {
-            docManager.open(file, NOTEBOOK_FACTORY, undefined, {
-              ref: '_noref'
-            });
-          } else {
-            docManager.open(file, EDITOR_FACTORY, undefined, {
-              ref: '_noref'
-            });
-          }
-          resolve(void 0);
+        const urlParams = new URLSearchParams(parsed.search);
+        const factory = urlParams.get('factory') ?? 'default';
+        app.started.then(async () => {
+          docManager.open(file, factory, undefined, {
+            ref: '_noref'
+          });
         });
-
-        // force triggering a resize event to try fixing toolbar rendering issues:
-        // https://github.com/jupyter/notebook/issues/6553
-        const currentWidget = app.shell.currentWidget;
-        if (currentWidget) {
-          MessageLoop.sendMessage(
-            currentWidget,
-            Widget.ResizeMessage.UnknownSize
-          );
-        }
       }
     });
 
