@@ -50,6 +50,8 @@ import {
   IDisposable
 } from '@lumino/disposable';
 
+import { MessageLoop } from '@lumino/messaging';
+
 import { Menu, Widget } from '@lumino/widgets';
 
 import { SideBarPalette } from './sidebarpalette';
@@ -201,7 +203,7 @@ const opener: JupyterFrontEndPlugin<void> = {
         // TODO: fix upstream?
         await settingRegistry?.load('@jupyterlab/notebook-extension:panel');
 
-        await new Promise(async () => {
+        await new Promise(async (resolve, reject) => {
           // TODO: get factory from file type instead?
           if (ext === '.ipynb') {
             docManager.open(file, NOTEBOOK_FACTORY, undefined, {
@@ -212,7 +214,18 @@ const opener: JupyterFrontEndPlugin<void> = {
               ref: '_noref'
             });
           }
+          resolve(void 0);
         });
+
+        // force triggering a resize event to try fixing toolbar rendering issues:
+        // https://github.com/jupyter/notebook/issues/6553
+        const currentWidget = app.shell.currentWidget;
+        if (currentWidget) {
+          MessageLoop.sendMessage(
+            currentWidget,
+            Widget.ResizeMessage.UnknownSize
+          );
+        }
       }
     });
 
