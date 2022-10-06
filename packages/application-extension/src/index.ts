@@ -175,7 +175,7 @@ const opener: JupyterFrontEndPlugin<void> = {
 
     const command = 'router:tree';
     commands.addCommand(command, {
-      execute: async (args: any) => {
+      execute: (args: any) => {
         const parsed = args as IRouter.ILocation;
         const matches = parsed.path.match(TREE_PATTERN) ?? [];
         const [, , path] = matches;
