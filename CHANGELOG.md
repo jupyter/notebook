@@ -745,7 +745,7 @@ it's 1.0 release in preparation for a future transition.
 - Add `custom_display_host` config option to override displayed URL.
 - Add /metrics endpoint for Prometheus Metrics.
 - Optimize large file uploads.
-- Allow access control headers to be overriden in
+- Allow access control headers to be overridden in
   jupyter_notebook_config.py to support greater CORS and proxy
   configuration flexibility.
 - Add support for terminals on windows.
