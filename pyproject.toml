@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.5", "jupyterlab>=4.0.0a29,<5"]
+requires = ["hatchling>=1.5", "jupyterlab>=4.0.0a30,<5"]
 build-backend = "hatchling.build"
 
 [project]
@@ -30,7 +30,7 @@ classifiers = [
 ]
 dependencies = [
     "jupyter_server>=1.16.0,<2",
-    "jupyterlab>=4.0.0a29,<5",
+    "jupyterlab>=4.0.0a30,<5",
     "jupyterlab_server>=2.13,<3",
     "notebook_shim>=0.1,<0.2",
     "tornado>=6.1.0",

@@ -40,10 +40,10 @@
   },
   "dependencies": {
     "@jupyter-notebook/ui-components": "^7.0.0-alpha.6",
-    "@jupyterlab/application": "^4.0.0-alpha.14",
-    "@jupyterlab/apputils": "^4.0.0-alpha.14",
-    "@jupyterlab/mainmenu": "^4.0.0-alpha.14",
-    "@jupyterlab/translation": "^4.0.0-alpha.14"
+    "@jupyterlab/application": "^4.0.0-alpha.15",
+    "@jupyterlab/apputils": "^4.0.0-alpha.15",
+    "@jupyterlab/mainmenu": "^4.0.0-alpha.15",
+    "@jupyterlab/translation": "^4.0.0-alpha.15"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
