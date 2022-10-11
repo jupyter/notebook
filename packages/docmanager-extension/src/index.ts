@@ -8,53 +8,69 @@ import {
 
 import { PageConfig, PathExt } from '@jupyterlab/coreutils';
 
-import { IDocumentManager } from '@jupyterlab/docmanager';
+import { IDocumentWidgetOpener } from '@jupyterlab/docmanager';
 
 import { IDocumentWidget, DocumentRegistry } from '@jupyterlab/docregistry';
 
-import { Kernel } from '@jupyterlab/services';
+import { Signal } from '@lumino/signaling';
 
 /**
  * A plugin to open document in a new browser tab.
  *
- * TODO: remove and use a custom doc manager?
  */
-const opener: JupyterFrontEndPlugin<void> = {
+const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
   id: '@jupyter-notebook/docmanager-extension:opener',
-  requires: [IDocumentManager],
   autoStart: true,
-  activate: (app: JupyterFrontEnd, docManager: IDocumentManager) => {
+  provides: IDocumentWidgetOpener,
+  activate: (app: JupyterFrontEnd) => {
     const baseUrl = PageConfig.getBaseUrl();
+    let id = 0;
+    return new (class {
+      open(widget: IDocumentWidget, options?: DocumentRegistry.IOpenOptions) {
+        const widgetName = options?.type;
+        const ref = options?.ref;
 
-    // patch the `docManager.open` option to prevent the default behavior
-    const docOpen = docManager.open;
-    docManager.open = (
-      path: string,
-      widgetName = 'default',
-      kernel?: Partial<Kernel.IModel>,
-      options?: DocumentRegistry.IOpenOptions
-    ): IDocumentWidget | undefined => {
-      const ref = options?.ref;
-      if (ref === '_noref') {
-        docOpen.call(docManager, path, widgetName, kernel, options);
-        return;
+        if (ref !== '_noref') {
+          const path = widget.context.path;
+          const ext = PathExt.extname(path);
+          let route = 'edit';
+          if (
+            (widgetName === 'default' && ext === '.ipynb') ||
+            widgetName === 'Notebook'
+          ) {
+            route = 'notebooks';
+          }
+          let url = `${baseUrl}${route}/${path}`;
+          // append ?factory only if it's not the default
+          if (widgetName !== 'default') {
+            url = `${url}?factory=${widgetName}`;
+          }
+          window.open(url);
+          return;
+        }
+
+        // otherwise open the document on the current page
+
+        if (!widget.id) {
+          widget.id = `document-manager-${++id}`;
+        }
+        widget.title.dataset = {
+          type: 'document-title',
+          ...widget.title.dataset
+        };
+        if (!widget.isAttached) {
+          app.shell.add(widget, 'main', options || {});
+        }
+        app.shell.activateById(widget.id);
+        this._opened.emit(widget);
       }
-      const ext = PathExt.extname(path);
-      let route = 'edit';
-      if (
-        (widgetName === 'default' && ext === '.ipynb') ||
-        widgetName === 'Notebook'
-      ) {
-        route = 'notebooks';
+
+      get opened() {
+        return this._opened;
       }
-      let url = `${baseUrl}${route}/${path}`;
-      // append ?factory only if it's not the default
-      if (widgetName !== 'default') {
-        url = `${url}?factory=${widgetName}`;
-      }
-      window.open(url);
-      return undefined;
-    };
+
+      private _opened = new Signal<this, IDocumentWidget>(this);
+    })();
   }
 };
 
