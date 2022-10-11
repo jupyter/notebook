@@ -115,7 +115,8 @@ async function main() {
       [
         '@jupyterlab/docmanager-extension:plugin',
         '@jupyterlab/docmanager-extension:download',
-        '@jupyterlab/docmanager-extension:contexts'
+        '@jupyterlab/docmanager-extension:contexts',
+        '@jupyterlab/docmanager-extension:manager'
       ].includes(id)
     ),
     require('@jupyterlab/docprovider-extension'),
