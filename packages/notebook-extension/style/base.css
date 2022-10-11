@@ -261,3 +261,9 @@ body[data-notebook='notebooks']
   overflow: hidden;
   white-space: nowrap;
 }
+
+#jp-UserMenu {
+  flex: 0 0 auto;
+  display: flex;
+  text-align: center;
+}
