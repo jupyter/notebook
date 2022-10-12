@@ -93,10 +93,7 @@ async function main() {
       ].includes(id)
     ),
     require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
-      [
-        '@jupyterlab/codemirror-extension:services',
-        '@jupyterlab/codemirror-extension:commands'
-      ].includes(id)
+      ['@jupyterlab/codemirror-extension:services'].includes(id)
     ),
     require('@jupyterlab/completer-extension').default.filter(({ id }) =>
       [
@@ -231,6 +228,9 @@ async function main() {
             '@jupyterlab/fileeditor-extension:completer',
             '@jupyterlab/fileeditor-extension:search'
           ].includes(id)
+        ),
+        require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
+          ['@jupyterlab/codemirror-extension:commands'].includes(id)
         )
       ]);
       break;
