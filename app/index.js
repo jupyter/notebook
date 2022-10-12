@@ -76,6 +76,7 @@ async function main() {
         '@jupyterlab/application-extension:commands',
         '@jupyterlab/application-extension:context-menu',
         '@jupyterlab/application-extension:faviconbusy',
+        '@jupyterlab/application-extension:router',
         '@jupyterlab/application-extension:top-bar',
         '@jupyterlab/application-extension:top-spacer'
       ].includes(id)
@@ -233,9 +234,6 @@ async function main() {
             '@jupyterlab/fileeditor-extension:completer',
             '@jupyterlab/fileeditor-extension:search'
           ].includes(id)
-        ),
-        require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
-          ['@jupyterlab/filebrowser-extension:browser'].includes(id)
         )
       ]);
       break;
