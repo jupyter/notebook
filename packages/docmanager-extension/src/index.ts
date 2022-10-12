@@ -15,7 +15,7 @@ import { IDocumentWidget, DocumentRegistry } from '@jupyterlab/docregistry';
 import { Signal } from '@lumino/signaling';
 
 /**
- * A plugin to open document in a new browser tab.
+ * A plugin to open documents in a new browser tab.
  *
  */
 const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
