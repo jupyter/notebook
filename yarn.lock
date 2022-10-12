@@ -2946,6 +2946,14 @@
     "@jupyterlab/statedb" "^4.0.0-alpha.15"
     "@lumino/coreutils" "^2.0.0-alpha.6"
 
+"@jupyterlab/ui-components-extension@^4.0.0-alpha.15":
+  version "4.0.0-alpha.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/ui-components-extension/-/ui-components-extension-4.0.0-alpha.15.tgz#1d666964c13ff2836b2058b5f1e7bbcc8c1980ca"
+  integrity sha512-ivnFALA5E1WbFgIQRka2SyJDdv5UVNKr4u+zHRJq7cW59HW1eKRm/5sbPh9CVA+Qbt/chIjRzRtPWV0Gz+dC/Q==
+  dependencies:
+    "@jupyterlab/application" "^4.0.0-alpha.15"
+    "@jupyterlab/ui-components" "^4.0.0-alpha.30"
+
 "@jupyterlab/ui-components@^4.0.0-alpha.30":
   version "4.0.0-alpha.30"
   resolved "https://registry.yarnpkg.com/@jupyterlab/ui-components/-/ui-components-4.0.0-alpha.30.tgz#6de764759ac947366232ce232a80443317647bbc"

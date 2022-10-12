@@ -151,6 +151,7 @@
     "@jupyterlab/toc-extension": "^6.0.0-alpha.15",
     "@jupyterlab/tooltip-extension": "^4.0.0-alpha.15",
     "@jupyterlab/translation-extension": "^4.0.0-alpha.15",
+    "@jupyterlab/ui-components-extension": "^4.0.0-alpha.15",
     "@jupyterlab/vega5-extension": "^4.0.0-alpha.15"
   },
   "devDependencies": {
@@ -208,7 +209,8 @@
       "@jupyterlab/theme-dark-extension",
       "@jupyterlab/theme-light-extension",
       "@jupyterlab/tooltip-extension",
-      "@jupyterlab/translation-extension"
+      "@jupyterlab/translation-extension",
+      "@jupyterlab/ui-components-extension"
     ],
     "singletonPackages": [
       "@jupyter-notebook/tree",
