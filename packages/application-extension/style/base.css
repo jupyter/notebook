@@ -16,3 +16,10 @@
 .jp-Toolbar > .jp-Toolbar-item {
   height: unset;
 }
+
+#jp-UserMenu {
+  flex: 0 0 auto;
+  display: flex;
+  text-align: center;
+  margin-top: 8px;
+}
