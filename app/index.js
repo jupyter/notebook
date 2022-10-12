@@ -95,7 +95,7 @@ async function main() {
     require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/codemirror-extension:services',
-        '@jupyterlab/codemirror-extension:codemirror'
+        '@jupyterlab/codemirror-extension:commands'
       ].includes(id)
     ),
     require('@jupyterlab/completer-extension').default.filter(({ id }) =>
@@ -226,9 +226,6 @@ async function main() {
     }
     case 'edit': {
       baseMods = baseMods.concat([
-        require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
-          ['@jupyterlab/codemirror-extension:commands'].includes(id)
-        ),
         require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
           [
             '@jupyterlab/fileeditor-extension:completer',
