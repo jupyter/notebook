@@ -126,3 +126,6 @@ ui-tests/playwright-report
 
 # VSCode
 .vscode
+
+# RTC
+.jupyter_ystore.db

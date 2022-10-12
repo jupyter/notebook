@@ -46,6 +46,8 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
             url = `${url}?factory=${widgetName}`;
           }
           window.open(url);
+          // dispose the widget since it is not used on this page
+          widget.dispose();
           return;
         }
 
