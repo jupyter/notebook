@@ -14,6 +14,22 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 6.5.1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.5.0...67546dad676025b70b8b5f061c42ed31029f5dac))
+
+### Merged PRs
+
+- fix: pin temporary to nbclassic 0.4.5 [#6570](https://github.com/jupyter/notebook/pull/6570) ([@echarles](https://github.com/echarles))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-10-13&to=2022-10-13&type=c))
+
+[@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-10-13..2022-10-13&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 6.5.0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.5.0rc0...3c7afbdff6ec33e61531b3cbe3bc20b8440d3181))
@@ -28,8 +44,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-08-30&to=2022-10-13&type=c))
 
 [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-08-30..2022-10-13&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2022-08-30..2022-10-13&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.5.0rc0
 
