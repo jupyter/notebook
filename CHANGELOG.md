@@ -27,7 +27,7 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-08-30&to=2022-10-13&type=c))
 
-[@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2022-08-30..2022-10-13&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-08-30..2022-10-13&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-08-30..2022-10-13&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-08-30..2022-10-13&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2022-08-30..2022-10-13&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2022-08-30..2022-10-13&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-08-30..2022-10-13&type=Issues)
+[@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-08-30..2022-10-13&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2022-08-30..2022-10-13&type=Issues)
 
 <!-- <END NEW CHANGELOG ENTRY> -->
 
