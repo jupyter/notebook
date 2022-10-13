@@ -20,8 +20,8 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 ### Enhancements made
 
-- fixed UserMenu alignment [#6565](https://github.com/jupyter/notebook/pull/6565) ([@Mieju](https://github.com/Mieju))
-- Left right panel in Notebook view [#6487](https://github.com/jupyter/notebook/pull/6487) ([@brichet](https://github.com/brichet))
+- Fixed user menu alignment [#6565](https://github.com/jupyter/notebook/pull/6565) ([@Mieju](https://github.com/Mieju))
+- Support for Left and Right panels [#6487](https://github.com/jupyter/notebook/pull/6487) ([@brichet](https://github.com/brichet))
 
 ### Maintenance and upkeep improvements
 
