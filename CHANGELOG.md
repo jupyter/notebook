@@ -20,7 +20,7 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 ### Bugs fixed
 
-- Forward port of #6461: Fix a typo in exception text [#6545](https://github.com/jupyter/notebook/pull/6545) ([@krassowski](https://github.com/krassowski))
+- Forward port of #6461 - Fix a typo in exception text [#6545](https://github.com/jupyter/notebook/pull/6545) ([@krassowski](https://github.com/krassowski))
 - Normalise `os_path` [#6540](https://github.com/jupyter/notebook/pull/6540) ([@krassowski](https://github.com/krassowski))
 
 ### Contributors to this release
