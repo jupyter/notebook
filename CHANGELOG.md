@@ -14,6 +14,31 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a7
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a6...caa0a11e36901c08ae80100fe2bbc5161c47dfee))
+
+### Enhancements made
+
+- fixed UserMenu alignment [#6565](https://github.com/jupyter/notebook/pull/6565) ([@Mieju](https://github.com/Mieju))
+- Left right panel in Notebook view [#6487](https://github.com/jupyter/notebook/pull/6487) ([@brichet](https://github.com/brichet))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab 4.0.0a30 [#6566](https://github.com/jupyter/notebook/pull/6566) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Fix typo in CHANGELOG.md [#6561](https://github.com/jupyter/notebook/pull/6561) ([@eltociear](https://github.com/eltociear))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-10-03&to=2022-10-13&type=c))
+
+[@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2022-10-03..2022-10-13&type=Issues) | [@eltociear](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aeltociear+updated%3A2022-10-03..2022-10-13&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-10-03..2022-10-13&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-10-03..2022-10-13&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2022-10-03..2022-10-13&type=Issues) | [@Mieju](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AMieju+updated%3A2022-10-03..2022-10-13&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-10-03..2022-10-13&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-10-03..2022-10-13&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0a6
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a5...acbec17feca2ae8a0f56c5ec04ba2475a42619ee))
@@ -56,8 +81,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-06-14&to=2022-10-03&type=c))
 
 [@afshin](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafshin+updated%3A2022-06-14..2022-10-03&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-06-14..2022-10-03&type=Issues) | [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2022-06-14..2022-10-03&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2022-06-14..2022-10-03&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-06-14..2022-10-03&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-06-14..2022-10-03&type=Issues) | [@hawkeyes21](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahawkeyes21+updated%3A2022-06-14..2022-10-03&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-06-14..2022-10-03&type=Issues) | [@jweill-aws](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajweill-aws+updated%3A2022-06-14..2022-10-03&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-06-14..2022-10-03&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-06-14..2022-10-03&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0a5
 
