@@ -14,6 +14,23 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 6.5.0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.5.0rc0...3c7afbdff6ec33e61531b3cbe3bc20b8440d3181))
+
+### Bugs fixed
+
+- Forward port of #6461: Fix a typo in exception text [#6545](https://github.com/jupyter/notebook/pull/6545) ([@krassowski](https://github.com/krassowski))
+- Normalise `os_path` [#6540](https://github.com/jupyter/notebook/pull/6540) ([@krassowski](https://github.com/krassowski))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-08-30&to=2022-10-13&type=c))
+
+[@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2022-08-30..2022-10-13&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-08-30..2022-10-13&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-08-30..2022-10-13&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-08-30..2022-10-13&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2022-08-30..2022-10-13&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2022-08-30..2022-10-13&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-08-30..2022-10-13&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 6.5.0rc0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.5.0b0...6d7109a6f39b8ad92d06ebf34e8dbbca5c9cbaf6))
@@ -27,8 +44,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-07-29&to=2022-08-30&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-07-29..2022-08-30&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-07-29..2022-08-30&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-07-29..2022-08-30&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.5.0b0
 
