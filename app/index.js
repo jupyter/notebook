@@ -76,6 +76,7 @@ async function main() {
         '@jupyterlab/application-extension:commands',
         '@jupyterlab/application-extension:context-menu',
         '@jupyterlab/application-extension:faviconbusy',
+        '@jupyterlab/application-extension:router',
         '@jupyterlab/application-extension:top-bar',
         '@jupyterlab/application-extension:top-spacer'
       ].includes(id)
@@ -92,10 +93,7 @@ async function main() {
       ].includes(id)
     ),
     require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
-      [
-        '@jupyterlab/codemirror-extension:services',
-        '@jupyterlab/codemirror-extension:codemirror'
-      ].includes(id)
+      ['@jupyterlab/codemirror-extension:services'].includes(id)
     ),
     require('@jupyterlab/completer-extension').default.filter(({ id }) =>
       [
@@ -115,6 +113,7 @@ async function main() {
       [
         '@jupyterlab/docmanager-extension:plugin',
         '@jupyterlab/docmanager-extension:download',
+        '@jupyterlab/docmanager-extension:contexts',
         '@jupyterlab/docmanager-extension:manager'
       ].includes(id)
     ),
@@ -224,17 +223,14 @@ async function main() {
     }
     case 'edit': {
       baseMods = baseMods.concat([
-        require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
-          ['@jupyterlab/codemirror-extension:commands'].includes(id)
-        ),
         require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
           [
             '@jupyterlab/fileeditor-extension:completer',
             '@jupyterlab/fileeditor-extension:search'
           ].includes(id)
         ),
-        require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
-          ['@jupyterlab/filebrowser-extension:browser'].includes(id)
+        require('@jupyterlab/codemirror-extension').default.filter(({ id }) =>
+          ['@jupyterlab/codemirror-extension:commands'].includes(id)
         )
       ]);
       break;

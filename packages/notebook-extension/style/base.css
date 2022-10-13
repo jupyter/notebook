@@ -136,13 +136,6 @@ body[data-format='mobile'] .jp-Notebook > *:first-child {
 
 body[data-notebook='notebooks'] .jp-WindowedPanel-window {
   background: var(--jp-layout-color0);
-  /* TODO: remove when https://github.com/jupyterlab/jupyterlab/pull/13154 is released */
-  width: unset;
-}
-
-body[data-notebook='notebooks'] .jp-WindowedPanel-inner {
-  /* TODO: remove when https://github.com/jupyterlab/jupyterlab/pull/13157 is released */
-  width: unset;
 }
 
 /* Notebook box shadow */

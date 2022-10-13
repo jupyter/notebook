@@ -6,8 +6,7 @@ import {
   IRouter,
   ITreePathUpdater,
   JupyterFrontEnd,
-  JupyterFrontEndPlugin,
-  Router
+  JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
 import {
@@ -292,31 +291,6 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
       throw new Error(`${paths.id} must be activated in Jupyter Notebook.`);
     }
     return app.paths;
-  }
-};
-
-/**
- * The default URL router provider.
- */
-const router: JupyterFrontEndPlugin<IRouter> = {
-  id: '@jupyter-notebook/application-extension:router',
-  autoStart: true,
-  provides: IRouter,
-  requires: [JupyterFrontEnd.IPaths],
-  activate: (app: JupyterFrontEnd, paths: JupyterFrontEnd.IPaths) => {
-    const { commands } = app;
-    const base = paths.urls.base;
-    const router = new Router({ base, commands });
-    void app.started.then(() => {
-      // Route the very first request on load.
-      void router.route();
-
-      // Route all pop state events.
-      window.addEventListener('popstate', () => {
-        void router.route();
-      });
-    });
-    return router;
   }
 };
 
@@ -932,7 +906,6 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   opener,
   pages,
   paths,
-  router,
   sessionDialogs,
   shell,
   sidebarVisibility,
