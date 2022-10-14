@@ -7,7 +7,7 @@
     <title>{% block title %}Jupyter Notebook{% endblock %}</title>
     {% block favicon %}<link id="favicon" rel="shortcut icon" type="image/x-icon" href="{{static_url("base/images/favicon.ico") }}">{% endblock %}
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <link rel="stylesheet" href="{{static_url("components/jquery-ui/themes/smoothness/jquery-ui.min.css") }}" type="text/css" />
+    <link rel="stylesheet" href="{{static_url("components/jquery-ui/dist/themes/smoothness/jquery-ui.min.css") }}" type="text/css" />
     <link rel="stylesheet" href="{{static_url("components/jquery-typeahead/dist/jquery.typeahead.min.css") }}" type="text/css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -39,7 +39,7 @@
             text: 'components/requirejs-text/text',
             bootstrap: 'components/bootstrap/dist/js/bootstrap.min',
             bootstraptour: 'components/bootstrap-tour/build/js/bootstrap-tour.min',
-            'jquery-ui': 'components/jquery-ui/jquery-ui.min',
+            'jquery-ui': 'components/jquery-ui/dist/jquery-ui.min',
             moment: 'components/moment/min/moment-with-locales',
             codemirror: 'components/codemirror',
             termjs: 'components/xterm.js/xterm',
