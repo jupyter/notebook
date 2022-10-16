@@ -60,6 +60,7 @@ var rjs_config = {
 
   exclude: [
     "custom/custom",
+    "custom/custom-preload",
   ]
 };
 

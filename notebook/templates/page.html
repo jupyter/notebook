@@ -98,6 +98,18 @@
           }
       })
 
+      // error-catching custom-preload.js shim.
+      define("custom-preload", function (require, exports, module) {
+          try {
+              var custom = require('custom/custom-preload');
+              console.debug('loaded custom-preload.js');
+              return custom;
+          } catch (e) {
+              console.error("error loading custom-preload.js", e);
+              return {};
+          }
+      })
+
     document.nbjs_translations = {{ nbjs_translations|safe }};
     document.documentElement.lang = navigator.language.toLowerCase();
     </script>
