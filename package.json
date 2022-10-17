@@ -23,6 +23,7 @@
     "build": "lerna run build",
     "build:prod": "lerna run build:prod",
     "build:test": "lerna run build:test",
+    "build:utils": "cd buildutils && npm run build",
     "clean": "lerna run clean",
     "develop": "jupyter labextension develop . --overwrite && node ./buildutils/lib/develop.js --overwrite",
     "eslint": "eslint . --ext .ts,.tsx --fix",
@@ -69,7 +70,10 @@
       "before-build-python": [
         "jlpm clean"
       ],
-      "before-bump-version": "python -m pip install hatch"
+      "before-bump-version": [
+        "jlpm run build:utils",
+        "python -m pip install hatch"
+      ]
     },
     "options": {
       "version-cmd": [
