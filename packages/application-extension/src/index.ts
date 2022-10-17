@@ -263,12 +263,14 @@ const pages: JupyterFrontEndPlugin<void> = {
       }
     });
 
-    app.commands.addCommand(CommandIDs.openTree, {
-      label: trans.__('Open Files'),
-      execute: () => {
-        window.open(`${baseUrl}tree`);
-      }
-    });
+    if (PageConfig.getOption('notebookPage') !== 'tree') {
+      app.commands.addCommand(CommandIDs.openTree, {
+        label: trans.__('File Browser'),
+        execute: () => {
+          window.open(`${baseUrl}tree`);
+        }
+      });
+    }
 
     if (palette) {
       [CommandIDs.openLab, CommandIDs.openTree].forEach(command => {
