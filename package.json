@@ -75,8 +75,7 @@
     "options": {
       "version-cmd": [
         "jlpm run release:bump --force --skip-commit"
-      ],
-      "post-version-spec": "dev"
+      ]
     }
   }
 }

@@ -93,9 +93,9 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ### Maintenance and upkeep improvements
 
 - Fix docs build [#6447](https://github.com/jupyter/notebook/pull/6447) ([@jtpio](https://github.com/jtpio))
-- [pre-commit.ci] pre-commit autoupdate [#6444](https://github.com/jupyter/notebook/pull/6444) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#6439](https://github.com/jupyter/notebook/pull/6439) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#6434](https://github.com/jupyter/notebook/pull/6434) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#6444](https://github.com/jupyter/notebook/pull/6444) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#6439](https://github.com/jupyter/notebook/pull/6439) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#6434](https://github.com/jupyter/notebook/pull/6434) ([@pre-commit-ci](https://github.com/pre-commit-ci))
 - Use hatch backend [#6425](https://github.com/jupyter/notebook/pull/6425) ([@blink1073](https://github.com/blink1073))
 
 ### Contributors to this release
@@ -117,7 +117,7 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 ### Maintenance and upkeep improvements
 
-- [pre-commit.ci] pre-commit autoupdate [#6426](https://github.com/jupyter/notebook/pull/6426) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#6426](https://github.com/jupyter/notebook/pull/6426) ([@pre-commit-ci](https://github.com/pre-commit-ci))
 - Allow bot PRs to be automatically labeled [#6414](https://github.com/jupyter/notebook/pull/6414) ([@blink1073](https://github.com/blink1073))
 - Add Visual Regression Test for the export submenu [#6383](https://github.com/jupyter/notebook/pull/6383) ([@jtpio](https://github.com/jtpio))
 - Fix ESLint config for tests [#6382](https://github.com/jupyter/notebook/pull/6382) ([@jtpio](https://github.com/jtpio))
@@ -151,13 +151,13 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 - Add UI tests for a simple notebook [#6380](https://github.com/jupyter/notebook/pull/6380) ([@jtpio](https://github.com/jtpio))
 - Bump async from 2.6.3 to 2.6.4 in /ui-tests [#6370](https://github.com/jupyter/notebook/pull/6370) ([@dependabot](https://github.com/dependabot))
 - Fix build workflow on CI [#6369](https://github.com/jupyter/notebook/pull/6369) ([@jtpio](https://github.com/jtpio))
-- [pre-commit.ci] pre-commit autoupdate [#6365](https://github.com/jupyter/notebook/pull/6365) ([@pre-commit-ci](https://github.com/pre-commit-ci))
-- [pre-commit.ci] pre-commit autoupdate [#6355](https://github.com/jupyter/notebook/pull/6355) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#6365](https://github.com/jupyter/notebook/pull/6365) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#6355](https://github.com/jupyter/notebook/pull/6355) ([@pre-commit-ci](https://github.com/pre-commit-ci))
 - Bump moment from 2.29.1 to 2.29.2 [#6352](https://github.com/jupyter/notebook/pull/6352) ([@dependabot](https://github.com/dependabot))
 - Bump moment from 2.29.1 to 2.29.2 in /ui-tests [#6351](https://github.com/jupyter/notebook/pull/6351) ([@dependabot](https://github.com/dependabot))
 - Clean up pre-commit [#6349](https://github.com/jupyter/notebook/pull/6349) ([@blink1073](https://github.com/blink1073))
 - Update to TypeScript 4.6 [#6345](https://github.com/jupyter/notebook/pull/6345) ([@jtpio](https://github.com/jtpio))
-- [pre-commit.ci] pre-commit autoupdate [#6343](https://github.com/jupyter/notebook/pull/6343) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- \[pre-commit.ci\] pre-commit autoupdate [#6343](https://github.com/jupyter/notebook/pull/6343) ([@pre-commit-ci](https://github.com/pre-commit-ci))
 - Add pytest and handle warnings [#6338](https://github.com/jupyter/notebook/pull/6338) ([@blink1073](https://github.com/blink1073))
 - Add flake8 and git-blame-ignore-revs [#6337](https://github.com/jupyter/notebook/pull/6337) ([@blink1073](https://github.com/blink1073))
 - Run Autoformatters [#6335](https://github.com/jupyter/notebook/pull/6335) ([@blink1073](https://github.com/blink1073))
@@ -388,7 +388,7 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 - Fix: split_cell doesn't always split cell [#6017](https://github.com/jupyter/notebook/pull/6017) ([@gamestrRUS](https://github.com/gamestrRUS))
 - Correct 'Content-Type' headers [#6026](https://github.com/jupyter/notebook/pull/6026) ([@faucct](https://github.com/faucct))
 - Fix skipped tests & remove deprecation warnings [#6018](https://github.com/jupyter/notebook/pull/6018) ([@befeleme](https://github.com/befeleme))
-- [Gateway] Track only this server's kernels [#5980](https://github.com/jupyter/notebook/pull/5980) ([@kevin-bates](https://github.com/kevin-bates))
+- \[Gateway\] Track only this server's kernels [#5980](https://github.com/jupyter/notebook/pull/5980) ([@kevin-bates](https://github.com/kevin-bates))
 - Bind the HTTPServer in start [#6061](https://github.com/jupyter/notebook/pull/6061)
 
 ### Maintenance and upkeep improvements
@@ -466,7 +466,7 @@ Thank you to all the contributors:
 ## Merged PRs
 
 - do not require nose for testing ([5826](https://github.com/jupyter/notebook/pull/5826))
-- [docs] Update Chinese and Hindi readme.md ([5823](https://github.com/jupyter/notebook/pull/5823))
+- \[docs\] Update Chinese and Hindi readme.md ([5823](https://github.com/jupyter/notebook/pull/5823))
 - Add support for creating terminals via GET ([5813](https://github.com/jupyter/notebook/pull/5813))
 - Made doc translations in Hindi and Chinese ([5787](https://github.com/jupyter/notebook/pull/5787))
 
@@ -975,7 +975,7 @@ demonstrated with other browsers.
 - Fix compatibility with tornado 6 ([4392](https://github.com/jupyter/notebook/pull/4392), [4449](https://github.com/jupyter/notebook/pull/4449)).
 - Fix opening integer filedescriptor during startup on Python 2 ([4349](https://github.com/jupyter/notebook/pull/4349))
 - Fix compatibility with asynchronous
-  [KernelManager.restart_kernel]{.title-ref} methods ([4412](https://github.com/jupyter/notebook/pull/4412))
+  \[KernelManager.restart_kernel\]{.title-ref} methods ([4412](https://github.com/jupyter/notebook/pull/4412))
 
 ## 5.7.4
 
@@ -1169,7 +1169,7 @@ Fixing problems:
 - Upgrade xterm.js to 3.1.0 ([3189](https://github.com/jupyter/notebook/pull/3189))
 - Upgrade moment.js to 2.19.3 ([3562](https://github.com/jupyter/notebook/pull/3562))
 - Upgrade CodeMirror to 5.35 ([3372](https://github.com/jupyter/notebook/pull/3372))
-- "Require" pyzmq\>=17 ([3586](https://github.com/jupyter/notebook/pull/3586))
+- "Require" pyzmq>=17 ([3586](https://github.com/jupyter/notebook/pull/3586))
 
 Documentation:
 
@@ -1314,15 +1314,15 @@ notebook dashboard are moved to the OS trash vs. deleted permanently).
 - Don't try to translate missing help strings ([3122](https://github.com/jupyter/notebook/pull/3122)).
 - Frontend/extension-config: allow default json files in a .d
   directory ([3116](https://github.com/jupyter/notebook/pull/3116)).
-- Use [requirejs]{.title-ref} vs. [require]{.title-ref} ([3097](https://github.com/jupyter/notebook/pull/3097)).
-- Fixes some ui bugs in firefox \#3044 ([3058](https://github.com/jupyter/notebook/pull/3058)).
+- Use \[requirejs\]{.title-ref} vs. \[require\]{.title-ref} ([3097](https://github.com/jupyter/notebook/pull/3097)).
+- Fixes some ui bugs in firefox #3044 ([3058](https://github.com/jupyter/notebook/pull/3058)).
 - Compare non-specific language code when choosing to use arabic
   numerals ([3055](https://github.com/jupyter/notebook/pull/3055)).
 - Fix save-script deprecation ([3053](https://github.com/jupyter/notebook/pull/3053)).
 - Include moment locales in package_data ([3051](https://github.com/jupyter/notebook/pull/3051)).
 - Fix moment locale loading in bidi support ([3048](https://github.com/jupyter/notebook/pull/3048)).
 - Tornado 5: periodiccallback loop arg will be removed ([3034](https://github.com/jupyter/notebook/pull/3034)).
-- Use [/files]{.title-ref} prefix for pdf-like files ([3031](https://github.com/jupyter/notebook/pull/3031)).
+- Use \[/files\]{.title-ref} prefix for pdf-like files ([3031](https://github.com/jupyter/notebook/pull/3031)).
 - Add folder for document translation ([3022](https://github.com/jupyter/notebook/pull/3022)).
 - When login-in via token, let a chance for user to set the password ([3008](https://github.com/jupyter/notebook/pull/3008)).
 - Switch to jupyter_core implementation of ensure_dir_exists ([3002](https://github.com/jupyter/notebook/pull/3002)).
@@ -1563,8 +1563,8 @@ involved in this release.
 handling of the "editable" cell metadata field.
 
 - Monkey-patch for CodeMirror that resolves
-  [\#2037](https://github.com/jupyter/notebook/issues/2037) without
-  breaking [\#1967](https://github.com/jupyter/notebook/issues/1967)
+  [#2037](https://github.com/jupyter/notebook/issues/2037) without
+  breaking [#1967](https://github.com/jupyter/notebook/issues/1967)
 - Read-only (`"editable": false`) cells can be executed but cannot be
   split, merged, or deleted
 
@@ -1745,6 +1745,7 @@ UI changes:
   find the new location. (Click here to see a
   [screencast](https://cloud.githubusercontent.com/assets/335567/10711889/59665a5a-7a3e-11e5-970f-86b89592880c.gif)
   )
+
 - Added _Restart & Run All_ to the _Kernel_ menu. Users can also bind
   it to a keyboard shortcut on action
   `restart-kernel-and-run-all-cells`.
