@@ -20,8 +20,10 @@ export class NotebookTreeWidget extends TabPanel implements INotebookTree {
     this.addClass('jp-TreePanel');
   }
 
-  addWidget(widget: Widget, activate=true): void {
+  addWidget(widget: Widget, activate = true): void {
     super.addWidget(widget);
-    if (activate) this.currentWidget = widget;
+    if (activate) {
+      this.currentWidget = widget;
+    }
   }
 }

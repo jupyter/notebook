@@ -101,9 +101,8 @@ const openFileBrowser: JupyterFrontEndPlugin<void> = {
   activate: (
     app: JupyterFrontEnd,
     notebookTree: INotebookTree,
-    factory: IFileBrowserFactory,
+    factory: IFileBrowserFactory
   ) => {
-
     const { commands } = app;
     commands.addCommand('filebrowser:activate', {
       execute: args => {
@@ -112,7 +111,7 @@ const openFileBrowser: JupyterFrontEndPlugin<void> = {
       }
     });
   }
-}
+};
 
 /**
  * A plugin to add the file browser widget to an INotebookShell
@@ -203,5 +202,9 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
 /**
  * Export the plugins as default.
  */
-const plugins: JupyterFrontEndPlugin<any>[] = [createNew, openFileBrowser, notebookTreeWidget];
+const plugins: JupyterFrontEndPlugin<any>[] = [
+  createNew,
+  openFileBrowser,
+  notebookTreeWidget
+];
 export default plugins;

@@ -37,14 +37,11 @@ test('should update url when navigating in filebrowser', async ({
   expect(url.pathname).toEqual(`/tree/${tmpPath}/${SUBFOLDER}`);
 });
 
-test('Should activate file browser tab', async ({
-  page,
-  tmpPath
-}) => {
+test('Should activate file browser tab', async ({ page, tmpPath }) => {
   await page.goto(`tree/${tmpPath}`);
   await page.click('text="Running"');
   await expect(page.locator('#jp-running-sessions')).toBeVisible();
 
   await page.menu.clickMenuItem('View>File Browser');
   await expect(page.locator('#filebrowser')).toBeVisible();
-})
+});
