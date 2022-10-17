@@ -94,6 +94,26 @@ const createNew: JupyterFrontEndPlugin<void> = {
   }
 };
 
+const openFileBrowser: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/tree-extension:open-file-browser',
+  requires: [INotebookTree, IFileBrowserFactory],
+  autoStart: true,
+  activate: (
+    app: JupyterFrontEnd,
+    notebookTree: INotebookTree,
+    factory: IFileBrowserFactory,
+  ) => {
+
+    const { commands } = app;
+    commands.addCommand('filebrowser:activate', {
+      execute: args => {
+        const { defaultBrowser: browser } = factory;
+        notebookTree.currentWidget = browser;
+      }
+    });
+  }
+}
+
 /**
  * A plugin to add the file browser widget to an INotebookShell
  */
@@ -183,5 +203,5 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
 /**
  * Export the plugins as default.
  */
-const plugins: JupyterFrontEndPlugin<any>[] = [createNew, notebookTreeWidget];
+const plugins: JupyterFrontEndPlugin<any>[] = [createNew, openFileBrowser, notebookTreeWidget];
 export default plugins;
