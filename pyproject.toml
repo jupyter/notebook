@@ -141,3 +141,23 @@ extend-ignore = [
     # black adds spaces around ':'
     "E203",
 ]
+
+[tool.jupyter-releaser.options]
+version-cmd = "jlpm run release:bump --force --skip-commit"
+
+[tool.jupyter-releaser.hooks]
+after-prep-git = [
+    "python -m pip install --pre -U jupyterlab",
+    "jlpm"
+]
+before-bump-version = [
+    "jlpm run build:utils",
+    "python -m pip install hatch"
+]
+before-build-npm = [
+    "jlpm clean",
+    "jlpm build:prod"
+]
+before-build-python = [
+    "jlpm clean"
+]

@@ -60,25 +60,5 @@
     "prettier": "^1.19.0",
     "rimraf": "^3.0.2",
     "typescript": "~4.7.3"
-  },
-  "jupyter-releaser": {
-    "hooks": {
-      "before-build-npm": [
-        "jlpm clean",
-        "jlpm build:prod"
-      ],
-      "before-build-python": [
-        "jlpm clean"
-      ],
-      "before-bump-version": [
-        "jlpm run build:utils",
-        "python -m pip install hatch"
-      ]
-    },
-    "options": {
-      "version-cmd": [
-        "jlpm run release:bump --force --skip-commit"
-      ]
-    }
   }
 }
