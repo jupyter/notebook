@@ -1,8 +1,6 @@
----
-name: Is this a bug in Notebook? Open an issue.
-about: If you're not sure, feel free to post your question on Jupyter's Discourse channel.
-labels: bug
----
+______________________________________________________________________
+
+## name: Is this a bug in Notebook? Open an issue. about: If you're not sure, feel free to post your question on Jupyter's Discourse channel. labels: bug
 
 <!--
 BEFORE YOU OPEN AN ISSUE, PLEASE READ THIS.
@@ -33,9 +31,9 @@ A clear and concise description of what the bug is.
 Steps to reproduce the behavior:
 
 1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+1. Click on '....'
+1. Scroll down to '....'
+1. See error
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
@@ -45,9 +43,9 @@ If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
 
-- OS: [e.g. iOS]
-- Browser [e.g. chrome, safari]
-- Version [e.g. 22]
+- OS: \[e.g. iOS\]
+- Browser \[e.g. chrome, safari\]
+- Version \[e.g. 22\]
 
 **Additional context**
 Add any other context about the problem here.
