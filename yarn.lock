@@ -2326,6 +2326,35 @@
     react "^17.0.1"
     regexp-match-indices "^1.0.2"
 
+"@jupyterlab/htmlviewer-extension@^4.0.0-alpha.15":
+  version "4.0.0-alpha.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/htmlviewer-extension/-/htmlviewer-extension-4.0.0-alpha.15.tgz#ec5b5d16d2ff9d0c01c2aee5af06e17ef6643df8"
+  integrity sha512-pJwuSCe1Zrc5m5PAEpHNPnYa8TSKV2Jy3I8ThHrI9DjZKiTvEZMXfJmPb7kqjlf33nd9W6+Ijx9+wPRyKtDYzg==
+  dependencies:
+    "@jupyterlab/application" "^4.0.0-alpha.15"
+    "@jupyterlab/apputils" "^4.0.0-alpha.15"
+    "@jupyterlab/docregistry" "^4.0.0-alpha.15"
+    "@jupyterlab/htmlviewer" "^4.0.0-alpha.15"
+    "@jupyterlab/observables" "^5.0.0-alpha.15"
+    "@jupyterlab/settingregistry" "^4.0.0-alpha.15"
+    "@jupyterlab/translation" "^4.0.0-alpha.15"
+    "@jupyterlab/ui-components" "^4.0.0-alpha.30"
+
+"@jupyterlab/htmlviewer@^4.0.0-alpha.15":
+  version "4.0.0-alpha.15"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/htmlviewer/-/htmlviewer-4.0.0-alpha.15.tgz#5e7c5eeb3ca5ab5a6bc212003c4d4837a4891ed4"
+  integrity sha512-8VW01ky68pEiPLBBDJXT5FqFgNqEspifn5ZyvT0wutRLDzi0up+e3GES0ICDWgsQ9NnLZSxKARwOfZ/Rvd+/VA==
+  dependencies:
+    "@jupyterlab/apputils" "^4.0.0-alpha.15"
+    "@jupyterlab/coreutils" "^6.0.0-alpha.15"
+    "@jupyterlab/docregistry" "^4.0.0-alpha.15"
+    "@jupyterlab/translation" "^4.0.0-alpha.15"
+    "@jupyterlab/ui-components" "^4.0.0-alpha.30"
+    "@lumino/coreutils" "^2.0.0-alpha.6"
+    "@lumino/signaling" "^2.0.0-alpha.6"
+    "@lumino/widgets" "^2.0.0-alpha.6"
+    react "^17.0.1"
+
 "@jupyterlab/hub-extension@^4.0.0-alpha.15":
   version "4.0.0-alpha.15"
   resolved "https://registry.yarnpkg.com/@jupyterlab/hub-extension/-/hub-extension-4.0.0-alpha.15.tgz#46c96bdd11d04ac0ad485f9b91fe85dfa698a3c2"
