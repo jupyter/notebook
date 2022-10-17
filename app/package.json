@@ -203,6 +203,7 @@
       "@jupyterlab/mathjax2-extension",
       "@jupyterlab/markedparser-extension",
       "@jupyterlab/notebook-extension",
+      "@jupyterlab/pdf-extension",
       "@jupyterlab/rendermime-extension",
       "@jupyterlab/running-extension",
       "@jupyterlab/shortcuts-extension",

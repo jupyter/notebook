@@ -6,6 +6,8 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
+import { Base64ModelFactory } from '@jupyterlab/docregistry';
+
 import { createRendermimePlugins } from '@jupyterlab/application/lib/mimerenderers';
 
 import { LabStatus } from '@jupyterlab/application/lib/status';
@@ -29,6 +31,9 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
    */
   constructor(options: NotebookApp.IOptions = { shell: new NotebookShell() }) {
     super({ ...options, shell: options.shell ?? new NotebookShell() });
+
+    // Add initial model factory.
+    this.docRegistry.addModelFactory(new Base64ModelFactory());
     if (options.mimeExtensions) {
       for (const plugin of createRendermimePlugins(options.mimeExtensions)) {
         this.registerPlugin(plugin);
