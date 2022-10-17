@@ -127,6 +127,7 @@ async function main() {
     require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
       ['@jupyterlab/fileeditor-extension:plugin'].includes(id)
     ),
+    require('@jupyterlab/htmlviewer-extension'),
     require('@jupyterlab/lsp-extension'),
     require('@jupyterlab/mainmenu-extension'),
     require('@jupyterlab/markedparser-extension'),
