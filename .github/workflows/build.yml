@@ -124,4 +124,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - run: pip install -e .
       - uses: jupyterlab/maintainer-tools/.github/actions/pre-commit@v1
