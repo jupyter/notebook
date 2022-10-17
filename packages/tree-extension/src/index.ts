@@ -157,7 +157,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
       running.id = 'jp-running-sessions';
       running.title.label = trans.__('Running');
       running.title.icon = runningIcon;
-      nbTreeWidget.addWidget(running);
+      nbTreeWidget.addWidget(running, false);
       nbTreeWidget.tabBar.addTab(running.title);
     }
 
