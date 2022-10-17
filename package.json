@@ -76,13 +76,7 @@
       "version-cmd": [
         "jlpm run release:bump --force --skip-commit"
       ],
-      "ignore-links": [
-        "https://playwright.dev/docs/test-cli/"
-      ]
-    },
-    "skip": [
-      "check-links",
-      "check-manifest"
-    ]
+      "post-version-spec": "dev"
+    }
   }
 }

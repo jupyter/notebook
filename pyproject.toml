@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.5", "jupyterlab>=4.0.0a30,<5"]
+requires = ["hatchling>=1.11", "jupyterlab>=4.0.0a30,<5"]
 build-backend = "hatchling.build"
 
 [project]
@@ -66,6 +66,7 @@ dev = [
 
 [tool.hatch.version]
 path = "notebook/_version.py"
+validate-bump = false
 
 [tool.hatch.build.targets.wheel.shared-data]
 "notebook/labextension" = "share/jupyter/labextensions/@jupyter-notebook/lab-extension"
@@ -124,4 +125,19 @@ filterwarnings = [
     "ignore:There is no current event loop:DeprecationWarning",
     "ignore:make_current is deprecated; start the event loop first",
     "ignore:clear_current is deprecated"
+]
+
+[tool.flake8]
+ignore = "E501, W503, E402"
+builtins = "c, get_config"
+exclude = [
+    ".cache",
+    ".github",
+    "docs",
+]
+enable-extensions = "G"
+extend-ignore = [
+    "G001", "G002", "G004", "G200", "G201", "G202",
+    # black adds spaces around ':'
+    "E203",
 ]

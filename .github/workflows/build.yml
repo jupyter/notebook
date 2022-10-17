@@ -18,7 +18,7 @@ env:
 
 defaults:
   run:
-    shell: bash -e {0}
+    shell: bash -eux {0}
 
 jobs:
   build:
@@ -108,22 +108,20 @@ jobs:
           jupyter notebook --version
           jupyter notebook --help
 
-  pre-commit:
+  link_check:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v2
-      - name: Base Setup
-        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
-      - name: Install Jupyterlab
-        run: pip install -e .
-      - uses: pre-commit/action@v2.0.0
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/check-links@v1
         with:
-          extra_args: --all-files --hook-stage=manual
-      - name: Help message if pre-commit fail
-        if: ${{ failure() }}
-        run: |
-          echo "or you can run by hand on staged files with"
-          echo "    pre-commit run"
-          echo "or after-the-fact on already committed files with"
-          echo "    pre-commit run --all-files --hook-stage=manual"
+          ignore-links: "https://playwright.dev/docs/test-cli/"
+
+  pre_commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/pre-commit@v1
