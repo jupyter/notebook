@@ -13,7 +13,7 @@ dependencies:
 - sphinx
 - terminado
 - myst-parser
-- nbclassic==0.4.5
+- nbclassic==0.4.6
 - pip:
   - nbsphinx
   - Send2Trash
