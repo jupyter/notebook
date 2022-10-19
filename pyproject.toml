@@ -146,16 +146,13 @@ extend-ignore = [
 version-cmd = "jlpm run release:bump --force --skip-commit"
 
 [tool.jupyter-releaser.hooks]
-after-prep-git = [
-    "python -m pip install --pre -U jupyterlab",
-    "jlpm"
-]
 before-bump-version = [
+    "python -m pip install --pre -U jupyterlab",
+    "jlpm",
     "jlpm run build:utils",
     "python -m pip install hatch"
 ]
 before-build-npm = [
-    "jlpm clean",
     "jlpm build:prod"
 ]
 before-build-python = [

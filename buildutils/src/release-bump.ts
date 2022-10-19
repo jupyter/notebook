@@ -55,6 +55,9 @@ commander
       throw new Error('Cannot increment a build on a final release');
     }
 
+    // debug
+    utils.run('git status');
+
     // Run pre-bump script.
     utils.prebump();
 
