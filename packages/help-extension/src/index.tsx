@@ -127,7 +127,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
         const notebookURL = 'https://github.com/jupyter/notebook';
         const contributorURL = 'https://github.com/jupyter/notebook/pulse';
         const aboutJupyter = trans.__('JUPYTER NOTEBOOK ON GITHUB');
-        const contList = trans.__('CONTRIBUTOR LIST');
+        const contributorList = trans.__('CONTRIBUTOR LIST');
         const externalLinks = (
           <span>
             <a
