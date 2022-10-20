@@ -1,5 +1,6 @@
 .jp-AboutNotebook .jp-Dialog-header {
   justify-content: center;
+  padding: 0;
 }
 
 .jp-AboutNotebook-header {
@@ -13,12 +14,23 @@
   margin-left: 16px;
 }
 
+.jp-AboutNotebook-version {
+  color: var(--jp-ui-font-color1);
+  font-size: var(--jp-ui-font-size1);
+  padding: var(--jp-flat-button-padding);
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  line-height: 1.12;
+  min-width: 360px;
+  text-align: center;
+}
+
 .jp-AboutNotebook-body {
   display: flex;
   font-size: var(--jp-ui-font-size2);
   padding: var(--jp-flat-button-padding);
   color: var(--jp-ui-font-color1);
-  text-align: left;
+  text-align: center;
   flex-direction: column;
   min-width: 360px;
   overflow: hidden;
@@ -35,6 +47,10 @@
   align-items: flex-start;
   padding-top: 12px;
   color: var(--jp-warn-color0);
+}
+
+.jp-AboutNotebook-about-copyright {
+  padding-top: 25px;
 }
 
 .jp-AboutNotebook-shortcuts {

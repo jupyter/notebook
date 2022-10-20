@@ -125,7 +125,9 @@ const plugin: JupyterFrontEndPlugin<void> = {
         );
 
         const notebookURL = 'https://github.com/jupyter/notebook';
-        const linkLabel = trans.__('JUPYTER NOTEBOOK ON GITHUB');
+        const contributorURL = 'https://github.com/jupyter/notebook/pulse';
+        const aboutJupyter = trans.__('JUPYTER NOTEBOOK ON GITHUB');
+        const contributorList = trans.__('CONTRIBUTOR LIST');
         const externalLinks = (
           <span>
             <a
@@ -134,15 +136,27 @@ const plugin: JupyterFrontEndPlugin<void> = {
               rel="noopener noreferrer"
               className="jp-Button-flat jp-AboutNotebook-about-externalLinks"
             >
-              {linkLabel}
+              {aboutJupyter}
+            </a>
+            <a
+              href={contributorURL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="jp-Button-flat jp-AboutNotebook-about-externalLinks"
+            >
+              {contributorList}
             </a>
           </span>
         );
         const version = trans.__('Version: %1', app.version);
+        const copyright = trans.__('© 2021-2022 Jupyter Notebook Contributors');
         const body = (
           <>
-            <span className="jp-AboutNotebook-body">{version}</span>
+            <span className="jp-AboutNotebook-version">{version}</span>
             <div>{externalLinks}</div>
+            <span className="jp-AboutNotebook-about-copyright">
+              {copyright}
+            </span>
           </>
         );
 
