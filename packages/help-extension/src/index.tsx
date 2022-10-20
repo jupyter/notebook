@@ -149,12 +149,14 @@ const plugin: JupyterFrontEndPlugin<void> = {
           </span>
         );
         const version = trans.__('Version: %1', app.version);
-        const copyright = trans.__('© 2021-2022 Jupyter Notebook Contributors')
+        const copyright = trans.__('© 2021-2022 Jupyter Notebook Contributors');
         const body = (
           <>
             <span className="jp-AboutNotebook-version">{version}</span>
             <div>{externalLinks}</div>
-            <span className='jp-AboutNotebook-about-copyright'>{copyright}</span>
+            <span className="jp-AboutNotebook-about-copyright">
+              {copyright}
+            </span>
           </>
         );
 
