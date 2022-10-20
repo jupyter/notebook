@@ -94,6 +94,9 @@ const createNew: JupyterFrontEndPlugin<void> = {
   }
 };
 
+/**
+ * A plugin to add file browser commands for the tree view.
+ */
 const openFileBrowser: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:open-file-browser',
   requires: [INotebookTree, IFileBrowserFactory],
@@ -176,7 +179,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
       running.id = 'jp-running-sessions';
       running.title.label = trans.__('Running');
       running.title.icon = runningIcon;
-      nbTreeWidget.addWidget(running, false);
+      nbTreeWidget.addWidget(running);
       nbTreeWidget.tabBar.addTab(running.title);
     }
 
