@@ -122,7 +122,7 @@ for more information.
         'Send2Trash>=1.8.0',
         'terminado>=0.8.3',
         'prometheus_client',
-        'nbclassic==0.4.6',
+        'nbclassic==0.4.7',
     ],
     extras_require = {
         'test': ['pytest', 'coverage', 'requests', 'testpath',
