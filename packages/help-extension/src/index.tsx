@@ -144,7 +144,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
               rel="noopener noreferrer"
               className="jp-Button-flat jp-AboutNotebook-about-externalLinks"
             >
-              {contList}
+              {contributorList}
             </a>
           </span>
         );
