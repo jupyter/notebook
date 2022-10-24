@@ -25,6 +25,8 @@ import { IDocumentManager, renameDialog } from '@jupyterlab/docmanager';
 
 import { DocumentWidget } from '@jupyterlab/docregistry';
 
+import { IFileBrowserCommands } from '@jupyterlab/filebrowser';
+
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -242,16 +244,22 @@ const menuSpacer: JupyterFrontEndPlugin<void> = {
 
 /**
  * Add commands to open the tree and running pages.
+ *
+ * ## NOTES:
+ * The optional token IFileBrowserCommands is useful to ensure the corresponding
+ * plugin has been activated. Otherwise this plugin can be activated before the commands
+ * 'toggle-main' has been added, which create a duplicated entry.
  */
 const pages: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:pages',
   autoStart: true,
   requires: [ITranslator],
-  optional: [ICommandPalette],
+  optional: [ICommandPalette, IFileBrowserCommands],
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
-    palette: ICommandPalette | null
+    palette: ICommandPalette | null,
+    fileBrowserCommands: null
   ): void => {
     const trans = translator.load('notebook');
     const baseUrl = PageConfig.getBaseUrl();
@@ -263,7 +271,7 @@ const pages: JupyterFrontEndPlugin<void> = {
       }
     });
 
-    if (!app.commands.isVisible("filebrowser:toggle-main")) {
+    if (!app.commands.isVisible('filebrowser:toggle-main')) {
       app.commands.addCommand(CommandIDs.openTree, {
         label: trans.__('File Browser'),
         execute: () => {
@@ -273,9 +281,15 @@ const pages: JupyterFrontEndPlugin<void> = {
     }
 
     if (palette) {
-      [CommandIDs.openLab, CommandIDs.openTree].forEach(command => {
-        palette.addItem({ command, category: 'View' });
-      });
+      palette.addItem({ command: CommandIDs.openLab, category: 'View' });
+      if (!app.commands.isVisible('filebrowser:toggle-main')) {
+        palette.addItem({ command: CommandIDs.openTree, category: 'View' });
+      } else {
+        palette.addItem({
+          command: 'filebrowser:toggle-main',
+          category: 'View'
+        });
+      }
     }
   }
 };
