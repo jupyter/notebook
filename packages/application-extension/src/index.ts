@@ -263,7 +263,7 @@ const pages: JupyterFrontEndPlugin<void> = {
       }
     });
 
-    if (PageConfig.getOption('notebookPage') !== 'tree') {
+    if (!app.commands.isVisible("filebrowser:toggle-main")) {
       app.commands.addCommand(CommandIDs.openTree, {
         label: trans.__('File Browser'),
         execute: () => {
