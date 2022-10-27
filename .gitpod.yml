@@ -22,7 +22,7 @@ tasks:
       micromamba activate
       EOT
       source /workspace/bin/activate-env.sh
-      micromamba install -n base -y -c conda-forge python=3.10 nodejs=14 yarn
+      micromamba install -n base -y -c conda-forge python=3.11 nodejs=14 yarn
       python -m pip install -e ".[dev,test]" && jlpm && jlpm run build && jlpm develop
       gp sync-done setup
     command: |
