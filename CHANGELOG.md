@@ -14,6 +14,27 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 6.5.2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.5.1...8a00144fa9afc26ff9a29c9abf12db4014f52293))
+
+### Bugs fixed
+
+- Ensure custom preload is correctly handled [#6580](https://github.com/jupyter/notebook/pull/6580) ([@echarles](https://github.com/echarles))
+- Fix: jQuery-UI 404 Error by updating dependency path in static template [#6578](https://github.com/jupyter/notebook/pull/6578) ([@RRosio](https://github.com/RRosio))
+
+### Maintenance and upkeep improvements
+
+- Depend on nbclassic 0.4.7 [#6593](https://github.com/jupyter/notebook/pull/6593) ([@echarles](https://github.com/echarles))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-10-13&to=2022-10-30&type=c))
+
+[@bnavigator](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abnavigator+updated%3A2022-10-13..2022-10-30&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-10-13..2022-10-30&type=Issues) | [@fcollonval](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afcollonval+updated%3A2022-10-13..2022-10-30&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-10-13..2022-10-30&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-10-13..2022-10-30&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-10-13..2022-10-30&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 6.5.1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.5.0...67546dad676025b70b8b5f061c42ed31029f5dac))
@@ -27,8 +48,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-10-13&to=2022-10-13&type=c))
 
 [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-10-13..2022-10-13&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.5.0
 
