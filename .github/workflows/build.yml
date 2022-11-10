@@ -58,6 +58,29 @@ jobs:
         jupyter server extension list 2>&1 | grep -ie "notebook.*enabled" -
         python -m jupyterlab.browser_check
 
+  test_prerelease:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Base Setup
+      uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      with:
+        python_version: "3.10"
+
+    - name: Install the Python dependencies
+      run: |
+        pip install --no-deps .
+        pip install --pre --upgrade ".[dev,test]"
+        python -m pip install ".[dev,test]"
+        jlpm run build:test
+
+    - name: Python Unit tests
+      run: |
+        pytest -vv || pytest -vv --lf
+
   install:
     needs: [build]
     runs-on: ${{ matrix.os }}
