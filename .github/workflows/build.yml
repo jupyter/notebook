@@ -139,7 +139,7 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
       - uses: jupyterlab/maintainer-tools/.github/actions/check-links@v1
         with:
-          ignore_links: "https://playwright.dev/docs/test-cli/ https://blog.jupyter.org/the-big-split-9d7b88a031a7"
+          ignore_links: "https://playwright.dev/docs/test-cli/ https://blog.jupyter.org/the-big-split-9d7b88a031a7 https://blog.jupyter.org/jupyter-ascending-1bf5b362d97e"
 
   pre_commit:
     runs-on: ubuntu-latest
