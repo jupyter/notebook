@@ -14,6 +14,38 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a8
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a7...9141f3eabb6a10a5bf742b26713405f9768cb6d2))
+
+### Enhancements made
+
+- Restyle about dialog [#6592](https://github.com/jupyter/notebook/pull/6592) ([@kostyafarber](https://github.com/kostyafarber))
+
+### Bugs fixed
+
+- Fix async contents handling and add test [#6616](https://github.com/jupyter/notebook/pull/6616) ([@blink1073](https://github.com/blink1073))
+- Fix PDF renderer [#6584](https://github.com/jupyter/notebook/pull/6584) ([@brichet](https://github.com/brichet))
+- Fix HTML viewer [#6583](https://github.com/jupyter/notebook/pull/6583) ([@brichet](https://github.com/brichet))
+
+### Maintenance and upkeep improvements
+
+- Bump loader-utils from 1.4.0 to 1.4.1 [#6615](https://github.com/jupyter/notebook/pull/6615) ([@dependabot](https://github.com/dependabot))
+- Bump dessant/lock-threads from 2 to 3 [#6587](https://github.com/jupyter/notebook/pull/6587) ([@dependabot](https://github.com/dependabot))
+- Add dependabot config to update GitHub Actions [#6586](https://github.com/jupyter/notebook/pull/6586) ([@jtpio](https://github.com/jtpio))
+- Update `actions/checkout` and `actions/download-artifact` [#6585](https://github.com/jupyter/notebook/pull/6585) ([@jtpio](https://github.com/jtpio))
+- Maintenance cleanup [#6581](https://github.com/jupyter/notebook/pull/6581) ([@blink1073](https://github.com/blink1073))
+- Update to lerna 6 [#6579](https://github.com/jupyter/notebook/pull/6579) ([@jtpio](https://github.com/jtpio))
+- Remove the `nbclassic` explicit uninstall on Binder [#6548](https://github.com/jupyter/notebook/pull/6548) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-10-13&to=2022-11-11&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-10-13..2022-11-11&type=Issues) | [@bnavigator](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abnavigator+updated%3A2022-10-13..2022-11-11&type=Issues) | [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2022-10-13..2022-11-11&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2022-10-13..2022-11-11&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-10-13..2022-11-11&type=Issues) | [@fcollonval](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afcollonval+updated%3A2022-10-13..2022-11-11&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-10-13..2022-11-11&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-10-13..2022-11-11&type=Issues) | [@kostyafarber](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akostyafarber+updated%3A2022-10-13..2022-11-11&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-10-13..2022-11-11&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-10-13..2022-11-11&type=Issues) | [@venkatasg](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Avenkatasg+updated%3A2022-10-13..2022-11-11&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0a7
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a6...caa0a11e36901c08ae80100fe2bbc5161c47dfee))
@@ -36,8 +68,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-10-03&to=2022-10-13&type=c))
 
 [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2022-10-03..2022-10-13&type=Issues) | [@eltociear](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aeltociear+updated%3A2022-10-03..2022-10-13&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-10-03..2022-10-13&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-10-03..2022-10-13&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2022-10-03..2022-10-13&type=Issues) | [@Mieju](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AMieju+updated%3A2022-10-03..2022-10-13&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-10-03..2022-10-13&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-10-03..2022-10-13&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0a6
 
