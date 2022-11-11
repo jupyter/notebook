@@ -142,7 +142,7 @@ class TreeHandler(NotebookBaseHandler):
             return self.write(tpl)
         elif await ensure_async(cm.file_exists(path)):
             # it's not a directory, we have redirecting to do
-            model = await maybe_future(cm.get(path, content=False))
+            model = await ensure_async(cm.get(path, content=False))
             if model["type"] == "notebook":
                 url = ujoin(self.base_url, "notebooks", url_escape(path))
             else:
