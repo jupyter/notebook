@@ -20,3 +20,12 @@ async def test_notebook_handler(notebooks, jp_fetch):
         # Check that the lab template is loaded
         html = r.body.decode()
         assert "Jupyter Notebook" in html
+
+
+async def test_tree_handler(notebooks, jp_fetch):
+    r = await jp_fetch("tree", "jlab_test_notebooks")
+    assert r.code == 200
+
+    # Check that the tree template is loaded
+    html = r.body.decode()
+    assert "- Tree</title>" in html

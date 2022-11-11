@@ -1,6 +1,7 @@
 import os
 from os.path import join as pjoin
 
+from jupyter_client.utils import ensure_async
 from jupyter_core.application import base_aliases
 from jupyter_server.base.handlers import JupyterHandler
 from jupyter_server.extension.handler import (
@@ -16,7 +17,6 @@ from jupyterlab_server.config import LabConfig, get_page_config, recursive_updat
 from jupyterlab_server.handlers import _camelCase, is_url
 from notebook_shim.shim import NotebookConfigShimMixin
 from tornado import web
-from tornado.gen import maybe_future
 from traitlets import Bool, default
 
 from ._version import __version__
@@ -129,8 +129,8 @@ class TreeHandler(NotebookBaseHandler):
         path = path.strip("/")
         cm = self.contents_manager
 
-        if await maybe_future(cm.dir_exists(path=path)):
-            if await maybe_future(cm.is_hidden(path)) and not cm.allow_hidden:
+        if await ensure_async(cm.dir_exists(path=path)):
+            if await ensure_async(cm.is_hidden(path)) and not cm.allow_hidden:
                 self.log.info("Refusing to serve hidden directory, via 404 Error")
                 raise web.HTTPError(404)
 
@@ -140,9 +140,9 @@ class TreeHandler(NotebookBaseHandler):
 
             tpl = self.render_template("tree.html", page_config=page_config)
             return self.write(tpl)
-        elif await maybe_future(cm.file_exists(path)):
+        elif await ensure_async(cm.file_exists(path)):
             # it's not a directory, we have redirecting to do
-            model = await maybe_future(cm.get(path, content=False))
+            model = await ensure_async(cm.get(path, content=False))
             if model["type"] == "notebook":
                 url = ujoin(self.base_url, "notebooks", url_escape(path))
             else:

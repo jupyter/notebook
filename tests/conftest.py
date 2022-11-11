@@ -1,3 +1,4 @@
+import glob
 import json
 import os
 import os.path as osp
@@ -49,7 +50,11 @@ def make_notebook_app(
             extra_labextensions_path=[str(labextensions_dir)],
         )
 
-    # Create the index files.
+    # Copy the template files.
+    for html_path in glob.glob(f"{path('notebook', 'templates')}/*.html"):
+        shutil.copy(html_path, jp_template_dir)
+
+    # Create the index file.
     index = jp_template_dir.joinpath("index.html")
     index.write_text(
         """
