@@ -1,4 +1,4 @@
-# Jupyter Notebookwhoops
+# Jupyter Notebook
 
 ![Github Actions Status](https://github.com/jupyter/notebook/workflows/Build/badge.svg)
 [![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/latest/?badge=latest)
