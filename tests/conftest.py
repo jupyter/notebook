@@ -3,7 +3,7 @@ import json
 import os
 import os.path as osp
 import shutil
-from importlib.resources import path
+from importlib.resources import files
 from os.path import join as pjoin
 
 import pytest
@@ -51,7 +51,7 @@ def make_notebook_app(
         )
 
     # Copy the template files.
-    for html_path in glob.glob(f"{path('notebook', 'templates')}/*.html"):
+    for html_path in glob.glob(str(files("notebook.templates").joinpath("*.html"))):
         shutil.copy(html_path, jp_template_dir)
 
     # Create the index file.
@@ -88,7 +88,7 @@ def make_notebook_app(
     )
 
     # Copy the schema files.
-    test_data = str(path("jupyterlab_server", "test_data"))
+    test_data = str(files("jupyterlab_server.test_data").joinpath(""))
     src = pjoin(test_data, "schemas", "@jupyterlab")
     dst = pjoin(str(schemas_dir), "@jupyterlab")
     if os.path.exists(dst):
