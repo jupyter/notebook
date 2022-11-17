@@ -53,7 +53,7 @@ math.pi`);
         '.jp-Cell-inputArea >> .cm-editor >> .cm-content[contenteditable="true"]'
       )
       .nth(1)
-      .type(`import this`);
+      .type('import this');
 
     // Run the cell
     runAndAdvance(notebook);
