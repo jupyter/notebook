@@ -58,6 +58,7 @@ test = [
     "pytest-timeout",
     "pytest-console-scripts",
     "ipykernel",
+    "jupyter_server[test]>=2.0.0rc3,<3",
     "jupyterlab_server[test]>=2.16.3,<3",
 ]
 dev = [
