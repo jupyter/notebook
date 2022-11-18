@@ -303,7 +303,7 @@ async function main() {
         createModule(data.name, data.mimeExtension)
       );
     }
-    if (data.style) {
+    if (data.style && !PageConfig.Extension.isDisabled(data.name)) {
       federatedStylePromises.push(createModule(data.name, data.style));
     }
   });
