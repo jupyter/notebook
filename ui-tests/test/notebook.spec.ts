@@ -127,7 +127,7 @@ test.describe('Notebook', () => {
       )
     ).toHaveCount(3);
 
-    const imageName = `toc-left-panel.png`;
+    const imageName = 'toc-left-panel.png';
 
     expect(await panel.screenshot()).toMatchSnapshot(imageName);
   });
@@ -152,7 +152,7 @@ test.describe('Notebook', () => {
 
     await page.isVisible('#notebook-tools.jp-NotebookTools > #add-tag.tag');
 
-    const imageName = `notebooktools-right-panel.png`;
+    const imageName = 'notebooktools-right-panel.png';
     expect(await panel.screenshot()).toMatchSnapshot(imageName);
   });
 });
