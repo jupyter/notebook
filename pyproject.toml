@@ -58,7 +58,7 @@ test = [
     "pytest-timeout",
     "pytest-console-scripts",
     "ipykernel",
-    "jupyterlab_server[test]>=2.16,<3",
+    "jupyterlab_server[test]>=2.16.0,<3",
 ]
 dev = [
     "pre-commit",
