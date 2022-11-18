@@ -261,12 +261,9 @@ class TestFileContentsManager(TestCase):
             old_path = file_in_hidden_path
             new_path = "new.txt"
 
-            try:
-                result = cm.rename_file(old_path, new_path)
-            except HTTPError as e:
-                self.assertEqual(e.status_code, 400)
-            else:
-                self.fail("Should have raised HTTPError(400)")
+            with self.assertRaises(HTTPError) as excinfo:
+                cm.rename_file(old_path, new_path)
+            self.assertEqual(excinfo.exception.status_code, 400)
 
         #Test rename of dest file in hidden directory
         with TemporaryDirectory() as td:
@@ -277,12 +274,9 @@ class TestFileContentsManager(TestCase):
             new_path = file_in_hidden_path
             old_path = "old.txt"
 
-            try:
-                result = cm.rename_file(old_path, new_path)
-            except HTTPError as e:
-                self.assertEqual(e.status_code, 400)
-            else:
-                self.fail("Should have raised HTTPError(400)")
+            with self.assertRaises(HTTPError) as excinfo:
+                cm.rename_file(old_path, new_path)
+            self.assertEqual(excinfo.exception.status_code, 400)
 
         #Test rename with hidden source file in visible directory
         with TemporaryDirectory() as td:
@@ -293,12 +287,9 @@ class TestFileContentsManager(TestCase):
             old_path = file_in_hidden_path
             new_path = "new.txt"
 
-            try:
-                result = cm.rename_file(old_path, new_path)
-            except HTTPError as e:
-                self.assertEqual(e.status_code, 400)
-            else:
-                self.fail("Should have raised HTTPError(400)")
+            with self.assertRaises(HTTPError) as excinfo:
+                cm.rename_file(old_path, new_path)
+            self.assertEqual(excinfo.exception.status_code, 400)
 
         #Test rename with hidden dest file in visible directory
         with TemporaryDirectory() as td:
@@ -309,12 +300,9 @@ class TestFileContentsManager(TestCase):
             new_path = file_in_hidden_path
             old_path = "old.txt"
 
-            try:
-                result = cm.rename_file(old_path, new_path)
-            except HTTPError as e:
-                self.assertEqual(e.status_code, 400)
-            else:
-                self.fail("Should have raised HTTPError(400)")
+            with self.assertRaises(HTTPError) as excinfo:
+                cm.rename_file(old_path, new_path)
+            self.assertEqual(excinfo.exception.status_code, 400)
 
     @skipIf(sys.platform.startswith('win'), "Can't test hidden files on Windows")
     def test_404(self):
