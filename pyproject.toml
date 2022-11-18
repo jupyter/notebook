@@ -33,7 +33,7 @@ dependencies = [
     "jupyter_server>=2.0.0rc3,<3",
     "jupyterlab>=4.0.0a31,<5",
     "jupyterlab_server>=2.13,<3",
-    "notebook_shim>=0.1,<0.2",
+    "notebook_shim>=0.2,<0.3",
     "tornado>=6.1.0",
 ]
 dynamic = ["version"]
