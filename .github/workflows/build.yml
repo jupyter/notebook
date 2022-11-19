@@ -145,7 +145,7 @@ jobs:
           jupyter notebook --version
           jupyter notebook --help
 
-  check_linkts:
+  check_links:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -165,7 +165,7 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/pre-commit@v1
 
 
-  python_tests_check: # This job does nothing and is only used for the branch protection
+  tests_check: # This job does nothing and is only used for the branch protection
     if: always()
     needs:
       - test
