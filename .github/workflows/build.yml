@@ -45,9 +45,7 @@ jobs:
 
     - name: JavaScript tests
       run: |
-        pip install jupyterlab
-        jlpm run build:test
-        jlpm run test
+        hatch run js_test
 
     - name: Integration Tests
       run: |
