@@ -39,12 +39,9 @@ jobs:
 
     - name: Base Setup
       uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
-      with:
-        python_version: "3.12"
 
     - name: Test the package
-      run: |
-        hatch run cov:test
+      run: hatch run cov:test
 
     - name: JavaScript tests
       run: |
