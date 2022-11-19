@@ -60,6 +60,13 @@ test = [
     "ipykernel",
     "jupyterlab_server[test]>=2.13,<3",
 ]
+docs = [
+    "myst_parser",
+    "nbsphinx",
+    "pydata-sphinx-theme",
+    "sphinx>=1.3.6",
+    "sphinxcontrib_github_alt",
+]
 dev = [
     "pre-commit",
     "hatch"
@@ -98,6 +105,23 @@ artifacts = [
 ]
 include = ["/notebook"]
 
+[tool.hatch.envs.docs]
+features = ["docs"]
+[tool.hatch.envs.docs.scripts]
+build = "make -C docs html SPHINXOPTS='-W'"
+
+[tool.hatch.envs.test]
+features = ["test"]
+[tool.hatch.envs.test.scripts]
+test = "python -m pytest -vv {args}"
+nowarn = "test -W default {args}"
+
+[tool.hatch.envs.cov]
+features = ["test"]
+dependencies = ["coverage", "pytest-cov"]
+[tool.hatch.envs.cov.scripts]
+test = "python -m pytest -vv --cov notebook --cov-branch --cov-report term-missing:skip-covered {args}"
+nowarn = "test -W default {args}"
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.2"]
@@ -126,6 +150,20 @@ filterwarnings = [
     "ignore:There is no current event loop:DeprecationWarning",
     "ignore:make_current is deprecated; start the event loop first",
     "ignore:clear_current is deprecated"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "def __repr__",
+  "if self.debug:",
+  "if settings.DEBUG",
+  "raise AssertionError",
+  "raise NotImplementedError",
+  "if 0:",
+  "if __name__ == .__main__.:",
+  "class .*\bProtocol\\):",
+"@(abc\\.)?abstractmethod",
 ]
 
 [tool.flake8]

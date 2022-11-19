@@ -1,4 +1,9 @@
-conda:
-    file: docs/environment.yml
+version: 2
+sphinx:
+  configuration: docs/source/conf.py
 python:
-    version: 3
+  version: 3.8
+  install:
+    # install notebook itself
+    - method: pip
+      path: ".[docs]"
