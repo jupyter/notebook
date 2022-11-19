@@ -20,7 +20,7 @@ runs:
       shell: bash
       run: |
         mkdir pkgs
-        jlpm lerna exec -- npm pack
+        hatch run npm_pack
         cp packages/*/*.tgz pkgs
 
     - name: Build checksum file

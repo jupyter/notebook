@@ -111,6 +111,9 @@ features = ["docs"]
 [tool.hatch.envs.docs.scripts]
 build = "make -C docs html SPHINXOPTS='-W'"
 
+[tool.hatch.envs.default.scripts]
+npm_pack = " jlpm lerna exec -- npm pack"
+
 [tool.hatch.envs.test]
 features = ["test"]
 [tool.hatch.envs.test.scripts]
