@@ -31,6 +31,7 @@ classifiers = [
 ]
 dependencies = [
     "jupyter_server>=1.16.0,<2",
+    "importlib-resources>=1.4;python_version<\"3.9\"",
     "jupyterlab>=4.0.0a30,<5",
     "jupyterlab_server>=2.13,<3",
     "notebook_shim>=0.1,<0.2",

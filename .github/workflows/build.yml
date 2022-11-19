@@ -63,6 +63,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - run: |
+          # pandoc is not up to date in the ubuntu repos, so we install directly
+          wget https://github.com/jgm/pandoc/releases/download/2.14.2/pandoc-2.14.2-1-amd64.deb && sudo dpkg -i pandoc-2.14.2-1-amd64.deb
       - run: hatch run docs:build
 
   test_minimum_versions:
@@ -73,7 +76,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
         with:
-          python_version: "3.8"
+          python_version: "3.7"
       - uses: jupyterlab/maintainer-tools/.github/actions/install-minimums@v1
         with:
           only_create_file: 1
