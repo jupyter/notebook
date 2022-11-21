@@ -52,7 +52,7 @@ Tracker = "https://github.com/jupyter/notebook/issues"
 test = [
     "coverage",
     "nbval",
-    "pytest>=6.0",
+    "pytest>=7.0",
     "pytest-cov",
     "requests",
     "pytest-tornasync",
