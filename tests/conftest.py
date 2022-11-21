@@ -4,7 +4,11 @@ import os
 import os.path as osp
 import pathlib
 import shutil
-from importlib.resources import files
+
+try:
+    from importlib.resources import files
+except ImportError:
+    from importlib_resources import files
 
 import pytest
 

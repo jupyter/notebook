@@ -9,18 +9,18 @@ runs:
     - name: Install dependencies
       shell: bash
       run: |
-        python -m pip install --upgrade jupyter_packaging~=0.10 "jupyterlab>=4.0.0a30,<5" build
+        python -m pip install hatch
 
     - name: Build pypi distributions
       shell: bash
       run: |
-        python -m build
+        hatch build
 
     - name: Build npm distributions
       shell: bash
       run: |
         mkdir pkgs
-        jlpm lerna exec -- npm pack
+        hatch run npm_pack
         cp packages/*/*.tgz pkgs
 
     - name: Build checksum file
