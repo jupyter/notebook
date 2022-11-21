@@ -84,7 +84,7 @@ async function main() {
     require('@jupyterlab/apputils-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/apputils-extension:palette',
-        '@jupyter/apputils-extension:sanitizer',
+        '@jupyterlab/apputils-extension:sanitizer',
         '@jupyterlab/apputils-extension:settings',
         '@jupyterlab/apputils-extension:state',
         '@jupyterlab/apputils-extension:themes',
@@ -303,7 +303,7 @@ async function main() {
         createModule(data.name, data.mimeExtension)
       );
     }
-    if (data.style) {
+    if (data.style && !PageConfig.Extension.isDisabled(data.name)) {
       federatedStylePromises.push(createModule(data.name, data.style));
     }
   });
