@@ -55,6 +55,11 @@ jobs:
         jupyter server extension list 2>&1 | grep -ie "notebook.*enabled" -
         python -m jupyterlab.browser_check
 
+    - name: Codecov
+      run: |
+        pip install codecov coverage[toml]
+        codecov
+
   test_docs:
     name: Test Docs
     runs-on: ubuntu-latest
@@ -74,10 +79,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
         with:
-          python_version: "3.7"
-      - uses: jupyterlab/maintainer-tools/.github/actions/install-minimums@v1
-        with:
-          only_create_file: 1
+          dependency_type: minimum
       - name: Run the unit tests
         run: |
           hatch run test:nowarn || hatch run test:nowarn --lf
@@ -90,10 +92,10 @@ jobs:
       - uses: actions/checkout@v3
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
         with:
-          python_version: "3.11"
+          dependency_type: pre
       - name: Run the tests
         run: |
-          PIP_PRE=1 hatch run test:nowarn || hatch run test:nowarn --lf
+          hatch run test:nowarn || hatch run test:nowarn --lf
 
   install:
     needs: [build]
