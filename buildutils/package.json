@@ -33,7 +33,7 @@
     "@jupyterlab/buildutils": "^4.0.0-alpha.16",
     "commander": "^6.2.0",
     "fs-extra": "^9.1.0",
-    "typescript": "~4.7.3"
+    "typescript": "~4.9.3"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.10",
