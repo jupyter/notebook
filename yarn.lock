@@ -1426,10 +1426,10 @@
     "@jridgewell/sourcemap-codec" "1.4.14"
 
 "@jupyter-notebook/application-extension@file:packages/application-extension":
-  version "7.0.0-alpha.8"
+  version "7.0.0-alpha.9"
   dependencies:
-    "@jupyter-notebook/application" "^7.0.0-alpha.8"
-    "@jupyter-notebook/ui-components" "^7.0.0-alpha.8"
+    "@jupyter-notebook/application" "^7.0.0-alpha.9"
+    "@jupyter-notebook/ui-components" "^7.0.0-alpha.9"
     "@jupyterlab/application" "^4.0.0-alpha.16"
     "@jupyterlab/apputils" "^4.0.0-alpha.16"
     "@jupyterlab/celltags" "^4.0.0-alpha.16"
@@ -1446,7 +1446,7 @@
     "@lumino/widgets" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/application@file:packages/application":
-  version "7.0.0-alpha.8"
+  version "7.0.0-alpha.9"
   dependencies:
     "@jupyterlab/application" "^4.0.0-alpha.16"
     "@jupyterlab/coreutils" "^6.0.0-alpha.16"
@@ -1461,7 +1461,7 @@
     "@lumino/widgets" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/console-extension@file:packages/console-extension":
-  version "7.0.0-alpha.8"
+  version "7.0.0-alpha.9"
   dependencies:
     "@jupyterlab/application" "^4.0.0-alpha.16"
     "@jupyterlab/console" "^4.0.0-alpha.16"
@@ -1469,7 +1469,7 @@
     "@lumino/algorithm" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/docmanager-extension@file:packages/docmanager-extension":
-  version "7.0.0-alpha.8"
+  version "7.0.0-alpha.9"
   dependencies:
     "@jupyterlab/application" "^4.0.0-alpha.16"
     "@jupyterlab/coreutils" "^6.0.0-alpha.16"
@@ -1480,26 +1480,26 @@
     "@lumino/signaling" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/documentsearch-extension@file:packages/documentsearch-extension":
-  version "7.0.0-alpha.8"
+  version "7.0.0-alpha.9"
   dependencies:
-    "@jupyter-notebook/application" "^7.0.0-alpha.8"
+    "@jupyter-notebook/application" "^7.0.0-alpha.9"
     "@jupyterlab/application" "^4.0.0-alpha.16"
     "@jupyterlab/documentsearch" "^4.0.0-alpha.16"
     "@lumino/widgets" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/help-extension@file:packages/help-extension":
-  version "7.0.0-alpha.8"
+  version "7.0.0-alpha.9"
   dependencies:
-    "@jupyter-notebook/ui-components" "^7.0.0-alpha.8"
+    "@jupyter-notebook/ui-components" "^7.0.0-alpha.9"
     "@jupyterlab/application" "^4.0.0-alpha.16"
     "@jupyterlab/apputils" "^4.0.0-alpha.16"
     "@jupyterlab/mainmenu" "^4.0.0-alpha.16"
     "@jupyterlab/translation" "^4.0.0-alpha.16"
 
 "@jupyter-notebook/lab-extension@file:packages/lab-extension":
-  version "7.0.0-alpha.8"
+  version "7.0.0-alpha.9"
   dependencies:
-    "@jupyter-notebook/application" "^7.0.0-alpha.8"
+    "@jupyter-notebook/application" "^7.0.0-alpha.9"
     "@jupyterlab/application" "^4.0.0-alpha.16"
     "@jupyterlab/apputils" "^4.0.0-alpha.16"
     "@jupyterlab/coreutils" "^6.0.0-alpha.16"
@@ -1510,9 +1510,9 @@
     "@lumino/disposable" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/notebook-extension@file:packages/notebook-extension":
-  version "7.0.0-alpha.8"
+  version "7.0.0-alpha.9"
   dependencies:
-    "@jupyter-notebook/application" "^7.0.0-alpha.8"
+    "@jupyter-notebook/application" "^7.0.0-alpha.9"
     "@jupyterlab/application" "^4.0.0-alpha.16"
     "@jupyterlab/apputils" "^4.0.0-alpha.16"
     "@jupyterlab/cells" "^4.0.0-alpha.16"
@@ -1524,7 +1524,7 @@
     "@lumino/widgets" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/terminal-extension@file:packages/terminal-extension":
-  version "7.0.0-alpha.8"
+  version "7.0.0-alpha.9"
   dependencies:
     "@jupyterlab/application" "^4.0.0-alpha.16"
     "@jupyterlab/coreutils" "^6.0.0-alpha.16"
@@ -1532,10 +1532,10 @@
     "@lumino/algorithm" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/tree-extension@file:packages/tree-extension":
-  version "7.0.0-alpha.8"
+  version "7.0.0-alpha.9"
   dependencies:
-    "@jupyter-notebook/application" "^7.0.0-alpha.8"
-    "@jupyter-notebook/tree" "^7.0.0-alpha.8"
+    "@jupyter-notebook/application" "^7.0.0-alpha.9"
+    "@jupyter-notebook/tree" "^7.0.0-alpha.9"
     "@jupyterlab/application" "^4.0.0-alpha.16"
     "@jupyterlab/apputils" "^4.0.0-alpha.16"
     "@jupyterlab/coreutils" "^6.0.0-alpha.16"
@@ -1552,9 +1552,9 @@
     "@lumino/widgets" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/tree@file:packages/tree":
-  version "7.0.0-alpha.8"
+  version "7.0.0-alpha.9"
   dependencies:
-    "@jupyter-notebook/application" "^7.0.0-alpha.8"
+    "@jupyter-notebook/application" "^7.0.0-alpha.9"
     "@jupyterlab/application" "^4.0.0-alpha.16"
     "@jupyterlab/apputils" "^4.0.0-alpha.16"
     "@jupyterlab/coreutils" "^6.0.0-alpha.16"
@@ -1572,7 +1572,7 @@
     "@lumino/widgets" "^2.0.0-alpha.6"
 
 "@jupyter-notebook/ui-components@file:packages/ui-components":
-  version "7.0.0-alpha.8"
+  version "7.0.0-alpha.9"
   dependencies:
     "@jupyterlab/ui-components" "^4.0.0-alpha.31"
     react "^17.0.1"
@@ -13269,7 +13269,7 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==
 
-"typescript@^3 || ^4":
+"typescript@^3 || ^4", typescript@~4.9.3:
   version "4.9.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.3.tgz#3aea307c1746b8c384435d8ac36b8a2e580d85db"
   integrity sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==
