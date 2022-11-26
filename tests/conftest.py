@@ -2,9 +2,13 @@ import glob
 import json
 import os
 import os.path as osp
+import pathlib
 import shutil
-from importlib.resources import path
-from os.path import join as pjoin
+
+try:
+    from importlib.resources import files
+except ImportError:
+    from importlib_resources import files
 
 import pytest
 
@@ -51,7 +55,7 @@ def make_notebook_app(
         )
 
     # Copy the template files.
-    for html_path in glob.glob(f"{path('notebook', 'templates')}/*.html"):
+    for html_path in glob.glob(str(files("notebook.templates").joinpath("*.html"))):
         shutil.copy(html_path, jp_template_dir)
 
     # Create the index file.
@@ -88,9 +92,9 @@ def make_notebook_app(
     )
 
     # Copy the schema files.
-    test_data = str(path("jupyterlab_server", "test_data"))
-    src = pjoin(test_data, "schemas", "@jupyterlab")
-    dst = pjoin(str(schemas_dir), "@jupyterlab")
+    test_data = str(files("jupyterlab_server.test_data").joinpath(""))
+    src = pathlib.PurePath(test_data, "schemas", "@jupyterlab")
+    dst = pathlib.PurePath(str(schemas_dir), "@jupyterlab")
     if os.path.exists(dst):
         shutil.rmtree(dst)
     shutil.copytree(src, dst)
@@ -98,28 +102,28 @@ def make_notebook_app(
     # Create the federated extensions
     for name in ["apputils-extension", "codemirror-extension"]:
         target_name = name + "-federated"
-        target = pjoin(str(labextensions_dir), "@jupyterlab", target_name)
-        src = pjoin(test_data, "schemas", "@jupyterlab", name)
-        dst = pjoin(target, "schemas", "@jupyterlab", target_name)
+        target = pathlib.PurePath(str(labextensions_dir), "@jupyterlab", target_name)
+        src = pathlib.PurePath(test_data, "schemas", "@jupyterlab", name)
+        dst = target / "schemas" / "@jupyterlab" / target_name
         if osp.exists(dst):
             shutil.rmtree(dst)
         shutil.copytree(src, dst)
-        with open(pjoin(target, "package.orig.json"), "w") as fid:
+        with open(target / "package.orig.json", "w") as fid:
             data = dict(name=target_name, jupyterlab=dict(extension=True))
             json.dump(data, fid)
 
     # Copy the overrides file.
-    src = pjoin(test_data, "app-settings", "overrides.json")
-    dst = pjoin(str(app_settings_dir), "overrides.json")
+    src = pathlib.PurePath(test_data, "app-settings", "overrides.json")
+    dst = pathlib.PurePath(str(app_settings_dir), "overrides.json")
     if os.path.exists(dst):
         os.remove(dst)
     shutil.copyfile(src, dst)
 
     # Copy workspaces.
-    data = pjoin(test_data, "workspaces")
+    data = pathlib.PurePath(test_data, "workspaces")
     for item in os.listdir(data):
-        src = pjoin(data, item)
-        dst = pjoin(str(workspaces_dir), item)
+        src = data / item
+        dst = pathlib.PurePath(str(workspaces_dir), item)
         if os.path.exists(dst):
             os.remove(dst)
         shutil.copy(src, str(workspaces_dir))
