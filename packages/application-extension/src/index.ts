@@ -35,8 +35,9 @@ import {
   NotebookApp,
   NotebookShell,
   INotebookShell,
-  SideBarPanel,
-  SideBarHandler
+  SidePanel,
+  SidePanelHandler,
+  SidePanelPalette
 } from '@jupyter-notebook/application';
 
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
@@ -50,8 +51,6 @@ import {
 } from '@lumino/disposable';
 
 import { Menu, Widget } from '@lumino/widgets';
-
-import { SideBarPalette } from './sidebarpalette';
 
 /**
  * A regular expression to match path to notebooks and documents
@@ -73,7 +72,7 @@ namespace CommandIDs {
   export const toggleTop = 'application:toggle-top';
 
   /**
-   * Toggle sidebar visibility
+   * Toggle side panel visibility
    */
   export const togglePanel = 'application:toggle-panel';
 
@@ -543,10 +542,10 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * Plugin to toggle the left or right sidebar's visibility.
+ * Plugin to toggle the left or right side panel's visibility.
  */
-const sidebarVisibility: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/application-extension:sidebar',
+const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/application-extension:sidepanel',
   requires: [INotebookShell, ITranslator],
   optional: [IMainMenu, ICommandPalette],
   autoStart: true,
@@ -562,7 +561,7 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
     /* Arguments for togglePanel command:
      * side, left or right area
      * title, widget title to show in the menu
-     * id, widget ID to activate in the sidebar
+     * id, widget ID to activate in the side panel
      */
     app.commands.addCommand(CommandIDs.togglePanel, {
       label: args => args['title'] as string,
@@ -643,33 +642,33 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
       }
     });
 
-    const sideBarMenu: { [area in SideBarPanel.Area]: IDisposable | null } = {
+    const sidePanelMenu: { [area in SidePanel.Area]: IDisposable | null } = {
       left: null,
       right: null
     };
 
     /**
-     * The function which adds entries to the View menu for each widget of a sidebar.
+     * The function which adds entries to the View menu for each widget of a side panel.
      *
-     * @param area - 'left' or 'right', the area of the side bar.
-     * @param entryLabel - the name of the main entry in the View menu for that sidebar.
+     * @param area - 'left' or 'right', the area of the side panel.
+     * @param entryLabel - the name of the main entry in the View menu for that side panel.
      * @returns - The disposable menu added to the View menu or null.
      */
-    const updateMenu = (area: SideBarPanel.Area, entryLabel: string) => {
+    const updateMenu = (area: SidePanel.Area, entryLabel: string) => {
       if (menu === null) {
         return null;
       }
 
-      // Remove the previous menu entry for this sidebar.
-      sideBarMenu[area]?.dispose();
+      // Remove the previous menu entry for this side panel.
+      sidePanelMenu[area]?.dispose();
 
-      // Creates a new menu entry and populates it with sidebar widgets.
+      // Creates a new menu entry and populates it with side panel widgets.
       const newMenu = new Menu({ commands: app.commands });
       newMenu.title.label = entryLabel;
       const widgets = notebookShell.widgets(area);
       let menuToAdd = false;
 
-      for (let widget of widgets) {
+      for (const widget of widgets) {
         newMenu.addItem({
           command: CommandIDs.togglePanel,
           args: {
@@ -683,7 +682,7 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
 
       // If there are widgets, add the menu to the main menu entry.
       if (menuToAdd) {
-        sideBarMenu[area] = menu.viewMenu.addItem({
+        sidePanelMenu[area] = menu.viewMenu.addItem({
           type: 'submenu',
           submenu: newMenu
         });
@@ -693,63 +692,65 @@ const sidebarVisibility: JupyterFrontEndPlugin<void> = {
     app.restored.then(() => {
       // Create menu entries for the left and right panel.
       if (menu) {
-        const getSideBarLabel = (area: SideBarPanel.Area): string => {
+        const getSidePanelLabel = (area: SidePanel.Area): string => {
           if (area === 'left') {
-            return trans.__(`Left Sidebar`);
+            return trans.__('Left Sidebar');
           } else {
-            return trans.__(`Right Sidebar`);
+            return trans.__('Right Sidebar');
           }
         };
         const leftArea = notebookShell.leftHandler.area;
-        const leftLabel = getSideBarLabel(leftArea);
+        const leftLabel = getSidePanelLabel(leftArea);
         updateMenu(leftArea, leftLabel);
 
         const rightArea = notebookShell.rightHandler.area;
-        const rightLabel = getSideBarLabel(rightArea);
+        const rightLabel = getSidePanelLabel(rightArea);
         updateMenu(rightArea, rightLabel);
 
-        const handleSideBarChange = (
-          sidebar: SideBarHandler,
+        const handleSidePanelChange = (
+          sidePanel: SidePanelHandler,
           widget: Widget
         ) => {
-          const label = getSideBarLabel(sidebar.area);
-          updateMenu(sidebar.area, label);
+          const label = getSidePanelLabel(sidePanel.area);
+          updateMenu(sidePanel.area, label);
         };
 
-        notebookShell.leftHandler.widgetAdded.connect(handleSideBarChange);
-        notebookShell.leftHandler.widgetRemoved.connect(handleSideBarChange);
-        notebookShell.rightHandler.widgetAdded.connect(handleSideBarChange);
-        notebookShell.rightHandler.widgetRemoved.connect(handleSideBarChange);
+        notebookShell.leftHandler.widgetAdded.connect(handleSidePanelChange);
+        notebookShell.leftHandler.widgetRemoved.connect(handleSidePanelChange);
+        notebookShell.rightHandler.widgetAdded.connect(handleSidePanelChange);
+        notebookShell.rightHandler.widgetRemoved.connect(handleSidePanelChange);
       }
 
       // Add palette entries for side panels.
       if (palette) {
-        const sideBarPalette = new SideBarPalette({
+        const sidePanelPalette = new SidePanelPalette({
           commandPalette: palette as ICommandPalette,
           command: CommandIDs.togglePanel
         });
 
         notebookShell.leftHandler.widgets.forEach(widget => {
-          sideBarPalette.addItem(widget, notebookShell.leftHandler.area);
+          sidePanelPalette.addItem(widget, notebookShell.leftHandler.area);
         });
 
         notebookShell.rightHandler.widgets.forEach(widget => {
-          sideBarPalette.addItem(widget, notebookShell.rightHandler.area);
+          sidePanelPalette.addItem(widget, notebookShell.rightHandler.area);
         });
 
-        // Update menu and palette when widgets are added or removed from sidebars.
-        notebookShell.leftHandler.widgetAdded.connect((sidebar, widget) => {
-          sideBarPalette.addItem(widget, sidebar.area);
+        // Update menu and palette when widgets are added or removed from side panels.
+        notebookShell.leftHandler.widgetAdded.connect((sidePanel, widget) => {
+          sidePanelPalette.addItem(widget, sidePanel.area);
         });
-        notebookShell.leftHandler.widgetRemoved.connect((sidebar, widget) => {
-          sideBarPalette.removeItem(widget, sidebar.area);
+        notebookShell.leftHandler.widgetRemoved.connect((sidePanel, widget) => {
+          sidePanelPalette.removeItem(widget, sidePanel.area);
         });
-        notebookShell.rightHandler.widgetAdded.connect((sidebar, widget) => {
-          sideBarPalette.addItem(widget, sidebar.area);
+        notebookShell.rightHandler.widgetAdded.connect((sidePanel, widget) => {
+          sidePanelPalette.addItem(widget, sidePanel.area);
         });
-        notebookShell.rightHandler.widgetRemoved.connect((sidebar, widget) => {
-          sideBarPalette.removeItem(widget, sidebar.area);
-        });
+        notebookShell.rightHandler.widgetRemoved.connect(
+          (sidePanel, widget) => {
+            sidePanelPalette.removeItem(widget, sidePanel.area);
+          }
+        );
       }
     });
   }
@@ -908,7 +909,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   paths,
   sessionDialogs,
   shell,
-  sidebarVisibility,
+  sidePanelVisibility,
   status,
   tabTitle,
   title,

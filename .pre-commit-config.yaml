@@ -48,7 +48,7 @@ repos:
       - id: mdformat
 
   - repo: https://github.com/john-hen/Flake8-pyproject
-    rev: 1.1.0.post0
+    rev: 1.2.0
     hooks:
       - id: Flake8-pyproject
         alias: flake8
@@ -56,15 +56,10 @@ repos:
           ["flake8-bugbear==22.6.22", "flake8-implicit-str-concat==0.2.0"]
         stages: [manual]
 
-  - repo: https://github.com/sirosen/check-jsonschema
-    rev: 0.18.4
+  - repo: https://github.com/python-jsonschema/check-jsonschema
+    rev: 0.19.2
     hooks:
-      - id: check-jsonschema
-        name: 'Check GitHub Workflows'
-        files: ^\.github/workflows/
-        types: [yaml]
-        args: ['--schemafile', 'https://json.schemastore.org/github-workflow']
-        stages: [manual]
+      - id: check-github-workflows
 
   - repo: local
     hooks:

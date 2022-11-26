@@ -1,5 +1,0 @@
-myst_parser
-nbsphinx
-pydata-sphinx-theme
-sphinx>=1.3.6
-sphinxcontrib_github_alt

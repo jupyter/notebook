@@ -39,61 +39,77 @@ jobs:
 
     - name: Base Setup
       uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
-      with:
-        python_version: "3.10"
 
-    - name: Install the package
-      run: |
-        python -m pip install ".[dev,test]"
-        jlpm run build:test
+    - name: Test the package
+      run: hatch run cov:test
 
-    - name: Unit tests
+    - name: JavaScript tests
       run: |
-        jlpm run test
-        pytest -vv || pytest -vv --lf
+        hatch run js_test
 
     - name: Integration Tests
       run: |
+        pip install .
+        cd
         jupyter labextension list 2>&1 | grep -ie "@jupyter-notebook/lab-extension.*enabled.*ok" -
         jupyter server extension list 2>&1 | grep -ie "notebook.*enabled" -
         python -m jupyterlab.browser_check
 
-  test_prerelease:
+    - name: Codecov
+      run: |
+        pip install codecov coverage[toml]
+        codecov
+
+  test_docs:
+    name: Test Docs
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - run: |
+          # pandoc is not up to date in the ubuntu repos, so we install directly
+          wget https://github.com/jgm/pandoc/releases/download/2.14.2/pandoc-2.14.2-1-amd64.deb && sudo dpkg -i pandoc-2.14.2-1-amd64.deb
+      - run: hatch run docs:build
 
-    - name: Base Setup
-      uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
-      with:
-        python_version: "3.10"
+  test_minimum_versions:
+    name: Test Minimum Versions
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+        with:
+          dependency_type: minimum
+      - name: Run the unit tests
+        run: |
+          hatch run test:nowarn || hatch run test:nowarn --lf
 
-    - name: Install the Python dependencies
-      run: |
-        pip install --no-deps .
-        pip install --pre --upgrade ".[dev,test]"
-        python -m pip install ".[dev,test]"
-        jlpm run build:test
-
-    - name: Python Unit tests
-      run: |
-        pytest -vv || pytest -vv --lf
+  test_prereleases:
+    name: Test Prereleases
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v3
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+        with:
+          dependency_type: pre
+      - name: Run the tests
+        run: |
+          hatch run test:nowarn || hatch run test:nowarn --lf
 
   install:
     needs: [build]
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 10
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python: ['3.7', '3.10']
+        python: ['3.7', '3.11']
         include:
           - python: '3.7'
             dist: 'notebook*.tar.gz'
-          - python: '3.10'
+          - python: '3.11'
             dist: 'notebook*.whl'
           - os: windows-latest
             py_cmd: python
@@ -131,7 +147,7 @@ jobs:
           jupyter notebook --version
           jupyter notebook --help
 
-  link_check:
+  check_links:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -149,3 +165,21 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
       - run: pip install -e .
       - uses: jupyterlab/maintainer-tools/.github/actions/pre-commit@v1
+
+
+  tests_check: # This job does nothing and is only used for the branch protection
+    if: always()
+    needs:
+      - test
+      - install
+      - pre_commit
+      - test_docs
+      - test_minimum_versions
+      - test_prereleases
+      - check_links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}

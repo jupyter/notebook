@@ -270,7 +270,7 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
       }
       const { outputArea } = cell;
       // respect cells with an explicit scrolled state
-      const scrolled = cell.model.metadata.get('scrolled');
+      const scrolled = cell.model.getMetadata('scrolled');
       if (scrolled !== undefined) {
         return;
       }

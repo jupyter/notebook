@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/documentsearch-extension",
-  "version": "7.0.0-alpha.8",
+  "version": "7.0.0-alpha.9",
   "description": "Jupyter Notebook - Document Search Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -39,14 +39,14 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.0.0-alpha.8",
-    "@jupyterlab/application": "^4.0.0-alpha.15",
-    "@jupyterlab/documentsearch": "^4.0.0-alpha.15",
+    "@jupyter-notebook/application": "^7.0.0-alpha.9",
+    "@jupyterlab/application": "^4.0.0-alpha.16",
+    "@jupyterlab/documentsearch": "^4.0.0-alpha.16",
     "@lumino/widgets": "^2.0.0-alpha.6"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
-    "typescript": "~4.7.3"
+    "typescript": "~4.9.3"
   },
   "publishConfig": {
     "access": "public"
