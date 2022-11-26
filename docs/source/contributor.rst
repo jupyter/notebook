@@ -78,7 +78,8 @@ Then start Jupyter Notebook with:
 jupyter notebook
 ```
 
-## Running Tests
+Running Tests
+-------------------------------------
 
 To run the tests:
 
@@ -94,7 +95,9 @@ cd ui-tests
 # start a new Jupyter server in a terminal
 jlpm start
 
-# in a new terminal, run the tests
+In a new terminal, run the tests
+-------------------------------------
+
 jlpm test
 ```
 
