@@ -1,3 +1,8 @@
+.. _contributing:
+
+Contributing to Jupyter Notebook
+======================
+
 ==========# Contributing to Jupyter Notebook
 
 Thanks for contributing to Jupyter Notebook!
