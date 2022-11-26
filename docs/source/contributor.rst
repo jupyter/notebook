@@ -3,8 +3,6 @@
 Contributing to Jupyter Notebook
 ======================
 
-==========# Contributing to Jupyter Notebook
-
 Thanks for contributing to Jupyter Notebook!
 
 Make sure to follow [Project Jupyter's Code of Conduct](https://github.com/jupyter/governance/blob/master/conduct/code_of_conduct.md)
