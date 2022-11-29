@@ -1,9 +1,10 @@
-______________________________________________________________________
-
+---
 name: Is this a bug in Notebook? Open an issue.
-about: If you're not sure, feel free to post your question on Jupyter's Discourse channel.
+about: If you're not sure, feel free to post your question on Jupyter's Discourse
+  channel.
 
-## labels: bug
+labels: bug
+---
 
 <!--
 BEFORE YOU OPEN AN ISSUE, PLEASE READ THIS.
