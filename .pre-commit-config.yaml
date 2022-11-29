@@ -46,6 +46,8 @@ repos:
     rev: 0.7.16
     hooks:
       - id: mdformat
+        additional_dependencies:
+          [mdformat-gfm, mdformat-frontmatter, mdformat-footnote]
 
   - repo: https://github.com/john-hen/Flake8-pyproject
     rev: 1.2.1
