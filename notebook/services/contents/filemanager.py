@@ -526,13 +526,13 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         os_path = self._get_os_path(path)
         rm = os.unlink
         
+        if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
+            raise web.HTTPError(400, f'Cannot delete file or directory {os_path!r}')
+
         four_o_four = "file or directory does not exist: %r" % path
 
         if not self.exists(path):
             raise web.HTTPError(404, four_o_four)
-
-        if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
-            raise web.HTTPError(400, f'Cannot delete file or directory {os_path!r}')
 
         def is_non_empty_dir(os_path):
             if os.path.isdir(os_path):
