@@ -232,6 +232,13 @@ warn_unused_configs = true
 warn_unused_ignores = true
 warn_redundant_casts = true
 
+[[tool.mypy.overrides]]
+module = [
+    "ruamel",
+]
+ignore_missing_imports = true
+
+
 [tool.black]
 line-length = 100
 target-version = ["py37"]
