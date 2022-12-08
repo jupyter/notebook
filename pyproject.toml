@@ -147,13 +147,13 @@ test = "mypy --install-types --non-interactive {args:notebook tests}"
 features = ["lint"]
 [tool.hatch.envs.lint.scripts]
 style = [
-  "ruff {args:.}",
+  "ruff {args:notebook}",
   "black --check --diff {args:.}",
   "mdformat --check {args:docs *.md}"
 ]
 fmt = [
   "black {args:.}",
-  "ruff --fix {args:.}",
+  "ruff --fix {args:notebook}",
   "mdformat {args:docs *.md}"
 ]
 
