@@ -114,7 +114,7 @@ test.describe('Notebook', () => {
     await page.menu.clickMenuItem(menuPath);
 
     const panel = page.locator('#jp-left-stack');
-    expect(await panel.isVisible());
+    expect(await panel.isVisible()).toBe(true);
 
     await expect(
       panel.locator(
@@ -146,7 +146,7 @@ test.describe('Notebook', () => {
     await page.menu.clickMenuItem(menuPath);
 
     const panel = page.locator('#jp-right-stack');
-    expect(await panel.isVisible());
+    expect(await panel.isVisible()).toBe(true);
 
     await page.isVisible('#notebook-tools.jp-NotebookTools');
 
