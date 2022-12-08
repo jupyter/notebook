@@ -168,7 +168,7 @@ jobs:
           hatch run typing:test
           hatch run lint:style
           pipx run 'validate-pyproject[all]' pyproject.toml
-          pipx run doc8 --max-line-length=200
+          pipx run doc8 --max-line-length=200 docs/source *.md
           npm install -g yarn
           yarn
           yarn eslint:check
