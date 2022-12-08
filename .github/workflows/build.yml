@@ -173,6 +173,7 @@ jobs:
           yarn
           yarn eslint:check
           yarn prettier:check
+          yarn integrity
 
   tests_check: # This job does nothing and is only used for the branch protection
     if: always()
