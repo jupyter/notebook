@@ -48,7 +48,7 @@ async def test_tree_handler(notebooks, notebookapp, jp_fetch):
         nonlocal redirected_url
         redirected_url = url
 
-    TreeHandler.redirect = redirect
+    TreeHandler.redirect = redirect  # type:ignore
     await jp_fetch("tree", "notebook1.ipynb")
     assert redirected_url == "/a%40b/notebooks/notebook1.ipynb"
 

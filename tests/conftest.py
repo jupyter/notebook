@@ -8,7 +8,7 @@ import shutil
 try:
     from importlib.resources import files
 except ImportError:
-    from importlib_resources import files
+    from importlib_resources import files  # type:ignore
 
 import pytest
 
@@ -120,9 +120,9 @@ def make_notebook_app(
     shutil.copyfile(src, dst)
 
     # Copy workspaces.
-    data = pathlib.PurePath(test_data, "workspaces")
-    for item in os.listdir(data):
-        src = data / item
+    ws_path = pathlib.PurePath(test_data, "workspaces")
+    for item in os.listdir(ws_path):
+        src = ws_path / item
         dst = pathlib.PurePath(str(workspaces_dir), item)
         if os.path.exists(dst):
             os.remove(dst)

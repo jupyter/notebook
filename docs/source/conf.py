@@ -12,19 +12,23 @@
 # All configuration values have a default; values that are commented out
 # serve to show the default.
 
+import logging
 import os
 import shutil
 import sys
+
+logger = logging.getLogger(__name__)
+logging.basicConfig()
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 
 # DEBUG for RTD
-print("DEBUG:: sys.path")
-print("================")
+logger.info("DEBUG:: sys.path")
+logger.info("================")
 for item in sys.path:
-    print(item)
+    logger.info(item)
 
 # add repo root to sys.path
 # here = root/docs/source
@@ -38,15 +42,15 @@ shutil.copy(os.path.join(repo_root, "CHANGELOG.md"), os.path.join(here, "changel
 # Copy the contributing file here
 shutil.copy(os.path.join(repo_root, "CONTRIBUTING.md"), os.path.join(here, "contributing.md"))
 
-print("repo_root")
-print("=====================")
-print(repo_root)
+logger.info("repo_root")
+logger.info("=====================")
+logger.info(repo_root)
 
 # DEBUG for post insert on RTD
-print("DEBUG:: Post insert to sys.path")
-print("===============================")
+logger.info("DEBUG:: Post insert to sys.path")
+logger.info("===============================")
 for item in sys.path:
-    print(item)
+    logger.info(item)
 
 # -- General configuration ------------------------------------------------
 
@@ -86,7 +90,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "Jupyter Notebook"
-copyright = "2015, Jupyter Team, https://jupyter.org"
+copyright = "2015, Jupyter Team, https://jupyter.org"  # noqa
 author = "The Jupyter Team"
 
 # ghissue config
@@ -98,7 +102,7 @@ github_project_url = "https://github.com/jupyter/notebook"
 #
 _version_py = os.path.join(here, "../../notebook/_version.py")
 version_ns = {}
-exec(compile(open(_version_py).read(), _version_py, "exec"), version_ns)
+exec(compile(open(_version_py).read(), _version_py, "exec"), version_ns)  # noqa
 # The short X.Y version.
 version = "%i.%i" % version_ns["version_info"][:2]
 # The full version, including alpha/beta/rc tags.
