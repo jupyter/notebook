@@ -149,12 +149,12 @@ features = ["lint"]
 style = [
   "ruff {args:notebook}",
   "black --check --diff {args:.}",
-  "mdformat --check {args:docs *.md}"
+  "mdformat --check {args:CHANGELOG.md}"
 ]
 fmt = [
   "black {args:.}",
   "ruff --fix {args:notebook}",
-  "mdformat {args:docs *.md}"
+  "mdformat {args:CHANGELOG.md}"
 ]
 
 [tool.hatch.build.hooks.jupyter-builder]
