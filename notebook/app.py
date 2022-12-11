@@ -4,18 +4,19 @@ from os.path import join as pjoin
 from jupyter_client.utils import ensure_async
 from jupyter_core.application import base_aliases
 from jupyter_server.base.handlers import JupyterHandler
-from jupyter_server.extension.handler import (
-    ExtensionHandlerJinjaMixin,
-    ExtensionHandlerMixin,
-)
+from jupyter_server.extension.handler import ExtensionHandlerJinjaMixin, ExtensionHandlerMixin
 from jupyter_server.serverapp import flags
 from jupyter_server.utils import url_escape, url_is_absolute
 from jupyter_server.utils import url_path_join as ujoin
-from jupyterlab.commands import get_app_dir, get_user_settings_dir, get_workspaces_dir
+from jupyterlab.commands import (  # type:ignore
+    get_app_dir,
+    get_user_settings_dir,
+    get_workspaces_dir,
+)
 from jupyterlab_server import LabServerApp
 from jupyterlab_server.config import LabConfig, get_page_config, recursive_update
 from jupyterlab_server.handlers import _camelCase, is_url
-from notebook_shim.shim import NotebookConfigShimMixin
+from notebook_shim.shim import NotebookConfigShimMixin  # type:ignore
 from tornado import web
 from traitlets import Bool, default
 
@@ -28,7 +29,7 @@ version = __version__
 
 
 class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
-    def get_page_config(self):
+    def get_page_config(self):  # noqa:C901
         config = LabConfig()
         app = self.extensionapp
         base_url = self.settings.get("base_url")
@@ -192,11 +193,11 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
     version = version
     app_version = version
     extension_url = "/"
-    default_url = "/tree"
+    default_url = "/tree"  # type:ignore
     file_url_prefix = "/notebooks"
     load_other_extensions = True
     app_dir = app_dir
-    subcommands = {}
+    subcommands: dict = {}
 
     expose_app_in_browser = Bool(
         False,

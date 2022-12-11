@@ -157,22 +157,30 @@ jobs:
         with:
           ignore_links: "https://playwright.dev/docs/test-cli/ https://blog.jupyter.org/the-big-split-9d7b88a031a7 https://blog.jupyter.org/jupyter-ascending-1bf5b362d97e"
 
-  pre_commit:
+  test_lint:
+    name: Test Lint
     runs-on: ubuntu-latest
-    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v3
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
-      - run: pip install -e .
-      - uses: jupyterlab/maintainer-tools/.github/actions/pre-commit@v1
-
+      -  name: Run Linters
+         run: |
+          hatch run typing:test
+          hatch run lint:style
+          pipx run 'validate-pyproject[all]' pyproject.toml
+          pipx run doc8 --max-line-length=200 docs/source *.md
+          npm install -g yarn
+          yarn
+          yarn eslint:check
+          yarn prettier:check
+          yarn integrity
 
   tests_check: # This job does nothing and is only used for the branch protection
     if: always()
     needs:
       - test
       - install
-      - pre_commit
+      - test_lint
       - test_docs
       - test_minimum_versions
       - test_prereleases

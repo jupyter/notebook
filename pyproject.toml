@@ -28,6 +28,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Typing :: Typed",
 ]
 dependencies = [
     "jupyter_server>=2.0.0rc3,<3",
@@ -73,6 +74,14 @@ dev = [
     "pre-commit",
     "hatch"
 ]
+lint = [
+  "black[jupyter]>=22.6.0",
+  "mdformat>0.7",
+  "mdformat-gfm>=0.3.5",
+  "ruff>=0.0.156"
+]
+typing = ["mypy>=0.990"]
+
 
 [tool.hatch.version]
 path = "notebook/_version.py"
@@ -129,6 +138,25 @@ dependencies = ["coverage", "pytest-cov"]
 test = "python -m pytest -vv --cov notebook --cov-branch --cov-report term-missing:skip-covered {args}"
 nowarn = "test -W default {args}"
 
+[tool.hatch.envs.typing]
+features = ["typing", "test"]
+[tool.hatch.envs.typing.scripts]
+test = "mypy --install-types --non-interactive {args:notebook tests}"
+
+[tool.hatch.envs.lint]
+features = ["lint"]
+[tool.hatch.envs.lint.scripts]
+style = [
+  "ruff {args:notebook}",
+  "black --check --diff {args:.}",
+  "mdformat --check {args:CHANGELOG.md}"
+]
+fmt = [
+  "black {args:.}",
+  "ruff --fix {args:notebook}",
+  "mdformat {args:CHANGELOG.md}"
+]
+
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.2"]
 build-function = "hatch_jupyter_builder.npm_builder"
@@ -144,6 +172,23 @@ editable_build_cmd = "build"
 source_dir = "packages"
 build_dir = "notebook/static"
 npm = "jlpm"
+
+[tool.jupyter-releaser.options]
+version-cmd = "jlpm run release:bump --force --skip-commit"
+
+[tool.jupyter-releaser.hooks]
+before-bump-version = [
+    "python -m pip install --pre -U jupyterlab",
+    "jlpm",
+    "jlpm run build:utils",
+    "python -m pip install hatch"
+]
+before-build-npm = [
+    "jlpm build:prod"
+]
+before-build-python = [
+    "jlpm clean"
+]
 
 [tool.pytest.ini_options]
 addopts = "-raXs --durations 10 --color=yes --doctest-modules"
@@ -172,34 +217,50 @@ exclude_lines = [
 "@(abc\\.)?abstractmethod",
 ]
 
-[tool.flake8]
-ignore = "E501, W503, E402"
-builtins = "c, get_config"
-exclude = [
-    ".cache",
-    ".github",
-    "docs",
+[tool.mypy]
+check_untyped_defs = true
+disallow_incomplete_defs = true
+no_implicit_optional = true
+pretty = true
+show_error_context = true
+show_error_codes = true
+strict_equality = true
+strict_optional = true
+warn_no_return = true
+warn_return_any = true
+warn_unused_configs = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+
+[[tool.mypy.overrides]]
+module = [
+    "ruamel",
 ]
-enable-extensions = "G"
-extend-ignore = [
-    "G001", "G002", "G004", "G200", "G201", "G202",
-    # black adds spaces around ':'
-    "E203",
+ignore_missing_imports = true
+
+
+[tool.black]
+line-length = 100
+target-version = ["py37"]
+skip-string-normalization = true
+
+[tool.ruff]
+target-version = "py37"
+line-length = 100
+select = [
+  "A", "B", "C", "E", "F", "FBT", "I", "N", "Q", "RUF", "S", "T",
+  "UP", "W", "YTT",
+]
+ignore = [
+# Q000 Single quotes found but double quotes preferred
+"Q000",
+# FBT001 Boolean positional arg in function definition
+"FBT001", "FBT002", "FBT003",
+# C408 Unnecessary `dict` call (rewrite as a literal)
+"C408", "C416",
 ]
 
-[tool.jupyter-releaser.options]
-version-cmd = "jlpm run release:bump --force --skip-commit"
-
-[tool.jupyter-releaser.hooks]
-before-bump-version = [
-    "python -m pip install --pre -U jupyterlab",
-    "jlpm",
-    "jlpm run build:utils",
-    "python -m pip install hatch"
-]
-before-build-npm = [
-    "jlpm build:prod"
-]
-before-build-python = [
-    "jlpm clean"
-]
+[tool.ruff.per-file-ignores]
+# S101 Use of `assert` detected
+# F841 Local variable `foo` is assigned to but never used
+"tests/*" = ["S101", "F841"]

@@ -1,8 +1,10 @@
+ci:
+  autoupdate_schedule: monthly
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
-      - id: forbid-new-submodules
       - id: end-of-file-fixer
       - id: check-case-conflict
       - id: check-executables-have-shebangs
@@ -12,56 +14,25 @@ repos:
       - id: check-toml
       - id: check-yaml
       - id: debug-statements
+      - id: forbid-new-submodules
       - id: check-builtin-literals
       - id: trailing-whitespace
-        exclude: .bumpversion.cfg
-
-  - repo: https://github.com/psf/black
-    rev: 22.10.0
-    hooks:
-      - id: black
-        args: ["--line-length", "100"]
-
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.10.1
-    hooks:
-      - id: isort
-        files: \.py$
-        args: [--profile=black]
-
-  - repo: https://github.com/PyCQA/doc8
-    rev: v1.0.0
-    hooks:
-      - id: doc8
-        args: [--max-line-length=200]
-        stages: [manual]
-
-  - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.10.1
-    hooks:
-      - id: validate-pyproject
-        stages: [manual]
-
-  - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.16
-    hooks:
-      - id: mdformat
-        additional_dependencies:
-          [mdformat-gfm, mdformat-frontmatter, mdformat-footnote]
-
-  - repo: https://github.com/john-hen/Flake8-pyproject
-    rev: 1.2.2
-    hooks:
-      - id: Flake8-pyproject
-        alias: flake8
-        additional_dependencies:
-          ["flake8-bugbear==22.6.22", "flake8-implicit-str-concat==0.2.0"]
-        stages: [manual]
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
     rev: 0.19.2
     hooks:
       - id: check-github-workflows
+
+  - repo: https://github.com/psf/black
+    rev: 22.10.0
+    hooks:
+      - id: black
+
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.0.165
+    hooks:
+      - id: ruff
+        args: ["--fix"]
 
   - repo: local
     hooks:

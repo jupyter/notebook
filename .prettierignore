@@ -1,7 +1,10 @@
 node_modules
+.mypy_cache
+.ruff_cache
 **/node_modules
 **/lib
 **/package.json
 **/static
 **/labextension
 build
+CHANGELOG.md

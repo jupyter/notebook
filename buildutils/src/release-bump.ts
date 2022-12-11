@@ -110,7 +110,7 @@ commander
 
     // Bump the version.
     let pySpec = spec;
-    if (spec == 'release') {
+    if (spec === 'release') {
       if (prev.indexOf('a') !== -1) {
         pySpec = 'beta';
       } else if (prev.indexOf('b') !== -1) {
@@ -120,7 +120,7 @@ commander
       } else {
         pySpec = 'alpha';
       }
-    } else if (spec == 'build') {
+    } else if (spec === 'build') {
       if (prev.indexOf('a') !== -1) {
         pySpec = 'a';
       } else if (prev.indexOf('b') !== -1) {
