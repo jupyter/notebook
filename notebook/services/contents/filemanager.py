@@ -526,13 +526,13 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         os_path = self._get_os_path(path)
         rm = os.unlink
         
+        if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
+            raise web.HTTPError(400, f'Cannot delete file or directory {os_path!r}')
+
         four_o_four = "file or directory does not exist: %r" % path
 
         if not self.exists(path):
             raise web.HTTPError(404, four_o_four)
-
-        if is_hidden(os_path, self.root_dir) and not self.allow_hidden:
-            raise web.HTTPError(400, f'Cannot delete file or directory {os_path!r}')
 
         def is_non_empty_dir(os_path):
             if os.path.isdir(os_path):
@@ -575,15 +575,15 @@ class FileContentsManager(FileManagerMixin, ContentsManager):
         if new_path == old_path:
             return
 
-        if (is_hidden(old_path, self.root_dir) or is_hidden(new_path, self.root_dir)) and not self.allow_hidden:
-            raise web.HTTPError(400, f'Cannot rename file or directory {old_path!r}')
-
         # Perform path validation prior to converting to os-specific value since this
         # is still relative to root_dir.
         self._validate_path(new_path)
 
         new_os_path = self._get_os_path(new_path)
         old_os_path = self._get_os_path(old_path)
+
+        if (is_hidden(old_os_path, self.root_dir) or is_hidden(new_os_path, self.root_dir)) and not self.allow_hidden:
+            raise web.HTTPError(400, f'Cannot rename file or directory {old_path!r}')
 
         # Should we proceed with the move?
         if os.path.exists(new_os_path) and not samefile(old_os_path, new_os_path):

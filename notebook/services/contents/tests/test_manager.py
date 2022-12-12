@@ -185,37 +185,26 @@ class TestFileContentsManager(TestCase):
     def test_400(self):
         #Test Delete behavior
         #Test delete of file in hidden directory
-        with self.assertRaises(HTTPError) as excinfo:
-            with TemporaryDirectory() as td:
-                cm = FileContentsManager(root_dir=td)
-                hidden_dir = '.hidden'
-                file_in_hidden_path = os.path.join(hidden_dir,'visible.txt')
-                _make_dir(cm, hidden_dir)
-                model = cm.new(path=file_in_hidden_path)
-                os_path = cm._get_os_path(model['path'])
+        with TemporaryDirectory() as td:
+            cm = FileContentsManager(root_dir=td)
+            hidden_dir = '.hidden'
+            file_in_hidden_path = os.path.join(hidden_dir,'visible.txt')
+            _make_dir(cm, hidden_dir)
 
-                try:
-                    result = cm.delete_file(os_path)
-                except HTTPError as e:
-                    self.assertEqual(e.status_code, 400)
-                else:
-                    self.fail("Should have raised HTTPError(400)")
+            with self.assertRaises(HTTPError) as excinfo:
+                cm.delete_file(file_in_hidden_path)
+            self.assertEqual(excinfo.exception.status_code, 400)
+
         #Test delete hidden file in visible directory
-        with self.assertRaises(HTTPError) as excinfo:
-            with TemporaryDirectory() as td:
-                cm = FileContentsManager(root_dir=td)
-                hidden_dir = 'visible'
-                file_in_hidden_path = os.path.join(hidden_dir,'.hidden.txt')
-                _make_dir(cm, hidden_dir)
-                model = cm.new(path=file_in_hidden_path)
-                os_path = cm._get_os_path(model['path'])
+        with TemporaryDirectory() as td:
+            cm = FileContentsManager(root_dir=td)
+            hidden_dir = 'visible'
+            file_in_hidden_path = os.path.join(hidden_dir,'.hidden.txt')
+            _make_dir(cm, hidden_dir)
 
-                try:
-                    result = cm.delete_file(os_path)
-                except HTTPError as e:
-                    self.assertEqual(e.status_code, 400)
-                else:
-                    self.fail("Should have raised HTTPError(400)")
+            with self.assertRaises(HTTPError) as excinfo:
+                cm.delete_file(file_in_hidden_path)
+            self.assertEqual(excinfo.exception.status_code, 400)
 
         #Test Save behavior
         #Test save of file in hidden directory
@@ -253,76 +242,56 @@ class TestFileContentsManager(TestCase):
 
         #Test rename behavior
         #Test rename with source file in hidden directory
-        with self.assertRaises(HTTPError) as excinfo:
-            with TemporaryDirectory() as td:
-                cm = FileContentsManager(root_dir=td)
-                hidden_dir = '.hidden'
-                file_in_hidden_path = os.path.join(hidden_dir,'visible.txt')
-                _make_dir(cm, hidden_dir)
-                model = cm.new(path=file_in_hidden_path)
-                old_path = cm._get_os_path(model['path'])
-                new_path = "new.txt"
+        with TemporaryDirectory() as td:
+            cm = FileContentsManager(root_dir=td)
+            hidden_dir = '.hidden'
+            file_in_hidden_path = os.path.join(hidden_dir,'visible.txt')
+            _make_dir(cm, hidden_dir)
+            old_path = file_in_hidden_path
+            new_path = "new.txt"
 
-                try:
-                    result = cm.rename_file(old_path, new_path)
-                except HTTPError as e:
-                    self.assertEqual(e.status_code, 400)
-                else:
-                    self.fail("Should have raised HTTPError(400)")
+            with self.assertRaises(HTTPError) as excinfo:
+                cm.rename_file(old_path, new_path)
+            self.assertEqual(excinfo.exception.status_code, 400)
 
         #Test rename of dest file in hidden directory
-        with self.assertRaises(HTTPError) as excinfo:
-            with TemporaryDirectory() as td:
-                cm = FileContentsManager(root_dir=td)
-                hidden_dir = '.hidden'
-                file_in_hidden_path = os.path.join(hidden_dir,'visible.txt')
-                _make_dir(cm, hidden_dir)
-                model = cm.new(path=file_in_hidden_path)
-                new_path = cm._get_os_path(model['path'])
-                old_path = "old.txt"
+        with TemporaryDirectory() as td:
+            cm = FileContentsManager(root_dir=td)
+            hidden_dir = '.hidden'
+            file_in_hidden_path = os.path.join(hidden_dir,'visible.txt')
+            _make_dir(cm, hidden_dir)
+            new_path = file_in_hidden_path
+            old_path = "old.txt"
 
-                try:
-                    result = cm.rename_file(old_path, new_path)
-                except HTTPError as e:
-                    self.assertEqual(e.status_code, 400)
-                else:
-                    self.fail("Should have raised HTTPError(400)")
+            with self.assertRaises(HTTPError) as excinfo:
+                cm.rename_file(old_path, new_path)
+            self.assertEqual(excinfo.exception.status_code, 400)
 
         #Test rename with hidden source file in visible directory
-        with self.assertRaises(HTTPError) as excinfo:
-            with TemporaryDirectory() as td:
-                cm = FileContentsManager(root_dir=td)
-                hidden_dir = 'visible'
-                file_in_hidden_path = os.path.join(hidden_dir,'.hidden.txt')
-                _make_dir(cm, hidden_dir)
-                model = cm.new(path=file_in_hidden_path)
-                old_path = cm._get_os_path(model['path'])
-                new_path = "new.txt"
+        with TemporaryDirectory() as td:
+            cm = FileContentsManager(root_dir=td)
+            hidden_dir = 'visible'
+            file_in_hidden_path = os.path.join(hidden_dir,'.hidden.txt')
+            _make_dir(cm, hidden_dir)
+            old_path = file_in_hidden_path
+            new_path = "new.txt"
 
-                try:
-                    result = cm.rename_file(old_path, new_path)
-                except HTTPError as e:
-                    self.assertEqual(e.status_code, 400)
-                else:
-                    self.fail("Should have raised HTTPError(400)")
+            with self.assertRaises(HTTPError) as excinfo:
+                cm.rename_file(old_path, new_path)
+            self.assertEqual(excinfo.exception.status_code, 400)
 
         #Test rename with hidden dest file in visible directory
-        with self.assertRaises(HTTPError) as excinfo:
-            with TemporaryDirectory() as td:
-                cm = FileContentsManager(root_dir=td)
-                hidden_dir = 'visible'
-                file_in_hidden_path = os.path.join(hidden_dir,'.hidden.txt')
-                _make_dir(cm, hidden_dir)
-                model = cm.new(path=file_in_hidden_path)
-                new_path = cm._get_os_path(model['path'])
-                old_path = "old.txt"
+        with TemporaryDirectory() as td:
+            cm = FileContentsManager(root_dir=td)
+            hidden_dir = 'visible'
+            file_in_hidden_path = os.path.join(hidden_dir,'.hidden.txt')
+            _make_dir(cm, hidden_dir)
+            new_path = file_in_hidden_path
+            old_path = "old.txt"
 
-                try:
-                    result = cm.rename_file(old_path, new_path)
-                except HTTPError as e:
-                    self.assertEqual(e.status_code, 400)
-                else:
-                    self.fail("Should have raised HTTPError(400)")
+            with self.assertRaises(HTTPError) as excinfo:
+                cm.rename_file(old_path, new_path)
+            self.assertEqual(excinfo.exception.status_code, 400)
 
     @skipIf(sys.platform.startswith('win'), "Can't test hidden files on Windows")
     def test_404(self):
