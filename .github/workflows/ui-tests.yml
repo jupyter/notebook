@@ -23,7 +23,7 @@ jobs:
 
   ui-tests:
     needs: [build]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     timeout-minutes: 20
     strategy:
       fail-fast: false
