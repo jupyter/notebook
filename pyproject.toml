@@ -74,14 +74,6 @@ dev = [
     "pre-commit",
     "hatch"
 ]
-lint = [
-  "black[jupyter]>=22.6.0",
-  "mdformat>0.7",
-  "mdformat-gfm>=0.3.5",
-  "ruff>=0.0.156"
-]
-typing = ["mypy>=0.990"]
-
 
 [tool.hatch.version]
 path = "notebook/_version.py"
@@ -139,12 +131,19 @@ test = "python -m pytest -vv --cov notebook --cov-branch --cov-report term-missi
 nowarn = "test -W default {args}"
 
 [tool.hatch.envs.typing]
-features = ["typing", "test"]
+features = ["test"]
+dependencies = ["mypy>=0.990"]
 [tool.hatch.envs.typing.scripts]
 test = "mypy --install-types --non-interactive {args:notebook tests}"
 
 [tool.hatch.envs.lint]
-features = ["lint"]
+dependencies = [
+  "black[jupyter]>=22.6.0",
+  "mdformat>0.7",
+  "mdformat-gfm>=0.3.5",
+  "ruff>=0.0.156"
+]
+detached = true
 [tool.hatch.envs.lint.scripts]
 style = [
   "ruff {args:notebook}",
