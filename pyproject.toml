@@ -146,7 +146,7 @@ dependencies = [
 detached = true
 [tool.hatch.envs.lint.scripts]
 style = [
-  "ruff {args:notebook}",
+  "ruff {args:notebook tests ui-tests}",
   "black --check --diff {args:.}",
   "mdformat --check {args:CHANGELOG.md}"
 ]
