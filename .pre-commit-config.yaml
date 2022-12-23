@@ -33,3 +33,17 @@ repos:
     hooks:
       - id: ruff
         args: ["--fix"]
+
+  - repo: local
+    hooks:
+      - id: prettier
+        name: prettier
+        entry: 'npm run prettier:files'
+        language: node
+        types_or: [json, ts, tsx, javascript, jsx, css]
+        stages: [manual]
+      - id: integrity
+        name: integrity
+        entry: 'npm run integrity --force'
+        language: node
+        stages: [push]
