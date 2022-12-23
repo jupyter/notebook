@@ -70,7 +70,7 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
       - run: |
           sudo apt-get update
-          sudo apt install echant-2  # for spelling
+          sudo apt install enchant-2  # for spelling
 
           # pandoc is not up to date in the ubuntu repos, so we install directly
           wget https://github.com/jgm/pandoc/releases/download/2.14.2/pandoc-2.14.2-1-amd64.deb && sudo dpkg -i pandoc-2.14.2-1-amd64.deb
