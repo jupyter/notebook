@@ -1,3 +1,4 @@
+"""Jupyter notebook application."""
 import os
 from os.path import join as pjoin
 
@@ -29,7 +30,10 @@ version = __version__
 
 
 class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
+    """The base notebook API handler."""
+
     def get_page_config(self):  # noqa:C901
+        """Get the page config."""
         config = LabConfig()
         app = self.extensionapp
         base_url = self.settings.get("base_url")
@@ -112,12 +116,17 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
 
 
 class RedirectHandler(NotebookBaseHandler):
+    """A redirect handler."""
+
     @web.authenticated
     def get(self):
+        """Get the redirect url."""
         return self.redirect(self.base_url + "tree")
 
 
 class TreeHandler(NotebookBaseHandler):
+    """A tree page handler."""
+
     @web.authenticated
     async def get(self, path=None):
         """
@@ -156,29 +165,41 @@ class TreeHandler(NotebookBaseHandler):
 
 
 class ConsoleHandler(NotebookBaseHandler):
+    """A console page handler."""
+
     @web.authenticated
     def get(self, path=None):
+        """Get the console page."""
         tpl = self.render_template("consoles.html", page_config=self.get_page_config())
         return self.write(tpl)
 
 
 class TerminalHandler(NotebookBaseHandler):
+    """A terminal page handler."""
+
     @web.authenticated
     def get(self, path=None):
+        """Get the terminal page."""
         tpl = self.render_template("terminals.html", page_config=self.get_page_config())
         return self.write(tpl)
 
 
 class FileHandler(NotebookBaseHandler):
+    """A file page handler."""
+
     @web.authenticated
     def get(self, path=None):
+        """Get the file page."""
         tpl = self.render_template("edit.html", page_config=self.get_page_config())
         return self.write(tpl)
 
 
 class NotebookHandler(NotebookBaseHandler):
+    """A notebook page handler."""
+
     @web.authenticated
     def get(self, path=None):
+        """Get the notebook page."""
         tpl = self.render_template("notebooks.html", page_config=self.get_page_config())
         return self.write(tpl)
 
@@ -187,6 +208,8 @@ aliases = dict(base_aliases)
 
 
 class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
+    """The notebook server extension app."""
+
     name = "notebook"
     app_name = "Jupyter Notebook"
     description = "Jupyter Notebook - A web-based notebook environment for interactive computing"
@@ -246,6 +269,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
         return get_workspaces_dir()
 
     def initialize_handlers(self):
+        """Initialize handlers."""
         self.handlers.append(
             (
                 rf"/{self.file_url_prefix}/((?!.*\.ipynb($|\?)).*)",
@@ -260,9 +284,6 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
         self.handlers.append(("/consoles/(.*)", ConsoleHandler))
         self.handlers.append(("/terminals/(.*)", TerminalHandler))
         super().initialize_handlers()
-
-    def initialize_settings(self):
-        super().initialize_settings()
 
     def initialize(self, argv=None):
         """Subclass because the ExtensionApp.initialize() method does not take arguments"""

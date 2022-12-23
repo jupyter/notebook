@@ -5,17 +5,17 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
-      - id: end-of-file-fixer
       - id: check-case-conflict
+      - id: check-ast
+      - id: check-docstring-first
       - id: check-executables-have-shebangs
-      - id: requirements-txt-fixer
       - id: check-added-large-files
       - id: check-case-conflict
+      - id: check-merge-conflict
+      - id: check-json
       - id: check-toml
       - id: check-yaml
-      - id: debug-statements
-      - id: forbid-new-submodules
-      - id: check-builtin-literals
+      - id: end-of-file-fixer
       - id: trailing-whitespace
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
@@ -29,7 +29,7 @@ repos:
       - id: black
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.0.185
+    rev: v0.0.189
     hooks:
       - id: ruff
         args: ["--fix"]
