@@ -72,6 +72,13 @@ extensions = [
     "myst_parser",
 ]
 
+try:
+    import enchant  # type:ignore  # noqa
+
+    extensions += ["sphinxcontrib.spelling"]
+except ImportError:
+    pass
+
 myst_enable_extensions = ["html_image"]
 myst_update_mathjax = False
 
