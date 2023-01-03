@@ -102,7 +102,7 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ### Enhancements made
 
 - Add token on tree widget [#6496](https://github.com/jupyter/notebook/pull/6496) ([@brichet](https://github.com/brichet))
-- Updates README to document maintained versions [#6480](https://github.com/jupyter/notebook/pull/6480) ([@jweill-aws](https://github.com/jweill-aws))
+- Updates README to document maintained versions [#6480](https://github.com/jupyter/notebook/pull/6480) ([@JasonWeill](https://github.com/JasonWeill))
 - Change the tab renderer to allow adding closable tab [#6477](https://github.com/jupyter/notebook/pull/6477) ([@brichet](https://github.com/brichet))
 
 ### Bugs fixed
@@ -130,13 +130,13 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 ### Documentation improvements
 
-- Updates README to document maintained versions [#6480](https://github.com/jupyter/notebook/pull/6480) ([@jweill-aws](https://github.com/jweill-aws))
+- Updates README to document maintained versions [#6480](https://github.com/jupyter/notebook/pull/6480) ([@JasonWeill](https://github.com/JasonWeill))
 
 ### Contributors to this release
 
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-06-14&to=2022-10-03&type=c))
 
-[@afshin](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafshin+updated%3A2022-06-14..2022-10-03&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-06-14..2022-10-03&type=Issues) | [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2022-06-14..2022-10-03&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2022-06-14..2022-10-03&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-06-14..2022-10-03&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-06-14..2022-10-03&type=Issues) | [@hawkeyes21](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahawkeyes21+updated%3A2022-06-14..2022-10-03&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-06-14..2022-10-03&type=Issues) | [@jweill-aws](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajweill-aws+updated%3A2022-06-14..2022-10-03&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-06-14..2022-10-03&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-06-14..2022-10-03&type=Issues)
+[@afshin](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafshin+updated%3A2022-06-14..2022-10-03&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-06-14..2022-10-03&type=Issues) | [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2022-06-14..2022-10-03&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2022-06-14..2022-10-03&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-06-14..2022-10-03&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-06-14..2022-10-03&type=Issues) | [@hawkeyes21](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahawkeyes21+updated%3A2022-06-14..2022-10-03&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-06-14..2022-10-03&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2022-06-14..2022-10-03&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-06-14..2022-10-03&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-06-14..2022-10-03&type=Issues)
 
 ## 7.0.0a5
 
@@ -225,13 +225,13 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ### Documentation improvements
 
 - Link to v6 plan in the README [#6375](https://github.com/jupyter/notebook/pull/6375) ([@echarles](https://github.com/echarles))
-- Copy edits in config, edits bug report template [#6364](https://github.com/jupyter/notebook/pull/6364) ([@jweill-aws](https://github.com/jweill-aws))
+- Copy edits in config, edits bug report template [#6364](https://github.com/jupyter/notebook/pull/6364) ([@JasonWeill](https://github.com/JasonWeill))
 
 ### Contributors to this release
 
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-03-21&to=2022-04-27&type=c))
 
-[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-03-21..2022-04-27&type=Issues) | [@bollwyvl](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abollwyvl+updated%3A2022-03-21..2022-04-27&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2022-03-21..2022-04-27&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-03-21..2022-04-27&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-03-21..2022-04-27&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-03-21..2022-04-27&type=Issues) | [@jweill-aws](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajweill-aws+updated%3A2022-03-21..2022-04-27&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-03-21..2022-04-27&type=Issues) | [@tlinhart](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atlinhart+updated%3A2022-03-21..2022-04-27&type=Issues)
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-03-21..2022-04-27&type=Issues) | [@bollwyvl](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abollwyvl+updated%3A2022-03-21..2022-04-27&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2022-03-21..2022-04-27&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-03-21..2022-04-27&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-03-21..2022-04-27&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-03-21..2022-04-27&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2022-03-21..2022-04-27&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-03-21..2022-04-27&type=Issues) | [@tlinhart](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atlinhart+updated%3A2022-03-21..2022-04-27&type=Issues)
 
 ## 7.0.0a2
 
@@ -240,7 +240,7 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ### Enhancements made
 
 - Add support for opening a document with a different factory [#6315](https://github.com/jupyter/notebook/pull/6315) ([@jtpio](https://github.com/jtpio))
-- Minor copy edit in README [#6313](https://github.com/jupyter/notebook/pull/6313) ([@jweill-aws](https://github.com/jweill-aws))
+- Minor copy edit in README [#6313](https://github.com/jupyter/notebook/pull/6313) ([@JasonWeill](https://github.com/JasonWeill))
 
 ### Bugs fixed
 
@@ -253,14 +253,14 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ### Documentation improvements
 
 - docs: fix spelling [#6317](https://github.com/jupyter/notebook/pull/6317) ([@dijonkitchen](https://github.com/dijonkitchen))
-- Minor copy edit in README [#6313](https://github.com/jupyter/notebook/pull/6313) ([@jweill-aws](https://github.com/jweill-aws))
+- Minor copy edit in README [#6313](https://github.com/jupyter/notebook/pull/6313) ([@JasonWeill](https://github.com/JasonWeill))
 - Update example notebook on Binder [#6306](https://github.com/jupyter/notebook/pull/6306) ([@jtpio](https://github.com/jtpio))
 
 ### Contributors to this release
 
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-03-09&to=2022-03-21&type=c))
 
-[@dijonkitchen](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adijonkitchen+updated%3A2022-03-09..2022-03-21&type=Issues) | [@fcollonval](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afcollonval+updated%3A2022-03-09..2022-03-21&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-03-09..2022-03-21&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-03-09..2022-03-21&type=Issues) | [@jweill-aws](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajweill-aws+updated%3A2022-03-09..2022-03-21&type=Issues)
+[@dijonkitchen](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adijonkitchen+updated%3A2022-03-09..2022-03-21&type=Issues) | [@fcollonval](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afcollonval+updated%3A2022-03-09..2022-03-21&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-03-09..2022-03-21&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-03-09..2022-03-21&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2022-03-09..2022-03-21&type=Issues)
 
 ## 7.0.0a1
 
