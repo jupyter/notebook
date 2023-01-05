@@ -12,10 +12,6 @@ let local = {
     'ts-jest': {
       tsconfig: './tsconfig.test.json'
     }
-  },
-  transform: {
-    '\\.(ts|tsx)?$': 'ts-jest',
-    '\\.svg$': 'jest-raw-loader'
   }
 };
 
