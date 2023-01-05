@@ -52,7 +52,7 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.21.5",
     "extra-watch-webpack-plugin": "^1.0.3",
-    "jest": "^26.4.2",
+    "jest": "^29.3.1",
     "jest-junit": "^11.1.0",
     "jest-raw-loader": "^1.0.1",
     "jest-summary-reporter": "^0.0.2",
