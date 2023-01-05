@@ -23,3 +23,7 @@
   text-align: center;
   margin-top: 8px;
 }
+
+.jp-MimeDocument .jp-RenderedJSON {
+  background: var(--jp-layout-color0);
+}
