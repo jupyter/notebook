@@ -40,8 +40,8 @@
   },
   "dependencies": {
     "@jupyter-notebook/application": "^7.0.0-alpha.9",
-    "@jupyterlab/application": "^4.0.0-alpha.16",
-    "@jupyterlab/documentsearch": "^4.0.0-alpha.16",
+    "@jupyterlab/application": "^4.0.0-alpha.17",
+    "@jupyterlab/documentsearch": "^4.0.0-alpha.17",
     "@lumino/widgets": "^2.0.0-alpha.6"
   },
   "devDependencies": {
