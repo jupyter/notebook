@@ -1474,9 +1474,9 @@
     "@jupyterlab/mainmenu" "^4.0.0-alpha.17"
     "@jupyterlab/settingregistry" "^4.0.0-alpha.17"
     "@jupyterlab/translation" "^4.0.0-alpha.17"
-    "@lumino/coreutils" "^2.0.0-alpha.6"
-    "@lumino/disposable" "^2.0.0-alpha.6"
-    "@lumino/widgets" "^2.0.0-alpha.6"
+    "@lumino/coreutils" "^2.0.0-alpha.7"
+    "@lumino/disposable" "^2.0.0-alpha.7"
+    "@lumino/widgets" "^2.0.0-alpha.7"
 
 "@jupyter-notebook/application@file:packages/application":
   version "7.0.0-alpha.9"
@@ -1486,12 +1486,12 @@
     "@jupyterlab/docregistry" "^4.0.0-alpha.17"
     "@jupyterlab/rendermime-interfaces" "^3.8.0-alpha.17"
     "@jupyterlab/ui-components" "^4.0.0-alpha.32"
-    "@lumino/algorithm" "^2.0.0-alpha.6"
-    "@lumino/coreutils" "^2.0.0-alpha.6"
-    "@lumino/messaging" "^2.0.0-alpha.6"
-    "@lumino/polling" "^2.0.0-alpha.6"
-    "@lumino/signaling" "^2.0.0-alpha.6"
-    "@lumino/widgets" "^2.0.0-alpha.6"
+    "@lumino/algorithm" "^2.0.0-alpha.7"
+    "@lumino/coreutils" "^2.0.0-alpha.7"
+    "@lumino/messaging" "^2.0.0-alpha.7"
+    "@lumino/polling" "^2.0.0-alpha.7"
+    "@lumino/signaling" "^2.0.0-alpha.7"
+    "@lumino/widgets" "^2.0.0-alpha.7"
 
 "@jupyter-notebook/console-extension@file:packages/console-extension":
   version "7.0.0-alpha.9"
@@ -1499,7 +1499,7 @@
     "@jupyterlab/application" "^4.0.0-alpha.17"
     "@jupyterlab/console" "^4.0.0-alpha.17"
     "@jupyterlab/coreutils" "^6.0.0-alpha.17"
-    "@lumino/algorithm" "^2.0.0-alpha.6"
+    "@lumino/algorithm" "^2.0.0-alpha.7"
 
 "@jupyter-notebook/docmanager-extension@file:packages/docmanager-extension":
   version "7.0.0-alpha.9"
@@ -1509,8 +1509,8 @@
     "@jupyterlab/docmanager" "^4.0.0-alpha.17"
     "@jupyterlab/docregistry" "^4.0.0-alpha.17"
     "@jupyterlab/services" "^7.0.0-alpha.17"
-    "@lumino/algorithm" "^2.0.0-alpha.6"
-    "@lumino/signaling" "^2.0.0-alpha.6"
+    "@lumino/algorithm" "^2.0.0-alpha.7"
+    "@lumino/signaling" "^2.0.0-alpha.7"
 
 "@jupyter-notebook/documentsearch-extension@file:packages/documentsearch-extension":
   version "7.0.0-alpha.9"
@@ -1518,7 +1518,7 @@
     "@jupyter-notebook/application" "^7.0.0-alpha.9"
     "@jupyterlab/application" "^4.0.0-alpha.17"
     "@jupyterlab/documentsearch" "^4.0.0-alpha.17"
-    "@lumino/widgets" "^2.0.0-alpha.6"
+    "@lumino/widgets" "^2.0.0-alpha.7"
 
 "@jupyter-notebook/help-extension@file:packages/help-extension":
   version "7.0.0-alpha.9"
@@ -1539,8 +1539,8 @@
     "@jupyterlab/docregistry" "^4.0.0-alpha.17"
     "@jupyterlab/notebook" "^4.0.0-alpha.17"
     "@jupyterlab/translation" "^4.0.0-alpha.17"
-    "@lumino/commands" "^2.0.0-alpha.6"
-    "@lumino/disposable" "^2.0.0-alpha.6"
+    "@lumino/commands" "^2.0.0-alpha.7"
+    "@lumino/disposable" "^2.0.0-alpha.7"
 
 "@jupyter-notebook/notebook-extension@file:packages/notebook-extension":
   version "7.0.0-alpha.9"
@@ -1553,8 +1553,8 @@
     "@jupyterlab/notebook" "^4.0.0-alpha.17"
     "@jupyterlab/settingregistry" "^4.0.0-alpha.17"
     "@jupyterlab/translation" "^4.0.0-alpha.17"
-    "@lumino/polling" "^2.0.0-alpha.6"
-    "@lumino/widgets" "^2.0.0-alpha.6"
+    "@lumino/polling" "^2.0.0-alpha.7"
+    "@lumino/widgets" "^2.0.0-alpha.7"
 
 "@jupyter-notebook/terminal-extension@file:packages/terminal-extension":
   version "7.0.0-alpha.9"
@@ -1562,7 +1562,7 @@
     "@jupyterlab/application" "^4.0.0-alpha.17"
     "@jupyterlab/coreutils" "^6.0.0-alpha.17"
     "@jupyterlab/terminal" "^4.0.0-alpha.17"
-    "@lumino/algorithm" "^2.0.0-alpha.6"
+    "@lumino/algorithm" "^2.0.0-alpha.7"
 
 "@jupyter-notebook/tree-extension@file:packages/tree-extension":
   version "7.0.0-alpha.9"
@@ -1580,9 +1580,9 @@
     "@jupyterlab/statedb" "^4.0.0-alpha.17"
     "@jupyterlab/translation" "^4.0.0-alpha.17"
     "@jupyterlab/ui-components" "^4.0.0-alpha.32"
-    "@lumino/algorithm" "^2.0.0-alpha.6"
-    "@lumino/commands" "^2.0.0-alpha.6"
-    "@lumino/widgets" "^2.0.0-alpha.6"
+    "@lumino/algorithm" "^2.0.0-alpha.7"
+    "@lumino/commands" "^2.0.0-alpha.7"
+    "@lumino/widgets" "^2.0.0-alpha.7"
 
 "@jupyter-notebook/tree@file:packages/tree":
   version "7.0.0-alpha.9"
@@ -1599,10 +1599,10 @@
     "@jupyterlab/statedb" "^4.0.0-alpha.17"
     "@jupyterlab/translation" "^4.0.0-alpha.17"
     "@jupyterlab/ui-components" "^4.0.0-alpha.32"
-    "@lumino/algorithm" "^2.0.0-alpha.6"
-    "@lumino/commands" "^2.0.0-alpha.6"
-    "@lumino/coreutils" "^2.0.0-alpha.6"
-    "@lumino/widgets" "^2.0.0-alpha.6"
+    "@lumino/algorithm" "^2.0.0-alpha.7"
+    "@lumino/commands" "^2.0.0-alpha.7"
+    "@lumino/coreutils" "^2.0.0-alpha.7"
+    "@lumino/widgets" "^2.0.0-alpha.7"
 
 "@jupyter-notebook/ui-components@file:packages/ui-components":
   version "7.0.0-alpha.9"
@@ -3959,7 +3959,7 @@
     "@lumino/algorithm" "^2.0.0-alpha.7"
     "@lumino/collections" "^2.0.0-alpha.7"
 
-"@lumino/polling@^2.0.0-alpha.6":
+"@lumino/polling@^2.0.0-alpha.6", "@lumino/polling@^2.0.0-alpha.7":
   version "2.0.0-alpha.7"
   resolved "https://registry.yarnpkg.com/@lumino/polling/-/polling-2.0.0-alpha.7.tgz#992b83f2b0ba569520026ea7bcfa1a7cb4f7ee9a"
   integrity sha512-OEYsah74vCaCJW6YaeBfb7PO28i0UvVItLlwdV6QlqGIoZ1VAveWaq7xyN67R0jEKwXIJfpm0E7EMdIuPttqzA==

@@ -52,9 +52,9 @@
     "@jupyterlab/statedb": "^4.0.0-alpha.17",
     "@jupyterlab/translation": "^4.0.0-alpha.17",
     "@jupyterlab/ui-components": "^4.0.0-alpha.32",
-    "@lumino/algorithm": "^2.0.0-alpha.6",
-    "@lumino/commands": "^2.0.0-alpha.6",
-    "@lumino/widgets": "^2.0.0-alpha.6"
+    "@lumino/algorithm": "^2.0.0-alpha.7",
+    "@lumino/commands": "^2.0.0-alpha.7",
+    "@lumino/widgets": "^2.0.0-alpha.7"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
