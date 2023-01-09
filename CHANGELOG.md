@@ -14,6 +14,44 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a10
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a9...6205bf376f783b7202af71e1074f44086ee7056c))
+
+### Enhancements made
+
+- Update to JupyterLab 4.0.0a32 [#6678](https://github.com/jupyter/notebook/pull/6678) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Bump json5 from 2.2.1 to 2.2.3 in /ui-tests [#6684](https://github.com/jupyter/notebook/pull/6684) ([@dependabot](https://github.com/dependabot))
+- Bump json5 from 1.0.1 to 1.0.2 [#6681](https://github.com/jupyter/notebook/pull/6681) ([@dependabot](https://github.com/dependabot))
+- Update the copyright date to 2023 in the about dialog [#6679](https://github.com/jupyter/notebook/pull/6679) ([@jtpio](https://github.com/jtpio))
+- Fix `check_links` and  `Test Lint` CI failures [#6675](https://github.com/jupyter/notebook/pull/6675) ([@jtpio](https://github.com/jtpio))
+- Add spelling and docstring enforcement [#6669](https://github.com/jupyter/notebook/pull/6669) ([@blink1073](https://github.com/blink1073))
+- CI Cleanup [#6667](https://github.com/jupyter/notebook/pull/6667) ([@blink1073](https://github.com/blink1073))
+- Adopt ruff and typing [#6658](https://github.com/jupyter/notebook/pull/6658) ([@blink1073](https://github.com/blink1073))
+- Bump decode-uri-component from 0.2.0 to 0.2.2 [#6651](https://github.com/jupyter/notebook/pull/6651) ([@dependabot](https://github.com/dependabot))
+- Bump dessant/lock-threads from 3 to 4 [#6650](https://github.com/jupyter/notebook/pull/6650) ([@dependabot](https://github.com/dependabot))
+- Update to TypeScript 4.9 [#6640](https://github.com/jupyter/notebook/pull/6640) ([@jtpio](https://github.com/jtpio))
+- Add more Python tests [#6639](https://github.com/jupyter/notebook/pull/6639) ([@blink1073](https://github.com/blink1073))
+- use main branch for config [#6638](https://github.com/jupyter/notebook/pull/6638) ([@blink1073](https://github.com/blink1073))
+- Clean up workflows [#6635](https://github.com/jupyter/notebook/pull/6635) ([@blink1073](https://github.com/blink1073))
+- CI Cleanup [#6631](https://github.com/jupyter/notebook/pull/6631) ([@blink1073](https://github.com/blink1073))
+- Fix issue template formatting [#6626](https://github.com/jupyter/notebook/pull/6626) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Remove PDF link to Jupyter Notebook docs [#6648](https://github.com/jupyter/notebook/pull/6648) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-11-21&to=2023-01-09&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-11-21..2023-01-09&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2022-11-21..2023-01-09&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-11-21..2023-01-09&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-11-21..2023-01-09&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-11-21..2023-01-09&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-11-21..2023-01-09&type=Issues) | [@yacchin1205](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ayacchin1205+updated%3A2022-11-21..2023-01-09&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0a9
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a8...b4006ce47bf37b31a7049a77971d7e5db1070660))
@@ -39,8 +77,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-11-11&to=2022-11-21&type=c))
 
 [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2022-11-11..2022-11-21&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2022-11-11..2022-11-21&type=Issues) | [@fcollonval](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afcollonval+updated%3A2022-11-11..2022-11-21&type=Issues) | [@gabalafou](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agabalafou+updated%3A2022-11-11..2022-11-21&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-11-11..2022-11-21&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-11-11..2022-11-21&type=Issues) | [@kianelbo](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akianelbo+updated%3A2022-11-11..2022-11-21&type=Issues) | [@mcrutch](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Amcrutch+updated%3A2022-11-11..2022-11-21&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-11-11..2022-11-21&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0a8
 
