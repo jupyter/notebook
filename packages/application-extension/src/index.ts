@@ -25,8 +25,6 @@ import { IDocumentManager, renameDialog } from '@jupyterlab/docmanager';
 
 import { DocumentWidget } from '@jupyterlab/docregistry';
 
-import { IFileBrowserCommands } from '@jupyterlab/filebrowser';
-
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -41,6 +39,8 @@ import {
   SidePanelHandler,
   SidePanelPalette
 } from '@jupyter-notebook/application';
+
+import { CommandIDs as filebrowserCommandIDs } from '@jupyter-notebook/tree';
 
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
 
@@ -254,12 +254,11 @@ const pages: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:pages',
   autoStart: true,
   requires: [ITranslator],
-  optional: [ICommandPalette, IFileBrowserCommands],
+  optional: [ICommandPalette],
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
-    palette: ICommandPalette | null,
-    fileBrowserCommands: null
+    palette: ICommandPalette | null
   ): void => {
     const trans = translator.load('notebook');
     const baseUrl = PageConfig.getBaseUrl();
@@ -270,26 +269,22 @@ const pages: JupyterFrontEndPlugin<void> = {
         window.open(`${baseUrl}lab`);
       }
     });
+    const page = PageConfig.getOption('notebookPage');
 
-    if (!app.commands.isVisible('filebrowser:toggle-main')) {
-      app.commands.addCommand(CommandIDs.openTree, {
-        label: trans.__('File Browser'),
-        execute: () => {
+    app.commands.addCommand(CommandIDs.openTree, {
+      label: trans.__('File Browser'),
+      execute: () => {
+        if (page === 'tree') {
+          app.commands.execute(filebrowserCommandIDs.activate);
+        } else {
           window.open(`${baseUrl}tree`);
         }
-      });
-    }
+      }
+    });
 
     if (palette) {
       palette.addItem({ command: CommandIDs.openLab, category: 'View' });
-      if (!app.commands.isVisible('filebrowser:toggle-main')) {
-        palette.addItem({ command: CommandIDs.openTree, category: 'View' });
-      } else {
-        palette.addItem({
-          command: 'filebrowser:toggle-main',
-          category: 'View'
-        });
-      }
+      palette.addItem({ command: CommandIDs.openTree, category: 'View' });
     }
   }
 };

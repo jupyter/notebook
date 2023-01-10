@@ -32,7 +32,11 @@ import {
 
 import { Menu, MenuBar } from '@lumino/widgets';
 
-import { NotebookTreeWidget, INotebookTree } from '@jupyter-notebook/tree';
+import {
+  CommandIDs,
+  NotebookTreeWidget,
+  INotebookTree
+} from '@jupyter-notebook/tree';
 
 /**
  * The file browser factory.
@@ -107,7 +111,7 @@ const openFileBrowser: JupyterFrontEndPlugin<void> = {
     factory: IFileBrowserFactory
   ) => {
     const { commands } = app;
-    commands.addCommand('filebrowser:activate', {
+    commands.addCommand(CommandIDs.activate, {
       execute: args => {
         const { defaultBrowser: browser } = factory;
         notebookTree.currentWidget = browser;
