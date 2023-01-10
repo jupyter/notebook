@@ -7,9 +7,9 @@ import { INotebookTree } from './token';
 /**
  * The namespace for command IDs.
  */
-export declare namespace CommandIDs {
+export namespace CommandIDs {
   // The command to activate the filebrowser widget in tree view.
-  const activate = 'filebrowser:activate';
+  export const activate = 'filebrowser:activate';
 }
 
 /**

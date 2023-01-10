@@ -112,7 +112,7 @@ const openFileBrowser: JupyterFrontEndPlugin<void> = {
   ) => {
     const { commands } = app;
     commands.addCommand(CommandIDs.activate, {
-      execute: args => {
+      execute: () => {
         const { defaultBrowser: browser } = factory;
         notebookTree.currentWidget = browser;
       }
