@@ -32,11 +32,7 @@ import {
 
 import { Menu, MenuBar } from '@lumino/widgets';
 
-import {
-  CommandIDs,
-  NotebookTreeWidget,
-  INotebookTree
-} from '@jupyter-notebook/tree';
+import { NotebookTreeWidget, INotebookTree } from '@jupyter-notebook/tree';
 
 /**
  * The file browser factory.
@@ -47,6 +43,14 @@ const FILE_BROWSER_FACTORY = 'FileBrowser';
  * The file browser plugin id.
  */
 const FILE_BROWSER_PLUGIN_ID = '@jupyterlab/filebrowser-extension:browser';
+
+/**
+ * The namespace for command IDs.
+ */
+namespace CommandIDs {
+  // The command to activate the filebrowser widget in tree view.
+  export const activate = 'filebrowser:activate';
+}
 
 /**
  * Plugin to add extra commands to the file browser to create

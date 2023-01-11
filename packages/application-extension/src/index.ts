@@ -40,8 +40,6 @@ import {
   SidePanelPalette
 } from '@jupyter-notebook/application';
 
-import { CommandIDs as filebrowserCommandIDs } from '@jupyter-notebook/tree';
-
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
 
 import { PromiseDelegate } from '@lumino/coreutils';
@@ -275,7 +273,7 @@ const pages: JupyterFrontEndPlugin<void> = {
       label: trans.__('File Browser'),
       execute: () => {
         if (page === 'tree') {
-          app.commands.execute(filebrowserCommandIDs.activate);
+          app.commands.execute('filebrowser:activate');
         } else {
           window.open(`${baseUrl}tree`);
         }
