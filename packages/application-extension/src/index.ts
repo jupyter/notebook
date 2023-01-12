@@ -242,11 +242,6 @@ const menuSpacer: JupyterFrontEndPlugin<void> = {
 
 /**
  * Add commands to open the tree and running pages.
- *
- * ## NOTES:
- * The optional token IFileBrowserCommands is useful to ensure the corresponding
- * plugin has been activated. Otherwise this plugin can be activated before the commands
- * 'toggle-main' has been added, which create a duplicated entry.
  */
 const pages: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:pages',
