@@ -74,7 +74,7 @@
     "@jupyterlab/rendermime-interfaces": "~3.8.0-alpha.17",
     "@jupyterlab/running-extension": "~4.0.0-alpha.17",
     "@jupyterlab/services": "~7.0.0-alpha.17",
-    "@jupyterlab/settingeditor": "~4.0.0-alpha.15",
+    "@jupyterlab/settingeditor": "~4.0.0-alpha.17",
     "@jupyterlab/settingeditor-extension": "~4.0.0-alpha.17",
     "@jupyterlab/settingregistry": "~4.0.0-alpha.17",
     "@jupyterlab/shortcuts-extension": "~4.0.0-alpha.17",
