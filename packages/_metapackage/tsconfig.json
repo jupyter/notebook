@@ -15,6 +15,7 @@
     { "path": "../lab-extension" },
     { "path": "../notebook-extension" },
     { "path": "../terminal-extension" },
+    { "path": "../tree" },
     { "path": "../tree-extension" },
     { "path": "../ui-components" }
   ]

@@ -262,18 +262,22 @@ const pages: JupyterFrontEndPlugin<void> = {
         window.open(`${baseUrl}lab`);
       }
     });
+    const page = PageConfig.getOption('notebookPage');
 
     app.commands.addCommand(CommandIDs.openTree, {
-      label: trans.__('Open Files'),
+      label: trans.__('File Browser'),
       execute: () => {
-        window.open(`${baseUrl}tree`);
+        if (page === 'tree') {
+          app.commands.execute('filebrowser:activate');
+        } else {
+          window.open(`${baseUrl}tree`);
+        }
       }
     });
 
     if (palette) {
-      [CommandIDs.openLab, CommandIDs.openTree].forEach(command => {
-        palette.addItem({ command, category: 'View' });
-      });
+      palette.addItem({ command: CommandIDs.openLab, category: 'View' });
+      palette.addItem({ command: CommandIDs.openTree, category: 'View' });
     }
   }
 };

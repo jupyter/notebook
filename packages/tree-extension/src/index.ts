@@ -45,6 +45,14 @@ const FILE_BROWSER_FACTORY = 'FileBrowser';
 const FILE_BROWSER_PLUGIN_ID = '@jupyterlab/filebrowser-extension:browser';
 
 /**
+ * The namespace for command IDs.
+ */
+namespace CommandIDs {
+  // The command to activate the filebrowser widget in tree view.
+  export const activate = 'filebrowser:activate';
+}
+
+/**
  * Plugin to add extra commands to the file browser to create
  * new notebooks, files, consoles and terminals
  */
@@ -91,6 +99,28 @@ const createNew: JupyterFrontEndPlugin<void> = {
         }
       );
     }
+  }
+};
+
+/**
+ * A plugin to add file browser commands for the tree view.
+ */
+const openFileBrowser: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/tree-extension:open-file-browser',
+  requires: [INotebookTree, IFileBrowserFactory],
+  autoStart: true,
+  activate: (
+    app: JupyterFrontEnd,
+    notebookTree: INotebookTree,
+    factory: IFileBrowserFactory
+  ) => {
+    const { commands } = app;
+    commands.addCommand(CommandIDs.activate, {
+      execute: () => {
+        const { defaultBrowser: browser } = factory;
+        notebookTree.currentWidget = browser;
+      }
+    });
   }
 };
 
@@ -183,5 +213,9 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
 /**
  * Export the plugins as default.
  */
-const plugins: JupyterFrontEndPlugin<any>[] = [createNew, notebookTreeWidget];
+const plugins: JupyterFrontEndPlugin<any>[] = [
+  createNew,
+  openFileBrowser,
+  notebookTreeWidget
+];
 export default plugins;
