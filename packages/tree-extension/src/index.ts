@@ -213,11 +213,8 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
       settingEditorTracker.widgetAdded.connect((_, editor) => {
         nbTreeWidget.addWidget(editor);
         nbTreeWidget.tabBar.addTab(editor.title);
+        nbTreeWidget.currentWidget = editor;
       });
-
-      // open the settings editor on startup
-      // comes after to previous call to shell.add
-      app.commands.execute('settingeditor:open');
     }
 
     return nbTreeWidget;
