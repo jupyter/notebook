@@ -148,6 +148,7 @@ async function main() {
     require('@jupyterlab/theme-light-extension'),
     require('@jupyterlab/theme-dark-extension'),
     require('@jupyterlab/translation-extension'),
+    require('@jupyterlab/ui-components-extension'),
     // Add the "Hub Control Panel" menu option when running in JupyterHub
     require('@jupyterlab/collaboration-extension'),
     require('@jupyterlab/hub-extension')
@@ -170,7 +171,11 @@ async function main() {
           ].includes(id)
         ),
         require('@jupyter-notebook/tree-extension'),
-        require('@jupyterlab/running-extension')
+        require('@jupyterlab/running-extension'),
+        require('@jupyterlab/settingeditor-extension').default.filter(
+          ({ id }) =>
+            ['@jupyterlab/settingeditor-extension:form-ui'].includes(id)
+        )
       ]);
       break;
     }
