@@ -8,7 +8,7 @@ import shutil
 try:
     from importlib.resources import files
 except ImportError:
-    from importlib_resources import files # type:ignore
+    from importlib_resources import files  # type:ignore
 
 import pytest
 
