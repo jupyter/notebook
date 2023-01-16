@@ -38,28 +38,13 @@ export class PanelHandler {
   }
 
   /**
-   * A message hook for child add/remove messages on the main area dock panel.
+   * A message hook for child remove messages on the panel handler.
    */
   private _panelChildHook = (
     handler: IMessageHandler,
     msg: Message
   ): boolean => {
     switch (msg.type) {
-      case 'child-added':
-        {
-          const widget = (msg as Widget.ChildMessage).child;
-          // If we already know about this widget, we're done
-          if (this._items.find(v => v.widget === widget)) {
-            break;
-          }
-
-          // Otherwise, add to the end by default
-          if (this._items.length > 0) {
-            const rank = this._items[this._items.length - 1].rank;
-            this._items.push({ widget, rank });
-          }
-        }
-        break;
       case 'child-removed':
         {
           const widget = (msg as Widget.ChildMessage).child;
