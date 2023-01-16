@@ -54,8 +54,10 @@ export class PanelHandler {
           }
 
           // Otherwise, add to the end by default
-          const rank = this._items[this._items.length - 1].rank;
-          this._items.push({ widget, rank });
+          if (this._items.length > 0) {
+            const rank = this._items[this._items.length - 1].rank;
+            this._items.push({ widget, rank });
+          }
         }
         break;
       case 'child-removed':
