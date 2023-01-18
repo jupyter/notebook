@@ -6,7 +6,7 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { showDialog, Dialog } from '@jupyterlab/apputils';
+import { showDialog, Dialog, ICommandPalette } from '@jupyterlab/apputils';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
@@ -42,20 +42,13 @@ namespace CommandIDs {
 }
 
 /**
- * The help plugin.
+ * A plugin to open the about section with resources.
  */
-const plugin: JupyterFrontEndPlugin<void> = {
+const open: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/help-extension:plugin',
   autoStart: true,
-  requires: [ITranslator],
-  optional: [IMainMenu],
-  activate: (
-    app: JupyterFrontEnd,
-    translator: ITranslator,
-    menu: IMainMenu | null
-  ): void => {
+  activate: (app: JupyterFrontEnd): void => {
     const { commands } = app;
-    const trans = translator.load('notebook');
 
     commands.addCommand(CommandIDs.open, {
       label: args => args['text'] as string,
@@ -64,54 +57,26 @@ const plugin: JupyterFrontEndPlugin<void> = {
         window.open(url);
       }
     });
+  }
+};
 
-    commands.addCommand(CommandIDs.shortcuts, {
-      label: trans.__('Keyboard Shortcuts'),
-      execute: () => {
-        const title = (
-          <span className="jp-AboutNotebook-about-header">
-            <div className="jp-AboutNotebook-about-header-info">
-              {trans.__('Keyboard Shortcuts')}
-            </div>
-          </span>
-        );
-
-        const body = (
-          <table className="jp-AboutNotebook-shortcuts">
-            <thead>
-              <tr>
-                <th>{trans.__('Name')}</th>
-                <th>{trans.__('Shortcut')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {commands.keyBindings
-                .filter(binding => commands.isEnabled(binding.command))
-                .map((binding, i) => (
-                  <tr key={i}>
-                    <td>{commands.label(binding.command)}</td>
-                    <td>
-                      <pre>{binding.keys.join(', ')}</pre>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
-        );
-
-        return showDialog({
-          title,
-          body,
-          buttons: [
-            Dialog.createButton({
-              label: trans.__('Dismiss'),
-              className:
-                'jp-AboutNotebook-about-button jp-mod-reject jp-mod-styled'
-            })
-          ]
-        });
-      }
-    });
+/**
+ * Plugin to add a command to show an About Jupyter Notebook and Markdown Reference.
+ */
+const about: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/help-extension:about',
+  autoStart: true,
+  requires: [ITranslator],
+  optional: [IMainMenu, ICommandPalette],
+  activate: (
+    app: JupyterFrontEnd,
+    translator: ITranslator,
+    menu: IMainMenu | null,
+    palette: ICommandPalette | null
+  ): void => {
+    const { commands } = app;
+    const trans = translator.load('notebook');
+    const category = trans.__('Help');
 
     commands.addCommand(CommandIDs.about, {
       label: trans.__('About %1', app.name),
@@ -176,6 +141,10 @@ const plugin: JupyterFrontEndPlugin<void> = {
       }
     });
 
+    if (palette) {
+      palette.addItem({ command: CommandIDs.about, category });
+    }
+
     const resourcesGroup = RESOURCES.map(args => ({
       args,
       command: CommandIDs.open
@@ -187,4 +156,77 @@ const plugin: JupyterFrontEndPlugin<void> = {
   }
 };
 
-export default plugin;
+/**
+ * A plugin to add a command to display Keyboard Shortcuts.
+ */
+const shortcuts: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/help-extension:shortcuts',
+  autoStart: true,
+  requires: [ITranslator],
+  optional: [ICommandPalette],
+  activate: (
+    app: JupyterFrontEnd,
+    translator: ITranslator,
+    palette: ICommandPalette | null
+  ): void => {
+    const { commands } = app;
+    const trans = translator.load('notebook');
+    const category = trans.__('Help');
+
+    commands.addCommand(CommandIDs.shortcuts, {
+      label: trans.__('Keyboard Shortcuts'),
+      execute: () => {
+        const title = (
+          <span className="jp-AboutNotebook-about-header">
+            <div className="jp-AboutNotebook-about-header-info">
+              {trans.__('Keyboard Shortcuts')}
+            </div>
+          </span>
+        );
+
+        const body = (
+          <table className="jp-AboutNotebook-shortcuts">
+            <thead>
+              <tr>
+                <th>{trans.__('Name')}</th>
+                <th>{trans.__('Shortcut')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {commands.keyBindings
+                .filter(binding => commands.isEnabled(binding.command))
+                .map((binding, i) => (
+                  <tr key={i}>
+                    <td>{commands.label(binding.command)}</td>
+                    <td>
+                      <pre>{binding.keys.join(', ')}</pre>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        );
+
+        return showDialog({
+          title,
+          body,
+          buttons: [
+            Dialog.createButton({
+              label: trans.__('Dismiss'),
+              className:
+                'jp-AboutNotebook-about-button jp-mod-reject jp-mod-styled'
+            })
+          ]
+        });
+      }
+    });
+
+    if (palette) {
+      palette.addItem({ command: CommandIDs.shortcuts, category });
+    }
+  }
+};
+
+const plugins: JupyterFrontEndPlugin<any>[] = [open, shortcuts, about];
+
+export default plugins;
