@@ -45,7 +45,7 @@ namespace CommandIDs {
  * A plugin to open the about section with resources.
  */
 const open: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/help-extension:plugin',
+  id: '@jupyter-notebook/help-extension:open',
   autoStart: true,
   activate: (app: JupyterFrontEnd): void => {
     const { commands } = app;
