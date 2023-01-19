@@ -14,6 +14,35 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a11
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a10...6d4eeed9d176e2523be7874ae4d9f46a99422d72))
+
+### Enhancements made
+
+- Tree view enhancement [#6588](https://github.com/jupyter/notebook/pull/6588) ([@brichet](https://github.com/brichet))
+- Add the Settings Editor to the landing page [#6316](https://github.com/jupyter/notebook/pull/6316) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Fix console error when adding a widget to a side panel [#6694](https://github.com/jupyter/notebook/pull/6694) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Help-extension split into multiple plugins [#6700](https://github.com/jupyter/notebook/pull/6700) ([@RRosio](https://github.com/RRosio))
+- Add releaser workflows [#6698](https://github.com/jupyter/notebook/pull/6698) ([@blink1073](https://github.com/blink1073))
+- Create `auto_author_assign.yml` workflow [#6696](https://github.com/jupyter/notebook/pull/6696) ([@jtpio](https://github.com/jtpio))
+- Add back `# type:ignore` [#6695](https://github.com/jupyter/notebook/pull/6695) ([@jtpio](https://github.com/jtpio))
+- Fix environment activation on Gitpod [#6693](https://github.com/jupyter/notebook/pull/6693) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-01-09&to=2023-01-19&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2023-01-09..2023-01-19&type=Issues) | [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2023-01-09..2023-01-19&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-01-09..2023-01-19&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-01-09..2023-01-19&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2023-01-09..2023-01-19&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0a10
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a9...6205bf376f783b7202af71e1074f44086ee7056c))
@@ -49,8 +78,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-11-21&to=2023-01-09&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-11-21..2023-01-09&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2022-11-21..2023-01-09&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-11-21..2023-01-09&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-11-21..2023-01-09&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2022-11-21..2023-01-09&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-11-21..2023-01-09&type=Issues) | [@yacchin1205](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ayacchin1205+updated%3A2022-11-21..2023-01-09&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0a9
 
