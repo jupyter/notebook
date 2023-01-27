@@ -84,6 +84,8 @@ validate-bump = false
 "notebook/labextension" = "share/jupyter/labextensions/@jupyter-notebook/lab-extension"
 "notebook/schemas/@jupyter-notebook" = "share/jupyter/lab/schemas/@jupyter-notebook"
 "jupyter-config/jupyter_server_config.d" = "etc/jupyter/jupyter_server_config.d"
+"notebook.svg" = "share/icons/hicolor/scalable/apps/notebook.svg"
+"jupyter-notebook.desktop" = "share/applications/jupyter-notebook.desktop"
 
 [tool.hatch.build.targets.sdist]
 artifacts = [
@@ -91,6 +93,8 @@ artifacts = [
     "notebook/static",
     "notebook/schemas/@jupyter-notebook",
     "notebook/templates",
+    "notebook.svg",
+    "jupyter-notebook.desktop",
 ]
 include = [
     "/jupyter-config",
