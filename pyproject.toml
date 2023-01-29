@@ -151,13 +151,13 @@ dependencies = [
 detached = true
 [tool.hatch.envs.lint.scripts]
 style = [
-  "ruff {args:notebook tests ui-tests}",
+  "ruff {args:.}",
   "black --check --diff {args:.}",
   "mdformat --check {args:CHANGELOG.md}"
 ]
 fmt = [
   "black {args:.}",
-  "ruff --fix {args:notebook}",
+  "ruff --fix {args:.}",
   "mdformat {args:CHANGELOG.md}"
 ]
 
@@ -268,7 +268,8 @@ ignore = [
 [tool.ruff.per-file-ignores]
 # S101 Use of `assert` detected
 # F841 Local variable `foo` is assigned to but never used
-"tests/*" = ["S101", "F841"]
+# PLR2004 Magic value used in comparison
+"tests/*" = ["S101", "F841", "PLR2004"]
 
 [tool.interrogate]
 ignore-init-module=true
