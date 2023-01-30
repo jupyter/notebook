@@ -23,7 +23,7 @@ Language kernels
 
 traitlets provide a low-level architecture for configuration.
 
-# Notebook server 
+# Notebook server
 
 The Notebook server runs the language kernel and communicates with the front-end Notebook client (i.e. the familiar notebook interface).
 
@@ -31,7 +31,9 @@ Configuring the Notebook server
 
 To create a jupyter_notebook_config.py file in the .jupyter directory, with all the defaults commented out, use the following command:
 
-    $ jupyter notebook --generate-config
+```
+$ jupyter notebook --generate-config
+```
 
 :ref:`Command line arguments for configuration <config>` settings are
 documented in the configuration file and the user documentation.
@@ -48,9 +50,9 @@ Example - Restoring the notebook’s default indentation
 Persisting configuration settings
 
 # Notebook extensions
+
 Distributing Jupyter Extensions as Python Packages
 
 Extending the Notebook
 
 Security in Jupyter notebooks: Since security policies vary from organization to organization, we encourage you to consult with your security team on settings that would be best for your use cases. Our documentation offers some responsible security practices, and we recommend becoming familiar with the practices.
-
