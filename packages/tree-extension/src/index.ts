@@ -13,9 +13,9 @@ import {
 } from '@jupyterlab/apputils';
 
 import {
-  IFileBrowserFactory,
   FileBrowser,
-  Uploader
+  Uploader,
+  IDefaultFileBrowser
 } from '@jupyterlab/filebrowser';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -109,17 +109,16 @@ const createNew: JupyterFrontEndPlugin<void> = {
  */
 const openFileBrowser: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:open-file-browser',
-  requires: [INotebookTree, IFileBrowserFactory],
+  requires: [INotebookTree, IDefaultFileBrowser],
   autoStart: true,
   activate: (
     app: JupyterFrontEnd,
     notebookTree: INotebookTree,
-    factory: IFileBrowserFactory
+    browser: IDefaultFileBrowser
   ) => {
     const { commands } = app;
     commands.addCommand(CommandIDs.activate, {
       execute: () => {
-        const { defaultBrowser: browser } = factory;
         notebookTree.currentWidget = browser;
       }
     });
@@ -132,7 +131,7 @@ const openFileBrowser: JupyterFrontEndPlugin<void> = {
 const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
   id: '@jupyter-notebook/tree-extension:widget',
   requires: [
-    IFileBrowserFactory,
+    IDefaultFileBrowser,
     ITranslator,
     ISettingRegistry,
     IToolbarWidgetRegistry
@@ -142,7 +141,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
   provides: INotebookTree,
   activate: (
     app: JupyterFrontEnd,
-    factory: IFileBrowserFactory,
+    browser: IDefaultFileBrowser,
     translator: ITranslator,
     settingRegistry: ISettingRegistry,
     toolbarRegistry: IToolbarWidgetRegistry,
@@ -153,7 +152,6 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
 
     const trans = translator.load('notebook');
 
-    const { defaultBrowser: browser } = factory;
     browser.title.label = trans.__('Files');
     browser.node.setAttribute('role', 'region');
     browser.node.setAttribute('aria-label', trans.__('File Browser Section'));
