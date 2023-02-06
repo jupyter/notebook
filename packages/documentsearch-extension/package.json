@@ -42,7 +42,7 @@
     "@jupyter-notebook/application": "^7.0.0-alpha.11",
     "@jupyterlab/application": "^4.0.0-alpha.18",
     "@jupyterlab/documentsearch": "^4.0.0-alpha.18",
-    "@lumino/widgets": "^2.0.0-alpha.7"
+    "@lumino/widgets": "^2.0.0-beta.1"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",

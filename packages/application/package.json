@@ -48,12 +48,12 @@
     "@jupyterlab/docregistry": "^4.0.0-alpha.18",
     "@jupyterlab/rendermime-interfaces": "^4.0.0-alpha.9",
     "@jupyterlab/ui-components": "^4.0.0-alpha.33",
-    "@lumino/algorithm": "^2.0.0-alpha.7",
-    "@lumino/coreutils": "^2.0.0-alpha.7",
-    "@lumino/messaging": "^2.0.0-alpha.7",
-    "@lumino/polling": "^2.0.0-alpha.7",
-    "@lumino/signaling": "^2.0.0-alpha.7",
-    "@lumino/widgets": "^2.0.0-alpha.7"
+    "@lumino/algorithm": "^2.0.0-beta.0",
+    "@lumino/coreutils": "^2.0.0-beta.0",
+    "@lumino/messaging": "^2.0.0-beta.0",
+    "@lumino/polling": "^2.0.0-beta.1",
+    "@lumino/signaling": "^2.0.0-beta.1",
+    "@lumino/widgets": "^2.0.0-beta.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
