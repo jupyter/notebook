@@ -46,7 +46,7 @@
     "@jupyterlab/application": "^4.0.0-alpha.18",
     "@jupyterlab/coreutils": "^6.0.0-alpha.18",
     "@jupyterlab/docregistry": "^4.0.0-alpha.18",
-    "@jupyterlab/rendermime-interfaces": "^4.0.0-alpha.9",
+    "@jupyterlab/rendermime-interfaces": "^3.8.0-alpha.18",
     "@jupyterlab/ui-components": "^4.0.0-alpha.33",
     "@lumino/algorithm": "^2.0.0-beta.0",
     "@lumino/coreutils": "^2.0.0-beta.0",
