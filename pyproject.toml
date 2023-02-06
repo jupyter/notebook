@@ -30,12 +30,12 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "jupyter_server>=2.0.0rc3,<3",
+    "jupyter_server>=2.0.0,<3",
     "importlib-resources>=5.0;python_version<\"3.9\"",
     "jupyterlab>=4.0.0a33,<5",
     "jupyterlab_server>=2.16.3,<3",
     "notebook_shim>=0.2,<0.3",
-    "tornado>=6.1.0",
+    "tornado>=6.2.0",
 ]
 dynamic = ["version"]
 
