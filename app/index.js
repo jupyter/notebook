@@ -117,7 +117,6 @@ async function main() {
         '@jupyterlab/docmanager-extension:manager'
       ].includes(id)
     ),
-    require('@jupyterlab/docprovider-extension'),
     require('@jupyterlab/documentsearch-extension').default.filter(({ id }) =>
       ['@jupyterlab/documentsearch-extension:plugin'].includes(id)
     ),
