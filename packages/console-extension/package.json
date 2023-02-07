@@ -39,10 +39,10 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/application": "^4.0.0-alpha.17",
-    "@jupyterlab/console": "^4.0.0-alpha.17",
-    "@jupyterlab/coreutils": "^6.0.0-alpha.17",
-    "@lumino/algorithm": "^2.0.0-alpha.7"
+    "@jupyterlab/application": "^4.0.0-alpha.18",
+    "@jupyterlab/console": "^4.0.0-alpha.18",
+    "@jupyterlab/coreutils": "^6.0.0-alpha.18",
+    "@lumino/algorithm": "^2.0.0-beta.0"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
