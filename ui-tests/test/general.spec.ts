@@ -24,8 +24,14 @@ test.describe('General', () => {
       ".jp-Notebook-ExecutionIndicator[data-status='idle']"
     );
 
+    const checkpointLocator = '.jp-NotebookCheckpoint';
     // wait for the checkpoint indicator to be displayed
-    await page.waitForSelector('.jp-NotebookCheckpoint');
+    await page.waitForSelector(checkpointLocator);
+
+    // remove the amount of seconds manually since it might display strings such as "3 seconds ago"
+    await page
+      .locator(checkpointLocator)
+      .evaluate(element => (element.innerHTML = '3 seconds ago'));
 
     // force switching back to command mode to avoid capturing the cursor in the screenshot
     await page.evaluate(async () => {
