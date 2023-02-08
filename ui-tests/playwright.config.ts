@@ -12,7 +12,7 @@ module.exports = {
       command: 'jlpm start',
       port: 8888,
       timeout: 120 * 1000,
-      reuseExistingServer: true,
+      reuseExistingServer: true
     }
-  ],
+  ]
 };
