@@ -52,17 +52,6 @@ jobs:
           jlpm --frozen-lockfile
           jlpm playwright install
 
-      - name: Start Jupyter Notebook
-        run: |
-          cd ui-tests
-          jlpm start:detached
-
-      - name: Wait for Jupyter Notebook
-        uses: ifaxity/wait-on-action@v1
-        with:
-          resource: http-get://127.0.0.1:8888/
-          timeout: 360000
-
       - name: Test
         run: |
           cd ui-tests
