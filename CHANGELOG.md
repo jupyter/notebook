@@ -14,6 +14,27 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a12
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a11...27c2bfbb80d42a3fd2541b13fae6143e2e91e4dd))
+
+### Enhancements made
+
+- Update to JupyterLab 4.0.0a33 [#6713](https://github.com/jupyter/notebook/pull/6713) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Add more lint checks [#6706](https://github.com/jupyter/notebook/pull/6706) ([@blink1073](https://github.com/blink1073))
+- Reintroduce desktop file [#6705](https://github.com/jupyter/notebook/pull/6705) ([@frenzymadness](https://github.com/frenzymadness))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-01-19&to=2023-02-08&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2023-01-19..2023-02-08&type=Issues) | [@frenzymadness](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afrenzymadness+updated%3A2023-01-19..2023-02-08&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-01-19..2023-02-08&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-01-19..2023-02-08&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0a11
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a10...6d4eeed9d176e2523be7874ae4d9f46a99422d72))
@@ -40,8 +61,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-01-09&to=2023-01-19&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2023-01-09..2023-01-19&type=Issues) | [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2023-01-09..2023-01-19&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-01-09..2023-01-19&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-01-09..2023-01-19&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2023-01-09..2023-01-19&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0a10
 
