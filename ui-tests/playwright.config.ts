@@ -9,7 +9,7 @@ module.exports = {
   retries: 1,
   webServer: [
     {
-      command: 'jlpm start:detached',
+      command: 'jlpm start',
       port: 8888,
       timeout: 120 * 1000,
       reuseExistingServer: true,
