@@ -42,7 +42,6 @@ def make_notebook_app(
     labextensions_dir,
 ):
     def _make_notebook_app(**kwargs):
-
         return JupyterNotebookApp(
             static_dir=str(jp_root_dir),
             templates_dir=str(jp_template_dir),
