@@ -52,6 +52,6 @@ jobs:
         uses: jupyterlab/maintainer-tools/.github/actions/update-snapshots@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          test_folder: playwright-tests
+          test_folder: ui-tests
           start_server_script: 'null'
           update_script: test:update --browser ${{ matrix.browser }}
