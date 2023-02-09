@@ -23,6 +23,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Base Setup
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+
       - name: Checkout the branch from the PR that triggered the job
         run: |
           # PR branch remote must be checked out using https URL
@@ -31,10 +34,6 @@ jobs:
           hub pr checkout 6724
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Install dependencies
-        run: |
-          python -m pip install pre-commit
 
       - name: Build
         uses: ./.github/actions/build-dist
