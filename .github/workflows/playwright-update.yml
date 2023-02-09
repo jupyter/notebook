@@ -3,6 +3,12 @@ name: Update Playwright Snapshots
 on:
   issue_comment:
     types: [created, edited]
+  workflow_dispatch:
+    inputs:
+      pr:
+        description: "PR"
+        default: ""
+        required: true
 
 permissions:
   contents: write
@@ -10,7 +16,7 @@ permissions:
 
 jobs:
   update-snapshots:
-    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, 'update playwright snapshots') }}
+    # if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, 'update playwright snapshots') }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -25,7 +31,7 @@ jobs:
         run: |
           # PR branch remote must be checked out using https URL
           git config --global hub.protocol https
-          hub pr checkout ${{ github.event.issue.number }}
+          hub pr checkout ${{ github.event.input.pr }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
