@@ -141,12 +141,15 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
 
     const node = document.createElement('div');
     const img = document.createElement('img');
-    node.appendChild(img);
 
     const onChange = async () => {
       const current = shell.currentWidget;
       if (!(current instanceof NotebookPanel)) {
         return;
+      }
+
+      if (!node.hasChildNodes()) {
+        node.appendChild(img);
       }
 
       await current.sessionContext.ready;
@@ -156,11 +159,13 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
       const name = current.sessionContext.session?.kernel?.name ?? '';
       const spec = serviceManager.kernelspecs?.specs?.kernelspecs[name];
       if (!spec) {
+        node.childNodes[0].remove();
         return;
       }
 
       const kernelIconUrl = spec.resources['logo-64x64'];
       if (!kernelIconUrl) {
+        node.childNodes[0].remove();
         return;
       }
 

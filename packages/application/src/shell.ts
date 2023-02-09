@@ -45,8 +45,11 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     const menuWrapper = (this._menuWrapper = new Panel());
 
     this._topHandler.panel.id = 'top-panel';
+    this._topHandler.panel.node.setAttribute('role', 'banner');
     this._menuHandler.panel.id = 'menu-panel';
+    this._menuHandler.panel.node.setAttribute('role', 'navigation');
     this._main.id = 'main-panel';
+    this._main.node.setAttribute('role', 'main');
 
     this._spacer = new Widget();
     this._spacer.id = 'spacer-widget';
@@ -63,7 +66,9 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     const rightHandler = this._rightHandler;
 
     leftHandler.panel.id = 'jp-left-stack';
+    leftHandler.panel.node.setAttribute('role', 'complementary');
     rightHandler.panel.id = 'jp-right-stack';
+    rightHandler.panel.node.setAttribute('role', 'complementary');
 
     // Hide the side panels by default.
     leftHandler.hide();

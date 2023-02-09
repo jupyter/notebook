@@ -90,6 +90,8 @@ export class SidePanelHandler extends PanelHandler {
       this.hide();
     };
     closeButton.className = 'jp-Button jp-SidePanel-collapse';
+    closeButton.title = 'Collapse side panel';
+
     const icon = new Widget({ node: closeButton });
     this._panel.addWidget(icon);
     this._panel.addWidget(this._widgetPanel);
