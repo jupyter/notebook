@@ -32,6 +32,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install dependencies
+        run: |
+          python -m pip install pre-commit
+
       - name: Build
         uses: ./.github/actions/build-dist
 
