@@ -1,0 +1,57 @@
+name: Update Playwright Snapshots
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-snapshots:
+    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, 'update playwright snapshots') }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [firefox, chromium]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Checkout the branch from the PR that triggered the job
+        run: |
+          # PR branch remote must be checked out using https URL
+          git config --global hub.protocol https
+          hub pr checkout ${{ github.event.issue.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build
+        uses: ./.github/actions/build-dist
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: notebook-dist-${{ github.run_number }}
+          path: ./dist
+
+      - name: Install the package
+        run: |
+          cd dist
+          python -m pip install -vv notebook*.whl
+
+      - name: Install the test dependencies
+        run: |
+          cd ui-tests
+          jlpm --frozen-lockfile
+          jlpm playwright install
+
+      - name: Update snapshots
+        uses: jupyterlab/maintainer-tools/.github/actions/update-snapshots@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          test_folder: playwright-tests
+          start_server_script: 'null'
+          update_script: test:update --browser ${{ matrix.browser }}
