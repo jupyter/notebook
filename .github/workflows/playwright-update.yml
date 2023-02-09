@@ -3,7 +3,7 @@ name: Update Playwright Snapshots
 on:
   issue_comment:
     types: [created, edited]
-  push
+  push:
 
 permissions:
   contents: write
