@@ -3,12 +3,7 @@ name: Update Playwright Snapshots
 on:
   issue_comment:
     types: [created, edited]
-  workflow_dispatch:
-    inputs:
-      pr:
-        description: "PR"
-        default: ""
-        required: true
+  push
 
 permissions:
   contents: write
@@ -31,7 +26,7 @@ jobs:
         run: |
           # PR branch remote must be checked out using https URL
           git config --global hub.protocol https
-          hub pr checkout ${{ github.event.input.pr }}
+          hub pr checkout ${{ github.event.issue.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
