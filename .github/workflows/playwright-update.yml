@@ -21,6 +21,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Base Setup
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+
       - name: Checkout the branch from the PR that triggered the job
         run: |
           # PR branch remote must be checked out using https URL
@@ -42,6 +45,9 @@ jobs:
           cd dist
           python -m pip install -vv notebook*.whl
 
+          # disable git hooks
+          git config core.hooksPath no-hooks
+
       - name: Install the test dependencies
         run: |
           cd ui-tests
@@ -52,6 +58,6 @@ jobs:
         uses: jupyterlab/maintainer-tools/.github/actions/update-snapshots@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          test_folder: playwright-tests
+          test_folder: ui-tests
           start_server_script: 'null'
           update_script: test:update --browser ${{ matrix.browser }}
