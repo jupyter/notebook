@@ -79,7 +79,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     const trans = translator.load('notebook');
     const menubar = new MenuBar();
     const switcher = new Menu({ commands });
-    switcher.title.label = trans.__('Interface');
+    switcher.title.label = trans.__('UI');
     menubar.addMenu(switcher);
 
     const isEnabled = () => {
