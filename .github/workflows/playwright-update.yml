@@ -48,6 +48,9 @@ jobs:
           cd dist
           python -m pip install -vv notebook*.whl
 
+          # disable git hooks
+          git config core.hooksPath no-hooks
+
       - name: Install the test dependencies
         run: |
           cd ui-tests
