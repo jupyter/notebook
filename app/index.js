@@ -67,7 +67,6 @@ async function main() {
     require('@jupyter-notebook/documentsearch-extension'),
     require('@jupyter-notebook/help-extension'),
     require('@jupyter-notebook/notebook-extension'),
-    require('@jupyter-notebook/translation-extension'),
     // to handle opening new tabs after creating a new terminal
     require('@jupyter-notebook/terminal-extension'),
 
