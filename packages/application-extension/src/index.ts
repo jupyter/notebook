@@ -845,7 +845,7 @@ const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
 };
 
 const translator: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/terminal-extension:opener',
+  id: '@jupyter-notebook/application-extension:translator',
   requires: [INotebookShell, ITranslator],
   autoStart: true,
   activate: (
