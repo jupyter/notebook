@@ -79,20 +79,20 @@ export class SidePanelHandler extends PanelHandler {
     this._widgetPanel = new StackedPanel();
     this._widgetPanel.widgetRemoved.connect(this._onWidgetRemoved, this);
 
-    const closeButton = document.createElement('button');
+    this._closeButton = document.createElement('button');
     closeIcon.element({
-      container: closeButton,
+      container: this._closeButton,
       height: '16px',
       width: 'auto'
     });
-    closeButton.onclick = () => {
+    this._closeButton.onclick = () => {
       this.collapse();
       this.hide();
     };
-    closeButton.className = 'jp-Button jp-SidePanel-collapse';
-    closeButton.title = 'Collapse side panel';
+    this._closeButton.className = 'jp-Button jp-SidePanel-collapse';
+    this._closeButton.title = 'Collapse side panel';
 
-    const icon = new Widget({ node: closeButton });
+    const icon = new Widget({ node: this._closeButton });
     this._panel.addWidget(icon);
     this._panel.addWidget(this._widgetPanel);
   }
@@ -148,6 +148,13 @@ export class SidePanelHandler extends PanelHandler {
    */
   get widgetRemoved(): ISignal<SidePanelHandler, Widget> {
     return this._widgetRemoved;
+  }
+
+  /**
+   * Get the close button element.
+   */
+  get closeButton(): HTMLButtonElement {
+    return this._closeButton;
   }
 
   /**
@@ -283,6 +290,7 @@ export class SidePanelHandler extends PanelHandler {
   private _widgetPanel: StackedPanel;
   private _currentWidget: Widget | null;
   private _lastCurrentWidget: Widget | null;
+  private _closeButton: HTMLButtonElement;
   private _widgetAdded: Signal<SidePanelHandler, Widget> = new Signal(this);
   private _widgetRemoved: Signal<SidePanelHandler, Widget> = new Signal(this);
 }

@@ -3,6 +3,7 @@
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
+import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
 import { find } from '@lumino/algorithm';
 import { PromiseDelegate, Token } from '@lumino/coreutils';
@@ -180,6 +181,27 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   }
 
   /**
+   * Getter and setter for the translator.
+   */
+  get translator(): ITranslator {
+    return this._translator ?? nullTranslator;
+  }
+  set translator(value: ITranslator) {
+    if (value !== this._translator) {
+      this._translator = value;
+      const trans = value.load('notebook');
+      this._leftHandler.closeButton.title = trans.__(
+        'Collapse %1 side panel',
+        this._leftHandler.area
+      );
+      this._rightHandler.closeButton.title = trans.__(
+        'Collapse %1 side panel',
+        this._rightHandler.area
+      );
+    }
+  }
+
+  /**
    * Activate a widget in its area.
    */
   activateById(id: string): void {
@@ -324,6 +346,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   private _rightHandler: SidePanelHandler;
   private _spacer: Widget;
   private _main: Panel;
+  private _translator: ITranslator = nullTranslator;
   private _currentChanged = new Signal<this, void>(this);
   private _mainWidgetLoaded = new PromiseDelegate<void>();
 }

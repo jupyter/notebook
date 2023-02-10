@@ -844,6 +844,19 @@ const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
   autoStart: true
 };
 
+const translator: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/application-extension:translator',
+  requires: [INotebookShell, ITranslator],
+  autoStart: true,
+  activate: (
+    app: JupyterFrontEnd,
+    notebookShell: INotebookShell,
+    translator: ITranslator
+  ) => {
+    notebookShell.translator = translator;
+  }
+};
+
 /**
  * Zen mode plugin
  */
@@ -920,6 +933,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   topVisibility,
   tree,
   treePathUpdater,
+  translator,
   zen
 ];
 
