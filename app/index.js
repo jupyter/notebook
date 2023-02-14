@@ -123,7 +123,7 @@ async function main() {
     require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/filebrowser-extension:factory',
-        '@jupyterlab/filebrowser-extension:defaultFileBrowser'
+        '@jupyterlab/filebrowser-extension:default-file-browser'
       ].includes(id)
     ),
     require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
