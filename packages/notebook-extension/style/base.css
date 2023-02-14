@@ -132,6 +132,10 @@ body[data-format='mobile'] .jp-Notebook > *:first-child {
   margin-top: 0;
 }
 
+body[data-format='mobile'] .jp-ToolbarButton .jp-DebuggerBugButton {
+  display: none;
+}
+
 /* Virtual Notebook fixes */
 
 body[data-notebook='notebooks'] .jp-WindowedPanel-window {
