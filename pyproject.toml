@@ -269,6 +269,8 @@ ignore = [
 # F841 Local variable `foo` is assigned to but never used
 # PLR2004 Magic value used in comparison
 "tests/*" = ["S101", "F841", "PLR2004"]
+# undefined name 'c'
+"ui-tests/test/jupyter_server_config.py" = ["F821"]
 
 [tool.interrogate]
 ignore-init-module=true
