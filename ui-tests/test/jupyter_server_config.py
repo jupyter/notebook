@@ -15,4 +15,4 @@ c.ServerApp.password = ""  # noqa
 c.ServerApp.disable_check_xsrf = True  # noqa
 
 c.JupyterNotebookApp.expose_app_in_browser = True  # noqa
-c.JupyterNotebookApp.extra_labextensions_path = str(Path(jupyterlab.__file__).parent / "galata")
+c.LabServerApp.extra_labextensions_path = str(Path(jupyterlab.__file__).parent / "galata")
