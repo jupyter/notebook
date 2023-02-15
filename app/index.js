@@ -98,7 +98,7 @@ async function main() {
     require('@jupyterlab/completer-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/completer-extension:base-service',
-        '@jupyterlab/completer-extension:tracker'
+        '@jupyterlab/completer-extension:manager'
       ].includes(id)
     ),
     require('@jupyterlab/console-extension').default.filter(({ id }) =>
@@ -123,7 +123,7 @@ async function main() {
     require('@jupyterlab/filebrowser-extension').default.filter(({ id }) =>
       [
         '@jupyterlab/filebrowser-extension:factory',
-        '@jupyterlab/filebrowser-extension:defaultFileBrowser'
+        '@jupyterlab/filebrowser-extension:default-file-browser'
       ].includes(id)
     ),
     require('@jupyterlab/fileeditor-extension').default.filter(({ id }) =>
@@ -152,7 +152,6 @@ async function main() {
     require('@jupyterlab/translation-extension'),
     require('@jupyterlab/ui-components-extension'),
     // Add the "Hub Control Panel" menu option when running in JupyterHub
-    require('@jupyterlab/collaboration-extension'),
     require('@jupyterlab/hub-extension')
   ];
 

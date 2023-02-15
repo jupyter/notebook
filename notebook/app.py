@@ -47,7 +47,6 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
             "fullStaticUrl": ujoin(self.base_url, "static", self.name),
             "frontendUrl": ujoin(self.base_url, "/"),
             "exposeAppInBrowser": app.expose_app_in_browser,
-            "collaborative": app.collaborative,
         }
 
         if "hub_prefix" in app.serverapp.tornado_settings:
@@ -228,16 +227,10 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
         help="Whether to expose the global app instance to browser via window.jupyterapp",
     )
 
-    collaborative = Bool(False, config=True, help="Whether to enable collaborative mode.")
-
     flags = flags
     flags["expose-app-in-browser"] = (
         {"JupyterNotebookApp": {"expose_app_in_browser": True}},
         "Expose the global app instance to browser via window.jupyterapp.",
-    )
-    flags["collaborative"] = (
-        {"JupyterNotebookApp": {"collaborative": True}},
-        "Whether to enable collaborative mode.",
     )
 
     @default("static_dir")

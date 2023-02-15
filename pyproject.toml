@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.11", "jupyterlab>=4.0.0a33,<5"]
+requires = ["hatchling>=1.11", "jupyterlab>=4.0.0a34,<5"]
 build-backend = "hatchling.build"
 
 [project]
@@ -32,7 +32,7 @@ classifiers = [
 dependencies = [
     "jupyter_server>=2.0.1,<3",
     "importlib-resources>=5.0;python_version<\"3.9\"",
-    "jupyterlab>=4.0.0a33,<5",
+    "jupyterlab>=4.0.0a34,<5",
     "jupyterlab_server>=2.19.0,<3",
     "notebook_shim>=0.2,<0.3",
     "tornado>=6.2.0",
@@ -269,6 +269,8 @@ ignore = [
 # F841 Local variable `foo` is assigned to but never used
 # PLR2004 Magic value used in comparison
 "tests/*" = ["S101", "F841", "PLR2004"]
+# undefined name 'c'
+"ui-tests/test/jupyter_server_config.py" = ["F821"]
 
 [tool.interrogate]
 ignore-init-module=true
