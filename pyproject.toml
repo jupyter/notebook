@@ -190,7 +190,7 @@ before-build-npm = [
     "jlpm clean",
     "jlpm build:prod"
 ]
-before-check-npm = [
+after-build-npm = [
     "ls -lisah packages/application"
 ]
 before-build-python = [
