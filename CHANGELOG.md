@@ -14,6 +14,31 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a13
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a12...ef67879306b27dfa78b8d639d9cc142b50f8c7ba))
+
+### Enhancements made
+
+- Update to JupyterLab 4.0.0a34 [#6732](https://github.com/jupyter/notebook/pull/6732) ([@jtpio](https://github.com/jtpio))
+- Hide the debugger button on mobile [#6731](https://github.com/jupyter/notebook/pull/6731) ([@jtpio](https://github.com/jtpio))
+- Adds translator to the NotebookShell [#6725](https://github.com/jupyter/notebook/pull/6725) ([@brichet](https://github.com/brichet))
+- Resolving some accessibility issues [#6719](https://github.com/jupyter/notebook/pull/6719) ([@brichet](https://github.com/brichet))
+
+### Maintenance and upkeep improvements
+
+- Fix Playwright snapshot update workflow [#6724](https://github.com/jupyter/notebook/pull/6724) ([@jtpio](https://github.com/jtpio))
+- Add workflow to update snapshots [#6723](https://github.com/jupyter/notebook/pull/6723) ([@jtpio](https://github.com/jtpio))
+- Use Playwright `webServer` [#6720](https://github.com/jupyter/notebook/pull/6720) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-02-08&to=2023-02-15&type=c))
+
+[@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2023-02-08..2023-02-15&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-02-08..2023-02-15&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-02-08..2023-02-15&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-02-08..2023-02-15&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0a12
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a11...27c2bfbb80d42a3fd2541b13fae6143e2e91e4dd))
@@ -32,8 +57,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-01-19&to=2023-02-08&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2023-01-19..2023-02-08&type=Issues) | [@frenzymadness](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afrenzymadness+updated%3A2023-01-19..2023-02-08&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-01-19..2023-02-08&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-01-19..2023-02-08&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0a11
 
