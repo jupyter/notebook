@@ -187,6 +187,7 @@ before-bump-version = [
     "python -m pip install hatch"
 ]
 before-build-npm = [
+    "jlpm clean",
     "jlpm build:prod"
 ]
 before-build-python = [
