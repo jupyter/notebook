@@ -94,6 +94,18 @@ Running the end to end tests in headful mode will trigger something like the fol
 
 ![playwight-headed-demo](https://user-images.githubusercontent.com/591645/141274633-ca9f9c2f-eef6-430e-9228-a35827f8133d.gif)
 
+### Updating reference snapshots
+
+Often a PR might make changes to the user interface, which can cause the visual regression tests to fail.
+
+If you want to update the reference snapshots while working on a PR you can post the following sentence as a GitHub comment:
+
+```
+bot please update playwright snapshots
+```
+
+This will trigger a GitHub Action that will run the UI tests automatically and push new commits to the branch if the reference snapshots have changed.
+
 ## Code Styling
 
 All non-python source code is formatted using [prettier](https://prettier.io) and python source code is formatted using [black](https://github.com/psf/black)s
