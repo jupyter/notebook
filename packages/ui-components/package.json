@@ -35,7 +35,6 @@
     "cleansvg": "svgo --config svgo.yaml",
     "docs": "typedoc src",
     "docs:init": "bash docs/build.sh",
-    "prepublishOnly": "npm run build",
     "test": "jest",
     "test:cov": "jest --collect-coverage",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",

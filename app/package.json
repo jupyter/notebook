@@ -7,7 +7,6 @@
     "build:prod": "webpack --mode=production",
     "clean": "rimraf build && jlpm run clean:static",
     "clean:static": "rimraf -g \"../notebook/static/!(favicons)\"",
-    "prepublishOnly": "yarn run build",
     "watch": "webpack --config ./webpack.config.watch.js"
   },
   "resolutions": {
