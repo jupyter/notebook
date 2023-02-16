@@ -404,7 +404,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   kernelStatus,
   scrollOutput,
   notebookToolsWidget,
-  trusted,
+  trusted
 ];
 
 export default plugins;
