@@ -220,7 +220,7 @@ body[data-notebook='notebooks']
   animation: 0.5s fade-out forwards;
 }
 
-.jp-RetroTrustedStatus {
+.jp-NotebookTrustedStatus {
   background: var(--jp-layout-color1);
   color: var(--jp-ui-font-color1);
   margin-top: 4px;
@@ -229,7 +229,7 @@ body[data-notebook='notebooks']
   cursor: help;
 }
 
-.jp-RetroTrustedStatus-not-trusted {
+.jp-NotebookTrustedStatus-not-trusted {
   cursor: pointer;
 }
 

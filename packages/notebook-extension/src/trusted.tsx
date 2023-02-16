@@ -44,7 +44,7 @@ const TrustedButton = ({
   notebook: Notebook;
   translator: ITranslator;
 }): JSX.Element => {
-  const trans = translator.load('retrolab');
+  const trans = translator.load('notebook');
   const [trusted, setTrusted] = useState(isTrusted(notebook));
 
   const checkTrust = () => {
@@ -69,7 +69,7 @@ const TrustedButton = ({
 
   return (
     <button
-      className={'jp-RetroTrustedStatus'}
+      className={'jp-NotebookTrustedStatus'}
       style={!trusted ? { cursor: 'pointer' } : { cursor: 'help' }}
       onClick={() => !trusted && trust()}
       title={
