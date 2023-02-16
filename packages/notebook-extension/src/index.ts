@@ -34,6 +34,8 @@ import { Poll } from '@lumino/polling';
 
 import { Widget } from '@lumino/widgets';
 
+import { TrustedComponent } from './trusted';
+
 /**
  * The class for kernel status errors.
  */
@@ -365,6 +367,35 @@ const notebookToolsWidget: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin that adds a Trusted indicator to the menu area
+ */
+const trusted: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:trusted',
+  autoStart: true,
+  requires: [INotebookShell, ITranslator],
+  activate: (
+    app: JupyterFrontEnd,
+    notebookShell: INotebookShell,
+    translator: ITranslator
+  ): void => {
+    const onChange = async () => {
+      const current = notebookShell.currentWidget;
+      if (!(current instanceof NotebookPanel)) {
+        return;
+      }
+
+      const notebook = current.content;
+      await current.context.ready;
+
+      const widget = TrustedComponent.create({ notebook, translator });
+      notebookShell.add(widget, 'menu', { rank: 11_000 });
+    };
+
+    notebookShell.currentChanged.connect(onChange);
+  }
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
@@ -372,7 +403,8 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   kernelLogo,
   kernelStatus,
   scrollOutput,
-  notebookToolsWidget
+  notebookToolsWidget,
+  trusted,
 ];
 
 export default plugins;

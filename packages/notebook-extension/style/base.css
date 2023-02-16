@@ -220,6 +220,19 @@ body[data-notebook='notebooks']
   animation: 0.5s fade-out forwards;
 }
 
+.jp-RetroTrustedStatus {
+  background: var(--jp-layout-color1);
+  color: var(--jp-ui-font-color1);
+  margin-top: 4px;
+  margin-bottom: 4px;
+  border: solid 1px var(--jp-border-color2);
+  cursor: help;
+}
+
+.jp-RetroTrustedStatus-not-trusted {
+  cursor: pointer;
+}
+
 @keyframes fade-out {
   0% {
     opacity: 1;
