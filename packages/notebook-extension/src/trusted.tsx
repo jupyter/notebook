@@ -8,6 +8,11 @@ import { toArray } from '@lumino/algorithm';
 
 import React, { useEffect, useState } from 'react';
 
+/**
+ * Check if a notebook is trusted
+ * @param notebook The notebook to check
+ * @returns true if the notebook is trusted, false otherwise
+ */
 const isTrusted = (notebook: Notebook): boolean => {
   const model = notebook.model;
   if (!model) {
@@ -55,6 +60,7 @@ const TrustedButton = ({
   useEffect(() => {
     notebook.modelContentChanged.connect(checkTrust);
     notebook.activeCellChanged.connect(checkTrust);
+    checkTrust();
     return () => {
       notebook.modelContentChanged.disconnect(checkTrust);
       notebook.activeCellChanged.disconnect(checkTrust);
