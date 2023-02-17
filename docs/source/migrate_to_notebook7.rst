@@ -1,15 +1,26 @@
-.. _htmlnotebook:
+Migrating to Notebook 7
+=======================
 
-NbClassic and Notebook
-======================
-
-NbClassic in the Jupyter Ecosystem
+Build Jupyter Notebook v7 off of JupyterLab components
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Read more details about the changes currently taking place in the
-Jupyter Ecosystem in this `team-compass issue`_.
+Jupyter Ecosystem in the `JEP 79`_ and `team-compass note`_.
+
+Notebook 7 is built on top of JupyterLab components and delivers new features
+like realtime collaboration, debugger, theming.
+
+Compatibility with older versions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Any extension developed for Notebook < 7 or NbClassic will not be
 compatible with Notebook 7 and upwards.
+
+Some extensions like nbgrader have already been ported. We invite you to 
+check if the extensions you are using have already been ported.
+
+Simulaneous usage of different versions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **NbClassic and Notebook 7**
 
@@ -70,4 +81,5 @@ enable the extension when running an instance of Jupyter Server,
 ``> jupyter server --ServerApp.jpserver_extensions="nbclassic=True"``, 
 which will provide the NbClassic frontend at ``/tree`` path when visited.
 
-.. _team-compass issue: https://github.com/jupyter/notebook-team-compass/issues/5#issuecomment-1085254000
+.. _JEP 79: https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html
+.. _team-compass note: https://github.com/jupyter/notebook-team-compass/issues/5#issuecomment-1085254000
