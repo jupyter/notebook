@@ -2,7 +2,7 @@ Migrating to Notebook 7
 =======================
 
 Build Jupyter Notebook v7 off of JupyterLab components
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Read more details about the changes currently taking place in the
 Jupyter Ecosystem in the `JEP 79`_ and `team-compass note`_.
@@ -11,7 +11,7 @@ Notebook 7 is built on top of JupyterLab components and delivers new features
 like realtime collaboration, debugger, theming.
 
 Compatibility with older versions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Any extension developed for Notebook < 7 or NbClassic will not be
 compatible with Notebook 7 and upwards.
@@ -20,7 +20,7 @@ Some extensions like nbgrader have already been ported. We invite you to
 check if the extensions you are using have already been ported.
 
 Simulaneous usage of different versions
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 **NbClassic and Notebook 7**
 
