@@ -1,0 +1,12 @@
+.jp-FileBrowser-toolbar .jp-Toolbar-item.jp-DropdownMenu,
+.jp-FileBrowser-toolbar .jp-Toolbar-item.jp-ToolbarButton,
+.jp-FileBrowser-toolbar .jp-Toolbar-item.jp-CommandToolbarButton
+{
+  border: solid 1px var(--jp-border-color2);
+  margin: 1px;
+  padding: 0px;
+}
+
+.jp-FileBrowser-toolbar button.jp-ToolbarButtonComponent {
+  height: 100%;
+}
