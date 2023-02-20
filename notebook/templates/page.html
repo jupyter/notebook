@@ -135,6 +135,25 @@ dir="ltr">
 </noscript>
 
 <div id="header" role="navigation" aria-label="{% trans %}Top Menu{% endtrans %}">
+  <div  id="newsId" style="display: none">
+    <div class="alert alert-info" role="alert">
+      <div style="display: flex">
+        <div>
+          <span class="label label-warning">UPDATE</span>
+          Read <a href="https://jupyter-notebook.readthedocs.io/en/latest/migrate_to_notebook7.html" style="text-decoration: underline;" target="_blank">the migration plan</a> to Notebook 7 to learn about the new features and the actions to take if you are using extensions
+          -
+          Please note that updating to Notebook 7 might break some of your extensions.
+        </div>
+        <div style="margin-left: auto;">
+          <a href="" onclick="alert('This message will not be shown anymore.'); return false;">
+            <button type="button" class="btn btn-default btn-xs" id="dontShowId">
+              Don't show anymore
+            </button>          
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
   <div id="header-container" class="container">
   <div id="ipython_notebook" class="nav navbar-brand"><a href="{{default_url}}
     {%- if logged_in and token -%}?token={{token}}{%- endif -%}" title='{% trans %}dashboard{% endtrans %}'>
@@ -203,6 +222,16 @@ dir="ltr">
   }
   _remove_token_from_url();
   sys_info = {{sys_info|safe}};
+  document.addEventListener('DOMContentLoaded', function () {
+    const newsId = document.querySelector('#newsId');
+    const dontShowId = document.querySelector('#dontShowId');
+    const showNotebookNews = localStorage.getItem('showNotebookNews');
+    dontShowId.addEventListener('click', () => {
+      localStorage.setItem('showNotebookNews', false);
+      newsId.style.display = 'none';
+    });
+    if (!showNotebookNews) newsId.style.display = 'inline';
+  });
 </script>
 </body>
 
