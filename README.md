@@ -8,7 +8,7 @@
 The Jupyter notebook is a web-based notebook environment for interactive
 computing.
 
-![Jupyter notebook example](docs/resources/running_code_med.png 'Jupyter notebook example')
+![Jupyter notebook example](docs/resources/running_code_med.png "Jupyter notebook example")
 
 ## Maintained versions
 
@@ -121,8 +121,8 @@ Jupyter uses a shared copyright model. Each contributor maintains copyright
 over their contributions to Jupyter. But, it is important to note that these
 contributions are typically only changes to the repositories. Thus, the Jupyter
 source code, in its entirety is not the copyright of any single person or
-institution.  Instead, it is the collective copyright of the entire Jupyter
-Development Team.  If individual contributors want to maintain a record of what
+institution. Instead, it is the collective copyright of the entire Jupyter
+Development Team. If individual contributors want to maintain a record of what
 changes/contributions they have specific copyright on, they should indicate
 their copyright in the commit message of the change, when they commit the
 change to one of the Jupyter repositories.
