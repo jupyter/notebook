@@ -191,7 +191,7 @@ class NotebookWebApplication(web.Application):
  | |_| | '_ \/ _` / _` |  _/ -_)
   \___/| .__/\__,_\__,_|\__\___|
        |_|
-                                                                           
+                       
 Read the migration plan to Notebook 7 to learn about the new features and the actions to take if you are using extensions.
 
 https://jupyter-notebook.readthedocs.io/en/latest/migrate_to_notebook7.html
