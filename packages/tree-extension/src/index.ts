@@ -159,6 +159,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
 
     nbTreeWidget.addWidget(browser);
     nbTreeWidget.tabBar.addTab(browser.title);
+    nbTreeWidget.tabsMovable = false;
 
     // Toolbar
     toolbarRegistry.addFactory(
