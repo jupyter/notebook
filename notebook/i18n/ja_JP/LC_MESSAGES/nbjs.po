@@ -152,7 +152,7 @@ msgstr "Jupyter Notebook について"
 
 #: notebook/static/notebook/js/about.js:47
 msgid "unable to contact kernel"
-msgstr "kernel と通信できません"
+msgstr "カーネルと通信できません"
 
 #: notebook/static/notebook/js/actions.js:69
 msgid "toggle rtl layout"
