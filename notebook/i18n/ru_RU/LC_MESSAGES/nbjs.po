@@ -83,7 +83,7 @@ msgstr "Применить"
 #: notebook/static/base/js/dialog.js:225
 msgid "WARNING: Could not save invalid JSON."
 msgstr "ПРЕДУПРЕЖДЕНИЕ: не удалось сохранить недопустимый JSON."
-12
+
 #: notebook/static/base/js/dialog.js:247
 msgid "There are no attachments for this cell."
 msgstr "Для этой ячейки нет никаких вложений."
