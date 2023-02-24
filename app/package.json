@@ -44,6 +44,8 @@
     "@jupyterlab/docmanager-extension": "~4.0.0-alpha.19",
     "@jupyterlab/documentsearch": "~4.0.0-alpha.19",
     "@jupyterlab/documentsearch-extension": "~4.0.0-alpha.19",
+    "@jupyterlab/extensionmanager": "~4.0.0-alpha.19",
+    "@jupyterlab/extensionmanager-extension": "~4.0.0-alpha.19",
     "@jupyterlab/filebrowser": "~4.0.0-alpha.19",
     "@jupyterlab/filebrowser-extension": "~4.0.0-alpha.19",
     "@jupyterlab/fileeditor": "~4.0.0-alpha.19",
@@ -128,6 +130,7 @@
     "@jupyterlab/debugger-extension": "^4.0.0-alpha.19",
     "@jupyterlab/docmanager-extension": "^4.0.0-alpha.19",
     "@jupyterlab/documentsearch-extension": "^4.0.0-alpha.19",
+    "@jupyterlab/extensionmanager-extension": "^4.0.0-alpha.19",
     "@jupyterlab/filebrowser-extension": "^4.0.0-alpha.19",
     "@jupyterlab/fileeditor-extension": "^4.0.0-alpha.19",
     "@jupyterlab/htmlviewer-extension": "^4.0.0-alpha.19",
@@ -230,6 +233,7 @@
         "@jupyterlab/documentsearch-extension": [
           "@jupyterlab/documentsearch-extension:plugin"
         ],
+        "@jupyterlab/extensionmanager-extension": true,
         "@jupyterlab/filebrowser-extension": [
           "@jupyterlab/filebrowser-extension:factory",
           "@jupyterlab/filebrowser-extension:default-file-browser"
@@ -330,6 +334,7 @@
       "@jupyterlab/debugger",
       "@jupyterlab/docmanager",
       "@jupyterlab/documentsearch",
+      "@jupyterlab/extensionmanager",
       "@jupyterlab/filebrowser",
       "@jupyterlab/fileeditor",
       "@jupyterlab/htmlviewer",
