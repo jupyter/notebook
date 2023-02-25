@@ -12,6 +12,8 @@ import {
   setToolbar
 } from '@jupyterlab/apputils';
 
+import { PageConfig } from '@jupyterlab/coreutils';
+
 import {
   FileBrowser,
   Uploader,
@@ -208,8 +210,24 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
 
     app.shell.add(nbTreeWidget, 'main', { rank: 100 });
 
+    app.restored.then(async () => {
+      const { isDisabled } = PageConfig.Extension;
+      const connector = settingRegistry.connector;
+      const plugins = await connector.list('all');
+      plugins.ids.forEach(async (id: string) => {
+        if (isDisabled(id) || id in settingRegistry.plugins) {
+          return;
+        }
+        try {
+          await settingRegistry.load(id);
+        } catch (error) {
+          console.warn(`Settings failed to load for (${id})`, error);
+        }
+      });
+    });
+
     if (settingEditorTracker) {
-      settingEditorTracker.widgetAdded.connect((_, editor) => {
+      settingEditorTracker.widgetAdded.connect(async (_, editor) => {
         nbTreeWidget.addWidget(editor);
         nbTreeWidget.tabBar.addTab(editor.title);
         nbTreeWidget.currentWidget = editor;

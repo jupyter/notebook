@@ -323,37 +323,6 @@ const shell: JupyterFrontEndPlugin<INotebookShell> = {
 };
 
 /**
- * The default setting registry provider.
- */
-export const settingsPlugin: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/application-extension:settings-plugin',
-  autoStart: true,
-  requires: [ISettingRegistry],
-  activate: async (
-    app: JupyterFrontEnd,
-    registry: ISettingRegistry
-  ): Promise<void> => {
-    const { isDisabled } = PageConfig.Extension;
-
-    const connector = registry.connector;
-    void app.restored.then(async () => {
-      const plugins = await connector.list('all');
-      plugins.ids.forEach(async (id: string) => {
-        if (isDisabled(id) || id in registry.plugins) {
-          return;
-        }
-
-        try {
-          await registry.load(id);
-        } catch (error) {
-          console.warn(`Settings failed to load for (${id})`, error);
-        }
-      });
-    });
-  }
-};
-
-/**
  * The default JupyterLab application status provider.
  */
 const status: JupyterFrontEndPlugin<ILabStatus> = {
@@ -956,7 +925,6 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   pages,
   paths,
   sessionDialogs,
-  settingsPlugin,
   shell,
   sidePanelVisibility,
   status,
