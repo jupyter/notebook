@@ -109,11 +109,11 @@ for more information.
         'tornado>=6.1',
         # pyzmq>=17 is not technically necessary,
         # but hopefully avoids incompatibilities with Tornado 5. April 2018
-        'pyzmq>=17',
+        'pyzmq>=17,<25',
         'argon2-cffi',
         'traitlets>=4.2.1',
         'jupyter_core>=4.6.1',
-        'jupyter_client>=5.3.4',
+        'jupyter_client>=5.3.4,<8',
         'ipython_genutils',
         'nbformat',
         'nbconvert>=5',
