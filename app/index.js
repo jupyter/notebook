@@ -47,6 +47,7 @@ async function createModule(scope, module) {
  */
 async function main() {
   // load extra packages
+  // TODO: check if stil needed
   require('@jupyterlab/celltags');
 
   // TODO: read mime extensions from package.json
