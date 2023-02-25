@@ -175,45 +175,6 @@
   },
   "jupyterlab": {
     "name": "Jupyter Notebook",
-    "extensions": [
-      "@jupyter-notebook/application-extension",
-      "@jupyter-notebook/console-extension",
-      "@jupyter-notebook/docmanager-extension",
-      "@jupyter-notebook/documentsearch-extension",
-      "@jupyter-notebook/help-extension",
-      "@jupyter-notebook/notebook-extension",
-      "@jupyter-notebook/terminal-extension",
-      "@jupyter-notebook/tree-extension",
-      "@jupyterlab/application-extension",
-      "@jupyterlab/apputils-extension",
-      "@jupyterlab/cell-toolbar-extension",
-      "@jupyterlab/codemirror-extension",
-      "@jupyterlab/completer-extension",
-      "@jupyterlab/console-extension",
-      "@jupyterlab/debugger-extension",
-      "@jupyterlab/docmanager-extension",
-      "@jupyterlab/documentsearch-extension",
-      "@jupyterlab/filebrowser-extension",
-      "@jupyterlab/fileeditor-extension",
-      "@jupyterlab/htmlviewer-extension",
-      "@jupyterlab/hub-extension",
-      "@jupyterlab/lsp-extension",
-      "@jupyterlab/mainmenu-extension",
-      "@jupyterlab/mathjax2-extension",
-      "@jupyterlab/markedparser-extension",
-      "@jupyterlab/notebook-extension",
-      "@jupyterlab/pdf-extension",
-      "@jupyterlab/rendermime-extension",
-      "@jupyterlab/running-extension",
-      "@jupyterlab/settingeditor-extension",
-      "@jupyterlab/shortcuts-extension",
-      "@jupyterlab/terminal-extension",
-      "@jupyterlab/theme-dark-extension",
-      "@jupyterlab/theme-light-extension",
-      "@jupyterlab/tooltip-extension",
-      "@jupyterlab/translation-extension",
-      "@jupyterlab/ui-components-extension"
-    ],
     "singletonPackages": [
       "@jupyter-notebook/tree",
       "@jupyter/ydoc",
@@ -264,7 +225,144 @@
       "react-dom",
       "yjs"
     ],
-    "mimeExtensions": {},
-    "linkedPackages": {}
+    "plugins": {
+      "/": {
+        "@jupyter-notebook/application-extension": true,
+        "@jupyter-notebook/console-extension": true,
+        "@jupyter-notebook/docmanager-extension": true,
+        "@jupyter-notebook/documentsearch-extension": true,
+        "@jupyter-notebook/help-extension": true,
+        "@jupyter-notebook/notebook-extension": true,
+        "@jupyter-notebook/terminal-extension": true,
+        "@jupyterlab/application-extension": [
+          "@jupyterlab/application-extension:commands",
+          "@jupyterlab/application-extension:context-menu",
+          "@jupyterlab/application-extension:faviconbusy",
+          "@jupyterlab/application-extension:router",
+          "@jupyterlab/application-extension:top-bar",
+          "@jupyterlab/application-extension:top-spacer"
+        ],
+        "@jupyterlab/apputils-extension": [
+          "@jupyterlab/apputils-extension:palette",
+          "@jupyterlab/apputils-extension:sanitizer",
+          "@jupyterlab/apputils-extension:settings",
+          "@jupyterlab/apputils-extension:state",
+          "@jupyterlab/apputils-extension:themes",
+          "@jupyterlab/apputils-extension:themes-palette-menu",
+          "@jupyterlab/apputils-extension:toolbar-registry"
+        ],
+        "@jupyterlab/codemirror-extension": [
+          "@jupyterlab/codemirror-extension:services"
+        ],
+        "@jupyterlab/completer-extension": [
+          "@jupyterlab/completer-extension:base-service",
+          "@jupyterlab/completer-extension:manager"
+        ],
+        "@jupyterlab/console-extension": [
+          "@jupyterlab/console-extension:completer",
+          "@jupyterlab/console-extension:factory",
+          "@jupyterlab/console-extension:foreign",
+          "@jupyterlab/console-extension:tracker"
+        ],
+        "@jupyterlab/docmanager-extension": [
+          "@jupyterlab/docmanager-extension:plugin",
+          "@jupyterlab/docmanager-extension:download",
+          "@jupyterlab/docmanager-extension:contexts",
+          "@jupyterlab/docmanager-extension:manager"
+        ],
+        "@jupyterlab/documentsearch-extension": [
+          "@jupyterlab/documentsearch-extension:plugin"
+        ],
+        "@jupyterlab/filebrowser-extension": [
+          "@jupyterlab/filebrowser-extension:factory",
+          "@jupyterlab/filebrowser-extension:default-file-browser"
+        ],
+        "@jupyterlab/fileeditor-extension": [
+          "@jupyterlab/fileeditor-extension:plugin"
+        ],
+        "@jupyterlab/htmlviewer-extension": true,
+        "@jupyterlab/lsp-extension": true,
+        "@jupyterlab/mainmenu-extension": true,
+        "@jupyterlab/markedparser-extension": true,
+        "@jupyterlab/mathjax2-extension": true,
+        "@jupyterlab/notebook-extension": [
+          "@jupyterlab/notebook-extension:code-console",
+          "@jupyterlab/notebook-extension:export",
+          "@jupyterlab/notebook-extension:factory",
+          "@jupyterlab/notebook-extension:tracker",
+          "@jupyterlab/notebook-extension:widget-factory"
+        ],
+        "@jupyterlab/rendermime-extension": true,
+        "@jupyterlab/shortcuts-extension": true,
+        "@jupyterlab/terminal-extension": true,
+        "@jupyterlab/theme-light-extension": true,
+        "@jupyterlab/theme-dark-extension": true,
+        "@jupyterlab/translation-extension": true,
+        "@jupyterlab/ui-components-extension": true,
+        "@jupyterlab/hub-extension": true
+      },
+      "/tree": {
+        "@jupyterlab/filebrowser-extension": [
+          "@jupyterlab/filebrowser-extension:browser",
+          "@jupyterlab/filebrowser-extension:download",
+          "@jupyterlab/filebrowser-extension:file-upload-status",
+          "@jupyterlab/filebrowser-extension:open-with",
+          "@jupyterlab/filebrowser-extension:search",
+          "@jupyterlab/filebrowser-extension:share-file"
+        ],
+        "@jupyter-notebook/tree-extension": true,
+        "@jupyterlab/running-extension": true,
+        "@jupyterlab/settingeditor-extension": [
+          "@jupyterlab/settingeditor-extension:form-ui"
+        ]
+      },
+      "/notebooks": {
+        "@jupyterlab/celltags-extension": true,
+        "@jupyterlab/cell-toolbar-extension": true,
+        "@jupyterlab/debugger-extension": [
+          "@jupyterlab/debugger-extension:config",
+          "@jupyterlab/debugger-extension:main",
+          "@jupyterlab/debugger-extension:notebooks",
+          "@jupyterlab/debugger-extension:service",
+          "@jupyterlab/debugger-extension:sidebar",
+          "@jupyterlab/debugger-extension:sources"
+        ],
+        "@jupyterlab/notebook-extension": [
+          "@jupyterlab/notebook-extension:completer",
+          "@jupyterlab/notebook-extension:search",
+          "@jupyterlab/notebook-extension:toc",
+          "@jupyterlab/notebook-extension:tools"
+        ],
+        "@jupyterlab/toc-extension": [
+          "@jupyterlab/toc-extension:registry",
+          "@jupyterlab/toc-extension:tracker"
+        ],
+        "@jupyterlab/tooltip-extension": [
+          "@jupyterlab/tooltip-extension:manager",
+          "@jupyterlab/tooltip-extension:notebooks"
+        ]
+      },
+      "/consoles": {
+        "@jupyterlab/tooltip-extension": [
+          "@jupyterlab/tooltip-extension:manager",
+          "@jupyterlab/tooltip-extension:consoles"
+        ]
+      },
+      "/edit": {
+        "@jupyterlab/fileeditor-extension": [
+          "@jupyterlab/fileeditor-extension:completer",
+          "@jupyterlab/fileeditor-extension:search"
+        ],
+        "@jupyterlab/codemirror-extension": [
+          "@jupyterlab/codemirror-extension:commands"
+        ]
+      }
+    },
+    "mimeExtensions": {
+      "@jupyterlab/javascript-extension": true,
+      "@jupyterlab/json-extension": true,
+      "@jupyterlab/pdf-extension": true,
+      "@jupyterlab/vega5-extension": true
+    }
   }
 }

@@ -41,13 +41,23 @@ const extras = Build.ensureAssets({
   schemaOutput: path.resolve(__dirname, '..', 'notebook')
 });
 
+
+// Create the list of extension packages from the package.json metadata
+const plugins = data.jupyterlab.plugins;
+const extensionPackages = new Set();
+Object.keys(plugins).forEach(page => {
+  const pagePlugins = plugins[page];
+  Object.keys(pagePlugins).forEach(name => {
+    extensionPackages.add(name);
+  });
+});
+
 /**
  * Create the webpack ``shared`` configuration
  */
 function createShared(packageData) {
   // Set up module federation sharing config
   const shared = {};
-  const extensionPackages = packageData.jupyterlab.extensions;
 
   // Make sure any resolutions are shared
   for (let [pkg, requiredVersion] of Object.entries(packageData.resolutions)) {
