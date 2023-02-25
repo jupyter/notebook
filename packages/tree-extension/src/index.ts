@@ -20,7 +20,7 @@ import {
   IDefaultFileBrowser
 } from '@jupyterlab/filebrowser';
 
-import { ISettingRegistry } from '@jupyterlab/settingregistry';
+import { ISettingRegistry, SettingRegistry } from '@jupyterlab/settingregistry';
 
 import { IRunningSessionManagers, RunningSessions } from '@jupyterlab/running';
 
@@ -103,6 +103,31 @@ const createNew: JupyterFrontEndPlugin<void> = {
         }
       );
     }
+  }
+};
+
+const loadPlugins: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/tree-extension:load-plugins',
+  autoStart: true,
+  requires: [ISettingRegistry],
+  activate(app: JupyterFrontEnd, settingRegistry: ISettingRegistry) {
+    const { isDisabled } = PageConfig.Extension;
+    const connector = settingRegistry.connector;
+
+    app.restored.then(async () => {
+      // TODO: only load the plugins built-in the notebook application by default
+      const plugins = await connector.list('all');
+      plugins.ids.forEach(async (id: string) => {
+        if (isDisabled(id) || id in settingRegistry.plugins) {
+          return;
+        }
+        try {
+          await settingRegistry.load(id);
+        } catch (error) {
+          console.warn(`Settings failed to load for (${id})`, error);
+        }
+      });
+    });
   }
 };
 
@@ -210,22 +235,6 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
 
     app.shell.add(nbTreeWidget, 'main', { rank: 100 });
 
-    app.restored.then(async () => {
-      const { isDisabled } = PageConfig.Extension;
-      const connector = settingRegistry.connector;
-      const plugins = await connector.list('all');
-      plugins.ids.forEach(async (id: string) => {
-        if (isDisabled(id) || id in settingRegistry.plugins) {
-          return;
-        }
-        try {
-          await settingRegistry.load(id);
-        } catch (error) {
-          console.warn(`Settings failed to load for (${id})`, error);
-        }
-      });
-    });
-
     if (settingEditorTracker) {
       settingEditorTracker.widgetAdded.connect(async (_, editor) => {
         nbTreeWidget.addWidget(editor);
@@ -243,6 +252,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   createNew,
+  loadPlugins,
   openFileBrowser,
   notebookTreeWidget
 ];
