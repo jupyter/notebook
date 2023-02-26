@@ -50,7 +50,11 @@ async function main() {
   // TODO: check if stil needed
   require('@jupyterlab/celltags');
 
-  // TODO: read mime extensions from package.json
+  const mimeExtensionsMods = [
+  {{#each notebook_mime_extensions}}
+    require('{{ @key }}'),
+  {{/each}}
+  ];
   const mimeExtensions = await Promise.all(mimeExtensionsMods);
 
   const disabled = [];

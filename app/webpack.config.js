@@ -8,6 +8,7 @@ const fs = require('fs-extra');
 const path = require('path');
 const webpack = require('webpack');
 const merge = require('webpack-merge').default;
+const Handlebars = require('handlebars');
 const { ModuleFederationPlugin } = webpack.container;
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
@@ -29,10 +30,30 @@ if (fs.existsSync(buildDir)) {
 }
 fs.ensureDirSync(buildDir);
 
+// Handle the extensions.
+const { mimeExtensions, plugins } = data.jupyterlab;
+
+// Create the list of extension packages from the package.json metadata
+const extensionPackages = new Set();
+Object.keys(plugins).forEach(page => {
+  const pagePlugins = plugins[page];
+  Object.keys(pagePlugins).forEach(name => {
+    extensionPackages.add(name);
+  });
+});
+
+// Create the entry point and other assets in build directory.
+const source = fs.readFileSync('index.js').toString();
+const template = Handlebars.compile(source);
+const extData = {
+  notebook_plugins: plugins,
+  notebook_mime_extensions: mimeExtensions
+};
+const indexOut = template(extData);
+fs.writeFileSync(path.join(buildDir, 'index.js'), indexOut);
+
 // Copy extra files
-const index = path.resolve(__dirname, 'index.js');
 const cssImports = path.resolve(__dirname, 'style.js');
-fs.copySync(index, path.resolve(buildDir, 'index.js'));
 fs.copySync(cssImports, path.resolve(buildDir, 'extraStyle.js'));
 
 const extras = Build.ensureAssets({
@@ -41,16 +62,6 @@ const extras = Build.ensureAssets({
   schemaOutput: path.resolve(__dirname, '..', 'notebook')
 });
 
-
-// Create the list of extension packages from the package.json metadata
-const plugins = data.jupyterlab.plugins;
-const extensionPackages = new Set();
-Object.keys(plugins).forEach(page => {
-  const pagePlugins = plugins[page];
-  Object.keys(pagePlugins).forEach(name => {
-    extensionPackages.add(name);
-  });
-});
 
 /**
  * Create the webpack ``shared`` configuration
