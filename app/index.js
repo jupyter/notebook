@@ -193,7 +193,10 @@ async function main() {
       console.error(reason);
     });
 
-  // set the list of base notebook multi-page plugins for the app to be aware of
+  // Set the list of base notebook multi-page plugins so the app is aware of all
+  // its built-in plugins even if they are not loaded on the current page.
+  // For example this is useful so the Settings Editor can list the debugger
+  // plugin even if the debugger is only loaded on the notebook page.
   PageConfig.setOption('allPlugins', '{{{ json notebook_plugins }}}');
 
   const NotebookApp = require('@jupyter-notebook/application').NotebookApp;
