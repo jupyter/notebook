@@ -193,6 +193,9 @@ async function main() {
       console.error(reason);
     });
 
+  // set the list of base notebook multi-page plugins for the app to be aware of
+  PageConfig.setOption('allPlugins', '{{{ json notebook_plugins }}}');
+
   const NotebookApp = require('@jupyter-notebook/application').NotebookApp;
   const app = new NotebookApp({ mimeExtensions });
 

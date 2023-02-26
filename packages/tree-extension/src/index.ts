@@ -106,6 +106,10 @@ const createNew: JupyterFrontEndPlugin<void> = {
   }
 };
 
+/**
+ * Plugin to load the default plugins that are loaded on all the Notebook pages
+ * (tree, edit, view, etc.) so they are visible in the settings editor.
+ */
 const loadPlugins: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:load-plugins',
   autoStart: true,
@@ -114,11 +118,36 @@ const loadPlugins: JupyterFrontEndPlugin<void> = {
     const { isDisabled } = PageConfig.Extension;
     const connector = settingRegistry.connector;
 
+    const allPluginsOption = PageConfig.getOption('allPlugins');
+    if (!allPluginsOption) {
+      return;
+    }
+
+    // build the list of plugins shipped by default on the all the notebook pages
+    const allPlugins = JSON.parse(allPluginsOption);
+    const pluginsSet = new Set<string>();
+    Object.keys(allPlugins).forEach((key: string) => {
+      const extensionsAndPlugins: { [key: string]: boolean | [string] } = allPlugins[key];
+      Object.keys(extensionsAndPlugins).forEach(plugin => {
+        const value = extensionsAndPlugins[plugin];
+        if (typeof value === 'boolean' && value) {
+          pluginsSet.add(plugin);
+        } else if (Array.isArray(value)) {
+          value.forEach((v: string) => {
+            pluginsSet.add(v);
+          });
+        }
+      });
+    });
+
     app.restored.then(async () => {
-      // TODO: only load the plugins built-in the notebook application by default
       const plugins = await connector.list('all');
       plugins.ids.forEach(async (id: string) => {
-        if (isDisabled(id) || id in settingRegistry.plugins) {
+        const [extension,] = id.split(':');
+        // load the plugin if it is built-in the notebook application explicitly
+        // either included as an extension or as a plugin directly
+        const hasPlugin = pluginsSet.has(extension) || pluginsSet.has(id);
+        if (!hasPlugin || isDisabled(id) || id in settingRegistry.plugins) {
           return;
         }
         try {

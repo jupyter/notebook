@@ -42,6 +42,10 @@ Object.keys(plugins).forEach(page => {
   });
 });
 
+Handlebars.registerHelper('json', function(context) {
+  return JSON.stringify(context);
+});
+
 // custom help to check if a page corresponds to a value
 Handlebars.registerHelper('ispage', function (key, page) {
   return key === page;
