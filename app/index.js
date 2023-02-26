@@ -46,10 +46,6 @@ async function createModule(scope, module) {
  * The main function
  */
 async function main() {
-  // load extra packages
-  // TODO: check if stil needed
-  require('@jupyterlab/celltags');
-
   const mimeExtensionsMods = [
   {{#each notebook_mime_extensions}}
     require('{{ @key }}'),

@@ -20,7 +20,7 @@ import {
   IDefaultFileBrowser
 } from '@jupyterlab/filebrowser';
 
-import { ISettingRegistry, SettingRegistry } from '@jupyterlab/settingregistry';
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { IRunningSessionManagers, RunningSessions } from '@jupyterlab/running';
 
@@ -236,7 +236,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     app.shell.add(nbTreeWidget, 'main', { rank: 100 });
 
     if (settingEditorTracker) {
-      settingEditorTracker.widgetAdded.connect(async (_, editor) => {
+      settingEditorTracker.widgetAdded.connect((_, editor) => {
         nbTreeWidget.addWidget(editor);
         nbTreeWidget.tabBar.addTab(editor.title);
         nbTreeWidget.currentWidget = editor;
