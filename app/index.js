@@ -57,12 +57,32 @@ async function main() {
   ];
   const mimeExtensions = await Promise.all(mimeExtensionsMods);
 
-  const disabled = [];
+  // Load the base plugins available on all pages
+  let baseMods = [
+  {{#each notebook_plugins}}
+    {{#if (ispage @key '/')}}
+      {{{ list_plugins }}}
+    {{/if}}
+  {{/each}}
+  ];
 
-  // The motivation here is to only load a specific set of plugins dependending on
-  // the current page
-  const page = PageConfig.getOption('notebookPage');
-  // TODO: load plugins from package.json according to the page
+  const page = `/${PageConfig.getOption('notebookPage')}`;
+  switch (page) {
+  {{#each notebook_plugins}}
+    {{#unless (ispage @key '/')}}
+    // list all the other plugins grouped by page
+    case '{{ @key }}': {
+      baseMods = baseMods.concat([
+        {{{ list_plugins }}}
+      ]);
+      break;
+    }
+    {{/unless}}
+  {{/each}}
+  }
+
+  // populate the list of disabled extensions
+  const disabled = [];
 
   /**
    * Iterate over active plugins in an extension.

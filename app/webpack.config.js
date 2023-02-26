@@ -42,6 +42,32 @@ Object.keys(plugins).forEach(page => {
   });
 });
 
+// custom help to check if a page corresponds to a value
+Handlebars.registerHelper('ispage', function (key, page) {
+  return key === page;
+});
+
+// custom helper to load the plugins on the index page
+Handlebars.registerHelper('list_plugins', function () {
+  let str = '';
+  const page = this;
+  Object.keys(this).forEach(extension => {
+    const plugin = page[extension];
+    if (plugin === true) {
+      str += `require(\'${extension}\'),\n  `;
+    } else if (Array.isArray(plugin)) {
+      const plugins = plugin.map(p => `'${p}',`).join('\n');
+      str += `
+      require(\'${extension}\').default.filter(({id}) => [
+       ${plugins}
+      ].includes(id)),
+      `;
+    }
+  })
+  return str;
+})
+
+
 // Create the entry point and other assets in build directory.
 const source = fs.readFileSync('index.js').toString();
 const template = Handlebars.compile(source);
