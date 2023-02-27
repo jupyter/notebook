@@ -12,6 +12,8 @@ import {
   setToolbar
 } from '@jupyterlab/apputils';
 
+import { PageConfig } from '@jupyterlab/coreutils';
+
 import {
   FileBrowser,
   Uploader,
@@ -101,6 +103,63 @@ const createNew: JupyterFrontEndPlugin<void> = {
         }
       );
     }
+  }
+};
+
+/**
+ * Plugin to load the default plugins that are loaded on all the Notebook pages
+ * (tree, edit, view, etc.) so they are visible in the settings editor.
+ */
+const loadPlugins: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/tree-extension:load-plugins',
+  autoStart: true,
+  requires: [ISettingRegistry],
+  activate(app: JupyterFrontEnd, settingRegistry: ISettingRegistry) {
+    const { isDisabled } = PageConfig.Extension;
+    const connector = settingRegistry.connector;
+
+    const allPluginsOption = PageConfig.getOption('allPlugins');
+    if (!allPluginsOption) {
+      return;
+    }
+
+    // build the list of plugins shipped by default on the all the notebook pages
+    // this avoid explicitly loading `'all'` plugins such as the ones used
+    // in JupyterLab only
+    const allPlugins = JSON.parse(allPluginsOption);
+    const pluginsSet = new Set<string>();
+    Object.keys(allPlugins).forEach((key: string) => {
+      const extensionsAndPlugins: { [key: string]: boolean | [string] } =
+        allPlugins[key];
+      Object.keys(extensionsAndPlugins).forEach(plugin => {
+        const value = extensionsAndPlugins[plugin];
+        if (typeof value === 'boolean' && value) {
+          pluginsSet.add(plugin);
+        } else if (Array.isArray(value)) {
+          value.forEach((v: string) => {
+            pluginsSet.add(v);
+          });
+        }
+      });
+    });
+
+    app.restored.then(async () => {
+      const plugins = await connector.list('all');
+      plugins.ids.forEach(async (id: string) => {
+        const [extension] = id.split(':');
+        // load the plugin if it is built-in the notebook application explicitly
+        // either included as an extension or as a plugin directly
+        const hasPlugin = pluginsSet.has(extension) || pluginsSet.has(id);
+        if (!hasPlugin || isDisabled(id) || id in settingRegistry.plugins) {
+          return;
+        }
+        try {
+          await settingRegistry.load(id);
+        } catch (error) {
+          console.warn(`Settings failed to load for (${id})`, error);
+        }
+      });
+    });
   }
 };
 
@@ -225,6 +284,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   createNew,
+  loadPlugins,
   openFileBrowser,
   notebookTreeWidget
 ];
