@@ -124,6 +124,8 @@ const loadPlugins: JupyterFrontEndPlugin<void> = {
     }
 
     // build the list of plugins shipped by default on the all the notebook pages
+    // this avoid explicitly loading `'all'` plugins such as the ones used
+    // in JupyterLab only
     const allPlugins = JSON.parse(allPluginsOption);
     const pluginsSet = new Set<string>();
     Object.keys(allPlugins).forEach((key: string) => {
