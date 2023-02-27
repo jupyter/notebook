@@ -129,7 +129,8 @@ const loadPlugins: JupyterFrontEndPlugin<void> = {
     const allPlugins = JSON.parse(allPluginsOption);
     const pluginsSet = new Set<string>();
     Object.keys(allPlugins).forEach((key: string) => {
-      const extensionsAndPlugins: { [key: string]: boolean | [string] } = allPlugins[key];
+      const extensionsAndPlugins: { [key: string]: boolean | [string] } =
+        allPlugins[key];
       Object.keys(extensionsAndPlugins).forEach(plugin => {
         const value = extensionsAndPlugins[plugin];
         if (typeof value === 'boolean' && value) {
@@ -145,7 +146,7 @@ const loadPlugins: JupyterFrontEndPlugin<void> = {
     app.restored.then(async () => {
       const plugins = await connector.list('all');
       plugins.ids.forEach(async (id: string) => {
-        const [extension,] = id.split(':');
+        const [extension] = id.split(':');
         // load the plugin if it is built-in the notebook application explicitly
         // either included as an extension or as a plugin directly
         const hasPlugin = pluginsSet.has(extension) || pluginsSet.has(id);

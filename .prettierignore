@@ -8,3 +8,4 @@ node_modules
 **/labextension
 build
 CHANGELOG.md
+app/index.template.js

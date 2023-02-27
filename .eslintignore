@@ -10,6 +10,7 @@ node_modules
 coverage
 *.map.js
 *.bundle.js
+app/index.template.js
 
 # jetbrains IDE stuff
 .idea/

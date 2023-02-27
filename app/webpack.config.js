@@ -47,12 +47,12 @@ Handlebars.registerHelper('json', function(context) {
 });
 
 // custom help to check if a page corresponds to a value
-Handlebars.registerHelper('ispage', function (key, page) {
+Handlebars.registerHelper('ispage', function(key, page) {
   return key === page;
 });
 
 // custom helper to load the plugins on the index page
-Handlebars.registerHelper('list_plugins', function () {
+Handlebars.registerHelper('list_plugins', function() {
   let str = '';
   const page = this;
   Object.keys(this).forEach(extension => {
@@ -67,13 +67,12 @@ Handlebars.registerHelper('list_plugins', function () {
       ].includes(id)),
       `;
     }
-  })
+  });
   return str;
-})
-
+});
 
 // Create the entry point and other assets in build directory.
-const source = fs.readFileSync('index.js').toString();
+const source = fs.readFileSync('index.template.js').toString();
 const template = Handlebars.compile(source);
 const extData = {
   notebook_plugins: plugins,
@@ -91,7 +90,6 @@ const extras = Build.ensureAssets({
   output: buildDir,
   schemaOutput: path.resolve(__dirname, '..', 'notebook')
 });
-
 
 /**
  * Create the webpack ``shared`` configuration
