@@ -233,7 +233,6 @@
         "@jupyterlab/documentsearch-extension": [
           "@jupyterlab/documentsearch-extension:plugin"
         ],
-        "@jupyterlab/extensionmanager-extension": true,
         "@jupyterlab/filebrowser-extension": [
           "@jupyterlab/filebrowser-extension:factory",
           "@jupyterlab/filebrowser-extension:default-file-browser"
@@ -263,6 +262,7 @@
         "@jupyterlab/hub-extension": true
       },
       "/tree": {
+        "@jupyterlab/extensionmanager-extension": true,
         "@jupyterlab/filebrowser-extension": [
           "@jupyterlab/filebrowser-extension:browser",
           "@jupyterlab/filebrowser-extension:download",
