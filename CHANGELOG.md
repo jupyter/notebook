@@ -14,6 +14,37 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a14
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a13...f9e427cf4e92dbaa5794fe0331ca92b41d45d52c))
+
+### Enhancements made
+
+- Fix loading of plugins [#6750](https://github.com/jupyter/notebook/pull/6750) ([@jtpio](https://github.com/jtpio))
+- Add the extension manager [#6747](https://github.com/jupyter/notebook/pull/6747) ([@jtpio](https://github.com/jtpio))
+- File browser CSS tweaks [#6738](https://github.com/jupyter/notebook/pull/6738) ([@jtpio](https://github.com/jtpio))
+- Add trusted indicator [#6736](https://github.com/jupyter/notebook/pull/6736) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Clean up license [#6743](https://github.com/jupyter/notebook/pull/6743) ([@dcsaba89](https://github.com/dcsaba89))
+- Update to TypeScript 5 [#6735](https://github.com/jupyter/notebook/pull/6735) ([@jtpio](https://github.com/jtpio))
+- Enable `nx` [#6718](https://github.com/jupyter/notebook/pull/6718) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Corrected "Recomment" to "Recommend" [#6741](https://github.com/jupyter/notebook/pull/6741) ([@Tony-j77](https://github.com/Tony-j77))
+- Docs: add migrate to notebook7 page [#6737](https://github.com/jupyter/notebook/pull/6737) ([@echarles](https://github.com/echarles))
+- Add section about updating reference snapshots [#6733](https://github.com/jupyter/notebook/pull/6733) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-02-15&to=2023-03-01&type=c))
+
+[@dcsaba89](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adcsaba89+updated%3A2023-02-15..2023-03-01&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2023-02-15..2023-03-01&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-02-15..2023-03-01&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-02-15..2023-03-01&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2023-02-15..2023-03-01&type=Issues) | [@Tony-j77](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ATony-j77+updated%3A2023-02-15..2023-03-01&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0a13
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a12...ef67879306b27dfa78b8d639d9cc142b50f8c7ba))
@@ -36,8 +67,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-02-08&to=2023-02-15&type=c))
 
 [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2023-02-08..2023-02-15&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-02-08..2023-02-15&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-02-08..2023-02-15&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-02-08..2023-02-15&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0a12
 

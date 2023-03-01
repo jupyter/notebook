@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/app",
-  "version": "7.0.0-alpha.13",
+  "version": "7.0.0-alpha.14",
   "private": true,
   "scripts": {
     "build": "webpack",
@@ -10,17 +10,17 @@
     "watch": "webpack --config ./webpack.config.watch.js"
   },
   "resolutions": {
-    "@jupyter-notebook/application": "~7.0.0-alpha.13",
-    "@jupyter-notebook/application-extension": "~7.0.0-alpha.13",
-    "@jupyter-notebook/console-extension": "~7.0.0-alpha.13",
-    "@jupyter-notebook/docmanager-extension": "~7.0.0-alpha.13",
-    "@jupyter-notebook/documentsearch-extension": "~7.0.0-alpha.13",
-    "@jupyter-notebook/help-extension": "~7.0.0-alpha.13",
-    "@jupyter-notebook/notebook-extension": "~7.0.0-alpha.13",
-    "@jupyter-notebook/terminal-extension": "~7.0.0-alpha.13",
-    "@jupyter-notebook/tree": "~7.0.0-alpha.13",
-    "@jupyter-notebook/tree-extension": "~7.0.0-alpha.13",
-    "@jupyter-notebook/ui-components": "~7.0.0-alpha.13",
+    "@jupyter-notebook/application": "~7.0.0-alpha.14",
+    "@jupyter-notebook/application-extension": "~7.0.0-alpha.14",
+    "@jupyter-notebook/console-extension": "~7.0.0-alpha.14",
+    "@jupyter-notebook/docmanager-extension": "~7.0.0-alpha.14",
+    "@jupyter-notebook/documentsearch-extension": "~7.0.0-alpha.14",
+    "@jupyter-notebook/help-extension": "~7.0.0-alpha.14",
+    "@jupyter-notebook/notebook-extension": "~7.0.0-alpha.14",
+    "@jupyter-notebook/terminal-extension": "~7.0.0-alpha.14",
+    "@jupyter-notebook/tree": "~7.0.0-alpha.14",
+    "@jupyter-notebook/tree-extension": "~7.0.0-alpha.14",
+    "@jupyter-notebook/ui-components": "~7.0.0-alpha.14",
     "@jupyter/ydoc": "~0.3.1",
     "@jupyterlab/application": "~4.0.0-alpha.19",
     "@jupyterlab/application-extension": "~4.0.0-alpha.19",
@@ -106,17 +106,17 @@
     "yjs": "~13.5.45"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.0.0-alpha.13",
-    "@jupyter-notebook/application-extension": "^7.0.0-alpha.13",
-    "@jupyter-notebook/console-extension": "^7.0.0-alpha.13",
-    "@jupyter-notebook/docmanager-extension": "^7.0.0-alpha.13",
-    "@jupyter-notebook/documentsearch-extension": "^7.0.0-alpha.13",
-    "@jupyter-notebook/help-extension": "^7.0.0-alpha.13",
-    "@jupyter-notebook/notebook-extension": "^7.0.0-alpha.13",
-    "@jupyter-notebook/terminal-extension": "^7.0.0-alpha.13",
-    "@jupyter-notebook/tree": "^7.0.0-alpha.13",
-    "@jupyter-notebook/tree-extension": "^7.0.0-alpha.13",
-    "@jupyter-notebook/ui-components": "^7.0.0-alpha.13",
+    "@jupyter-notebook/application": "^7.0.0-alpha.14",
+    "@jupyter-notebook/application-extension": "^7.0.0-alpha.14",
+    "@jupyter-notebook/console-extension": "^7.0.0-alpha.14",
+    "@jupyter-notebook/docmanager-extension": "^7.0.0-alpha.14",
+    "@jupyter-notebook/documentsearch-extension": "^7.0.0-alpha.14",
+    "@jupyter-notebook/help-extension": "^7.0.0-alpha.14",
+    "@jupyter-notebook/notebook-extension": "^7.0.0-alpha.14",
+    "@jupyter-notebook/terminal-extension": "^7.0.0-alpha.14",
+    "@jupyter-notebook/tree": "^7.0.0-alpha.14",
+    "@jupyter-notebook/tree-extension": "^7.0.0-alpha.14",
+    "@jupyter-notebook/ui-components": "^7.0.0-alpha.14",
     "@jupyterlab/application-extension": "^4.0.0-alpha.19",
     "@jupyterlab/apputils-extension": "^4.0.0-alpha.19",
     "@jupyterlab/cell-toolbar-extension": "^4.0.0-alpha.19",
@@ -179,12 +179,7 @@
   },
   "jupyterlab": {
     "name": "Jupyter Notebook",
-    "mimeExtensions": {
-      "@jupyterlab/javascript-extension": true,
-      "@jupyterlab/json-extension": true,
-      "@jupyterlab/pdf-extension": true,
-      "@jupyterlab/vega5-extension": true
-    },
+    "mimeExtensions": {},
     "plugins": {
       "/": {
         "@jupyter-notebook/application-extension": true,
@@ -369,6 +364,7 @@
       "react",
       "react-dom",
       "yjs"
-    ]
+    ],
+    "linkedPackages": {}
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/metapackage",
-  "version": "7.0.0-alpha.13",
+  "version": "7.0.0-alpha.14",
   "private": true,
   "description": "Jupyter Notebook - Metapackage",
   "homepage": "https://github.com/jupyter/notebook",
