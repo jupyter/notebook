@@ -15,3 +15,12 @@
 .jp-FileBrowser-toolbar button.jp-ToolbarButtonComponent {
   height: 100%;
 }
+
+.jp-FileBrowser-filterBox {
+  padding: 0;
+  flex: 0 0 auto;
+}
+
+.jp-FileBrowser-filterBox input {
+  line-height: 24px;
+}
