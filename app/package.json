@@ -179,7 +179,12 @@
   },
   "jupyterlab": {
     "name": "Jupyter Notebook",
-    "mimeExtensions": {},
+    "mimeExtensions": {
+      "@jupyterlab/javascript-extension": true,
+      "@jupyterlab/json-extension": true,
+      "@jupyterlab/pdf-extension": true,
+      "@jupyterlab/vega5-extension": true
+    },
     "plugins": {
       "/": {
         "@jupyter-notebook/application-extension": true,
@@ -206,9 +211,7 @@
           "@jupyterlab/apputils-extension:themes-palette-menu",
           "@jupyterlab/apputils-extension:toolbar-registry"
         ],
-        "@jupyterlab/codemirror-extension": [
-          "@jupyterlab/codemirror-extension:services"
-        ],
+        "@jupyterlab/codemirror-extension": true,
         "@jupyterlab/completer-extension": [
           "@jupyterlab/completer-extension:base-service",
           "@jupyterlab/completer-extension:manager"
@@ -308,9 +311,6 @@
         "@jupyterlab/fileeditor-extension": [
           "@jupyterlab/fileeditor-extension:completer",
           "@jupyterlab/fileeditor-extension:search"
-        ],
-        "@jupyterlab/codemirror-extension": [
-          "@jupyterlab/codemirror-extension:commands"
         ]
       }
     },
@@ -364,7 +364,6 @@
       "react",
       "react-dom",
       "yjs"
-    ],
-    "linkedPackages": {}
+    ]
   }
 }
