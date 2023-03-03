@@ -14,7 +14,6 @@
     "preserveWatchOutput": true,
     "resolveJsonModule": true,
     "strict": true,
-    "skipLibCheck": true,
     "strictNullChecks": true,
     "target": "ES2018",
     "types": []
