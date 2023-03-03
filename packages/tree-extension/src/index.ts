@@ -80,7 +80,10 @@ const createNew: JupyterFrontEndPlugin<void> = {
     const { commands } = app;
     const trans = translator.load('notebook');
 
-    const menubar = new MenuBar();
+    const overflowOptions = {
+      overflowMenuOptions: { overflowMenuVisible: false, title: '' }
+    };
+    const menubar = new MenuBar(overflowOptions);
     const newMenu = new Menu({ commands });
     newMenu.title.label = trans.__('New');
     newMenu.title.icon = caretDownIcon;
@@ -103,7 +106,7 @@ const createNew: JupyterFrontEndPlugin<void> = {
         FILE_BROWSER_FACTORY,
         'new-dropdown',
         (browser: FileBrowser) => {
-          const menubar = new MenuBar();
+          const menubar = new MenuBar(overflowOptions);
           menubar.addMenu(newMenu);
           menubar.addClass('jp-DropdownMenu');
           return menubar;
