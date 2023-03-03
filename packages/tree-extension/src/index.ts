@@ -252,14 +252,16 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
       nbTreeWidget.tabBar.addTab(running.title);
     }
 
-    // show checkboxes by default if there is no user setting override
+    // show checkboxes and file size by default if there is no user setting override
     const settings = settingRegistry.load(FILE_BROWSER_PLUGIN_ID);
     Promise.all([settings, app.restored])
       .then(([settings]) => {
-        if (settings.user.showFileCheckboxes !== undefined) {
-          return;
+        if (settings.user.showFileCheckboxes === undefined) {
+          void settings.set('showFileCheckboxes', true);
         }
-        void settings.set('showFileCheckboxes', true);
+        if (settings.user.showFileSizeColumn === undefined) {
+          void settings.set('showFileSizeColumn', true);
+        }
       })
       .catch((reason: Error) => {
         console.error(reason.message);
