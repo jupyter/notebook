@@ -14,6 +14,33 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 6.5.3
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.5.2...7939fc595db4ffc3482031365d17ef72a02c085e))
+
+### Enhancements made
+
+- Add a banner and log to information about the migration to Notebook 7 plan [#6742](https://github.com/jupyter/notebook/pull/6742) ([@echarles](https://github.com/echarles))
+- Add sys_info to page template for 6.5.x [#6668](https://github.com/jupyter/notebook/pull/6668) ([@juhasch](https://github.com/juhasch))
+
+### Bugs fixed
+
+- Add .mo and .json files for translations [#6728](https://github.com/jupyter/notebook/pull/6728) ([@frenzymadness](https://github.com/frenzymadness))
+- Apply PR #6609 to 6.5.x (Fix rename_file and delete_file to handle hidden files properly) [#6660](https://github.com/jupyter/notebook/pull/6660) ([@yacchin1205](https://github.com/yacchin1205))
+
+### Other merged PRs
+
+- Fix ru_RU translation [#6745](https://github.com/jupyter/notebook/pull/6745) ([@andrii-i](https://github.com/andrii-i))
+- Update kernel translation [#6744](https://github.com/jupyter/notebook/pull/6744) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-10-30&to=2023-03-06&type=c))
+
+[@andrii-i](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2022-10-30..2023-03-06&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-10-30..2023-03-06&type=Issues) | [@fcollonval](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afcollonval+updated%3A2022-10-30..2023-03-06&type=Issues) | [@frenzymadness](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afrenzymadness+updated%3A2022-10-30..2023-03-06&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-10-30..2023-03-06&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2022-10-30..2023-03-06&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-10-30..2023-03-06&type=Issues) | [@juhasch](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajuhasch+updated%3A2022-10-30..2023-03-06&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-10-30..2023-03-06&type=Issues) | [@venkatasg](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Avenkatasg+updated%3A2022-10-30..2023-03-06&type=Issues) | [@yacchin1205](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ayacchin1205+updated%3A2022-10-30..2023-03-06&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 6.5.2
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.5.1...8a00144fa9afc26ff9a29c9abf12db4014f52293))
@@ -32,8 +59,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-10-13&to=2022-10-30&type=c))
 
 [@bnavigator](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abnavigator+updated%3A2022-10-13..2022-10-30&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-10-13..2022-10-30&type=Issues) | [@fcollonval](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afcollonval+updated%3A2022-10-13..2022-10-30&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-10-13..2022-10-30&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-10-13..2022-10-30&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-10-13..2022-10-30&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.5.1
 
