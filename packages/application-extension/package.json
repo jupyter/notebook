@@ -51,9 +51,9 @@
     "@jupyterlab/mainmenu": "^4.0.0-alpha.20",
     "@jupyterlab/settingregistry": "^4.0.0-alpha.20",
     "@jupyterlab/translation": "^4.0.0-alpha.20",
-    "@lumino/coreutils": "^2.0.0-rc.0",
-    "@lumino/disposable": "^2.0.0-rc.0",
-    "@lumino/widgets": "^2.0.0-rc.0"
+    "@lumino/coreutils": "^2.0.0-rc.1",
+    "@lumino/disposable": "^2.0.0-rc.1",
+    "@lumino/widgets": "^2.0.0-rc.1"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",

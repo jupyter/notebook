@@ -81,7 +81,7 @@ const createNew: JupyterFrontEndPlugin<void> = {
     const trans = translator.load('notebook');
 
     const overflowOptions = {
-      overflowMenuOptions: { overflowMenuVisible: false, title: '' }
+      overflowMenuOptions: { isVisible: false }
     };
     const menubar = new MenuBar(overflowOptions);
     const newMenu = new Menu({ commands });

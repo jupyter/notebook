@@ -78,7 +78,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     const baseUrl = PageConfig.getBaseUrl();
     const trans = translator.load('notebook');
     const overflowOptions = {
-      overflowMenuOptions: { overflowMenuVisible: false, title: '' }
+      overflowMenuOptions: { isVisible: false }
     };
     const menubar = new MenuBar(overflowOptions);
     const switcher = new Menu({ commands });

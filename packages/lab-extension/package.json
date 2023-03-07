@@ -50,8 +50,8 @@
     "@jupyterlab/docregistry": "^4.0.0-alpha.20",
     "@jupyterlab/notebook": "^4.0.0-alpha.20",
     "@jupyterlab/translation": "^4.0.0-alpha.20",
-    "@lumino/commands": "^2.0.0-rc.0",
-    "@lumino/disposable": "^2.0.0-rc.0"
+    "@lumino/commands": "^2.0.0-rc.1",
+    "@lumino/disposable": "^2.0.0-rc.1"
   },
   "devDependencies": {
     "@jupyterlab/builder": "^4.0.0-alpha.20",

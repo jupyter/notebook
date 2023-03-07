@@ -43,8 +43,8 @@
     "@jupyterlab/docmanager": "^4.0.0-alpha.20",
     "@jupyterlab/docregistry": "^4.0.0-alpha.20",
     "@jupyterlab/services": "^7.0.0-alpha.20",
-    "@lumino/algorithm": "^2.0.0-rc.0",
-    "@lumino/signaling": "^2.0.0-rc.0"
+    "@lumino/algorithm": "^2.0.0-rc.1",
+    "@lumino/signaling": "^2.0.0-rc.1"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
