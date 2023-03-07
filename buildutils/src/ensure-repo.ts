@@ -12,8 +12,6 @@ function ensureResolutions(): string[] {
   const corePath = path.join(basePath, 'app', 'package.json');
   const corePackage = fs.readJSONSync(corePath);
 
-  corePackage.jupyterlab.mimeExtensions = {};
-  corePackage.jupyterlab.linkedPackages = {};
   corePackage.resolutions = {};
 
   const packages = Object.keys(corePackage.dependencies).concat(

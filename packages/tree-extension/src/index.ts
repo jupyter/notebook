@@ -30,7 +30,9 @@ import { ITranslator } from '@jupyterlab/translation';
 
 import {
   caretDownIcon,
+  FilenameSearcher,
   folderIcon,
+  IScore,
   runningIcon
 } from '@jupyterlab/ui-components';
 
@@ -47,6 +49,11 @@ const FILE_BROWSER_FACTORY = 'FileBrowser';
  * The file browser plugin id.
  */
 const FILE_BROWSER_PLUGIN_ID = '@jupyterlab/filebrowser-extension:browser';
+
+/**
+ * The class name added to the filebrowser filterbox node.
+ */
+const FILTERBOX_CLASS = 'jp-FileBrowser-filterBox';
 
 /**
  * The namespace for command IDs.
@@ -73,7 +80,10 @@ const createNew: JupyterFrontEndPlugin<void> = {
     const { commands } = app;
     const trans = translator.load('notebook');
 
-    const menubar = new MenuBar();
+    const overflowOptions = {
+      overflowMenuOptions: { isVisible: false }
+    };
+    const menubar = new MenuBar(overflowOptions);
     const newMenu = new Menu({ commands });
     newMenu.title.label = trans.__('New');
     newMenu.title.icon = caretDownIcon;
@@ -96,7 +106,7 @@ const createNew: JupyterFrontEndPlugin<void> = {
         FILE_BROWSER_FACTORY,
         'new-dropdown',
         (browser: FileBrowser) => {
-          const menubar = new MenuBar();
+          const menubar = new MenuBar(overflowOptions);
           menubar.addMenu(newMenu);
           menubar.addClass('jp-DropdownMenu');
           return menubar;
@@ -232,6 +242,28 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
         })
     );
 
+    toolbarRegistry.addFactory(
+      FILE_BROWSER_FACTORY,
+      'fileNameSearcher',
+      (browser: FileBrowser) => {
+        const searcher = FilenameSearcher({
+          updateFilter: (
+            filterFn: (item: string) => Partial<IScore> | null,
+            query?: string
+          ) => {
+            browser.model.setFilter(value => {
+              return filterFn(value.name.toLowerCase());
+            });
+          },
+          useFuzzyFilter: true,
+          placeholder: trans.__('Filter files by name'),
+          forceRefresh: true
+        });
+        searcher.addClass(FILTERBOX_CLASS);
+        return searcher;
+      }
+    );
+
     setToolbar(
       browser,
       createToolbarFactory(
@@ -252,14 +284,16 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
       nbTreeWidget.tabBar.addTab(running.title);
     }
 
-    // show checkboxes by default if there is no user setting override
+    // show checkboxes and file size by default if there is no user setting override
     const settings = settingRegistry.load(FILE_BROWSER_PLUGIN_ID);
     Promise.all([settings, app.restored])
       .then(([settings]) => {
-        if (settings.user.showFileCheckboxes !== undefined) {
-          return;
+        if (settings.user.showFileCheckboxes === undefined) {
+          void settings.set('showFileCheckboxes', true);
         }
-        void settings.set('showFileCheckboxes', true);
+        if (settings.user.showFileSizeColumn === undefined) {
+          void settings.set('showFileSizeColumn', true);
+        }
       })
       .catch((reason: Error) => {
         console.error(reason.message);

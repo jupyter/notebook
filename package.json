@@ -42,7 +42,7 @@
     "watch:lib": "lerna exec --stream --scope @jupyter-notebook/metapackage jlpm watch"
   },
   "devDependencies": {
-    "@jupyterlab/buildutils": "^4.0.0-alpha.19",
+    "@jupyterlab/buildutils": "^4.0.0-alpha.20",
     "@typescript-eslint/eslint-plugin": "^4.2.0",
     "@typescript-eslint/parser": "^4.2.0",
     "eslint": "^7.10.0",
@@ -55,6 +55,6 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^1.19.0",
     "rimraf": "^3.0.2",
-    "typescript": "5.0.0-beta"
+    "typescript": "5.0.1-rc"
   }
 }

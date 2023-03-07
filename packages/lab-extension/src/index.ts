@@ -77,7 +77,10 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
     const trans = translator.load('notebook');
-    const menubar = new MenuBar();
+    const overflowOptions = {
+      overflowMenuOptions: { isVisible: false }
+    };
+    const menubar = new MenuBar(overflowOptions);
     const switcher = new Menu({ commands });
     switcher.title.label = trans.__('Interface');
     menubar.addMenu(switcher);
@@ -134,7 +137,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
         'Notebook',
         'interfaceSwitcher',
         panel => {
-          const menubar = new MenuBar();
+          const menubar = new MenuBar(overflowOptions);
           menubar.addMenu(switcher);
           menubar.addClass('jp-InterfaceSwitcher');
           return menubar;
