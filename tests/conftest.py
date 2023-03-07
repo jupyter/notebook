@@ -32,7 +32,7 @@ labextensions_dir = pytest.fixture(lambda tmp_path: mkdir(tmp_path, "labextensio
 
 
 @pytest.fixture
-def make_notebook_app(
+def make_notebook_app(  # noqa PLR0913
     jp_root_dir,
     jp_template_dir,
     app_settings_dir,
