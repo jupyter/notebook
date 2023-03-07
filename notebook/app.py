@@ -32,7 +32,7 @@ version = __version__
 class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
     """The base notebook API handler."""
 
-    def get_page_config(self):  # noqa:C901
+    def get_page_config(self):
         """Get the page config."""
         config = LabConfig()
         app = self.extensionapp
