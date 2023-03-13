@@ -13,7 +13,7 @@
 }
 
 .jp-FileBrowser-toolbar button.jp-ToolbarButtonComponent {
-  height: 100%;
+  height: var(--jp-flat-button-height);
 }
 
 .jp-FileBrowser-filterBox {
