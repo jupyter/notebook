@@ -49,12 +49,11 @@ interface ISwitcherChoice {
 /**
  * A plugin to add custom toolbar items to the notebook page
  */
-const launchButtons: JupyterFrontEndPlugin<void> = {
+const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/lab-extension:interface-switcher',
   autoStart: true,
-  requires: [ITranslator],
+  requires: [ITranslator, INotebookTracker],
   optional: [
-    INotebookTracker,
     ICommandPalette,
     INotebookShell,
     ILabShell,
@@ -63,17 +62,12 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
-    notebookTracker: INotebookTracker | null,
+    notebookTracker: INotebookTracker,
     palette: ICommandPalette | null,
     notebookShell: INotebookShell | null,
     labShell: ILabShell | null,
     toolbarRegistry: IToolbarWidgetRegistry | null
   ) => {
-    if (!notebookTracker) {
-      // to prevent showing the toolbar button in non-notebook pages
-      return;
-    }
-
     const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
     const trans = translator.load('notebook');
@@ -82,7 +76,7 @@ const launchButtons: JupyterFrontEndPlugin<void> = {
     };
     const menubar = new MenuBar(overflowOptions);
     const switcher = new Menu({ commands });
-    switcher.title.label = trans.__('Interface');
+    switcher.title.label = trans.__('Interface…');
     menubar.addMenu(switcher);
 
     const isEnabled = () => {
@@ -182,7 +176,7 @@ const launchNotebookTree: JupyterFrontEndPlugin<void> = {
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   launchNotebookTree,
-  launchButtons
+  interfaceSwitcher
 ];
 
 export default plugins;
