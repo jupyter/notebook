@@ -19,6 +19,8 @@ import { Menu, MenuBar } from '@lumino/widgets';
 
 import { INotebookShell } from '@jupyter-notebook/application';
 
+import { caretDownIcon } from '@jupyterlab/ui-components';
+
 /**
  * The command IDs used by the application plugin.
  */
@@ -76,7 +78,8 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     };
     const menubar = new MenuBar(overflowOptions);
     const switcher = new Menu({ commands });
-    switcher.title.label = trans.__('Interface…');
+    switcher.title.label = trans.__('Interface');
+    switcher.title.icon = caretDownIcon;
     menubar.addMenu(switcher);
 
     const isEnabled = () => {
