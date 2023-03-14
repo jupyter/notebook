@@ -10,9 +10,7 @@
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [
-        "{workspaceRoot}/notebook/labextension/build_log.json"
-      ]
+      "outputs": ["{workspaceRoot}/notebook/labextension/build_log.json"]
     },
     "build:prod": {
       "dependsOn": ["^build:prod"],
