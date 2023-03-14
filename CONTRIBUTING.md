@@ -152,3 +152,21 @@ automatically on save.
 
 Some of the hooks only run on CI by default, but you can invoke them by
 running with the `--hook-stage manual` argument.
+
+## Documentation
+
+First make sure you have set up a development environment as described above.
+
+Then run the following command to build the docs:
+
+```shell
+hatch run docs:build
+```
+
+In a separate terminal window, run the following command to serve the documentation:
+
+```shell
+hatch run docs:serve
+```
+
+Now open a web browser and navigate to `http://localhost:8000` to access the documentation.
