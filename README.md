@@ -82,6 +82,7 @@ jupyter notebook
 
 ### Running in a remote installation
 
+Important!
 You need some configuration before starting Jupyter notebook remotely. See [Running a notebook server](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html).
 
 ## Development Installation
