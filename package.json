@@ -21,6 +21,7 @@
   },
   "scripts": {
     "build": "lerna run build",
+    "build:lib": "lerna run build:lib",
     "build:prod": "lerna run build:prod",
     "build:test": "lerna run build:test",
     "build:utils": "cd buildutils && npm run build",

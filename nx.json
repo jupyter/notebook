@@ -3,32 +3,23 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "build:prod",
-          "build:test",
-          "build:labextension",
-          "build:labextension:dev",
-          "build:lib"
-        ]
+        "cacheableOperations": ["build", "build:prod", "build:lib"]
       }
     }
   },
   "targetDefaults": {
-    "build:labextension:dev": {
+    "build": {
+      "dependsOn": ["^build"],
       "outputs": [
-        "{workspaceRoot}/notebook/labextension"
+        "{workspaceRoot}/notebook/labextension/build_log.json"
       ]
     },
-    "build:labextension": {
-      "outputs": [
-        "{workspaceRoot}/notebook/labextension"
-      ]
+    "build:prod": {
+      "dependsOn": ["^build:prod"],
+      "outputs": ["{workspaceRoot}/notebook/labextension"]
     },
     "build:lib": {
-      "outputs": [
-        "{projectRoot}/lib"
-      ]
+      "outputs": ["{projectRoot}/lib"]
     }
   }
 }
