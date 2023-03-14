@@ -6,9 +6,9 @@ Beyond the default configuration settings, you can configure a rich array of
 options to suit your workflow. Here are areas that are commonly configured
 when using Jupyter Notebook:
 
-> - {ref}`Jupyter's common configuration system <configure_common>`
-> - {ref}`Jupyter Server <configure_jupyter_server>`
-> - {ref}`Notebook extensions <configure_nbextensions>`
+> - {ref}`Jupyter's common configuration system <configure-common>`
+> - {ref}`Jupyter Server <configure-jupyter-server>`
+> - {ref}`Notebook extensions <configure-nbextensions>`
 
 Let's look at highlights of each area.
 
