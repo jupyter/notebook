@@ -6,18 +6,5 @@
         "cacheableOperations": ["build", "build:prod", "build:lib"]
       }
     }
-  },
-  "targetDefaults": {
-    "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["{workspaceRoot}/notebook/labextension/build_log.json"]
-    },
-    "build:prod": {
-      "dependsOn": ["^build:prod"],
-      "outputs": ["{workspaceRoot}/notebook/labextension"]
-    },
-    "build:lib": {
-      "outputs": ["{projectRoot}/lib"]
-    }
   }
 }
