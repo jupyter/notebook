@@ -1,6 +1,7 @@
 # The Jupyter Notebook
 
 ```{image} ./_static/images/notebook-running-code.png
+
 ```
 
 - [Installation](https://jupyter.readthedocs.io/en/latest/install.html)

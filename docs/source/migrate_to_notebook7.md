@@ -72,7 +72,7 @@ the classic Notebook UI will be presented at the `/tree` path. As the
 other frontends are not installed, attempting to access the other paths
 will return errors. Note that NbClassic being a Jupyter Server extension,
 indicated Jupyter Server will be available. This provides an additional
-way to view the NbClassic frontend. You would be able to  manually
+way to view the NbClassic frontend. You would be able to manually
 enable the extension when running an instance of Jupyter Server,
 `> jupyter server --ServerApp.jpserver_extensions="nbclassic=True"`,
 which will provide the NbClassic frontend at `/tree` path when visited.

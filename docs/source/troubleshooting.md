@@ -39,7 +39,7 @@ it's easy to upgrade and get on with what you wanted to do.
 
 ## Jupyter can't start a kernel
 
-Files called *kernel specs* tell Jupyter how to start different kinds of kernels.
+Files called _kernel specs_ tell Jupyter how to start different kinds of kernels.
 To see where these are on your system, run `jupyter kernelspec list`:
 
 ```
@@ -66,9 +66,9 @@ you may need to look for support about that kernel.
 ## Python Environments
 
 Multiple python environments, whether based on Anaconda or Python Virtual environments,
-are often the source of reported issues.  In many cases, these issues stem from the
+are often the source of reported issues. In many cases, these issues stem from the
 Notebook server running in one environment, while the kernel and/or its resources,
-derive from another environment.  Indicators of this scenario include:
+derive from another environment. Indicators of this scenario include:
 
 - `import` statements within code cells producing `ImportError` or `ModuleNotFound` exceptions.
 - General kernel startup failures exhibited by nothing happening when attempting
@@ -83,9 +83,9 @@ Anaconda's [nb_conda_kernels](https://github.com/Anaconda-Platform/nb_conda_kern
 package might also be an option for you in these scenarios.
 
 Another thing to check is the `kernel.json` file that will be located in the
-aforementioned *kernel specs* directory identified by running `jupyter kernelspec list`.
+aforementioned _kernel specs_ directory identified by running `jupyter kernelspec list`.
 This file will contain an `argv` stanza that includes the actual command to run
-when launching the kernel.  Oftentimes, when reinstalling python environments, a previous
+when launching the kernel. Oftentimes, when reinstalling python environments, a previous
 `kernel.json` will reference an python executable from an old or non-existent location.
 As a result, it's always a good idea when encountering kernel startup issues to validate
 the `argv` stanza to ensure all file references exist and are appropriate.
@@ -102,8 +102,8 @@ particularly in the areas of security, process management and lower-level librar
 The primary package for interacting with Windows' primitives is `pywin32`.
 
 - Issues surrounding the creation of the kernel's communication file utilize
-  `jupyter_core`'s `secure_write()` function.  This function ensures a file is
-  created in which only the owner of the file has access.  If libraries like `pywin32`
+  `jupyter_core`'s `secure_write()` function. This function ensures a file is
+  created in which only the owner of the file has access. If libraries like `pywin32`
   are not properly installed, issues can arise when it's necessary to use the native
   Windows libraries.
 
@@ -118,8 +118,8 @@ The primary package for interacting with Windows' primitives is `pywin32`.
   ```
 
 - As noted earlier, the installation of `pywin32` can be problematic on Windows
-  configurations.  When such an issue occurs, you may need to revisit how the environment
-  was setup.  Pay careful attention to whether you're running the 32 or 64 bit versions
+  configurations. When such an issue occurs, you may need to revisit how the environment
+  was setup. Pay careful attention to whether you're running the 32 or 64 bit versions
   of Windows and be sure to install appropriate packages for that environment.
 
   Here's a portion of such a traceback:
@@ -156,24 +156,24 @@ The primary package for interacting with Windows' primitives is `pywin32`.
 > where `Scripts` is located in the active Python's installation location.
 
 - Another common failure specific to Windows environments is the location of various
-  python commands.  On `*nix` systems, these typically reside in the `bin` directory
-  of the active Python environment.  However, on Windows, these tend to reside in the
-  `Scripts` folder - which is a sibling to `bin`.  As a result, when encountering
+  python commands. On `*nix` systems, these typically reside in the `bin` directory
+  of the active Python environment. However, on Windows, these tend to reside in the
+  `Scripts` folder - which is a sibling to `bin`. As a result, when encountering
   kernel startup issues, again, check the `argv` stanza and verify it's pointing to a
-  valid file.  You may find that it's pointing in `bin` when `Scripts` is correct, or
+  valid file. You may find that it's pointing in `bin` when `Scripts` is correct, or
   the referenced file does not include its `.exe` extension - typically resulting in
   `FileNotFoundError` exceptions.
 
 ## This Worked An Hour Ago
 
-The Jupyter stack is very complex and rightfully so, there's a lot going on.  On occasion
+The Jupyter stack is very complex and rightfully so, there's a lot going on. On occasion
 you might find the system working perfectly well, then, suddenly, you can't get past a
-certain cell due to `import` failures.  In these situations, it's best to ask yourself
+certain cell due to `import` failures. In these situations, it's best to ask yourself
 if any new python files were added to your notebook development area.
 
 These issues are usually evident by carefully analyzing the traceback produced in
-the notebook error or the Notebook server's command window.  In these cases, you'll typically
-find the Python kernel code (from `IPython` and `ipykernel`) performing *its* imports
+the notebook error or the Notebook server's command window. In these cases, you'll typically
+find the Python kernel code (from `IPython` and `ipykernel`) performing _its_ imports
 and notice a file from your Notebook development error included in that traceback followed
 by an `AttributeError`:
 
@@ -194,8 +194,8 @@ What has happened is that you have named a file that conflicts with an installed
 that is used by the kernel software and now introduces a conflict preventing the
 kernel's startup.
 
-**Resolution**: You'll need to rename your file.  A best practice would be to prefix or
-*namespace* your files so as not to conflict with any python package.
+**Resolution**: You'll need to rename your file. A best practice would be to prefix or
+_namespace_ your files so as not to conflict with any python package.
 
 ## Asking for help
 
@@ -209,7 +209,7 @@ If you can't find an existing answer, you can ask questions at:
 - Peruse the [jupyter/help repository on Github](https://github.com/jupyter/help) (read-only)
 
 - Or in an issue on another repository, if it's clear which component is
-  responsible.  Typical repositories include:
+  responsible. Typical repositories include:
 
   > - [jupyter_core](https://github.com/jupyter/jupyter_core) - `secure_write()`
   >   and file path issues
@@ -234,8 +234,8 @@ like the following:
 The `jupyter troubleshoot` command collects a lot of information
 about your installation, which can also be useful.
 
-When providing textual information, it's most helpful if you can *scrape* the contents
-into the issue rather than providing a screenshot.  This enables others to select
+When providing textual information, it's most helpful if you can _scrape_ the contents
+into the issue rather than providing a screenshot. This enables others to select
 pieces of that content so they can search more efficiently and try to help.
 
 Remember that it's not anyone's job to help you.

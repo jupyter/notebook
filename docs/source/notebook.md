@@ -7,7 +7,7 @@
 The notebook extends the console-based approach to interactive computing in
 a qualitatively new direction, providing a web-based application suitable for
 capturing the whole computation process: developing, documenting, and
-executing code, as well as communicating the results.  The Jupyter notebook
+executing code, as well as communicating the results. The Jupyter notebook
 combines two components:
 
 **A web application**: a browser-based tool for interactive authoring of
@@ -41,7 +41,7 @@ notebook and its dependencies.
 
 Notebook documents contains the inputs and outputs of a interactive session as
 well as additional text that accompanies the code but is not meant for
-execution.  In this way, notebook files can serve as a complete computational
+execution. In this way, notebook files can serve as a complete computational
 record of a session, interleaving executable code with explanatory text,
 mathematics, and rich representations of resulting objects. These documents
 are internally [JSON] files and are saved with the `.ipynb` extension. Since
@@ -52,12 +52,12 @@ Notebooks may be exported to a range of static formats, including HTML (for
 example, for blog posts), reStructuredText, LaTeX, PDF, and slide shows, via
 the [nbconvert] command.
 
-Furthermore, any  `.ipynb` notebook document available from a public
+Furthermore, any `.ipynb` notebook document available from a public
 URL can be shared via the Jupyter Notebook Viewer \<nbviewer>.
 This service loads the notebook document from the URL and renders it as a
-static web page.  The results may thus be shared with a colleague, or as a
+static web page. The results may thus be shared with a colleague, or as a
 public blog post, without other users needing to install the Jupyter notebook
-themselves.  In effect, nbviewer is simply [nbconvert] as
+themselves. In effect, nbviewer is simply [nbconvert] as
 a web service, so you can do your own static conversions with nbconvert,
 without relying on nbviewer.
 
@@ -83,7 +83,7 @@ If you want to work with sensitive data in those cases,
 talk to your IT or data protection staff about it.
 
 We aim to ensure that other pages in your browser or other users on the same
-computer can't access your notebook server. See the [security documentation](https://jupyter-server.readthedocs.io/en/stable/operators/security.html)  for
+computer can't access your notebook server. See the [security documentation](https://jupyter-server.readthedocs.io/en/stable/operators/security.html) for
 more about this.
 
 ## Starting the notebook server
@@ -104,13 +104,12 @@ shows the notebooks currently available in the notebook directory (by default,
 the directory from which the notebook server was started).
 
 You can create new notebooks from the dashboard with the `New Notebook`
-button, or open existing ones by clicking on their name.  You can also drag
+button, or open existing ones by clicking on their name. You can also drag
 and drop `.ipynb` notebooks and standard `.py` Python source code files
 into the notebook list area.
 
 When starting a notebook server from the command line, you can also open a
-particular notebook directly, bypassing the dashboard, with `jupyter notebook
-my_notebook.ipynb`. The `.ipynb` extension is assumed if no extension is
+particular notebook directly, bypassing the dashboard, with `jupyter notebook my_notebook.ipynb`. The `.ipynb` extension is assumed if no extension is
 given.
 
 When you are inside an open notebook, the `File | Open...` menu option will
@@ -119,9 +118,9 @@ from the notebook directory or to create a new notebook.
 
 :::{note}
 You can start more than one notebook server at the same time, if you want
-to work on notebooks in different directories.  By default the first
+to work on notebooks in different directories. By default the first
 notebook server starts on port 8888, and later notebook servers search for
-ports near that one.  You can also manually specify the port with the
+ports near that one. You can also manually specify the port with the
 `--port` option.
 :::
 
@@ -134,13 +133,14 @@ browser tab. It will also be reflected as a new entry in the notebook list on
 the dashboard.
 
 ```{image} _static/images/new-notebook.gif
+
 ```
 
 ### Opening notebooks
 
 An open notebook has **exactly one** interactive session connected to a
 kernel, which will execute code sent by the user
-and communicate back results.  This kernel remains active if the web browser
+and communicate back results. This kernel remains active if the web browser
 window is closed, and reopening the same notebook from the dashboard will
 reconnect the web application to the same kernel. In the dashboard, notebooks
 with an active kernel have a `Shutdown` button next to them, whereas
@@ -157,18 +157,17 @@ message like this:
 This long string is the kernel's ID which is sufficient for getting the
 information necessary to connect to the kernel. If the notebook uses the IPython
 kernel, you can also see this
-connection data by running the `%connect_info` {ref}`magic
-<magics_explained>`, which will print the same ID information along with other
+connection data by running the `%connect_info` {ref}`magic <magics_explained>`, which will print the same ID information along with other
 details.
 
-You can then, for example, manually start a Qt console connected to the *same*
+You can then, for example, manually start a Qt console connected to the _same_
 kernel from the command line, by passing a portion of the ID:
 
 ```
 $ jupyter qtconsole --existing 87f7d2c0
 ```
 
-Without an ID, `--existing` will  connect to the most recently
+Without an ID, `--existing` will connect to the most recently
 started kernel.
 
 With the IPython kernel, you can also run the `%qtconsole`
@@ -185,6 +184,7 @@ When you create a new notebook document, you will be presented with the
 **notebook name**, a **menu bar**, a **toolbar** and an empty **code cell**.
 
 ```{image} ./_static/images/blank-notebook-ui.png
+
 ```
 
 **Notebook name**: The name displayed at the top of the page,
@@ -204,11 +204,11 @@ operations within the notebook, by clicking on an icon.
 
 ## Structure of a notebook document
 
-The notebook consists of a sequence of cells.  A cell is a multiline text input
+The notebook consists of a sequence of cells. A cell is a multiline text input
 field, and its contents can be executed by using {kbd}`Shift-Enter`, or by
 clicking either the "Play" button the toolbar, or {guilabel}`Cell`, {guilabel}`Run` in the menu bar.
-The execution behavior of a cell is determined by the cell's type.  There are three
-types of cells: **code cells**, **markdown cells**, and **raw cells**.  Every
+The execution behavior of a cell is determined by the cell's type. There are three
+types of cells: **code cells**, **markdown cells**, and **raw cells**. Every
 cell starts off being a **code cell**, but its type can be changed by using a
 drop-down on the toolbar (which will be "Code", initially), or via
 {ref}`keyboard shortcuts <keyboard-shortcuts>`.
@@ -218,28 +218,28 @@ see the [collection of examples](https://nbviewer.jupyter.org/github/jupyter/not
 
 ### Code cells
 
-A *code cell* allows you to edit and write new code, with full syntax
+A _code cell_ allows you to edit and write new code, with full syntax
 highlighting and tab completion. The programming language you use depends
-on the *kernel*, and the default kernel (IPython) runs Python code.
+on the _kernel_, and the default kernel (IPython) runs Python code.
 
 When a code cell is executed, code that it contains is sent to the kernel
-associated with the notebook.  The results that are returned from this
-computation  are then displayed in the notebook as the cell's *output*. The
+associated with the notebook. The results that are returned from this
+computation are then displayed in the notebook as the cell's _output_. The
 output is not limited to text, with many other possible forms of output are
 also possible, including `matplotlib` figures and HTML tables (as used, for
 example, in the `pandas` data analysis package). This is known as IPython's
-*rich display* capability.
+_rich display_ capability.
 
 :::{seealso}
-[Rich Output]  example notebook
+[Rich Output] example notebook
 :::
 
 ### Markdown cells
 
 You can document the computational process in a literate way, alternating
-descriptive text with code, using *rich text*. In IPython this is accomplished
+descriptive text with code, using _rich text_. In IPython this is accomplished
 by marking up text with the Markdown language. The corresponding cells are
-called *Markdown cells*. The Markdown language provides a simple way to
+called _Markdown cells_. The Markdown language provides a simple way to
 perform this text markup, that is, to specify which parts of the text should
 be emphasized (italics), bold, form lists, etc.
 
@@ -253,7 +253,7 @@ When a Markdown cell is executed, the Markdown code is converted into
 the corresponding formatted rich text. Markdown allows arbitrary HTML code for
 formatting.
 
-Within Markdown cells, you can also include *mathematics* in a straightforward
+Within Markdown cells, you can also include _mathematics_ in a straightforward
 way, using standard LaTeX notation: `$...$` for inline mathematics and
 `$$...$$` for displayed mathematics. When the Markdown cell is executed,
 the LaTeX portions are automatically rendered in the HTML output as equations
@@ -264,7 +264,7 @@ Standard mathematics environments defined by LaTeX and AMS-LaTeX (the
 `amsmath` package) also work, such as
 `\begin{equation}...\end{equation}`, and `\begin{align}...\end{align}`.
 New LaTeX macros may be defined using standard methods,
-such as `\newcommand`, by placing them anywhere *between math delimiters* in
+such as `\newcommand`, by placing them anywhere _between math delimiters_ in
 a Markdown cell. These definitions are then available throughout the rest of
 the IPython session.
 
@@ -274,7 +274,7 @@ the IPython session.
 
 ### Raw cells
 
-*Raw* cells provide a place in which you can write *output* directly.
+_Raw_ cells provide a place in which you can write _output_ directly.
 Raw cells are not evaluated by the notebook.
 When passed through [nbconvert], raw cells arrive in the
 destination format unmodified. For example, you can type full LaTeX
@@ -317,11 +317,11 @@ All actions in the notebook can be performed with the mouse, but keyboard
 shortcuts are also available for the most common ones. The essential shortcuts
 to remember are the following:
 
-- {kbd}`Shift-Enter`:  run cell
+- {kbd}`Shift-Enter`: run cell
   : Execute the current cell, show any output, and jump to the next cell below.
-    If {kbd}`Shift-Enter` is invoked on the last cell, it makes a new cell below.
-    This is equivalent to clicking the {guilabel}`Cell`, {guilabel}`Run` menu
-    item, or the Play button in the toolbar.
+  If {kbd}`Shift-Enter` is invoked on the last cell, it makes a new cell below.
+  This is equivalent to clicking the {guilabel}`Cell`, {guilabel}`Run` menu
+  item, or the Play button in the toolbar.
 - {kbd}`Esc`: Command mode
   : In command mode, you can navigate around the notebook using keyboard shortcuts.
 - {kbd}`Enter`: Edit mode

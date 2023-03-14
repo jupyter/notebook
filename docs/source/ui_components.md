@@ -12,6 +12,7 @@ When you launch `jupyter notebook` the first page that you encounter is the
 Notebook Dashboard.
 
 ```{image} ./_static/images/jupyter-notebook-dashboard.png
+
 ```
 
 ## Notebook Editor
@@ -20,13 +21,14 @@ Once you've selected a Notebook to edit, the Notebook will open in the Notebook
 Editor.
 
 ```{image} ./_static/images/jupyter-notebook-default.png
+
 ```
 
 ## Interactive User Interface Tour of the Notebook
 
 If you would like to learn more about the specific elements within the Notebook
-Editor, you can go through the user interface tour by selecting *Help* in the
-menubar then selecting *User Interface Tour*.
+Editor, you can go through the user interface tour by selecting _Help_ in the
+menubar then selecting _User Interface Tour_.
 
 ### Edit Mode and Notebook Editor
 
@@ -36,6 +38,7 @@ top right of the interface. When the cell is in command mode, there is no
 icon in that location.
 
 ```{image} ./_static/images/jupyter-notebook-edit.png
+
 ```
 
 ## File Editor
@@ -45,4 +48,5 @@ file whilst in the Notebook Dashboard. If so, the file will be opened in the
 File Editor.
 
 ```{image} ./_static/images/jupyter-file-editor.png
+
 ```
