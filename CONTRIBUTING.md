@@ -175,6 +175,6 @@ Now open a web browser and navigate to `http://localhost:8000` to access the doc
 
 Alternatively you can also contribute to Jupyter Notebook without setting up a local environment, directly from a web browser:
 
-- Gitpod integration is enabled: https://gitpod.io/#https://github.com/jupyter/notebook. The Gitpod config automatically builds the Jupyter Notebook application and the documentation.
+- [Gitpod](https://gitpod.io/#https://github.com/jupyter/notebook) integration is enabled. The Gitpod config automatically builds the Jupyter Notebook application and the documentation.
 - GitHub’s [built-in editor](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) is suitable for contributing small fixes
 - A more advanced [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) editor can be accessed by pressing the dot (.) key while in the Jupyter Notebook GitHub repository,
