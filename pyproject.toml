@@ -116,6 +116,7 @@ include = ["/notebook"]
 features = ["docs"]
 [tool.hatch.envs.docs.scripts]
 build = "make -C docs html SPHINXOPTS='-W'"
+serve = "cd docs/build/html && python -m http.server"
 
 [tool.hatch.envs.default.scripts]
 npm_pack = "jlpm lerna exec -- npm pack"

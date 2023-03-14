@@ -43,5 +43,14 @@ tasks:
       echo "source /workspace/bin/activate-env.sh" >> ~/.bashrc
       source /workspace/bin/activate-env.sh
 
+  - name: docs
+    command: |
+      gp sync-await setup
+      sudo apt-get update
+      sudo apt install enchant-2 -y
+      wget https://github.com/jgm/pandoc/releases/download/2.14.2/pandoc-2.14.2-1-amd64.deb -O /tmp/pandoc.deb && sudo dpkg -i /tmp/pandoc.deb
+      hatch run docs:build
+      hatch run docs:serve
+
 ports:
   - port: 8888
