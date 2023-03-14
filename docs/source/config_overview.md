@@ -54,7 +54,7 @@ front-end Notebook client (i.e. the familiar notebook interface).
 
 The Notebook frontend can be extending with JupyterLab extensions.
 
-See the {ref}`Frontend Extension Guide <frontend_extensions>` for more information.
+See the {ref}`Frontend Extension Guide <frontend-extensions>` for more information.
 
 [Security in Jupyter notebooks:](https://jupyter-server.readthedocs.io/en/stable/operators/security.html)
 Since security policies vary from organization to organization, we encourage you to
