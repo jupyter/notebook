@@ -1,8 +1,6 @@
-.. _frontend_extensions:
+(frontend-extensions)=
 
-===========================
-Custom front-end extensions
-===========================
+# Custom front-end extensions
 
 This describes the basic steps to write a TypeScript extension for the Jupyter
 notebook front-end. This allows you to customize the behaviour of the various
@@ -15,5 +13,5 @@ This means Notebook v7 is able to reuse many of the existing extensions from the
 
 If you would like to develop a prebuilt extension for Notebook v7, check out:
 
-- `JupyterLab Extension Tutorial <https://jupyterlab.readthedocs.io/en/latest/extension/extension_tutorial.html>`_: A tutorial to learn how to make a simple JupyterLab extension.
-- The `JupyterLab Extension Examples Repository <https://github.com/jupyterlab/extension-examples>`_: A short tutorial series to learn how to develop extensions for JupyterLab by example.
+- [JupyterLab Extension Tutorial](https://jupyterlab.readthedocs.io/en/latest/extension/extension_tutorial.html): A tutorial to learn how to make a simple JupyterLab extension.
+- The [JupyterLab Extension Examples Repository](https://github.com/jupyterlab/extension-examples): A short tutorial series to learn how to develop extensions for JupyterLab by example.
