@@ -50,6 +50,7 @@
     "@jupyterlab/docregistry": "^4.0.0-alpha.20",
     "@jupyterlab/notebook": "^4.0.0-alpha.20",
     "@jupyterlab/translation": "^4.0.0-alpha.20",
+    "@jupyterlab/ui-components": "^4.0.0-alpha.35",
     "@lumino/commands": "^2.0.0-rc.1",
     "@lumino/disposable": "^2.0.0-rc.1"
   },

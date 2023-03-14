@@ -9,3 +9,7 @@
   align-items: center;
   justify-content: center;
 }
+
+.jp-InterfaceSwitcher .lm-MenuBar-itemIcon svg {
+  vertical-align: sub;
+}
