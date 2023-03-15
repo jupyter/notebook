@@ -152,3 +152,29 @@ automatically on save.
 
 Some of the hooks only run on CI by default, but you can invoke them by
 running with the `--hook-stage manual` argument.
+
+## Documentation
+
+First make sure you have set up a development environment as described above.
+
+Then run the following command to build the docs:
+
+```shell
+hatch run docs:build
+```
+
+In a separate terminal window, run the following command to serve the documentation:
+
+```shell
+hatch run docs:serve
+```
+
+Now open a web browser and navigate to `http://localhost:8000` to access the documentation.
+
+## Contributing from the browser
+
+Alternatively you can also contribute to Jupyter Notebook without setting up a local environment, directly from a web browser:
+
+- [Gitpod](https://gitpod.io/#https://github.com/jupyter/notebook) integration is enabled. The Gitpod config automatically builds the Jupyter Notebook application and the documentation.
+- GitHub’s [built-in editor](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) is suitable for contributing small fixes
+- A more advanced [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) editor can be accessed by pressing the dot (.) key while in the Jupyter Notebook GitHub repository,
