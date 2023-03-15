@@ -14,6 +14,32 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a16
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a15...0faa88c8b65e0302f1904e4ca9cd2e551525f352))
+
+### Enhancements made
+
+- Update to JupyterLab 4.0.0a36 [#6773](https://github.com/jupyter/notebook/pull/6773) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Clean up interface switcher plugin in preparation for release [#6766](https://github.com/jupyter/notebook/pull/6766) ([@afshin](https://github.com/afshin))
+- Remove empty `py.test` file [#6764](https://github.com/jupyter/notebook/pull/6764) ([@frenzymadness](https://github.com/frenzymadness))
+
+### Documentation improvements
+
+- Add documentation for contributing to the docs [#6771](https://github.com/jupyter/notebook/pull/6771) ([@jtpio](https://github.com/jtpio))
+- Convert docs to Markdown [#6770](https://github.com/jupyter/notebook/pull/6770) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-03-08&to=2023-03-15&type=c))
+
+[@afshin](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafshin+updated%3A2023-03-08..2023-03-15&type=Issues) | [@frenzymadness](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afrenzymadness+updated%3A2023-03-08..2023-03-15&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-03-08..2023-03-15&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-03-08..2023-03-15&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0a15
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a14...1ccb8f15d6bf3557eed2405438a9df3c1d6cd040))
@@ -32,8 +58,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-03-01&to=2023-03-08&type=c))
 
 [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-03-01..2023-03-08&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-03-01..2023-03-08&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-03-01..2023-03-08&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-03-01..2023-03-08&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0a14
 
