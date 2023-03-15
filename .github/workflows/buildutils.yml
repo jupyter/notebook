@@ -26,7 +26,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install -U "jupyterlab>=4.0.0a34,<5" hatch
+        python -m pip install -U "jupyterlab>=4.0.0a36,<5" hatch
         jlpm
         jlpm run build
 
@@ -76,6 +76,6 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install -U "jupyterlab>=4.0.0a34,<5" pip
+        python -m pip install -U "jupyterlab>=4.0.0a36,<5" pip
         jlpm
         jlpm run build
