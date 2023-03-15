@@ -38,9 +38,9 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/application": "^4.0.0-alpha.20",
-    "@jupyterlab/console": "^4.0.0-alpha.20",
-    "@jupyterlab/coreutils": "^6.0.0-alpha.20",
+    "@jupyterlab/application": "^4.0.0-alpha.21",
+    "@jupyterlab/console": "^4.0.0-alpha.21",
+    "@jupyterlab/coreutils": "^6.0.0-alpha.21",
     "@lumino/algorithm": "^2.0.0-rc.1"
   },
   "devDependencies": {
