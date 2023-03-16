@@ -4,8 +4,6 @@ import { Notebook, NotebookActions } from '@jupyterlab/notebook';
 
 import { ITranslator } from '@jupyterlab/translation';
 
-import { toArray } from '@lumino/algorithm';
-
 import React, { useEffect, useState } from 'react';
 
 /**
@@ -18,7 +16,7 @@ const isTrusted = (notebook: Notebook): boolean => {
   if (!model) {
     return false;
   }
-  const cells = toArray(model.cells);
+  const cells = Array.from(model.cells);
 
   const trusted = cells.reduce((accum, current) => {
     if (current.trusted) {
