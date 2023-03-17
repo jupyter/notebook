@@ -2069,7 +2069,7 @@ __metadata:
 
 "@jupyter-notebook/application-extension@file:../application-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/application-extension@file:../application-extension#../application-extension::hash=a43349&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/application-extension@file:../application-extension#../application-extension::hash=1ab5ab&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/application": ^7.0.0-alpha.16
     "@jupyter-notebook/ui-components": ^7.0.0-alpha.16
@@ -2087,7 +2087,7 @@ __metadata:
     "@lumino/coreutils": ^2.0.0
     "@lumino/disposable": ^2.0.0
     "@lumino/widgets": ^2.0.0
-  checksum: 3ef6cbbd20c182d812358d50c153caa5a93b2fe7bb1c99087f75e52657c6ca04b434c42191fa86e359e3ddfe54640b7ff67e1ccb28ee44f5b1cfbbe99ca0d86a
+  checksum: d9e4d2d5d5e717d98b5cdb70f7b60a97c3527ab91daafcec3a6b4332ecba1d9001f65cbc586ea9fe0380988712adc251dd0aee33cd6ac7769b8e25700798f16f
   languageName: node
   linkType: hard
 
@@ -2119,7 +2119,7 @@ __metadata:
 
 "@jupyter-notebook/application@file:../application::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/application@file:../application#../application::hash=fe0431&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/application@file:../application#../application::hash=0afc73&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyterlab/application": ^4.0.0-alpha.22
     "@jupyterlab/coreutils": ^6.0.0-alpha.22
@@ -2132,7 +2132,7 @@ __metadata:
     "@lumino/polling": ^2.0.0
     "@lumino/signaling": ^2.0.0
     "@lumino/widgets": ^2.0.0
-  checksum: 04628983a9fe820c950d704ac5bc0c06877aaeaebcdf531b39546dc53d68639e004c175a3f446ab64ed5ae1954d618224f1c53cfebb8acca0ebd138774fb9913
+  checksum: fd00a42cfd7548e3e1342bbaaf7ea15d20a9b15fe9fd2e70211828a813e38cc7478ab2533e2c06faa52e1b52d0b11c217f68d38ac2122bb4fafbe65216e188ae
   languageName: node
   linkType: hard
 
@@ -2165,13 +2165,13 @@ __metadata:
 
 "@jupyter-notebook/console-extension@file:../console-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/console-extension@file:../console-extension#../console-extension::hash=ff8b44&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/console-extension@file:../console-extension#../console-extension::hash=8cfc06&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyterlab/application": ^4.0.0-alpha.22
     "@jupyterlab/console": ^4.0.0-alpha.22
     "@jupyterlab/coreutils": ^6.0.0-alpha.22
     "@lumino/algorithm": ^2.0.0
-  checksum: f82f346c277b153551be1da01b721c1dcb70658fbe37aa6caaf954226a5458602e4b52043381aa7aeae86925b097a8ce197dd51380d96c1b682c6828ee9069a3
+  checksum: 93e586f457d79eac85b40a6e23bb39d41f97fe99ed5daf690e372cd175293211b0167fd297c86b2d1d599763bb9470929cecb532f6677760ee92419792ece286
   languageName: node
   linkType: hard
 
@@ -2193,7 +2193,7 @@ __metadata:
 
 "@jupyter-notebook/docmanager-extension@file:../docmanager-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/docmanager-extension@file:../docmanager-extension#../docmanager-extension::hash=b31d94&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/docmanager-extension@file:../docmanager-extension#../docmanager-extension::hash=cce18d&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyterlab/application": ^4.0.0-alpha.22
     "@jupyterlab/coreutils": ^6.0.0-alpha.22
@@ -2202,7 +2202,7 @@ __metadata:
     "@jupyterlab/services": ^7.0.0-alpha.22
     "@lumino/algorithm": ^2.0.0
     "@lumino/signaling": ^2.0.0
-  checksum: 0ad61ca4087cac93b86a604f09482d29158f28244a5f6e60df40c436dc4233426f41f23af9e537511e338e4f00d6aadac8fa7a1ea593321cc932db7ed48ac6c2
+  checksum: fbe7127cfb247d664e34edb581e83e67e1e6d2423e8757fa158460f4e8cbd466293da59f8bdbc1643445dd4cf82472f5975ca47000a8155d445c7529f2590ec4
   languageName: node
   linkType: hard
 
@@ -2221,13 +2221,13 @@ __metadata:
 
 "@jupyter-notebook/documentsearch-extension@file:../documentsearch-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/documentsearch-extension@file:../documentsearch-extension#../documentsearch-extension::hash=3eb210&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/documentsearch-extension@file:../documentsearch-extension#../documentsearch-extension::hash=06e7c9&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/application": ^7.0.0-alpha.16
     "@jupyterlab/application": ^4.0.0-alpha.22
     "@jupyterlab/documentsearch": ^4.0.0-alpha.22
     "@lumino/widgets": ^2.0.0
-  checksum: 554feed2c1521bafd56539b1163114da6c6967dc35d120e174a67cabf4076086bf628abccaf9ae33dc4edcefa0e8a1f808bf87267dc28c006480bfaf97623bde
+  checksum: e694456bdf419e1780d827e5092ba4f9d36b830d883fdf04e1de765012f6c3e10a0c71d2b75ea44b5cebdbe2d703984a6441758d6786c13b67b6c5eb564d8228
   languageName: node
   linkType: hard
 
@@ -2249,7 +2249,7 @@ __metadata:
 
 "@jupyter-notebook/help-extension@file:../help-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/help-extension@file:../help-extension#../help-extension::hash=069ea8&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/help-extension@file:../help-extension#../help-extension::hash=52b1a0&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/ui-components": ^7.0.0-alpha.16
     "@jupyterlab/application": ^4.0.0-alpha.22
@@ -2258,13 +2258,13 @@ __metadata:
     "@jupyterlab/translation": ^4.0.0-alpha.22
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: f15323038a2e82ff431d857b8e5f526535b8a0c6f64490fbe6f4eb1e34d6dd7ca8343d041651dc42cb99b91e16af9a08b6b3eeed8ca7e53ae024b2ce7bdc968a
+  checksum: 0a66a8c8644cf05f9944b6d5d760675f7b4a1a07ea89c28e490a0918b45de982e0b012a10a0e063993df9f8e07044f59210029eb073be602e31f1b55a7baa382
   languageName: node
   linkType: hard
 
 "@jupyter-notebook/lab-extension@file:../lab-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/lab-extension@file:../lab-extension#../lab-extension::hash=8d2849&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/lab-extension@file:../lab-extension#../lab-extension::hash=d15b35&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/application": ^7.0.0-alpha.16
     "@jupyterlab/application": ^4.0.0-alpha.22
@@ -2276,7 +2276,7 @@ __metadata:
     "@jupyterlab/ui-components": ^4.0.0-alpha.37
     "@lumino/commands": ^2.0.0
     "@lumino/disposable": ^2.0.0
-  checksum: 0aa92fecb08c5ea84a2ec6b80ac1ac4d7f0c90cdb34c54c7aab8aa227ee9fc056ed88de225b76fa958c8c24239e4d9543872fe3de8f4719e7bba9d4a00fc18f1
+  checksum: 06c95b0d34dc490f41326fc359e0be9c1ca85ae33907ed3f7afe4a6c0a07e134b384b9fa92922398d42d60f4dadd85cda5a2d9c8945316a1b63ac7489876dafd
   languageName: node
   linkType: hard
 
@@ -2341,7 +2341,7 @@ __metadata:
 
 "@jupyter-notebook/notebook-extension@file:../notebook-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/notebook-extension@file:../notebook-extension#../notebook-extension::hash=2e34f7&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/notebook-extension@file:../notebook-extension#../notebook-extension::hash=9d82e1&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/application": ^7.0.0-alpha.16
     "@jupyterlab/application": ^4.0.0-alpha.22
@@ -2353,7 +2353,7 @@ __metadata:
     "@jupyterlab/translation": ^4.0.0-alpha.22
     "@lumino/polling": ^2.0.0
     "@lumino/widgets": ^2.0.0
-  checksum: 25de311ce6091ee03b05b30ae96fec766f4992eb36a880d2fbc0cc9d6e6f0a6d3aa9aed4e2b810df39b4f7a8f393461090e09f2d2604a98145d39ba059574939
+  checksum: ce2359666896b0847c9c9d60b5886485b260a8cf3e198760dc06fec35400de3b424c418f23fdb34d79a18412b4a2359bce8c2451fee4642f4a90f00f9f4221a2
   languageName: node
   linkType: hard
 
@@ -2393,13 +2393,13 @@ __metadata:
 
 "@jupyter-notebook/terminal-extension@file:../terminal-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/terminal-extension@file:../terminal-extension#../terminal-extension::hash=49f34e&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/terminal-extension@file:../terminal-extension#../terminal-extension::hash=960b62&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyterlab/application": ^4.0.0-alpha.22
     "@jupyterlab/coreutils": ^6.0.0-alpha.22
     "@jupyterlab/terminal": ^4.0.0-alpha.22
     "@lumino/algorithm": ^2.0.0
-  checksum: dece71c02ffbdd9981acef7344ef5b086a45e6e845af69b9cf179386581d2d01e00b83fdecb912f8ecda60f2699447eab59bf4582a0ee84e8978b957526fd6b7
+  checksum: 9e0241c529b46bb57a91b0553eae736d380542e13a906aad39f730a737d5fd7b2079493a5196fe95780314c1cf9b768eec452ed706da7e922c6d019278c618a8
   languageName: node
   linkType: hard
 
@@ -2431,7 +2431,7 @@ __metadata:
 
 "@jupyter-notebook/tree-extension@file:../tree-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/tree-extension@file:../tree-extension#../tree-extension::hash=dce65b&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/tree-extension@file:../tree-extension#../tree-extension::hash=b067b5&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/application": ^7.0.0-alpha.16
     "@jupyter-notebook/tree": ^7.0.0-alpha.16
@@ -2450,7 +2450,7 @@ __metadata:
     "@lumino/algorithm": ^2.0.0
     "@lumino/commands": ^2.0.0
     "@lumino/widgets": ^2.0.0
-  checksum: 559fd56f6bcc91179d5b07d9c288968a62d65a19bc5368d3143a6a4336e5fbf4df3d32b8844cbf4d877fa35f1287b98f40e8f245433e17c66ae55a848ea35deb
+  checksum: c30869c5c5e23e104eabd2e579c7658eb7baef41c9fbd8ba334340da99e551db14cca40d7231278fb6499f9502476e15ad86faa2106d505e3a66d10ed4d857f4
   languageName: node
   linkType: hard
 
@@ -2481,7 +2481,7 @@ __metadata:
 
 "@jupyter-notebook/tree@file:../tree::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/tree@file:../tree#../tree::hash=fc6b59&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/tree@file:../tree#../tree::hash=84f72a&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/application": ^7.0.0-alpha.16
     "@jupyterlab/application": ^4.0.0-alpha.22
@@ -2499,7 +2499,7 @@ __metadata:
     "@lumino/commands": ^2.0.0
     "@lumino/coreutils": ^2.0.0
     "@lumino/widgets": ^2.0.0
-  checksum: 0850f2c2c8765dc246c722d7f382d57205e81c949d849e973b15168f2427dfff3c823e7511aaba2979c064c6833ee308ca085410b5a67f7a039d4f72a45fec42
+  checksum: 85ce8a27d0fb420e0de62448fcb81ef94dfebf59af071f6cf316d7bbec2bbe5c087712d0973198148edbcec3b1001ab18edc61ad55f6f1a2409a4fef578897dc
   languageName: node
   linkType: hard
 
@@ -2524,12 +2524,12 @@ __metadata:
 
 "@jupyter-notebook/ui-components@file:../ui-components::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/ui-components@file:../ui-components#../ui-components::hash=ce4f18&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/ui-components@file:../ui-components#../ui-components::hash=7504c3&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyterlab/ui-components": ^4.0.0-alpha.37
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 97d69ff07ea598cccb1ca26e41ed7b2bcfa2930ada04259f93cabe8a681248bbe7233edba759aa65ce2d0f8951300b0405fa4ed2f017158dfcadd3c6378aebe0
+  checksum: 81980caaa0467eb2e964e173c82b9a66760a8e4309b63e2f2655ff6e673aedb1887dd1f5cf24365f7bfe757842ef74a33737878d567bc2a11fc5919a75c677fa
   languageName: node
   linkType: hard
 
