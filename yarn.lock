@@ -2008,7 +2008,7 @@ __metadata:
     "@jupyterlab/lsp-extension": ^4.0.0-alpha.22
     "@jupyterlab/mainmenu-extension": ^4.0.0-alpha.22
     "@jupyterlab/markedparser-extension": ^4.0.0-alpha.22
-    "@jupyterlab/mathjax2-extension": ^4.0.0-alpha.21
+    "@jupyterlab/mathjax-extension": ^4.0.0-alpha.22
     "@jupyterlab/notebook-extension": ^4.0.0-alpha.22
     "@jupyterlab/pdf-extension": ^4.0.0-alpha.22
     "@jupyterlab/rendermime-extension": ^4.0.0-alpha.22
@@ -2570,7 +2570,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/application@npm:^4.0.0-alpha.20, @jupyterlab/application@npm:^4.0.0-alpha.21, @jupyterlab/application@npm:^4.0.0-alpha.22":
+"@jupyterlab/application@npm:^4.0.0-alpha.20, @jupyterlab/application@npm:^4.0.0-alpha.22":
   version: 4.0.0-alpha.22
   resolution: "@jupyterlab/application@npm:4.0.0-alpha.22"
   dependencies:
@@ -3020,7 +3020,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/coreutils@npm:^6.0.0-alpha.21, @jupyterlab/coreutils@npm:^6.0.0-alpha.22":
+"@jupyterlab/coreutils@npm:^6.0.0-alpha.22":
   version: 6.0.0-alpha.22
   resolution: "@jupyterlab/coreutils@npm:6.0.0-alpha.22"
   dependencies:
@@ -3566,25 +3566,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/mathjax2-extension@npm:^4.0.0-alpha.21":
-  version: 4.0.0-alpha.21
-  resolution: "@jupyterlab/mathjax2-extension@npm:4.0.0-alpha.21"
+"@jupyterlab/mathjax-extension@npm:^4.0.0-alpha.22":
+  version: 4.0.0-alpha.22
+  resolution: "@jupyterlab/mathjax-extension@npm:4.0.0-alpha.22"
   dependencies:
-    "@jupyterlab/application": ^4.0.0-alpha.21
-    "@jupyterlab/coreutils": ^6.0.0-alpha.21
-    "@jupyterlab/mathjax2": ^4.0.0-alpha.21
-    "@jupyterlab/rendermime": ^4.0.0-alpha.21
-  checksum: 6d29ce7df31887252160200668bb7b45a534d55c77365882b53d1a9784b7017ac1949899f7536b62dac6d6d848e77c2e7823f50d9e764821ecf775c31666ec19
-  languageName: node
-  linkType: hard
-
-"@jupyterlab/mathjax2@npm:^4.0.0-alpha.21":
-  version: 4.0.0-alpha.21
-  resolution: "@jupyterlab/mathjax2@npm:4.0.0-alpha.21"
-  dependencies:
-    "@jupyterlab/rendermime-interfaces": ^3.8.0-alpha.21
-    "@lumino/coreutils": ^2.0.0-rc.1
-  checksum: 12d5a9647b81c8b84b921464cef879bb6bddbd763ea385498908789344eeeb12e7abb053bcb3abde93c7797c553403d17379d3b5408ce302dd4592fdc8df5c51
+    "@jupyterlab/application": ^4.0.0-alpha.22
+    "@jupyterlab/rendermime": ^4.0.0-alpha.22
+    mathjax-full: ^3.2.2
+  checksum: 534e70bfec24bc990c9daf0acf90b9c842d32da94e7e2e0d613fc06d4b51369c91e749036e90bf9a3aa7cc8819d61472383a9ff1a05c237b996d1ed7f65d0f3f
   languageName: node
   linkType: hard
 
@@ -3777,7 +3766,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/rendermime-interfaces@npm:^3.8.0-alpha.21, @jupyterlab/rendermime-interfaces@npm:^3.8.0-alpha.22":
+"@jupyterlab/rendermime-interfaces@npm:^3.8.0-alpha.22":
   version: 3.8.0-alpha.22
   resolution: "@jupyterlab/rendermime-interfaces@npm:3.8.0-alpha.22"
   dependencies:
@@ -3787,7 +3776,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/rendermime@npm:^4.0.0-alpha.21, @jupyterlab/rendermime@npm:^4.0.0-alpha.22":
+"@jupyterlab/rendermime@npm:^4.0.0-alpha.22":
   version: 4.0.0-alpha.22
   resolution: "@jupyterlab/rendermime@npm:4.0.0-alpha.22"
   dependencies:
@@ -4445,7 +4434,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lumino/coreutils@npm:^1.11.0 || ^2.0.0-alpha.6, @lumino/coreutils@npm:^2.0.0, @lumino/coreutils@npm:^2.0.0-rc.0, @lumino/coreutils@npm:^2.0.0-rc.1":
+"@lumino/coreutils@npm:^1.11.0 || ^2.0.0-alpha.6, @lumino/coreutils@npm:^2.0.0, @lumino/coreutils@npm:^2.0.0-rc.0":
   version: 2.0.0
   resolution: "@lumino/coreutils@npm:2.0.0"
   checksum: 341b5f569b2804e9651ecec6a441a0a0a9153656cc9dc0480eff8bb1d667df92ee4d64421fbb1469f0f503cd2ce3428c61dd3e5d2eb163e2e21748c318fd7b9e
@@ -7462,6 +7451,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commander@npm:9.2.0":
+  version: 9.2.0
+  resolution: "commander@npm:9.2.0"
+  checksum: 7c82e4cd969712aa6d7c055b8351807a7230f9f31ef7ec7881e11a1147511de85adf5d6ccfd200240a118eecf693b220caf6865b8efbcea558a70d35aa9ed711
+  languageName: node
+  linkType: hard
+
 "commander@npm:^6.2.0":
   version: 6.2.1
   resolution: "commander@npm:6.2.1"
@@ -8968,6 +8964,13 @@ __metadata:
   bin:
     eslint: bin/eslint.js
   checksum: cc85af9985a3a11085c011f3d27abe8111006d34cc274291b3c4d7bea51a4e2ff6135780249becd919ba7f6d6d1ecc38a6b73dacb6a7be08d38453b344dc8d37
+  languageName: node
+  linkType: hard
+
+"esm@npm:^3.2.25":
+  version: 3.2.25
+  resolution: "esm@npm:3.2.25"
+  checksum: 978aabe2de83541c105605a6d60a26ed8e627ef6bb0a7605fe15a95bbdea6b8348bd045255cb22219c054dd09a81a94823df00843d9e97f42419c92015ce3a64
   languageName: node
   linkType: hard
 
@@ -12347,6 +12350,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mathjax-full@npm:^3.2.2":
+  version: 3.2.2
+  resolution: "mathjax-full@npm:3.2.2"
+  dependencies:
+    esm: ^3.2.25
+    mhchemparser: ^4.1.0
+    mj-context-menu: ^0.6.1
+    speech-rule-engine: ^4.0.6
+  checksum: 6fbccb9338e1fbf686202d924666d79ac9eb658157c1c8102ba018672188978c4cacfb1b6f65adf7d2d51dc79535ff3e32ba86b15e66d3011dda2ab99562d90d
+  languageName: node
+  linkType: hard
+
 "media-typer@npm:0.3.0":
   version: 0.3.0
   resolution: "media-typer@npm:0.3.0"
@@ -12419,6 +12434,13 @@ __metadata:
   version: 1.1.2
   resolution: "methods@npm:1.1.2"
   checksum: 0917ff4041fa8e2f2fda5425a955fe16ca411591fbd123c0d722fcf02b73971ed6f764d85f0a6f547ce49ee0221ce2c19a5fa692157931cecb422984f1dcd13a
+  languageName: node
+  linkType: hard
+
+"mhchemparser@npm:^4.1.0":
+  version: 4.1.1
+  resolution: "mhchemparser@npm:4.1.1"
+  checksum: a030ffa351b234385028498537a93a15f2b5542338678391639632498c98e2c771719f2c3b3645ee6d1338f602f087a87f96e8d85bfe5296b27eb9bdd6664fd9
   languageName: node
   linkType: hard
 
@@ -12675,6 +12697,13 @@ __metadata:
     minipass: ^3.0.0
     yallist: ^4.0.0
   checksum: f1fdeac0b07cf8f30fcf12f4b586795b97be856edea22b5e9072707be51fc95d41487faec3f265b42973a304fe3a64acd91a44a3826a963e37b37bafde0212c3
+  languageName: node
+  linkType: hard
+
+"mj-context-menu@npm:^0.6.1":
+  version: 0.6.1
+  resolution: "mj-context-menu@npm:0.6.1"
+  checksum: 7a036026538662cac9619b760fade98681618c3ddf417cb36eddb7c28a937baf257c56fd0b6318738419e738ba01a00bcb3790b324885fd6edbae03fb0a2c986
   languageName: node
   linkType: hard
 
@@ -15534,6 +15563,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"speech-rule-engine@npm:^4.0.6":
+  version: 4.0.7
+  resolution: "speech-rule-engine@npm:4.0.7"
+  dependencies:
+    commander: 9.2.0
+    wicked-good-xpath: 1.3.0
+    xmldom-sre: 0.1.31
+  bin:
+    sre: bin/sre
+  checksum: e5b8a5878be61d0344d5e9e0327e6bdf25a23de8fb66bd1898719d52b5f12f42b7e11a3387b8f293420c5eaab57b3ed9099be0adcc2132177301e81134612f38
+  languageName: node
+  linkType: hard
+
 "split2@npm:^3.0.0":
   version: 3.2.2
   resolution: "split2@npm:3.2.2"
@@ -17636,6 +17678,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"wicked-good-xpath@npm:1.3.0":
+  version: 1.3.0
+  resolution: "wicked-good-xpath@npm:1.3.0"
+  checksum: 1aa84bd57426aa07f95d7eca0b0410e841b8e7a35248c9404fa235eaf6a0932c811a96cbdc763c3df18ab76c7644fd8e807d8f185146154d3fc6baf554dcc7e3
+  languageName: node
+  linkType: hard
+
 "wide-align@npm:^1.1.5":
   version: 1.1.5
   resolution: "wide-align@npm:1.1.5"
@@ -17811,6 +17860,13 @@ __metadata:
   version: 2.2.0
   resolution: "xmlchars@npm:2.2.0"
   checksum: 8c70ac94070ccca03f47a81fcce3b271bd1f37a591bf5424e787ae313fcb9c212f5f6786e1fa82076a2c632c0141552babcd85698c437506dfa6ae2d58723062
+  languageName: node
+  linkType: hard
+
+"xmldom-sre@npm:0.1.31":
+  version: 0.1.31
+  resolution: "xmldom-sre@npm:0.1.31"
+  checksum: dbd101600a64c1640b06fb2b5c626ce6d909fd40c966fcae84a2b64c708fe466630766173b5760e0275db2a2c542e048b14a2a6568feece2c315f0cd22a2f642
   languageName: node
   linkType: hard
 
