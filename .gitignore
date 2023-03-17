@@ -129,3 +129,7 @@ ui-tests/playwright-report
 
 # RTC
 .jupyter_ystore.db
+
+# yarn >=2.x local files
+.yarn/*
+.pnp.*
