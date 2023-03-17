@@ -49,7 +49,7 @@ jobs:
       - name: Install the test dependencies
         run: |
           cd ui-tests
-          jlpm --frozen-lockfile
+          jlpm --immutable
           jlpm playwright install
 
       - name: Test

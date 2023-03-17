@@ -133,3 +133,5 @@ ui-tests/playwright-report
 # yarn >=2.x local files
 .yarn/*
 .pnp.*
+ui-tests/.yarn/*
+ui-tests/.pnp.*
