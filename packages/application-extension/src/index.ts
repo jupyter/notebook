@@ -10,8 +10,6 @@ import {
 } from '@jupyterlab/application';
 
 import {
-  sessionContextDialogs,
-  ISessionContextDialogs,
   DOMUtils,
   ICommandPalette,
   IToolbarWidgetRegistry
@@ -295,16 +293,6 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
     }
     return app.paths;
   }
-};
-
-/**
- * The default session dialogs plugin
- */
-const sessionDialogs: JupyterFrontEndPlugin<ISessionContextDialogs> = {
-  id: '@jupyter-notebook/application-extension:session-dialogs',
-  provides: ISessionContextDialogs,
-  autoStart: true,
-  activate: () => sessionContextDialogs
 };
 
 /**
@@ -924,7 +912,6 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   opener,
   pages,
   paths,
-  sessionDialogs,
   shell,
   sidePanelVisibility,
   status,

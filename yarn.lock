@@ -2069,7 +2069,7 @@ __metadata:
 
 "@jupyter-notebook/application-extension@file:../application-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/application-extension@file:../application-extension#../application-extension::hash=9c49e9&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/application-extension@file:../application-extension#../application-extension::hash=a43349&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/application": ^7.0.0-alpha.16
     "@jupyter-notebook/ui-components": ^7.0.0-alpha.16
@@ -2087,7 +2087,7 @@ __metadata:
     "@lumino/coreutils": ^2.0.0
     "@lumino/disposable": ^2.0.0
     "@lumino/widgets": ^2.0.0
-  checksum: 49790c5a5fe18712693583194ba267392bdb85b2362f993093e45caca4916f0e0dd1a82611b66cd10dd4a197922af44923a968ae568aa9b5d5ffaf0cbf20f5a7
+  checksum: 3ef6cbbd20c182d812358d50c153caa5a93b2fe7bb1c99087f75e52657c6ca04b434c42191fa86e359e3ddfe54640b7ff67e1ccb28ee44f5b1cfbbe99ca0d86a
   languageName: node
   linkType: hard
 
