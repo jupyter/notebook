@@ -1,5 +1,5 @@
 {
-  "npmClient": "yarn",
+  "npmClient": "jlpm",
   "version": "independent",
   "useWorkspaces": true
 }
