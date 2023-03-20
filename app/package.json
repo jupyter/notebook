@@ -163,6 +163,7 @@
     "@jupyterlab/buildutils": "^4.0.0-alpha.22",
     "@types/rimraf": "^3.0.2",
     "css-loader": "~5.0.1",
+    "extra-watch-webpack-plugin": "^1.0.3",
     "fs-extra": "^8.1.0",
     "glob": "~7.1.6",
     "handlebars": "^4.7.7",
