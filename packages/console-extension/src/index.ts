@@ -4,7 +4,7 @@
 import {
   IRouter,
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import { IConsoleTracker } from '@jupyterlab/console';
@@ -39,11 +39,11 @@ const opener: JupyterFrontEndPlugin<void> = {
 
         const path = decodeURIComponent(match);
         commands.execute('console:create', { path });
-      }
+      },
     });
 
     router.register({ command, pattern: consolePattern });
-  }
+  },
 };
 
 /**
@@ -58,7 +58,10 @@ const redirect: JupyterFrontEndPlugin<void> = {
     tracker.widgetAdded.connect(async (send, console) => {
       const { sessionContext } = console;
       await sessionContext.ready;
-      const widget = find(app.shell.widgets('main'), w => w.id === console.id);
+      const widget = find(
+        app.shell.widgets('main'),
+        (w) => w.id === console.id
+      );
       if (widget) {
         // bail if the console is already added to the main area
         return;
@@ -68,7 +71,7 @@ const redirect: JupyterFrontEndPlugin<void> = {
       // the widget is not needed anymore
       console.dispose();
     });
-  }
+  },
 };
 
 /**

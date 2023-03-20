@@ -4,7 +4,7 @@
 import {
   INotebookShell,
   NotebookShell,
-  Shell
+  Shell,
 } from '@jupyter-notebook/application';
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
@@ -29,7 +29,7 @@ describe('Shell for notebooks', () => {
     });
 
     it('should make all areas empty initially', () => {
-      ['main', 'top', 'left', 'right', 'menu'].forEach(area => {
+      ['main', 'top', 'left', 'right', 'menu'].forEach((area) => {
         const widgets = Array.from(shell.widgets(area as Shell.Area));
         expect(widgets.length).toEqual(0);
       });
@@ -133,7 +133,7 @@ describe('Shell for tree view', () => {
     });
 
     it('should make all areas empty initially', () => {
-      ['main', 'top', 'left', 'right', 'menu'].forEach(area => {
+      ['main', 'top', 'left', 'right', 'menu'].forEach((area) => {
         const widgets = Array.from(shell.widgets(area as Shell.Area));
         expect(widgets.length).toEqual(0);
       });

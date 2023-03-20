@@ -14,7 +14,7 @@ test.use({ autoGoto: false });
 test.describe('Mobile', () => {
   test('The layout should be more compact on the file browser page', async ({
     page,
-    tmpPath
+    tmpPath,
   }) => {
     await page.goto(`tree/${tmpPath}`);
 
@@ -29,7 +29,7 @@ test.describe('Mobile', () => {
 
   test('The layout should be more compact on the notebook page', async ({
     page,
-    tmpPath
+    tmpPath,
   }) => {
     const notebook = 'empty.ipynb';
     await page.contents.uploadFile(

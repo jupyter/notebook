@@ -3,13 +3,13 @@
 
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import {
   ISessionContext,
   DOMUtils,
-  IToolbarWidgetRegistry
+  IToolbarWidgetRegistry,
 } from '@jupyterlab/apputils';
 
 import { Cell, CodeCell } from '@jupyterlab/cells';
@@ -21,7 +21,7 @@ import { IDocumentManager } from '@jupyterlab/docmanager';
 import {
   NotebookPanel,
   INotebookTracker,
-  INotebookTools
+  INotebookTools,
 } from '@jupyterlab/notebook';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -81,7 +81,7 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
     const node = document.createElement('div');
 
     if (toolbarRegistry) {
-      toolbarRegistry.addFactory('TopBar', 'checkpoint', toolbar => {
+      toolbarRegistry.addFactory('TopBar', 'checkpoint', (toolbar) => {
         const widget = new Widget({ node });
         widget.id = DOMUtils.createDomID();
         widget.addClass('jp-NotebookCheckpoint');
@@ -119,11 +119,11 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
       factory: () => onChange(),
       frequency: {
         interval: 2000,
-        backoff: false
+        backoff: false,
       },
-      standby: 'when-hidden'
+      standby: 'when-hidden',
     });
-  }
+  },
 };
 
 /**
@@ -176,7 +176,7 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
     };
 
     if (toolbarRegistry) {
-      toolbarRegistry.addFactory('TopBar', 'kernelLogo', toolbar => {
+      toolbarRegistry.addFactory('TopBar', 'kernelLogo', (toolbar) => {
         const widget = new Widget({ node });
         widget.addClass('jp-NotebookKernelLogo');
         return widget;
@@ -186,7 +186,7 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
     app.started.then(() => {
       shell.currentChanged.connect(onChange);
     });
-  }
+  },
 };
 
 /**
@@ -248,7 +248,7 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
     };
 
     shell.currentChanged.connect(onChange);
-  }
+  },
 };
 
 /**
@@ -327,7 +327,7 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
       Promise.all([loadSettings, app.restored])
         .then(([settings]) => {
           updateSettings(settings);
-          settings.changed.connect(settings => {
+          settings.changed.connect((settings) => {
             updateSettings(settings);
           });
         })
@@ -335,7 +335,7 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
           console.error(reason.message);
         });
     }
-  }
+  },
 };
 
 /**
@@ -363,7 +363,7 @@ const notebookToolsWidget: JupyterFrontEndPlugin<void> = {
       }
     };
     shell.currentChanged.connect(onChange);
-  }
+  },
 };
 
 /**
@@ -392,7 +392,7 @@ const trusted: JupyterFrontEndPlugin<void> = {
     };
 
     notebookShell.currentChanged.connect(onChange);
-  }
+  },
 };
 
 /**
@@ -404,7 +404,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   kernelStatus,
   scrollOutput,
   notebookToolsWidget,
-  trusted
+  trusted,
 ];
 
 export default plugins;

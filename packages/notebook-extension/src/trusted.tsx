@@ -37,7 +37,7 @@ const isTrusted = (notebook: Notebook): boolean => {
  */
 const TrustedButton = ({
   notebook,
-  translator
+  translator,
 }: {
   notebook: Notebook;
   translator: ITranslator;
@@ -93,7 +93,7 @@ export namespace TrustedComponent {
    */
   export const create = ({
     notebook,
-    translator
+    translator,
   }: {
     notebook: Notebook;
     translator: ITranslator;

@@ -48,7 +48,7 @@ export class PanelHandler {
       case 'child-removed':
         {
           const widget = (msg as Widget.ChildMessage).child;
-          ArrayExt.removeFirstWhere(this._items, v => v.widget === widget);
+          ArrayExt.removeFirstWhere(this._items, (v) => v.widget === widget);
         }
         break;
       default:
@@ -83,7 +83,7 @@ export class SidePanelHandler extends PanelHandler {
     closeIcon.element({
       container: this._closeButton,
       height: '16px',
-      width: 'auto'
+      width: 'auto',
     });
     this._closeButton.onclick = () => {
       this.collapse();
@@ -133,7 +133,7 @@ export class SidePanelHandler extends PanelHandler {
    * Get the widgets list.
    */
   get widgets(): Readonly<Widget[]> {
-    return this._items.map(obj => obj.widget);
+    return this._items.map((obj) => obj.widget);
   }
 
   /**
@@ -253,14 +253,14 @@ export class SidePanelHandler extends PanelHandler {
    * Find the index of the item with the given widget, or `-1`.
    */
   private _findWidgetIndex(widget: Widget): number {
-    return ArrayExt.findFirstIndex(this._items, i => i.widget === widget);
+    return ArrayExt.findFirstIndex(this._items, (i) => i.widget === widget);
   }
 
   /**
    * Find the widget with the given id, or `null`.
    */
   private _findWidgetByID(id: string): Widget | null {
-    const item = find(this._items, value => value.widget.id === id);
+    const item = find(this._items, (value) => value.widget.id === id);
     return item ? item.widget : null;
   }
 
@@ -350,8 +350,8 @@ export class SidePanelPalette {
       args: {
         side: area,
         title: `Show ${widget.title.caption}`,
-        id: widget.id
-      }
+        id: widget.id,
+      },
     });
 
     // Keep the disposableDelegate objet to be able to dispose of the item if the widget
@@ -359,7 +359,7 @@ export class SidePanelPalette {
     this._items.push({
       widgetId: widget.id,
       area: area,
-      disposable: disposableDelegate
+      disposable: disposableDelegate,
     });
   }
 

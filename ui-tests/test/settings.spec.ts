@@ -10,7 +10,7 @@ test.use({ autoGoto: false });
 test.describe('Settings', () => {
   test('Should be persisted after reloading the page', async ({
     page,
-    tmpPath
+    tmpPath,
   }) => {
     const showHeaderPath = 'View>Show Header';
 

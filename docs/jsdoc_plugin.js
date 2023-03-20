@@ -1,5 +1,5 @@
 exports.handlers = {
-  newDoclet: function(e) {
+  newDoclet: function (e) {
     // e.doclet will refer to the newly created doclet
     // you can read and modify properties of that doclet if you wish
     if (typeof e.doclet.name === 'string') {
@@ -10,5 +10,5 @@ exports.handlers = {
         e.doclet.memberof = '<anonymous>';
       }
     }
-  }
+  },
 };

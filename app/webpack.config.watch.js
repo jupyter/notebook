@@ -9,9 +9,9 @@ module.exports = [
     plugins: [
       ...base[0].plugins,
       new ExtraWatchWebpackPlugin({
-        files: ['../packages/_metapackage/tsconfig.tsbuildinfo']
-      })
-    ]
+        files: ['../packages/_metapackage/tsconfig.tsbuildinfo'],
+      }),
+    ],
   },
-  ...base.slice(1)
+  ...base.slice(1),
 ];

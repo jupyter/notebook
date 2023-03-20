@@ -31,7 +31,7 @@ test.describe('Notebook', () => {
 
   test('Renaming the notebook should be possible', async ({
     page,
-    tmpPath
+    tmpPath,
   }) => {
     const notebook = `${tmpPath}/${NOTEBOOK}`;
     await page.goto(`notebooks/${notebook}`);
@@ -49,7 +49,7 @@ test.describe('Notebook', () => {
     await Promise.all([
       await page.click('text="Rename"'),
       // wait until the URL is updated
-      await page.waitForNavigation()
+      await page.waitForNavigation(),
     ]);
 
     // Check the URL contains the new name
@@ -61,7 +61,7 @@ test.describe('Notebook', () => {
   // and usable in Jupyter Notebook without active tabs
   test('Outputs should be scrolled automatically', async ({
     page,
-    tmpPath
+    tmpPath,
   }) => {
     const notebook = 'autoscroll.ipynb';
     await page.contents.uploadFile(
@@ -87,7 +87,7 @@ test.describe('Notebook', () => {
     expect(page.locator('.jp-mod-outputsScrolled').nth(1)).toHaveCount(0);
 
     const checkCell = async (n: number): Promise<boolean> => {
-      const scrolled = await page.$eval(`.jp-Notebook-cell >> nth=${n}`, el =>
+      const scrolled = await page.$eval(`.jp-Notebook-cell >> nth=${n}`, (el) =>
         el.classList.contains('jp-mod-outputsScrolled')
       );
       return scrolled;

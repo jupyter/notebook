@@ -4,7 +4,7 @@ module.exports = {
     es6: true,
     commonjs: true,
     node: true,
-    'jest/globals': true
+    'jest/globals': true,
   },
   root: true,
   extends: [
@@ -13,12 +13,12 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
     'plugin:react/recommended',
-    'plugin:jest/recommended'
+    'plugin:jest/recommended',
   ],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: 'tsconfig.eslint.json',
-    sourceType: 'module'
+    sourceType: 'module',
   },
   plugins: ['@typescript-eslint', 'jest'],
   rules: {
@@ -29,9 +29,9 @@ module.exports = {
         format: ['PascalCase'],
         custom: {
           regex: '^I[A-Z]',
-          match: true
-        }
-      }
+          match: true,
+        },
+      },
     ],
     '@typescript-eslint/no-unused-vars': ['warn', { args: 'none' }],
     '@typescript-eslint/no-explicit-any': 'off',
@@ -42,16 +42,16 @@ module.exports = {
     '@typescript-eslint/quotes': [
       'error',
       'single',
-      { avoidEscape: true, allowTemplateLiterals: false }
+      { avoidEscape: true, allowTemplateLiterals: false },
     ],
     'jest/no-done-callback': 'off',
     curly: ['error', 'all'],
     eqeqeq: 'error',
-    'prefer-arrow-callback': 'error'
+    'prefer-arrow-callback': 'error',
   },
   settings: {
     react: {
-      version: 'detect'
-    }
-  }
+      version: 'detect',
+    },
+  },
 };

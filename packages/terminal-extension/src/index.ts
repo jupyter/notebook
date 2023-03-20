@@ -4,7 +4,7 @@
 import {
   IRouter,
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import { PageConfig } from '@jupyterlab/coreutils';
@@ -45,11 +45,11 @@ const opener: JupyterFrontEndPlugin<void> = {
           terminal.content.setOption('closeOnExit', false);
         });
         commands.execute('terminal:open', { name });
-      }
+      },
     });
 
     router.register({ command, pattern: terminalPattern });
-  }
+  },
 };
 
 /**
@@ -62,7 +62,10 @@ const redirect: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, tracker: ITerminalTracker) => {
     const baseUrl = PageConfig.getBaseUrl();
     tracker.widgetAdded.connect((send, terminal) => {
-      const widget = find(app.shell.widgets('main'), w => w.id === terminal.id);
+      const widget = find(
+        app.shell.widgets('main'),
+        (w) => w.id === terminal.id
+      );
       if (widget) {
         // bail if the terminal is already added to the main area
         return;
@@ -73,7 +76,7 @@ const redirect: JupyterFrontEndPlugin<void> = {
       // dispose the widget since it is not used on this page
       terminal.dispose();
     });
-  }
+  },
 };
 
 /**

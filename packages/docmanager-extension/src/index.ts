@@ -3,7 +3,7 @@
 
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import { PageConfig, PathExt } from '@jupyterlab/coreutils';
@@ -58,7 +58,7 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
         }
         widget.title.dataset = {
           type: 'document-title',
-          ...widget.title.dataset
+          ...widget.title.dataset,
         };
         if (!widget.isAttached) {
           app.shell.add(widget, 'main', options || {});
@@ -73,7 +73,7 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
 
       private _opened = new Signal<this, IDocumentWidget>(this);
     })();
-  }
+  },
 };
 
 /**

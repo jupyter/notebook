@@ -4,7 +4,7 @@ module.exports = {
   ...baseConfig,
   use: {
     appPath: '',
-    video: 'retain-on-failure'
+    video: 'retain-on-failure',
   },
   retries: 1,
   webServer: [
@@ -12,7 +12,7 @@ module.exports = {
       command: 'jlpm start',
       port: 8888,
       timeout: 120 * 1000,
-      reuseExistingServer: true
-    }
-  ]
+      reuseExistingServer: true,
+    },
+  ],
 };

@@ -77,7 +77,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
 
     const middleLayout = new BoxLayout({
       spacing: 0,
-      direction: 'top-to-bottom'
+      direction: 'top-to-bottom',
     });
     BoxLayout.setStretch(this._topWrapper, 0);
     BoxLayout.setStretch(this._menuWrapper, 0);
@@ -207,7 +207,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   activateById(id: string): void {
     // Search all areas that can have widgets for this widget, starting with main.
     for (const area of ['main', 'top', 'left', 'right', 'menu']) {
-      const widget = find(this.widgets(area as Shell.Area), w => w.id === id);
+      const widget = find(this.widgets(area as Shell.Area), (w) => w.id === id);
       if (widget) {
         if (area === 'left') {
           this.expandLeft(id);

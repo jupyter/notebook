@@ -15,7 +15,7 @@ export class NotebookTreeWidget extends TabPanel implements INotebookTree {
     super({
       tabPlacement: 'top',
       tabsMovable: true,
-      renderer: TabBarSvg.defaultRenderer
+      renderer: TabBarSvg.defaultRenderer,
     });
     this.addClass('jp-TreePanel');
   }
