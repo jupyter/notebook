@@ -20,18 +20,18 @@
     "watch": "tsc -b -w --preserveWatchOutput"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "file:../application",
-    "@jupyter-notebook/application-extension": "file:../application-extension",
-    "@jupyter-notebook/console-extension": "file:../console-extension",
-    "@jupyter-notebook/docmanager-extension": "file:../docmanager-extension",
-    "@jupyter-notebook/documentsearch-extension": "file:../documentsearch-extension",
-    "@jupyter-notebook/help-extension": "file:../help-extension",
-    "@jupyter-notebook/lab-extension": "file:../lab-extension",
-    "@jupyter-notebook/notebook-extension": "file:../notebook-extension",
-    "@jupyter-notebook/terminal-extension": "file:../terminal-extension",
-    "@jupyter-notebook/tree": "file:../tree",
-    "@jupyter-notebook/tree-extension": "file:../tree-extension",
-    "@jupyter-notebook/ui-components": "file:../ui-components"
+    "@jupyter-notebook/application": "^7.0.0-alpha.16",
+    "@jupyter-notebook/application-extension": "^7.0.0-alpha.16",
+    "@jupyter-notebook/console-extension": "^7.0.0-alpha.16",
+    "@jupyter-notebook/docmanager-extension": "^7.0.0-alpha.16",
+    "@jupyter-notebook/documentsearch-extension": "^7.0.0-alpha.16",
+    "@jupyter-notebook/help-extension": "^7.0.0-alpha.16",
+    "@jupyter-notebook/lab-extension": "^7.0.0-alpha.16",
+    "@jupyter-notebook/notebook-extension": "^7.0.0-alpha.16",
+    "@jupyter-notebook/terminal-extension": "^7.0.0-alpha.16",
+    "@jupyter-notebook/tree": "^7.0.0-alpha.16",
+    "@jupyter-notebook/tree-extension": "^7.0.0-alpha.16",
+    "@jupyter-notebook/ui-components": "^7.0.0-alpha.16"
   },
   "devDependencies": {
     "typescript": "~5.0.2"
