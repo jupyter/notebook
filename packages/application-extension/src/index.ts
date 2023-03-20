@@ -6,15 +6,13 @@ import {
   IRouter,
   ITreePathUpdater,
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import {
-  sessionContextDialogs,
-  ISessionContextDialogs,
   DOMUtils,
   ICommandPalette,
-  IToolbarWidgetRegistry
+  IToolbarWidgetRegistry,
 } from '@jupyterlab/apputils';
 
 import { ConsolePanel } from '@jupyterlab/console';
@@ -37,7 +35,7 @@ import {
   INotebookShell,
   SidePanel,
   SidePanelHandler,
-  SidePanelPalette
+  SidePanelPalette,
 } from '@jupyter-notebook/application';
 
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
@@ -47,7 +45,7 @@ import { PromiseDelegate } from '@lumino/coreutils';
 import {
   DisposableDelegate,
   DisposableSet,
-  IDisposable
+  IDisposable,
 } from '@lumino/disposable';
 
 import { Menu, Widget } from '@lumino/widgets';
@@ -122,12 +120,12 @@ const dirty: JupyterFrontEndPlugin<void> = {
       'Are you sure you want to exit Jupyter Notebook?\n\nAny unsaved changes will be lost.'
     );
 
-    window.addEventListener('beforeunload', event => {
+    window.addEventListener('beforeunload', (event) => {
       if (app.status.isDirty) {
         return ((event as any).returnValue = message);
       }
     });
-  }
+  },
 };
 
 /**
@@ -150,11 +148,11 @@ const logo: JupyterFrontEndPlugin<void> = {
       padding: '2px 2px 2px 8px',
       height: '28px',
       width: 'auto',
-      cursor: 'pointer'
+      cursor: 'pointer',
     });
     logo.id = 'jp-NotebookLogo';
     app.shell.add(logo, 'top', { rank: 0 });
-  }
+  },
 };
 
 /**
@@ -186,14 +184,14 @@ const opener: JupyterFrontEndPlugin<void> = {
         const factory = urlParams.get('factory') ?? 'default';
         app.started.then(async () => {
           docManager.open(file, factory, undefined, {
-            ref: '_noref'
+            ref: '_noref',
           });
         });
-      }
+      },
     });
 
     router.register({ command, pattern: TREE_PATTERN });
-  }
+  },
 };
 
 /**
@@ -223,7 +221,7 @@ const menus: JupyterFrontEndPlugin<void> = {
       default:
         break;
     }
-  }
+  },
 };
 
 /**
@@ -237,7 +235,7 @@ const menuSpacer: JupyterFrontEndPlugin<void> = {
     menu.id = DOMUtils.createDomID();
     menu.addClass('jp-NotebookSpacer');
     app.shell.add(menu, 'menu', { rank: 900 });
-  }
+  },
 };
 
 /**
@@ -260,7 +258,7 @@ const pages: JupyterFrontEndPlugin<void> = {
       label: trans.__('Open JupyterLab'),
       execute: () => {
         window.open(`${baseUrl}lab`);
-      }
+      },
     });
     const page = PageConfig.getOption('notebookPage');
 
@@ -272,14 +270,14 @@ const pages: JupyterFrontEndPlugin<void> = {
         } else {
           window.open(`${baseUrl}tree`);
         }
-      }
+      },
     });
 
     if (palette) {
       palette.addItem({ command: CommandIDs.openLab, category: 'View' });
       palette.addItem({ command: CommandIDs.openTree, category: 'View' });
     }
-  }
+  },
 };
 
 /**
@@ -294,17 +292,7 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
       throw new Error(`${paths.id} must be activated in Jupyter Notebook.`);
     }
     return app.paths;
-  }
-};
-
-/**
- * The default session dialogs plugin
- */
-const sessionDialogs: JupyterFrontEndPlugin<ISessionContextDialogs> = {
-  id: '@jupyter-notebook/application-extension:session-dialogs',
-  provides: ISessionContextDialogs,
-  autoStart: true,
-  activate: () => sessionContextDialogs
+  },
 };
 
 /**
@@ -319,7 +307,7 @@ const shell: JupyterFrontEndPlugin<INotebookShell> = {
     return app.shell;
   },
   autoStart: true,
-  provides: INotebookShell
+  provides: INotebookShell,
 };
 
 /**
@@ -334,7 +322,7 @@ const status: JupyterFrontEndPlugin<ILabStatus> = {
       throw new Error(`${status.id} must be activated in Jupyter Notebook.`);
     }
     return app.status;
-  }
+  },
 };
 
 /**
@@ -370,7 +358,7 @@ const tabTitle: JupyterFrontEndPlugin<void> = {
 
     shell.currentChanged.connect(setTabTitle);
     setTabTitle();
-  }
+  },
 };
 
 /**
@@ -394,7 +382,7 @@ const title: JupyterFrontEndPlugin<void> = {
 
     const node = document.createElement('div');
     if (toolbarRegistry) {
-      toolbarRegistry.addFactory('TopBar', 'widgetTitle', toolbar => {
+      toolbarRegistry.addFactory('TopBar', 'widgetTitle', (toolbar) => {
         const widget = new Widget({ node });
         widget.id = 'jp-title';
         return widget;
@@ -456,9 +444,9 @@ const title: JupyterFrontEndPlugin<void> = {
           }
           const encoded = encodeURIComponent(newPath);
           router.navigate(`/${route}/${encoded}`, {
-            skipRouting: true
+            skipRouting: true,
           });
-        }
+        },
       });
 
       node.onclick = async () => {
@@ -468,7 +456,7 @@ const title: JupyterFrontEndPlugin<void> = {
 
     shell.currentChanged.connect(addTitle);
     void addTitle();
-  }
+  },
 };
 
 /**
@@ -497,7 +485,7 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
           void settingRegistry.set(pluginId, 'visible', top.isVisible);
         }
       },
-      isToggled: () => top.isVisible
+      isToggled: () => top.isVisible,
     });
 
     let settingsOverride = false;
@@ -515,7 +503,7 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
       Promise.all([loadSettings, app.restored])
         .then(([settings]) => {
           updateSettings(settings);
-          settings.changed.connect(settings => {
+          settings.changed.connect((settings) => {
             updateSettings(settings);
           });
         })
@@ -542,7 +530,7 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
     // listen on format change (mobile and desktop) to make the view more compact
     app.formatChanged.connect(onChanged);
   },
-  autoStart: true
+  autoStart: true,
 };
 
 /**
@@ -568,8 +556,8 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
      * id, widget ID to activate in the side panel
      */
     app.commands.addCommand(CommandIDs.togglePanel, {
-      label: args => args['title'] as string,
-      caption: args => {
+      label: (args) => args['title'] as string,
+      caption: (args) => {
         // We do not substitute the parameter into the string because the parameter is not
         // localized (e.g., it is always 'left') even though the string is localized.
         if (args['side'] === 'left') {
@@ -585,7 +573,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
         }
         return trans.__('Show %1 in the sidebar', args['title'] as string);
       },
-      execute: args => {
+      execute: (args) => {
         switch (args['side'] as string) {
           case 'left':
             if (notebookShell.leftCollapsed) {
@@ -617,7 +605,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
             break;
         }
       },
-      isToggled: args => {
+      isToggled: (args) => {
         switch (args['side'] as string) {
           case 'left': {
             if (notebookShell.leftCollapsed) {
@@ -643,12 +631,12 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
           }
         }
         return false;
-      }
+      },
     });
 
     const sidePanelMenu: { [area in SidePanel.Area]: IDisposable | null } = {
       left: null,
-      right: null
+      right: null,
     };
 
     /**
@@ -678,8 +666,8 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
           args: {
             side: area,
             title: `Show ${widget.title.caption}`,
-            id: widget.id
-          }
+            id: widget.id,
+          },
         });
         menuToAdd = true;
       }
@@ -688,7 +676,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
       if (menuToAdd) {
         sidePanelMenu[area] = menu.viewMenu.addItem({
           type: 'submenu',
-          submenu: newMenu
+          submenu: newMenu,
         });
       }
     };
@@ -729,14 +717,14 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
       if (palette) {
         const sidePanelPalette = new SidePanelPalette({
           commandPalette: palette as ICommandPalette,
-          command: CommandIDs.togglePanel
+          command: CommandIDs.togglePanel,
         });
 
-        notebookShell.leftHandler.widgets.forEach(widget => {
+        notebookShell.leftHandler.widgets.forEach((widget) => {
           sidePanelPalette.addItem(widget, notebookShell.leftHandler.area);
         });
 
-        notebookShell.rightHandler.widgets.forEach(widget => {
+        notebookShell.rightHandler.widgets.forEach((widget) => {
           sidePanelPalette.addItem(widget, notebookShell.rightHandler.area);
         });
 
@@ -757,7 +745,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
         );
       }
     });
-  }
+  },
 };
 
 /**
@@ -795,7 +783,7 @@ const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
           set.dispose();
 
           delegate.resolve({ browser, file: PageConfig.getOption('treePath') });
-        }) as (args: any) => Promise<void>
+        }) as (args: any) => Promise<void>,
       })
     );
     set.add(
@@ -819,7 +807,7 @@ const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
     );
 
     return { paths: delegate.promise };
-  }
+  },
 };
 
 const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
@@ -841,7 +829,7 @@ const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
     }
     return updateTreePath;
   },
-  autoStart: true
+  autoStart: true,
 };
 
 const translator: JupyterFrontEndPlugin<void> = {
@@ -854,7 +842,7 @@ const translator: JupyterFrontEndPlugin<void> = {
     translator: ITranslator
   ) => {
     notebookShell.translator = translator;
-  }
+  },
 };
 
 /**
@@ -898,7 +886,7 @@ const zen: JupyterFrontEndPlugin<void> = {
           document.exitFullscreen();
           toggleOff();
         }
-      }
+      },
     });
 
     document.addEventListener('fullscreenchange', () => {
@@ -910,7 +898,7 @@ const zen: JupyterFrontEndPlugin<void> = {
     if (palette) {
       palette.addItem({ command: CommandIDs.toggleZen, category: 'Mode' });
     }
-  }
+  },
 };
 
 /**
@@ -924,7 +912,6 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   opener,
   pages,
   paths,
-  sessionDialogs,
   shell,
   sidePanelVisibility,
   status,
@@ -934,7 +921,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   tree,
   treePathUpdater,
   translator,
-  zen
+  zen,
 ];
 
 export default plugins;

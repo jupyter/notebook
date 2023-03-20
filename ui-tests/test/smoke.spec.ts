@@ -18,7 +18,7 @@ test.describe('Smoke', () => {
     // Choose the kernel
     const [console] = await Promise.all([
       page.waitForEvent('popup'),
-      page.click('text="Select"')
+      page.click('text="Select"'),
     ]);
     await console.waitForLoadState();
     await console.waitForSelector('.jp-CodeConsole');
@@ -27,7 +27,7 @@ test.describe('Smoke', () => {
     const [notebook] = await Promise.all([
       page.waitForEvent('popup'),
       page.click('text="New"'),
-      page.click('text="Notebook"')
+      page.click('text="Notebook"'),
     ]);
 
     try {
@@ -67,7 +67,7 @@ math.pi`);
       notebook.waitForEvent('popup'),
       notebook.click(
         '//*[local-name()="svg" and normalize-space(.)=\'Jupyter\']'
-      )
+      ),
     ]);
 
     // Shut down the kernels
@@ -91,7 +91,7 @@ math.pi`);
     // Open JupyterLab
     const [lab] = await Promise.all([
       page.waitForEvent('popup'),
-      page.menu.clickMenuItem('View>Open JupyterLab')
+      page.menu.clickMenuItem('View>Open JupyterLab'),
     ]);
     await lab.waitForSelector('.jp-Launcher');
     await lab.close();

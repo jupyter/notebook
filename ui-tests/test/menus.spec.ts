@@ -20,7 +20,7 @@ const MENU_PATHS = [
   'Kernel',
   'Settings',
   'Settings>Theme',
-  'Help'
+  'Help',
 ];
 
 test.use({ autoGoto: false });
@@ -33,7 +33,7 @@ test.describe('Notebook Menus', () => {
     );
   });
 
-  MENU_PATHS.forEach(menuPath => {
+  MENU_PATHS.forEach((menuPath) => {
     test(`Open menu item ${menuPath}`, async ({ page, tmpPath }) => {
       await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
       await waitForKernelReady(page);

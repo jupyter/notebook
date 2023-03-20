@@ -18,7 +18,7 @@ function ensureResolutions(): string[] {
     corePackage.jupyterlab.singletonPackages
   );
 
-  packages.forEach(name => {
+  packages.forEach((name) => {
     const data = require(`${name}/package.json`);
     // Insist on a restricted version in the yarn resolution.
     corePackage.resolutions[name] = `~${data.version}`;

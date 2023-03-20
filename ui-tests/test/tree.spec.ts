@@ -25,7 +25,7 @@ test('should go to subfolder', async ({ page, tmpPath }) => {
 
 test('should update url when navigating in filebrowser', async ({
   page,
-  tmpPath
+  tmpPath,
 }) => {
   await page.contents.createDirectory(`${tmpPath}/${SUBFOLDER}`);
 

@@ -22,7 +22,7 @@ commander
     const prefix = run(
       'python -c "import sys; print(sys.prefix)"',
       {
-        stdio: 'pipe'
+        stdio: 'pipe',
       },
       true
     );

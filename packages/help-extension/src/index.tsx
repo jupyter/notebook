@@ -3,7 +3,7 @@
 
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import { showDialog, Dialog, ICommandPalette } from '@jupyterlab/apputils';
@@ -22,12 +22,12 @@ import * as React from 'react';
 const RESOURCES = [
   {
     text: 'About Jupyter',
-    url: 'https://jupyter.org'
+    url: 'https://jupyter.org',
   },
   {
     text: 'Markdown Reference',
-    url: 'https://commonmark.org/help/'
-  }
+    url: 'https://commonmark.org/help/',
+  },
 ];
 
 /**
@@ -51,13 +51,13 @@ const open: JupyterFrontEndPlugin<void> = {
     const { commands } = app;
 
     commands.addCommand(CommandIDs.open, {
-      label: args => args['text'] as string,
-      execute: args => {
+      label: (args) => args['text'] as string,
+      execute: (args) => {
         const url = args['url'] as string;
         window.open(url);
-      }
+      },
     });
-  }
+  },
 };
 
 /**
@@ -132,28 +132,28 @@ const about: JupyterFrontEndPlugin<void> = {
             Dialog.createButton({
               label: trans.__('Dismiss'),
               className:
-                'jp-AboutNotebook-about-button jp-mod-reject jp-mod-styled'
-            })
-          ]
+                'jp-AboutNotebook-about-button jp-mod-reject jp-mod-styled',
+            }),
+          ],
         });
         dialog.addClass('jp-AboutNotebook');
         void dialog.launch();
-      }
+      },
     });
 
     if (palette) {
       palette.addItem({ command: CommandIDs.about, category });
     }
 
-    const resourcesGroup = RESOURCES.map(args => ({
+    const resourcesGroup = RESOURCES.map((args) => ({
       args,
-      command: CommandIDs.open
+      command: CommandIDs.open,
     }));
 
     if (menu) {
       menu.helpMenu.addGroup(resourcesGroup, 30);
     }
-  }
+  },
 };
 
 /**
@@ -194,7 +194,7 @@ const shortcuts: JupyterFrontEndPlugin<void> = {
             </thead>
             <tbody>
               {commands.keyBindings
-                .filter(binding => commands.isEnabled(binding.command))
+                .filter((binding) => commands.isEnabled(binding.command))
                 .map((binding, i) => (
                   <tr key={i}>
                     <td>{commands.label(binding.command)}</td>
@@ -214,17 +214,17 @@ const shortcuts: JupyterFrontEndPlugin<void> = {
             Dialog.createButton({
               label: trans.__('Dismiss'),
               className:
-                'jp-AboutNotebook-about-button jp-mod-reject jp-mod-styled'
-            })
-          ]
+                'jp-AboutNotebook-about-button jp-mod-reject jp-mod-styled',
+            }),
+          ],
         });
-      }
+      },
     });
 
     if (palette) {
       palette.addItem({ command: CommandIDs.shortcuts, category });
     }
-  }
+  },
 };
 
 const plugins: JupyterFrontEndPlugin<any>[] = [open, shortcuts, about];

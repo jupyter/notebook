@@ -32,7 +32,7 @@ test.describe('General', () => {
     await page
       .locator(checkpointLocator)
       .evaluate(
-        element => (element.innerHTML = 'Last Checkpoint: 3 seconds ago')
+        (element) => (element.innerHTML = 'Last Checkpoint: 3 seconds ago')
       );
 
     // force switching back to command mode to avoid capturing the cursor in the screenshot

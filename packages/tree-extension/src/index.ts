@@ -3,13 +3,13 @@
 
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import {
   IToolbarWidgetRegistry,
   createToolbarFactory,
-  setToolbar
+  setToolbar,
 } from '@jupyterlab/apputils';
 
 import { PageConfig } from '@jupyterlab/coreutils';
@@ -17,7 +17,7 @@ import { PageConfig } from '@jupyterlab/coreutils';
 import {
   FileBrowser,
   Uploader,
-  IDefaultFileBrowser
+  IDefaultFileBrowser,
 } from '@jupyterlab/filebrowser';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -33,7 +33,7 @@ import {
   FilenameSearcher,
   folderIcon,
   IScore,
-  runningIcon
+  runningIcon,
 } from '@jupyterlab/ui-components';
 
 import { Menu, MenuBar } from '@lumino/widgets';
@@ -81,7 +81,7 @@ const createNew: JupyterFrontEndPlugin<void> = {
     const trans = translator.load('notebook');
 
     const overflowOptions = {
-      overflowMenuOptions: { isVisible: false }
+      overflowMenuOptions: { isVisible: false },
     };
     const menubar = new MenuBar(overflowOptions);
     const newMenu = new Menu({ commands });
@@ -94,10 +94,10 @@ const createNew: JupyterFrontEndPlugin<void> = {
       'terminal:create-new',
       'console:create',
       'filebrowser:create-new-file',
-      'filebrowser:create-new-directory'
+      'filebrowser:create-new-directory',
     ];
 
-    newCommands.forEach(command => {
+    newCommands.forEach((command) => {
       newMenu.addItem({ command });
     });
 
@@ -113,7 +113,7 @@ const createNew: JupyterFrontEndPlugin<void> = {
         }
       );
     }
-  }
+  },
 };
 
 /**
@@ -141,7 +141,7 @@ const loadPlugins: JupyterFrontEndPlugin<void> = {
     Object.keys(allPlugins).forEach((key: string) => {
       const extensionsAndPlugins: { [key: string]: boolean | [string] } =
         allPlugins[key];
-      Object.keys(extensionsAndPlugins).forEach(plugin => {
+      Object.keys(extensionsAndPlugins).forEach((plugin) => {
         const value = extensionsAndPlugins[plugin];
         if (typeof value === 'boolean' && value) {
           pluginsSet.add(plugin);
@@ -170,7 +170,7 @@ const loadPlugins: JupyterFrontEndPlugin<void> = {
         }
       });
     });
-  }
+  },
 };
 
 /**
@@ -189,9 +189,9 @@ const openFileBrowser: JupyterFrontEndPlugin<void> = {
     commands.addCommand(CommandIDs.activate, {
       execute: () => {
         notebookTree.currentWidget = browser;
-      }
+      },
     });
-  }
+  },
 };
 
 /**
@@ -203,7 +203,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     IDefaultFileBrowser,
     ITranslator,
     ISettingRegistry,
-    IToolbarWidgetRegistry
+    IToolbarWidgetRegistry,
   ],
   optional: [IRunningSessionManagers, ISettingEditorTracker],
   autoStart: true,
@@ -238,7 +238,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
         new Uploader({
           model: browser.model,
           translator,
-          label: trans.__('Upload')
+          label: trans.__('Upload'),
         })
     );
 
@@ -251,13 +251,13 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
             filterFn: (item: string) => Partial<IScore> | null,
             query?: string
           ) => {
-            browser.model.setFilter(value => {
+            browser.model.setFilter((value) => {
               return filterFn(value.name.toLowerCase());
             });
           },
           useFuzzyFilter: true,
           placeholder: trans.__('Filter files by name'),
-          forceRefresh: true
+          forceRefresh: true,
         });
         searcher.addClass(FILTERBOX_CLASS);
         return searcher;
@@ -310,7 +310,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     }
 
     return nbTreeWidget;
-  }
+  },
 };
 
 /**
@@ -320,6 +320,6 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   createNew,
   loadPlugins,
   openFileBrowser,
-  notebookTreeWidget
+  notebookTreeWidget,
 ];
 export default plugins;

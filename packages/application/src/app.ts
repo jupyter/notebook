@@ -3,7 +3,7 @@
 
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import { Base64ModelFactory } from '@jupyterlab/docregistry';
@@ -88,7 +88,7 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
         hubHost: PageConfig.getOption('hubHost') || undefined,
         hubPrefix: PageConfig.getOption('hubPrefix') || undefined,
         hubUser: PageConfig.getOption('hubUser') || undefined,
-        hubServerName: PageConfig.getOption('hubServerName') || undefined
+        hubServerName: PageConfig.getOption('hubServerName') || undefined,
       },
       directories: {
         appSettings: PageConfig.getOption('appSettingsDir'),
@@ -98,8 +98,8 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
         themes: PageConfig.getOption('themesDir'),
         userSettings: PageConfig.getOption('userSettingsDir'),
         serverRoot: PageConfig.getOption('serverRoot'),
-        workspaces: PageConfig.getOption('workspacesDir')
-      }
+        workspaces: PageConfig.getOption('workspacesDir'),
+      },
     };
   }
 
@@ -129,7 +129,7 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
     if (!Array.isArray(data)) {
       data = [data];
     }
-    data.forEach(item => {
+    data.forEach((item) => {
       try {
         this.registerPlugin(item);
       } catch (error) {
@@ -144,7 +144,7 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
    * @param mods - The plugin modules to register.
    */
   registerPluginModules(mods: NotebookApp.IPluginModule[]): void {
-    mods.forEach(mod => {
+    mods.forEach((mod) => {
       this.registerPluginModule(mod);
     });
   }

@@ -44,20 +44,20 @@
   },
   "dependencies": {
     "@jupyter-notebook/application": "^7.0.0-alpha.16",
-    "@jupyterlab/application": "^4.0.0-alpha.21",
-    "@jupyterlab/apputils": "^4.0.0-alpha.21",
-    "@jupyterlab/coreutils": "^6.0.0-alpha.21",
-    "@jupyterlab/docregistry": "^4.0.0-alpha.21",
-    "@jupyterlab/notebook": "^4.0.0-alpha.21",
-    "@jupyterlab/translation": "^4.0.0-alpha.21",
-    "@jupyterlab/ui-components": "^4.0.0-alpha.36",
-    "@lumino/commands": "^2.0.0-rc.1",
-    "@lumino/disposable": "^2.0.0-rc.1"
+    "@jupyterlab/application": "^4.0.0-alpha.22",
+    "@jupyterlab/apputils": "^4.0.0-alpha.22",
+    "@jupyterlab/coreutils": "^6.0.0-alpha.22",
+    "@jupyterlab/docregistry": "^4.0.0-alpha.22",
+    "@jupyterlab/notebook": "^4.0.0-alpha.22",
+    "@jupyterlab/translation": "^4.0.0-alpha.22",
+    "@jupyterlab/ui-components": "^4.0.0-alpha.37",
+    "@lumino/commands": "^2.0.0",
+    "@lumino/disposable": "^2.0.0"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^4.0.0-alpha.21",
+    "@jupyterlab/builder": "^4.0.0-alpha.22",
     "rimraf": "^3.0.2",
-    "typescript": "5.0.1-rc"
+    "typescript": "~5.0.2"
   },
   "publishConfig": {
     "access": "public"

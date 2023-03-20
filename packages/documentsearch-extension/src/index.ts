@@ -1,6 +1,6 @@
 import {
   JupyterFrontEnd,
-  JupyterFrontEndPlugin
+  JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
 import { ISearchProviderRegistry } from '@jupyterlab/documentsearch';
@@ -51,7 +51,7 @@ const notebookShellWidgetListener: JupyterFrontEndPlugin<void> = {
         transformWidgetSearchability(notebookShell.currentWidget);
       }
     });
-  }
+  },
 };
 
 /**

@@ -6,5 +6,5 @@ export const test = base.extend({
       await page.waitForSelector('#main-panel');
     };
     await use(waitIsReady);
-  }
+  },
 });
