@@ -14,6 +14,32 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0a17
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a16...7903de83e83a6ce342d71895dc1e8c2ec8128174))
+
+### Highlights
+
+This major change in this release is the update to the latest JupyterLab `4.0.0a37`.
+
+Check out the [JupyterLab `4.0.0a37` release notes](https://github.com/jupyterlab/jupyterlab/releases/tag/v4.0.0a37) for more details.
+
+### Enhancements made
+
+- Update to JupyterLab 4.0.0a37 [#6777](https://github.com/jupyter/notebook/pull/6777) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Replace the use of `toArray` by `Array.from` [#6775](https://github.com/jupyter/notebook/pull/6775) ([@tarunsamanta2k20](https://github.com/tarunsamanta2k20))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-03-15&to=2023-03-20&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-03-15..2023-03-20&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-03-15..2023-03-20&type=Issues) | [@tarunsamanta2k20](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atarunsamanta2k20+updated%3A2023-03-15..2023-03-20&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0a16
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a15...0faa88c8b65e0302f1904e4ca9cd2e551525f352))
@@ -37,8 +63,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-03-08&to=2023-03-15&type=c))
 
 [@afshin](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafshin+updated%3A2023-03-08..2023-03-15&type=Issues) | [@frenzymadness](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afrenzymadness+updated%3A2023-03-08..2023-03-15&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-03-08..2023-03-15&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-03-08..2023-03-15&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0a15
 

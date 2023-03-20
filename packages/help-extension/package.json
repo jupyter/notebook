@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/help-extension",
-  "version": "7.0.0-alpha.16",
+  "version": "7.0.0-alpha.17",
   "description": "Jupyter Notebook - Help Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -38,7 +38,7 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/ui-components": "^7.0.0-alpha.16",
+    "@jupyter-notebook/ui-components": "^7.0.0-alpha.17",
     "@jupyterlab/application": "^4.0.0-alpha.22",
     "@jupyterlab/apputils": "^4.0.0-alpha.22",
     "@jupyterlab/mainmenu": "^4.0.0-alpha.22",

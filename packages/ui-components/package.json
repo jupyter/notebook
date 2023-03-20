@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/ui-components",
-  "version": "7.0.0-alpha.16",
+  "version": "7.0.0-alpha.17",
   "description": "Jupyter Notebook - UI components",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
