@@ -2076,13 +2076,13 @@ __metadata:
     "@lumino/disposable": ^2.0.0
     "@lumino/widgets": ^2.0.0
     rimraf: ^3.0.2
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
 "@jupyter-notebook/application-extension@file:../application-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/application-extension@file:../application-extension#../application-extension::hash=0d1e9f&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/application-extension@file:../application-extension#../application-extension::hash=7782bd&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/application": ^7.0.0-alpha.16
     "@jupyter-notebook/ui-components": ^7.0.0-alpha.16
@@ -2100,7 +2100,7 @@ __metadata:
     "@lumino/coreutils": ^2.0.0
     "@lumino/disposable": ^2.0.0
     "@lumino/widgets": ^2.0.0
-  checksum: 12cd0633717202452db1c4a19a9e91765a6bc3e79e950e60e8c2330b949bd94cf7a3d5e6ed24f4aa17e79bb4197eaa546535577d4b7fda14b30488fdc89d0d98
+  checksum: a094cb23d9b7455f5df869bd02d5c9f6e0e1d0862816fac073eac55905dfad8984b2da14df0c3c7554a0cb7009a95c2584c3493f0d335593d3fe789e26e40c81
   languageName: node
   linkType: hard
 
@@ -2126,13 +2126,13 @@ __metadata:
     jest: ^29.3.1
     rimraf: ^3.0.2
     ts-jest: ^29.0.3
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
 "@jupyter-notebook/application@file:../application::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/application@file:../application#../application::hash=b261a3&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/application@file:../application#../application::hash=dca3f9&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyterlab/application": ^4.0.0-alpha.22
     "@jupyterlab/coreutils": ^6.0.0-alpha.22
@@ -2145,7 +2145,7 @@ __metadata:
     "@lumino/polling": ^2.0.0
     "@lumino/signaling": ^2.0.0
     "@lumino/widgets": ^2.0.0
-  checksum: 6ae6400e96d1a7a554267d5e03131f83693e25c72697ae19f33491efe8f7c0d786de740a8a546f682ebf2d97f6641d41da7ac7c3150d589d7e30559fd8c1d59e
+  checksum: a44a70e7dd35b0fb7166489e920e59d489192e503ef950f28bdfa1afb0015c53c288f9696c3d0c8ca94c710c4eb6879385a5a41a15edede4fe181104b843af4b
   languageName: node
   linkType: hard
 
@@ -2159,7 +2159,7 @@ __metadata:
     commander: ^6.2.0
     fs-extra: ^9.1.0
     rimraf: ^3.0.2
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
@@ -2172,19 +2172,19 @@ __metadata:
     "@jupyterlab/coreutils": ^6.0.0-alpha.22
     "@lumino/algorithm": ^2.0.0
     rimraf: ^3.0.2
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
 "@jupyter-notebook/console-extension@file:../console-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/console-extension@file:../console-extension#../console-extension::hash=f16915&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/console-extension@file:../console-extension#../console-extension::hash=c405cc&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyterlab/application": ^4.0.0-alpha.22
     "@jupyterlab/console": ^4.0.0-alpha.22
     "@jupyterlab/coreutils": ^6.0.0-alpha.22
     "@lumino/algorithm": ^2.0.0
-  checksum: 0a438755e8575c4f364d82022d0661e988fac15723eecab22134543d2f357585f296a6bb8dbe4a711de89ba30c6599d5532eea74c911b0860a0b003cd7c367c2
+  checksum: 1222cbe12a24bbdcb8181df45630dc8f29f676dc79b7699e0adaa312726cfe4514eaac671034d0749821f8db704531d3f3b2962cd65127eaf4740ab1fb69ac81
   languageName: node
   linkType: hard
 
@@ -2200,13 +2200,13 @@ __metadata:
     "@lumino/algorithm": ^2.0.0
     "@lumino/signaling": ^2.0.0
     rimraf: ^3.0.2
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
 "@jupyter-notebook/docmanager-extension@file:../docmanager-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/docmanager-extension@file:../docmanager-extension#../docmanager-extension::hash=522730&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/docmanager-extension@file:../docmanager-extension#../docmanager-extension::hash=3b3fca&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyterlab/application": ^4.0.0-alpha.22
     "@jupyterlab/coreutils": ^6.0.0-alpha.22
@@ -2215,7 +2215,7 @@ __metadata:
     "@jupyterlab/services": ^7.0.0-alpha.22
     "@lumino/algorithm": ^2.0.0
     "@lumino/signaling": ^2.0.0
-  checksum: 052acb4f5f7bf58c64a1f7bceb6e2cb083f8a4b955e62557e8e5575befd8e609a6d18b73e041b17402544dbdd3a5f20739bf819b5dea61cdefd72388a5bb21fb
+  checksum: 96448b1eac157b4ee808aa2c6f38495dd8e7e95c2c9c080d35f773303d465a3de30917a6326276e003052d71c46be779033b5c12c5df656e2e34d61a1188baf9
   languageName: node
   linkType: hard
 
@@ -2228,19 +2228,19 @@ __metadata:
     "@jupyterlab/documentsearch": ^4.0.0-alpha.22
     "@lumino/widgets": ^2.0.0
     rimraf: ^3.0.2
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
 "@jupyter-notebook/documentsearch-extension@file:../documentsearch-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/documentsearch-extension@file:../documentsearch-extension#../documentsearch-extension::hash=c9bf3d&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/documentsearch-extension@file:../documentsearch-extension#../documentsearch-extension::hash=c3656c&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/application": ^7.0.0-alpha.16
     "@jupyterlab/application": ^4.0.0-alpha.22
     "@jupyterlab/documentsearch": ^4.0.0-alpha.22
     "@lumino/widgets": ^2.0.0
-  checksum: 5a3d68866860bd9b100bba50108883d88354db97c523e884be34b7b930ea44449fd35feb1bb46732e9816f90a281601ed206516f156015354c725e9643340cb2
+  checksum: cda4b80b01fb5f20631c04dfe0ed3944bc0cf6c19522235529cab67ef53017b8afa3e1d28cce8874123d323419a925a409a6d674339d4194a12037063712a62c
   languageName: node
   linkType: hard
 
@@ -2256,13 +2256,13 @@ __metadata:
     react: ^18.2.0
     react-dom: ^18.2.0
     rimraf: ^3.0.2
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
 "@jupyter-notebook/help-extension@file:../help-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/help-extension@file:../help-extension#../help-extension::hash=ad0c64&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/help-extension@file:../help-extension#../help-extension::hash=dad4c2&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/ui-components": ^7.0.0-alpha.16
     "@jupyterlab/application": ^4.0.0-alpha.22
@@ -2271,13 +2271,13 @@ __metadata:
     "@jupyterlab/translation": ^4.0.0-alpha.22
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 5be9dfc528e338be0ae8a5e7a45a4d4f2a200e0d7751522d07c3f9d6b938b378e77e6ac332b63446bb14f54ed8ed215b365bc5578a080ddf2a5a77888a82fbea
+  checksum: b33ff07d296ebf56b5de9ea3a02b9f75a62263326102b08d80a6b0821fdf8a34b2265d2a29af326531868ad72f1017d7721b8e799aa0ead97c3b9290942d7b82
   languageName: node
   linkType: hard
 
 "@jupyter-notebook/lab-extension@file:../lab-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/lab-extension@file:../lab-extension#../lab-extension::hash=090825&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/lab-extension@file:../lab-extension#../lab-extension::hash=3f9d7b&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/application": ^7.0.0-alpha.16
     "@jupyterlab/application": ^4.0.0-alpha.22
@@ -2289,7 +2289,7 @@ __metadata:
     "@jupyterlab/ui-components": ^4.0.0-alpha.37
     "@lumino/commands": ^2.0.0
     "@lumino/disposable": ^2.0.0
-  checksum: 2e67d7c8e32f831d6655b712247adee86efde17b715351e8488273bbe0df067627bf51db408c77b48528556a331cef8ce0ea74a0d6c702fa8135a169b2c67d9f
+  checksum: 866920c0b07c8c56d2757b3bd3184f24a56ea42985ad99a4ca973b65c4b5eb2340cdf1bef4c0ad86c4af5b3ddb1a8ae305493758913a29690da9adddfec5abbf
   languageName: node
   linkType: hard
 
@@ -2309,7 +2309,7 @@ __metadata:
     "@lumino/commands": ^2.0.0
     "@lumino/disposable": ^2.0.0
     rimraf: ^3.0.2
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
@@ -2329,7 +2329,7 @@ __metadata:
     "@jupyter-notebook/tree": "file:../tree"
     "@jupyter-notebook/tree-extension": "file:../tree-extension"
     "@jupyter-notebook/ui-components": "file:../ui-components"
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
@@ -2348,13 +2348,13 @@ __metadata:
     "@lumino/polling": ^2.0.0
     "@lumino/widgets": ^2.0.0
     rimraf: ^3.0.2
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
 "@jupyter-notebook/notebook-extension@file:../notebook-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/notebook-extension@file:../notebook-extension#../notebook-extension::hash=507891&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/notebook-extension@file:../notebook-extension#../notebook-extension::hash=ed4de8&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/application": ^7.0.0-alpha.16
     "@jupyterlab/application": ^4.0.0-alpha.22
@@ -2366,7 +2366,7 @@ __metadata:
     "@jupyterlab/translation": ^4.0.0-alpha.22
     "@lumino/polling": ^2.0.0
     "@lumino/widgets": ^2.0.0
-  checksum: 813d09fff908c6b6487708c1855fa9fd37e1dccfca604ca186c6dfb25f1ce73b8bb5e918dbcb10ac17ce839c5e5fdc5b8f98b9c8e32fdf87b1a50ca553faea31
+  checksum: da80c05f220a699213d89296ea1b061c17d430a89880db2084d5691526b3bf251c1cce943df9a372d9b7450b94d6d1870c1f81ecd4936e090b1af9f3d0fa3241
   languageName: node
   linkType: hard
 
@@ -2386,7 +2386,7 @@ __metadata:
     npm-run-all: ^4.1.5
     prettier: ^2.8.5
     rimraf: ^3.0.2
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
@@ -2399,19 +2399,19 @@ __metadata:
     "@jupyterlab/terminal": ^4.0.0-alpha.22
     "@lumino/algorithm": ^2.0.0
     rimraf: ^3.0.2
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
 "@jupyter-notebook/terminal-extension@file:../terminal-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/terminal-extension@file:../terminal-extension#../terminal-extension::hash=21d8bc&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/terminal-extension@file:../terminal-extension#../terminal-extension::hash=773dd0&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyterlab/application": ^4.0.0-alpha.22
     "@jupyterlab/coreutils": ^6.0.0-alpha.22
     "@jupyterlab/terminal": ^4.0.0-alpha.22
     "@lumino/algorithm": ^2.0.0
-  checksum: cb1c4e9f024b9a54c5add6220de1d8483a97ada6be823ad51befd65e4e7bb20e82efe61d3dd99c14d1291ed3a07c8a0881f9957ebae662c4abfd2890ce1c09c8
+  checksum: d6dab0efc3335bb97f347a6b20057dc65b1c0e4378dd120ff80282cdfc417b6fafc90c3bbe71a8b0e1fd49ef84b5009cbd7e1817d65a76ffcc9018d510f84add
   languageName: node
   linkType: hard
 
@@ -2437,13 +2437,13 @@ __metadata:
     "@lumino/commands": ^2.0.0
     "@lumino/widgets": ^2.0.0
     rimraf: ^3.0.2
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
 "@jupyter-notebook/tree-extension@file:../tree-extension::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/tree-extension@file:../tree-extension#../tree-extension::hash=7973f3&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/tree-extension@file:../tree-extension#../tree-extension::hash=9d9d07&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/application": ^7.0.0-alpha.16
     "@jupyter-notebook/tree": ^7.0.0-alpha.16
@@ -2462,7 +2462,7 @@ __metadata:
     "@lumino/algorithm": ^2.0.0
     "@lumino/commands": ^2.0.0
     "@lumino/widgets": ^2.0.0
-  checksum: 1473291f575b45a4e3f6e7084071722eabf4905da2090eb332ca72d82e4d3a912c3ba4d92037d1a4722d113b73060fff06c91171b1e885a05382c8b816703083
+  checksum: 550e5e575eb7027e801528aaadd73d1ef0f8a4da07634862f483625fbf8d2ca52de68161cadfe8a11164e1887b4f7fe47b4228cab2abf51d713d77c0d919bc5e
   languageName: node
   linkType: hard
 
@@ -2487,13 +2487,13 @@ __metadata:
     "@lumino/coreutils": ^2.0.0
     "@lumino/widgets": ^2.0.0
     rimraf: ^3.0.2
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
 "@jupyter-notebook/tree@file:../tree::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/tree@file:../tree#../tree::hash=abd5d2&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/tree@file:../tree#../tree::hash=bae6ba&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyter-notebook/application": ^7.0.0-alpha.16
     "@jupyterlab/application": ^4.0.0-alpha.22
@@ -2511,7 +2511,7 @@ __metadata:
     "@lumino/commands": ^2.0.0
     "@lumino/coreutils": ^2.0.0
     "@lumino/widgets": ^2.0.0
-  checksum: 0efc6bbb3eb2b6efc2480b9cf77c3705e10f668beeaf55e3aec6e2ce6e98454579627cb30f24677cf80ce3a62bb5232330ec6683a0f8bc5c0ea7b4887b0975a9
+  checksum: 25672995722c1890e04ca16b0abb1229a822bcadaf6a8d91366dfe1590bd80c44d8f24972ab91657b1a3136ad4131d2c1087cd504ff061d445e23f666dba634a
   languageName: node
   linkType: hard
 
@@ -2530,18 +2530,18 @@ __metadata:
     react-dom: ^18.2.0
     rimraf: ^3.0.2
     ts-jest: ^29.0.3
-    typescript: 5.0.2
+    typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
 "@jupyter-notebook/ui-components@file:../ui-components::locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage":
   version: 7.0.0-alpha.16
-  resolution: "@jupyter-notebook/ui-components@file:../ui-components#../ui-components::hash=06b948&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
+  resolution: "@jupyter-notebook/ui-components@file:../ui-components#../ui-components::hash=cacfaa&locator=%40jupyter-notebook%2Fmetapackage%40workspace%3Apackages%2F_metapackage"
   dependencies:
     "@jupyterlab/ui-components": ^4.0.0-alpha.37
     react: ^18.2.0
     react-dom: ^18.2.0
-  checksum: 7292da585324dcfb76a739539e69a56886e3b472fa1ff57e715eaeb0a4195d746fb4ae0a701c4d2552d0389e4c79f1cd7e01a6b0d2754cbf24ce1d571bfb0d8f
+  checksum: c39d6fec900b0970d038579b9ed9ea6a52c586afa5f8b1449f2bdf7a507d9c6055805e32c41e1f023941b4b0feeaeb2b3162e1800ec0fe8fab3481406a0d4791
   languageName: node
   linkType: hard
 
@@ -16378,16 +16378,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.0.2, typescript@npm:~5.0.2":
-  version: 5.0.2
-  resolution: "typescript@npm:5.0.2"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: bef1dcd166acfc6934b2ec4d72f93edb8961a5fab36b8dd2aaf6f4f4cd5c0210f2e0850aef4724f3b4913d5aef203a94a28ded731b370880c8bcff7e4ff91fc1
-  languageName: node
-  linkType: hard
-
 "typescript@npm:^3 || ^4":
   version: 4.9.5
   resolution: "typescript@npm:4.9.5"
@@ -16398,13 +16388,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@5.0.2#~builtin<compat/typescript>, typescript@patch:typescript@~5.0.2#~builtin<compat/typescript>":
+"typescript@npm:~5.0.2":
   version: 5.0.2
-  resolution: "typescript@patch:typescript@npm%3A5.0.2#~builtin<compat/typescript>::version=5.0.2&hash=1f5320"
+  resolution: "typescript@npm:5.0.2"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: bdbf3d0aac0d6cf010fbe0536753dc19f278eb4aba88140dcd25487dfe1c56ca8b33abc0dcd42078790a939b08ebc4046f3e9bb961d77d3d2c3cfa9829da4d53
+  checksum: bef1dcd166acfc6934b2ec4d72f93edb8961a5fab36b8dd2aaf6f4f4cd5c0210f2e0850aef4724f3b4913d5aef203a94a28ded731b370880c8bcff7e4ff91fc1
   languageName: node
   linkType: hard
 
@@ -16415,6 +16405,16 @@ __metadata:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: ab417a2f398380c90a6cf5a5f74badd17866adf57f1165617d6a551f059c3ba0a3e4da0d147b3ac5681db9ac76a303c5876394b13b3de75fdd5b1eaa06181c9d
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@~5.0.2#~builtin<compat/typescript>":
+  version: 5.0.2
+  resolution: "typescript@patch:typescript@npm%3A5.0.2#~builtin<compat/typescript>::version=5.0.2&hash=1f5320"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: bdbf3d0aac0d6cf010fbe0536753dc19f278eb4aba88140dcd25487dfe1c56ca8b33abc0dcd42078790a939b08ebc4046f3e9bb961d77d3d2c3cfa9829da4d53
   languageName: node
   linkType: hard
 
