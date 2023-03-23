@@ -15,11 +15,14 @@ import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 
 import { ITranslator } from '@jupyterlab/translation';
 
-import { Menu, MenuBar } from '@lumino/widgets';
-
 import { INotebookShell } from '@jupyter-notebook/application';
 
-import { caretDownIcon } from '@jupyterlab/ui-components';
+import {
+  CommandToolbarButton,
+  jupyterIcon,
+  LabIcon,
+  notebookIcon,
+} from '@jupyterlab/ui-components';
 
 /**
  * The command IDs used by the application plugin.
@@ -44,8 +47,8 @@ namespace CommandIDs {
 interface ISwitcherChoice {
   command: string;
   commandLabel: string;
-  buttonLabel: string;
   urlPrefix: string;
+  icon: LabIcon;
 }
 
 /**
@@ -73,14 +76,6 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
     const trans = translator.load('notebook');
-    const overflowOptions = {
-      overflowMenuOptions: { isVisible: false },
-    };
-    const menubar = new MenuBar(overflowOptions);
-    const switcher = new Menu({ commands });
-    switcher.title.label = trans.__('Interface');
-    switcher.title.icon = caretDownIcon;
-    menubar.addMenu(switcher);
 
     const isEnabled = () => {
       return (
@@ -90,10 +85,11 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     };
 
     const addInterface = (option: ISwitcherChoice) => {
-      const { command, commandLabel, urlPrefix } = option;
+      const { command, commandLabel, urlPrefix, icon } = option;
       commands.addCommand(command, {
         label: (args) => (args.noLabel ? '' : commandLabel),
         caption: commandLabel,
+        icon,
         execute: () => {
           const current = notebookTracker.currentWidget;
           if (!current) {
@@ -107,40 +103,50 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       if (palette) {
         palette.addItem({ command, category: 'Other' });
       }
-
-      switcher.addItem({ command });
     };
 
+    let buttonLabel = '';
+    let command = '';
+
     if (!notebookShell) {
+      buttonLabel = 'openNotebook';
+      command = CommandIDs.openNotebook;
+
       addInterface({
-        command: CommandIDs.openNotebook,
-        commandLabel: trans.__('Open With %1', 'Jupyter Notebook'),
-        buttonLabel: 'openNotebook',
+        command,
+        commandLabel: trans.__('Open with %1', 'Jupyter Notebook'),
         urlPrefix: `${baseUrl}tree/`,
+        icon: notebookIcon,
       });
     }
 
     if (!labShell) {
+      buttonLabel = 'openLab';
+      command = CommandIDs.openLab;
+
       addInterface({
-        command: CommandIDs.openLab,
-        commandLabel: trans.__('Open With %1', 'JupyterLab'),
-        buttonLabel: 'openLab',
+        command,
+        commandLabel: trans.__('Open with %1', 'JupyterLab'),
         urlPrefix: `${baseUrl}doc/tree/`,
+        icon: jupyterIcon,
       });
     }
 
-    if (toolbarRegistry) {
-      toolbarRegistry.addFactory<NotebookPanel>(
-        'Notebook',
-        'interfaceSwitcher',
-        (panel) => {
-          const menubar = new MenuBar(overflowOptions);
-          menubar.addMenu(switcher);
-          menubar.addClass('jp-InterfaceSwitcher');
-          return menubar;
-        }
-      );
-    }
+    notebookTracker.widgetAdded.connect(
+      async (sender: INotebookTracker, panel: NotebookPanel) => {
+        panel.toolbar.addItem(
+          // 'kernelName',
+          buttonLabel,
+          new CommandToolbarButton({
+            commands,
+            id: command,
+            args: { noLabel: 1 },
+          })
+        );
+        await panel.context.ready;
+        commands.notifyCommandChanged();
+      }
+    );
   },
 };
 
