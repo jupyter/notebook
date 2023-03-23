@@ -1,0 +1,5 @@
+/* Hide the stub toolbar that appears above terminals */
+
+.jp-Toolbar-micro {
+  display: none;
+}
