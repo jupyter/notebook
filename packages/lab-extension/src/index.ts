@@ -7,7 +7,7 @@ import {
   JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
-import { ICommandPalette, IToolbarWidgetRegistry } from '@jupyterlab/apputils';
+import { ICommandPalette } from '@jupyterlab/apputils';
 
 import { PageConfig } from '@jupyterlab/coreutils';
 
@@ -58,20 +58,14 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/lab-extension:interface-switcher',
   autoStart: true,
   requires: [ITranslator, INotebookTracker],
-  optional: [
-    ICommandPalette,
-    INotebookShell,
-    ILabShell,
-    IToolbarWidgetRegistry,
-  ],
+  optional: [ICommandPalette, INotebookShell, ILabShell],
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
     notebookTracker: INotebookTracker,
     palette: ICommandPalette | null,
     notebookShell: INotebookShell | null,
-    labShell: ILabShell | null,
-    toolbarRegistry: IToolbarWidgetRegistry | null
+    labShell: ILabShell | null
   ) => {
     const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
@@ -134,15 +128,16 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
 
     notebookTracker.widgetAdded.connect(
       async (sender: INotebookTracker, panel: NotebookPanel) => {
-        panel.toolbar.addItem(
-          // 'kernelName',
-          buttonLabel,
-          new CommandToolbarButton({
-            commands,
-            id: command,
-            args: { noLabel: 1 },
-          })
-        );
+        const button = new CommandToolbarButton({
+          commands,
+          id: command,
+          args: { noLabel: 1 },
+        });
+
+        if (!panel.toolbar.insertBefore('kernelName', buttonLabel, button)) {
+          panel.toolbar.addItem(buttonLabel, button);
+        }
+
         await panel.context.ready;
         commands.notifyCommandChanged();
       }
