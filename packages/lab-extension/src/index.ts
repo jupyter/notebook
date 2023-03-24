@@ -7,7 +7,7 @@ import {
   JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
-import { ICommandPalette } from '@jupyterlab/apputils';
+import { ICommandPalette, IToolbarWidgetRegistry } from '@jupyterlab/apputils';
 
 import { PageConfig } from '@jupyterlab/coreutils';
 
@@ -58,14 +58,20 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/lab-extension:interface-switcher',
   autoStart: true,
   requires: [ITranslator, INotebookTracker],
-  optional: [ICommandPalette, INotebookShell, ILabShell],
+  optional: [
+    ICommandPalette,
+    INotebookShell,
+    ILabShell,
+    IToolbarWidgetRegistry,
+  ],
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
     notebookTracker: INotebookTracker,
     palette: ICommandPalette | null,
     notebookShell: INotebookShell | null,
-    labShell: ILabShell | null
+    labShell: ILabShell | null,
+    toolbarRegistry: IToolbarWidgetRegistry | null
   ) => {
     const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
@@ -99,11 +105,9 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       }
     };
 
-    let buttonLabel = '';
     let command = '';
 
     if (!notebookShell) {
-      buttonLabel = 'openNotebook';
       command = CommandIDs.openNotebook;
 
       addInterface({
@@ -115,7 +119,6 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     }
 
     if (!labShell) {
-      buttonLabel = 'openLab';
       command = CommandIDs.openLab;
 
       addInterface({
@@ -126,22 +129,19 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       });
     }
 
-    notebookTracker.widgetAdded.connect(
-      async (sender: INotebookTracker, panel: NotebookPanel) => {
-        const button = new CommandToolbarButton({
-          commands,
-          id: command,
-          args: { noLabel: 1 },
-        });
-
-        if (!panel.toolbar.insertBefore('kernelName', buttonLabel, button)) {
-          panel.toolbar.addItem(buttonLabel, button);
+    if (toolbarRegistry) {
+      toolbarRegistry.addFactory<NotebookPanel>(
+        'Notebook',
+        'interfaceSwitcher',
+        (panel) => {
+          return new CommandToolbarButton({
+            commands,
+            id: command,
+            args: { noLabel: 1 },
+          });
         }
-
-        await panel.context.ready;
-        commands.notifyCommandChanged();
-      }
-    );
+      );
+    }
   },
 };
 
