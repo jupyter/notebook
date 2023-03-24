@@ -38,6 +38,7 @@
     "@jupyterlab/console": "~4.0.0-alpha.22",
     "@jupyterlab/console-extension": "~4.0.0-alpha.22",
     "@jupyterlab/coreutils": "~6.0.0-alpha.22",
+    "@jupyterlab/csvviewer-extension": "~4.0.0-alpha.22",
     "@jupyterlab/debugger": "~4.0.0-alpha.22",
     "@jupyterlab/debugger-extension": "~4.0.0-alpha.22",
     "@jupyterlab/docmanager": "~4.0.0-alpha.22",
@@ -103,7 +104,7 @@
     "@lumino/widgets": "~2.0.0",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
-    "yjs": "~13.5.50"
+    "yjs": "~13.5.51"
   },
   "dependencies": {
     "@jupyter-notebook/application": "^7.0.0-alpha.17",
@@ -127,6 +128,7 @@
     "@jupyterlab/completer-extension": "^4.0.0-alpha.22",
     "@jupyterlab/console-extension": "^4.0.0-alpha.22",
     "@jupyterlab/coreutils": "^6.0.0-alpha.22",
+    "@jupyterlab/csvviewer-extension": "^4.0.0-alpha.22",
     "@jupyterlab/debugger-extension": "^4.0.0-alpha.22",
     "@jupyterlab/docmanager-extension": "^4.0.0-alpha.22",
     "@jupyterlab/documentsearch-extension": "^4.0.0-alpha.22",
@@ -224,6 +226,7 @@
           "@jupyterlab/console-extension:foreign",
           "@jupyterlab/console-extension:tracker"
         ],
+        "@jupyterlab/csvviewer-extension": true,
         "@jupyterlab/docmanager-extension": [
           "@jupyterlab/docmanager-extension:plugin",
           "@jupyterlab/docmanager-extension:download",
