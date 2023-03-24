@@ -122,12 +122,6 @@ body[data-notebook='notebooks']
   }
 }
 
-/* Hide the stub toolbar that appears above notebooks */
-
-jp-MainAreaWidget > .jp-Toolbar-micro {
-  display: none;
-}
-
 /* Mobile View */
 
 body[data-format='mobile'] .jp-NotebookCheckpoint {
