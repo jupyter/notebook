@@ -1,5 +1,5 @@
 /* Hide the stub toolbar that appears above terminals */
 
-.jp-Toolbar-micro {
+jp-MainAreaWidget > .jp-Toolbar-micro {
   display: none;
 }
