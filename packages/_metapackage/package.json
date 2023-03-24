@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/metapackage",
-  "version": "7.0.0-alpha.17",
+  "version": "7.0.0-alpha.18",
   "private": true,
   "description": "Jupyter Notebook - Metapackage",
   "homepage": "https://github.com/jupyter/notebook",
@@ -20,18 +20,18 @@
     "watch": "tsc -b -w --preserveWatchOutput"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.0.0-alpha.17",
-    "@jupyter-notebook/application-extension": "^7.0.0-alpha.17",
-    "@jupyter-notebook/console-extension": "^7.0.0-alpha.17",
-    "@jupyter-notebook/docmanager-extension": "^7.0.0-alpha.17",
-    "@jupyter-notebook/documentsearch-extension": "^7.0.0-alpha.17",
-    "@jupyter-notebook/help-extension": "^7.0.0-alpha.17",
-    "@jupyter-notebook/lab-extension": "^7.0.0-alpha.17",
-    "@jupyter-notebook/notebook-extension": "^7.0.0-alpha.17",
-    "@jupyter-notebook/terminal-extension": "^7.0.0-alpha.17",
-    "@jupyter-notebook/tree": "^7.0.0-alpha.17",
-    "@jupyter-notebook/tree-extension": "^7.0.0-alpha.17",
-    "@jupyter-notebook/ui-components": "^7.0.0-alpha.17"
+    "@jupyter-notebook/application": "^7.0.0-alpha.18",
+    "@jupyter-notebook/application-extension": "^7.0.0-alpha.18",
+    "@jupyter-notebook/console-extension": "^7.0.0-alpha.18",
+    "@jupyter-notebook/docmanager-extension": "^7.0.0-alpha.18",
+    "@jupyter-notebook/documentsearch-extension": "^7.0.0-alpha.18",
+    "@jupyter-notebook/help-extension": "^7.0.0-alpha.18",
+    "@jupyter-notebook/lab-extension": "^7.0.0-alpha.18",
+    "@jupyter-notebook/notebook-extension": "^7.0.0-alpha.18",
+    "@jupyter-notebook/terminal-extension": "^7.0.0-alpha.18",
+    "@jupyter-notebook/tree": "^7.0.0-alpha.18",
+    "@jupyter-notebook/tree-extension": "^7.0.0-alpha.18",
+    "@jupyter-notebook/ui-components": "^7.0.0-alpha.18"
   },
   "devDependencies": {
     "typescript": "~5.0.2"

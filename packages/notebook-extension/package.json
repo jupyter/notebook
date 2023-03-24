@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/notebook-extension",
-  "version": "7.0.0-alpha.17",
+  "version": "7.0.0-alpha.18",
   "description": "Jupyter Notebook - Notebook Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -38,7 +38,7 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.0.0-alpha.17",
+    "@jupyter-notebook/application": "^7.0.0-alpha.18",
     "@jupyterlab/application": "^4.0.0-alpha.22",
     "@jupyterlab/apputils": "^4.0.0-alpha.22",
     "@jupyterlab/cells": "^4.0.0-alpha.22",

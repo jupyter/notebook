@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/terminal-extension",
-  "version": "7.0.0-alpha.17",
+  "version": "7.0.0-alpha.18",
   "description": "Jupyter Notebook - Terminal Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
