@@ -24,7 +24,10 @@ import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { IRunningSessionManagers, RunningSessions } from '@jupyterlab/running';
 
-import { ISettingEditorTracker } from '@jupyterlab/settingeditor';
+import {
+  IJSONSettingEditorTracker,
+  ISettingEditorTracker,
+} from '@jupyterlab/settingeditor';
 
 import { ITranslator } from '@jupyterlab/translation';
 
@@ -205,7 +208,11 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     ISettingRegistry,
     IToolbarWidgetRegistry,
   ],
-  optional: [IRunningSessionManagers, ISettingEditorTracker],
+  optional: [
+    IRunningSessionManagers,
+    ISettingEditorTracker,
+    IJSONSettingEditorTracker,
+  ],
   autoStart: true,
   provides: INotebookTree,
   activate: (
@@ -215,7 +222,8 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     settingRegistry: ISettingRegistry,
     toolbarRegistry: IToolbarWidgetRegistry,
     manager: IRunningSessionManagers | null,
-    settingEditorTracker: ISettingEditorTracker | null
+    settingEditorTracker: ISettingEditorTracker | null,
+    jsonSettingEditorTracker: IJSONSettingEditorTracker | null
   ): INotebookTree => {
     const nbTreeWidget = new NotebookTreeWidget();
 
@@ -301,13 +309,18 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
 
     app.shell.add(nbTreeWidget, 'main', { rank: 100 });
 
-    if (settingEditorTracker) {
-      settingEditorTracker.widgetAdded.connect((_, editor) => {
-        nbTreeWidget.addWidget(editor);
-        nbTreeWidget.tabBar.addTab(editor.title);
-        nbTreeWidget.currentWidget = editor;
-      });
-    }
+    // add a separate tab for each setting editor
+    [settingEditorTracker, jsonSettingEditorTracker].forEach(
+      (editorTracker) => {
+        if (editorTracker) {
+          editorTracker.widgetAdded.connect((_, editor) => {
+            nbTreeWidget.addWidget(editor);
+            nbTreeWidget.tabBar.addTab(editor.title);
+            nbTreeWidget.currentWidget = editor;
+          });
+        }
+      }
+    );
 
     return nbTreeWidget;
   },

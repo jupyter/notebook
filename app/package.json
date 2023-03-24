@@ -273,9 +273,7 @@
         ],
         "@jupyter-notebook/tree-extension": true,
         "@jupyterlab/running-extension": true,
-        "@jupyterlab/settingeditor-extension": [
-          "@jupyterlab/settingeditor-extension:form-ui"
-        ]
+        "@jupyterlab/settingeditor-extension": true
       },
       "/notebooks": {
         "@jupyterlab/celltags-extension": true,
