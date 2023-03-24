@@ -27,3 +27,9 @@
 .jp-MimeDocument .jp-RenderedJSON {
   background: var(--jp-layout-color0);
 }
+
+/* Hide the stub toolbar that appears above terminals and documents */
+
+.jp-MainAreaWidget > .jp-Toolbar-micro {
+  display: none;
+}
