@@ -19,6 +19,23 @@
           }
         ]
       }
+    ],
+    "context": [
+      {
+        "type": "separator",
+        "selector": ".jp-Notebook",
+        "rank": 36
+      },
+      {
+        "command": "jupyter-notebook:open-notebook",
+        "selector": ".jp-Notebook",
+        "rank": 36
+      },
+      {
+        "command": "jupyter-notebook:open-lab",
+        "selector": ".jp-Notebook",
+        "rank": 36
+      }
     ]
   },
   "properties": {},
