@@ -128,7 +128,6 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
           return new CommandToolbarButton({
             commands,
             id: command,
-            args: { noLabel: 1 },
           });
         }
       );
