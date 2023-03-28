@@ -2006,6 +2006,7 @@ __metadata:
     "@jupyterlab/completer-extension": ^4.0.0-beta.0
     "@jupyterlab/console-extension": ^4.0.0-beta.0
     "@jupyterlab/coreutils": ^6.0.0-beta.0
+    "@jupyterlab/csvviewer-extension": ^4.0.0-beta.0
     "@jupyterlab/debugger-extension": ^4.0.0-beta.0
     "@jupyterlab/docmanager-extension": ^4.0.0-beta.0
     "@jupyterlab/documentsearch-extension": ^4.0.0-beta.0
@@ -2838,6 +2839,43 @@ __metadata:
     path-browserify: ^1.0.0
     url-parse: ~1.5.4
   checksum: d5321b8b6b4feb248bb6beb039d0589c98501221beb93a9c97a0b7405bd19ef14c80c3afbaa27dbf72b195cd2a3b75e7306c52a43da78f2d133324d2f787573b
+  languageName: node
+  linkType: hard
+
+"@jupyterlab/csvviewer-extension@npm:^4.0.0-beta.0":
+  version: 4.0.0-beta.0
+  resolution: "@jupyterlab/csvviewer-extension@npm:4.0.0-beta.0"
+  dependencies:
+    "@jupyterlab/application": ^4.0.0-beta.0
+    "@jupyterlab/apputils": ^4.0.0-beta.0
+    "@jupyterlab/csvviewer": ^4.0.0-beta.0
+    "@jupyterlab/docregistry": ^4.0.0-beta.0
+    "@jupyterlab/documentsearch": ^4.0.0-beta.0
+    "@jupyterlab/mainmenu": ^4.0.0-beta.0
+    "@jupyterlab/observables": ^5.0.0-beta.0
+    "@jupyterlab/settingregistry": ^4.0.0-beta.0
+    "@jupyterlab/translation": ^4.0.0-beta.0
+    "@lumino/datagrid": ^2.0.0
+    "@lumino/widgets": ^2.0.0
+  checksum: 6b30104e5daadd188fd40c71783ef201aef1db7cfe5755839ffb37b04a5538e7f35bc999a77ae1fa7c030d5652ef7f061f3e1bd2da5523433973723ea30f8313
+  languageName: node
+  linkType: hard
+
+"@jupyterlab/csvviewer@npm:^4.0.0-beta.0":
+  version: 4.0.0-beta.0
+  resolution: "@jupyterlab/csvviewer@npm:4.0.0-beta.0"
+  dependencies:
+    "@jupyterlab/coreutils": ^6.0.0-beta.0
+    "@jupyterlab/docregistry": ^4.0.0-beta.0
+    "@jupyterlab/translation": ^4.0.0-beta.0
+    "@jupyterlab/ui-components": ^4.0.0-beta.0
+    "@lumino/coreutils": ^2.0.0
+    "@lumino/datagrid": ^2.0.0
+    "@lumino/disposable": ^2.0.0
+    "@lumino/messaging": ^2.0.0
+    "@lumino/signaling": ^2.0.0
+    "@lumino/widgets": ^2.0.0
+  checksum: f320a3bfd18a4eadbaf61ac28596504fcb7b43667b75b89cad23f5fda813c06d8ac1dbe6430866d81a16cac601e684a1d37ad4e3b05d980aee19119bc70457ee
   languageName: node
   linkType: hard
 
