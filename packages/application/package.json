@@ -42,22 +42,22 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/application": "^4.0.0-alpha.22",
-    "@jupyterlab/coreutils": "^6.0.0-alpha.22",
-    "@jupyterlab/docregistry": "^4.0.0-alpha.22",
-    "@jupyterlab/rendermime-interfaces": "^3.8.0-alpha.22",
-    "@jupyterlab/ui-components": "^4.0.0-alpha.37",
+    "@jupyterlab/application": "^4.0.0-beta.0",
+    "@jupyterlab/coreutils": "^6.0.0-beta.0",
+    "@jupyterlab/docregistry": "^4.0.0-beta.0",
+    "@jupyterlab/rendermime-interfaces": "^3.8.0-beta.0",
+    "@jupyterlab/ui-components": "^4.0.0-beta.0",
     "@lumino/algorithm": "^2.0.0",
     "@lumino/coreutils": "^2.0.0",
     "@lumino/messaging": "^2.0.0",
     "@lumino/polling": "^2.0.0",
     "@lumino/signaling": "^2.0.0",
-    "@lumino/widgets": "^2.0.0"
+    "@lumino/widgets": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.12.1",
-    "@jupyterlab/testutils": "^4.0.0-alpha.22",
+    "@jupyterlab/testutils": "^4.0.0-beta.0",
     "@types/jest": "^29.2.5",
     "jest": "^29.3.1",
     "rimraf": "^3.0.2",
