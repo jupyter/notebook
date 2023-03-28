@@ -17,12 +17,7 @@ import { ITranslator } from '@jupyterlab/translation';
 
 import { INotebookShell } from '@jupyter-notebook/application';
 
-import {
-  CommandToolbarButton,
-  jupyterIcon,
-  LabIcon,
-  notebookIcon,
-} from '@jupyterlab/ui-components';
+import { CommandToolbarButton } from '@jupyterlab/ui-components';
 
 /**
  * The command IDs used by the application plugin.
@@ -48,7 +43,6 @@ interface ISwitcherChoice {
   command: string;
   commandLabel: string;
   urlPrefix: string;
-  icon: LabIcon;
 }
 
 /**
@@ -85,11 +79,10 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     };
 
     const addInterface = (option: ISwitcherChoice) => {
-      const { command, commandLabel, urlPrefix, icon } = option;
+      const { command, commandLabel, urlPrefix } = option;
       commands.addCommand(command, {
         label: (args) => (args.noLabel ? '' : commandLabel),
         caption: commandLabel,
-        icon,
         execute: () => {
           const current = notebookTracker.currentWidget;
           if (!current) {
@@ -114,7 +107,6 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
         command,
         commandLabel: trans.__('Open with %1', 'Jupyter Notebook'),
         urlPrefix: `${baseUrl}tree/`,
-        icon: notebookIcon,
       });
     }
 
@@ -125,7 +117,6 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
         command,
         commandLabel: trans.__('Open with %1', 'JupyterLab'),
         urlPrefix: `${baseUrl}doc/tree/`,
-        icon: jupyterIcon,
       });
     }
 
