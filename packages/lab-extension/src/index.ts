@@ -99,9 +99,11 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     };
 
     let command = '';
+    let shortName = '';
 
     if (!notebookShell) {
       command = CommandIDs.openNotebook;
+      shortName = trans.__('Notebook');
 
       addInterface({
         command,
@@ -112,6 +114,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
 
     if (!labShell) {
       command = CommandIDs.openLab;
+      shortName = trans.__('Lab');
 
       addInterface({
         command,
@@ -128,6 +131,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
           return new CommandToolbarButton({
             commands,
             id: command,
+            label: shortName,
           });
         }
       );
