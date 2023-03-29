@@ -126,17 +126,20 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     }
 
     if (toolbarRegistry) {
+      const toolbarButton = new CommandToolbarButton({
+        commands,
+        id: command,
+        label: shortName,
+        icon: openInNewIcon,
+      });
+
+      // Set custom CSS class for interface switcher styling
+      toolbarButton.addClass('jp-nb-interface-switcher-button');
+
       toolbarRegistry.addFactory<NotebookPanel>(
         'Notebook',
         'interfaceSwitcher',
-        (panel) => {
-          return new CommandToolbarButton({
-            commands,
-            id: command,
-            label: shortName,
-            icon: openInNewIcon,
-          });
-        }
+        (panel) => toolbarButton
       );
     }
   },

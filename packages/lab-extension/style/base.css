@@ -2,3 +2,7 @@
 | Copyright (c) Jupyter Development Team.
 | Distributed under the terms of the Modified BSD License.
 |----------------------------------------------------------------------------*/
+
+.jp-nb-interface-switcher-button > .jp-ToolbarButtonComponent {
+    flex-direction: row-reverse;
+}
