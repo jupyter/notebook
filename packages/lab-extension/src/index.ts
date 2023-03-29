@@ -15,9 +15,11 @@ import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 
 import { ITranslator } from '@jupyterlab/translation';
 
+import { CommandToolbarButton } from '@jupyterlab/ui-components';
+
 import { INotebookShell } from '@jupyter-notebook/application';
 
-import { CommandToolbarButton } from '@jupyterlab/ui-components';
+import { openInNewIcon } from '@jupyter-notebook/ui-components';
 
 /**
  * The command IDs used by the application plugin.
@@ -132,6 +134,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
             commands,
             id: command,
             label: shortName,
+            icon: openInNewIcon,
           });
         }
       );

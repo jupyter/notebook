@@ -2184,6 +2184,7 @@ __metadata:
   resolution: "@jupyter-notebook/lab-extension@workspace:packages/lab-extension"
   dependencies:
     "@jupyter-notebook/application": ^7.0.0-alpha.18
+    "@jupyter-notebook/ui-components": ^7.0.0-alpha.18
     "@jupyterlab/application": ^4.0.0-beta.0
     "@jupyterlab/apputils": ^4.0.0-beta.0
     "@jupyterlab/builder": ^4.0.0-beta.0
