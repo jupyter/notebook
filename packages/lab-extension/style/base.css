@@ -6,3 +6,7 @@
 .jp-nb-interface-switcher-button > .jp-ToolbarButtonComponent {
     flex-direction: row-reverse;
 }
+
+.jp-nb-interface-switcher-button > .jp-ToolbarButtonComponent > .jp-ToolbarButtonComponent-icon {
+    padding-left: 3px;
+}
