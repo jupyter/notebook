@@ -70,7 +70,7 @@ body {
 
 /* Only edit pages should have a bottom space */
 
-body[data-edit='edit'] #spacer-widget-bottom {
+body[data-notebook='edit'] #spacer-widget-bottom {
   min-height: 16px;
 }
 
