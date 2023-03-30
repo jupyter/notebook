@@ -8,7 +8,7 @@
   <link rel="icon" type="image/x-icon" href="{{ base_url | escape }}static/favicons/favicon-file.ico" class="favicon">
   {% endblock %}
 </head>
-<body>
+<body data-notebook="edit">
 
   {# Copy so we do not modify the page_config with updates. #}
   {% set page_config_full = page_config.copy() %}

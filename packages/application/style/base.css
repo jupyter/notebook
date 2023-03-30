@@ -64,7 +64,13 @@ body {
   max-width: var(--jp-notebook-max-width);
 }
 
-#spacer-widget {
+#spacer-widget-top {
+  min-height: 16px;
+}
+
+/* Only edit pages should have a bottom space */
+
+body[data-notebook='edit'] #spacer-widget-bottom {
   min-height: 16px;
 }
 
@@ -80,6 +86,6 @@ body[data-notebook='notebooks'] #main-panel {
   max-width: unset;
 }
 
-body[data-notebook='notebooks'] #spacer-widget {
+body[data-notebook='notebooks'] #spacer-widget-top {
   min-height: unset;
 }

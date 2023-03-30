@@ -52,8 +52,10 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     this._main.id = 'main-panel';
     this._main.node.setAttribute('role', 'main');
 
-    this._spacer = new Widget();
-    this._spacer.id = 'spacer-widget';
+    this._spacer_top = new Widget();
+    this._spacer_top.id = 'spacer-widget-top';
+    this._spacer_bottom = new Widget();
+    this._spacer_bottom.id = 'spacer-widget-bottom';
 
     // create wrappers around the top and menu areas
     topWrapper.id = 'top-panel-wrapper';
@@ -86,8 +88,9 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     const middlePanel = new Panel({ layout: middleLayout });
     middlePanel.addWidget(this._topWrapper);
     middlePanel.addWidget(this._menuWrapper);
-    middlePanel.addWidget(this._spacer);
+    middlePanel.addWidget(this._spacer_top);
     middlePanel.addWidget(this._main);
+    middlePanel.addWidget(this._spacer_bottom);
     middlePanel.layout = middleLayout;
 
     // TODO: Consider storing this as an attribute this._hsplitPanel if saving/restoring layout needed
@@ -267,7 +270,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    */
   collapseTop(): void {
     this._topWrapper.setHidden(true);
-    this._spacer.setHidden(true);
+    this._spacer_top.setHidden(true);
   }
 
   /**
@@ -275,7 +278,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    */
   expandTop(): void {
     this._topWrapper.setHidden(false);
-    this._spacer.setHidden(false);
+    this._spacer_top.setHidden(false);
   }
 
   /**
@@ -344,7 +347,8 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   private _menuHandler: PanelHandler;
   private _leftHandler: SidePanelHandler;
   private _rightHandler: SidePanelHandler;
-  private _spacer: Widget;
+  private _spacer_top: Widget;
+  private _spacer_bottom: Widget;
   private _main: Panel;
   private _translator: ITranslator = nullTranslator;
   private _currentChanged = new Signal<this, void>(this);
