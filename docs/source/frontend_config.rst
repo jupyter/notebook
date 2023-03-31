@@ -89,3 +89,11 @@ taking various value depending on the page where the configuration is issued.
 ``<section>`` can take various values like ``notebook``, ``tree``, and
 ``editor``. A ``common`` section contains configuration settings shared by all
 pages.
+
+Persisting configuration settings
+---------------------------------
+
+A banner is shown to the user to inform him about news or updates. This 
+banner can be hidden launching the server with the show_banner trait.::
+
+   jupyter notebook --NotebookApp.show_banner=False
