@@ -1173,7 +1173,7 @@ class NotebookApp(JupyterApp):
     )
 
     show_banner = Bool(True, config=True,
-                        help="""Whether to the banner is dislayed on the page.
+                        help="""Whether the banner is displayed on the page.
 
                         By default, the banner is displayed.
                         """)
