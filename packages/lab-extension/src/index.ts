@@ -44,6 +44,7 @@ namespace CommandIDs {
 interface ISwitcherChoice {
   command: string;
   commandLabel: string;
+  commandCaption?: string;
   buttonLabel: string;
   urlPrefix: string;
 }
@@ -78,7 +79,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     };
     const menubar = new MenuBar(overflowOptions);
     const switcher = new Menu({ commands });
-    switcher.title.label = trans.__('Interface');
+    switcher.title.label = trans.__('Open in');
     switcher.title.icon = caretDownIcon;
     menubar.addMenu(switcher);
 
@@ -90,10 +91,10 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     };
 
     const addInterface = (option: ISwitcherChoice) => {
-      const { command, commandLabel, urlPrefix } = option;
+      const { command, commandLabel, commandCaption, urlPrefix } = option;
       commands.addCommand(command, {
         label: (args) => (args.noLabel ? '' : commandLabel),
-        caption: commandLabel,
+        caption: commandCaption ?? commandLabel,
         execute: () => {
           const current = notebookTracker.currentWidget;
           if (!current) {
@@ -114,7 +115,11 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     if (!notebookShell) {
       addInterface({
         command: CommandIDs.openNotebook,
-        commandLabel: trans.__('Open With %1', 'Jupyter Notebook'),
+        commandLabel: trans.__('Notebook'),
+        commandCaption: trans.__(
+          'Open this notebook in %1',
+          'Jupyter Notebook'
+        ),
         buttonLabel: 'openNotebook',
         urlPrefix: `${baseUrl}tree/`,
       });
@@ -123,7 +128,8 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     if (!labShell) {
       addInterface({
         command: CommandIDs.openLab,
-        commandLabel: trans.__('Open With %1', 'JupyterLab'),
+        commandLabel: trans.__('JupyterLab'),
+        commandCaption: trans.__('Open this notebook in %1', 'JupyterLab'),
         buttonLabel: 'openLab',
         urlPrefix: `${baseUrl}doc/tree/`,
       });
