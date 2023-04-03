@@ -12,7 +12,7 @@
 
 user-documentation
 configuration
-contributor
 migrating
+contributor
 changelog
 ```
