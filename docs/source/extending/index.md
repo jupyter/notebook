@@ -4,7 +4,7 @@
 Please note that the extension system for Notebook 7 is radically different
 from the one used in Notebook 6.5.x and earlier. If you are looking for
 information on how to extend the classic Notebook, please refer to the
-[documentation for NbClassic](https://nbclassic.readthedocs.io/en/latest/).
+[documentation for NbClassic](https://nbclassic.readthedocs.io/en/latest/extending/index.html).
 ```
 
 ```{note}
