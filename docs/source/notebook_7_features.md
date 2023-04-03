@@ -17,11 +17,13 @@ Notebook 7 includes a new debugger that allows you to step through your code cel
 
 Notebook 7 allows for using the real time collaboration extension so you can share your notebook with other users and edit it in real time.
 
-The Real Time Collaboration feature is the same as in JupyterLab and is available as a JupyterLab extension. It is not enabled by default, but you can install with `pip` or `conda`:
+The Real Time Collaboration feature is the same as in JupyterLab and is available as a JupyterLab extension. It is not enabled by default, but you can install with `pip`:
 
 ```bash
 pip install jupyter-collaboration
 ```
+
+or with `conda`:
 
 ```bash
 conda install -c conda-forge jupyter-collaboration
