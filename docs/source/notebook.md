@@ -18,10 +18,10 @@ rich media output.
 application, including inputs and outputs of the computations, explanatory
 text, mathematics, images, and rich media representations of objects.
 
-:::{seealso}
+```{seealso}
 See the {ref}`installation guide <jupyter:install>` on how to install the
 notebook and its dependencies.
-:::
+```
 
 ### Main features of the web application
 
@@ -61,9 +61,9 @@ themselves. In effect, nbviewer is simply [nbconvert] as
 a web service, so you can do your own static conversions with nbconvert,
 without relying on nbviewer.
 
-:::{seealso}
+```{seealso}
 {ref}`Details on the notebook JSON file format <nbformat:notebook_file_format>`
-:::
+```
 
 ### Notebooks and privacy
 
@@ -174,9 +174,9 @@ With the IPython kernel, you can also run the `%qtconsole`
 {ref}`magic <magics_explained>` in the notebook to open a Qt console connected
 to the same kernel.
 
-:::{seealso}
+```{seealso}
 {ref}`ipythonzmq`
-:::
+```
 
 ## Notebook user interface
 
@@ -230,9 +230,9 @@ also possible, including `matplotlib` figures and HTML tables (as used, for
 example, in the `pandas` data analysis package). This is known as IPython's
 _rich display_ capability.
 
-:::{seealso}
+```{seealso}
 [Rich Output] example notebook
-:::
+```
 
 ### Markdown cells
 
@@ -268,9 +268,9 @@ such as `\newcommand`, by placing them anywhere _between math delimiters_ in
 a Markdown cell. These definitions are then available throughout the rest of
 the IPython session.
 
-:::{seealso}
+```{seealso}
 [Working with Markdown Cells] example notebook
-:::
+```
 
 ### Raw cells
 
@@ -303,11 +303,11 @@ shortcut.
 A notebook may be downloaded as a `.ipynb` file or converted to a number of
 other formats using the menu option {guilabel}`File`, {guilabel}`Download as`.
 
-:::{seealso}
+```{seealso}
 [Running Code in the Jupyter Notebook] example notebook
 
 [Notebook Basics] example notebook
-:::
+```
 
 (keyboard-shortcuts)=
 
