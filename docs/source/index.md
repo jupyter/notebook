@@ -14,4 +14,5 @@ user-documentation
 configuration
 contributor
 migrate_to_notebook7
+changelog
 ```
