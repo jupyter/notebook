@@ -16,7 +16,7 @@ compatible with Notebook 7 and upwards.
 Some extensions like nbgrader have already been ported. We invite you to
 check if the extensions you are using have already been ported.
 
-## Simulaneous usage of different versions
+## Simultaneous usage of different versions
 
 **NbClassic and Notebook 7**
 
