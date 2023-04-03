@@ -132,9 +132,7 @@ The new notebook is created within the same directory and will open in a new
 browser tab. It will also be reflected as a new entry in the notebook list on
 the dashboard.
 
-```{image} _static/images/new-notebook.gif
-
-```
+![a screencast showing how to create new notebooks from the user interface](https://user-images.githubusercontent.com/591645/229563554-2776b489-a831-44a0-a7a2-2f211e38b78b.gif)
 
 ### Opening notebooks
 
@@ -183,9 +181,7 @@ to the same kernel.
 When you create a new notebook document, you will be presented with the
 **notebook name**, a **menu bar**, a **toolbar** and an empty **code cell**.
 
-```{image} ./_static/images/blank-notebook-ui.png
-
-```
+![a screenshot showing a blank notebook](https://user-images.githubusercontent.com/591645/229563988-8e3a4d04-6f31-4411-9a6b-9b9b045bc55e.png)
 
 **Notebook name**: The name displayed at the top of the page,
 next to the Jupyter logo, reflects the name of the `.ipynb` file.
