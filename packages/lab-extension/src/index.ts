@@ -43,8 +43,9 @@ namespace CommandIDs {
 
 interface ISwitcherChoice {
   command: string;
-  commandLabel: string;
   commandCaption?: string;
+  commandLabel: string;
+  commandShortLabel?: string;
   buttonLabel: string;
   urlPrefix: string;
 }
@@ -91,9 +92,24 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     };
 
     const addInterface = (option: ISwitcherChoice) => {
-      const { command, commandLabel, commandCaption, urlPrefix } = option;
+      const {
+        command,
+        commandCaption,
+        commandLabel,
+        commandShortLabel,
+        urlPrefix,
+      } = option;
       commands.addCommand(command, {
-        label: (args) => (args.noLabel ? '' : commandLabel),
+        label: (args) => {
+          if (args.noLabel) {
+            return '';
+          }
+          if (args['isPalette']) {
+            return commandLabel;
+          }
+          // For display in the menu, use the short label if provided.
+          return commandShortLabel ?? commandLabel;
+        },
         caption: commandCaption ?? commandLabel,
         execute: () => {
           const current = notebookTracker.currentWidget;
@@ -115,11 +131,12 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     if (!notebookShell) {
       addInterface({
         command: CommandIDs.openNotebook,
-        commandLabel: trans.__('Notebook'),
         commandCaption: trans.__(
           'Open this notebook in %1',
           'Jupyter Notebook'
         ),
+        commandLabel: trans.__('Open in %1', 'Jupyter Notebook'),
+        commandShortLabel: trans.__('Notebook'),
         buttonLabel: 'openNotebook',
         urlPrefix: `${baseUrl}tree/`,
       });
@@ -128,8 +145,9 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     if (!labShell) {
       addInterface({
         command: CommandIDs.openLab,
-        commandLabel: trans.__('JupyterLab'),
         commandCaption: trans.__('Open this notebook in %1', 'JupyterLab'),
+        commandLabel: trans.__('Open in %1', 'JupyterLab'),
+        commandShortLabel: trans.__('JupyterLab'),
         buttonLabel: 'openLab',
         urlPrefix: `${baseUrl}doc/tree/`,
       });
