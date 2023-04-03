@@ -116,13 +116,13 @@ When you are inside an open notebook, the `File | Open...` menu option will
 open the dashboard in a new browser tab, to allow you to open another notebook
 from the notebook directory or to create a new notebook.
 
-:::{note}
+```{note}
 You can start more than one notebook server at the same time, if you want
 to work on notebooks in different directories. By default the first
 notebook server starts on port 8888, and later notebook servers search for
 ports near that one. You can also manually specify the port with the
 `--port` option.
-:::
+```
 
 ### Creating a new notebook document
 
