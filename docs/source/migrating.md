@@ -16,6 +16,14 @@ Jupyter Ecosystem in the [JEP 79] and [team-compass note].
 Notebook 7 is built on top of JupyterLab components and delivers new features
 like realtime collaboration, debugger, theming.
 
+## New features in Notebook 7
+
+```{toctree}
+:maxdepth: 2
+
+notebook_7_features.md
+```
+
 ## Migration Guides
 
 ```{toctree}
