@@ -47,9 +47,17 @@ Notebook 7 includes a new table of contents extension that allows you to navigat
 
 A Dark Theme is now available in the Jupyter Notebook by default. You can also install other themes as JupyterLab extensions.
 
-TODO: screenshot of the dark theme
+![a screenshot of the dark theme](https://user-images.githubusercontent.com/591645/229732821-3ab15024-e6d7-414d-94ca-246619da4b67.png)
 
-TODO: screenshot of a custom theme
+You can also install many other JupyterLab themes. For example to install the [JupyterLab Night](https://github.com/martinRenou/jupyterlab-night) theme:
+
+```shell
+pip install jupyterlab-night
+```
+
+Then refresh the page and select the new theme in the settings:
+
+![a screenshot of a custom theme](https://user-images.githubusercontent.com/591645/229733418-db0898b3-7e8c-4db5-98d6-2e9f813ab9e9.png)
 
 ## Internationalization
 
@@ -63,7 +71,7 @@ pip install jupyterlab-language-pack-fr-FR
 
 After installing the language pack, reload the page and the new language should be available in the settings.
 
-TODO: screenshot
+![a screencast showing how to switch the display language in Notebook 7](https://user-images.githubusercontent.com/591645/229734057-e08a2020-58c1-4aa5-b30e-ebb83fcde12c.gif)
 
 ```{note}
 Notebook 7 and JupyterLab share the same language packs, so it is possible to use the same language pack in both applications.
@@ -102,3 +110,7 @@ Despite all the new features and as stated in [JEP 79][jep 79], Notebook 7 keeps
 [jep 79]: https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html
 
 ## Compact View on Mobile Devices
+
+Notebook 7 automatically switches to a more compact layout on mobile devices, making it convenient to run code on the go.
+
+![a screenshot of the compact view on mobile devices](https://user-images.githubusercontent.com/591645/101995448-2793f380-3cca-11eb-8971-067dd068ccbe.gif)
