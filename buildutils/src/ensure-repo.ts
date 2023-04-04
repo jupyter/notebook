@@ -19,14 +19,12 @@ function ensureResolutions(): string[] {
   );
 
   packages.forEach(async (name) => {
-    const modulePath = require.resolve(name);
     let version = '';
     try {
-      const parentDir = path.dirname(modulePath);
-      const data = require(path.join(parentDir, 'package.json'));
+      const data = require(`${name}/package.json`);
       version = data.version;
     } catch {
-      // try one folder above
+      const modulePath = require.resolve(name);
       const parentDir = path.dirname(path.dirname(modulePath));
       const data = require(path.join(parentDir, 'package.json'));
       version = data.version;
