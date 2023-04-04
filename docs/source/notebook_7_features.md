@@ -35,6 +35,8 @@ After installing the extension, restart the Jupyter Server so the extension can 
 It is possible for two users to work on the same notebook using Notebook 7 or JupyterLab.
 ```
 
+![a screencast showing how users can collaborate on the same document with both Notebook 7 and JupyterLab](https://user-images.githubusercontent.com/591645/229854102-6eed73f4-587f-406e-8ed1-347b788da9ee.gif)
+
 ## Table of Contents
 
 Notebook 7 includes a new table of contents extension that allows you to navigate through your notebook using a sidebar. The Table of Contents is built-in and enabled by default, just like in JupyterLab.
