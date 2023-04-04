@@ -35,8 +35,6 @@ After installing the extension, restart the Jupyter Server so the extension can 
 It is possible for two users to work on the same notebook using Notebook 7 or JupyterLab.
 ```
 
-TODO: screenshot of the real time collaboration
-
 ## Table of Contents
 
 Notebook 7 includes a new table of contents extension that allows you to navigate through your notebook using a sidebar. The Table of Contents is built-in and enabled by default, just like in JupyterLab.
@@ -101,6 +99,34 @@ pip install jupyter-lsp
 conda install -c conda-forge jupyter-lsp
 ```
 
+Popular extensions like `nbgrader` and `RISE` have already been ported to work with Notebook 7.
+
+### nbgrader
+
+```{note}
+The nbgrader extension is still under active development and a version compatible with Notebook 7 is not yet available on PyPI.
+However a version compatible with Notebook 7 will be available before the final release of Notebook 7.
+```
+
+![a screenshot showing the nbgrader extension in Notebook 7](https://user-images.githubusercontent.com/32258950/196110653-6556c8d7-b169-4586-b1a1-66b3be05c790.png)
+
+![a second screenshot showing the nbgrader extension in Notebook 7](https://user-images.githubusercontent.com/32258950/196110825-7e3b9237-1064-42be-a629-15a5510a3aee.png)
+
+
+### RISE
+
+```{warning}
+The RISE extension is still under active development and a version compatible with Notebook 7 is not yet available on PyPI.
+```
+
+The RISE extension is another popular JupyterLab extension that is being ported to work with Notebook 7. It allows you to turn your Jupyter Notebooks into a slideshow.
+
+The extension is still under [active development](https://github.com/jupyterlab-contrib/rise). When ready, it will be possible to install it with `pip`:
+
+```bash
+pip install jupyterlab-rise
+```
+
 ## A document-centric user experience
 
 Despite all the new features and as stated in [JEP 79][jep 79], Notebook 7 keeps the document-centric user experience of the Classic Notebook:
@@ -114,3 +140,10 @@ Despite all the new features and as stated in [JEP 79][jep 79], Notebook 7 keeps
 Notebook 7 automatically switches to a more compact layout on mobile devices, making it convenient to run code on the go.
 
 ![a screenshot of the compact view on mobile devices](https://user-images.githubusercontent.com/591645/101995448-2793f380-3cca-11eb-8971-067dd068ccbe.gif)
+
+## References
+
+This was just a quick overview of the new features in Notebook 7. For more details, you can check out the following resources:
+
+- The [JupyterLab Documentation](https://jupyterlab.readthedocs.io/en/latest/) is a great resource to learn more about JupyterLab and the extensions available. Since Notebook 7 is based on JupyterLab, many of the features and extensions available for JupyterLab are also available for Notebook 7.
+- [Migration Guide](./migrating.md) for Notebook 7, which explains how to migrate from the Classic Notebook to Notebook 7.
