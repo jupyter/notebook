@@ -28,7 +28,6 @@ For example:
 - https://github.com/dunovank/jupyterlab_legos_ui
 - https://github.com/timkpaine/jupyterlab_miami_nights
 
-
 ## Creating a custom theme
 
 Creating a custom theme for Notebook 7 follows the same process as creating a custom theme for JupyterLab 4.

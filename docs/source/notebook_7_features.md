@@ -112,7 +112,6 @@ However a version compatible with Notebook 7 will be available before the final 
 
 ![a second screenshot showing the nbgrader extension in Notebook 7](https://user-images.githubusercontent.com/32258950/196110825-7e3b9237-1064-42be-a629-15a5510a3aee.png)
 
-
 ### RISE
 
 ```{warning}
