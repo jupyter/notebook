@@ -18,10 +18,21 @@ function ensureResolutions(): string[] {
     corePackage.jupyterlab.singletonPackages
   );
 
-  packages.forEach((name) => {
-    const data = require(`${name}/package.json`);
+  packages.forEach(async (name) => {
+    const modulePath = require.resolve(name);
+    let version = '';
+    try {
+      const parentDir = path.dirname(modulePath);
+      const data = require(path.join(parentDir, 'package.json'));
+      version = data.version;
+    } catch {
+      // try one folder above
+      const parentDir = path.dirname(path.dirname(modulePath));
+      const data = require(path.join(parentDir, 'package.json'));
+      version = data.version;
+    }
     // Insist on a restricted version in the yarn resolution.
-    corePackage.resolutions[name] = `~${data.version}`;
+    corePackage.resolutions[name] = `~${version}`;
   });
 
   // Write the package.json back to disk.

@@ -10,6 +10,8 @@
     "watch": "webpack --config ./webpack.config.watch.js"
   },
   "resolutions": {
+    "@codemirror/state": "~6.2.0",
+    "@codemirror/view": "~6.9.3",
     "@jupyter-notebook/application": "~7.0.0-alpha.18",
     "@jupyter-notebook/application-extension": "~7.0.0-alpha.18",
     "@jupyter-notebook/console-extension": "~7.0.0-alpha.18",
@@ -90,6 +92,8 @@
     "@jupyterlab/ui-components": "~4.0.0-beta.0",
     "@jupyterlab/ui-components-extension": "~4.0.0-beta.0",
     "@jupyterlab/vega5-extension": "~4.0.0-beta.0",
+    "@lezer/common": "~1.0.2",
+    "@lezer/highlight": "~1.1.4",
     "@lumino/algorithm": "~2.0.0",
     "@lumino/application": "~2.0.1",
     "@lumino/commands": "~2.0.1",
@@ -318,6 +322,8 @@
       }
     },
     "singletonPackages": [
+      "@codemirror/state",
+      "@codemirror/view",
       "@jupyter-notebook/tree",
       "@jupyter/ydoc",
       "@jupyterlab/application",
@@ -352,6 +358,8 @@
       "@jupyterlab/tooltip",
       "@jupyterlab/translation",
       "@jupyterlab/ui-components",
+      "@lezer/common",
+      "@lezer/highlight",
       "@lumino/algorithm",
       "@lumino/application",
       "@lumino/commands",
