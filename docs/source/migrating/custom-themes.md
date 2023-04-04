@@ -24,9 +24,9 @@ You can also find other themes using the `jupyterlab-theme` topic on GitHub: htt
 
 For example:
 
-- https://github.com/johnnybarrels/jupyterlab_onedarkpro
-- https://github.com/dunovank/jupyterlab_legos_ui
-- https://github.com/timkpaine/jupyterlab_miami_nights
+- [https://github.com/johnnybarrels/jupyterlab_onedarkpro](https://github.com/johnnybarrels/jupyterlab_onedarkpro)
+- [https://github.com/dunovank/jupyterlab_legos_ui](https://github.com/dunovank/jupyterlab_legos_ui)
+- [https://github.com/timkpaine/jupyterlab_miami_nights](https://github.com/timkpaine/jupyterlab_miami_nights)
 
 ## Creating a custom theme
 

@@ -89,7 +89,7 @@ Check out the related blog post for more details: [Improving the accessibility o
 
 Notebook 7 is based on JupyterLab and therefore supports many of the existing JupyterLab extensions.
 
-You can install JupyterLab extensions with `pip` or `conda`. For example to install the LSP (Language Server Protocol) extension for enhanced code completion, you can use the following command:
+You can install JupyterLab extensions with `pip` or `conda`. For example to install the LSP (Language Server Protocol) extension for enhanced code completion, you can use the following commands:
 
 ```bash
 pip install jupyter-lsp
