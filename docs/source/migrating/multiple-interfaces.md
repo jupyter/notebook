@@ -7,6 +7,14 @@ installed alongside Notebook 7.
 
 Below are different scenarios that you might consider when updating to Notebook 7.
 
+## Try it on Binder
+
+You can try JupyterLab, Notebook 7 and NBClassic installed together using [this gist][lab-nb-nbclassic] on Binder:
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gist/jtpio/35a72862c8be13dee31b61ebac2d9786/master?urlpath=/tree)
+
+[lab-nb-nbclassic]: https://gist.github.com/jtpio/35a72862c8be13dee31b61ebac2d9786
+
 ## NbClassic and Notebook 7
 
 You can install NbClassic, Notebook 7 and JupyterLab, all three of
