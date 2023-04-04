@@ -15,6 +15,19 @@ You can try JupyterLab, Notebook 7 and NBClassic installed together using [this 
 
 [lab-nb-nbclassic]: https://gist.github.com/jtpio/35a72862c8be13dee31b61ebac2d9786
 
+## Using the `Interface` dropdown
+
+Notebook 7 provides a dropdown menu to switch between the different user interfaces available on the same server.
+
+It is available in the Notebook toolbar:
+
+![image](https://user-images.githubusercontent.com/591645/229729077-a91bc9dd-9bb9-4510-a266-599bf2f97745.png)
+
+```{note}
+This dropdown is only available when using Notebook 7 or JupyterLab.
+It is not displayed when using NbClassic.
+```
+
 ## NbClassic and Notebook 7
 
 You can install NbClassic, Notebook 7 and JupyterLab, all three of
