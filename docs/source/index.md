@@ -12,6 +12,7 @@
 
 user-documentation
 configuration
+migrating
 contributor
-migrate_to_notebook7
+changelog
 ```

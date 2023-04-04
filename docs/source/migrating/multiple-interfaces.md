@@ -1,24 +1,34 @@
-# Migrating to Notebook 7
+# Simultaneous usage of different versions of Notebook 7 and the Classic Notebook UI
 
-## Build Jupyter Notebook v7 off of JupyterLab components
+With the release of Notebook 7, the classic Notebook UI is now
+available as a Jupyter Server extension, NbClassic. This means that
+NbClassic can be installed independently of Notebook 7, and can be also
+installed alongside Notebook 7.
 
-Read more details about the changes currently taking place in the
-Jupyter Ecosystem in the [JEP 79] and [team-compass note].
+Below are different scenarios that you might consider when updating to Notebook 7.
 
-Notebook 7 is built on top of JupyterLab components and delivers new features
-like realtime collaboration, debugger, theming.
+## Try it on Binder
 
-## Compatibility with older versions
+You can try JupyterLab, Notebook 7 and NBClassic installed together using [this gist][lab-nb-nbclassic] on Binder:
 
-Any extension developed for Notebook \< 7 or NbClassic will not be
-compatible with Notebook 7 and upwards.
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gist/jtpio/35a72862c8be13dee31b61ebac2d9786/master?urlpath=/tree)
 
-Some extensions like nbgrader have already been ported. We invite you to
-check if the extensions you are using have already been ported.
+[lab-nb-nbclassic]: https://gist.github.com/jtpio/35a72862c8be13dee31b61ebac2d9786
 
-## Simultaneous usage of different versions
+## Using the `Interface` dropdown
 
-**NbClassic and Notebook 7**
+Notebook 7 provides a dropdown menu to switch between the different user interfaces available on the same server.
+
+It is available in the Notebook toolbar:
+
+![image](https://user-images.githubusercontent.com/591645/229729077-a91bc9dd-9bb9-4510-a266-599bf2f97745.png)
+
+```{note}
+This dropdown is only available when using Notebook 7 or JupyterLab.
+It is not displayed when using NbClassic.
+```
+
+## NbClassic and Notebook 7
 
 You can install NbClassic, Notebook 7 and JupyterLab, all three of
 which will provide different user interfaces
@@ -30,7 +40,7 @@ dependency of Notebook 7, and these front ends will be available
 through the following base paths: JupyterLab at `/lab`, Notebook 7 at
 `/tree`, and NbClassic at `/nbclassic/tree`.
 
-**NbClassic and Notebook 6.5.x**
+## NbClassic and Notebook 6.5.x
 
 As NbClassic provides the static assets for Notebook 6.5.x, while
 having both installed should cause no issues, the user interface provided
@@ -42,7 +52,7 @@ static assets. When starting an instance of JupyterLab you will be able
 to access the classic view of Notebook with NbClassic served on the same
 server at `/tree`.
 
-**NbClassic and Notebook \<= 6.4.x**
+## NbClassic and Notebook \<= 6.4.x
 
 When using NbClassic and Notebook \<= 6.4.x you can expect that these UIs
 will not be only presented at different servers, meaning they will both
@@ -52,20 +62,20 @@ reflected in Notebook versions \<= 6.4.x. In this case as well, you would
 be able to access the classic view of Notebook with NbClassic served on
 the same server, at `/tree`.
 
-**NbClassic and JupyterLab 3.x**
+## NbClassic and JupyterLab 3.x
 
 When only JupyterLab 3.x is installed, then NbClassic does not have to be
 explicitly installed as JupyterLab 3.x depends on it. They will run on
 the same server, and are reachable via `/tree` for NbClassic and
 `/lab` for JupyterLab.
 
-**NbClassic and JupyterLab 4.x**
+## NbClassic and JupyterLab 4.x
 
 When only JupyterLab 4.x is installed, then NbClassic has to be installed
 explictly. They will run on the same server, and are reachable via
 `/tree` for NbClassic, and `/lab` for JupyterLab.
 
-**NbClassic Independently**
+## NbClassic Independently
 
 When you choose to install only NbClassic via `pip install nbclassic`,
 the classic Notebook UI will be presented at the `/tree` path. As the
@@ -76,6 +86,3 @@ way to view the NbClassic frontend. You would be able to manually
 enable the extension when running an instance of Jupyter Server,
 `> jupyter server --ServerApp.jpserver_extensions="nbclassic=True"`,
 which will provide the NbClassic frontend at `/tree` path when visited.
-
-[jep 79]: https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html
-[team-compass note]: https://github.com/jupyter/notebook-team-compass/issues/5#issuecomment-1085254000

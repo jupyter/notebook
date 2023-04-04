@@ -18,10 +18,10 @@ rich media output.
 application, including inputs and outputs of the computations, explanatory
 text, mathematics, images, and rich media representations of objects.
 
-:::{seealso}
+```{seealso}
 See the {ref}`installation guide <jupyter:install>` on how to install the
 notebook and its dependencies.
-:::
+```
 
 ### Main features of the web application
 
@@ -61,9 +61,9 @@ themselves. In effect, nbviewer is simply [nbconvert] as
 a web service, so you can do your own static conversions with nbconvert,
 without relying on nbviewer.
 
-:::{seealso}
+```{seealso}
 {ref}`Details on the notebook JSON file format <nbformat:notebook_file_format>`
-:::
+```
 
 ### Notebooks and privacy
 
@@ -116,13 +116,13 @@ When you are inside an open notebook, the `File | Open...` menu option will
 open the dashboard in a new browser tab, to allow you to open another notebook
 from the notebook directory or to create a new notebook.
 
-:::{note}
+```{note}
 You can start more than one notebook server at the same time, if you want
 to work on notebooks in different directories. By default the first
 notebook server starts on port 8888, and later notebook servers search for
 ports near that one. You can also manually specify the port with the
 `--port` option.
-:::
+```
 
 ### Creating a new notebook document
 
@@ -132,9 +132,7 @@ The new notebook is created within the same directory and will open in a new
 browser tab. It will also be reflected as a new entry in the notebook list on
 the dashboard.
 
-```{image} _static/images/new-notebook.gif
-
-```
+![a screencast showing how to create new notebooks from the user interface](https://user-images.githubusercontent.com/591645/229563554-2776b489-a831-44a0-a7a2-2f211e38b78b.gif)
 
 ### Opening notebooks
 
@@ -174,18 +172,16 @@ With the IPython kernel, you can also run the `%qtconsole`
 {ref}`magic <magics_explained>` in the notebook to open a Qt console connected
 to the same kernel.
 
-:::{seealso}
+```{seealso}
 {ref}`ipythonzmq`
-:::
+```
 
 ## Notebook user interface
 
 When you create a new notebook document, you will be presented with the
 **notebook name**, a **menu bar**, a **toolbar** and an empty **code cell**.
 
-```{image} ./_static/images/blank-notebook-ui.png
-
-```
+![a screenshot showing a blank notebook](https://user-images.githubusercontent.com/591645/229563988-8e3a4d04-6f31-4411-9a6b-9b9b045bc55e.png)
 
 **Notebook name**: The name displayed at the top of the page,
 next to the Jupyter logo, reflects the name of the `.ipynb` file.
@@ -230,9 +226,9 @@ also possible, including `matplotlib` figures and HTML tables (as used, for
 example, in the `pandas` data analysis package). This is known as IPython's
 _rich display_ capability.
 
-:::{seealso}
+```{seealso}
 [Rich Output] example notebook
-:::
+```
 
 ### Markdown cells
 
@@ -268,9 +264,9 @@ such as `\newcommand`, by placing them anywhere _between math delimiters_ in
 a Markdown cell. These definitions are then available throughout the rest of
 the IPython session.
 
-:::{seealso}
+```{seealso}
 [Working with Markdown Cells] example notebook
-:::
+```
 
 ### Raw cells
 
@@ -303,11 +299,11 @@ shortcut.
 A notebook may be downloaded as a `.ipynb` file or converted to a number of
 other formats using the menu option {guilabel}`File`, {guilabel}`Download as`.
 
-:::{seealso}
+```{seealso}
 [Running Code in the Jupyter Notebook] example notebook
 
 [Notebook Basics] example notebook
-:::
+```
 
 (keyboard-shortcuts)=
 
