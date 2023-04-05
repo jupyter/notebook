@@ -147,4 +147,4 @@ Notebook 7 automatically switches to a more compact layout on mobile devices, ma
 This was just a quick overview of the new features in Notebook 7. For more details, you can check out the following resources:
 
 - The [JupyterLab Documentation](https://jupyterlab.readthedocs.io/en/latest/) is a great resource to learn more about JupyterLab and the extensions available. Since Notebook 7 is based on JupyterLab, many of the features and extensions available for JupyterLab are also available for Notebook 7.
-- [Migration Guide](./migrating.md) for Notebook 7, which explains how to migrate from the Classic Notebook to Notebook 7.
+- [Migration Guide](./migrate_to_notebook7.md) for Notebook 7, which explains how to migrate from the Classic Notebook to Notebook 7.
