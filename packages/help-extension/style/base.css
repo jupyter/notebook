@@ -52,16 +52,3 @@
 .jp-AboutNotebook-about-copyright {
   padding-top: 25px;
 }
-
-.jp-AboutNotebook-shortcuts {
-  padding: 10px;
-}
-
-.jp-AboutNotebook-shortcuts pre {
-  padding: 5px;
-  margin: 0 0 10px;
-  background: var(--jp-layout-color2);
-  border: 1px solid var(--jp-border-color0);
-  border-radius: 2px;
-  word-break: break-all;
-}

@@ -13,10 +13,6 @@
           {
             "type": "separator",
             "rank": 1
-          },
-          {
-            "command": "help:shortcuts",
-            "rank": 20
           }
         ]
       }

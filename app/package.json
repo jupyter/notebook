@@ -219,7 +219,8 @@
           "@jupyterlab/apputils-extension:state",
           "@jupyterlab/apputils-extension:themes",
           "@jupyterlab/apputils-extension:themes-palette-menu",
-          "@jupyterlab/apputils-extension:toolbar-registry"
+          "@jupyterlab/apputils-extension:toolbar-registry",
+          "@jupyterlab/apputils-extension:utilityCommands"
         ],
         "@jupyterlab/codemirror-extension": true,
         "@jupyterlab/completer-extension": [
