@@ -57,10 +57,15 @@ jobs:
         jupyter server extension list 2>&1 | grep -ie "notebook.*enabled" -
         python -m jupyterlab.browser_check
 
-    - name: Codecov
-      run: |
-        pip install codecov coverage[toml]
-        codecov
+    - uses: jupyterlab/maintainer-tools/.github/actions/upload-coverage@v1
+
+  coverage:
+    runs-on: ubuntu-latest
+    needs:
+      - test
+    steps:
+      - uses: actions/checkout@v3
+      - uses: jupyterlab/maintainer-tools/.github/actions/report-coverage@v1
 
   test_docs:
     name: Test Docs
@@ -184,7 +189,7 @@ jobs:
   tests_check: # This job does nothing and is only used for the branch protection
     if: always()
     needs:
-      - test
+      - coverage
       - install
       - test_lint
       - test_docs

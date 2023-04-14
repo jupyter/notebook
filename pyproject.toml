@@ -50,10 +50,8 @@ Tracker = "https://github.com/jupyter/notebook/issues"
 
 [project.optional-dependencies]
 test = [
-    "coverage",
     "nbval",
     "pytest>=7.0",
-    "pytest-cov",
     "requests",
     "pytest-tornasync",
     "pytest-timeout",
@@ -130,7 +128,7 @@ nowarn = "test -W default {args}"
 
 [tool.hatch.envs.cov]
 features = ["test"]
-dependencies = ["coverage", "pytest-cov"]
+dependencies = ["coverage[toml]", "pytest-cov"]
 [tool.hatch.envs.cov.scripts]
 test = "python -m pytest -vv --cov notebook --cov-branch --cov-report term-missing:skip-covered {args}"
 nowarn = "test -W default {args}"
@@ -221,6 +219,10 @@ exclude_lines = [
   "class .*\bProtocol\\):",
 "@(abc\\.)?abstractmethod",
 ]
+
+[tool.coverage.run]
+relative_files = true
+source = ["notebook"]
 
 [tool.mypy]
 check_untyped_defs = true
