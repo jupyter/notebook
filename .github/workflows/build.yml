@@ -66,6 +66,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: jupyterlab/maintainer-tools/.github/actions/report-coverage@v1
+        with:
+          fail_under: 78
 
   test_docs:
     name: Test Docs
