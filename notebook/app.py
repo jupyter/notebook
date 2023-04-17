@@ -5,7 +5,11 @@ from os.path import join as pjoin
 from jupyter_client.utils import ensure_async
 from jupyter_core.application import base_aliases
 from jupyter_server.base.handlers import JupyterHandler
-from jupyter_server.extension.handler import ExtensionHandlerJinjaMixin, ExtensionHandlerMixin
+from jupyter_server.extension.handler import (
+    ExtensionHandlerJinjaMixin,
+    ExtensionHandlerMixin,
+    FileFindHandler,
+)
 from jupyter_server.serverapp import flags
 from jupyter_server.utils import url_escape, url_is_absolute
 from jupyter_server.utils import url_path_join as ujoin
@@ -276,6 +280,13 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
         self.handlers.append(("/edit(.*)", FileHandler))
         self.handlers.append(("/consoles/(.*)", ConsoleHandler))
         self.handlers.append(("/terminals/(.*)", TerminalHandler))
+        self.handlers.append(
+            (
+                ujoin(self.default_url, r"/custom/(.*)"),
+                FileFindHandler,
+                {'path': self._default_static_dir, 'no_cache_paths': ['/']},
+            )
+        )
         super().initialize_handlers()
 
     def initialize(self, argv=None):
