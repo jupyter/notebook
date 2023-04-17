@@ -1,5 +1,6 @@
 import inspect
-from traitlets import ClassBasedTraitType, Undefined, warn
+from traitlets import ClassBasedTraitType, Undefined
+from warnings import warn
 
 # Traitlet's 5.x includes a set of utilities for building
 # description strings for objects. Traitlets 5.x does not
