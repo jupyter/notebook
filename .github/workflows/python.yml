@@ -37,7 +37,7 @@ jobs:
           ${{ runner.os }}-pip-
     - name: Install the Python dependencies
       run: |
-        pip install -e .[test] codecov
+        pip install -e .[test]
     - name: List installed packages
       run: |
         pip freeze
@@ -48,6 +48,3 @@ jobs:
     - name: Run Integration Tests
       run: |
         pytest -v notebook/tests/test_notebookapp_integration.py --integration_tests
-    - name: Coverage
-      run: |
-        codecov
