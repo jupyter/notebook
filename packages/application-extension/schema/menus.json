@@ -13,6 +13,13 @@
           {
             "command": "notebook:trust",
             "rank": 20
+          },
+          {
+            "type": "submenu",
+            "disabled": true,
+            "submenu": {
+              "id": "jp-mainmenu-file-closetab"
+            }
           }
         ]
       },
