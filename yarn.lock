@@ -1983,17 +1983,17 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/app@workspace:app"
   dependencies:
-    "@jupyter-notebook/application": ^7.0.0-alpha.18
-    "@jupyter-notebook/application-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/console-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/docmanager-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/documentsearch-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/help-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/notebook-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/terminal-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/tree": ^7.0.0-alpha.18
-    "@jupyter-notebook/tree-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/ui-components": ^7.0.0-alpha.18
+    "@jupyter-notebook/application": ^7.0.0-beta.0
+    "@jupyter-notebook/application-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/console-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/docmanager-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/documentsearch-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/help-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/notebook-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/terminal-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/tree": ^7.0.0-beta.0
+    "@jupyter-notebook/tree-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/ui-components": ^7.0.0-beta.0
     "@jupyterlab/application-extension": ^4.0.0-beta.0
     "@jupyterlab/apputils-extension": ^4.0.0-beta.0
     "@jupyterlab/builder": ^4.0.0-beta.0
@@ -2022,6 +2022,7 @@ __metadata:
     "@jupyterlab/mainmenu-extension": ^4.0.0-beta.0
     "@jupyterlab/markedparser-extension": ^4.0.0-beta.0
     "@jupyterlab/mathjax-extension": ^4.0.0-beta.0
+    "@jupyterlab/metadataform-extension": ^4.0.0-beta.0
     "@jupyterlab/notebook-extension": ^4.0.0-beta.0
     "@jupyterlab/pdf-extension": ^4.0.0-beta.0
     "@jupyterlab/rendermime-extension": ^4.0.0-beta.0
@@ -2056,12 +2057,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@jupyter-notebook/application-extension@^7.0.0-alpha.18, @jupyter-notebook/application-extension@workspace:packages/application-extension":
+"@jupyter-notebook/application-extension@^7.0.0-beta.0, @jupyter-notebook/application-extension@workspace:packages/application-extension":
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/application-extension@workspace:packages/application-extension"
   dependencies:
-    "@jupyter-notebook/application": ^7.0.0-alpha.18
-    "@jupyter-notebook/ui-components": ^7.0.0-alpha.18
+    "@jupyter-notebook/application": ^7.0.0-beta.0
+    "@jupyter-notebook/ui-components": ^7.0.0-beta.0
     "@jupyterlab/application": ^4.0.0-beta.0
     "@jupyterlab/apputils": ^4.0.0-beta.0
     "@jupyterlab/celltags": ^4.0.0-alpha.20
@@ -2081,7 +2082,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@jupyter-notebook/application@^7.0.0-alpha.18, @jupyter-notebook/application@workspace:packages/application":
+"@jupyter-notebook/application@^7.0.0-beta.0, @jupyter-notebook/application@workspace:packages/application":
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/application@workspace:packages/application"
   dependencies:
@@ -2121,7 +2122,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@jupyter-notebook/console-extension@^7.0.0-alpha.18, @jupyter-notebook/console-extension@workspace:packages/console-extension":
+"@jupyter-notebook/console-extension@^7.0.0-beta.0, @jupyter-notebook/console-extension@workspace:packages/console-extension":
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/console-extension@workspace:packages/console-extension"
   dependencies:
@@ -2134,7 +2135,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@jupyter-notebook/docmanager-extension@^7.0.0-alpha.18, @jupyter-notebook/docmanager-extension@workspace:packages/docmanager-extension":
+"@jupyter-notebook/docmanager-extension@^7.0.0-beta.0, @jupyter-notebook/docmanager-extension@workspace:packages/docmanager-extension":
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/docmanager-extension@workspace:packages/docmanager-extension"
   dependencies:
@@ -2150,11 +2151,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@jupyter-notebook/documentsearch-extension@^7.0.0-alpha.18, @jupyter-notebook/documentsearch-extension@workspace:packages/documentsearch-extension":
+"@jupyter-notebook/documentsearch-extension@^7.0.0-beta.0, @jupyter-notebook/documentsearch-extension@workspace:packages/documentsearch-extension":
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/documentsearch-extension@workspace:packages/documentsearch-extension"
   dependencies:
-    "@jupyter-notebook/application": ^7.0.0-alpha.18
+    "@jupyter-notebook/application": ^7.0.0-beta.0
     "@jupyterlab/application": ^4.0.0-beta.0
     "@jupyterlab/documentsearch": ^4.0.0-beta.0
     "@lumino/widgets": ^2.0.1
@@ -2163,11 +2164,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@jupyter-notebook/help-extension@^7.0.0-alpha.18, @jupyter-notebook/help-extension@workspace:packages/help-extension":
+"@jupyter-notebook/help-extension@^7.0.0-beta.0, @jupyter-notebook/help-extension@workspace:packages/help-extension":
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/help-extension@workspace:packages/help-extension"
   dependencies:
-    "@jupyter-notebook/ui-components": ^7.0.0-alpha.18
+    "@jupyter-notebook/ui-components": ^7.0.0-beta.0
     "@jupyterlab/application": ^4.0.0-beta.0
     "@jupyterlab/apputils": ^4.0.0-beta.0
     "@jupyterlab/mainmenu": ^4.0.0-beta.0
@@ -2179,11 +2180,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@jupyter-notebook/lab-extension@^7.0.0-alpha.18, @jupyter-notebook/lab-extension@workspace:packages/lab-extension":
+"@jupyter-notebook/lab-extension@^7.0.0-beta.0, @jupyter-notebook/lab-extension@workspace:packages/lab-extension":
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/lab-extension@workspace:packages/lab-extension"
   dependencies:
-    "@jupyter-notebook/application": ^7.0.0-alpha.18
+    "@jupyter-notebook/application": ^7.0.0-beta.0
     "@jupyterlab/application": ^4.0.0-beta.0
     "@jupyterlab/apputils": ^4.0.0-beta.0
     "@jupyterlab/builder": ^4.0.0-beta.0
@@ -2203,27 +2204,27 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/metapackage@workspace:packages/_metapackage"
   dependencies:
-    "@jupyter-notebook/application": ^7.0.0-alpha.18
-    "@jupyter-notebook/application-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/console-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/docmanager-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/documentsearch-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/help-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/lab-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/notebook-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/terminal-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/tree": ^7.0.0-alpha.18
-    "@jupyter-notebook/tree-extension": ^7.0.0-alpha.18
-    "@jupyter-notebook/ui-components": ^7.0.0-alpha.18
+    "@jupyter-notebook/application": ^7.0.0-beta.0
+    "@jupyter-notebook/application-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/console-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/docmanager-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/documentsearch-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/help-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/lab-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/notebook-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/terminal-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/tree": ^7.0.0-beta.0
+    "@jupyter-notebook/tree-extension": ^7.0.0-beta.0
+    "@jupyter-notebook/ui-components": ^7.0.0-beta.0
     typescript: ~5.0.2
   languageName: unknown
   linkType: soft
 
-"@jupyter-notebook/notebook-extension@^7.0.0-alpha.18, @jupyter-notebook/notebook-extension@workspace:packages/notebook-extension":
+"@jupyter-notebook/notebook-extension@^7.0.0-beta.0, @jupyter-notebook/notebook-extension@workspace:packages/notebook-extension":
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/notebook-extension@workspace:packages/notebook-extension"
   dependencies:
-    "@jupyter-notebook/application": ^7.0.0-alpha.18
+    "@jupyter-notebook/application": ^7.0.0-beta.0
     "@jupyterlab/application": ^4.0.0-beta.0
     "@jupyterlab/apputils": ^4.0.0-beta.0
     "@jupyterlab/cells": ^4.0.0-beta.0
@@ -2258,7 +2259,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@jupyter-notebook/terminal-extension@^7.0.0-alpha.18, @jupyter-notebook/terminal-extension@workspace:packages/terminal-extension":
+"@jupyter-notebook/terminal-extension@^7.0.0-beta.0, @jupyter-notebook/terminal-extension@workspace:packages/terminal-extension":
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/terminal-extension@workspace:packages/terminal-extension"
   dependencies:
@@ -2271,12 +2272,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@jupyter-notebook/tree-extension@^7.0.0-alpha.18, @jupyter-notebook/tree-extension@workspace:packages/tree-extension":
+"@jupyter-notebook/tree-extension@^7.0.0-beta.0, @jupyter-notebook/tree-extension@workspace:packages/tree-extension":
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/tree-extension@workspace:packages/tree-extension"
   dependencies:
-    "@jupyter-notebook/application": ^7.0.0-alpha.18
-    "@jupyter-notebook/tree": ^7.0.0-alpha.18
+    "@jupyter-notebook/application": ^7.0.0-beta.0
+    "@jupyter-notebook/tree": ^7.0.0-beta.0
     "@jupyterlab/application": ^4.0.0-beta.0
     "@jupyterlab/apputils": ^4.0.0-beta.0
     "@jupyterlab/coreutils": ^6.0.0-beta.0
@@ -2297,11 +2298,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@jupyter-notebook/tree@^7.0.0-alpha.18, @jupyter-notebook/tree@workspace:packages/tree":
+"@jupyter-notebook/tree@^7.0.0-beta.0, @jupyter-notebook/tree@workspace:packages/tree":
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/tree@workspace:packages/tree"
   dependencies:
-    "@jupyter-notebook/application": ^7.0.0-alpha.18
+    "@jupyter-notebook/application": ^7.0.0-beta.0
     "@jupyterlab/application": ^4.0.0-beta.0
     "@jupyterlab/apputils": ^4.0.0-beta.0
     "@jupyterlab/coreutils": ^6.0.0-beta.0
@@ -2322,7 +2323,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@jupyter-notebook/ui-components@^7.0.0-alpha.18, @jupyter-notebook/ui-components@workspace:packages/ui-components":
+"@jupyter-notebook/ui-components@^7.0.0-beta.0, @jupyter-notebook/ui-components@workspace:packages/ui-components":
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/ui-components@workspace:packages/ui-components"
   dependencies:
@@ -3419,6 +3420,21 @@ __metadata:
     "@jupyterlab/rendermime": ^4.0.0-beta.0
     mathjax-full: ^3.2.2
   checksum: 161ff69e22300d5f05cb19fa8b116a59f968935a925f5c3692edc64788293ba615b3ffd79d01ae09d9a61c7d5c5a2a95038dc0fb5e887ea90637249123bc07c0
+  languageName: node
+  linkType: hard
+
+"@jupyterlab/metadataform-extension@npm:^4.0.0-beta.0":
+  version: 4.0.0-beta.0
+  resolution: "@jupyterlab/metadataform-extension@npm:4.0.0-beta.0"
+  dependencies:
+    "@jupyterlab/application": ^4.0.0-beta.0
+    "@jupyterlab/metadataform": ^4.0.0-beta.0
+    "@jupyterlab/notebook": ^4.0.0-beta.0
+    "@jupyterlab/settingregistry": ^4.0.0-beta.0
+    "@jupyterlab/translation": ^4.0.0-beta.0
+    "@jupyterlab/ui-components": ^4.0.0-beta.0
+    "@lumino/coreutils": ^2.0.0
+  checksum: a3b5803a9e77d20d148b5d1eaf251985cbfcc5cfb8b14fadf8794cbf573980bd4e89a3f2175b5827520c36a2a72152cf786bf5a7edca98d96c7668cebab8d65e
   languageName: node
   linkType: hard
 
