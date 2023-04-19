@@ -116,7 +116,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     rootLayout.addWidget(hsplitPanel);
 
     this.layout = rootLayout;
-        
+
     // Added Skip to Main Link
     const skipLinkWidgetHandler = (this._skipLinkWidgetHandler = new Private.SkipLinkWidgetHandler(
       this
@@ -454,4 +454,3 @@ export namespace Private {
     private _isDisposed: boolean = false;
   }
 }
-
