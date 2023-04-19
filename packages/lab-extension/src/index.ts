@@ -44,6 +44,7 @@ namespace CommandIDs {
 interface ISwitcherChoice {
   command: string;
   commandLabel: string;
+  commandPaletteLabel: string;
   buttonLabel: string;
   urlPrefix: string;
 }
@@ -90,9 +91,11 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     };
 
     const addInterface = (option: ISwitcherChoice) => {
-      const { command, commandLabel, urlPrefix } = option;
+      const { command, commandLabel, commandPaletteLabel, urlPrefix } = option;
+      console.log(palette);
       commands.addCommand(command, {
-        label: (args) => (args.noLabel ? '' : commandLabel),
+        label: (args) =>
+          args.noLabel ? '' : palette ? commandPaletteLabel : commandLabel,
         caption: commandLabel,
         execute: () => {
           const current = notebookTracker.currentWidget;
@@ -114,7 +117,8 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     if (!notebookShell) {
       addInterface({
         command: CommandIDs.openNotebook,
-        commandLabel: trans.__('Notebook'), //trans.__('Open With %1', 'Jupyter Notebook'),
+        commandLabel: trans.__('Notebook'),
+        commandPaletteLabel: trans.__('Open With %1', 'Jupyter Notebook'),
         buttonLabel: 'openNotebook',
         urlPrefix: `${baseUrl}tree/`,
       });
@@ -124,6 +128,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       addInterface({
         command: CommandIDs.openLab,
         commandLabel: trans.__('JupyterLab'),
+        commandPaletteLabel: trans.__('Open With %1', 'JupyterLab'),
         buttonLabel: 'openLab',
         urlPrefix: `${baseUrl}doc/tree/`,
       });
