@@ -117,7 +117,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       });
 
       if (palette) {
-        palette.addItem({ command, category: 'Other' });
+        palette.addItem({ command: paletteCommand, category: 'Other' });
       }
 
       switcher.addItem({ command });
