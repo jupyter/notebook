@@ -79,7 +79,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     };
     const menubar = new MenuBar(overflowOptions);
     const switcher = new Menu({ commands });
-    switcher.title.label = trans.__('Open In...');
+    switcher.title.label = trans.__('Open in...');
     switcher.title.icon = caretDownIcon;
     menubar.addMenu(switcher);
 
@@ -127,7 +127,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       addInterface({
         command: CommandIDs.openNotebook,
         commandLabel: trans.__('Notebook'),
-        commandPaletteLabel: trans.__('Open In Jupyter Notebook'),
+        commandPaletteLabel: trans.__('Open in Jupyter Notebook'),
         buttonLabel: 'openNotebook',
         urlPrefix: `${baseUrl}tree/`,
       });
@@ -137,7 +137,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       addInterface({
         command: CommandIDs.openLab,
         commandLabel: trans.__('JupyterLab'),
-        commandPaletteLabel: trans.__('Open In JupyterLab'),
+        commandPaletteLabel: trans.__('Open in JupyterLab'),
         buttonLabel: 'openLab',
         urlPrefix: `${baseUrl}doc/tree/`,
       });
