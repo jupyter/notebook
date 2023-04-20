@@ -103,14 +103,14 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       };
 
       commands.addCommand(command, {
-        label: commandLabel,
+        label: (args) => (args.noLabel ? '' : commandLabel),
         caption: commandLabel,
         execute,
         isEnabled,
       });
 
       commands.addCommand(paletteCommand, {
-        label: commandPaletteLabel,
+        label: (args) => (args.noLabel ? '' : commandPaletteLabel),
         caption: commandLabel,
         execute,
         isEnabled,
