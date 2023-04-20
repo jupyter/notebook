@@ -127,7 +127,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       addInterface({
         command: CommandIDs.openNotebook,
         commandLabel: trans.__('Notebook'),
-        commandPaletteLabel: trans.__('Open With %1', 'Jupyter Notebook'),
+        commandPaletteLabel: trans.__('Open In Jupyter Notebook'),
         buttonLabel: 'openNotebook',
         urlPrefix: `${baseUrl}tree/`,
       });
@@ -137,7 +137,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       addInterface({
         command: CommandIDs.openLab,
         commandLabel: trans.__('JupyterLab'),
-        commandPaletteLabel: trans.__('Open With %1', 'JupyterLab'),
+        commandPaletteLabel: trans.__('Open In JupyterLab'),
         buttonLabel: 'openLab',
         urlPrefix: `${baseUrl}doc/tree/`,
       });
