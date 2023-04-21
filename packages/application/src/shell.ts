@@ -118,9 +118,8 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     this.layout = rootLayout;
 
     // Added Skip to Main Link
-    const skipLinkWidgetHandler = (this._skipLinkWidgetHandler = new Private.SkipLinkWidgetHandler(
-      this
-    ));
+    const skipLinkWidgetHandler = (this._skipLinkWidgetHandler =
+      new Private.SkipLinkWidgetHandler(this));
 
     this.add(skipLinkWidgetHandler.skipLinkWidget, 'top', { rank: 0 });
     this._skipLinkWidgetHandler.show();
@@ -374,37 +373,35 @@ export namespace Shell {
   export type Area = 'main' | 'top' | 'left' | 'right' | 'menu';
 }
 
-
 export namespace Private {
-
   export class SkipLinkWidgetHandler {
-  /**
-   * Construct a new skipLink widget handler.
-   */
-  constructor(shell: INotebookShell) {
-    const skipLinkWidget = (this._skipLinkWidget = new Widget());
-    const skipToMain = document.createElement('a');
-    skipToMain.href = '#first-cell';
-    skipToMain.tabIndex = 1;
-    skipToMain.text = 'Skip to Main';
-    skipToMain.className = 'skip-link';
-    skipToMain.addEventListener('click', this);
-    skipLinkWidget.addClass('jp-skiplink');
-    skipLinkWidget.id = 'jp-skiplink';
-    skipLinkWidget.node.appendChild(skipToMain);
-  }
-
-  handleEvent(event: Event): void {
-    switch (event.type) {
-      case 'click':
-        this._focusMain();
-        break;
+    /**
+     * Construct a new skipLink widget handler.
+     */
+    constructor(shell: INotebookShell) {
+      const skipLinkWidget = (this._skipLinkWidget = new Widget());
+      const skipToMain = document.createElement('a');
+      skipToMain.href = '#first-cell';
+      skipToMain.tabIndex = 1;
+      skipToMain.text = 'Skip to Main';
+      skipToMain.className = 'skip-link';
+      skipToMain.addEventListener('click', this);
+      skipLinkWidget.addClass('jp-skiplink');
+      skipLinkWidget.id = 'jp-skiplink';
+      skipLinkWidget.node.appendChild(skipToMain);
     }
-  }
 
-  private _focusMain() {
-    const input = document.querySelector(
-      '#main-panel .jp-InputArea-editor'
+    handleEvent(event: Event): void {
+      switch (event.type) {
+        case 'click':
+          this._focusMain();
+          break;
+      }
+    }
+
+    private _focusMain() {
+      const input = document.querySelector(
+        '#main-panel .jp-InputArea-editor'
       ) as HTMLInputElement;
       input.tabIndex = 1;
       input.focus();
