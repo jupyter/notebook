@@ -448,6 +448,6 @@ export namespace Private {
     }
 
     private _skipLinkWidget: Widget;
-    private _isDisposed: boolean = false;
+    private _isDisposed = false;
   }
 }
