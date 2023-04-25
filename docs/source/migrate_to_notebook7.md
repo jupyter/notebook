@@ -8,7 +8,7 @@ extensions or other customizations, please read more below to find out if you
 need to take any actions to ensure a smooth, uninterrupted experience
 ```
 
-A major upgrade to the Jupyter Notebook app is coming with Notebook 7! This
+A major upgrade to the Jupyter Notebook interface is coming with Notebook 7! This
 upgrade will bring a heap of new features, but will also break backwards
 compatibility with many classic Notebook features and customizations.
 
