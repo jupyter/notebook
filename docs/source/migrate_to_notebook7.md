@@ -30,8 +30,8 @@ of options:
 
 - If you need to maintain compatibility with the Classic Notebook for extensions
   or other customizations that are critical to your workflows, you can switch to
-  [nbclassic], the new home for users who need to maintain compatibility with the
-  old notebook interface
+  [nbclassic], which will provide compatibility with the old notebook interface
+  and support during an intermediate transition period to Notebook 7
 
 ## Why things are changing
 
