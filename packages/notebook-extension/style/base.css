@@ -126,6 +126,7 @@ body[data-notebook='notebooks']
 body[data-notebook='notebooks'] .jp-Notebook-footer {
   width: 100%;
   margin-left: unset;
+  background: unset;
 }
 
 /* Mobile View */
