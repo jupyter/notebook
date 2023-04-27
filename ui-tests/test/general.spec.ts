@@ -40,6 +40,9 @@ test.describe('General', () => {
       await window.jupyterapp.commands.execute('notebook:enter-command-mode');
     });
 
+    // make sure the mouse does not hover on the footer
+    await page.mouse.move(0, 0);
+
     expect(await page.screenshot()).toMatchSnapshot('notebook.png');
   });
 });
