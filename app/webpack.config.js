@@ -215,6 +215,9 @@ module.exports = [
       },
       filename: 'bundle.js',
     },
+    resolve: {
+      fallback: { util: false },
+    },
     plugins: [
       new ModuleFederationPlugin({
         library: {
