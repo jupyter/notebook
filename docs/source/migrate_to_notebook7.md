@@ -33,7 +33,7 @@ of options:
   [nbclassic], which will provide compatibility with the old notebook interface
   and support during an intermediate transition period to Notebook 7
 
-## Why the big version change?
+## Why a new version?
 
 For the past few years, the Classic Jupyter Notebook has been in maintenance
 mode.
