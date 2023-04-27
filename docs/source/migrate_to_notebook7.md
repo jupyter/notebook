@@ -1,6 +1,6 @@
 # Migrating to Notebook 7
 
-*Updated 2023-04-24*
+_Updated 2023-04-24_
 
 ```{warning}
 The Jupyter Notebook application's newest version 7 upgrade might break your
