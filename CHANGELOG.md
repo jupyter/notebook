@@ -14,6 +14,37 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0b1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0b0...4b6af274b24bcc20e43ad2330c9243c8d2c7d552))
+
+### Enhancements made
+
+- Update to JupyterLab 4.0.0rc0 [#6853](https://github.com/jupyter/notebook/pull/6853) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `4.0.0b1` and `4.0.0b2` [#6838](https://github.com/jupyter/notebook/pull/6838) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Fixes the notebooktools [#6834](https://github.com/jupyter/notebook/pull/6834) ([@brichet](https://github.com/brichet))
+
+### Maintenance and upkeep improvements
+
+- Use local coverage [#6839](https://github.com/jupyter/notebook/pull/6839) ([@blink1073](https://github.com/blink1073))
+
+### Documentation improvements
+
+- Added extra information and user-action summaries to 7 migration docs. [#6850](https://github.com/jupyter/notebook/pull/6850) ([@ericsnekbytes](https://github.com/ericsnekbytes))
+- Rename migration file to `migrate_to_notebook7` [#6831](https://github.com/jupyter/notebook/pull/6831) ([@jtpio](https://github.com/jtpio))
+- Use correct canonical URL while building docs [#6829](https://github.com/jupyter/notebook/pull/6829) ([@ashwinvis](https://github.com/ashwinvis))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-04-04&to=2023-04-28&type=c))
+
+[@ashwinvis](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aashwinvis+updated%3A2023-04-04..2023-04-28&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2023-04-04..2023-04-28&type=Issues) | [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2023-04-04..2023-04-28&type=Issues) | [@ericsnekbytes](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aericsnekbytes+updated%3A2023-04-04..2023-04-28&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-04-04..2023-04-28&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-04-04..2023-04-28&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0b0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0a18...b99718f57a8beac7b4019901a57c94984781dd49))
@@ -41,8 +72,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-03-24&to=2023-04-04&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-03-24..2023-04-04&type=Issues) | [@j-publius](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aj-publius+updated%3A2023-03-24..2023-04-04&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2023-03-24..2023-04-04&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-03-24..2023-04-04&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-03-24..2023-04-04&type=Issues) | [@Tiksagol](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ATiksagol+updated%3A2023-03-24..2023-04-04&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0a18
 
