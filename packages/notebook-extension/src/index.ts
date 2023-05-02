@@ -410,7 +410,7 @@ const windowing: JupyterFrontEndPlugin<void> = {
     Promise.all([settings, app.restored])
       .then(([settings]) => {
         if (settings.user.windowing === undefined) {
-          void settings.set('windowingMode', 'none');
+          void settings.set('windowingMode', 'defer');
         }
       })
       .catch((reason: Error) => {
