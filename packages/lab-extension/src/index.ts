@@ -92,7 +92,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
 
     const addInterface = (option: ISwitcherChoice) => {
       const { command, commandLabel, commandDescription, urlPrefix } = option;
-      const paletteCommand = `${command}-palette`;
+      const descriptionCommand = `${command}-description`;
 
       const execute = () => {
         const current = notebookTracker.currentWidget;
@@ -109,7 +109,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
         isEnabled,
       });
 
-      commands.addCommand(paletteCommand, {
+      commands.addCommand(descriptionCommand, {
         label: (args) => (args.noLabel ? '' : commandDescription),
         caption: commandLabel,
         execute,
@@ -117,7 +117,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       });
 
       if (palette) {
-        palette.addItem({ command: paletteCommand, category: 'Other' });
+        palette.addItem({ command: descriptionCommand, category: 'Other' });
       }
 
       switcher.addItem({ command });
