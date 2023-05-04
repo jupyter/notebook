@@ -44,7 +44,7 @@ namespace CommandIDs {
 interface ISwitcherChoice {
   command: string;
   commandLabel: string;
-  commandPaletteLabel: string;
+  commandDescription: string;
   buttonLabel: string;
   urlPrefix: string;
 }
@@ -91,7 +91,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     };
 
     const addInterface = (option: ISwitcherChoice) => {
-      const { command, commandLabel, commandPaletteLabel, urlPrefix } = option;
+      const { command, commandLabel, commandDescription, urlPrefix } = option;
       const paletteCommand = `${command}-palette`;
 
       const execute = () => {
@@ -110,7 +110,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       });
 
       commands.addCommand(paletteCommand, {
-        label: (args) => (args.noLabel ? '' : commandPaletteLabel),
+        label: (args) => (args.noLabel ? '' : commandDescription),
         caption: commandLabel,
         execute,
         isEnabled,
@@ -127,7 +127,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       addInterface({
         command: CommandIDs.openNotebook,
         commandLabel: trans.__('Notebook'),
-        commandPaletteLabel: trans.__('Open in %1', 'Jupyter Notebook'),
+        commandDescription: trans.__('Open in %1', 'Jupyter Notebook'),
         buttonLabel: 'openNotebook',
         urlPrefix: `${baseUrl}tree/`,
       });
@@ -137,7 +137,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       addInterface({
         command: CommandIDs.openLab,
         commandLabel: trans.__('JupyterLab'),
-        commandPaletteLabel: trans.__('Open in %1', 'JupyterLab'),
+        commandDescription: trans.__('Open in %1', 'JupyterLab'),
         buttonLabel: 'openLab',
         urlPrefix: `${baseUrl}doc/tree/`,
       });
