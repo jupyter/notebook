@@ -116,6 +116,13 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     rootLayout.addWidget(hsplitPanel);
 
     this.layout = rootLayout;
+
+    // Added Skip to Main Link
+    const skipLinkWidgetHandler = (this._skipLinkWidgetHandler =
+      new Private.SkipLinkWidgetHandler(this));
+
+    this.add(skipLinkWidgetHandler.skipLinkWidget, 'top', { rank: 0 });
+    this._skipLinkWidgetHandler.show();
   }
 
   /**
@@ -349,6 +356,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   private _rightHandler: SidePanelHandler;
   private _spacer_top: Widget;
   private _spacer_bottom: Widget;
+  private _skipLinkWidgetHandler: Private.SkipLinkWidgetHandler;
   private _main: Panel;
   private _translator: ITranslator = nullTranslator;
   private _currentChanged = new Signal<this, void>(this);
@@ -363,4 +371,83 @@ export namespace Shell {
    * The areas of the application shell where widgets can reside.
    */
   export type Area = 'main' | 'top' | 'left' | 'right' | 'menu';
+}
+
+export namespace Private {
+  export class SkipLinkWidgetHandler {
+    /**
+     * Construct a new skipLink widget handler.
+     */
+    constructor(shell: INotebookShell) {
+      const skipLinkWidget = (this._skipLinkWidget = new Widget());
+      const skipToMain = document.createElement('a');
+      skipToMain.href = '#first-cell';
+      skipToMain.tabIndex = 1;
+      skipToMain.text = 'Skip to Main';
+      skipToMain.className = 'skip-link';
+      skipToMain.addEventListener('click', this);
+      skipLinkWidget.addClass('jp-skiplink');
+      skipLinkWidget.id = 'jp-skiplink';
+      skipLinkWidget.node.appendChild(skipToMain);
+    }
+
+    handleEvent(event: Event): void {
+      switch (event.type) {
+        case 'click':
+          this._focusMain();
+          break;
+      }
+    }
+
+    private _focusMain() {
+      const input = document.querySelector(
+        '#main-panel .jp-InputArea-editor'
+      ) as HTMLInputElement;
+      input.tabIndex = 1;
+      input.focus();
+    }
+
+    /**
+     * Get the input element managed by the handler.
+     */
+    get skipLinkWidget(): Widget {
+      return this._skipLinkWidget;
+    }
+
+    /**
+     * Dispose of the handler and the resources it holds.
+     */
+    dispose(): void {
+      if (this.isDisposed) {
+        return;
+      }
+      this._isDisposed = true;
+      this._skipLinkWidget.node.removeEventListener('click', this);
+      this._skipLinkWidget.dispose();
+    }
+
+    /**
+     * Hide the skipLink widget.
+     */
+    hide(): void {
+      this._skipLinkWidget.hide();
+    }
+
+    /**
+     * Show the skipLink widget.
+     */
+    show(): void {
+      this._skipLinkWidget.show();
+    }
+
+    /**
+     * Test whether the handler has been disposed.
+     */
+    get isDisposed(): boolean {
+      return this._isDisposed;
+    }
+
+    private _skipLinkWidget: Widget;
+    private _isDisposed = false;
+  }
 }
