@@ -137,11 +137,16 @@ describe('Shell for tree view', () => {
       expect(shell).toBeInstanceOf(NotebookShell);
     });
 
-    it('should make all areas empty initially', () => {
-      ['main', 'top', 'left', 'right', 'menu'].forEach((area) => {
+    it('should make some areas empty initially', () => {
+      ['main', 'left', 'right', 'menu'].forEach((area) => {
         const widgets = Array.from(shell.widgets(area as Shell.Area));
         expect(widgets.length).toEqual(0);
       });
+    });
+
+    it('should have the skip link widget in the top area initially', () => {
+      const widgets = Array.from(shell.widgets('top'));
+      expect(widgets.length).toEqual(1);
     });
   });
 
