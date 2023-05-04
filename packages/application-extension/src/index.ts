@@ -482,22 +482,29 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
       execute: () => {
         top.setHidden(top.isVisible);
         if (settingRegistry) {
-          void settingRegistry.set(pluginId, 'visible', top.isVisible);
+          void settingRegistry.set(
+            pluginId,
+            'visible',
+            top.isVisible ? 'yes' : 'no'
+          );
         }
       },
       isToggled: () => top.isVisible,
     });
 
-    let settingsOverride = false;
+    let adjustToScreen = false;
 
     if (settingRegistry) {
       const loadSettings = settingRegistry.load(pluginId);
       const updateSettings = (settings: ISettingRegistry.ISettings): void => {
-        const visible = settings.get('visible').composite;
+        // 'visible' property from user preferences or default settings
+        let visible = settings.get('visible').composite;
         if (settings.user.visible !== undefined) {
-          settingsOverride = true;
-          top.setHidden(!visible);
+          visible = settings.user.visible;
         }
+        top.setHidden(visible === 'no');
+        // adjust to screen from user preferences or default settings
+        adjustToScreen = visible === 'automatic';
       };
 
       Promise.all([loadSettings, app.restored])
@@ -517,7 +524,7 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
     }
 
     const onChanged = (): void => {
-      if (settingsOverride) {
+      if (!adjustToScreen) {
         return;
       }
       if (app.format === 'desktop') {
