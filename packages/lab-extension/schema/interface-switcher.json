@@ -10,12 +10,18 @@
         "id": "jp-mainmenu-view",
         "items": [
           {
-            "command": "jupyter-notebook:open-notebook-description",
-            "rank": 10
+            "command": "jupyter-notebook:open-notebook",
+            "rank": 10,
+            "args": {
+              "isMenu": true
+            }
           },
           {
-            "command": "jupyter-notebook:open-lab-description",
-            "rank": 10
+            "command": "jupyter-notebook:open-lab",
+            "rank": 10,
+            "args": {
+              "isMenu": true
+            }
           }
         ]
       }
