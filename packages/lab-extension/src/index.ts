@@ -103,7 +103,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
 
       commands.addCommand(command, {
         label: (args) => {
-          args.noLabel ? '' : commandLabel
+          args.noLabel ? '' : commandLabel;
           if (args.isMenu || args.isPalette) {
             return commandDescription;
           }
@@ -115,7 +115,11 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       });
 
       if (palette) {
-        palette.addItem({ command, category: 'Other', args: { isPalette: true } });
+        palette.addItem({
+          command,
+          category: 'Other',
+          args: { isPalette: true },
+        });
       }
 
       switcher.addItem({ command });
