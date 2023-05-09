@@ -11,7 +11,7 @@
   },
   "resolutions": {
     "@codemirror/state": "~6.2.0",
-    "@codemirror/view": "~6.10.0",
+    "@codemirror/view": "~6.11.0",
     "@jupyter-notebook/application": "~7.0.0-beta.1",
     "@jupyter-notebook/application-extension": "~7.0.0-beta.1",
     "@jupyter-notebook/console-extension": "~7.0.0-beta.1",
@@ -109,7 +109,7 @@
     "@lumino/widgets": "~2.1.1",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
-    "yjs": "~13.6.0"
+    "yjs": "~13.6.1"
   },
   "dependencies": {
     "@jupyter-notebook/application": "^7.0.0-beta.1",
