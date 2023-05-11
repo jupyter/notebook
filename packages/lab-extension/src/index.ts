@@ -83,6 +83,8 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       overflowMenuOptions: { isVisible: false },
     };
     const menubar = new MenuBar(overflowOptions);
+    const nbclassicInstalled =
+      PageConfig.getOption('nbclassic_installed') === 'true';
     const switcher = new Menu({ commands });
     switcher.title.label = trans.__('Open in...');
     switcher.title.icon = caretDownIcon;
@@ -150,8 +152,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       });
     }
 
-    const nbclassicInstalled = PageConfig.getOption('nbclassic_installed');
-    if (nbclassicInstalled === 'true') {
+    if (nbclassicInstalled) {
       addInterface({
         command: CommandIDs.openNbclassic,
         commandLabel: trans.__('Nbclassic'),
