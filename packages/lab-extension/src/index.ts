@@ -41,7 +41,7 @@ namespace CommandIDs {
   export const openLab = 'jupyter-notebook:open-lab';
 
   /**
-   * Open in JupyterLab
+   * Open in NbClassic
    */
   export const openNbclassic = 'jupyter-notebook:open-nbclassic';
 }
