@@ -155,7 +155,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     if (nbclassicInstalled) {
       addInterface({
         command: CommandIDs.openNbclassic,
-        commandLabel: trans.__('Nbclassic'),
+        commandLabel: trans.__('NbClassic'),
         commandDescription: trans.__('Open in %1', 'Nbclassic'),
         buttonLabel: 'openNbclassic',
         urlPrefix: `${baseUrl}nbclassic/tree/`,
