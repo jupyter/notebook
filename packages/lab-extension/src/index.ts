@@ -154,7 +154,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
 
     if (nbclassicInstalled) {
       addInterface({
-        command: CommandIDs.openNbclassic,
+        command: CommandIDs.openNbClassic,
         commandLabel: trans.__('NbClassic'),
         commandDescription: trans.__('Open in %1', 'NbClassic'),
         buttonLabel: 'openNbclassic',
