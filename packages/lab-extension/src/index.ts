@@ -43,7 +43,7 @@ namespace CommandIDs {
   /**
    * Open in NbClassic
    */
-  export const openNbclassic = 'jupyter-notebook:open-nbclassic';
+  export const openNbClassic = 'jupyter-notebook:open-nbclassic';
 }
 
 interface ISwitcherChoice {
