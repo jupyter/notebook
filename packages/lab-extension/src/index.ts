@@ -39,6 +39,11 @@ namespace CommandIDs {
    * Open in JupyterLab
    */
   export const openLab = 'jupyter-notebook:open-lab';
+
+  /**
+   * Open in JupyterLab
+   */
+  export const openNbclassic = 'jupyter-notebook:open-nbclassic';
 }
 
 interface ISwitcherChoice {
@@ -142,6 +147,16 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
         commandDescription: trans.__('Open in %1', 'JupyterLab'),
         buttonLabel: 'openLab',
         urlPrefix: `${baseUrl}doc/tree/`,
+      });
+    }
+
+    if (PageConfig.getOption('nbclassic_installed')) {
+      addInterface({
+        command: CommandIDs.openNbclassic,
+        commandLabel: trans.__('Nbclassic'),
+        commandDescription: trans.__('Open in %1', 'Nbclassic'),
+        buttonLabel: 'openNbclassic',
+        urlPrefix: `${baseUrl}nbclassic/tree/`,
       });
     }
 
