@@ -150,7 +150,8 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       });
     }
 
-    if (PageConfig.getOption('nbclassic_installed')) {
+    const nbclassicInstalled = PageConfig.getOption('nbclassic_installed');
+    if (nbclassicInstalled === 'true') {
       addInterface({
         command: CommandIDs.openNbclassic,
         commandLabel: trans.__('Nbclassic'),
