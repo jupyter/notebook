@@ -83,7 +83,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       overflowMenuOptions: { isVisible: false },
     };
     const menubar = new MenuBar(overflowOptions);
-    const nbclassicInstalled =
+    const nbClassicInstalled =
       PageConfig.getOption('nbclassic_installed') === 'true';
     const switcher = new Menu({ commands });
     switcher.title.label = trans.__('Open in...');
