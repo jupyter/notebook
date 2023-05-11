@@ -152,7 +152,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       });
     }
 
-    if (nbclassicInstalled) {
+    if (nbClassicInstalled) {
       addInterface({
         command: CommandIDs.openNbClassic,
         commandLabel: trans.__('NbClassic'),
