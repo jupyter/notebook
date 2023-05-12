@@ -62,6 +62,9 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
             api_token = os.getenv("JUPYTERHUB_API_TOKEN", "")
             page_config["token"] = api_token
 
+        nbclassic_installed = "nbclassic" in app.serverapp.extension_manager.extensions
+        page_config["nbclassic_installed"] = nbclassic_installed
+
         server_root = self.settings.get("server_root_dir", "")
         server_root = server_root.replace(os.sep, "/")
         server_root = os.path.normpath(os.path.expanduser(server_root))
