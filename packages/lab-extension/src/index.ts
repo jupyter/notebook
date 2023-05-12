@@ -165,12 +165,14 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     let toolbarFactory: (panel: NotebookPanel) => Widget;
     if (switcherOptions.length === 1) {
       toolbarFactory = (panel: NotebookPanel) => {
-        return new CommandToolbarButton({
+        const toolbarButton = new CommandToolbarButton({
           commands,
           id: switcherOptions[0].command,
           label: switcherOptions[0].commandLabel,
           icon: openInNewIcon,
         });
+        toolbarButton.addClass('jp-nb-interface-switcher-button');
+        return toolbarButton;
       };
     } else {
       const overflowOptions = {
