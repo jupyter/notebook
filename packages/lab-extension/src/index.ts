@@ -123,7 +123,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       );
     };
 
-    const addCommand = (option: ISwitcherChoice) => {
+    const addSwitcherCommand = (option: ISwitcherChoice) => {
       const { command, commandLabel, commandDescription, urlPrefix } = option;
 
       const execute = () => {
@@ -158,7 +158,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
 
     switcherOptions.forEach((option) => {
       const { command } = option;
-      addCommand(option);
+      addSwitcherCommand(option);
       switcher.addItem({ command });
     });
 
