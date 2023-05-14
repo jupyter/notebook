@@ -13,6 +13,10 @@
           {
             "command": "notebook:trust",
             "rank": 20
+          },
+          {
+            "command": "application:close",
+            "disabled": true
           }
         ]
       },
