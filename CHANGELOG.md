@@ -79,7 +79,7 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 ### Bugs fixed
 
-- added white space to bottom of edit files [#6804](https://github.com/jupyter/notebook/pull/6804) ([@j-publius](https://github.com/j-publius))
+- added white space to bottom of edit files [#6804](https://github.com/jupyter/notebook/pull/6804) ([@jesuscastillx](https://github.com/jesuscastillx))
 - Hides 'micro' toolbars in notebook [#6791](https://github.com/jupyter/notebook/pull/6791) ([@JasonWeill](https://github.com/JasonWeill))
 
 ### Maintenance and upkeep improvements
