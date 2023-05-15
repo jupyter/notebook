@@ -11,7 +11,7 @@
   },
   "resolutions": {
     "@codemirror/state": "~6.2.0",
-    "@codemirror/view": "~6.11.2",
+    "@codemirror/view": "~6.11.0",
     "@jupyter-notebook/application": "~7.0.0-beta.2",
     "@jupyter-notebook/application-extension": "~7.0.0-beta.2",
     "@jupyter-notebook/console-extension": "~7.0.0-beta.2",
