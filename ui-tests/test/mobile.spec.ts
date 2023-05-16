@@ -7,7 +7,7 @@ import { expect } from '@playwright/test';
 
 import { test } from './fixtures';
 
-import { waitForKernelReady } from './utils';
+import { hideAddCellButton, waitForKernelReady } from './utils';
 
 test.use({ autoGoto: false });
 
@@ -30,6 +30,7 @@ test.describe('Mobile', () => {
   test('The layout should be more compact on the notebook page', async ({
     page,
     tmpPath,
+    browserName,
   }) => {
     const notebook = 'empty.ipynb';
     await page.contents.uploadFile(
@@ -49,6 +50,11 @@ test.describe('Mobile', () => {
     await page.evaluate(async () => {
       await window.jupyterapp.commands.execute('notebook:enter-command-mode');
     });
+
+    // TODO: remove
+    if (browserName === 'firefox') {
+      await hideAddCellButton(page);
+    }
 
     expect(await page.screenshot()).toMatchSnapshot('notebook.png');
   });

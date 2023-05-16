@@ -124,8 +124,6 @@ body[data-notebook='notebooks']
 
 /* Tweak the notebook footer (to add a new cell) */
 body[data-notebook='notebooks'] .jp-Notebook-footer {
-  /* TODO: re-enable */
-  display: none;
   width: 100%;
   margin-left: unset;
   background: unset;
