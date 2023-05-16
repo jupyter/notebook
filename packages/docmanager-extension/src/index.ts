@@ -24,6 +24,7 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
   provides: IDocumentWidgetOpener,
   activate: (app: JupyterFrontEnd) => {
     const baseUrl = PageConfig.getBaseUrl();
+    const docRegistry = app.docRegistry;
     let id = 0;
     return new (class {
       open(widget: IDocumentWidget, options?: DocumentRegistry.IOpenOptions) {
@@ -42,7 +43,8 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
           }
           let url = `${baseUrl}${route}/${path}`;
           // append ?factory only if it's not the default
-          if (widgetName !== 'default') {
+          const defaultFactory = docRegistry.defaultWidgetFactory(path);
+          if (widgetName !== defaultFactory.name) {
             url = `${url}?factory=${widgetName}`;
           }
           window.open(url);
