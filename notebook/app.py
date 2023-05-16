@@ -4,11 +4,11 @@ from os.path import join as pjoin
 
 from jupyter_client.utils import ensure_async
 from jupyter_core.application import base_aliases
+from jupyter_core.paths import jupyter_config_dir
 from jupyter_server.base.handlers import JupyterHandler
 from jupyter_server.extension.handler import (
     ExtensionHandlerJinjaMixin,
     ExtensionHandlerMixin,
-    FileFindHandler,
 )
 from jupyter_server.serverapp import flags
 from jupyter_server.utils import url_escape, url_is_absolute
@@ -51,6 +51,7 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
             "fullStaticUrl": ujoin(self.base_url, "static", self.name),
             "frontendUrl": ujoin(self.base_url, "/"),
             "exposeAppInBrowser": app.expose_app_in_browser,
+            "jupyter_configDir": jupyter_config_dir(),
         }
 
         if "hub_prefix" in app.serverapp.tornado_settings:
@@ -91,6 +92,7 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
 
         page_config.setdefault("mathjaxConfig", mathjax_config)
         page_config.setdefault("fullMathjaxUrl", mathjax_url)
+        page_config.setdefault("jupyterConfigDir", jupyter_config_dir())
 
         # Put all our config in page_config
         for name in config.trait_names():
@@ -207,6 +209,19 @@ class NotebookHandler(NotebookBaseHandler):
         return self.write(tpl)
 
 
+class CustomCssHandler(NotebookBaseHandler):
+    """A redirect handler."""
+
+    @web.authenticated
+    def get(self):
+        """Get the custom css file."""
+
+        self.set_header("Content-Type", 'text/css')
+        page_conf = self.get_page_config()
+        with open(f"{page_conf['jupyterConfigDir']}/custom/custom.css") as css_file:
+            self.write(css_file.read())
+
+
 aliases = dict(base_aliases)
 
 
@@ -280,13 +295,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
         self.handlers.append(("/edit(.*)", FileHandler))
         self.handlers.append(("/consoles/(.*)", ConsoleHandler))
         self.handlers.append(("/terminals/(.*)", TerminalHandler))
-        self.handlers.append(
-            (
-                ujoin(self.default_url, r"/custom/(.*)"),
-                FileFindHandler,
-                {'path': self._default_static_dir, 'no_cache_paths': ['/']},
-            )
-        )
+        self.handlers.append(("/custom/custom.css", CustomCssHandler))
         super().initialize_handlers()
 
     def initialize(self, argv=None):
