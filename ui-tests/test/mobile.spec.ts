@@ -56,7 +56,6 @@ test.describe('Mobile', () => {
       await hideAddCellButton(page);
     }
 
-
     expect(await page.screenshot()).toMatchSnapshot('notebook.png');
   });
 });

@@ -44,7 +44,5 @@ export async function hideAddCellButton(
 ): Promise<void> {
   await page
     .locator('.jp-Notebook-footer')
-    .evaluate(
-      (element) => (element.style.display = 'none')
-    );
+    .evaluate((element) => (element.style.display = 'none'));
 }
