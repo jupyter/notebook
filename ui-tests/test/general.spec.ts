@@ -45,7 +45,7 @@ test.describe('General', () => {
 
     // special case for firefox headless issue
     // see https://github.com/jupyter/notebook/pull/6872#issuecomment-1549594166 for more details
-    if (browserName === 'firefox') {
+    if (browserName && browserName === 'firefox') {
       await hideAddCellButton(page);
     }
 
