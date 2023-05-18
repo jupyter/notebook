@@ -19,9 +19,11 @@ import { Menu, MenuBar, Widget } from '@lumino/widgets';
 
 import { INotebookShell } from '@jupyter-notebook/application';
 
-import { caretDownIcon, CommandToolbarButton } from '@jupyterlab/ui-components';
-
-import { openInNewIcon } from '@jupyter-notebook/ui-components';
+import {
+  caretDownIcon,
+  CommandToolbarButton,
+  launchIcon,
+} from '@jupyterlab/ui-components';
 
 /**
  * The command IDs used by the application plugin.
@@ -169,7 +171,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
           commands,
           id: switcherOptions[0].command,
           label: switcherOptions[0].commandLabel,
-          icon: openInNewIcon,
+          icon: launchIcon,
         });
         toolbarButton.addClass('jp-nb-interface-switcher-button');
         return toolbarButton;
