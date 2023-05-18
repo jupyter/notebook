@@ -30,9 +30,9 @@ jobs:
         run: |
           # PR branch remote must be checked out using https URL
           git config --global hub.protocol https
-          hub pr checkout ${{ github.event.issue.number }}
 
           # TODO: remove hardcoded PR number
+          # hub pr checkout ${{ github.event.issue.number }}
           hub pr checkout 6880
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
