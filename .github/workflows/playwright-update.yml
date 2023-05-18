@@ -55,6 +55,7 @@ jobs:
 
       - name: Install the test dependencies
         run: |
+          npm install -g yarn@3
           cd ui-tests
           jlpm
           jlpm playwright install
@@ -64,7 +65,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           test_folder: ui-tests
-          start_server_script: jupyter notebook --config test/jupyter_server_config.py
+          start_server_script: 'null'
           update_script: test:update --browser ${{ matrix.browser }}
         env:
           DEBUG: pw:webserver
