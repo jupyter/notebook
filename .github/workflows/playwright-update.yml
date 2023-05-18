@@ -55,7 +55,7 @@ jobs:
 
       - name: Install the test dependencies
         run: |
-          npm install -g yarn@3
+          echo "alias yarn='jlpm'" >> ~/.bashrc
           cd ui-tests
           jlpm
           jlpm playwright install
