@@ -61,3 +61,5 @@ jobs:
           test_folder: ui-tests
           start_server_script: 'null'
           update_script: test:update --browser ${{ matrix.browser }}
+        env:
+          DEBUG: pw:webserver
