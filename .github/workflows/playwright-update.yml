@@ -55,7 +55,6 @@ jobs:
 
       - name: Install the test dependencies
         run: |
-          jlpm
           cd ui-tests
           jlpm
           jlpm playwright install
