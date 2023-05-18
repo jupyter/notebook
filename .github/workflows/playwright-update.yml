@@ -23,9 +23,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Base Setup
-        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
-
       - name: Checkout the branch from the PR that triggered the job
         run: |
           # PR branch remote must be checked out using https URL
@@ -36,6 +33,9 @@ jobs:
           hub pr checkout 6880
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Base Setup
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
       - name: Build
         uses: ./.github/actions/build-dist
@@ -56,7 +56,7 @@ jobs:
       - name: Install the test dependencies
         run: |
           cd ui-tests
-          jlpm install
+          jlpm
           jlpm playwright install
 
       - name: Update snapshots
