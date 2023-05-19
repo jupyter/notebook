@@ -4,19 +4,25 @@
 
 ## Introduction
 
-The computational notebook format extends the console-based approach to
-interactive computing in a qualitatively new direction, providing a web-based
-application suitable for capturing the whole computation process: developing,
-documenting, and executing code, as well as communicating the results. The
-Jupyter notebook combines two components:
+**Jupyter Notebook** is a notebook authoring application, under the [Project
+Jupyter](https://docs.jupyter.org/en/latest/) umbrella. Built on the power of
+the [computational notebook format](./index.md#what-is-a-notebook), **Jupyter Notebook** offers fast,
+interactive new ways to prototype and explain your code, explore and visualize
+your data, and share your ideas with others.
 
-**A web application**: a browser-based tool for interactive authoring of
-documents which combine explanatory text, mathematics, computations and their
+Notebooks extend the console-based approach to interactive computing in a
+qualitatively new direction, providing a web-based application suitable for
+capturing the whole computation process: developing, documenting, and executing
+code, as well as communicating the results. The Jupyter notebook combines two
+components:
+
+**A web application:** A browser-based editing program for interactive authoring
+of documents which combine explanatory text, mathematics, computations and their
 rich media output.
 
-**Notebook documents**: a representation of all content visible in the web
-application, including inputs and outputs of the computations, explanatory
-text, mathematics, images, and rich media representations of objects.
+**The notebook server:** A server program that runs either on your PC, or
+on a public or private network, which serves your notebook files to the editor
+app in the browser.
 
 ```{seealso}
 See the {ref}`installation guide <jupyter:install>` on how to install the
