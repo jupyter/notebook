@@ -6,9 +6,9 @@
 
 **Jupyter Notebook** is a notebook authoring application, under the [Project
 Jupyter](https://docs.jupyter.org/en/latest/) umbrella. Built on the power of
-the [computational notebook format](./index.md#what-is-a-notebook), **Jupyter Notebook** offers fast,
-interactive new ways to prototype and explain your code, explore and visualize
-your data, and share your ideas with others.
+the [computational notebook format](https://docs.jupyter.org/en/latest/#what-is-a-notebook),
+**Jupyter Notebook** offers fast, interactive new ways to prototype and explain
+your code, explore and visualize your data, and share your ideas with others.
 
 Notebooks extend the console-based approach to interactive computing in a
 qualitatively new direction, providing a web-based application suitable for

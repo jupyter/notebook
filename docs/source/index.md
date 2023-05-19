@@ -18,7 +18,7 @@ the Project Jupyter umbrella, like [JuyterLab](https://jupyterlab.readthedocs.io
 Jupyter Notebook offers a lightweight, simplified experience compared to JupyterLab.
 
 Read more about how to use **Jupyter Notebook** on this site, in the [User
-Documentation](user-documentation).
+Documentation](notebook).
 
 ```{image} ./_static/images/notebook-running-code.png
 
