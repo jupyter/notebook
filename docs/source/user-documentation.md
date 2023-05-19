@@ -1,5 +1,7 @@
 # User Documentation
 
+Use this page to navigate to different parts of the user documentation.
+
 ```{toctree}
 :maxdepth: 2
 
