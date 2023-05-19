@@ -4,7 +4,7 @@ Welcome to the Jupyter Notebook documentation site. Jupyter Notebook is
 a lightweight notebook authoring application, and is a part of [Project
 Jupyter](https://docs.jupyter.org/en/latest/), a large umbrella project
 centered around the goal of providing tools for interactive computing
-and computational notebooks.
+with computational notebooks.
 
 Computational notebook documents provide a way to explain code and tell
 stories with data, by combining plain language descriptions, computer code,
