@@ -17,12 +17,12 @@ code, as well as communicating the results. The Jupyter notebook combines two
 components:
 
 **A web application:** A browser-based editing program for interactive authoring
-of documents which combine explanatory text, mathematics, computations and their
-rich media output.
+of documents which provides a fast interactive environment for prototyping and
+explaining code, exploring and visualizing data, and sharing ideas with others
 
-**The notebook server:** A server program that runs either on your PC, or
-on a public or private network, which serves your notebook files to the editor
-app in the browser.
+**Computational Notebook documents**: A shareable document that combines computer
+code, plain language descriptions, data, rich visualizations like 3D models, charts,
+mathematics, graphs and figures, and interactive controls
 
 ```{seealso}
 See the {ref}`installation guide <jupyter:install>` on how to install the
