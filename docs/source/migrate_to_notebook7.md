@@ -1,11 +1,11 @@
 # Migrating to Notebook 7
 
-_Updated 2023-04-24_
+_Updated 2023-05-17_
 
 ```{warning}
-The Jupyter Notebook application's newest version 7 upgrade might break your
-extensions or other customizations, please read more below to find out if you
-need to take any actions to ensure a smooth, uninterrupted experience
+Version 7 of the Jupyter Notebook application might break your
+extensions or other customizations. Please read this page to find out if you
+need to take any actions to ensure a smooth, uninterrupted experience.
 ```
 
 A major upgrade to the Jupyter Notebook interface is coming with Notebook 7! This
@@ -44,14 +44,14 @@ a lot of new features and improvements in JupyterLab, but also in a lot of
 new features and improvements that were not possible to integrate to the
 Classic Notebook.
 
-For a while the plan was to progressively _sunset_ the Classic Notebook and
+For a while, the plan was to progressively _sunset_ the Classic Notebook and
 not maintain it anymore. However, the Classic Notebook is still widely used
 and it is still the default user interface for Jupyter in many scenarios.
 Many users and organizations have not been able to switch to JupyterLab yet.
 For some users, JupyterLab can also be a more complex environment to use,
 especially for beginners.
 
-Following the feedback from the community, it was decided late 2021 to
+Following the feedback from the community, it was decided in late 2021 to
 continue developing the Jupyter Notebook application and _sunrise_ it as
 Notebook 7.
 
