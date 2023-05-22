@@ -15,7 +15,7 @@ prototyping and explaining code, exploring and visualizing data, and sharing
 ideas with others.
 
 **Jupyter Notebook** is a sibling to other notebook authoring applications under
-the Project Jupyter umbrella, like [JuyterLab](https://jupyterlab.readthedocs.io/en/stable/).
+the Project Jupyter umbrella, like [JupyterLab](https://jupyterlab.readthedocs.io/en/stable/).
 Jupyter Notebook offers a lightweight, simplified experience compared to JupyterLab.
 
 Read more about how to use **Jupyter Notebook** on this site, in the [User
