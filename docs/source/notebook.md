@@ -17,7 +17,7 @@ code, as well as communicating the results. The Jupyter notebook combines two
 components:
 
 **A web application:** A browser-based editing program for interactive authoring
-of documents which provides a fast interactive environment for prototyping and
+of computational notebooks which provides a fast interactive environment for prototyping and
 explaining code, exploring and visualizing data, and sharing ideas with others
 
 **Computational Notebook documents**: A shareable document that combines computer
