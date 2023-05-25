@@ -56,7 +56,7 @@ jobs:
           jlpm playwright install
 
       - name: Update snapshots
-        uses: jupyter-server/maintainer-tools/.github/actions/update-snapshots@v1
+        uses: jupyterlab/maintainer-tools/.github/actions/update-snapshots@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           npm_client: jlpm
