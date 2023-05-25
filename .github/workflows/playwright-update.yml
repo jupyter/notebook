@@ -56,9 +56,7 @@ jobs:
           jlpm playwright install
 
       - name: Update snapshots
-        # TODO: switch back to jupyterlab/maintainer-tools action when merged
-        # https://github.com/jupyterlab/maintainer-tools/pull/196
-        uses: jtpio/maintainer-tools/.github/actions/update-snapshots@yarn-cmd
+        uses: jupyter-server/maintainer-tools/.github/actions/update-snapshots@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           npm_client: jlpm
