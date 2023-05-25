@@ -21,16 +21,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Base Setup
-        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
-
       - name: Checkout the branch from the PR that triggered the job
         run: |
           # PR branch remote must be checked out using https URL
           git config --global hub.protocol https
+
           hub pr checkout ${{ github.event.issue.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Base Setup
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
       - name: Build
         uses: ./.github/actions/build-dist
@@ -55,9 +56,12 @@ jobs:
           jlpm playwright install
 
       - name: Update snapshots
-        uses: jupyterlab/maintainer-tools/.github/actions/update-snapshots@v1
+        uses: jupyter-server/maintainer-tools/.github/actions/update-snapshots@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          npm_client: jlpm
           test_folder: ui-tests
           start_server_script: 'null'
           update_script: test:update --browser ${{ matrix.browser }}
+        env:
+          DEBUG: pw:webserver
