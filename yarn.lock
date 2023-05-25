@@ -2029,7 +2029,6 @@ __metadata:
     "@jupyterlab/metadataform-extension": ^4.0.0
     "@jupyterlab/notebook-extension": ^4.0.0
     "@jupyterlab/pdf-extension": ^4.0.0
-    "@jupyterlab/rendermime-extension": ^4.0.0
     "@jupyterlab/running-extension": ^4.0.0
     "@jupyterlab/settingeditor": ^4.0.0
     "@jupyterlab/settingeditor-extension": ^4.0.0
@@ -2075,6 +2074,7 @@ __metadata:
     "@jupyterlab/docmanager": ^4.0.0
     "@jupyterlab/docregistry": ^4.0.0
     "@jupyterlab/mainmenu": ^4.0.0
+    "@jupyterlab/rendermime": ^4.0.0
     "@jupyterlab/settingregistry": ^4.0.0
     "@jupyterlab/translation": ^4.0.0
     "@lumino/coreutils": ^2.1.1
@@ -3610,19 +3610,6 @@ __metadata:
     "@lumino/widgets": ^2.1.1
     react: ^18.2.0
   checksum: a5bdf1a5cc5ea2794e152fe1d273d081c296c0e804471f398aad2edf95fb11c8d2fb79c2a6e7db96c6ac8c2b6537499afa6e77ab37d7bb17d849eb882c53d2b4
-  languageName: node
-  linkType: hard
-
-"@jupyterlab/rendermime-extension@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@jupyterlab/rendermime-extension@npm:4.0.0"
-  dependencies:
-    "@jupyterlab/application": ^4.0.0
-    "@jupyterlab/apputils": ^4.0.0
-    "@jupyterlab/docmanager": ^4.0.0
-    "@jupyterlab/rendermime": ^4.0.0
-    "@jupyterlab/translation": ^4.0.0
-  checksum: 821ca4d0f098430780214d2a8a53fbdc53d60db1f839509c94381a4a4787a8fa7dc218d5e771c14b290e4f3a83c50d8c72d9295b126256af74b41acf8b67f85a
   languageName: node
   linkType: hard
 
