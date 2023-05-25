@@ -23,7 +23,7 @@ test.describe('Local Links', () => {
 
     const [current] = await Promise.all([
       page.waitForEvent('popup'),
-      page.click('text="Current Directory"'),
+      page.getByText('Current Directory').last().click(),
     ]);
 
     await current.waitForLoadState();
@@ -42,7 +42,7 @@ test.describe('Local Links', () => {
 
     const [folder] = await Promise.all([
       page.waitForEvent('popup'),
-      page.click('text="Open Test Folder"'),
+      page.getByText('Open Test Folder').last().click(),
     ]);
 
     await folder.waitForLoadState();
