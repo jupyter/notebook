@@ -61,7 +61,7 @@ jobs:
         uses: jtpio/maintainer-tools/.github/actions/update-snapshots@yarn-cmd
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          yarn_cmd: jlpm
+          npm_client: jlpm
           test_folder: ui-tests
           start_server_script: 'null'
           update_script: test:update --browser ${{ matrix.browser }}
