@@ -79,7 +79,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     };
     const menubar = new MenuBar(overflowOptions);
     const switcher = new Menu({ commands });
-    switcher.title.label = trans.__('Open in...');
+    switcher.title.label = trans.__('TEST...');
     switcher.title.icon = caretDownIcon;
     menubar.addMenu(switcher);
 
