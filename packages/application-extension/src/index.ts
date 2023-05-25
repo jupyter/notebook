@@ -32,7 +32,7 @@ import {
   IRenderMime,
   IRenderMimeRegistry,
   RenderMimeRegistry,
-  standardRendererFactories
+  standardRendererFactories,
 } from '@jupyterlab/rendermime';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -311,8 +311,8 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
 };
 
 /**
-  * A plugin providing a rendermime registry.*
-*/
+ * A plugin providing a rendermime registry.
+ */
 const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
   id: '@jupyter-notebook/application-extension:rendermime',
   autoStart: true,
@@ -323,7 +323,7 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
     ILatexTypesetter,
     ISanitizer,
     IMarkdownParser,
-    ITranslator
+    ITranslator,
   ],
   activate: (
     app: JupyterFrontEnd,
@@ -337,7 +337,7 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
     if (docManager) {
       app.commands.addCommand(CommandIDs.handleLink, {
         label: trans.__('Handle Local Link'),
-        execute: args => {
+        execute: (args) => {
           const path = args['path'] as string | undefined | null;
           if (path === undefined || path === null) {
             return;
@@ -350,7 +350,7 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
               const treeUrl = URLExt.join(url, 'tree', model.path);
               window.open(treeUrl, '_blank');
             });
-        }
+        },
       });
     }
     return new RenderMimeRegistry({
@@ -358,24 +358,24 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
       linkHandler: !docManager
         ? undefined
         : {
-          handleLink: (node: HTMLElement, path: string, id?: string) => {
-            // If node has the download attribute explicitly set, use the
-            // default browser downloading behavior.
-            if (node.tagName === 'A' && node.hasAttribute('download')) {
-              return;
-            }
-            app.commandLinker.connectNode(node, CommandIDs.handleLink, {
-              path,
-              id
-            });
-          }
-        },
+            handleLink: (node: HTMLElement, path: string, id?: string) => {
+              // If node has the download attribute explicitly set, use the
+              // default browser downloading behavior.
+              if (node.tagName === 'A' && node.hasAttribute('download')) {
+                return;
+              }
+              app.commandLinker.connectNode(node, CommandIDs.handleLink, {
+                path,
+                id,
+              });
+            },
+          },
       latexTypesetter: latexTypesetter ?? undefined,
       markdownParser: markdownParser ?? undefined,
       translator: translator ?? undefined,
-      sanitizer: sanitizer ?? undefined
+      sanitizer: sanitizer ?? undefined,
     });
-  }
+  },
 };
 
 /**
