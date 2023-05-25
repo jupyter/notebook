@@ -9,7 +9,7 @@ import { test } from './fixtures';
 
 import { hideAddCellButton, waitForKernelReady } from './utils';
 
-test.use({ autoGoto: false });
+test.use({ autoGoto: false, viewport: { width: 512, height: 768 } });
 
 test.describe('Mobile', () => {
   test('The layout should be more compact on the file browser page', async ({
@@ -17,10 +17,6 @@ test.describe('Mobile', () => {
     tmpPath,
   }) => {
     await page.goto(`tree/${tmpPath}`);
-
-    // temporary workaround to trigger a toolbar resize
-    // TODO: investigate in https://github.com/jupyter/notebook/issues/6553
-    await page.setViewportSize({ width: 524, height: 800 });
 
     await page.waitForSelector('#top-panel-wrapper', { state: 'hidden' });
 
@@ -41,10 +37,6 @@ test.describe('Mobile', () => {
 
     // wait for the kernel status animations to be finished
     await waitForKernelReady(page);
-
-    // temporary workaround to trigger a toolbar resize
-    // TODO: investigate in https://github.com/jupyter/notebook/issues/6553
-    await page.setViewportSize({ width: 524, height: 800 });
 
     // force switching back to command mode to avoid capturing the cursor in the screenshot
     await page.evaluate(async () => {
