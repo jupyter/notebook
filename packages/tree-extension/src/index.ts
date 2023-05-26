@@ -39,9 +39,13 @@ import {
   runningIcon,
 } from '@jupyterlab/ui-components';
 
+import { Signal } from '@lumino/signaling';
+
 import { Menu, MenuBar } from '@lumino/widgets';
 
 import { NotebookTreeWidget, INotebookTree } from '@jupyter-notebook/tree';
+
+import { FileActionsComponent } from './fileactions';
 
 /**
  * The file browser factory.
@@ -238,7 +242,37 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     nbTreeWidget.tabBar.addTab(browser.title);
     nbTreeWidget.tabsMovable = false;
 
-    // Toolbar
+    // The file browser currently does not provide a way to detect when
+    // the selection changes. So we define a custom mutation observer
+    // TODO: add link to the upstream JupyterLab issue
+    const selectionChanged = new Signal<FileBrowser, void>(browser);
+    const observer = new MutationObserver((mutationList, observer) => {
+      for (const mutation of mutationList) {
+        if (mutation.type === 'childList') {
+          selectionChanged.emit(void 0);
+        }
+      }
+    });
+    const config = { attributes: true, childList: true, subtree: true };
+    observer.observe(browser.node, config);
+
+    // Create a toolbar item that adds buttons to the file browser toolbar
+    // to perform actions on the files
+    toolbarRegistry.addFactory(
+      FILE_BROWSER_FACTORY,
+      'fileActions',
+      (browser: FileBrowser) => {
+        const { commands } = app;
+        const fileActions = FileActionsComponent.create({
+          commands,
+          browser,
+          selectionChanged,
+          translator
+        });
+        return fileActions;
+      }
+    );
+
     toolbarRegistry.addFactory(
       FILE_BROWSER_FACTORY,
       'uploader',
