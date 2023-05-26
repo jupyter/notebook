@@ -9,7 +9,7 @@ import { test } from './fixtures';
 
 import { hideAddCellButton, waitForKernelReady } from './utils';
 
-test.use({ autoGoto: false, viewport: { width: 512, height: 768 } });
+test.use({ autoGoto: false, viewport: { width: 524, height: 800 } });
 
 test.describe('Mobile', () => {
   test('The layout should be more compact on the file browser page', async ({
