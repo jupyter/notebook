@@ -1,7 +1,11 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import { CommandToolbarButtonComponent, ReactWidget, UseSignal } from '@jupyterlab/apputils';
+import {
+  CommandToolbarButtonComponent,
+  ReactWidget,
+  UseSignal,
+} from '@jupyterlab/apputils';
 
 import { FileBrowser } from '@jupyterlab/filebrowser';
 
@@ -21,12 +25,13 @@ const Commands = ({
   commands,
   browser,
 }: {
-  commands: CommandRegistry,
+  commands: CommandRegistry;
   browser: FileBrowser;
 }): JSX.Element => {
   const selection = Array.from(browser.selectedItems());
   const oneFolder = selection.some((item) => item.type === 'directory');
-  const multipleFiles = selection.filter((item) => item.type === 'file').length > 1;
+  const multipleFiles =
+    selection.filter((item) => item.type === 'file').length > 1;
   if (selection.length === 0) {
     // TODO: trans
     return <div>Select items to perform actions on them.</div>;
@@ -69,16 +74,14 @@ const FileActions = ({
   selectionChanged,
   translator,
 }: {
-  commands: CommandRegistry,
+  commands: CommandRegistry;
   browser: FileBrowser;
-  selectionChanged: ISignal<FileBrowser, void>,
+  selectionChanged: ISignal<FileBrowser, void>;
   translator: ITranslator;
 }): JSX.Element => {
   return (
     <UseSignal signal={selectionChanged}>
-      {(): JSX.Element => (
-        <Commands commands={commands} browser={browser} />
-      )}
+      {(): JSX.Element => <Commands commands={commands} browser={browser} />}
     </UseSignal>
   );
 };
@@ -98,13 +101,18 @@ export namespace FileActionsComponent {
     selectionChanged,
     translator,
   }: {
-    commands: CommandRegistry,
+    commands: CommandRegistry;
     browser: FileBrowser;
-    selectionChanged: ISignal<FileBrowser, void>,
+    selectionChanged: ISignal<FileBrowser, void>;
     translator: ITranslator;
   }): ReactWidget => {
     return ReactWidget.create(
-      <FileActions commands={commands} browser={browser} selectionChanged={selectionChanged} translator={translator} />
+      <FileActions
+        commands={commands}
+        browser={browser}
+        selectionChanged={selectionChanged}
+        translator={translator}
+      />
     );
   };
 }

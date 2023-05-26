@@ -267,7 +267,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
           commands,
           browser,
           selectionChanged,
-          translator
+          translator,
         });
         return fileActions;
       }
