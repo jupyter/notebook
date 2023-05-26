@@ -10,7 +10,7 @@ import { test } from './fixtures';
 test.describe('File Browser', () => {
   test.beforeEach(async ({ page, tmpPath }) => {
     await page.contents.uploadFile(
-      path.resolve(__dirname, `./notebooks/empty.ipynb`),
+      path.resolve(__dirname, './notebooks/empty.ipynb'),
       `${tmpPath}/empty.ipynb`
     );
     await page.contents.createDirectory(`${tmpPath}/folder1`);
@@ -58,7 +58,7 @@ test.describe('File Browser', () => {
   test('Select files and open', async ({ page, tmpPath }) => {
     // upload an additional notebook
     await page.contents.uploadFile(
-      path.resolve(__dirname, `./notebooks/simple.ipynb`),
+      path.resolve(__dirname, './notebooks/simple.ipynb'),
       `${tmpPath}/simple.ipynb`
     );
     await page.filebrowser.refresh();
