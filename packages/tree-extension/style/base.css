@@ -47,5 +47,5 @@
 .jp-FileBrowser-toolbar .jp-FileActions .jp-ToolbarButtonComponent {
   border: solid 1px var(--jp-border-color2);
   margin: 1px;
-  height: 100%;
+  min-height: 100%;
 }
