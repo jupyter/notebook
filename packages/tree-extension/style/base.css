@@ -28,3 +28,24 @@
 .jp-DirListing-content .jp-DirListing-checkboxWrapper {
   visibility: visible;
 }
+
+/* Action buttons */
+
+.jp-FileBrowser-toolbar > .jp-FileActions.jp-Toolbar-item {
+  display: flex;
+  flex-direction: row;
+}
+
+.jp-FileActions .jp-ToolbarButtonComponent-icon {
+  display: none;
+}
+
+.jp-FileActions .jp-ToolbarButtonComponent[data-command='filebrowser:delete'] {
+  background-color: var(--jp-error-color1);
+}
+
+.jp-FileBrowser-toolbar .jp-FileActions .jp-ToolbarButtonComponent {
+  border: solid 1px var(--jp-border-color2);
+  margin: 1px;
+  height: 100%;
+}

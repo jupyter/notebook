@@ -24,17 +24,19 @@ import React from 'react';
 const Commands = ({
   commands,
   browser,
+  translator,
 }: {
   commands: CommandRegistry;
   browser: FileBrowser;
+  translator: ITranslator;
 }): JSX.Element => {
+  const trans = translator.load('notebook');
   const selection = Array.from(browser.selectedItems());
   const oneFolder = selection.some((item) => item.type === 'directory');
   const multipleFiles =
     selection.filter((item) => item.type === 'file').length > 1;
   if (selection.length === 0) {
-    // TODO: trans
-    return <div>Select items to perform actions on them.</div>;
+    return <div>{trans.__('Select items to perform actions on them.')}</div>;
   } else {
     const buttons = ['delete'];
     if (!oneFolder) {
@@ -56,6 +58,7 @@ const Commands = ({
             commands={commands}
             id={`filebrowser:${action}`}
             args={{ toolbar: true }}
+            icon={undefined}
           />
         ))}
       </>
@@ -80,8 +83,14 @@ const FileActions = ({
   translator: ITranslator;
 }): JSX.Element => {
   return (
-    <UseSignal signal={selectionChanged}>
-      {(): JSX.Element => <Commands commands={commands} browser={browser} />}
+    <UseSignal signal={selectionChanged} shouldUpdate={() => true}>
+      {(): JSX.Element => (
+        <Commands
+          commands={commands}
+          browser={browser}
+          translator={translator}
+        />
+      )}
     </UseSignal>
   );
 };
