@@ -46,7 +46,7 @@ const Commands = ({
       }
       buttons.unshift('download');
       buttons.unshift('open');
-    } else {
+    } else if (selection.length === 1) {
       buttons.unshift('rename');
     }
 
