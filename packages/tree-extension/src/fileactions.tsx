@@ -106,7 +106,7 @@ export namespace FileActionsComponent {
     selectionChanged: ISignal<FileBrowser, void>;
     translator: ITranslator;
   }): ReactWidget => {
-    return ReactWidget.create(
+    const widget = ReactWidget.create(
       <FileActions
         commands={commands}
         browser={browser}
@@ -114,5 +114,7 @@ export namespace FileActionsComponent {
         translator={translator}
       />
     );
+    widget.addClass('jp-FileActions');
+    return widget;
   };
 }

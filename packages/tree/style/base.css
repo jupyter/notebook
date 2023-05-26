@@ -49,3 +49,8 @@ button[data-command='filebrowser:refresh'] .jp-ToolbarButtonComponent-label {
 .jp-TreePanel .lm-TabBar-tabIcon svg {
   vertical-align: sub;
 }
+
+.jp-FileActions {
+  display: flex;
+  flex-direction: row;
+}
