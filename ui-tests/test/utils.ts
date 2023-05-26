@@ -32,7 +32,9 @@ export async function waitForKernelReady(
     }, true);
     return finished;
   });
-  await page.waitForSelector('.jp-DebuggerBugButton[aria-disabled="false"]');
+  if (page.viewportSize()?.width > 600) {
+    await page.waitForSelector('.jp-DebuggerBugButton[aria-disabled="false"]');
+  }
 }
 
 /**
