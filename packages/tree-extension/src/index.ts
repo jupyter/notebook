@@ -243,6 +243,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     nbTreeWidget.tabsMovable = false;
 
     // TODO: use upstream signal when available to detect selection changes
+    // https://github.com/jupyterlab/jupyterlab/issues/14598
     const selectionChanged = new Signal<FileBrowser, void>(browser);
     const methods = [
       '_selectItem',
