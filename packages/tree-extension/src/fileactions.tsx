@@ -75,7 +75,10 @@ const FileActions = ({
   translator: ITranslator;
 }): JSX.Element => {
   return (
-    <UseSignal signal={selectionChanged}> {() => (<Commands commands={commands} browser={browser} />)}
+    <UseSignal signal={selectionChanged}>
+      {(): JSX.Element => (
+        <Commands commands={commands} browser={browser} />
+      )}
     </UseSignal>
   );
 };
