@@ -44,6 +44,12 @@
   background-color: var(--jp-error-color1);
 }
 
+.jp-FileActions
+  .jp-ToolbarButtonComponent[data-command='filebrowser:delete']
+  .jp-ToolbarButtonComponent-label {
+  color: var(--jp-ui-inverse-font-color1);
+}
+
 .jp-FileBrowser-toolbar .jp-FileActions .jp-ToolbarButtonComponent {
   border: solid 1px var(--jp-border-color2);
   margin: 1px;
