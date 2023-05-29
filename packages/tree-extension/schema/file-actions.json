@@ -1,0 +1,10 @@
+{
+  "title": "File Browser Widget - File Actions",
+  "description": "File Browser widget - File Actions settings.",
+  "jupyter.lab.toolbars": {
+    "FileBrowser": [{ "name": "fileActions", "rank": 0 }]
+  },
+  "properties": {},
+  "additionalProperties": false,
+  "type": "object"
+}
