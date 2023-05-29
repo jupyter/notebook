@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Notebook Shell",
+  "description": "Notebook Shell layout settings.",
+  "properties": {
+    "layout": {
+      "type": "object",
+      "title": "Customize shell widget positioning",
+      "description": "Overrides default widget position in the application layout",
+      "properties": {
+        "single": { "$ref": "#/definitions/layout" },
+        "multiple": { "$ref": "#/definitions/layout", "default": {} }
+      },
+      "default": {
+        "single": {
+          "Linked Console": { "area": "down" },
+          "Inspector": { "area": "down" },
+          "Cloned Output": { "area": "down" }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "type": "object",
+  "definitions": {
+    "layout": {
+      "type": "object",
+      "properties": {
+        "[\\w-]+": {
+          "type": "object",
+          "properties": {
+            "area": {
+              "enum": ["left", "right"]
+            },
+            "options": {
+              "$ref": "#/definitions/options"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  }
+}
