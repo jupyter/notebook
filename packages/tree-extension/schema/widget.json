@@ -3,7 +3,6 @@
   "description": "File Browser widget settings.",
   "jupyter.lab.toolbars": {
     "FileBrowser": [
-      { "name": "fileActions", "rank": 0 },
       { "name": "spacer", "type": "spacer", "rank": 900 },
       { "name": "fileNameSearcher", "rank": 950, "disabled": true },
       { "name": "new-dropdown", "rank": 1000 },
