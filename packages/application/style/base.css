@@ -85,7 +85,7 @@ body[data-notebook='edit'] #spacer-widget-bottom {
 }
 
 #main-panel .jp-TreePanel > .lm-TabPanel-stackedPanel {
-  box-shadow: 0px 0px 12px 1px var(--jp-shadow-umbra-color);
+  box-shadow: var(--jp-elevation-z4);
 }
 
 body[data-notebook='notebooks'] #main-panel {
