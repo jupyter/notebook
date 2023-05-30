@@ -80,6 +80,14 @@ body[data-notebook='edit'] #spacer-widget-bottom {
   box-shadow: var(--jp-elevation-z4);
 }
 
+#main-panel .jp-TreePanel {
+  padding: 0rem 2rem;
+}
+
+#main-panel .jp-TreePanel > .lm-TabPanel-stackedPanel {
+  box-shadow: 0px 0px 12px 1px var(--jp-shadow-umbra-color);
+}
+
 body[data-notebook='notebooks'] #main-panel {
   margin-left: unset;
   margin-right: unset;
