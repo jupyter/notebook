@@ -12,6 +12,7 @@ import {
 import {
   DOMUtils,
   ICommandPalette,
+  ISanitizer,
   IToolbarWidgetRegistry,
 } from '@jupyterlab/apputils';
 
@@ -25,9 +26,18 @@ import { DocumentWidget } from '@jupyterlab/docregistry';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
+import {
+  ILatexTypesetter,
+  IMarkdownParser,
+  IRenderMime,
+  IRenderMimeRegistry,
+  RenderMimeRegistry,
+  standardRendererFactories,
+} from '@jupyterlab/rendermime';
+
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
-import { ITranslator } from '@jupyterlab/translation';
+import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
 import {
   NotebookApp,
@@ -64,6 +74,11 @@ const STRIP_IPYNB = /\.ipynb$/;
  * The command IDs used by the application plugin.
  */
 namespace CommandIDs {
+  /**
+   * Handle local links
+   */
+  export const handleLink = 'application:handle-local-link';
+
   /**
    * Toggle Top Bar visibility
    */
@@ -292,6 +307,74 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
       throw new Error(`${paths.id} must be activated in Jupyter Notebook.`);
     }
     return app.paths;
+  },
+};
+
+/**
+ * A plugin providing a rendermime registry.
+ */
+const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
+  id: '@jupyter-notebook/application-extension:rendermime',
+  autoStart: true,
+  provides: IRenderMimeRegistry,
+  description: 'Provides the render mime registry.',
+  optional: [
+    IDocumentManager,
+    ILatexTypesetter,
+    ISanitizer,
+    IMarkdownParser,
+    ITranslator,
+  ],
+  activate: (
+    app: JupyterFrontEnd,
+    docManager: IDocumentManager | null,
+    latexTypesetter: ILatexTypesetter | null,
+    sanitizer: IRenderMime.ISanitizer | null,
+    markdownParser: IMarkdownParser | null,
+    translator: ITranslator | null
+  ) => {
+    const trans = (translator ?? nullTranslator).load('jupyterlab');
+    if (docManager) {
+      app.commands.addCommand(CommandIDs.handleLink, {
+        label: trans.__('Handle Local Link'),
+        execute: (args) => {
+          const path = args['path'] as string | undefined | null;
+          if (path === undefined || path === null) {
+            return;
+          }
+          return docManager.services.contents
+            .get(path, { content: false })
+            .then((model) => {
+              // Open in a new browser tab
+              const url = PageConfig.getBaseUrl();
+              const treeUrl = URLExt.join(url, 'tree', model.path);
+              window.open(treeUrl, '_blank');
+            });
+        },
+      });
+    }
+    return new RenderMimeRegistry({
+      initialFactories: standardRendererFactories,
+      linkHandler: !docManager
+        ? undefined
+        : {
+            handleLink: (node: HTMLElement, path: string, id?: string) => {
+              // If node has the download attribute explicitly set, use the
+              // default browser downloading behavior.
+              if (node.tagName === 'A' && node.hasAttribute('download')) {
+                return;
+              }
+              app.commandLinker.connectNode(node, CommandIDs.handleLink, {
+                path,
+                id,
+              });
+            },
+          },
+      latexTypesetter: latexTypesetter ?? undefined,
+      markdownParser: markdownParser ?? undefined,
+      translator: translator ?? undefined,
+      sanitizer: sanitizer ?? undefined,
+    });
   },
 };
 
@@ -919,6 +1002,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   opener,
   pages,
   paths,
+  rendermime,
   shell,
   sidePanelVisibility,
   status,

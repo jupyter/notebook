@@ -39,9 +39,13 @@ import {
   runningIcon,
 } from '@jupyterlab/ui-components';
 
+import { Signal } from '@lumino/signaling';
+
 import { Menu, MenuBar } from '@lumino/widgets';
 
 import { NotebookTreeWidget, INotebookTree } from '@jupyter-notebook/tree';
+
+import { FileActionsComponent } from './fileactions';
 
 /**
  * The file browser factory.
@@ -116,6 +120,54 @@ const createNew: JupyterFrontEndPlugin<void> = {
         }
       );
     }
+  },
+};
+
+/**
+ * A plugin to add file browser actions to the file browser toolbar.
+ */
+const fileActions: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/tree-extension:file-actions',
+  autoStart: true,
+  requires: [IDefaultFileBrowser, IToolbarWidgetRegistry, ITranslator],
+  activate: (
+    app: JupyterFrontEnd,
+    browser: IDefaultFileBrowser,
+    toolbarRegistry: IToolbarWidgetRegistry,
+    translator: ITranslator
+  ) => {
+    // TODO: use upstream signal when available to detect selection changes
+    // https://github.com/jupyterlab/jupyterlab/issues/14598
+    const selectionChanged = new Signal<FileBrowser, void>(browser);
+    const methods = [
+      '_selectItem',
+      '_handleMultiSelect',
+      'handleFileSelect',
+    ] as const;
+    methods.forEach((method: (typeof methods)[number]) => {
+      const original = browser['listing'][method];
+      browser['listing'][method] = (...args: any[]) => {
+        original.call(browser['listing'], ...args);
+        selectionChanged.emit(void 0);
+      };
+    });
+
+    // Create a toolbar item that adds buttons to the file browser toolbar
+    // to perform actions on the files
+    toolbarRegistry.addFactory(
+      FILE_BROWSER_FACTORY,
+      'fileActions',
+      (browser: FileBrowser) => {
+        const { commands } = app;
+        const fileActions = FileActionsComponent.create({
+          commands,
+          browser,
+          selectionChanged,
+          translator,
+        });
+        return fileActions;
+      }
+    );
   },
 };
 
@@ -238,7 +290,6 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     nbTreeWidget.tabBar.addTab(browser.title);
     nbTreeWidget.tabsMovable = false;
 
-    // Toolbar
     toolbarRegistry.addFactory(
       FILE_BROWSER_FACTORY,
       'uploader',
@@ -331,6 +382,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   createNew,
+  fileActions,
   loadPlugins,
   openFileBrowser,
   notebookTreeWidget,
