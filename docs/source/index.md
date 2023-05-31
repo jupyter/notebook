@@ -20,7 +20,7 @@ and [Jupyter Desktop](https://github.com/jupyterlab/jupyterlab-desktop).
 Jupyter Notebook offers a lightweight, simplified experience compared to JupyterLab.
 
 Read more about how to use **Jupyter Notebook** on this site, in the [User
-Documentation](notebook).
+Documentation](notebook.md).
 
 ```{image} ./_static/images/notebook-running-code.png
 
