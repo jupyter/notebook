@@ -80,17 +80,7 @@ body[data-notebook='edit'] #spacer-widget-bottom {
   box-shadow: var(--jp-elevation-z4);
 }
 
-body[data-format='desktop'] #main-panel .jp-TreePanel {
-  padding: 0rem 2rem;
-}
-
-@media only screen and (max-width: 760px) {
-  body[data-format='mobile'] #main-panel .jp-TreePanel {
-    padding: 0rem 0rem;
-  }
-}
-
-#main-panel .jp-TreePanel > .lm-TabPanel-stackedPanel {
+.jp-TreePanel > .lm-TabPanel-stackedPanel {
   box-shadow: var(--jp-elevation-z4);
 }
 
@@ -102,4 +92,14 @@ body[data-notebook='notebooks'] #main-panel {
 
 body[data-notebook='notebooks'] #spacer-widget-top {
   min-height: unset;
+}
+
+#main-panel > .jp-TreePanel {
+  padding: 0px 5px;
+}
+
+@media only screen and (max-width: 760px) {
+  #main-panel > .jp-TreePanel {
+    margin: 0px -5px;
+  }
 }
