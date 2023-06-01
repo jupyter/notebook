@@ -14,6 +14,7 @@ const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const Build = require('@jupyterlab/builder').Build;
+const WPPlugin = require('@jupyterlab/builder').WPPlugin;
 const baseConfig = require('@jupyterlab/builder/lib/webpack.config.base');
 
 const data = require('./package.json');
@@ -219,6 +220,10 @@ module.exports = [
       fallback: { util: false },
     },
     plugins: [
+      new WPPlugin.JSONLicenseWebpackPlugin({
+        excludedPackageTest: (packageName) =>
+          packageName === '@jupyter-notebook/app',
+      }),
       new ModuleFederationPlugin({
         library: {
           type: 'var',
