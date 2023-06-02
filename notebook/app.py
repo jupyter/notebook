@@ -62,8 +62,8 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
             api_token = os.getenv("JUPYTERHUB_API_TOKEN", "")
             page_config["token"] = api_token
 
-        nbclassic_installed = "nbclassic" in app.serverapp.extension_manager.extensions
-        page_config["nbclassic_installed"] = nbclassic_installed
+        nbclassic_enabled = self.server_extension_is_enabled("nbclassic")
+        page_config["nbclassic_enabled"] = nbclassic_enabled
 
         server_root = self.settings.get("server_root_dir", "")
         server_root = server_root.replace(os.sep, "/")
@@ -115,6 +115,16 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
             ),
         )
         return page_config
+
+    def server_extension_is_enabled(self, extension):
+        """Check if server extension is enabled."""
+        try:
+            extension_enabled = (
+                self.extensionapp.serverapp.extension_manager.extensions[extension].enabled is True
+            )
+        except (AttributeError, KeyError, TypeError):
+            extension_enabled = False
+        return extension_enabled
 
 
 class RedirectHandler(NotebookBaseHandler):

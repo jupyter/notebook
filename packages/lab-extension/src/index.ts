@@ -83,8 +83,8 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
     const trans = translator.load('notebook');
-    const nbClassicInstalled =
-      PageConfig.getOption('nbclassic_installed') === 'true';
+    const nbClassicEnabled =
+      PageConfig.getOption('nbclassic_enabled') === 'true';
     const switcher = new Menu({ commands });
     const switcherOptions: ISwitcherChoice[] = [];
 
@@ -108,7 +108,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       });
     }
 
-    if (nbClassicInstalled) {
+    if (nbClassicEnabled) {
       switcherOptions.push({
         command: CommandIDs.openNbClassic,
         commandLabel: trans.__('NbClassic'),
