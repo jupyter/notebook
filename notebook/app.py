@@ -19,7 +19,7 @@ from jupyterlab_server.config import LabConfig, get_page_config, recursive_updat
 from jupyterlab_server.handlers import _camelCase, is_url
 from notebook_shim.shim import NotebookConfigShimMixin  # type:ignore
 from tornado import web
-from traitlets import Bool, default
+from traitlets import Bool, Unicode, default
 
 from ._version import __version__
 
@@ -120,7 +120,7 @@ class RedirectHandler(NotebookBaseHandler):
     @web.authenticated
     def get(self):
         """Get the redirect url."""
-        return self.redirect(self.base_url + "tree")
+        return self.redirect(self.base_url.strip("/") + "/" + self.default_url.strip("/"))
 
 
 class TreeHandler(NotebookBaseHandler):
@@ -215,7 +215,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
     version = version
     app_version = version
     extension_url = "/"
-    default_url = "/tree"  # type:ignore
+    default_url = Unicode("/tree", config=True, help="The default URL to redirect to from `/`")
     file_url_prefix = "/notebooks"
     load_other_extensions = True
     app_dir = app_dir
