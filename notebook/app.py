@@ -303,7 +303,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
 
     def _prepare_templates(self):
         super(LabServerApp, self)._prepare_templates()
-        self.jinja2_env.globals.update(custom_css=self.custom_css)
+        self.jinja2_env.globals.update(custom_css=self.custom_css)  # type:ignore
 
     def initialize_handlers(self):
         """Initialize handlers."""
