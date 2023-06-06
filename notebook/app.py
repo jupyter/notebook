@@ -6,6 +6,7 @@ from jupyter_client.utils import ensure_async
 from jupyter_core.application import base_aliases
 from jupyter_core.paths import jupyter_config_dir
 from jupyter_server.base.handlers import JupyterHandler
+from jupyter_server.extension.application import ExtensionAppJinjaMixin
 from jupyter_server.extension.handler import (
     ExtensionHandlerJinjaMixin,
     ExtensionHandlerMixin,
@@ -233,7 +234,7 @@ class CustomCssHandler(NotebookBaseHandler):
 aliases = dict(base_aliases)
 
 
-class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
+class JupyterNotebookApp(NotebookConfigShimMixin, ExtensionAppJinjaMixin, LabServerApp):
     """The notebook server extension app."""
 
     name = "notebook"
