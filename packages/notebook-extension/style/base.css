@@ -122,6 +122,13 @@ body[data-notebook='notebooks']
   }
 }
 
+/* Tweak the notebook footer (to add a new cell) */
+body[data-notebook='notebooks'] .jp-Notebook-footer {
+  width: 100%;
+  margin-left: unset;
+  background: unset;
+}
+
 /* Mobile View */
 
 body[data-format='mobile'] .jp-NotebookCheckpoint {
@@ -145,11 +152,7 @@ body[data-notebook='notebooks'] .jp-WindowedPanel-window {
 /* Notebook box shadow */
 
 body[data-notebook='notebooks'] .jp-Notebook > *:first-child:not(:last-child) {
-  box-shadow: 0px 0px 12px 1px var(--jp-shadow-umbra-color);
-}
-
-body[data-notebook='notebooks'] .jp-Notebook > *:first-child:not(:last-child) {
-  box-shadow: 0px 0px 12px 1px var(--jp-shadow-umbra-color);
+  box-shadow: var(--jp-elevation-z4);
 }
 
 body[data-notebook='notebooks']
@@ -270,4 +273,28 @@ body[data-notebook='notebooks']
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+}
+
+.jp-skiplink {
+  position: absolute;
+  top: -100em;
+}
+
+.jp-skiplink:focus-within {
+  position: absolute;
+  z-index: 10000;
+  top: 0;
+  left: 46%;
+  margin: 0 auto;
+  padding: 1em;
+  width: 15%;
+  box-shadow: var(--jp-elevation-z4);
+  border-radius: 4px;
+  background: var(--jp-layout-color0);
+  text-align: center;
+}
+
+.jp-skiplink:focus-within a {
+  text-decoration: underline;
+  color: var(--jp-content-link-color);
 }

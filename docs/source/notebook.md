@@ -4,19 +4,25 @@
 
 ## Introduction
 
-The notebook extends the console-based approach to interactive computing in
-a qualitatively new direction, providing a web-based application suitable for
-capturing the whole computation process: developing, documenting, and
-executing code, as well as communicating the results. The Jupyter notebook
-combines two components:
+**Jupyter Notebook** is a notebook authoring application, under the [Project
+Jupyter](https://docs.jupyter.org/en/latest/) umbrella. Built on the power of
+the [computational notebook format](https://docs.jupyter.org/en/latest/#what-is-a-notebook),
+**Jupyter Notebook** offers fast, interactive new ways to prototype and explain
+your code, explore and visualize your data, and share your ideas with others.
 
-**A web application**: a browser-based tool for interactive authoring of
-documents which combine explanatory text, mathematics, computations and their
-rich media output.
+Notebooks extend the console-based approach to interactive computing in a
+qualitatively new direction, providing a web-based application suitable for
+capturing the whole computation process: developing, documenting, and executing
+code, as well as communicating the results. The Jupyter notebook combines two
+components:
 
-**Notebook documents**: a representation of all content visible in the web
-application, including inputs and outputs of the computations, explanatory
-text, mathematics, images, and rich media representations of objects.
+**A web application:** A browser-based editing program for interactive authoring
+of computational notebooks which provides a fast interactive environment for prototyping and
+explaining code, exploring and visualizing data, and sharing ideas with others
+
+**Computational Notebook documents**: A shareable document that combines computer
+code, plain language descriptions, data, rich visualizations like 3D models, charts,
+mathematics, graphs and figures, and interactive controls
 
 ```{seealso}
 See the {ref}`installation guide <jupyter:install>` on how to install the

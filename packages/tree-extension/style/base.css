@@ -24,3 +24,34 @@
 .jp-FileBrowser-filterBox input {
   line-height: 24px;
 }
+
+.jp-DirListing-content .jp-DirListing-checkboxWrapper {
+  visibility: visible;
+}
+
+/* Action buttons */
+
+.jp-FileBrowser-toolbar > .jp-FileActions.jp-Toolbar-item {
+  display: flex;
+  flex-direction: row;
+}
+
+.jp-FileActions .jp-ToolbarButtonComponent-icon {
+  display: none;
+}
+
+.jp-FileActions .jp-ToolbarButtonComponent[data-command='filebrowser:delete'] {
+  background-color: var(--jp-error-color1);
+}
+
+.jp-FileActions
+  .jp-ToolbarButtonComponent[data-command='filebrowser:delete']
+  .jp-ToolbarButtonComponent-label {
+  color: var(--jp-ui-inverse-font-color1);
+}
+
+.jp-FileBrowser-toolbar .jp-FileActions .jp-ToolbarButtonComponent {
+  border: solid 1px var(--jp-border-color2);
+  margin: 1px;
+  min-height: 100%;
+}

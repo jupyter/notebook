@@ -29,7 +29,7 @@ tasks:
     command: |
       gp sync-done setup
       source /workspace/bin/activate-env.sh
-      jupyter notebook --no-browser --JupyterNotebookApp.token='' --JupyterNotebookApp.allow_origin=* --JupyterNotebookApp.tornado_settings='{"headers": {"Content-Security-Policy": "frame-ancestors *"}}'
+      jupyter notebook --no-browser --ServerApp.token='' --ServerApp.allow_remote_access=True
 
   - name: auto-activate
     command: |

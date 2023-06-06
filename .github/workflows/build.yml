@@ -34,7 +34,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -168,7 +168,8 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
       - uses: jupyterlab/maintainer-tools/.github/actions/check-links@v1
         with:
-          ignore_links: "https://playwright.dev/docs/test-cli/ https://blog.jupyter.org/the-big-split-9d7b88a031a7 https://blog.jupyter.org/jupyter-ascending-1bf5b362d97e"
+          ignore_links: "https://playwright.dev/docs/test-cli/ https://blog.jupyter.org/the-big-split-9d7b88a031a7 https://blog.jupyter.org/jupyter-ascending-1bf5b362d97e https://mybinder.org/v2/gh/jupyter/notebook/main"
+          ignore_glob: "ui-tests/test/notebooks/*"
 
   test_lint:
     name: Test Lint

@@ -34,3 +34,15 @@ export async function waitForKernelReady(
   });
   await page.waitForSelector('.jp-DebuggerBugButton[aria-disabled="false"]');
 }
+
+/**
+ * Special case for firefox headless issue
+ * See https://github.com/jupyter/notebook/pull/6872#issuecomment-1549594166 for more details
+ */
+export async function hideAddCellButton(
+  page: IJupyterLabPageFixture
+): Promise<void> {
+  await page
+    .locator('.jp-Notebook-footer')
+    .evaluate((element) => (element.style.display = 'none'));
+}

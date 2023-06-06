@@ -12,6 +12,7 @@ import {
 import {
   DOMUtils,
   ICommandPalette,
+  ISanitizer,
   IToolbarWidgetRegistry,
 } from '@jupyterlab/apputils';
 
@@ -25,9 +26,18 @@ import { DocumentWidget } from '@jupyterlab/docregistry';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
+import {
+  ILatexTypesetter,
+  IMarkdownParser,
+  IRenderMime,
+  IRenderMimeRegistry,
+  RenderMimeRegistry,
+  standardRendererFactories,
+} from '@jupyterlab/rendermime';
+
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
-import { ITranslator } from '@jupyterlab/translation';
+import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
 import {
   NotebookApp,
@@ -64,6 +74,11 @@ const STRIP_IPYNB = /\.ipynb$/;
  * The command IDs used by the application plugin.
  */
 namespace CommandIDs {
+  /**
+   * Handle local links
+   */
+  export const handleLink = 'application:handle-local-link';
+
   /**
    * Toggle Top Bar visibility
    */
@@ -296,6 +311,74 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
 };
 
 /**
+ * A plugin providing a rendermime registry.
+ */
+const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
+  id: '@jupyter-notebook/application-extension:rendermime',
+  autoStart: true,
+  provides: IRenderMimeRegistry,
+  description: 'Provides the render mime registry.',
+  optional: [
+    IDocumentManager,
+    ILatexTypesetter,
+    ISanitizer,
+    IMarkdownParser,
+    ITranslator,
+  ],
+  activate: (
+    app: JupyterFrontEnd,
+    docManager: IDocumentManager | null,
+    latexTypesetter: ILatexTypesetter | null,
+    sanitizer: IRenderMime.ISanitizer | null,
+    markdownParser: IMarkdownParser | null,
+    translator: ITranslator | null
+  ) => {
+    const trans = (translator ?? nullTranslator).load('jupyterlab');
+    if (docManager) {
+      app.commands.addCommand(CommandIDs.handleLink, {
+        label: trans.__('Handle Local Link'),
+        execute: (args) => {
+          const path = args['path'] as string | undefined | null;
+          if (path === undefined || path === null) {
+            return;
+          }
+          return docManager.services.contents
+            .get(path, { content: false })
+            .then((model) => {
+              // Open in a new browser tab
+              const url = PageConfig.getBaseUrl();
+              const treeUrl = URLExt.join(url, 'tree', model.path);
+              window.open(treeUrl, '_blank');
+            });
+        },
+      });
+    }
+    return new RenderMimeRegistry({
+      initialFactories: standardRendererFactories,
+      linkHandler: !docManager
+        ? undefined
+        : {
+            handleLink: (node: HTMLElement, path: string, id?: string) => {
+              // If node has the download attribute explicitly set, use the
+              // default browser downloading behavior.
+              if (node.tagName === 'A' && node.hasAttribute('download')) {
+                return;
+              }
+              app.commandLinker.connectNode(node, CommandIDs.handleLink, {
+                path,
+                id,
+              });
+            },
+          },
+      latexTypesetter: latexTypesetter ?? undefined,
+      markdownParser: markdownParser ?? undefined,
+      translator: translator ?? undefined,
+      sanitizer: sanitizer ?? undefined,
+    });
+  },
+};
+
+/**
  * The default Jupyter Notebook application shell.
  */
 const shell: JupyterFrontEndPlugin<INotebookShell> = {
@@ -482,22 +565,29 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
       execute: () => {
         top.setHidden(top.isVisible);
         if (settingRegistry) {
-          void settingRegistry.set(pluginId, 'visible', top.isVisible);
+          void settingRegistry.set(
+            pluginId,
+            'visible',
+            top.isVisible ? 'yes' : 'no'
+          );
         }
       },
       isToggled: () => top.isVisible,
     });
 
-    let settingsOverride = false;
+    let adjustToScreen = false;
 
     if (settingRegistry) {
       const loadSettings = settingRegistry.load(pluginId);
       const updateSettings = (settings: ISettingRegistry.ISettings): void => {
-        const visible = settings.get('visible').composite;
+        // 'visible' property from user preferences or default settings
+        let visible = settings.get('visible').composite;
         if (settings.user.visible !== undefined) {
-          settingsOverride = true;
-          top.setHidden(!visible);
+          visible = settings.user.visible;
         }
+        top.setHidden(visible === 'no');
+        // adjust to screen from user preferences or default settings
+        adjustToScreen = visible === 'automatic';
       };
 
       Promise.all([loadSettings, app.restored])
@@ -517,7 +607,7 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
     }
 
     const onChanged = (): void => {
-      if (settingsOverride) {
+      if (!adjustToScreen) {
         return;
       }
       if (app.format === 'desktop') {
@@ -912,6 +1002,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   opener,
   pages,
   paths,
+  rendermime,
   shell,
   sidePanelVisibility,
   status,

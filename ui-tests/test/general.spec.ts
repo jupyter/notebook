@@ -7,10 +7,10 @@ import { expect } from '@playwright/test';
 
 import { test } from './fixtures';
 
-import { waitForKernelReady } from './utils';
+import { hideAddCellButton, waitForKernelReady } from './utils';
 
 test.describe('General', () => {
-  test('The notebook should render', async ({ page, tmpPath }) => {
+  test('The notebook should render', async ({ page, tmpPath, browserName }) => {
     const notebook = 'simple.ipynb';
     await page.contents.uploadFile(
       path.resolve(__dirname, `./notebooks/${notebook}`),
@@ -35,10 +35,19 @@ test.describe('General', () => {
         (element) => (element.innerHTML = 'Last Checkpoint: 3 seconds ago')
       );
 
-    // force switching back to command mode to avoid capturing the cursor in the screenshot
-    await page.evaluate(async () => {
-      await window.jupyterapp.commands.execute('notebook:enter-command-mode');
-    });
+    // check the notebook footer shows up on hover
+    const notebookFooter = '.jp-Notebook-footer';
+    await page.hover(notebookFooter);
+    await page.waitForSelector(notebookFooter);
+
+    // hover somewhere else to make the add cell disappear
+    await page.hover('#jp-top-bar');
+
+    // special case for firefox headless issue
+    // see https://github.com/jupyter/notebook/pull/6872#issuecomment-1549594166 for more details
+    if (browserName === 'firefox') {
+      await hideAddCellButton(page);
+    }
 
     expect(await page.screenshot()).toMatchSnapshot('notebook.png');
   });
