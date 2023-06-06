@@ -36,6 +36,10 @@ version = __version__
 class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
     """The base notebook API handler."""
 
+    @property
+    def custom_css(self):
+        return self.settings.get("custom_css", True)
+
     def get_page_config(self):
         """Get the page config."""
         config = LabConfig()
@@ -51,7 +55,6 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
             "fullStaticUrl": ujoin(self.base_url, "static", self.name),
             "frontendUrl": ujoin(self.base_url, "/"),
             "exposeAppInBrowser": app.expose_app_in_browser,
-            "jupyter_configDir": jupyter_config_dir(),
         }
 
         if "hub_prefix" in app.serverapp.tornado_settings:
@@ -210,16 +213,21 @@ class NotebookHandler(NotebookBaseHandler):
 
 
 class CustomCssHandler(NotebookBaseHandler):
-    """A redirect handler."""
+    """A custom CSS handler."""
 
     @web.authenticated
     def get(self):
         """Get the custom css file."""
 
         self.set_header("Content-Type", 'text/css')
-        page_conf = self.get_page_config()
-        with open(f"{page_conf['jupyterConfigDir']}/custom/custom.css") as css_file:
-            self.write(css_file.read())
+        page_config = self.get_page_config()
+        custom_css_file = f"{page_config['jupyterConfigDir']}/custom/custom.css"
+
+        if not os.path.isfile(custom_css_file):
+            custom_css_file = f"{page_config['staticDir']}/custom/custom.css"
+
+        with open(custom_css_file) as css_f:
+            return self.write(css_f.read())
 
 
 aliases = dict(base_aliases)
@@ -246,10 +254,23 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
         help="Whether to expose the global app instance to browser via window.jupyterapp",
     )
 
+    custom_css = Bool(
+        True,
+        config=True,
+        help="""Whether custom CSS is loaded on the page.
+        Defaults to True and custom CSS is loaded.
+        """,
+    )
+
     flags = flags
     flags["expose-app-in-browser"] = (
         {"JupyterNotebookApp": {"expose_app_in_browser": True}},
         "Expose the global app instance to browser via window.jupyterapp.",
+    )
+
+    flags["custom-css"] = (
+        {"JupyterNotebookApp": {"custom_css": True}},
+        "Load custom CSS in template html files. Default is True",
     )
 
     @default("static_dir")
@@ -279,6 +300,10 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
     @default("workspaces_dir")
     def _default_workspaces_dir(self):
         return get_workspaces_dir()
+
+    def _prepare_templates(self):
+        super(LabServerApp, self)._prepare_templates()
+        self.jinja2_env.globals.update(custom_css=self.custom_css)
 
     def initialize_handlers(self):
         """Initialize handlers."""
