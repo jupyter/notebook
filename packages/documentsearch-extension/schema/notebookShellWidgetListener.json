@@ -6,7 +6,7 @@
       "command": "documentsearch:start",
       "keys": ["Accel F"],
       "selector": ".jp-mod-searchable",
-      "disabled": true
+      "disabled": false
     }
   ],
   "properties": {},
