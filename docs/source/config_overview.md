@@ -26,10 +26,6 @@ and editing settings is similar for all the Jupyter applications.
 > - [traitlets](https://traitlets.readthedocs.io/en/latest/config.html#module-traitlets.config)
 >   provide a low-level architecture for configuration.
 
-### Disabling Custom CSS
-
-Custom CSS is loaded by default as was done with Jupyter Notebook 6. In the jupyter configuration directory, the `/.jupyter/custom/custom.css` file will be loaded unless the the application is initialized with the `custom_css` flag with the argument set to `False` as in `--JupyterNotebookApp.custom_css=False`.
-
 (configure-jupyter-server)=
 
 ## Jupyter server
