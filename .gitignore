@@ -115,7 +115,6 @@ junit.xml
 [uU]ntitled*
 notebook/static/*
 !notebook/static/favicons
-!notebook/static/custom
 notebook/labextension
 notebook/schemas
 docs/source/changelog.md
