@@ -225,8 +225,10 @@ class CustomCssHandler(NotebookBaseHandler):
         custom_css_file = f"{page_config['jupyterConfigDir']}/custom/custom.css"
 
         if not os.path.isfile(custom_css_file):
-            custom_dir = re.match('^(.*?)static', page_config['staticDir']).groups()[0]
-            custom_css_file = f"{custom_dir}custom/custom.css"
+            static_path_root = re.match('^(.*?)static', page_config['staticDir'])
+            if static_path_root is not None:
+                custom_dir = static_path_root.groups()[0]
+                custom_css_file = f"{custom_dir}custom/custom.css"
 
         with open(custom_css_file) as css_f:
             return self.write(css_f.read())
