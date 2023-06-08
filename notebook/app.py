@@ -62,9 +62,6 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
             api_token = os.getenv("JUPYTERHUB_API_TOKEN", "")
             page_config["token"] = api_token
 
-        nbclassic_enabled = self.server_extension_is_enabled("nbclassic")
-        page_config["nbclassic_enabled"] = nbclassic_enabled
-
         server_root = self.settings.get("server_root_dir", "")
         server_root = server_root.replace(os.sep, "/")
         server_root = os.path.normpath(os.path.expanduser(server_root))
@@ -115,16 +112,6 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
             ),
         )
         return page_config
-
-    def server_extension_is_enabled(self, extension):
-        """Check if server extension is enabled."""
-        try:
-            extension_enabled = (
-                self.extensionapp.serverapp.extension_manager.extensions[extension].enabled is True
-            )
-        except (AttributeError, KeyError, TypeError):
-            extension_enabled = False
-        return extension_enabled
 
 
 class RedirectHandler(NotebookBaseHandler):
@@ -274,8 +261,22 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
     def _default_workspaces_dir(self):
         return get_workspaces_dir()
 
+    def server_extension_is_enabled(self, extension):
+        """Check if server extension is enabled."""
+        try:
+            extension_enabled = (
+                self.serverapp.extension_manager.extensions[extension].enabled is True
+            )
+        except (AttributeError, KeyError, TypeError):
+            extension_enabled = False
+        return extension_enabled
+
     def initialize_handlers(self):
         """Initialize handlers."""
+        page_config = self.serverapp.web_app.settings.setdefault("page_config_data", {})
+        nbclassic_enabled = self.server_extension_is_enabled("nbclassic")
+        page_config["nbclassic_enabled"] = nbclassic_enabled
+
         self.handlers.append(
             (
                 rf"/{self.file_url_prefix}/((?!.*\.ipynb($|\?)).*)",
