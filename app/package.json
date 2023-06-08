@@ -210,6 +210,7 @@
         ],
         "@jupyterlab/apputils-extension": [
           "@jupyterlab/apputils-extension:palette",
+          "@jupyterlab/apputils-extension:notification",
           "@jupyterlab/apputils-extension:sanitizer",
           "@jupyterlab/apputils-extension:sessionDialogs",
           "@jupyterlab/apputils-extension:settings",
