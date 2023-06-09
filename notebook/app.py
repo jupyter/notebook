@@ -309,8 +309,22 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
         super(LabServerApp, self)._prepare_templates()
         self.jinja2_env.globals.update(custom_css=self.custom_css)  # type:ignore
 
+    def server_extension_is_enabled(self, extension):
+        """Check if server extension is enabled."""
+        try:
+            extension_enabled = (
+                self.serverapp.extension_manager.extensions[extension].enabled is True
+            )
+        except (AttributeError, KeyError, TypeError):
+            extension_enabled = False
+        return extension_enabled
+
     def initialize_handlers(self):
         """Initialize handlers."""
+        page_config = self.serverapp.web_app.settings.setdefault("page_config_data", {})
+        nbclassic_enabled = self.server_extension_is_enabled("nbclassic")
+        page_config["nbclassic_enabled"] = nbclassic_enabled
+
         self.handlers.append(
             (
                 rf"/{self.file_url_prefix}/((?!.*\.ipynb($|\?)).*)",
