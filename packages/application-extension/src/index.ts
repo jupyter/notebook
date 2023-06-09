@@ -398,7 +398,7 @@ const shell: JupyterFrontEndPlugin<INotebookShell> = {
  * The default splash screen provider.
  */
 const splash: JupyterFrontEndPlugin<ISplashScreen> = {
-  id: '@jupyterlab/apputils-extension:splash',
+  id: '@jupyter-notebook/application-extension:splash',
   description: 'Provides an empty splash screen.',
   autoStart: true,
   provides: ISplashScreen,
