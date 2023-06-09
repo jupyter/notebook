@@ -340,7 +340,7 @@ notebook or other document, which uses the {kbd}`Ctrl-F` shortcut by default.
 Your browser's `find` function will give unexpected results because it doesn't have
 access to the full content of a document, but you can still use your browser find
 function from the browser menu if you want, or you can disable the intelligent search
-shortcut using the advanced settings editor. TODO: DETAILS (investigate settings bug?)
+shortcut using the advanced settings editor.
 
 ## Plotting
 
