@@ -15,11 +15,15 @@ import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 
 import { ITranslator } from '@jupyterlab/translation';
 
-import { Menu, MenuBar } from '@lumino/widgets';
+import { Menu, MenuBar, Widget } from '@lumino/widgets';
 
 import { INotebookShell } from '@jupyter-notebook/application';
 
-import { caretDownIcon } from '@jupyterlab/ui-components';
+import {
+  caretDownIcon,
+  CommandToolbarButton,
+  launchIcon,
+} from '@jupyterlab/ui-components';
 
 /**
  * The command IDs used by the application plugin.
@@ -39,6 +43,11 @@ namespace CommandIDs {
    * Open in JupyterLab
    */
   export const openLab = 'jupyter-notebook:open-lab';
+
+  /**
+   * Open in NbClassic
+   */
+  export const openNbClassic = 'jupyter-notebook:open-nbclassic';
 }
 
 interface ISwitcherChoice {
@@ -74,14 +83,40 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
     const trans = translator.load('notebook');
-    const overflowOptions = {
-      overflowMenuOptions: { isVisible: false },
-    };
-    const menubar = new MenuBar(overflowOptions);
+    const nbClassicEnabled =
+      PageConfig.getOption('nbclassic_enabled') === 'true';
     const switcher = new Menu({ commands });
-    switcher.title.label = trans.__('Open in...');
-    switcher.title.icon = caretDownIcon;
-    menubar.addMenu(switcher);
+    const switcherOptions: ISwitcherChoice[] = [];
+
+    if (!notebookShell) {
+      switcherOptions.push({
+        command: CommandIDs.openNotebook,
+        commandLabel: trans.__('Notebook'),
+        commandDescription: trans.__('Open in %1', 'Jupyter Notebook'),
+        buttonLabel: 'openNotebook',
+        urlPrefix: `${baseUrl}tree/`,
+      });
+    }
+
+    if (!labShell) {
+      switcherOptions.push({
+        command: CommandIDs.openLab,
+        commandLabel: trans.__('JupyterLab'),
+        commandDescription: trans.__('Open in %1', 'JupyterLab'),
+        buttonLabel: 'openLab',
+        urlPrefix: `${baseUrl}doc/tree/`,
+      });
+    }
+
+    if (nbClassicEnabled) {
+      switcherOptions.push({
+        command: CommandIDs.openNbClassic,
+        commandLabel: trans.__('NbClassic'),
+        commandDescription: trans.__('Open in %1', 'NbClassic'),
+        buttonLabel: 'openNbClassic',
+        urlPrefix: `${baseUrl}nbclassic/notebooks/`,
+      });
+    }
 
     const isEnabled = () => {
       return (
@@ -90,7 +125,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       );
     };
 
-    const addInterface = (option: ISwitcherChoice) => {
+    const addSwitcherCommand = (option: ISwitcherChoice) => {
       const { command, commandLabel, commandDescription, urlPrefix } = option;
 
       const execute = () => {
@@ -121,40 +156,48 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
           args: { isPalette: true },
         });
       }
-
-      switcher.addItem({ command });
     };
 
-    if (!notebookShell) {
-      addInterface({
-        command: CommandIDs.openNotebook,
-        commandLabel: trans.__('Notebook'),
-        commandDescription: trans.__('Open in %1', 'Jupyter Notebook'),
-        buttonLabel: 'openNotebook',
-        urlPrefix: `${baseUrl}tree/`,
-      });
-    }
+    switcherOptions.forEach((option) => {
+      const { command } = option;
+      addSwitcherCommand(option);
+      switcher.addItem({ command });
+    });
 
-    if (!labShell) {
-      addInterface({
-        command: CommandIDs.openLab,
-        commandLabel: trans.__('JupyterLab'),
-        commandDescription: trans.__('Open in %1', 'JupyterLab'),
-        buttonLabel: 'openLab',
-        urlPrefix: `${baseUrl}doc/tree/`,
-      });
+    let toolbarFactory: (panel: NotebookPanel) => Widget;
+    if (switcherOptions.length === 1) {
+      toolbarFactory = (panel: NotebookPanel) => {
+        const toolbarButton = new CommandToolbarButton({
+          commands,
+          id: switcherOptions[0].command,
+          label: switcherOptions[0].commandLabel,
+          icon: launchIcon,
+        });
+        toolbarButton.addClass('jp-nb-interface-switcher-button');
+        return toolbarButton;
+      };
+    } else {
+      const overflowOptions = {
+        overflowMenuOptions: { isVisible: false },
+      };
+      const menubar = new MenuBar(overflowOptions);
+      switcher.title.label = trans.__('Open in...');
+      switcher.title.icon = caretDownIcon;
+      menubar.addMenu(switcher);
+
+      toolbarFactory = (panel: NotebookPanel) => {
+        const menubar = new MenuBar(overflowOptions);
+        menubar.addMenu(switcher);
+        menubar.addClass('jp-InterfaceSwitcher');
+        return menubar;
+      };
     }
 
     if (toolbarRegistry) {
       toolbarRegistry.addFactory<NotebookPanel>(
         'Notebook',
         'interfaceSwitcher',
-        (panel) => {
-          const menubar = new MenuBar(overflowOptions);
-          menubar.addMenu(switcher);
-          menubar.addClass('jp-InterfaceSwitcher');
-          return menubar;
-        }
+        toolbarFactory
       );
     }
   },

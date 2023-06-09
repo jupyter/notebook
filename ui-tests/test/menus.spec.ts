@@ -44,7 +44,7 @@ test.describe('Notebook Menus', () => {
       const imageName = `opened-menu-${menuPath.replace(/>/g, '-')}.png`;
       const menu = await page.menu.getOpenMenu();
       expect(menu).toBeDefined();
-      expect(await menu!.screenshot()).toMatchSnapshot(imageName.toLowerCase());
+      expect(await menu?.screenshot()).toMatchSnapshot(imageName.toLowerCase());
     });
   });
 });

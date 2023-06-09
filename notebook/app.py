@@ -261,8 +261,22 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
     def _default_workspaces_dir(self):
         return get_workspaces_dir()
 
+    def server_extension_is_enabled(self, extension):
+        """Check if server extension is enabled."""
+        try:
+            extension_enabled = (
+                self.serverapp.extension_manager.extensions[extension].enabled is True
+            )
+        except (AttributeError, KeyError, TypeError):
+            extension_enabled = False
+        return extension_enabled
+
     def initialize_handlers(self):
         """Initialize handlers."""
+        page_config = self.serverapp.web_app.settings.setdefault("page_config_data", {})
+        nbclassic_enabled = self.server_extension_is_enabled("nbclassic")
+        page_config["nbclassic_enabled"] = nbclassic_enabled
+
         self.handlers.append(
             (
                 rf"/{self.file_url_prefix}/((?!.*\.ipynb($|\?)).*)",
