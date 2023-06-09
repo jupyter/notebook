@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
@@ -13,6 +14,7 @@ import {
   DOMUtils,
   ICommandPalette,
   ISanitizer,
+  ISplashScreen,
   IToolbarWidgetRegistry,
 } from '@jupyterlab/apputils';
 
@@ -391,6 +393,29 @@ const shell: JupyterFrontEndPlugin<INotebookShell> = {
   },
   autoStart: true,
   provides: INotebookShell,
+};
+
+/**
+ * The default splash screen provider.
+ */
+const splash: JupyterFrontEndPlugin<ISplashScreen> = {
+  id: '@jupyterlab/apputils-extension:splash',
+  description: 'Provides an empty splash screen.',
+  autoStart: true,
+  provides: ISplashScreen,
+  activate: () => {
+    return {
+      show: () => {
+        const splashNode = document.createElement('div');
+        document.body.appendChild(splashNode);
+        document.body.removeChild(splashNode);
+
+        return new DisposableDelegate(() => {
+          // Splash creates no resources, no cleanup needed.
+        });
+      },
+    };
+  },
 };
 
 /**
@@ -1005,6 +1030,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   rendermime,
   shell,
   sidePanelVisibility,
+  splash,
   status,
   tabTitle,
   title,
