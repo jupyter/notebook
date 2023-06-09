@@ -403,15 +403,21 @@ const splash: JupyterFrontEndPlugin<ISplashScreen> = {
   description: 'Provides an empty splash screen.',
   autoStart: true,
   provides: ISplashScreen,
-  activate: () => {
-    return {
-      show: () => {
-        const splashNode = document.createElement('div');
-        document.body.appendChild(splashNode);
-        document.body.removeChild(splashNode);
+  activate: (app: JupyterFrontEnd) => {
+    const { restored } = app;
+    const splash = document.createElement('div');
+    splash.style.position = 'absolute';
+    splash.style.width = '100%';
+    splash.style.height = '100%';
+    splash.style.zIndex = '10';
 
-        return new DisposableDelegate(() => {
-          // Splash creates no resources, no cleanup needed.
+    return {
+      show: (light = true) => {
+        splash.style.backgroundColor = light ? 'white' : '#111111';
+        document.body.appendChild(splash);
+        return new DisposableDelegate(async () => {
+          await restored;
+          document.body.removeChild(splash);
         });
       },
     };
