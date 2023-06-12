@@ -13,6 +13,7 @@ import {
   DOMUtils,
   ICommandPalette,
   ISanitizer,
+  ISplashScreen,
   IToolbarWidgetRegistry,
 } from '@jupyterlab/apputils';
 
@@ -391,6 +392,35 @@ const shell: JupyterFrontEndPlugin<INotebookShell> = {
   },
   autoStart: true,
   provides: INotebookShell,
+};
+
+/**
+ * The default splash screen provider.
+ */
+const splash: JupyterFrontEndPlugin<ISplashScreen> = {
+  id: '@jupyter-notebook/application-extension:splash',
+  description: 'Provides an empty splash screen.',
+  autoStart: true,
+  provides: ISplashScreen,
+  activate: (app: JupyterFrontEnd) => {
+    const { restored } = app;
+    const splash = document.createElement('div');
+    splash.style.position = 'absolute';
+    splash.style.width = '100%';
+    splash.style.height = '100%';
+    splash.style.zIndex = '10';
+
+    return {
+      show: (light = true) => {
+        splash.style.backgroundColor = light ? 'white' : '#111111';
+        document.body.appendChild(splash);
+        return new DisposableDelegate(async () => {
+          await restored;
+          document.body.removeChild(splash);
+        });
+      },
+    };
+  },
 };
 
 /**
@@ -1005,6 +1035,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   rendermime,
   shell,
   sidePanelVisibility,
+  splash,
   status,
   tabTitle,
   title,

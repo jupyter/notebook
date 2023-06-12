@@ -3,10 +3,14 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{page_config['appName'] | e}} - Tree</title>
+  <title>Home</title>
   {% block favicon %}
   <link rel="icon" type="image/x-icon" href="{{ base_url | escape }}static/favicons/favicon.ico" class="favicon">
   {% endblock %}
+
+  {% if custom_css %}
+  <link rel="stylesheet" type="text/css" href="{{ base_url | escape }}custom/custom.css">
+  {% endif %}
 </head>
 <body>
 
