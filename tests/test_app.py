@@ -40,7 +40,7 @@ async def test_tree_handler(notebooks, notebookapp, jp_fetch):
 
     # Check that the tree template is loaded
     html = r.body.decode()
-    assert "- Tree</title>" in html
+    assert "<title>Home</title>" in html
 
     redirected_url = None
 
