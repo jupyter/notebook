@@ -334,7 +334,7 @@ For the full list of available shortcuts, click {guilabel}`Help`,
 
 ## Searching
 
-Jupyter Notebook has a special built-in search plugin for finding text within a
+Jupyter Notebook has an advanced built-in search plugin for finding text within a
 notebook or other document, which uses the {kbd}`Ctrl-F` shortcut by default.
 
 Your browser's `find` function will give unexpected results because it doesn't have
