@@ -14,6 +14,48 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0b4
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0b3...ee3e1c221226d482ca1c9bec6362c8af36f1da56))
+
+### Enhancements made
+
+- Rename browser tab title to Home [#6913](https://github.com/jupyter/notebook/pull/6913) ([@Cheukting](https://github.com/Cheukting))
+- Add the notification plugin [#6900](https://github.com/jupyter/notebook/pull/6900) ([@jtpio](https://github.com/jtpio))
+- Configurable `default_url` for JupyterNotebookApp [#6899](https://github.com/jupyter/notebook/pull/6899) ([@paulgb](https://github.com/paulgb))
+- Enhancement: Added drop shadows to markdown, text, and tree views [#6893](https://github.com/jupyter/notebook/pull/6893) ([@rielAsh24](https://github.com/rielAsh24))
+- Update to JupyterLab 4.0.1 [#6892](https://github.com/jupyter/notebook/pull/6892) ([@jtpio](https://github.com/jtpio))
+- Add file browser actions to the file browser toolbar [#6888](https://github.com/jupyter/notebook/pull/6888) ([@jtpio](https://github.com/jtpio))
+- Add option to open a notebook in NbClassic if it is installed; show "Open in..." dropdown menu if there are multiple options, show single button otherwise [#6866](https://github.com/jupyter/notebook/pull/6866) ([@andrii-i](https://github.com/andrii-i))
+- Load custom CSS [#6841](https://github.com/jupyter/notebook/pull/6841) ([@RRosio](https://github.com/RRosio))
+
+### Bugs fixed
+
+- Add an empty splash screen on notebook launch to avoid a flash of unstyled content  [#6911](https://github.com/jupyter/notebook/pull/6911) ([@andrii-i](https://github.com/andrii-i))
+- Fix for "find searches only part of the file" bug [#6905](https://github.com/jupyter/notebook/pull/6905) ([@ericsnekbytes](https://github.com/ericsnekbytes))
+- Provide a custom rendermime plugin to handle local links [#6885](https://github.com/jupyter/notebook/pull/6885) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Fix check links on CI [#6910](https://github.com/jupyter/notebook/pull/6910) ([@jtpio](https://github.com/jtpio))
+- Add `JSONLicenseWebpackPlugin` [#6896](https://github.com/jupyter/notebook/pull/6896) ([@jtpio](https://github.com/jtpio))
+- Simplify Gitpod setup [#6894](https://github.com/jupyter/notebook/pull/6894) ([@jtpio](https://github.com/jtpio))
+- Fix action name in update workflow [#6884](https://github.com/jupyter/notebook/pull/6884) ([@jtpio](https://github.com/jtpio))
+- Fix playwright bot [#6880](https://github.com/jupyter/notebook/pull/6880) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Document how to manage plugins and extensions [#6909](https://github.com/jupyter/notebook/pull/6909) ([@jtpio](https://github.com/jtpio))
+- Jupyter Notebook ecosystem docs improvements [#6877](https://github.com/jupyter/notebook/pull/6877) ([@ericsnekbytes](https://github.com/ericsnekbytes))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-05-25&to=2023-06-12&type=c))
+
+[@andrii-i](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2023-05-25..2023-06-12&type=Issues) | [@Cheukting](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ACheukting+updated%3A2023-05-25..2023-06-12&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2023-05-25..2023-06-12&type=Issues) | [@ericsnekbytes](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aericsnekbytes+updated%3A2023-05-25..2023-06-12&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-05-25..2023-06-12&type=Issues) | [@henryiii](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahenryiii+updated%3A2023-05-25..2023-06-12&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-05-25..2023-06-12&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2023-05-25..2023-06-12&type=Issues) | [@paulgb](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apaulgb+updated%3A2023-05-25..2023-06-12&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-05-25..2023-06-12&type=Issues) | [@rielAsh24](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ArielAsh24+updated%3A2023-05-25..2023-06-12&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2023-05-25..2023-06-12&type=Issues) | [@yuvipanda](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ayuvipanda+updated%3A2023-05-25..2023-06-12&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0b3
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0b2...93e4d5e1c6ed7a3a4875eed284255587ac293819))
@@ -43,8 +85,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-05-09&to=2023-05-25&type=c))
 
 [@andrii-i](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2023-05-09..2023-05-25&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-05-09..2023-05-25&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2023-05-09..2023-05-25&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-05-09..2023-05-25&type=Issues) | [@timmerk3](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atimmerk3+updated%3A2023-05-09..2023-05-25&type=Issues) | [@tuncbkose](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atuncbkose+updated%3A2023-05-09..2023-05-25&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0b2
 
