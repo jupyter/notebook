@@ -384,14 +384,33 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
  */
 const shell: JupyterFrontEndPlugin<INotebookShell> = {
   id: '@jupyter-notebook/application-extension:shell',
-  activate: (app: JupyterFrontEnd) => {
+  autoStart: true,
+  provides: INotebookShell,
+  optional: [ISettingRegistry],
+  activate: (app: JupyterFrontEnd, settingRegistry: ISettingRegistry) => {
     if (!(app.shell instanceof NotebookShell)) {
       throw new Error(`${shell.id} did not find a NotebookShell instance.`);
     }
-    return app.shell;
+    const notebookShell = app.shell;
+
+    if (settingRegistry) {
+      settingRegistry
+        .load(shell.id)
+        .then((settings) => {
+          // Add a layer of customization to support app shell mode
+          const customLayout = settings.composite['layout'] as any;
+
+          // Restore the layout.
+          void notebookShell.restoreLayout(customLayout);
+        })
+        .catch((reason) => {
+          console.error('Fail to load settings for the layout restorer.');
+          console.error(reason);
+        });
+    }
+
+    return notebookShell;
   },
-  autoStart: true,
-  provides: INotebookShell,
 };
 
 /**

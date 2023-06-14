@@ -388,7 +388,10 @@ const trusted: JupyterFrontEndPlugin<void> = {
       await current.context.ready;
 
       const widget = TrustedComponent.create({ notebook, translator });
-      notebookShell.add(widget, 'menu', { rank: 11_000 });
+      notebookShell.add(widget, 'menu', {
+        rank: 11_000,
+        type: 'Trusted Indicator',
+      });
     };
 
     notebookShell.currentChanged.connect(onChange);
