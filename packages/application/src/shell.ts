@@ -6,7 +6,7 @@ import { DocumentRegistry } from '@jupyterlab/docregistry';
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
 import { find } from '@lumino/algorithm';
-import { PromiseDelegate, Token } from '@lumino/coreutils';
+import { JSONExt, PromiseDelegate, Token } from '@lumino/coreutils';
 import { ISignal, Signal } from '@lumino/signaling';
 
 import { BoxLayout, Panel, SplitPanel, Widget } from '@lumino/widgets';
@@ -244,6 +244,13 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
         this._rightHandler.area
       );
     }
+  }
+
+  /**
+   * User custom shell layout.
+   */
+  get userLayout() {
+    return JSONExt.deepCopy(this._userLayout as any);
   }
 
   /**
