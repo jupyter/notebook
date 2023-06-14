@@ -28,15 +28,15 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
   activate: (app: JupyterFrontEnd, notebookShell: INotebookShell | null) => {
     const baseUrl = PageConfig.getBaseUrl();
     const docRegistry = app.docRegistry;
-    const userLayout = notebookShell?.userLayout;
     let id = 0;
     return new (class {
       open(widget: IDocumentWidget, options?: DocumentRegistry.IOpenOptions) {
         const widgetName = options?.type ?? '';
         const ref = options?.ref;
-        const mainArea = userLayout?.[widgetName]?.area === 'main';
+        // check if there is an setting override and if it would add the widget in the main area
+        const userLayoutArea = notebookShell?.userLayout?.[widgetName]?.area;
 
-        if (ref !== '_noref' && mainArea) {
+        if (ref !== '_noref' && userLayoutArea === undefined) {
           const path = widget.context.path;
           const ext = PathExt.extname(path);
           let route = 'edit';
