@@ -58,19 +58,6 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
             "exposeAppInBrowser": app.expose_app_in_browser,
         }
 
-        if "hub_prefix" in app.serverapp.tornado_settings:
-            tornado_settings = app.serverapp.tornado_settings
-            hub_prefix = tornado_settings["hub_prefix"]
-            page_config["hubPrefix"] = hub_prefix
-            page_config["hubHost"] = tornado_settings["hub_host"]
-            page_config["hubUser"] = tornado_settings["user"]
-            page_config["shareUrl"] = ujoin(hub_prefix, "user-redirect")
-            # Assume the server_name property indicates running JupyterHub 1.0.
-            if hasattr(app.serverapp, "server_name"):
-                page_config["hubServerName"] = app.serverapp.server_name
-            api_token = os.getenv("JUPYTERHUB_API_TOKEN", "")
-            page_config["token"] = api_token
-
         server_root = self.settings.get("server_root_dir", "")
         server_root = server_root.replace(os.sep, "/")
         server_root = os.path.normpath(os.path.expanduser(server_root))
@@ -324,6 +311,23 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
         page_config = self.serverapp.web_app.settings.setdefault("page_config_data", {})
         nbclassic_enabled = self.server_extension_is_enabled("nbclassic")
         page_config["nbclassic_enabled"] = nbclassic_enabled
+
+        # If running under JupyterHub, add more metadata.
+        if "hub_prefix" in self.serverapp.tornado_settings:
+            tornado_settings = self.serverapp.tornado_settings
+            hub_prefix = tornado_settings["hub_prefix"]
+            page_config["hubPrefix"] = hub_prefix
+            page_config["hubHost"] = tornado_settings["hub_host"]
+            page_config["hubUser"] = tornado_settings["user"]
+            page_config["shareUrl"] = ujoin(hub_prefix, "user-redirect")
+            # Assume the server_name property indicates running JupyterHub 1.0.
+            if hasattr(self.serverapp, "server_name"):
+                page_config["hubServerName"] = self.serverapp.server_name
+            # avoid setting API token in page config
+            # $JUPYTERHUB_API_TOKEN identifies the server, not the client
+            # but at least make sure we don't use the token
+            # if the serverapp set one
+            page_config["token"] = ""
 
         self.handlers.append(
             (
