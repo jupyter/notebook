@@ -359,7 +359,7 @@ const notebookToolsWidget: JupyterFrontEndPlugin<void> = {
 
       // Add the notebook tools in right area.
       if (notebookTools) {
-        shell.add(notebookTools, 'right');
+        shell.add(notebookTools, 'right', { type: 'Property Inspector' });
       }
     };
     shell.currentChanged.connect(onChange);
@@ -390,7 +390,6 @@ const trusted: JupyterFrontEndPlugin<void> = {
       const widget = TrustedComponent.create({ notebook, translator });
       notebookShell.add(widget, 'menu', {
         rank: 11_000,
-        type: 'Trusted Indicator',
       });
     };
 
