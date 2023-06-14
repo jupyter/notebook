@@ -8,7 +8,9 @@
       "type": "object",
       "title": "Customize shell widget positioning",
       "description": "Overrides default widget position in the application layout",
-      "default": {}
+      "default": {
+        "Markdown Preview": { "area": "right" }
+      }
     }
   },
   "additionalProperties": false,
