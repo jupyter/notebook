@@ -17,11 +17,14 @@ test.use({
         Debugger: { area: 'left' },
       },
     },
-  }
+  },
 });
 
 test.describe('Layout Customization', () => {
-  test('The Debugger panel should respect the settings and open in the left area', async ({ page, tmpPath }) => {
+  test('The Debugger panel should respect the settings and open in the left area', async ({
+    page,
+    tmpPath,
+  }) => {
     const notebook = 'simple.ipynb';
     await page.contents.uploadFile(
       path.resolve(__dirname, `./notebooks/${notebook}`),
