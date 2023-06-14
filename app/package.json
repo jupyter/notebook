@@ -126,6 +126,7 @@
     "@jupyter-notebook/ui-components": "^7.0.0-beta.4",
     "@jupyterlab/application-extension": "^4.0.1",
     "@jupyterlab/apputils-extension": "^4.0.1",
+    "@jupyterlab/attachments": "^4.0.1",
     "@jupyterlab/cell-toolbar-extension": "^4.0.1",
     "@jupyterlab/celltags-extension": "^4.0.1",
     "@jupyterlab/codemirror": "^4.0.1",

@@ -2061,6 +2061,7 @@ __metadata:
     "@jupyter-notebook/ui-components": ^7.0.0-beta.4
     "@jupyterlab/application-extension": ^4.0.1
     "@jupyterlab/apputils-extension": ^4.0.1
+    "@jupyterlab/attachments": ^4.0.1
     "@jupyterlab/builder": ^4.0.1
     "@jupyterlab/buildutils": ^4.0.1
     "@jupyterlab/cell-toolbar-extension": ^4.0.1
@@ -2531,7 +2532,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/attachments@npm:^4.0.2":
+"@jupyterlab/attachments@npm:^4.0.1, @jupyterlab/attachments@npm:^4.0.2":
   version: 4.0.2
   resolution: "@jupyterlab/attachments@npm:4.0.2"
   dependencies:
