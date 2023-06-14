@@ -8,7 +8,6 @@ By default some widgets are displayed in pre-defined parts of the user interface
 
 For example the notebook component is added to the `main` area when the page is loaded.
 
-
 ```{note}
 Please refer to the [JupyterLab Layout Documentation](https://jupyterlab.readthedocs.io/en/latest/user/interface_customization.html#layout)
 to know where the default widgets are positioned in the application shell.
@@ -29,17 +28,34 @@ to learn more about interface customization for other UI items such as toolbars,
 
 It is often useful to be able to see a rendered preview of a Markdown document while editing it.
 
-By default the Markdown Preview opens on the right side of the application. However it is also possible to open it on the left side by changing the Notebook Shell setting in the Advanced Settings Editor:
+By default the Markdown Preview opens on the right side of the application. However it is also possible to open it on the left side by changing the Notebook Shell settings in the Advanced Settings Editor:
 
 ```json
 {
-    "layout": {
-        "Markdown Preview": {
-            "area": "left"
-        }
+  "layout": {
+    "Markdown Preview": {
+      "area": "left"
     }
+  }
 }
 ```
 
+![a screenshot showing the markdown preview in Notebook 7](https://github.com/jupyter/notebook/assets/591645/3faf0823-ec6f-4d5f-a66f-d6f53dc383de)
 
 ### Configuring a third-party widget
+
+Third-party extensions sometimes add widgets to the application shell. This is for example the case with the [Voila extension](https://github.com/voila-dashboards/voila).
+
+By default in JupyterLab the Voila Preview is added to the `main` area next to the corresponding notebook. With Notebook 7 it is possible to move the Voila Preview to the `right` area by changing the Notebook Shell setting in the Advanced Settings Editor:
+
+```json
+{
+  "layout": {
+    "Voila Preview": {
+      "area": "right"
+    }
+  }
+}
+```
+
+![a screenshot showing the voila preview in Notebook 7](https://github.com/jupyter/notebook/assets/591645/524ade3b-05de-4d3b-8ff9-089f2d38ac77)
