@@ -387,7 +387,10 @@ const shell: JupyterFrontEndPlugin<INotebookShell> = {
   autoStart: true,
   provides: INotebookShell,
   optional: [ISettingRegistry],
-  activate: (app: JupyterFrontEnd, settingRegistry: ISettingRegistry) => {
+  activate: (
+    app: JupyterFrontEnd,
+    settingRegistry: ISettingRegistry | null
+  ) => {
     if (!(app.shell instanceof NotebookShell)) {
       throw new Error(`${shell.id} did not find a NotebookShell instance.`);
     }
