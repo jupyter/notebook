@@ -28,6 +28,7 @@
     "@jupyterlab/application-extension": "~4.0.2",
     "@jupyterlab/apputils": "~4.1.2",
     "@jupyterlab/apputils-extension": "~4.0.2",
+    "@jupyterlab/attachments": "~4.0.2",
     "@jupyterlab/cell-toolbar": "~4.0.2",
     "@jupyterlab/cell-toolbar-extension": "~4.0.2",
     "@jupyterlab/celltags-extension": "~4.0.2",
