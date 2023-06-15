@@ -183,7 +183,7 @@ const opener: JupyterFrontEndPlugin<void> = {
     router: IRouter,
     docManager: IDocumentManager
   ): void => {
-    const { commands } = app;
+    const { commands, docRegistry } = app;
 
     const command = 'router:tree';
     commands.addCommand(command, {
@@ -195,10 +195,11 @@ const opener: JupyterFrontEndPlugin<void> = {
           return;
         }
 
-        const file = decodeURIComponent(path);
-        const urlParams = new URLSearchParams(parsed.search);
-        const factory = urlParams.get('factory') ?? 'default';
         app.started.then(async () => {
+          const file = decodeURIComponent(path);
+          const urlParams = new URLSearchParams(parsed.search);
+          const defaultFactory = docRegistry.defaultWidgetFactory(path);
+          const factory = urlParams.get('factory') ?? defaultFactory.name;
           docManager.open(file, factory, undefined, {
             ref: '_noref',
           });
