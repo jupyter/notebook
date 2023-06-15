@@ -12,6 +12,8 @@ import { IDocumentWidgetOpener } from '@jupyterlab/docmanager';
 
 import { IDocumentWidget, DocumentRegistry } from '@jupyterlab/docregistry';
 
+import { INotebookShell } from '@jupyter-notebook/application';
+
 import { Signal } from '@lumino/signaling';
 
 /**
@@ -21,17 +23,20 @@ import { Signal } from '@lumino/signaling';
 const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
   id: '@jupyter-notebook/docmanager-extension:opener',
   autoStart: true,
+  optional: [INotebookShell],
   provides: IDocumentWidgetOpener,
-  activate: (app: JupyterFrontEnd) => {
+  activate: (app: JupyterFrontEnd, notebookShell: INotebookShell | null) => {
     const baseUrl = PageConfig.getBaseUrl();
     const docRegistry = app.docRegistry;
     let id = 0;
     return new (class {
       open(widget: IDocumentWidget, options?: DocumentRegistry.IOpenOptions) {
-        const widgetName = options?.type;
+        const widgetName = options?.type ?? '';
         const ref = options?.ref;
+        // check if there is an setting override and if it would add the widget in the main area
+        const userLayoutArea = notebookShell?.userLayout?.[widgetName]?.area;
 
-        if (ref !== '_noref') {
+        if (ref !== '_noref' && userLayoutArea === undefined) {
           const path = widget.context.path;
           const ext = PathExt.extname(path);
           let route = 'edit';

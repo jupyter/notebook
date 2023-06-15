@@ -6,7 +6,7 @@ import { DocumentRegistry } from '@jupyterlab/docregistry';
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
 import { find } from '@lumino/algorithm';
-import { PromiseDelegate, Token } from '@lumino/coreutils';
+import { JSONExt, PromiseDelegate, Token } from '@lumino/coreutils';
 import { ISignal, Signal } from '@lumino/signaling';
 
 import { BoxLayout, Panel, SplitPanel, Widget } from '@lumino/widgets';
@@ -25,6 +25,40 @@ export const INotebookShell = new Token<INotebookShell>(
 export interface INotebookShell extends NotebookShell {}
 
 /**
+ * The namespace for INotebookShell type information.
+ */
+export namespace INotebookShell {
+  /**
+   * The areas of the application shell where widgets can reside.
+   */
+  export type Area = 'main' | 'top' | 'menu' | 'left' | 'right';
+
+  /**
+   * Widget position
+   */
+  export interface IWidgetPosition {
+    /**
+     * Widget area
+     */
+    area?: Area;
+    /**
+     * Widget opening options
+     */
+    options?: DocumentRegistry.IOpenOptions;
+  }
+
+  /**
+   * Mapping of widget type identifier and their user customized position
+   */
+  export interface IUserLayout {
+    /**
+     * Widget customized position
+     */
+    [k: string]: IWidgetPosition;
+  }
+}
+
+/**
  * The default rank for ranked panels.
  */
 const DEFAULT_RANK = 900;
@@ -36,6 +70,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   constructor() {
     super();
     this.id = 'main';
+    this._userLayout = {};
 
     this._topHandler = new PanelHandler();
     this._menuHandler = new PanelHandler();
@@ -212,12 +247,22 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   }
 
   /**
+   * User custom shell layout.
+   */
+  get userLayout() {
+    return JSONExt.deepCopy(this._userLayout as any);
+  }
+
+  /**
    * Activate a widget in its area.
    */
   activateById(id: string): void {
     // Search all areas that can have widgets for this widget, starting with main.
     for (const area of ['main', 'top', 'left', 'right', 'menu']) {
-      const widget = find(this.widgets(area as Shell.Area), (w) => w.id === id);
+      const widget = find(
+        this.widgets(area as INotebookShell.Area),
+        (w) => w.id === id
+      );
       if (widget) {
         if (area === 'left') {
           this.expandLeft(id);
@@ -243,9 +288,25 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    */
   add(
     widget: Widget,
-    area?: Shell.Area,
+    area?: INotebookShell.Area,
     options?: DocumentRegistry.IOpenOptions
   ): void {
+    let userPosition: INotebookShell.IWidgetPosition | undefined;
+    if (options?.type && this._userLayout[options.type]) {
+      userPosition = this._userLayout[options.type];
+    } else {
+      userPosition = this._userLayout[widget.id];
+    }
+
+    area = userPosition?.area ?? area;
+    options =
+      options || userPosition?.options
+        ? {
+            ...options,
+            ...userPosition?.options,
+          }
+        : undefined;
+
     const rank = options?.rank ?? DEFAULT_RANK;
     switch (area) {
       case 'top':
@@ -293,7 +354,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    *
    * @param area The area
    */
-  *widgets(area: Shell.Area): IterableIterator<Widget> {
+  *widgets(area: INotebookShell.Area): IterableIterator<Widget> {
     switch (area ?? 'main') {
       case 'top':
         yield* this._topHandler.panel.widgets;
@@ -348,6 +409,15 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     this._rightHandler.panel.hide();
   }
 
+  /**
+   * Restore the layout state and configuration for the application shell.
+   */
+  async restoreLayout(
+    configuration: INotebookShell.IUserLayout
+  ): Promise<void> {
+    this._userLayout = configuration;
+  }
+
   private _topWrapper: Panel;
   private _topHandler: PanelHandler;
   private _menuWrapper: Panel;
@@ -361,16 +431,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   private _translator: ITranslator = nullTranslator;
   private _currentChanged = new Signal<this, void>(this);
   private _mainWidgetLoaded = new PromiseDelegate<void>();
-}
-
-/**
- * A namespace for Shell statics
- */
-export namespace Shell {
-  /**
-   * The areas of the application shell where widgets can reside.
-   */
-  export type Area = 'main' | 'top' | 'left' | 'right' | 'menu';
+  private _userLayout: INotebookShell.IUserLayout;
 }
 
 export namespace Private {
