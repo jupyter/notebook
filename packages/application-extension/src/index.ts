@@ -178,16 +178,18 @@ const opener: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:opener',
   autoStart: true,
   requires: [IRouter, IDocumentManager],
+  optional: [ISettingRegistry],
   activate: (
     app: JupyterFrontEnd,
     router: IRouter,
-    docManager: IDocumentManager
+    docManager: IDocumentManager,
+    settingRegistry: ISettingRegistry | null
   ): void => {
     const { commands, docRegistry } = app;
 
     const command = 'router:tree';
     commands.addCommand(command, {
-      execute: (args: any) => {
+      execute: async (args: any) => {
         const parsed = args as IRouter.ILocation;
         const matches = parsed.path.match(TREE_PATTERN) ?? [];
         const [, , path] = matches;
@@ -198,8 +200,32 @@ const opener: JupyterFrontEndPlugin<void> = {
         app.started.then(async () => {
           const file = decodeURIComponent(path);
           const urlParams = new URLSearchParams(parsed.search);
-          const defaultFactory = docRegistry.defaultWidgetFactory(path);
-          const factory = urlParams.get('factory') ?? defaultFactory.name;
+          let defaultFactory = docRegistry.defaultWidgetFactory(path).name;
+
+          // Explicitely get the default viewers from the settings because
+          // JupyterLab might not have had the time to load the settings yet (race condition)
+          if (settingRegistry) {
+            const settings = await settingRegistry.load(
+              '@jupyterlab/docmanager-extension:plugin'
+            );
+            // Handle default widget factory overrides.
+            const defaultViewers = settings.get('defaultViewers').composite as {
+              [ft: string]: string;
+            };
+
+            // get the file types for the path
+            const types = docRegistry.getFileTypesForPath(path);
+            types.forEach((ft) => {
+              if (
+                defaultViewers[ft.name] !== undefined &&
+                docRegistry.getWidgetFactory(defaultViewers[ft.name])
+              ) {
+                defaultFactory = defaultViewers[ft.name];
+              }
+            });
+          }
+
+          const factory = urlParams.get('factory') ?? defaultFactory;
           docManager.open(file, factory, undefined, {
             ref: '_noref',
           });
