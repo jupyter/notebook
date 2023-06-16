@@ -72,6 +72,12 @@ const TREE_PATTERN = new RegExp('/(notebooks|edit)/(.*)');
 const STRIP_IPYNB = /\.ipynb$/;
 
 /**
+ * The JupyterLab document manager plugin id.
+ */
+const JUPYTERLAB_DOCMANAGER_PLUGIN_ID =
+  '@jupyterlab/docmanager-extension:plugin';
+
+/**
  * The command IDs used by the application plugin.
  */
 namespace CommandIDs {
@@ -189,7 +195,7 @@ const opener: JupyterFrontEndPlugin<void> = {
 
     const command = 'router:tree';
     commands.addCommand(command, {
-      execute: async (args: any) => {
+      execute: (args: any) => {
         const parsed = args as IRouter.ILocation;
         const matches = parsed.path.match(TREE_PATTERN) ?? [];
         const [, , path] = matches;
@@ -204,17 +210,19 @@ const opener: JupyterFrontEndPlugin<void> = {
 
           // Explicitely get the default viewers from the settings because
           // JupyterLab might not have had the time to load the settings yet (race condition)
+          // Relevant code: https://github.com/jupyterlab/jupyterlab/blob/d56ff811f39b3c10c6d8b6eb27a94624b753eb53/packages/docmanager-extension/src/index.tsx#L265-L293
           if (settingRegistry) {
             const settings = await settingRegistry.load(
-              '@jupyterlab/docmanager-extension:plugin'
+              JUPYTERLAB_DOCMANAGER_PLUGIN_ID
             );
-            // Handle default widget factory overrides.
             const defaultViewers = settings.get('defaultViewers').composite as {
               [ft: string]: string;
             };
-
             // get the file types for the path
             const types = docRegistry.getFileTypesForPath(path);
+            // for each file type, check if there is a default viewer and if it
+            // is available in the docRegistry. If it is the case, use it as the
+            // default factory
             types.forEach((ft) => {
               if (
                 defaultViewers[ft.name] !== undefined &&
