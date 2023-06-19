@@ -72,6 +72,12 @@ const TREE_PATTERN = new RegExp('/(notebooks|edit)/(.*)');
 const STRIP_IPYNB = /\.ipynb$/;
 
 /**
+ * The JupyterLab document manager plugin id.
+ */
+const JUPYTERLAB_DOCMANAGER_PLUGIN_ID =
+  '@jupyterlab/docmanager-extension:plugin';
+
+/**
  * The command IDs used by the application plugin.
  */
 namespace CommandIDs {
@@ -178,12 +184,14 @@ const opener: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:opener',
   autoStart: true,
   requires: [IRouter, IDocumentManager],
+  optional: [ISettingRegistry],
   activate: (
     app: JupyterFrontEnd,
     router: IRouter,
-    docManager: IDocumentManager
+    docManager: IDocumentManager,
+    settingRegistry: ISettingRegistry | null
   ): void => {
-    const { commands } = app;
+    const { commands, docRegistry } = app;
 
     const command = 'router:tree';
     commands.addCommand(command, {
@@ -195,10 +203,37 @@ const opener: JupyterFrontEndPlugin<void> = {
           return;
         }
 
-        const file = decodeURIComponent(path);
-        const urlParams = new URLSearchParams(parsed.search);
-        const factory = urlParams.get('factory') ?? 'default';
         app.started.then(async () => {
+          const file = decodeURIComponent(path);
+          const urlParams = new URLSearchParams(parsed.search);
+          let defaultFactory = docRegistry.defaultWidgetFactory(path).name;
+
+          // Explicitely get the default viewers from the settings because
+          // JupyterLab might not have had the time to load the settings yet (race condition)
+          // Relevant code: https://github.com/jupyterlab/jupyterlab/blob/d56ff811f39b3c10c6d8b6eb27a94624b753eb53/packages/docmanager-extension/src/index.tsx#L265-L293
+          if (settingRegistry) {
+            const settings = await settingRegistry.load(
+              JUPYTERLAB_DOCMANAGER_PLUGIN_ID
+            );
+            const defaultViewers = settings.get('defaultViewers').composite as {
+              [ft: string]: string;
+            };
+            // get the file types for the path
+            const types = docRegistry.getFileTypesForPath(path);
+            // for each file type, check if there is a default viewer and if it
+            // is available in the docRegistry. If it is the case, use it as the
+            // default factory
+            types.forEach((ft) => {
+              if (
+                defaultViewers[ft.name] !== undefined &&
+                docRegistry.getWidgetFactory(defaultViewers[ft.name])
+              ) {
+                defaultFactory = defaultViewers[ft.name];
+              }
+            });
+          }
+
+          const factory = urlParams.get('factory') ?? defaultFactory;
           docManager.open(file, factory, undefined, {
             ref: '_noref',
           });
