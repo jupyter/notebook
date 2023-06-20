@@ -17,6 +17,10 @@
           {
             "command": "application:close",
             "disabled": true
+          },
+          {
+            "command": "filemenu:close-and-cleanup",
+            "rank": 30
           }
         ]
       },
