@@ -156,6 +156,8 @@ const closeTab: JupyterFrontEndPlugin<void> = {
     menu.fileMenu.closeAndCleaners.add({
       id,
       isEnabled: () => true,
+      // use a small rank to it takes precedence over the default
+      // shut down action for the notebook
       rank: 0,
     });
   },
