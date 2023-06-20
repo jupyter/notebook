@@ -36,5 +36,5 @@
 
 #jp-NotebookLogo {
   /* bring logo to the front so it is selectable by tab*/
-  z-index: 10 ;
+  z-index: 10;
 }
