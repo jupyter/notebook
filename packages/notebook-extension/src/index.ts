@@ -145,9 +145,9 @@ const closeTab: JupyterFrontEndPlugin<void> = {
     translator = translator ?? nullTranslator;
     const trans = translator.load('notebook');
 
-    const id = 'notebook:close-browser-tab';
+    const id = 'notebook:close-and-halt';
     commands.addCommand(id, {
-      label: trans.__('Close and Shut Down Notebook'),
+      label: trans.__('Close and Halt'),
       execute: async () => {
         await commands.execute('notebook:close-and-shutdown');
         window.close();
