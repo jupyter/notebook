@@ -155,4 +155,24 @@ test.describe('Notebook', () => {
     const imageName = 'notebooktools-right-panel.png';
     expect(await panel.screenshot()).toMatchSnapshot(imageName);
   });
+
+  test('Clicking on "Close and Halt" should close the browser tab', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'simple.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    const menuPath = 'File>Close and Halt';
+    await page.menu.clickMenuItem(menuPath);
+
+    // Press Enter to confirm the dialog
+    await page.keyboard.press('Enter');
+
+    expect(page.isClosed());
+  });
 });
