@@ -33,3 +33,8 @@
 .jp-MainAreaWidget > .jp-Toolbar-micro {
   display: none;
 }
+
+#jp-NotebookLogo {
+  /* bring logo to the front so it is selectable by tab*/
+  z-index: 10;
+}

@@ -171,6 +171,7 @@ const logo: JupyterFrontEndPlugin<void> = {
       height: '28px',
       width: 'auto',
       cursor: 'pointer',
+      margin: 'auto',
     });
     logo.id = 'jp-NotebookLogo';
     app.shell.add(logo, 'top', { rank: 0 });
