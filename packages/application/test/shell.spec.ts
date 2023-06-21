@@ -1,11 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import {
-  INotebookShell,
-  NotebookShell,
-  Shell,
-} from '@jupyter-notebook/application';
+import { INotebookShell, NotebookShell } from '@jupyter-notebook/application';
 
 import { JupyterFrontEnd } from '@jupyterlab/application';
 
@@ -30,7 +26,7 @@ describe('Shell for notebooks', () => {
 
     it('should make some areas empty initially', () => {
       ['main', 'left', 'right', 'menu'].forEach((area) => {
-        const widgets = Array.from(shell.widgets(area as Shell.Area));
+        const widgets = Array.from(shell.widgets(area as INotebookShell.Area));
         expect(widgets.length).toEqual(0);
       });
     });
@@ -139,7 +135,7 @@ describe('Shell for tree view', () => {
 
     it('should make some areas empty initially', () => {
       ['main', 'left', 'right', 'menu'].forEach((area) => {
-        const widgets = Array.from(shell.widgets(area as Shell.Area));
+        const widgets = Array.from(shell.widgets(area as INotebookShell.Area));
         expect(widgets.length).toEqual(0);
       });
     });
