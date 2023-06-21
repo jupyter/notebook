@@ -156,7 +156,7 @@ test.describe('Notebook', () => {
     expect(await panel.screenshot()).toMatchSnapshot(imageName);
   });
 
-  test('Clicking on "Close and Halt" should close the browser tab', async ({
+  test('Clicking on "Close and Shut Down Notebook" should close the browser tab', async ({
     page,
     tmpPath,
   }) => {
