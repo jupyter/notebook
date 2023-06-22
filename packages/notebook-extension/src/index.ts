@@ -18,6 +18,8 @@ import { Text, Time } from '@jupyterlab/coreutils';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
+import { IMainMenu } from '@jupyterlab/mainmenu';
+
 import {
   NotebookPanel,
   INotebookTracker,
@@ -26,7 +28,7 @@ import {
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
-import { ITranslator } from '@jupyterlab/translation';
+import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
 import { INotebookShell } from '@jupyter-notebook/application';
 
@@ -122,6 +124,40 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
         backoff: false,
       },
       standby: 'when-hidden',
+    });
+  },
+};
+
+/**
+ * Add a command to close the browser tab when clicking on "Close and Shut Down"
+ */
+const closeTab: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:close-tab',
+  autoStart: true,
+  requires: [IMainMenu],
+  optional: [ITranslator],
+  activate: (
+    app: JupyterFrontEnd,
+    menu: IMainMenu,
+    translator: ITranslator | null
+  ) => {
+    const { commands } = app;
+    translator = translator ?? nullTranslator;
+    const trans = translator.load('notebook');
+
+    const id = 'notebook:close-and-halt';
+    commands.addCommand(id, {
+      label: trans.__('Close and Shut Down Notebook'),
+      execute: async () => {
+        await commands.execute('notebook:close-and-shutdown');
+        window.close();
+      },
+    });
+    menu.fileMenu.closeAndCleaners.add({
+      id,
+      // use a small rank to it takes precedence over the default
+      // shut down action for the notebook
+      rank: 0,
     });
   },
 };
@@ -402,6 +438,7 @@ const trusted: JupyterFrontEndPlugin<void> = {
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
+  closeTab,
   kernelLogo,
   kernelStatus,
   scrollOutput,
