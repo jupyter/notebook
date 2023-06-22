@@ -117,7 +117,7 @@ class RedirectHandler(NotebookBaseHandler):
     @web.authenticated
     def get(self):
         """Get the redirect url."""
-        return self.redirect(self.base_url.strip("/") + "/" + self.default_url.strip("/"))
+        return self.redirect(self.base_url + "tree")
 
 
 class TreeHandler(NotebookBaseHandler):
