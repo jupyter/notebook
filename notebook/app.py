@@ -234,7 +234,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
     app_version = version
     extension_url = "/"
     default_url = Unicode("/tree", config=True, help="The default URL to redirect to from `/`")
-    file_url_prefix = "/notebooks"
+    file_url_prefix = "/tree"
     load_other_extensions = True
     app_dir = app_dir
     subcommands: dict = {}
@@ -329,13 +329,6 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
             # if the serverapp set one
             page_config["token"] = ""
 
-        self.handlers.append(
-            (
-                rf"/{self.file_url_prefix}/((?!.*\.ipynb($|\?)).*)",
-                web.RedirectHandler,
-                {"url": ujoin(self.serverapp.base_url, "/edit/{0}")},
-            )
-        )
         self.handlers.append(("/?", RedirectHandler))
         self.handlers.append(("/tree(.*)", TreeHandler))
         self.handlers.append(("/notebooks(.*)", NotebookHandler))
