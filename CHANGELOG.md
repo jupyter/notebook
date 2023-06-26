@@ -14,6 +14,23 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0rc2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0rc1...27c00bc56afaa5b89713f760b0cc6eb88079224e))
+
+### Bugs fixed
+
+- Fix opening files from the CLI [#6946](https://github.com/jupyter/notebook/pull/6946) ([@jtpio](https://github.com/jtpio))
+- Fix handling of the base url [#6943](https://github.com/jupyter/notebook/pull/6943) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-06-22&to=2023-06-26&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-06-22..2023-06-26&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-06-22..2023-06-26&type=Issues) | [@parmentelat](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aparmentelat+updated%3A2023-06-22..2023-06-26&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0rc1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0rc0...8493e1ba21ebaca5c192d68bdc829ccc5b29a799))
@@ -37,8 +54,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-06-19&to=2023-06-22&type=c))
 
 [@andrii-i](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2023-06-19..2023-06-22&type=Issues) | [@Cheukting](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ACheukting+updated%3A2023-06-19..2023-06-22&type=Issues) | [@ericsnekbytes](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aericsnekbytes+updated%3A2023-06-19..2023-06-22&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-06-19..2023-06-22&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-06-19..2023-06-22&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2023-06-19..2023-06-22&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0rc0
 
