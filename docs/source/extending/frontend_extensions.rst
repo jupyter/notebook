@@ -1,3 +1,14 @@
+.. warning::
+
+   **DEPRECATED APIs** 
+    This documentation is for the Notebook 6 API which will soon be deprecated.
+    For up to date information on Notebook 7, please visit the latest version of the `Notebook documentation`_ or the `JEP for Notebook 7`_.
+    If you experience issues or are not yet able to migrate to Notebook 7, please visit the `NbClassic documentation`_ 
+
+.. _JEP for Notebook 7: https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html
+.. _Notebook documentation: https://jupyter-notebook.readthedocs.io/en/latest
+.. _Nbclassic documentation: https://nbclassic.readthedocs.io/en/latest/nbclassic.html
+
 Custom front-end extensions
 ===========================
 
