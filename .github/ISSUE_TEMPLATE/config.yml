@@ -11,4 +11,4 @@ contact_links:
     about: Ask short questions about using Jupyter Notebook
   - name: 📝 Do you have a feature request that may be applied upstream? See JupyterLab.
     url: https://github.com/jupyterlab/jupyterlab
-    about: We recommend that you cross-referrence JupyterLab for information when requesting new features and support for Notebook 7. We won't likely accept new features for Jupyter Notebook 6.x.
+    about: We recommend that you cross-reference JupyterLab for information when requesting new features and support for Notebook 7. We won't likely accept new features for Jupyter Notebook 6.x.
