@@ -40,7 +40,7 @@ Here, we're looking for specific bugs in the Jupyter Notebook codebase. If you t
 4. See error '...'
 
 <!--Describe how you diagnosed the issue. See the guidelines at
-https://jupyter-notebook.readthedocs.io/en/latest/troubleshooting -->
+https://jupyter-notebook.readthedocs.io/en/latest/troubleshooting.html -->
 
 ## Expected behavior
 
