@@ -144,7 +144,7 @@ dependencies = [
   "black[jupyter]==22.10.0",
   "mdformat>0.7",
   "mdformat-gfm>=0.3.5",
-  "ruff==0.0.263"
+  "ruff==0.0.276"
 ]
 detached = true
 [tool.hatch.envs.lint.scripts]
@@ -266,6 +266,8 @@ ignore = [
 "FBT001", "FBT002", "FBT003",
 # C408 Unnecessary `dict` call (rewrite as a literal)
 "C408", "C416",
+# RUF012 Mutable class attributes should be annotated with `typing.ClassVar`
+"RUF012",
 ]
 
 [tool.ruff.per-file-ignores]
