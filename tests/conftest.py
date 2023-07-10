@@ -91,7 +91,7 @@ def make_notebook_app(  # noqa PLR0913
     )
 
     # Copy the schema files.
-    test_data = str(files("jupyterlab_server.test_data").joinpath(""))
+    test_data = str(files("jupyterlab_server.test_data")._paths[0])  # type: ignore
     src = pathlib.PurePath(test_data, "schemas", "@jupyterlab")
     dst = pathlib.PurePath(str(schemas_dir), "@jupyterlab")
     if os.path.exists(dst):
