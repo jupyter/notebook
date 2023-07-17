@@ -2259,7 +2259,7 @@ __metadata:
     "@jupyterlab/notebook": ^4.0.3
     "@jupyterlab/translation": ^4.0.3
     "@jupyterlab/ui-components": ^4.0.3
-    "@lumino/commands": ^2.1.2
+    "@lumino/commands": ^2.1.1
     "@lumino/disposable": ^2.1.1
     rimraf: ^3.0.2
     typescript: ~5.0.2
@@ -2357,7 +2357,7 @@ __metadata:
     "@jupyterlab/translation": ^4.0.3
     "@jupyterlab/ui-components": ^4.0.3
     "@lumino/algorithm": ^2.0.0
-    "@lumino/commands": ^2.1.2
+    "@lumino/commands": ^2.1.1
     "@lumino/widgets": ^2.1.1
     rimraf: ^3.0.2
     typescript: ~5.0.2
@@ -2381,7 +2381,7 @@ __metadata:
     "@jupyterlab/translation": ^4.0.3
     "@jupyterlab/ui-components": ^4.0.3
     "@lumino/algorithm": ^2.0.0
-    "@lumino/commands": ^2.1.2
+    "@lumino/commands": ^2.1.1
     "@lumino/coreutils": ^2.1.1
     "@lumino/widgets": ^2.1.1
     rimraf: ^3.0.2
@@ -4476,21 +4476,6 @@ __metadata:
     "@lumino/signaling": ^2.1.1
     "@lumino/virtualdom": ^2.0.0
   checksum: a076244e9c4f7a3c6dab02642fdd38dbbaab6e5754acaeeb84a5195dc5c2fc19343ba754c3a0f89c9b60f16c61cb793301cdb6e8d69bdc30e18ed7e32f40d524
-  languageName: node
-  linkType: hard
-
-"@lumino/commands@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "@lumino/commands@npm:2.1.2"
-  dependencies:
-    "@lumino/algorithm": ^2.0.0
-    "@lumino/coreutils": ^2.1.1
-    "@lumino/disposable": ^2.1.1
-    "@lumino/domutils": ^2.0.0
-    "@lumino/keyboard": ^2.0.0
-    "@lumino/signaling": ^2.1.1
-    "@lumino/virtualdom": ^2.0.0
-  checksum: c0b5ce8c5e1a86a98a90f54bb07b74742748110cf3362b86ff8328c1b5475c4dc05f1c4c9f50bf79e51c4e2ddc5cd69d6194f3d39dd5b58f357b0f30758bf35b
   languageName: node
   linkType: hard
 
