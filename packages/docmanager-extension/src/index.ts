@@ -42,8 +42,7 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
           let route = 'edit';
           if (
             (widgetName === 'default' && ext === '.ipynb') ||
-            widgetName === 'Notebook' ||
-            widgetName === 'Jupytext Notebook'
+            widgetName.includes('Notebook')
           ) {
             route = 'notebooks';
           }
