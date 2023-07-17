@@ -2142,7 +2142,7 @@ __metadata:
     "@jupyterlab/translation": ^4.0.3
     "@lumino/coreutils": ^2.1.1
     "@lumino/disposable": ^2.1.1
-    "@lumino/widgets": ^2.2.0
+    "@lumino/widgets": ^2.1.1
     rimraf: ^3.0.2
     typescript: ~5.0.2
   languageName: unknown
@@ -2165,7 +2165,7 @@ __metadata:
     "@lumino/messaging": ^2.0.0
     "@lumino/polling": ^2.1.1
     "@lumino/signaling": ^2.1.1
-    "@lumino/widgets": ^2.2.0
+    "@lumino/widgets": ^2.1.1
     "@types/jest": ^29.2.5
     jest: ^29.3.1
     rimraf: ^3.0.2
@@ -2224,7 +2224,7 @@ __metadata:
     "@jupyter-notebook/application": ^7.0.0-rc.2
     "@jupyterlab/application": ^4.0.3
     "@jupyterlab/documentsearch": ^4.0.3
-    "@lumino/widgets": ^2.2.0
+    "@lumino/widgets": ^2.1.1
     rimraf: ^3.0.2
     typescript: ~5.0.2
   languageName: unknown
@@ -2299,7 +2299,7 @@ __metadata:
     "@jupyterlab/settingregistry": ^4.0.3
     "@jupyterlab/translation": ^4.0.3
     "@lumino/polling": ^2.1.1
-    "@lumino/widgets": ^2.2.0
+    "@lumino/widgets": ^2.1.1
     rimraf: ^3.0.2
     typescript: ~5.0.2
   languageName: unknown
@@ -2358,7 +2358,7 @@ __metadata:
     "@jupyterlab/ui-components": ^4.0.3
     "@lumino/algorithm": ^2.0.0
     "@lumino/commands": ^2.1.2
-    "@lumino/widgets": ^2.2.0
+    "@lumino/widgets": ^2.1.1
     rimraf: ^3.0.2
     typescript: ~5.0.2
   languageName: unknown
@@ -2383,7 +2383,7 @@ __metadata:
     "@lumino/algorithm": ^2.0.0
     "@lumino/commands": ^2.1.2
     "@lumino/coreutils": ^2.1.1
-    "@lumino/widgets": ^2.2.0
+    "@lumino/widgets": ^2.1.1
     rimraf: ^3.0.2
     typescript: ~5.0.2
   languageName: unknown
@@ -4544,16 +4544,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lumino/dragdrop@npm:^2.1.2":
-  version: 2.1.2
-  resolution: "@lumino/dragdrop@npm:2.1.2"
-  dependencies:
-    "@lumino/coreutils": ^2.1.1
-    "@lumino/disposable": ^2.1.1
-  checksum: 7ac64ec11423ec89fea937aa6c9ca818933ee98e775e500018a0a948f32171932033a1e302a48395cbe9bfeaa635acde2393fd935db14d7b1d569ca6a1daaa77
-  languageName: node
-  linkType: hard
-
 "@lumino/keyboard@npm:^2.0.0":
   version: 2.0.0
   resolution: "@lumino/keyboard@npm:2.0.0"
@@ -4624,25 +4614,6 @@ __metadata:
     "@lumino/signaling": ^2.1.1
     "@lumino/virtualdom": ^2.0.0
   checksum: e2ad4a97d6ec43e5e1863c2a521b6b8cb7a708a470c1e78b0f34ff4ad8b9fca191597586c3033233a29ff0fa14b62aeef5ea2fe66af3058d39e711c6af129cf4
-  languageName: node
-  linkType: hard
-
-"@lumino/widgets@npm:^2.2.0":
-  version: 2.2.0
-  resolution: "@lumino/widgets@npm:2.2.0"
-  dependencies:
-    "@lumino/algorithm": ^2.0.0
-    "@lumino/commands": ^2.1.2
-    "@lumino/coreutils": ^2.1.1
-    "@lumino/disposable": ^2.1.1
-    "@lumino/domutils": ^2.0.0
-    "@lumino/dragdrop": ^2.1.2
-    "@lumino/keyboard": ^2.0.0
-    "@lumino/messaging": ^2.0.0
-    "@lumino/properties": ^2.0.0
-    "@lumino/signaling": ^2.1.1
-    "@lumino/virtualdom": ^2.0.0
-  checksum: 963c0e54102b786a9cbf3467041c9f6f5c275af751afc311ebeba30d56516767c463c425e321bb389eaa66726dfc4420119a9a58573dcbf3110aba9515c80606
   languageName: node
   linkType: hard
 

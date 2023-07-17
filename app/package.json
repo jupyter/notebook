@@ -110,7 +110,7 @@
     "@lumino/properties": "~2.0.0",
     "@lumino/signaling": "~2.1.1",
     "@lumino/virtualdom": "~2.0.0",
-    "@lumino/widgets": "~2.2.0",
+    "@lumino/widgets": "~2.1.1",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "yjs": "~13.6.2"
