@@ -146,6 +146,7 @@
     "@jupyterlab/extensionmanager-extension": "^4.1.0-alpha.3",
     "@jupyterlab/filebrowser-extension": "^4.1.0-alpha.3",
     "@jupyterlab/fileeditor-extension": "^4.1.0-alpha.3",
+    "@jupyterlab/help-extension": "^4.1.0-alpha.3",
     "@jupyterlab/htmlviewer-extension": "^4.1.0-alpha.3",
     "@jupyterlab/hub-extension": "^4.1.0-alpha.3",
     "@jupyterlab/imageviewer-extension": "^4.1.0-alpha.3",
@@ -264,6 +265,9 @@
         ],
         "@jupyterlab/fileeditor-extension": [
           "@jupyterlab/fileeditor-extension:plugin"
+        ],
+        "@jupyterlab/help-extension": [
+          "@jupyterlab/help-extension:resources"
         ],
         "@jupyterlab/htmlviewer-extension": true,
         "@jupyterlab/imageviewer-extension": true,

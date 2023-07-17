@@ -2089,6 +2089,7 @@ __metadata:
     "@jupyterlab/extensionmanager-extension": ^4.1.0-alpha.3
     "@jupyterlab/filebrowser-extension": ^4.1.0-alpha.3
     "@jupyterlab/fileeditor-extension": ^4.1.0-alpha.3
+    "@jupyterlab/help-extension": ^4.1.0-alpha.3
     "@jupyterlab/htmlviewer-extension": ^4.1.0-alpha.3
     "@jupyterlab/hub-extension": ^4.1.0-alpha.3
     "@jupyterlab/imageviewer-extension": ^4.1.0-alpha.3
@@ -3273,6 +3274,26 @@ __metadata:
     react: ^18.2.0
     regexp-match-indices: ^1.0.2
   checksum: 382813c90297ff834b90e392244f84a717ebe60952dd6455e828240cba0570779853217fa8ae4f897528f2913b024f29fe3f36dfd6b3d7a925bf8883d08058eb
+  languageName: node
+  linkType: hard
+
+"@jupyterlab/help-extension@npm:^4.1.0-alpha.3":
+  version: 4.1.0-alpha.3
+  resolution: "@jupyterlab/help-extension@npm:4.1.0-alpha.3"
+  dependencies:
+    "@jupyterlab/application": ^4.1.0-alpha.3
+    "@jupyterlab/apputils": ^4.2.0-alpha.3
+    "@jupyterlab/coreutils": ^6.1.0-alpha.3
+    "@jupyterlab/mainmenu": ^4.1.0-alpha.3
+    "@jupyterlab/services": ^7.1.0-alpha.3
+    "@jupyterlab/translation": ^4.1.0-alpha.3
+    "@jupyterlab/ui-components": ^4.1.0-alpha.3
+    "@lumino/coreutils": ^2.1.2
+    "@lumino/signaling": ^2.1.2
+    "@lumino/virtualdom": ^2.0.1
+    "@lumino/widgets": ^2.3.1-alpha.0
+    react: ^18.2.0
+  checksum: d0543a4e63ed9d21f61d3dc2295baaf2f4075f87115c3de5612f8e526dd1aae2e8fd1f3a36e3f67a8ab2e57370707ba0876b99dbbe405870933bb00b5cd960ce
   languageName: node
   linkType: hard
 
