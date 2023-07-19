@@ -14,6 +14,44 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.0
+
+Jupyter Notebook 7 is released :tada:
+
+Check the changelog: https://jupyter-notebook.readthedocs.io/en/latest/changelog.html
+
+And the new features in Notebook 7: https://jupyter-notebook.readthedocs.io/en/latest/notebook_7_features.html
+
+Migration Guide: https://jupyter-notebook.readthedocs.io/en/latest/migrate_to_notebook7.html
+
+______________________________________________________________________
+
+For reference here is the changelog since the last `7.0.0rc2` release.
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0rc2...2be98e8f39af7f3ec2729006018f6baf0998f94b))
+
+### Bugs fixed
+
+- Update Jupytext Notebook url path [#6961](https://github.com/jupyter/notebook/pull/6961) ([@RRosio](https://github.com/RRosio))
+
+### Maintenance and upkeep improvements
+
+- Fix hatch version when going from rc [#6971](https://github.com/jupyter/notebook/pull/6971) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.0.3 [#6967](https://github.com/jupyter/notebook/pull/6967) ([@jtpio](https://github.com/jtpio))
+- Bump semver from 7.5.0 to 7.5.3 in /ui-tests [#6950](https://github.com/jupyter/notebook/pull/6950) ([@dependabot](https://github.com/dependabot))
+
+### Documentation improvements
+
+- fix: update link to troubleshooting guidelines [#6964](https://github.com/jupyter/notebook/pull/6964) ([@emmanuel-ferdman](https://github.com/emmanuel-ferdman))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-06-26&to=2023-07-19&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-06-26..2023-07-19&type=Issues) | [@emmanuel-ferdman](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aemmanuel-ferdman+updated%3A2023-06-26..2023-07-19&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-06-26..2023-07-19&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-06-26..2023-07-19&type=Issues) | [@parmentelat](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aparmentelat+updated%3A2023-06-26..2023-07-19&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-06-26..2023-07-19&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2023-06-26..2023-07-19&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.0rc2
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.0.0rc1...27c00bc56afaa5b89713f760b0cc6eb88079224e))
@@ -28,8 +66,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-06-22&to=2023-06-26&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-06-22..2023-06-26&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-06-22..2023-06-26&type=Issues) | [@parmentelat](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aparmentelat+updated%3A2023-06-22..2023-06-26&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0rc1
 
