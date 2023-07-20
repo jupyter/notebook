@@ -22,7 +22,7 @@ There is also a plan to continue maintaining Notebook v6 with bug and security f
 
 ### Notebook v7
 
-The next major version of Notebook will be based on:
+The newest major version of Notebook is based on:
 
 - JupyterLab components for the frontend
 - Jupyter Server for the Python server
