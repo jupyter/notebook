@@ -403,6 +403,51 @@ const notebookToolsWidget: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to update the tab icon based on the kernel status.
+ */
+const tabIcon: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:tab-icon',
+  autoStart: true,
+  requires: [INotebookTracker],
+  activate: (app: JupyterFrontEnd, tracker: INotebookTracker) => {
+    // the favicons are provided by Jupyter Server
+    const notebookIcon = ' /static/favicons/favicon-notebook.ico';
+    const busyIcon = ' /static/favicons/favicon-busy-1.ico';
+
+    const updateBrowserFavicon = (
+      status: ISessionContext.KernelDisplayStatus
+    ) => {
+      const link = document.querySelector(
+        "link[rel*='icon']"
+      ) as HTMLLinkElement;
+      switch (status) {
+        case 'busy':
+          link.href = busyIcon;
+          break;
+        case 'idle':
+          link.href = notebookIcon;
+          break;
+      }
+    };
+
+    const onChange = async () => {
+      const current = tracker.currentWidget;
+      const sessionContext = current?.sessionContext;
+      if (!sessionContext) {
+        return;
+      }
+
+      sessionContext.statusChanged.connect(() => {
+        const status = sessionContext.kernelDisplayStatus;
+        updateBrowserFavicon(status);
+      });
+    };
+
+    tracker.currentChanged.connect(onChange);
+  },
+};
+
+/**
  * A plugin that adds a Trusted indicator to the menu area
  */
 const trusted: JupyterFrontEndPlugin<void> = {
@@ -441,8 +486,9 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   closeTab,
   kernelLogo,
   kernelStatus,
-  scrollOutput,
   notebookToolsWidget,
+  scrollOutput,
+  tabIcon,
   trusted,
 ];
 
