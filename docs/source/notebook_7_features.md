@@ -77,15 +77,9 @@ After installing the language pack, reload the page and the new language should 
 Notebook 7 and JupyterLab share the same language packs, so it is possible to use the same language pack in both applications.
 ```
 
-## Improved Web Content Accessibility Guidelines (WCAG) compliance
+## Accessibility Improvements
 
-Improving the accessibility of Jupyter had long been impeded by significant obstacles. The primary obstacle was that the text editor underlying the Jupyter Notebook (CodeMirror 5) had major accessibility issues.
-
-Fortunately, this accessibility bottleneck has been unblocked as JupyterLab has been upgraded to use CodeMirror 6, a complete rewrite of the text editor with a strong focus on accessibility. Although this upgrade required extensive codebase modifications, the changes is available with JupyterLab 4. By being built on top of JupyterLab, Jupyter Notebook 7 directly benefits from the CodeMirror 6 upgrade.
-
-![Axe Auditor output with the Notebook 7 UI](https://user-images.githubusercontent.com/591645/229613525-764004bd-ac7a-4000-b694-a347709aa826.png)
-
-Check out the related blog post for more details: [Improving the accessibility of Jupyter](https://blog.jupyter.org/improving-the-accessibility-of-jupyter-6c695db518d3).
+The text editor underlying the Jupyter Notebook (CodeMirror 5) had major accessibility issues. Fortunately, this accessibility bottleneck has been unblocked as JupyterLab has been upgraded to use CodeMirror 6, a complete rewrite of the text editor with a strong focus on accessibility. Although this upgrade required extensive codebase modifications, the changes is available with JupyterLab 4. By being built on top of JupyterLab, Jupyter Notebook 7 directly benefits from the CodeMirror 6 upgrade.
 
 ## Support for many JupyterLab extensions
 
