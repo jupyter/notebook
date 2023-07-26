@@ -1,0 +1,12 @@
+import '@jupyter-notebook/application';
+import '@jupyter-notebook/application-extension';
+import '@jupyter-notebook/console-extension';
+import '@jupyter-notebook/docmanager-extension';
+import '@jupyter-notebook/documentsearch-extension';
+import '@jupyter-notebook/help-extension';
+import '@jupyter-notebook/lab-extension';
+import '@jupyter-notebook/notebook-extension';
+import '@jupyter-notebook/terminal-extension';
+import '@jupyter-notebook/tree';
+import '@jupyter-notebook/tree-extension';
+import '@jupyter-notebook/ui-components';
