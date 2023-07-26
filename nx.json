@@ -9,9 +9,7 @@
     }
   },
   "namedInputs": {
-    "default": [
-      "{projectRoot}/**/*"
-    ]
+    "default": ["{projectRoot}/**/*"]
   },
   "targetDefaults": {
     "build": {
