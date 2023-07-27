@@ -278,6 +278,7 @@ Please note that updating to Notebook 7 might break some of your extensions.
             },
             version_hash=version_hash,
             ignore_minified_js=jupyter_app.ignore_minified_js,
+            show_banner=jupyter_app.show_banner,
 
             # rate limits
             iopub_msg_rate_limit=jupyter_app.iopub_msg_rate_limit,
@@ -1170,6 +1171,12 @@ class NotebookApp(JupyterApp):
        as local as well.
        """
     )
+
+    show_banner = Bool(True, config=True,
+                        help="""Whether the banner is displayed on the page.
+
+                        By default, the banner is displayed.
+                        """)
 
     open_browser = Bool(True, config=True,
                         help="""Whether to open in a browser after starting.

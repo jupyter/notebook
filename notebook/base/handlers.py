@@ -245,6 +245,10 @@ class IPythonHandler(AuthenticatedHandler):
         return self.settings.get('websocket_url', '')
 
     @property
+    def show_banner(self):
+        return self.settings.get('show_banner', True)
+
+    @property
     def contents_js_source(self):
         self.log.debug("Using contents: %s", self.settings.get('contents_js_source',
             'services/contents'))
@@ -530,6 +534,7 @@ class IPythonHandler(AuthenticatedHandler):
             xsrf_token=self.xsrf_token.decode('utf8'),
             nbjs_translations=json.dumps(combine_translations(
                 self.request.headers.get('Accept-Language', ''))),
+            show_banner=self.show_banner,
             **self.jinja_template_vars
         )
 
