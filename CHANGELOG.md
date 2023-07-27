@@ -14,6 +14,26 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 6.5.5
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.5.4...fe35f939b5a2c256cbc6822a60ea728d6f5d4251))
+
+### Bugs fixed
+
+- Pin jupyter_client<8 and pyzmq<25 [#6749](https://github.com/jupyter/notebook/pull/6749) ([@RRosio](https://github.com/RRosio))
+
+### Documentation improvements
+
+- Add impending deprecation notice and fix link for API [#6920](https://github.com/jupyter/notebook/pull/6920) ([@RRosio](https://github.com/RRosio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-04-06&to=2023-07-27&type=c))
+
+[@andrii-i](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2023-04-06..2023-07-27&type=Issues) | [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2023-04-06..2023-07-27&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2023-04-06..2023-07-27&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-04-06..2023-07-27&type=Issues) | [@henryiii](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahenryiii+updated%3A2023-04-06..2023-07-27&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-04-06..2023-07-27&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2023-04-06..2023-07-27&type=Issues) | [@parmentelat](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aparmentelat+updated%3A2023-04-06..2023-07-27&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2023-04-06..2023-07-27&type=Issues) | [@tonyfast](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atonyfast+updated%3A2023-04-06..2023-07-27&type=Issues) | [@yuvipanda](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ayuvipanda+updated%3A2023-04-06..2023-07-27&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 6.5.4
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.5.3...428e00bef821acb42f13843fb2949d225d081d56))
@@ -27,8 +47,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-03-06&to=2023-04-06&type=c))
 
 [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2023-03-06..2023-04-06&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-03-06..2023-04-06&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-03-06..2023-04-06&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2023-03-06..2023-04-06&type=Issues) | [@yuvipanda](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ayuvipanda+updated%3A2023-03-06..2023-04-06&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.5.3
 
