@@ -23,6 +23,10 @@
       "inputs": ["default", "^default"],
       "outputs": ["{projectRoot}/lib"]
     },
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["default", "^default"]
+    },
     "build:prod": {
       "dependsOn": ["^build:prod"],
       "inputs": ["default", "^default"]
