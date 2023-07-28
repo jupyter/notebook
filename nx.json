@@ -7,9 +7,7 @@
         "cacheableOperations": [
           "build",
           "build:prod",
-          "build:lib",
-          "build:labextension:dev",
-          "build:labextension"
+          "build:lib"
         ]
       }
     }
