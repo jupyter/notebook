@@ -19,6 +19,7 @@
       "packages/*"
     ]
   },
+  "nx": {},
   "scripts": {
     "build": "lerna run build",
     "build:lib": "lerna run build:lib",
@@ -57,5 +58,10 @@
     "prettier": "^2.8.5",
     "rimraf": "^3.0.2",
     "typescript": "~5.0.2"
+  },
+  "resolutions": {
+    "@types/react": "^18.0.26",
+    "react": "^18.2.0",
+    "yjs": "^13.5.40"
   }
 }

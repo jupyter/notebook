@@ -2114,6 +2114,8 @@ __metadata:
     glob: ~7.1.6
     handlebars: ^4.7.7
     mini-css-extract-plugin: ~0.9.0
+    react: ^18.2.0
+    react-dom: ^18.2.0
     rimraf: ^3.0.2
     style-loader: ~1.0.1
     svg-url-loader: ~6.0.0
@@ -2123,6 +2125,7 @@ __metadata:
     webpack-cli: ^5.0.1
     webpack-merge: ^5.8.0
     whatwg-fetch: ^3.0.0
+    yjs: ^13.5.40
   languageName: unknown
   linkType: soft
 
