@@ -27,7 +27,6 @@
     "build:test": "lerna run build:test",
     "build:utils": "cd buildutils && npm run build",
     "clean": "lerna run clean",
-    "dev": "jlpm && jlpm run build && jlpm run develop",
     "develop": "jupyter labextension develop . --overwrite && node ./buildutils/lib/develop.js --overwrite",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",

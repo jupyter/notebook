@@ -62,16 +62,6 @@
         "outputs": [
           "{workspaceRoot}/notebook/labextension"
         ]
-      },
-      "build": {
-        "dependsOn": [
-          "build:labextension:dev"
-        ]
-      },
-      "build:prod": {
-        "dependsOn": [
-          "build:labextension"
-        ]
       }
     }
   },
