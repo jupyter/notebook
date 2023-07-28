@@ -30,11 +30,11 @@
     "style/index.js"
   ],
   "scripts": {
-    "build": "",
+    "build": "jlpm run build:labextension:dev",
     "build:labextension": "jupyter labextension build .",
     "build:labextension:dev": "jupyter labextension build --development True .",
     "build:lib": "tsc -b",
-    "build:prod": "",
+    "build:prod": "jlpm run build:labextension",
     "clean": "jlpm run clean:lib && jlpm run clean:labextension",
     "clean:labextension": "rimraf ../../notebook/labextension",
     "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
