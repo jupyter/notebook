@@ -24,7 +24,7 @@ tasks:
       source /workspace/bin/activate-env.sh
       micromamba install -n base -y -c conda-forge python=3.11 nodejs=18
       source /workspace/bin/activate-env.sh
-      python -m pip install -e ".[dev,test]" && jlpm && jlpm run build && jlpm develop
+      python -m pip install -e ".[dev,test]" && jlpm dev
       gp sync-done setup
     command: |
       gp sync-done setup
