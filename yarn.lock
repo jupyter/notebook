@@ -2211,6 +2211,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/docmanager-extension@workspace:packages/docmanager-extension"
   dependencies:
+    "@jupyter-notebook/application": ^7.0.0
     "@jupyterlab/application": ^4.0.3
     "@jupyterlab/coreutils": ^6.0.3
     "@jupyterlab/docmanager": ^4.0.3
