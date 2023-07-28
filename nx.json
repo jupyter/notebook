@@ -4,7 +4,13 @@
     "default": {
       "runner": "nx/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "build:prod", "build:lib"]
+        "cacheableOperations": [
+          "build",
+          "build:prod",
+          "build:lib",
+          "build:labextension:dev",
+          "build:labextension"
+        ]
       }
     }
   },
