@@ -169,7 +169,10 @@
     "@jupyterlab/tooltip-extension": "^4.0.3",
     "@jupyterlab/translation-extension": "^4.0.3",
     "@jupyterlab/ui-components-extension": "^4.0.3",
-    "@jupyterlab/vega5-extension": "^4.0.3"
+    "@jupyterlab/vega5-extension": "^4.0.3",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "yjs": "^13.5.40"
   },
   "devDependencies": {
     "@jupyterlab/builder": "^4.0.3",
