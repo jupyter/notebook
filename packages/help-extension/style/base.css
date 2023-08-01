@@ -17,7 +17,7 @@
 .jp-AboutNotebook-version {
   color: var(--jp-ui-font-color1);
   font-size: var(--jp-ui-font-size1);
-  padding: var(--jp-flat-button-padding);
+  padding-bottom: 30px;
   font-weight: 400;
   letter-spacing: 0.4px;
   line-height: 1.12;
@@ -45,7 +45,6 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
-  padding-top: 12px;
   color: var(--jp-warn-color0);
 }
 
