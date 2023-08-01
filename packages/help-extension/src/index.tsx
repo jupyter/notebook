@@ -28,6 +28,10 @@ const RESOURCES = [
     text: 'Markdown Reference',
     url: 'https://commonmark.org/help/',
   },
+  {
+    text: 'Documentation',
+    url: 'https://jupyter-notebook.readthedocs.io/en/stable/',
+  },
 ];
 
 /**
