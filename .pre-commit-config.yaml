@@ -19,17 +19,17 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.23.2
+    rev: 0.23.3
     hooks:
       - id: check-github-workflows
 
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 23.7.0
     hooks:
       - id: black
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.0.276
+    rev: v0.0.281
     hooks:
       - id: ruff
         args: ["--fix"]
