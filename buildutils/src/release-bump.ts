@@ -116,7 +116,7 @@ commander
       } else if (prev.indexOf('b') !== -1) {
         pySpec = 'rc';
       } else if (prev.indexOf('rc') !== -1) {
-        pySpec = 'patch';
+        pySpec = 'release';
       } else {
         pySpec = 'alpha';
       }

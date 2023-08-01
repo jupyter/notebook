@@ -22,7 +22,7 @@ There is also a plan to continue maintaining Notebook v6 with bug and security f
 
 ### Notebook v7
 
-The next major version of Notebook will be based on:
+The newest major version of Notebook is based on:
 
 - JupyterLab components for the frontend
 - Jupyter Server for the Python server
@@ -82,7 +82,7 @@ jupyter notebook
 
 ### Running in a remote installation
 
-You need some configuration before starting Jupyter notebook remotely. See [Running a notebook server](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html).
+You need some configuration before starting Jupyter notebook remotely. See [Running a notebook server](https://jupyter-server.readthedocs.io/en/latest/operators/public-server.html).
 
 ## Development Installation
 

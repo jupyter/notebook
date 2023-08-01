@@ -332,6 +332,19 @@ to remember are the following:
 For the full list of available shortcuts, click {guilabel}`Help`,
 {guilabel}`Keyboard Shortcuts` in the notebook menus.
 
+## Searching
+
+Jupyter Notebook has an advanced built-in search plugin for finding text within a
+notebook or other document, which uses the {kbd}`Ctrl-F` ({kbd}`Cmd+F` for macOS) shortcut by default.
+
+Your browser's `find` function will give unexpected results because it doesn't have
+access to the full content of a document (by default), but you can still use your browser find
+function from the browser menu if you want, or you can disable the built-in search
+shortcut using the Advanced Settings Editor.
+
+Alternatively, you can disable windowed notebook rendering to expose the full
+document content to the browser at the expense of performance.
+
 ## Plotting
 
 One major feature of the Jupyter notebook is the ability to display plots that

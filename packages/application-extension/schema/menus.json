@@ -15,6 +15,14 @@
             "rank": 20
           },
           {
+            "type": "separator",
+            "rank": 30
+          },
+          {
+            "command": "filemenu:close-and-cleanup",
+            "rank": 40
+          },
+          {
             "command": "application:close",
             "disabled": true
           }
