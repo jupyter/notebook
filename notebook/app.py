@@ -111,15 +111,6 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
         return page_config
 
 
-class RedirectHandler(NotebookBaseHandler):
-    """A redirect handler."""
-
-    @web.authenticated
-    def get(self):
-        """Get the redirect url."""
-        return self.redirect(self.base_url + "tree")
-
-
 class TreeHandler(NotebookBaseHandler):
     """A tree page handler."""
 
@@ -329,7 +320,6 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
             # if the serverapp set one
             page_config["token"] = ""
 
-        self.handlers.append(("/?", RedirectHandler))
         self.handlers.append(("/tree(.*)", TreeHandler))
         self.handlers.append(("/notebooks(.*)", NotebookHandler))
         self.handlers.append(("/edit(.*)", FileHandler))
