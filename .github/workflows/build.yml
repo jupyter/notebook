@@ -118,7 +118,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python: ['3.8', '3.11']
+        python: ['3.8', '3.11', '3.12']
         include:
           - python: '3.8'
             dist: 'notebook*.tar.gz'
@@ -132,9 +132,6 @@ jobs:
             py_cmd: python3
           - os: ubuntu-latest
             py_cmd: python
-          - os: ubuntu-latest
-            py_cmd: python
-            python: "3.12"
     steps:
       - name: Install Python
         uses: actions/setup-python@v4
