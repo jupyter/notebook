@@ -14,6 +14,30 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/app@7.0.1...af5edd42374cadba65feed2e6828b1ef96295daf))
+
+### Enhancements made
+
+- Update to JupyterLab 4.0.4 packages [#6998](https://github.com/jupyter/notebook/pull/6998) ([@jtpio](https://github.com/jtpio))
+- Improve about dialog [#6996](https://github.com/jupyter/notebook/pull/6996) ([@yjrab](https://github.com/yjrab))
+- Added documentation link in Help menu [#6993](https://github.com/jupyter/notebook/pull/6993) ([@Mikil03](https://github.com/Mikil03))
+
+### Bugs fixed
+
+- Remove `RedirectHandler` [#6997](https://github.com/jupyter/notebook/pull/6997) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-07-31&to=2023-08-04&type=c))
+
+[@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2023-07-31..2023-08-04&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-07-31..2023-08-04&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-07-31..2023-08-04&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2023-07-31..2023-08-04&type=Issues) | [@Mikil03](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AMikil03+updated%3A2023-07-31..2023-08-04&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-07-31..2023-08-04&type=Issues) | [@shaneknapp](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ashaneknapp+updated%3A2023-07-31..2023-08-04&type=Issues) | [@yjrab](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ayjrab+updated%3A2023-07-31..2023-08-04&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2023-07-31..2023-08-04&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/app@7.0.0...ac3c882a246b46c15c1963ef4b65427a4257b132))
@@ -39,8 +63,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-07-19&to=2023-07-31&type=c))
 
 [@andrii-i](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2023-07-19..2023-07-31&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2023-07-19..2023-07-31&type=Issues) | [@frenzymadness](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afrenzymadness+updated%3A2023-07-19..2023-07-31&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-07-19..2023-07-31&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-07-19..2023-07-31&type=Issues) | [@prof-lupin](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aprof-lupin+updated%3A2023-07-19..2023-07-31&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.0
 
