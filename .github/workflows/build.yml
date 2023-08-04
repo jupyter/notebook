@@ -138,6 +138,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           architecture: 'x64'
+          allow-prereleases: true
       - uses: actions/download-artifact@v3
         with:
           name: notebook-dist-${{ github.run_number }}
