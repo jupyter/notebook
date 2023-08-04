@@ -131,7 +131,7 @@ jobs:
           - os: ubuntu-latest
             py_cmd: python
           - os: ubuntu-latest
-            python-version: "3.12"
+            python: "3.12"
     steps:
       - name: Install Python
         uses: actions/setup-python@v4
