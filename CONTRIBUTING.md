@@ -108,7 +108,7 @@ npx nx graph
 
 Running the command will open a browser tab by default with a graph that looks like the following:
 
-![image](https://github.com/jupyter/notebook/assets/591645/34eb46f0-b0e5-44b6-9430-ae5fbd673a4b)
+![a screenshot showing the nx task graph](https://github.com/jupyter/notebook/assets/591645/34eb46f0-b0e5-44b6-9430-ae5fbd673a4b)
 
 To learn more about Lerna caching:
 
