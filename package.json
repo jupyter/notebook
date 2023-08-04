@@ -19,7 +19,6 @@
       "packages/*"
     ]
   },
-  "nx": {},
   "scripts": {
     "build": "lerna run build",
     "build:lib": "lerna run build:lib",
@@ -43,8 +42,13 @@
     "watch:app": "lerna exec --stream --scope \"@jupyter-notebook/app\" jlpm watch",
     "watch:lib": "lerna exec --stream --scope @jupyter-notebook/metapackage jlpm watch"
   },
+  "resolutions": {
+    "@types/react": "^18.0.26",
+    "react": "^18.2.0",
+    "yjs": "^13.5.40"
+  },
   "devDependencies": {
-    "@jupyterlab/buildutils": "^4.0.3",
+    "@jupyterlab/buildutils": "^4.0.4",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "eslint": "^8.36.0",
@@ -58,9 +62,5 @@
     "rimraf": "^3.0.2",
     "typescript": "~5.0.2"
   },
-  "resolutions": {
-    "@types/react": "^18.0.26",
-    "react": "^18.2.0",
-    "yjs": "^13.5.40"
-  }
+  "nx": {}
 }
