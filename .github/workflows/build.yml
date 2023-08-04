@@ -124,6 +124,8 @@ jobs:
             dist: 'notebook*.tar.gz'
           - python: '3.11'
             dist: 'notebook*.whl'
+          - python: '3.12'
+            dist: 'notebook*.whl'
           - os: windows-latest
             py_cmd: python
           - os: macos-latest
