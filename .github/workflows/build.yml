@@ -118,11 +118,13 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python: ['3.8', '3.11']
+        python: ['3.8', '3.11', '3.12']
         include:
           - python: '3.8'
             dist: 'notebook*.tar.gz'
           - python: '3.11'
+            dist: 'notebook*.whl'
+          - python: '3.12'
             dist: 'notebook*.whl'
           - os: windows-latest
             py_cmd: python
@@ -136,6 +138,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           architecture: 'x64'
+          allow-prereleases: true
       - uses: actions/download-artifact@v3
         with:
           name: notebook-dist-${{ github.run_number }}
