@@ -163,6 +163,43 @@ jobs:
           jupyter notebook --version
           jupyter notebook --help
 
+  install-brew:
+    needs: [build]
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - name: Install Python
+        run: |
+          brew install python
+          sudo ln -s /opt/homebrew/bin/python3 /usr/local/bin/python
+          python --version
+          which python
+          python3 --version
+          which python3
+      - uses: actions/download-artifact@v3
+        with:
+          name: notebook-dist-${{ github.run_number }}
+          path: ./dist
+      - name: Install the prerequisites
+        run: |
+          python3 -m pip install -U pip wheel
+      - name: Install the package
+        run: |
+          cd dist
+          python3 -m pip install -vv notebook*.whl
+      - name: Validate environment
+        run: |
+          python3 -m pip freeze
+          python3 -m pip check
+      - name: Validate the install
+        run: |
+          jupyter labextension list
+          jupyter labextension list 2>&1 | grep -ie "@jupyter-notebook/lab-extension.*enabled.*ok" -
+          jupyter server extension list
+          jupyter server extension list 2>&1 | grep -ie "notebook.*enabled" -
+          jupyter notebook --version
+          jupyter notebook --help
+
   check_links:
     runs-on: ubuntu-latest
     timeout-minutes: 10
