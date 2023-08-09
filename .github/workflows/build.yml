@@ -185,7 +185,7 @@ jobs:
       - name: Install the package
         run: |
           cd dist
-          python -m pip install -vv ${{ matrix.dist }}
+          python -m pip install -vv 'notebook*.whl'
       - name: Validate environment
         run: |
           python -m pip freeze
