@@ -170,13 +170,11 @@ jobs:
     steps:
       - name: Install Python
         run: |
-          brew install python@3.11
-          brew reinstall python@3.11
-          brew unlink python@3.11 && brew link python@3.11
-          python3 --version
-          which python3
-          echo 'export PATH="/opt/homebrew/opt/python@3.11/bin:$PATH"' >> $GITHUB_ENV
+          echo 'export PATH="/opt/homebrew/bin:$PATH"' >> $GITHUB_ENV
           source $GITHUB_ENV
+          brew reinstall python@3.11
+          brew link --overwrite python@3.11
+          python3 --version
           which python3
       - uses: actions/download-artifact@v3
         with:
@@ -184,20 +182,20 @@ jobs:
           path: ./dist
       - name: Install the prerequisites
         run: |
-          echo 'export PATH="/opt/homebrew/opt/python@3.11/bin:$PATH"' >> $GITHUB_ENV
+          echo 'export PATH="/opt/homebrew/bin:/opt/homebrew/opt/python@3.11/bin:$PATH"' >> $GITHUB_ENV
           source $GITHUB_ENV
           which python3
           python3 -m pip install -U pip wheel
       - name: Install the package
         run: |
           cd dist
-          echo 'export PATH="/opt/homebrew/opt/python@3.11/bin:$PATH"' >> $GITHUB_ENV
+          echo 'export PATH="/opt/homebrew/bin:/opt/homebrew/opt/python@3.11/bin:$PATH"' >> $GITHUB_ENV
           source $GITHUB_ENV
           which python3
           python3 -m pip install -vv notebook*.whl
       - name: Validate environment
         run: |
-          echo 'export PATH="/opt/homebrew/opt/python@3.11/bin:$PATH"' >> $GITHUB_ENV
+          echo 'export PATH="/opt/homebrew/bin:/opt/homebrew/opt/python@3.11/bin:$PATH"' >> $GITHUB_ENV
           source $GITHUB_ENV
           which python3
           python3 -m pip freeze
