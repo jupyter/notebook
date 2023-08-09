@@ -170,27 +170,26 @@ jobs:
     steps:
       - name: Install Python
         run: |
-          brew install python
-          python --version
-          which python
+          brew install python@3.11
+          brew link python@3.11
           python3 --version
           which python3
-          /opt/homebrew/bin/python3 --version
+          /opt/homebrew/bin/python3.11 --version
       - uses: actions/download-artifact@v3
         with:
           name: notebook-dist-${{ github.run_number }}
           path: ./dist
       - name: Install the prerequisites
         run: |
-          /opt/homebrew/bin/python3 -m pip install -U pip wheel
+          /opt/homebrew/bin/python3.11 -m pip install -U pip wheel
       - name: Install the package
         run: |
           cd dist
-          /opt/homebrew/bin/python3 -m pip install -vv notebook*.whl
+          /opt/homebrew/bin/python3.11 -m pip install -vv notebook*.whl
       - name: Validate environment
         run: |
-          /opt/homebrew/bin/python3 -m pip freeze
-          /opt/homebrew/bin/python3 -m pip check
+          /opt/homebrew/bin/python3.11 -m pip freeze
+          /opt/homebrew/bin/python3.11 -m pip check
       - name: Validate the install
         run: |
           jupyter labextension list
