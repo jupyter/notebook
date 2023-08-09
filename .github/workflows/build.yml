@@ -181,15 +181,15 @@ jobs:
           path: ./dist
       - name: Install the prerequisites
         run: |
-          python -m pip install -U pip wheel
+          python3 -m pip install -U pip wheel
       - name: Install the package
         run: |
           cd dist
-          python -m pip install -vv 'notebook*.whl'
+          python3 -m pip install -vv 'notebook*.whl'
       - name: Validate environment
         run: |
-          python -m pip freeze
-          python -m pip check
+          python3 -m pip freeze
+          python3 -m pip check
       - name: Validate the install
         run: |
           jupyter labextension list
