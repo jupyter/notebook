@@ -173,7 +173,6 @@ jobs:
           sudo mkdir -p /opt/homebrew
           sudo chown -R $(whoami) /opt/homebrew
           sudo chown -R $(whoami) /opt
-          sudo chown -R $(who)
           echo 'export HOMEBREW_PREFIX=/opt/homebrew'
           sudo mv /usr/local/* /opt/homebrew/
           brew update
