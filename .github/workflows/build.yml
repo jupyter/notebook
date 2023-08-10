@@ -200,7 +200,7 @@ jobs:
           jupyter notebook --help
       - name: Browser check
         run: |
-          python -m jupyterlab.browser_check --BrowserApp.default_url='/tree'
+          python3 -m jupyterlab.browser_check --BrowserApp.default_url='/tree'
 
   check_links:
     runs-on: ubuntu-latest
