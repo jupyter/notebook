@@ -173,7 +173,6 @@ jobs:
           echo 'export PATH="/opt/homebrew/bin:$PATH"' >> $GITHUB_ENV
           source $GITHUB_ENV
           brew reinstall python@3.11
-          brew link --overwrite python@3.11
           python3 --version
           which python3
       - uses: actions/download-artifact@v3
