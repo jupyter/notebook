@@ -178,7 +178,7 @@ jobs:
           sudo mv /usr/local/* /opt/homebrew/
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" --prefix=/opt/homebrew
           ls -a /opt/homebrew
-          $DIR=/opt/homebrew/bin/python3.11; [ -d "$DIR" ] && echo "$DIR directory exists."
+          DIR="/opt/homebrew/bin/python3.11"; [ -d "$DIR" ] && echo '$DIR directory exists.''
           brew update
           brew install python@3.11
       - uses: actions/download-artifact@v3
