@@ -170,32 +170,29 @@ jobs:
     steps:
       - name: Install Python
         run: |
-          echo 'export PATH="/opt/homebrew/bin:$PATH"' >> $GITHUB_ENV
-          source $GITHUB_ENV
+          sudo mkdir -p /opt/homebrew
+          sudo chown -R $(whoami) /opt/homebrew
+          sudo chown -R $(whoami) /opt
+          sudo chown -R $(who)
+          echo 'export HOMEBREW_PREFIX=/opt/homebrew'
+          sudo mv /usr/local/* /opt/homebrew/
+          brew update
           brew install python@3.11
-          python3 --version
-          which python3
       - uses: actions/download-artifact@v3
         with:
           name: notebook-dist-${{ github.run_number }}
           path: ./dist
       - name: Install the prerequisites
         run: |
-          echo 'export PATH="/opt/homebrew/bin:/opt/homebrew/opt/python@3.11/bin:$PATH"' >> $GITHUB_ENV
-          source $GITHUB_ENV
           which python3
           python3 -m pip install -U pip wheel
       - name: Install the package
         run: |
           cd dist
-          echo 'export PATH="/opt/homebrew/bin:/opt/homebrew/opt/python@3.11/bin:$PATH"' >> $GITHUB_ENV
-          source $GITHUB_ENV
           which python3
           python3 -m pip install -vv notebook*.whl
       - name: Validate environment
         run: |
-          echo 'export PATH="/opt/homebrew/bin:/opt/homebrew/opt/python@3.11/bin:$PATH"' >> $GITHUB_ENV
-          source $GITHUB_ENV
           which python3
           python3 -m pip freeze
           python3 -m pip check
