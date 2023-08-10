@@ -176,9 +176,9 @@ jobs:
           echo 'export HOMEBREW_PREFIX=/opt/homebrew'
           echo 'export PATH="/opt/homebrew/bin:$PATH"' >> $GITHUB_ENV
           sudo mv /usr/local/* /opt/homebrew/
-          ls -a /opt/homebrew
           /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" --prefix=/opt/homebrew
           ls -a /opt/homebrew
+          $DIR=/opt/homebrew/bin/python3.11; [ -d "$DIR" ] && echo "$DIR directory exists."
           brew update
           brew install python@3.11
       - uses: actions/download-artifact@v3
