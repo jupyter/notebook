@@ -4,11 +4,12 @@ import os
 import os.path as osp
 import pathlib
 import shutil
+import sys
 
-try:
-    from importlib.resources import files
-except ImportError:
+if sys.version_info < (3, 10):
     from importlib_resources import files  # type:ignore
+else:
+    from importlib.resources import files  # type:ignore
 
 import pytest
 
