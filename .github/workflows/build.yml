@@ -35,6 +35,11 @@ jobs:
   test:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        # used by the jupyterlab/maintainer-tools base-setup action
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
     steps:
     - name: Checkout
       uses: actions/checkout@v3
