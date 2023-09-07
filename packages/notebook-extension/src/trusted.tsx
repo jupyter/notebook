@@ -19,7 +19,7 @@ const isTrusted = (notebook: Notebook): boolean => {
   const cells = Array.from(model.cells);
   let total = 0;
   let trusted = 0;
-  
+
   for (const current_cell of cells) {
     if (current_cell.type !== 'code') {
       continue;
