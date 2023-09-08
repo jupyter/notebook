@@ -20,15 +20,15 @@ const isTrusted = (notebook: Notebook): boolean => {
   let total = 0;
   let trusted = 0;
 
-  for (const current_cell of cells) {
-    if (current_cell.type !== 'code') {
+  for (const currentCell of cells) {
+    if (currentCell.type !== 'code') {
       continue;
     }
     total++;
-    if (current_cell.trusted) {
+    if (currentCell.trusted) {
       trusted++;
     }
-  };
+  }
 
   return trusted === total;
 };
