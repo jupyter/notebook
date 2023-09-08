@@ -17,16 +17,19 @@ const isTrusted = (notebook: Notebook): boolean => {
     return false;
   }
   const cells = Array.from(model.cells);
+  let total = 0;
+  let trusted = 0;
 
-  const trusted = cells.reduce((accum, current) => {
-    if (current.trusted) {
-      return accum + 1;
-    } else {
-      return accum;
+  for (const currentCell of cells) {
+    if (currentCell.type !== 'code') {
+      continue;
     }
-  }, 0);
+    total++;
+    if (currentCell.trusted) {
+      trusted++;
+    }
+  }
 
-  const total = cells.length;
   return trusted === total;
 };
 
