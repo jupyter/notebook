@@ -23,13 +23,11 @@ from jupyterlab.commands import (  # type:ignore[import]
     get_workspaces_dir,
 )
 from jupyterlab_server import LabServerApp
-from jupyterlab_server.config import (
+from jupyterlab_server.config import (  # type:ignore[attr-defined]
     LabConfig,
     get_page_config,
     recursive_update,
 )
-
-# type:ignore[attr-defined]
 from jupyterlab_server.handlers import _camelCase, is_url
 from notebook_shim.shim import NotebookConfigShimMixin  # type:ignore[import]
 from tornado import web
