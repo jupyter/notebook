@@ -38,7 +38,7 @@ const RESOURCES = [
  * The command IDs used by the help plugin.
  */
 namespace CommandIDs {
-  export const open = 'help:open-tab';
+  export const open = 'help:open';
 
   export const about = 'help:about';
 }
