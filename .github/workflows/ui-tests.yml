@@ -2,7 +2,7 @@ name: UI Tests
 
 on:
   push:
-    branches: ["main"]
+    branches: ['main']
   pull_request:
 
 concurrency:

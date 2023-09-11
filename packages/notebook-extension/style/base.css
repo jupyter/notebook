@@ -83,7 +83,7 @@ body[data-notebook='notebooks']
   width: 11px;
 }
 
-/* Cell toolbar adjustements */
+/* Cell toolbar adjustments */
 
 body[data-notebook='notebooks'] .jp-cell-toolbar {
   background: unset;

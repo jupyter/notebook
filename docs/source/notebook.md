@@ -37,8 +37,8 @@ notebook and its dependencies.
   computations attached to the code which generated them.
 - Displaying the result of computation using rich media representations, such
   as HTML, LaTeX, PNG, SVG, etc. For example, publication-quality figures
-  rendered by the [matplotlib] library, can be included inline.
-- In-browser editing for rich text using the [Markdown] markup language, which
+  rendered by the \[matplotlib\] library, can be included inline.
+- In-browser editing for rich text using the \[Markdown\] markup language, which
   can provide commentary for the code, is not limited to plain text.
 - The ability to easily include mathematical notation within markdown cells
   using LaTeX, and rendered natively by [MathJax].
@@ -56,14 +56,14 @@ colleagues.
 
 Notebooks may be exported to a range of static formats, including HTML (for
 example, for blog posts), reStructuredText, LaTeX, PDF, and slide shows, via
-the [nbconvert] command.
+the \[nbconvert\] command.
 
 Furthermore, any `.ipynb` notebook document available from a public
 URL can be shared via the Jupyter Notebook Viewer \<nbviewer>.
 This service loads the notebook document from the URL and renders it as a
 static web page. The results may thus be shared with a colleague, or as a
 public blog post, without other users needing to install the Jupyter notebook
-themselves. In effect, nbviewer is simply [nbconvert] as
+themselves. In effect, nbviewer is simply \[nbconvert\] as
 a web service, so you can do your own static conversions with nbconvert,
 without relying on nbviewer.
 
@@ -278,7 +278,7 @@ the IPython session.
 
 _Raw_ cells provide a place in which you can write _output_ directly.
 Raw cells are not evaluated by the notebook.
-When passed through [nbconvert], raw cells arrive in the
+When passed through \[nbconvert\], raw cells arrive in the
 destination format unmodified. For example, you can type full LaTeX
 into a raw cell, which will only be rendered by LaTeX after conversion by
 nbconvert.
@@ -349,7 +349,7 @@ document content to the browser at the expense of performance.
 
 One major feature of the Jupyter notebook is the ability to display plots that
 are the output of running code cells. The IPython kernel is designed to work
-seamlessly with the [matplotlib] plotting library to provide this functionality.
+seamlessly with the \[matplotlib\] plotting library to provide this functionality.
 Specific plotting library integration is a feature of the kernel.
 
 ## Installing kernels

@@ -284,3 +284,6 @@ exclude = ["tests", "ui-tests", "docs", "node_modules", "setup.py"]
 
 [tool.repo-review]
 ignore = ["PY007", "PP308", "GH102", "PC140"]
+
+[tool.codespell]
+ignore-words-list = "hart,noteable"

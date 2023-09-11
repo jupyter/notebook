@@ -8,7 +8,7 @@
 The Jupyter notebook is a web-based notebook environment for interactive
 computing.
 
-![Jupyter notebook example](docs/resources/running_code_med.png 'Jupyter notebook example')
+![Jupyter notebook example](docs/resources/running_code_med.png "Jupyter notebook example")
 
 ## Maintained versions
 
@@ -33,7 +33,7 @@ To learn more about Notebook v7: https://jupyter.org/enhancement-proposals/79-no
 
 ### Classic Notebook v6
 
-Maintainance and security-related issues are now being addressed in the [`6.4.x`](https://github.com/jupyter/notebook/tree/6.4.x) branch.
+Maintenance and security-related issues are now being addressed in the [`6.4.x`](https://github.com/jupyter/notebook/tree/6.4.x) branch.
 
 A `6.5.x` branch will be soon created and will depend on [`nbclassic`](https://github.com/jupyter/nbclassic) for the HTML/JavaScript/CSS assets.
 

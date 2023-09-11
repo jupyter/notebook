@@ -1,15 +1,15 @@
-name: "Step 2: Publish Release"
+name: 'Step 2: Publish Release'
 on:
   workflow_dispatch:
     inputs:
       branch:
-        description: "The target branch"
+        description: 'The target branch'
         required: false
       release_url:
-        description: "The URL of the draft GitHub release"
+        description: 'The URL of the draft GitHub release'
         required: false
       steps_to_skip:
-        description: "Comma separated list of steps to skip"
+        description: 'Comma separated list of steps to skip'
         required: false
 
 jobs:
@@ -41,13 +41,13 @@ jobs:
           target: ${{ github.event.inputs.target }}
           release_url: ${{ steps.populate-release.outputs.release_url }}
 
-      - name: "** Next Step **"
+      - name: '** Next Step **'
         if: ${{ success() }}
         run: |
           echo "Verify the final release"
           echo ${{ steps.finalize-release.outputs.release_url }}
 
-      - name: "** Failure Message **"
+      - name: '** Failure Message **'
         if: ${{ failure() }}
         run: |
           echo "Failed to Publish the Draft Release Url:"

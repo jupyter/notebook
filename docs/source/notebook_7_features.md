@@ -1,6 +1,6 @@
 # New features in Notebook 7
 
-This document describes the new features in Notebook 7 as originally mentioned in the related Jupyter Enhancement Proposal [JEP 79][jep 79].
+This document describes the new features in Notebook 7 as originally mentioned in the related Jupyter Enhancement Proposal [JEP 79].
 
 ```{contents} Table of Contents
 :depth: 3
@@ -124,11 +124,9 @@ pip install jupyterlab-rise
 
 ## A document-centric user experience
 
-Despite all the new features and as stated in [JEP 79][jep 79], Notebook 7 keeps the document-centric user experience of the Classic Notebook:
+Despite all the new features and as stated in [JEP 79], Notebook 7 keeps the document-centric user experience of the Classic Notebook:
 
 > The Jupyter Notebook application offers a document-centric user experience. That is, in the Notebook application, the landing page that contains a file manager, running tools tab, and a few optional extras, is a launching point into opening standalone, individual documents. This document-centric experience is important for many users, and that is the first key point this proposal aims to preserve. Notebook v7 will be based on a different JavaScript implementation than v6, but it will preserve the document-centric experience, where each individual notebook opens in a separate browser tab and the visible tools and menus are focused on the open document.
-
-[jep 79]: https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html
 
 ## Compact View on Mobile Devices
 
@@ -142,3 +140,5 @@ This was just a quick overview of the new features in Notebook 7. For more detai
 
 - The [JupyterLab Documentation](https://jupyterlab.readthedocs.io/en/latest/) is a great resource to learn more about JupyterLab and the extensions available. Since Notebook 7 is based on JupyterLab, many of the features and extensions available for JupyterLab are also available for Notebook 7.
 - [Migration Guide](./migrate_to_notebook7.md) for Notebook 7, which explains how to migrate from the Classic Notebook to Notebook 7.
+
+[jep 79]: https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html

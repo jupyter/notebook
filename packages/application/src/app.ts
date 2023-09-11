@@ -155,7 +155,7 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
 }
 
 /**
- * A namespace for App statics.
+ * A namespace for App static items.
  */
 export namespace NotebookApp {
   /**

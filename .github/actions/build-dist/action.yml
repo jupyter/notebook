@@ -1,7 +1,7 @@
-name: "Build Jupyter Notebook"
-description: "Build Jupyter Notebook from source"
+name: 'Build Jupyter Notebook'
+description: 'Build Jupyter Notebook from source'
 runs:
-  using: "composite"
+  using: 'composite'
   steps:
     - name: Base Setup
       uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1

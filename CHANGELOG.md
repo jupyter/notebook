@@ -1902,7 +1902,7 @@ notebook dashboard are moved to the OS trash vs. deleted permanently).
 - Change cull_idle_timeout_minimum to 1 from 300 ([2910](https://github.com/jupyter/notebook/pull/2910)).
 - Config option to shut down server after n seconds with no kernels ([2963](https://github.com/jupyter/notebook/pull/2963)).
 - Display a "close" button on load notebook error ([3176](https://github.com/jupyter/notebook/pull/3176)).
-- Add action to command pallette to run CodeMirror's "indentAuto"
+- Add action to command palette to run CodeMirror's "indentAuto"
   on selection ([3175](https://github.com/jupyter/notebook/pull/3175)).
 - Add option to specify extra services ([3158](https://github.com/jupyter/notebook/pull/3158)).
 - Warn_bad_name should not use global name ([3160](https://github.com/jupyter/notebook/pull/3160)).
