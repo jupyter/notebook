@@ -77,7 +77,7 @@ migrating/custom-themes.md
 migrating/multiple-interfaces.md
 ```
 
-[find replacements for those that are not available]: https://jupyter-notebook.readthedocs.io/en/latest/migrating/frontend-extensions.html#jupyterlab-equivalent-extensions-to-the-classic-notebook
 [jep 79]: https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html
-[nbclassic]: https://github.com/jupyter/nbclassic
 [team-compass note]: https://github.com/jupyter/notebook-team-compass/issues/5#issuecomment-1085254000
+[find replacements for those that are not available]: https://jupyter-notebook.readthedocs.io/en/latest/migrating/frontend-extensions.html#jupyterlab-equivalent-extensions-to-the-classic-notebook
+[nbclassic]: https://github.com/jupyter/nbclassic

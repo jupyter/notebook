@@ -1,6 +1,8 @@
-______________________________________________________________________
-
-## name: "\\U0001F41B Bug report" about: Create a report to help us repair something that is currently broken labels: bug, status:Needs Triage
+---
+name: "\U0001F41B Bug report"
+about: Create a report to help us repair something that is currently broken
+labels: bug, status:Needs Triage
+---
 
 <!-- Welcome! Thank you for contributing. These HTML comments will not render in the issue, but you can delete them once you've read them if you prefer! -->
 
@@ -33,9 +35,9 @@ Here, we're looking for specific bugs in the Jupyter Notebook codebase. If you t
 <!--Describe step-by-step instructions to reproduce the behavior-->
 
 1. Go to '...'
-1. Click on '...'
-1. Scroll down to '...'
-1. See error '...'
+2. Click on '...'
+3. Scroll down to '...'
+4. See error '...'
 
 <!--Describe how you diagnosed the issue. See the guidelines at
 https://jupyter-notebook.readthedocs.io/en/latest/troubleshooting.html -->
@@ -50,9 +52,7 @@ https://jupyter-notebook.readthedocs.io/en/latest/troubleshooting.html -->
 
 - Operating System and version: <!-- e.g. Linux Ubuntu 21.04 -->
 - Browser and version: <!-- e.g. Chrome 92 -->
-
 <!-- Please note the Notebook version you are working with. You can find this in the Help -> About Jupyter Notebook menu option or by running `jupyter --version` from your terminal -->
-
 - Jupyter Notebook version: <!-- e.g. 3.1.7 -->
 
 <!--The more content you provide, the more we can help!-->

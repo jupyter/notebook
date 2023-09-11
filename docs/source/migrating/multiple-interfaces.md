@@ -13,6 +13,8 @@ You can try JupyterLab, Notebook 7 and NBClassic installed together using [this 
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gist/jtpio/35a72862c8be13dee31b61ebac2d9786/master?urlpath=/tree)
 
+[lab-nb-nbclassic]: https://gist.github.com/jtpio/35a72862c8be13dee31b61ebac2d9786
+
 ## Using the `Interface` dropdown
 
 Notebook 7 provides a dropdown menu to switch between the different user interfaces available on the same server.
@@ -84,5 +86,3 @@ way to view the NbClassic frontend. You would be able to manually
 enable the extension when running an instance of Jupyter Server,
 `> jupyter server --ServerApp.jpserver_extensions="nbclassic=True"`,
 which will provide the NbClassic frontend at `/tree` path when visited.
-
-[lab-nb-nbclassic]: https://gist.github.com/jtpio/35a72862c8be13dee31b61ebac2d9786

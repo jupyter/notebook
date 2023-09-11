@@ -14,10 +14,13 @@ You can check the following resources to see if your extension is available for 
 
 To get an idea of the extensions available for Notebook 7, you can check the following resources:
 
-- [List of JupyterLab extensions]
-- [Awesome Jupyter]
+- [List of JupyterLab extensions][list of jupyterlab extensions]
+- [Awesome Jupyter][awesome jupyter]
 
 These resources are for JupyterLab, but many of them are compatible with Notebook 7 since Notebook 7 is based on JupyterLab.
+
+[list of jupyterlab extensions]: https://jupyterlab-contrib.github.io/extensions.html
+[awesome jupyter]: https://github.com/markusschanta/awesome-jupyter#jupyterlab-extensions
 
 ## JupyterLab equivalent extensions to the Classic Notebook
 
@@ -27,6 +30,4 @@ The list is available at the following URL: [Migrating from the Classic Notebook
 
 ![a screenshot showing extensions in classic and lab](https://user-images.githubusercontent.com/591645/229616855-94d34762-6666-4edd-a969-e85b285d7094.png)
 
-[awesome jupyter]: https://github.com/markusschanta/awesome-jupyter#jupyterlab-extensions
-[list of jupyterlab extensions]: https://jupyterlab-contrib.github.io/extensions.html
 [migrate from classic]: https://jupyterlab-contrib.github.io/migrate_from_classical.html
