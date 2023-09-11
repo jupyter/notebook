@@ -135,9 +135,9 @@ nowarn = "test -W default {args}"
 
 [tool.hatch.envs.typing]
 features = ["test"]
-dependencies = ["mypy>=0.990"]
+dependencies = ["mypy>=1.5.1"]
 [tool.hatch.envs.typing.scripts]
-test = "mypy --install-types --non-interactive {args:notebook tests}"
+test = "mypy --install-types --non-interactive {args}"
 
 [tool.hatch.envs.lint]
 dependencies = [
@@ -194,7 +194,13 @@ before-build-python = [
 ]
 
 [tool.pytest.ini_options]
-addopts = "-raXs --durations 10 --color=yes --doctest-modules"
+minversion = "6.0"
+xfail_strict = true
+log_cli_level = "info"
+addopts = [
+  "-raXs", "--durations=10", "--color=yes", "--doctest-modules",
+   "--showlocals", "--strict-markers", "--strict-config"
+]
 testpaths = [
     "tests/",
 ]
@@ -227,26 +233,12 @@ relative_files = true
 source = ["notebook"]
 
 [tool.mypy]
-check_untyped_defs = true
-disallow_incomplete_defs = true
-no_implicit_optional = true
-pretty = true
-show_error_context = true
+files = "notebook"
+python_version = "3.8"
+strict = true
 show_error_codes = true
-strict_equality = true
-strict_optional = true
-warn_no_return = true
-warn_return_any = true
-warn_unused_configs = true
-warn_unused_ignores = true
-warn_redundant_casts = true
-
-[[tool.mypy.overrides]]
-module = [
-    "ruamel",
-]
-ignore_missing_imports = true
-
+enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
+warn_unreachable = true
 
 [tool.black]
 line-length = 100
@@ -289,3 +281,6 @@ ignore-nested-functions=true
 ignore-nested-classes=true
 fail-under=100
 exclude = ["tests", "ui-tests", "docs", "node_modules", "setup.py"]
+
+[tool.repo-review]
+ignore = ["PY007", "PP308", "GH102", "PC140"]
