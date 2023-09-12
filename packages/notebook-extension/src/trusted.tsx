@@ -85,7 +85,7 @@ const TrustedButton = ({
 };
 
 /**
- * A namespace for TrustedComponent statics.
+ * A namespace for TrustedComponent static methods.
  */
 export namespace TrustedComponent {
   /**

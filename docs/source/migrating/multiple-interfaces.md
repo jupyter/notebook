@@ -72,7 +72,7 @@ the same server, and are reachable via `/tree` for NbClassic and
 ## NbClassic and JupyterLab 4.x
 
 When only JupyterLab 4.x is installed, then NbClassic has to be installed
-explictly. They will run on the same server, and are reachable via
+explicitly. They will run on the same server, and are reachable via
 `/tree` for NbClassic, and `/lab` for JupyterLab.
 
 ## NbClassic Independently

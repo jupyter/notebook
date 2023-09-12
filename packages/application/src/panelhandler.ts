@@ -354,7 +354,7 @@ export class SidePanelPalette {
       },
     });
 
-    // Keep the disposableDelegate objet to be able to dispose of the item if the widget
+    // Keep the disposableDelegate object to be able to dispose of the item if the widget
     // is remove from the side panel.
     this._items.push({
       widgetId: widget.id,

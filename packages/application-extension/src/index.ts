@@ -209,7 +209,7 @@ const opener: JupyterFrontEndPlugin<void> = {
           const urlParams = new URLSearchParams(parsed.search);
           let defaultFactory = docRegistry.defaultWidgetFactory(path).name;
 
-          // Explicitely get the default viewers from the settings because
+          // Explicitly get the default viewers from the settings because
           // JupyterLab might not have had the time to load the settings yet (race condition)
           // Relevant code: https://github.com/jupyterlab/jupyterlab/blob/d56ff811f39b3c10c6d8b6eb27a94624b753eb53/packages/docmanager-extension/src/index.tsx#L265-L293
           if (settingRegistry) {

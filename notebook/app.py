@@ -1,9 +1,12 @@
 """Jupyter notebook application."""
+from __future__ import annotations
+
 import os
 import re
+import typing as t
 from os.path import join as pjoin
 
-from jupyter_client.utils import ensure_async
+from jupyter_client.utils import ensure_async  # type:ignore[attr-defined]
 from jupyter_core.application import base_aliases
 from jupyter_core.paths import jupyter_config_dir
 from jupyter_server.base.handlers import JupyterHandler
@@ -14,15 +17,19 @@ from jupyter_server.extension.handler import (
 from jupyter_server.serverapp import flags
 from jupyter_server.utils import url_escape, url_is_absolute
 from jupyter_server.utils import url_path_join as ujoin
-from jupyterlab.commands import (  # type:ignore
+from jupyterlab.commands import (  # type:ignore[import]
     get_app_dir,
     get_user_settings_dir,
     get_workspaces_dir,
 )
 from jupyterlab_server import LabServerApp
-from jupyterlab_server.config import LabConfig, get_page_config, recursive_update
+from jupyterlab_server.config import (  # type:ignore[attr-defined]
+    LabConfig,
+    get_page_config,
+    recursive_update,
+)
 from jupyterlab_server.handlers import _camelCase, is_url
-from notebook_shim.shim import NotebookConfigShimMixin  # type:ignore
+from notebook_shim.shim import NotebookConfigShimMixin  # type:ignore[import]
 from tornado import web
 from traitlets import Bool, Unicode, default
 
@@ -33,15 +40,17 @@ HERE = os.path.dirname(__file__)
 app_dir = get_app_dir()
 version = __version__
 
+# mypy: disable-error-code="no-untyped-call"
+
 
 class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, JupyterHandler):
     """The base notebook API handler."""
 
     @property
-    def custom_css(self):
+    def custom_css(self) -> bool:
         return self.settings.get("custom_css", True)
 
-    def get_page_config(self):
+    def get_page_config(self) -> dict[str, t.Any]:
         """Get the page config."""
         config = LabConfig()
         app = self.extensionapp
@@ -115,7 +124,7 @@ class TreeHandler(NotebookBaseHandler):
     """A tree page handler."""
 
     @web.authenticated
-    async def get(self, path=None):
+    async def get(self, path: str = "") -> None:
         """
         Display appropriate page for given path.
 
@@ -155,7 +164,7 @@ class ConsoleHandler(NotebookBaseHandler):
     """A console page handler."""
 
     @web.authenticated
-    def get(self, path=None):
+    def get(self, path: str | None = None) -> t.Any:
         """Get the console page."""
         tpl = self.render_template("consoles.html", page_config=self.get_page_config())
         return self.write(tpl)
@@ -165,7 +174,7 @@ class TerminalHandler(NotebookBaseHandler):
     """A terminal page handler."""
 
     @web.authenticated
-    def get(self, path=None):
+    def get(self, path: str | None = None) -> t.Any:
         """Get the terminal page."""
         tpl = self.render_template("terminals.html", page_config=self.get_page_config())
         return self.write(tpl)
@@ -175,7 +184,7 @@ class FileHandler(NotebookBaseHandler):
     """A file page handler."""
 
     @web.authenticated
-    def get(self, path=None):
+    def get(self, path: str | None = None) -> t.Any:
         """Get the file page."""
         tpl = self.render_template("edit.html", page_config=self.get_page_config())
         return self.write(tpl)
@@ -185,7 +194,7 @@ class NotebookHandler(NotebookBaseHandler):
     """A notebook page handler."""
 
     @web.authenticated
-    def get(self, path=None):
+    def get(self, path: str | None = None) -> t.Any:
         """Get the notebook page."""
         tpl = self.render_template("notebooks.html", page_config=self.get_page_config())
         return self.write(tpl)
@@ -195,7 +204,7 @@ class CustomCssHandler(NotebookBaseHandler):
     """A custom CSS handler."""
 
     @web.authenticated
-    def get(self):
+    def get(self) -> t.Any:
         """Get the custom css file."""
 
         self.set_header("Content-Type", 'text/css')
@@ -215,7 +224,7 @@ class CustomCssHandler(NotebookBaseHandler):
 aliases = dict(base_aliases)
 
 
-class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
+class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[misc]
     """The notebook server extension app."""
 
     name = "notebook"
@@ -228,7 +237,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
     file_url_prefix = "/tree"
     load_other_extensions = True
     app_dir = app_dir
-    subcommands: dict = {}
+    subcommands: dict[str, t.Any] = {}
 
     expose_app_in_browser = Bool(
         False,
@@ -255,39 +264,39 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
         "Load custom CSS in template html files. Default is True",
     )
 
-    @default("static_dir")
-    def _default_static_dir(self):
+    @default("static_dir")  # type:ignore[misc]
+    def _default_static_dir(self) -> str:
         return os.path.join(HERE, "static")
 
-    @default("templates_dir")
-    def _default_templates_dir(self):
+    @default("templates_dir")  # type:ignore[misc]
+    def _default_templates_dir(self) -> str:
         return os.path.join(HERE, "templates")
 
-    @default("app_settings_dir")
-    def _default_app_settings_dir(self):
+    @default("app_settings_dir")  # type:ignore[misc]
+    def _default_app_settings_dir(self) -> str:
         return pjoin(app_dir, "settings")
 
-    @default("schemas_dir")
-    def _default_schemas_dir(self):
+    @default("schemas_dir")  # type:ignore[misc]
+    def _default_schemas_dir(self) -> str:
         return pjoin(app_dir, "schemas")
 
-    @default("themes_dir")
-    def _default_themes_dir(self):
+    @default("themes_dir")  # type:ignore[misc]
+    def _default_themes_dir(self) -> str:
         return pjoin(app_dir, "themes")
 
-    @default("user_settings_dir")
-    def _default_user_settings_dir(self):
-        return get_user_settings_dir()
+    @default("user_settings_dir")  # type:ignore[misc]
+    def _default_user_settings_dir(self) -> str:
+        return t.cast(str, get_user_settings_dir())
 
-    @default("workspaces_dir")
-    def _default_workspaces_dir(self):
-        return get_workspaces_dir()
+    @default("workspaces_dir")  # type:ignore[misc]
+    def _default_workspaces_dir(self) -> str:
+        return t.cast(str, get_workspaces_dir())
 
-    def _prepare_templates(self):
+    def _prepare_templates(self) -> None:
         super(LabServerApp, self)._prepare_templates()
-        self.jinja2_env.globals.update(custom_css=self.custom_css)  # type:ignore
+        self.jinja2_env.globals.update(custom_css=self.custom_css)  # type:ignore[has-type]
 
-    def server_extension_is_enabled(self, extension):
+    def server_extension_is_enabled(self, extension: str) -> bool:
         """Check if server extension is enabled."""
         try:
             extension_enabled = (
@@ -297,7 +306,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
             extension_enabled = False
         return extension_enabled
 
-    def initialize_handlers(self):
+    def initialize_handlers(self) -> None:
         """Initialize handlers."""
         page_config = self.serverapp.web_app.settings.setdefault("page_config_data", {})
         nbclassic_enabled = self.server_extension_is_enabled("nbclassic")
@@ -328,7 +337,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):
         self.handlers.append(("/custom/custom.css", CustomCssHandler))
         super().initialize_handlers()
 
-    def initialize(self, argv=None):
+    def initialize(self, argv: list[str] | None = None) -> None:
         """Subclass because the ExtensionApp.initialize() method does not take arguments"""
         super().initialize()
 

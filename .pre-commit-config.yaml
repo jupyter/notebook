@@ -1,5 +1,6 @@
 ci:
   autoupdate_schedule: monthly
+  autoupdate_commit_msg: 'chore: update pre-commit hooks'
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -15,6 +16,7 @@ repos:
       - id: check-json
       - id: check-toml
       - id: check-yaml
+      - id: debug-statements
       - id: end-of-file-fixer
       - id: trailing-whitespace
 
@@ -23,16 +25,46 @@ repos:
     hooks:
       - id: check-github-workflows
 
-  - repo: https://github.com/psf/black
+  - repo: https://github.com/adamchainz/blacken-docs
+    rev: '1.16.0'
+    hooks:
+      - id: blacken-docs
+        additional_dependencies: [black==23.7.0]
+
+  - repo: https://github.com/psf/black-pre-commit-mirror
     rev: 23.7.0
     hooks:
       - id: black
+
+  - repo: https://github.com/codespell-project/codespell
+    rev: 'v2.2.5'
+    hooks:
+      - id: codespell
+        args: ['-L', 'sur,nd']
+        exclude: |
+          (?x)^(
+              binder/example.ipynb|
+              docs/source/examples/images/FrontendKernel.graffle/data.plist|
+          )$
+
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: 'v1.10.0'
+    hooks:
+      - id: rst-backticks
+      - id: rst-directive-colons
+      - id: rst-inline-touching-normal
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.0.287
     hooks:
       - id: ruff
-        args: ["--fix"]
+        args: ['--fix', '--show-fixes']
+
+  - repo: https://github.com/scientific-python/cookie
+    rev: '2023.08.23'
+    hooks:
+      - id: sp-repo-review
+        additional_dependencies: ['repo-review[cli]']
 
   - repo: local
     hooks:
@@ -40,7 +72,7 @@ repos:
         name: prettier
         entry: 'npm run prettier:files'
         language: node
-        types_or: [json, ts, tsx, javascript, jsx, css]
+        types_or: [json, ts, tsx, javascript, jsx, css, markdown]
         stages: [manual]
       - id: integrity
         name: integrity

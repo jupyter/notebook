@@ -96,7 +96,7 @@ const FileActions = ({
 };
 
 /**
- * A namespace for FileActionsComponent statics.
+ * A namespace for FileActionsComponent static functions.
  */
 export namespace FileActionsComponent {
   /**
