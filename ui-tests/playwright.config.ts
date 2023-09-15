@@ -4,6 +4,7 @@ module.exports = {
   ...baseConfig,
   use: {
     appPath: '',
+    trace: 'on-first-retry',
     video: 'retain-on-failure',
   },
   retries: 1,
