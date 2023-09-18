@@ -26,6 +26,7 @@
     "build:test": "lerna run build:test",
     "build:utils": "cd buildutils && npm run build",
     "clean": "lerna run clean",
+    "deduplicate": "jlpm dlx yarn-berry-deduplicate -s fewerHighest && jlpm install",
     "develop": "jupyter labextension develop . --overwrite && node ./buildutils/lib/develop.js --overwrite",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
