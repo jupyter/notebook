@@ -13,6 +13,9 @@ export interface INotebookPathOpener {
 }
 
 export namespace INotebookPathOpener {
+  /**
+   * The options used to open a path in the application.
+   */
   export interface IOpenOptions {
     /**
      * The URL prefix, which should include the base URL
