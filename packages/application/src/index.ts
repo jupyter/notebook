@@ -4,3 +4,4 @@
 export * from './app';
 export * from './shell';
 export * from './panelhandler';
+export * from './tokens';

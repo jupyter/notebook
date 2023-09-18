@@ -18,7 +18,9 @@ import { IRenderMime } from '@jupyterlab/rendermime-interfaces';
 
 import { Throttler } from '@lumino/polling';
 
-import { INotebookShell, NotebookShell } from './shell';
+import { NotebookShell } from './shell';
+
+import { INotebookShell } from './tokens';
 
 /**
  * App is the main application class. It is instantiated once and shared.
