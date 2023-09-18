@@ -6,13 +6,13 @@ import {
   JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
-import { PageConfig, PathExt } from '@jupyterlab/coreutils';
+import { PageConfig, PathExt, URLExt } from '@jupyterlab/coreutils';
 
 import { IDocumentWidgetOpener } from '@jupyterlab/docmanager';
 
 import { IDocumentWidget, DocumentRegistry } from '@jupyterlab/docregistry';
 
-import { INotebookShell } from '@jupyter-notebook/application';
+import { INotebookPathOpener, INotebookShell, defaultNotebookPathOpener } from '@jupyter-notebook/application';
 
 import { Signal } from '@lumino/signaling';
 
@@ -23,11 +23,12 @@ import { Signal } from '@lumino/signaling';
 const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
   id: '@jupyter-notebook/docmanager-extension:opener',
   autoStart: true,
-  optional: [INotebookShell],
+  optional: [INotebookPathOpener, INotebookShell],
   provides: IDocumentWidgetOpener,
-  activate: (app: JupyterFrontEnd, notebookShell: INotebookShell | null) => {
+  activate: (app: JupyterFrontEnd, notebookPathOpener: INotebookPathOpener, notebookShell: INotebookShell | null) => {
     const baseUrl = PageConfig.getBaseUrl();
     const docRegistry = app.docRegistry;
+    const pathOpener = notebookPathOpener ?? defaultNotebookPathOpener;
     let id = 0;
     return new (class {
       open(widget: IDocumentWidget, options?: DocumentRegistry.IOpenOptions) {
@@ -46,13 +47,21 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
           ) {
             route = 'notebooks';
           }
-          let url = `${baseUrl}${route}/${path}`;
           // append ?factory only if it's not the default
           const defaultFactory = docRegistry.defaultWidgetFactory(path);
+          let searchParams = undefined;
           if (widgetName !== defaultFactory.name) {
-            url = `${url}?factory=${widgetName}`;
+            searchParams = new URLSearchParams({
+              factory: widgetName,
+            });
           }
-          window.open(url);
+
+          pathOpener.open({
+            route: URLExt.join(baseUrl, route),
+            path,
+            searchParams,
+          });
+
           // dispose the widget since it is not used on this page
           widget.dispose();
           return;

@@ -18,9 +18,7 @@ import { IRenderMime } from '@jupyterlab/rendermime-interfaces';
 
 import { Throttler } from '@lumino/polling';
 
-import { NotebookShell } from './shell';
-
-import { INotebookShell } from './tokens';
+import { INotebookShell, NotebookShell } from './shell';
 
 /**
  * App is the main application class. It is instantiated once and shared.
@@ -165,7 +163,7 @@ export namespace NotebookApp {
    */
   export interface IOptions
     extends JupyterFrontEnd.IOptions<INotebookShell>,
-      Partial<IInfo> {}
+    Partial<IInfo> { }
 
   /**
    * The information about a Jupyter Notebook application.

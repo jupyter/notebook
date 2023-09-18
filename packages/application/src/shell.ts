@@ -6,14 +6,23 @@ import { DocumentRegistry } from '@jupyterlab/docregistry';
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
 import { find } from '@lumino/algorithm';
-import { JSONExt, PromiseDelegate } from '@lumino/coreutils';
+import { JSONExt, PromiseDelegate, Token } from '@lumino/coreutils';
 import { ISignal, Signal } from '@lumino/signaling';
 
 import { BoxLayout, Panel, SplitPanel, Widget } from '@lumino/widgets';
-
 import { PanelHandler, SidePanelHandler } from './panelhandler';
 
-import { INotebookShell } from './tokens';
+/**
+ * The Jupyter Notebook application shell token.
+ */
+export const INotebookShell = new Token<INotebookShell>(
+  '@jupyter-notebook/application:INotebookShell'
+);
+
+/**
+ * The Jupyter Notebook application shell interface.
+ */
+export interface INotebookShell extends NotebookShell {}
 
 /**
  * The namespace for INotebookShell type information.
