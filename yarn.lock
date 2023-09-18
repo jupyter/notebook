@@ -2221,6 +2221,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/console-extension@workspace:packages/console-extension"
   dependencies:
+    "@jupyter-notebook/application": ^7.0.3
     "@jupyterlab/application": ^4.0.6
     "@jupyterlab/console": ^4.0.6
     "@jupyterlab/coreutils": ^6.0.6
@@ -2359,6 +2360,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/terminal-extension@workspace:packages/terminal-extension"
   dependencies:
+    "@jupyter-notebook/application": ^7.0.3
     "@jupyterlab/application": ^4.0.6
     "@jupyterlab/coreutils": ^6.0.6
     "@jupyterlab/terminal": ^4.0.6
