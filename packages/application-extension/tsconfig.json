@@ -10,7 +10,7 @@
       "path": "../application"
     },
     {
-      "path": "../ui-extension"
+      "path": "../ui-components"
     }
   ]
 }
