@@ -17,12 +17,12 @@ export namespace INotebookPathOpener {
     /**
      * The URL prefix, which should include the base URL
      */
-    prefix: string
+    prefix: string;
 
     /**
      * The path to open in the application, e.g `setup.py`, or `notebooks/example.ipynb`
      */
-    path?: string,
+    path?: string;
 
     /**
      * The extra search params to use in the URL.
