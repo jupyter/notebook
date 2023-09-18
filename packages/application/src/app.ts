@@ -163,7 +163,7 @@ export namespace NotebookApp {
    */
   export interface IOptions
     extends JupyterFrontEnd.IOptions<INotebookShell>,
-    Partial<IInfo> { }
+      Partial<IInfo> {}
 
   /**
    * The information about a Jupyter Notebook application.

@@ -12,7 +12,11 @@ import { IDocumentWidgetOpener } from '@jupyterlab/docmanager';
 
 import { IDocumentWidget, DocumentRegistry } from '@jupyterlab/docregistry';
 
-import { INotebookPathOpener, INotebookShell, defaultNotebookPathOpener } from '@jupyter-notebook/application';
+import {
+  INotebookPathOpener,
+  INotebookShell,
+  defaultNotebookPathOpener,
+} from '@jupyter-notebook/application';
 
 import { Signal } from '@lumino/signaling';
 
@@ -25,7 +29,11 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
   autoStart: true,
   optional: [INotebookPathOpener, INotebookShell],
   provides: IDocumentWidgetOpener,
-  activate: (app: JupyterFrontEnd, notebookPathOpener: INotebookPathOpener, notebookShell: INotebookShell | null) => {
+  activate: (
+    app: JupyterFrontEnd,
+    notebookPathOpener: INotebookPathOpener,
+    notebookShell: INotebookShell | null
+  ) => {
     const baseUrl = PageConfig.getBaseUrl();
     const docRegistry = app.docRegistry;
     const pathOpener = notebookPathOpener ?? defaultNotebookPathOpener;

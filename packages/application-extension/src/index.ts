@@ -303,7 +303,7 @@ const pages: JupyterFrontEndPlugin<void> = {
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
-    palette: ICommandPalette | null,
+    palette: ICommandPalette | null
   ): void => {
     const trans = translator.load('notebook');
     const baseUrl = PageConfig.getBaseUrl();
@@ -343,7 +343,7 @@ const pathOpener: JupyterFrontEndPlugin<INotebookPathOpener> = {
   provides: INotebookPathOpener,
   activate: (app: JupyterFrontEnd): INotebookPathOpener => {
     return defaultNotebookPathOpener;
-  }
+  },
 };
 
 /**
@@ -384,7 +384,7 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
     sanitizer: IRenderMime.ISanitizer | null,
     markdownParser: IMarkdownParser | null,
     translator: ITranslator | null,
-    notebookPathOpener: INotebookPathOpener | null,
+    notebookPathOpener: INotebookPathOpener | null
   ) => {
     const trans = (translator ?? nullTranslator).load('jupyterlab');
     const opener = notebookPathOpener ?? defaultNotebookPathOpener;
@@ -404,7 +404,7 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
                 route: URLExt.join(baseUrl, 'tree'),
                 path: model.path,
                 target: '_blank',
-              })
+              });
             });
         },
       });
@@ -414,18 +414,18 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
       linkHandler: !docManager
         ? undefined
         : {
-          handleLink: (node: HTMLElement, path: string, id?: string) => {
-            // If node has the download attribute explicitly set, use the
-            // default browser downloading behavior.
-            if (node.tagName === 'A' && node.hasAttribute('download')) {
-              return;
-            }
-            app.commandLinker.connectNode(node, CommandIDs.handleLink, {
-              path,
-              id,
-            });
+            handleLink: (node: HTMLElement, path: string, id?: string) => {
+              // If node has the download attribute explicitly set, use the
+              // default browser downloading behavior.
+              if (node.tagName === 'A' && node.hasAttribute('download')) {
+                return;
+              }
+              app.commandLinker.connectNode(node, CommandIDs.handleLink, {
+                path,
+                id,
+              });
+            },
           },
-        },
       latexTypesetter: latexTypesetter ?? undefined,
       markdownParser: markdownParser ?? undefined,
       translator: translator ?? undefined,

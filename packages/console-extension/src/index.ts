@@ -11,7 +11,10 @@ import { IConsoleTracker } from '@jupyterlab/console';
 
 import { PageConfig, URLExt } from '@jupyterlab/coreutils';
 
-import { INotebookPathOpener, defaultNotebookPathOpener } from '@jupyter-notebook/application';
+import {
+  INotebookPathOpener,
+  defaultNotebookPathOpener,
+} from '@jupyter-notebook/application';
 
 import { find } from '@lumino/algorithm';
 
@@ -56,7 +59,11 @@ const redirect: JupyterFrontEndPlugin<void> = {
   requires: [IConsoleTracker],
   optional: [INotebookPathOpener],
   autoStart: true,
-  activate: (app: JupyterFrontEnd, tracker: IConsoleTracker, notebookPathOpener: INotebookPathOpener | null) => {
+  activate: (
+    app: JupyterFrontEnd,
+    tracker: IConsoleTracker,
+    notebookPathOpener: INotebookPathOpener | null
+  ) => {
     const baseUrl = PageConfig.getBaseUrl();
     const opener = notebookPathOpener ?? defaultNotebookPathOpener;
 
@@ -75,7 +82,7 @@ const redirect: JupyterFrontEndPlugin<void> = {
         route: URLExt.join(baseUrl, 'consoles'),
         path: sessionContext.path,
         target: '_blank',
-      })
+      });
 
       // the widget is not needed anymore
       console.dispose();

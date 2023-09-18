@@ -17,7 +17,11 @@ import { ITranslator } from '@jupyterlab/translation';
 
 import { Menu, MenuBar, Widget } from '@lumino/widgets';
 
-import { defaultNotebookPathOpener, INotebookPathOpener, INotebookShell } from '@jupyter-notebook/application';
+import {
+  defaultNotebookPathOpener,
+  INotebookPathOpener,
+  INotebookShell,
+} from '@jupyter-notebook/application';
 
 import {
   caretDownIcon,
@@ -139,7 +143,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
         opener.open({
           route: urlPrefix,
           path: current.context.path,
-        })
+        });
       };
 
       commands.addCommand(command, {

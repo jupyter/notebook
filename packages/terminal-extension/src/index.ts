@@ -11,7 +11,10 @@ import { PageConfig, URLExt } from '@jupyterlab/coreutils';
 
 import { ITerminalTracker } from '@jupyterlab/terminal';
 
-import { INotebookPathOpener, defaultNotebookPathOpener } from '@jupyter-notebook/application';
+import {
+  INotebookPathOpener,
+  defaultNotebookPathOpener,
+} from '@jupyter-notebook/application';
 
 import { find } from '@lumino/algorithm';
 
@@ -62,7 +65,11 @@ const redirect: JupyterFrontEndPlugin<void> = {
   requires: [ITerminalTracker],
   optional: [INotebookPathOpener],
   autoStart: true,
-  activate: (app: JupyterFrontEnd, tracker: ITerminalTracker, notebookPathOpener: INotebookPathOpener | null) => {
+  activate: (
+    app: JupyterFrontEnd,
+    tracker: ITerminalTracker,
+    notebookPathOpener: INotebookPathOpener | null
+  ) => {
     const baseUrl = PageConfig.getBaseUrl();
     const opener = notebookPathOpener ?? defaultNotebookPathOpener;
 
@@ -80,7 +87,7 @@ const redirect: JupyterFrontEndPlugin<void> = {
         route: URLExt.join(baseUrl, 'terminals'),
         path: name,
         target: '_blank',
-      })
+      });
 
       // dispose the widget since it is not used on this page
       terminal.dispose();
