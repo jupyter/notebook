@@ -2,12 +2,11 @@ name: notebook
 channels:
   - conda-forge
 dependencies:
-  - ipywidgets=7.6
-  - jupyterlab=3
+  - ipywidgets=8
   - jupyterlab-language-pack-fr-FR
   - jupyterlab-link-share>=0.2
   - matplotlib
   - numpy
-  - nodejs
+  - nodejs=20
   - python >=3.10,<3.11
   - xeus-python
