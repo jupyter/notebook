@@ -84,7 +84,7 @@ const redirect: JupyterFrontEndPlugin<void> = {
       }
       const name = terminal.content.session.name;
       opener.open({
-        route: URLExt.join(baseUrl, 'terminals'),
+        prefix: URLExt.join(baseUrl, 'terminals'),
         path: name,
         target: '_blank',
       });

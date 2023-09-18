@@ -15,14 +15,14 @@ export interface INotebookPathOpener {
 export namespace INotebookPathOpener {
   export interface IOpenOptions {
     /**
-     * The base route, which should include the base URL
+     * The URL prefix, which should include the base URL
      */
-    route: string;
+    prefix: string
 
     /**
      * The path to open in the application, e.g `setup.py`, or `notebooks/example.ipynb`
      */
-    path?: string;
+    path?: string,
 
     /**
      * The extra search params to use in the URL.

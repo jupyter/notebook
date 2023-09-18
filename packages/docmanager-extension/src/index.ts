@@ -65,7 +65,7 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
           }
 
           pathOpener.open({
-            route: URLExt.join(baseUrl, route),
+            prefix: URLExt.join(baseUrl, route),
             path,
             searchParams,
           });

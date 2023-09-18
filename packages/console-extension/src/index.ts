@@ -79,7 +79,7 @@ const redirect: JupyterFrontEndPlugin<void> = {
         return;
       }
       opener.open({
-        route: URLExt.join(baseUrl, 'consoles'),
+        prefix: URLExt.join(baseUrl, 'consoles'),
         path: sessionContext.path,
         target: '_blank',
       });

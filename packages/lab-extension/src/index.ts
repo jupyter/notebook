@@ -141,7 +141,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
           return;
         }
         opener.open({
-          route: urlPrefix,
+          prefix: urlPrefix,
           path: current.context.path,
         });
       };

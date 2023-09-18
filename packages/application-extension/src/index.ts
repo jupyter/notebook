@@ -401,7 +401,7 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
             .then((model) => {
               const baseUrl = PageConfig.getBaseUrl();
               opener.open({
-                route: URLExt.join(baseUrl, 'tree'),
+                prefix: URLExt.join(baseUrl, 'tree'),
                 path: model.path,
                 target: '_blank',
               });
