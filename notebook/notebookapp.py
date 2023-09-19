@@ -1408,7 +1408,7 @@ class NotebookApp(JupyterApp):
             # and allow jupyter_server contents managers to pass
             # through. If jupyter_server is not installed, this class
             # will be ignored.
-            'jupyter_server.contents.services.managers.ContentsManager'
+            "jupyter_server.services.contents.managers.ContentsManager",
         ],
         config=True,
         help=_('The notebook manager class to use.')
