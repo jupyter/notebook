@@ -14,13 +14,33 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 6.4.13
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/6.4.12...fa1f3e42b224fc9a5c6ae30335f15cbbe4648e3b))
+
+### Bugs fixed
+
+- fix import of warnings.warn [#6840](https://github.com/jupyter/notebook/pull/6840) ([@minrk](https://github.com/minrk))
+- Fix rename_file to handle relative paths properly (related to GHSA-v7vq-3x77-87vg?) [#6609](https://github.com/jupyter/notebook/pull/6609) ([@yacchin1205](https://github.com/yacchin1205))
+- Fix a typo in exception text [#6461](https://github.com/jupyter/notebook/pull/6461) ([@krassowski](https://github.com/krassowski))
+
+### Documentation improvements
+
+- Add changelog for 6.4.12 [#6452](https://github.com/jupyter/notebook/pull/6452) ([@blink1073](https://github.com/blink1073))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2022-06-07&to=2023-09-19&type=c))
+
+[@andrii-i](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2022-06-07..2023-09-19&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2022-06-07..2023-09-19&type=Issues) | [@bnavigator](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abnavigator+updated%3A2022-06-07..2023-09-19&type=Issues) | [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2022-06-07..2023-09-19&type=Issues) | [@defjaf](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adefjaf+updated%3A2022-06-07..2023-09-19&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2022-06-07..2023-09-19&type=Issues) | [@fcollonval](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afcollonval+updated%3A2022-06-07..2023-09-19&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2022-06-07..2023-09-19&type=Issues) | [@henryiii](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahenryiii+updated%3A2022-06-07..2023-09-19&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2022-06-07..2023-09-19&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2022-06-07..2023-09-19&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2022-06-07..2023-09-19&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2022-06-07..2023-09-19&type=Issues) | [@minrk](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aminrk+updated%3A2022-06-07..2023-09-19&type=Issues) | [@ofek](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aofek+updated%3A2022-06-07..2023-09-19&type=Issues) | [@parmentelat](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aparmentelat+updated%3A2022-06-07..2023-09-19&type=Issues) | [@prof-lupin](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aprof-lupin+updated%3A2022-06-07..2023-09-19&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2022-06-07..2023-09-19&type=Issues) | [@shaneknapp](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ashaneknapp+updated%3A2022-06-07..2023-09-19&type=Issues) | [@takluyver](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atakluyver+updated%3A2022-06-07..2023-09-19&type=Issues) | [@tonyfast](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atonyfast+updated%3A2022-06-07..2023-09-19&type=Issues) | [@venkatasg](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Avenkatasg+updated%3A2022-06-07..2023-09-19&type=Issues) | [@yacchin1205](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ayacchin1205+updated%3A2022-06-07..2023-09-19&type=Issues) | [@yuvipanda](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ayuvipanda+updated%3A2022-06-07..2023-09-19&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2022-06-07..2023-09-19&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 6.4.12
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.4.11...6.4.12)
 
 - Address security advisory [GHSA-v7vq-3x77-87vg](https://github.com/jupyter/notebook/security/advisories/GHSA-v7vq-3x77-87vg)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.4.11
 
