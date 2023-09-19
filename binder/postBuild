@@ -2,6 +2,7 @@
 set -euo pipefail
 
 # tmp
-jlpm && jlpm run build
+jlpm
+cd packages/notebook-extension && jlpm run build
 # python -m pip install -e ".[dev,test]"
 # jlpm develop
