@@ -1,8 +1,5 @@
 #!/bin/bash
 set -euo pipefail
 
-# tmp
-jlpm && jlpm run build
-
 python -m pip install -e ".[dev,test]"
 jlpm develop
