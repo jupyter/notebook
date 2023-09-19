@@ -14,7 +14,10 @@ class DefaultNotebookPathOpener implements INotebookPathOpener {
    */
   open(options: INotebookPathOpener.IOpenOptions): WindowProxy | null {
     const { prefix, path, searchParams, target, features } = options;
-    const url = new URL(URLExt.join(prefix, path ?? ''), window.location.origin);
+    const url = new URL(
+      URLExt.join(prefix, path ?? ''),
+      window.location.origin
+    );
     if (searchParams) {
       url.search = searchParams.toString();
     }
