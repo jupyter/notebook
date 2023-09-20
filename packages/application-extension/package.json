@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/application-extension",
-  "version": "7.0.3",
+  "version": "7.0.4",
   "description": "Jupyter Notebook - Application Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -38,8 +38,8 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.0.3",
-    "@jupyter-notebook/ui-components": "^7.0.3",
+    "@jupyter-notebook/application": "^7.0.4",
+    "@jupyter-notebook/ui-components": "^7.0.4",
     "@jupyterlab/application": "^4.0.6",
     "@jupyterlab/apputils": "^4.1.6",
     "@jupyterlab/codeeditor": "^4.0.6",

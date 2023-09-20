@@ -14,6 +14,38 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.4
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/app@7.0.3...0e62386fc71ed4bd424c989f9d5493ca346f1d9a))
+
+### Enhancements made
+
+- Update to JupyterLab 4.0.6 [#7049](https://github.com/jupyter/notebook/pull/7049) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Fix `app_version` [#7061](https://github.com/jupyter/notebook/pull/7061) ([@jtpio](https://github.com/jtpio))
+- fix trusted status indication [#7036](https://github.com/jupyter/notebook/pull/7036) ([@adigaboy](https://github.com/adigaboy))
+
+### Maintenance and upkeep improvements
+
+- Update Binder environment [#7059](https://github.com/jupyter/notebook/pull/7059) ([@jtpio](https://github.com/jtpio))
+- Add `deduplicate` top-level script [#7058](https://github.com/jupyter/notebook/pull/7058) ([@jtpio](https://github.com/jtpio))
+- Move opening path in new browser tabs to a separate plugin [#7056](https://github.com/jupyter/notebook/pull/7056) ([@jtpio](https://github.com/jtpio))
+- Enable the Playwright trace [#7050](https://github.com/jupyter/notebook/pull/7050) ([@jtpio](https://github.com/jtpio))
+- Bump actions/checkout from 3 to 4 [#7040](https://github.com/jupyter/notebook/pull/7040) ([@dependabot](https://github.com/dependabot))
+- Adopt sp-repo-review [#7039](https://github.com/jupyter/notebook/pull/7039) ([@blink1073](https://github.com/blink1073))
+- Add `datetime.datetime.utc()` to the filter list [#7037](https://github.com/jupyter/notebook/pull/7037) ([@jtpio](https://github.com/jtpio))
+- Fix docs build on Gitpod [#7026](https://github.com/jupyter/notebook/pull/7026) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-08-30&to=2023-09-20&type=c))
+
+[@adigaboy](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aadigaboy+updated%3A2023-08-30..2023-09-20&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2023-08-30..2023-09-20&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-08-30..2023-09-20&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-08-30..2023-09-20&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-08-30..2023-09-20&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-08-30..2023-09-20&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.3
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/app@7.0.2...e2eb8f2a166ba7b339309b8bfbff40e6c9e0a9b9))
@@ -37,8 +69,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-08-04&to=2023-08-30&type=c))
 
 [@bnavigator](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abnavigator+updated%3A2023-08-04..2023-08-30&type=Issues) | [@defjaf](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adefjaf+updated%3A2023-08-04..2023-08-30&type=Issues) | [@frenzymadness](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afrenzymadness+updated%3A2023-08-04..2023-08-30&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-08-04..2023-08-30&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-08-04..2023-08-30&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2023-08-04..2023-08-30&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.2
 
