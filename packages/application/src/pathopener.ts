@@ -6,7 +6,7 @@ import { URLExt } from '@jupyterlab/coreutils';
 import { INotebookPathOpener } from './tokens';
 
 /**
- * A class to open path in new browser tabs in the Notebook application.
+ * A class to open paths in new browser tabs in the Notebook application.
  */
 class DefaultNotebookPathOpener implements INotebookPathOpener {
   /**

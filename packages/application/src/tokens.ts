@@ -48,9 +48,9 @@ export namespace INotebookPathOpener {
 
 /**
  * The INotebookPathOpener token.
- * The main purpose of this token is to allow other extensions or downstream application
+ * The main purpose of this token is to allow other extensions or downstream applications
  * to override the default behavior of opening a notebook in a new tab.
- * It also allows to pass the path open as a search parame, or other options to the window.open call.
+ * It also allows passing the path as a URL search parameter, or other options to the window.open call.
  */
 export const INotebookPathOpener = new Token<INotebookPathOpener>(
   '@jupyter-notebook/application:INotebookPathOpener'
