@@ -231,7 +231,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
     app_name = "Jupyter Notebook"
     description = "Jupyter Notebook - A web-based notebook environment for interactive computing"
     version = version
-    app_version = Unicode("", help="The version of the application.").tag(default=version)
+    app_version = Unicode(version, help="The version of the application.")
     extension_url = "/"
     default_url = Unicode("/tree", config=True, help="The default URL to redirect to from `/`")
     file_url_prefix = "/tree"
