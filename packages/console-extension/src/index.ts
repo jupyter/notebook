@@ -9,7 +9,12 @@ import {
 
 import { IConsoleTracker } from '@jupyterlab/console';
 
-import { PageConfig } from '@jupyterlab/coreutils';
+import { PageConfig, URLExt } from '@jupyterlab/coreutils';
+
+import {
+  INotebookPathOpener,
+  defaultNotebookPathOpener,
+} from '@jupyter-notebook/application';
 
 import { find } from '@lumino/algorithm';
 
@@ -52,9 +57,16 @@ const opener: JupyterFrontEndPlugin<void> = {
 const redirect: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/console-extension:redirect',
   requires: [IConsoleTracker],
+  optional: [INotebookPathOpener],
   autoStart: true,
-  activate: (app: JupyterFrontEnd, tracker: IConsoleTracker) => {
+  activate: (
+    app: JupyterFrontEnd,
+    tracker: IConsoleTracker,
+    notebookPathOpener: INotebookPathOpener | null
+  ) => {
     const baseUrl = PageConfig.getBaseUrl();
+    const opener = notebookPathOpener ?? defaultNotebookPathOpener;
+
     tracker.widgetAdded.connect(async (send, console) => {
       const { sessionContext } = console;
       await sessionContext.ready;
@@ -66,7 +78,11 @@ const redirect: JupyterFrontEndPlugin<void> = {
         // bail if the console is already added to the main area
         return;
       }
-      window.open(`${baseUrl}consoles/${sessionContext.path}`, '_blank');
+      opener.open({
+        prefix: URLExt.join(baseUrl, 'consoles'),
+        path: sessionContext.path,
+        target: '_blank',
+      });
 
       // the widget is not needed anymore
       console.dispose();

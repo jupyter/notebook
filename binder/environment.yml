@@ -3,8 +3,8 @@ channels:
   - conda-forge
 dependencies:
   - ipywidgets=8
+  - jupyterlab=4
   - jupyterlab-language-pack-fr-FR
-  - jupyterlab-link-share>=0.2
   - matplotlib
   - numpy
   - nodejs=20

@@ -160,7 +160,7 @@ fmt = [
 ]
 
 [tool.hatch.build.hooks.jupyter-builder]
-dependencies = ["hatch-jupyter-builder>=0.2"]
+dependencies = ["hatch-jupyter-builder>=0.5"]
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
     "notebook/labextension/static/style.js",
@@ -170,10 +170,15 @@ install-pre-commit-hook = true
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
-editable_build_cmd = "build"
 source_dir = "packages"
 build_dir = "notebook/static"
-npm = "jlpm"
+npm = ["jlpm"]
+
+[tool.hatch.build.hooks.jupyter-builder.editable-build-kwargs]
+build_cmd = "build"
+source_dir = "packages"
+build_dir = "notebook/static"
+npm = ["jlpm"]
 
 [tool.jupyter-releaser.options]
 version-cmd = "jlpm run release:bump --force --skip-commit"

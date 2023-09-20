@@ -47,6 +47,8 @@ import {
   SidePanel,
   SidePanelHandler,
   SidePanelPalette,
+  INotebookPathOpener,
+  defaultNotebookPathOpener,
 } from '@jupyter-notebook/application';
 
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
@@ -309,7 +311,7 @@ const pages: JupyterFrontEndPlugin<void> = {
     app.commands.addCommand(CommandIDs.openLab, {
       label: trans.__('Open JupyterLab'),
       execute: () => {
-        window.open(`${baseUrl}lab`);
+        window.open(URLExt.join(baseUrl, 'lab'));
       },
     });
     const page = PageConfig.getOption('notebookPage');
@@ -320,7 +322,7 @@ const pages: JupyterFrontEndPlugin<void> = {
         if (page === 'tree') {
           app.commands.execute('filebrowser:activate');
         } else {
-          window.open(`${baseUrl}tree`);
+          window.open(URLExt.join(baseUrl, 'tree'));
         }
       },
     });
@@ -329,6 +331,18 @@ const pages: JupyterFrontEndPlugin<void> = {
       palette.addItem({ command: CommandIDs.openLab, category: 'View' });
       palette.addItem({ command: CommandIDs.openTree, category: 'View' });
     }
+  },
+};
+
+/**
+ * A plugin to open paths in new browser tabs.
+ */
+const pathOpener: JupyterFrontEndPlugin<INotebookPathOpener> = {
+  id: '@jupyter-notebook/application-extension:path-opener',
+  autoStart: true,
+  provides: INotebookPathOpener,
+  activate: (app: JupyterFrontEnd): INotebookPathOpener => {
+    return defaultNotebookPathOpener;
   },
 };
 
@@ -361,6 +375,7 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
     ISanitizer,
     IMarkdownParser,
     ITranslator,
+    INotebookPathOpener,
   ],
   activate: (
     app: JupyterFrontEnd,
@@ -368,9 +383,11 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
     latexTypesetter: ILatexTypesetter | null,
     sanitizer: IRenderMime.ISanitizer | null,
     markdownParser: IMarkdownParser | null,
-    translator: ITranslator | null
+    translator: ITranslator | null,
+    notebookPathOpener: INotebookPathOpener | null
   ) => {
     const trans = (translator ?? nullTranslator).load('jupyterlab');
+    const opener = notebookPathOpener ?? defaultNotebookPathOpener;
     if (docManager) {
       app.commands.addCommand(CommandIDs.handleLink, {
         label: trans.__('Handle Local Link'),
@@ -382,10 +399,12 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
           return docManager.services.contents
             .get(path, { content: false })
             .then((model) => {
-              // Open in a new browser tab
-              const url = PageConfig.getBaseUrl();
-              const treeUrl = URLExt.join(url, 'tree', model.path);
-              window.open(treeUrl, '_blank');
+              const baseUrl = PageConfig.getBaseUrl();
+              opener.open({
+                prefix: URLExt.join(baseUrl, 'tree'),
+                path: model.path,
+                target: '_blank',
+              });
             });
         },
       });
@@ -1089,6 +1108,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   menuSpacer,
   opener,
   pages,
+  pathOpener,
   paths,
   rendermime,
   shell,

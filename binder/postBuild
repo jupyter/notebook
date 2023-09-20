@@ -1,7 +1,5 @@
 #!/bin/bash
 set -euo pipefail
 
-python -m pip install -e . --force-reinstall
-
-jlpm && jlpm run build
-jlpm run develop
+python -m pip install -e ".[dev,test]"
+jlpm develop

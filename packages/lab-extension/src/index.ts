@@ -9,7 +9,7 @@ import {
 
 import { ICommandPalette, IToolbarWidgetRegistry } from '@jupyterlab/apputils';
 
-import { PageConfig } from '@jupyterlab/coreutils';
+import { PageConfig, URLExt } from '@jupyterlab/coreutils';
 
 import { INotebookTracker, NotebookPanel } from '@jupyterlab/notebook';
 
@@ -17,7 +17,11 @@ import { ITranslator } from '@jupyterlab/translation';
 
 import { Menu, MenuBar, Widget } from '@lumino/widgets';
 
-import { INotebookShell } from '@jupyter-notebook/application';
+import {
+  defaultNotebookPathOpener,
+  INotebookPathOpener,
+  INotebookShell,
+} from '@jupyter-notebook/application';
 
 import {
   caretDownIcon,
@@ -67,6 +71,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
   requires: [ITranslator, INotebookTracker],
   optional: [
     ICommandPalette,
+    INotebookPathOpener,
     INotebookShell,
     ILabShell,
     IToolbarWidgetRegistry,
@@ -76,6 +81,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
     translator: ITranslator,
     notebookTracker: INotebookTracker,
     palette: ICommandPalette | null,
+    notebookPathOpener: INotebookPathOpener | null,
     notebookShell: INotebookShell | null,
     labShell: ILabShell | null,
     toolbarRegistry: IToolbarWidgetRegistry | null
@@ -87,6 +93,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       PageConfig.getOption('nbclassic_enabled') === 'true';
     const switcher = new Menu({ commands });
     const switcherOptions: ISwitcherChoice[] = [];
+    const opener = notebookPathOpener ?? defaultNotebookPathOpener;
 
     if (!notebookShell) {
       switcherOptions.push({
@@ -94,7 +101,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
         commandLabel: trans.__('Notebook'),
         commandDescription: trans.__('Open in %1', 'Jupyter Notebook'),
         buttonLabel: 'openNotebook',
-        urlPrefix: `${baseUrl}tree/`,
+        urlPrefix: `${baseUrl}tree`,
       });
     }
 
@@ -104,7 +111,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
         commandLabel: trans.__('JupyterLab'),
         commandDescription: trans.__('Open in %1', 'JupyterLab'),
         buttonLabel: 'openLab',
-        urlPrefix: `${baseUrl}doc/tree/`,
+        urlPrefix: `${baseUrl}doc/tree`,
       });
     }
 
@@ -114,7 +121,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
         commandLabel: trans.__('NbClassic'),
         commandDescription: trans.__('Open in %1', 'NbClassic'),
         buttonLabel: 'openNbClassic',
-        urlPrefix: `${baseUrl}nbclassic/notebooks/`,
+        urlPrefix: `${baseUrl}nbclassic/notebooks`,
       });
     }
 
@@ -133,7 +140,10 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
         if (!current) {
           return;
         }
-        window.open(`${urlPrefix}${current.context.path}`);
+        opener.open({
+          prefix: urlPrefix,
+          path: current.context.path,
+        });
       };
 
       commands.addCommand(command, {
@@ -223,7 +233,8 @@ const launchNotebookTree: JupyterFrontEndPlugin<void> = {
     commands.addCommand(CommandIDs.launchNotebookTree, {
       label: trans.__('Launch Jupyter Notebook File Browser'),
       execute: () => {
-        window.open(PageConfig.getBaseUrl() + 'tree');
+        const url = URLExt.join(PageConfig.getBaseUrl(), 'tree');
+        window.open(url);
       },
     });
 
