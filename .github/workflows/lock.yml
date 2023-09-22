@@ -5,12 +5,14 @@ on:
     - cron: '0 0 * * *'
 
 permissions:
-  issues: write
-  pull-requests: write
+  contents: read
 
 jobs:
   lock:
     runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
     steps:
       - uses: dessant/lock-threads@v4
         with:
