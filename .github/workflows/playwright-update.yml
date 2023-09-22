@@ -12,7 +12,7 @@ jobs:
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, 'update playwright snapshots') }}
     runs-on: ubuntu-latest
     permissions:
-      pull-requests: write # Required by actions/update-snapshots 
+      pull-requests: write # Required by actions/update-snapshots
     strategy:
       fail-fast: false
       matrix:
