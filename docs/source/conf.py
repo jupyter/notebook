@@ -205,6 +205,14 @@ html_theme_options = {
     "use_edit_page_button": True,
 }
 
+# Output for github to be used in links
+html_context = {
+    "github_user": "jupyter",  # Username
+    "github_repo": "notebook",  # Repo name
+    "github_version": "main",  # Version
+    "doc_path": "docs/source/",  # Path in the checkout to the docs root
+}
+
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
 
