@@ -5,13 +5,14 @@ on:
     types: [created, edited]
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 jobs:
   update-snapshots:
     if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, 'update playwright snapshots') }}
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write # Required by actions/update-snapshots
     strategy:
       fail-fast: false
       matrix:
