@@ -6,21 +6,24 @@ To apply custom CSS, you can add a `/custom/custom.css` file in the jupyter `con
 
 You can use a custom CSS file to modify default Jupyter styling.
 
-```
+```css
 /* Modify Jupyter Styles */
-#top-panel-wrapper, #jp-top-bar {
-  background-color: #aecad4!important;
+#top-panel-wrapper,
+#jp-top-bar {
+  background-color: #aecad4 !important;
 }
 
-#menu-panel-wrapper, #jp-MainMenu, #menu-panel {
-  background-color: #aecad4!important;
+#menu-panel-wrapper,
+#jp-MainMenu,
+#menu-panel {
+  background-color: #aecad4 !important;
 }
 
 .jp-NotebookPanel-toolbar {
-  background-color:  #aecad4!important;
+  background-color: #aecad4 !important;
 }
 .lm-MenuBar-content {
-  color: #02484d
+  color: #02484d;
 }
 ```
 
@@ -30,7 +33,7 @@ You can use a custom CSS file to modify default Jupyter styling.
 
 Another potential application for custom CSS is styling markdown.
 
-```
+```css
 /* Headings */
 h1,
 h2 {
@@ -44,7 +47,6 @@ h1 {
   margin-bottom: 40px;
   color: #10929e;
   text-decoration: underline;
-
 }
 
 h2 {

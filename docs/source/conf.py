@@ -173,7 +173,45 @@ html_theme = "pydata_sphinx_theme"
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
-# html_theme_options = {}
+html_theme_options = {
+    "icon_links": [
+        {
+            "name": "jupyter.org",
+            "url": "https://jupyter.org",
+            "icon": "_static/jupyter_logo.svg",
+            "type": "local",
+        },
+        {
+            "name": "GitHub",
+            "url": "https://github.com/jupyter/notebook",
+            "icon": "fab fa-github-square",
+        },
+        {
+            "name": "Discourse",
+            "url": "https://discourse.jupyter.org/c/notebook/31",
+            "icon": "fab fa-discourse",
+        },
+        {
+            "name": "Gitter",
+            "url": "https://gitter.im/jupyter/jupyter",
+            "icon": "fab fa-gitter",
+        },
+    ],
+    "logo": {
+        "alt_text": "Jupyter",
+        "image_light": "_static/logo-rectangle.svg",
+        "image_dark": "_static/logo-rectangle-dark.svg",
+    },
+    "use_edit_page_button": True,
+}
+
+# Output for github to be used in links
+html_context = {
+    "github_user": "jupyter",  # Username
+    "github_repo": "notebook",  # Repo name
+    "github_version": "main",  # Version
+    "doc_path": "docs/source/",  # Path in the checkout to the docs root
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 # html_theme_path = []
