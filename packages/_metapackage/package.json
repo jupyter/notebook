@@ -22,6 +22,7 @@
   "dependencies": {
     "@jupyter-notebook/application": "^7.0.4",
     "@jupyter-notebook/application-extension": "^7.0.4",
+    "@jupyter-notebook/classic-shortcuts-extension": "^7.0.4",
     "@jupyter-notebook/console-extension": "^7.0.4",
     "@jupyter-notebook/docmanager-extension": "^7.0.4",
     "@jupyter-notebook/documentsearch-extension": "^7.0.4",

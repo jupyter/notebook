@@ -1,5 +1,6 @@
 import '@jupyter-notebook/application';
 import '@jupyter-notebook/application-extension';
+import '@jupyter-notebook/classic-shortcuts-extension';
 import '@jupyter-notebook/console-extension';
 import '@jupyter-notebook/docmanager-extension';
 import '@jupyter-notebook/documentsearch-extension';

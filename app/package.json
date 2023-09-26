@@ -14,6 +14,7 @@
     "@codemirror/view": "~6.15.3",
     "@jupyter-notebook/application": "~7.0.4",
     "@jupyter-notebook/application-extension": "~7.0.4",
+    "@jupyter-notebook/classic-shortcuts-extension": "~7.0.4",
     "@jupyter-notebook/console-extension": "~7.0.4",
     "@jupyter-notebook/docmanager-extension": "~7.0.4",
     "@jupyter-notebook/documentsearch-extension": "~7.0.4",
@@ -118,6 +119,7 @@
   "dependencies": {
     "@jupyter-notebook/application": "^7.0.4",
     "@jupyter-notebook/application-extension": "^7.0.4",
+    "@jupyter-notebook/classic-shortcuts-extension": "7.0.4",
     "@jupyter-notebook/console-extension": "^7.0.4",
     "@jupyter-notebook/docmanager-extension": "^7.0.4",
     "@jupyter-notebook/documentsearch-extension": "^7.0.4",
@@ -205,6 +207,7 @@
     "plugins": {
       "/": {
         "@jupyter-notebook/application-extension": true,
+        "@jupyter-notebook/classic-shortcuts-extension": true,
         "@jupyter-notebook/console-extension": true,
         "@jupyter-notebook/docmanager-extension": true,
         "@jupyter-notebook/documentsearch-extension": true,
