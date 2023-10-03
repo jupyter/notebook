@@ -32,10 +32,13 @@ from jupyterlab_server.handlers import _camelCase, is_url
 from notebook_shim.shim import NotebookConfigShimMixin  # type:ignore[import]
 from tornado import web
 from traitlets import Bool, Unicode, default
+from traitlets.config.loader import Config
 
 from ._version import __version__
 
 HERE = os.path.dirname(__file__)
+
+Flags = t.Dict[t.Union[str, t.Tuple[str, ...]], t.Tuple[t.Union[t.Dict[str, t.Any], Config], str]]
 
 app_dir = get_app_dir()
 version = __version__
@@ -253,7 +256,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
         """,
     )
 
-    flags = flags
+    flags: Flags = flags  # type:ignore[assignment]
     flags["expose-app-in-browser"] = (
         {"JupyterNotebookApp": {"expose_app_in_browser": True}},
         "Expose the global app instance to browser via window.jupyterapp.",
@@ -264,31 +267,31 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
         "Load custom CSS in template html files. Default is True",
     )
 
-    @default("static_dir")  # type:ignore[misc]
+    @default("static_dir")
     def _default_static_dir(self) -> str:
         return os.path.join(HERE, "static")
 
-    @default("templates_dir")  # type:ignore[misc]
+    @default("templates_dir")
     def _default_templates_dir(self) -> str:
         return os.path.join(HERE, "templates")
 
-    @default("app_settings_dir")  # type:ignore[misc]
+    @default("app_settings_dir")
     def _default_app_settings_dir(self) -> str:
         return pjoin(app_dir, "settings")
 
-    @default("schemas_dir")  # type:ignore[misc]
+    @default("schemas_dir")
     def _default_schemas_dir(self) -> str:
         return pjoin(app_dir, "schemas")
 
-    @default("themes_dir")  # type:ignore[misc]
+    @default("themes_dir")
     def _default_themes_dir(self) -> str:
         return pjoin(app_dir, "themes")
 
-    @default("user_settings_dir")  # type:ignore[misc]
+    @default("user_settings_dir")
     def _default_user_settings_dir(self) -> str:
         return t.cast(str, get_user_settings_dir())
 
-    @default("workspaces_dir")  # type:ignore[misc]
+    @default("workspaces_dir")
     def _default_workspaces_dir(self) -> str:
         return t.cast(str, get_workspaces_dir())
 
