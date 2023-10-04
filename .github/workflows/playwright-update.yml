@@ -33,7 +33,7 @@ jobs:
           # PR branch remote must be checked out using https URL
           git config --global hub.protocol https
 
-          hub pr checkout ${{ github.event.issue.number }}
+          gh pr checkout ${{ github.event.issue.number }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
