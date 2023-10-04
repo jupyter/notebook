@@ -240,7 +240,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
     file_url_prefix = "/tree"
     load_other_extensions = True
     app_dir = app_dir
-    subcommands: dict[str, t.Any] = {}  # type:ignore[assignment]
+    subcommands: dict[str, t.Any] = {}
 
     expose_app_in_browser = Bool(
         False,
