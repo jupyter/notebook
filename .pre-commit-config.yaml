@@ -21,7 +21,7 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.26.3
+    rev: 0.27.0
     hooks:
       - id: check-github-workflows
 
@@ -32,12 +32,12 @@ repos:
         additional_dependencies: [black==23.7.0]
 
   - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 23.7.0
+    rev: 23.9.1
     hooks:
       - id: black
 
   - repo: https://github.com/codespell-project/codespell
-    rev: 'v2.2.5'
+    rev: 'v2.2.6'
     hooks:
       - id: codespell
         args: ['-L', 'sur,nd']
@@ -55,13 +55,13 @@ repos:
       - id: rst-inline-touching-normal
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.0.287
+    rev: v0.0.292
     hooks:
       - id: ruff
         args: ['--fix', '--show-fixes']
 
   - repo: https://github.com/scientific-python/cookie
-    rev: '2023.08.23'
+    rev: '2023.09.21'
     hooks:
       - id: sp-repo-review
         additional_dependencies: ['repo-review[cli]']
