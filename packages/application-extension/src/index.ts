@@ -182,7 +182,7 @@ const logo: JupyterFrontEndPlugin<void> = {
 
 /**
  *  Responsible for routing URL requests and opening documents.
- *  It ensures that when users navigate to specific URLs, 
+ *  It ensures that when users navigate to specific URLs,
  *  the associated documents are correctly opened within the notebook interface.
  */
 const opener: JupyterFrontEndPlugin<void> = {
@@ -282,8 +282,8 @@ const menus: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- *  Adds a visual separator, or spacer, between menu items, 
- *  helping to group related menu items and improve the overall 
+ *  Adds a visual separator, or spacer, between menu items,
+ *  helping to group related menu items and improve the overall
  *  visual clarity of the menu interface.
  */
 const menuSpacer: JupyterFrontEndPlugin<void> = {
@@ -369,7 +369,7 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
 
 /**
  * A plugin providing a rendermime registry.
- * Responsible for managing and rendering MIME (Multipurpose Internet Mail Extensions) 
+ * Responsible for managing and rendering MIME (Multipurpose Internet Mail Extensions)
  * types, allowing for the display of various content types within the notebook interface
  */
 const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
@@ -955,7 +955,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
 
 /**
  *  The default tree route resolver plugin.
- *  Responsible for handling and resolving routes related to the file tree view. 
+ *  Responsible for handling and resolving routes related to the file tree view.
  *  It ensures that the application can navigate to specific tree paths and resolve tree-related URLs correctly.
  */
 const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
@@ -1018,8 +1018,8 @@ const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
 };
 
 /**
- *  Responsible for keeping the URL's tree path synchronized with the user's 
- *  actions and selections within the file tree view. Ensures that the URL reflects the current tree path, 
+ *  Responsible for keeping the URL's tree path synchronized with the user's
+ *  actions and selections within the file tree view. Ensures that the URL reflects the current tree path,
  *  allowing for bookmarking and sharing specific locations within the file tree.
  */
 const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
@@ -1045,8 +1045,8 @@ const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
 };
 
 /**
- *  Integrates the ITranslator interface with the notebook shell, 
- *  allowing for the translation of user interface elements, labels, 
+ *  Integrates the ITranslator interface with the notebook shell,
+ *  allowing for the translation of user interface elements, labels,
  *  and descriptions into different languages.
  */
 const translator: JupyterFrontEndPlugin<void> = {
@@ -1064,9 +1064,9 @@ const translator: JupyterFrontEndPlugin<void> = {
 
 /**
  * Zen mode plugin.
- * This mode offers a distraction-free and immersive editing environment 
- * for users who want to focus solely on their notebook content. When activated, 
- * Zen Mode maximizes the notebook interface, hides menus, and enters fullscreen 
+ * This mode offers a distraction-free and immersive editing environment
+ * for users who want to focus solely on their notebook content. When activated,
+ * Zen Mode maximizes the notebook interface, hides menus, and enters fullscreen
  * mode.
  */
 const zen: JupyterFrontEndPlugin<void> = {
