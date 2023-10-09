@@ -479,11 +479,64 @@ const trusted: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * Add a command to open right sidebar for Editing Notebook Metadata when clicking on "Edit Notebook Metadata" under Edit menu
+ */
+const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:edit-notebook-metadata',
+  autoStart: true,
+  requires: [IMainMenu],
+  optional: [ITranslator, INotebookTools],
+  activate: (
+    app: JupyterFrontEnd,
+    menu: IMainMenu,
+    translator: ITranslator | null,
+    notebookTools: INotebookTools | null
+  ) => {
+    const { commands } = app;
+    translator = translator ?? nullTranslator;
+    const trans = translator.load('notebook');
+
+    const id = 'notebook:edit-metadata';
+    commands.addCommand(id, {
+      label: trans.__('Edit Notebook Metadata'),
+      execute: async () => {
+        const command = 'application:toggle-panel';
+        const args = {
+          side: 'right',
+          title: `Show Notebook Tools`,
+          id: 'notebook-tools',
+        }
+        
+        // Check if Show Notebook Tools (Right Sidebar) is open (expanded)
+        if (!commands.isToggled(command, args)){
+          await commands.execute(command, args).then(_ => {
+
+            // For expanding the 'Advanced Tools' section (default: collapsed)
+            if (notebookTools){
+              let tools = (notebookTools?.layout as any).widgets;
+              tools.forEach((tool: any) => {
+                if (tool.widget.title.label === 'Advanced Tools' && tool.collapsed){
+                  tool.toggle()
+                }
+              });
+            }
+          });
+        }
+      },
+    });
+
+    // Add `Edit Notebook Metadata` option to Edit menu
+    menu.editMenu.addItem({type: 'command', command: id, rank: 40})
+  },
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   closeTab,
+  editNotebookMetadata,
   kernelLogo,
   kernelStatus,
   notebookToolsWidget,
