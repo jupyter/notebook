@@ -1,0 +1,44 @@
+{
+  "jupyter.lab.shortcuts": [
+    {
+      "command": "documentsearch:startWithReplace",
+      "keys": ["F"],
+      "selector": ".jp-mod-searchable :focus:not(:read-write)"
+    },
+    {
+      "command": "apputils:display-shortcuts",
+      "keys": ["H"],
+      "selector": "body :focus:not(:read-write)"
+    },
+    {
+      "command": "apputils:activate-command-palette",
+      "keys": ["P"],
+      "selector": "body :focus:not(:read-write)"
+    },
+    {
+      "command": "classic:toggle-output-scrolling",
+      "keys": ["Shift O"],
+      "selector": "body :focus:not(:read-write)"
+    },
+    {
+      "command": "classic:toggle-collapse-output",
+      "keys": ["O"],
+      "selector": "body :focus:not(:read-write)"
+    },
+    {
+      "command": "notebook:toggle-all-cell-line-numbers",
+      "keys": ["L"],
+      "selector": "body :focus:not(:read-write)"
+    },
+    {
+      "command": "filebrowser:paste",
+      "keys": ["Shift V"],
+      "selector": ".jp-DirListing-content .jp-DirListing-itemText"
+    }
+  ],
+  "title": "Jupyter Notebook Classic Shortcuts Extension Entries",
+  "description": "Jupyter Notebook Classic Shortcuts Extension Entries",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}
