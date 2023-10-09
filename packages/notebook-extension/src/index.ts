@@ -506,7 +506,7 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
           title: `Show Notebook Tools`,
           id: 'notebook-tools',
         }
-        
+
         // Check if Show Notebook Tools (Right Sidebar) is open (expanded)
         if (!commands.isToggled(command, args)){
           await commands.execute(command, args).then(_ => {
