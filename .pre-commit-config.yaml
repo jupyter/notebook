@@ -43,6 +43,7 @@ repos:
         args: ['-L', 'sur,nd']
         exclude: |
           (?x)^(
+              yarn.lock|
               binder/example.ipynb|
               docs/source/examples/images/FrontendKernel.graffle/data.plist|
           )$
