@@ -65,7 +65,7 @@ Then start Jupyter Notebook with:
 ```bash
 jupyter notebook
 ```
-### Alternative : Using "yarn" and "npm" over "mamba" 
+### Alternative : Using "yarn" and "npm" over "mamba"
 
 If you prefer using `yarn` or `npm` over `mamba`, you can follow these steps to set up your development environment:
 
