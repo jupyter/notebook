@@ -10,7 +10,7 @@ for a friendly and welcoming collaborative environment.
 Note: You will need NodeJS to build the extension package.
 
 The `jlpm` command is JupyterLab's pinned version of [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
-`yarn` or `npm` mentioned as an alternative, in lieu of `jlpm` below.
+`yarn` or `npm`, in lieu of `jlpm` below.
 
 **Note**: we recommend using `mamba` to speed the creating of the environment.
 
@@ -30,9 +30,24 @@ jlpm develop
 # Enable the server extension
 jupyter server extension enable notebook
 ```
+### Set Up a Python Virtual Environment:
+As the Jupyter Notebook includes a Jupyter Server extension written in Python, it's recommended to create a virtual environment. You can use the `venv` module for this:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows, use: venv\Scripts\activate
+```
+After setting up the environment (either with mamba or venv), you'll need to handle the JavaScript dependencies:
 
+Install NodeJS Dependencies:
+If you're using `yarn`:
+```bash
+yarn install
+```
+If you're using `npm`:
+```bash
+npm install
+```
 `notebook` follows a monorepo structure. To build all the packages at once:
-
 ```bash
 jlpm build
 ```
@@ -62,47 +77,6 @@ Config dir: /usr/local/etc/jupyter
 
 Then start Jupyter Notebook with:
 
-```bash
-jupyter notebook
-```
-### Alternative : Using "yarn" and "npm" over "mamba"
-
-If you prefer using `yarn` or `npm` over `mamba`, you can follow these steps to set up your development environment:
-
-Clone the Repository:
-```bash
-git clone https://github.com/jupyter/notebook.git
-cd notebook
-```
-
-Install NodeJS Dependencies:
-If you're using `yarn`:
-```bash
-yarn install
-```
-If you're using `npm`:
-```bash
-npm install
-```
-### Set Up a Python Virtual Environment:
-As the Jupyter Notebook includes a Jupyter Server extension written in Python, it's recommended to create a virtual environment. You can use the `venv` module for this:
-```bash
-python -m venv venv
-source venv/bin/activate  # On Windows, use: venv\Scripts\activate
-```
-Install Python Dependencies:
-```bash
-pip install -e ".[dev,test]"
-```
-Build the Notebook:
-```bash
-jlpm build
-```
-Enable the Server Extension:
-```bash
-jupyter server extension enable notebook
-```
-Start Jupyter Notebook:
 ```bash
 jupyter notebook
 ```
