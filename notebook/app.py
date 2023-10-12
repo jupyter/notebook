@@ -17,7 +17,7 @@ from jupyter_server.extension.handler import (
 from jupyter_server.serverapp import flags
 from jupyter_server.utils import url_escape, url_is_absolute
 from jupyter_server.utils import url_path_join as ujoin
-from jupyterlab.commands import (  # type:ignore[import]
+from jupyterlab.commands import (  # type:ignore[import-untyped]
     get_app_dir,
     get_user_settings_dir,
     get_workspaces_dir,
@@ -29,7 +29,7 @@ from jupyterlab_server.config import (  # type:ignore[attr-defined]
     recursive_update,
 )
 from jupyterlab_server.handlers import _camelCase, is_url
-from notebook_shim.shim import NotebookConfigShimMixin  # type:ignore[import]
+from notebook_shim.shim import NotebookConfigShimMixin  # type:ignore[import-untyped]
 from tornado import web
 from traitlets import Bool, Unicode, default
 from traitlets.config.loader import Config
@@ -50,7 +50,7 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
     """The base notebook API handler."""
 
     @property
-    def custom_css(self) -> bool:
+    def custom_css(self) -> t.Any:
         return self.settings.get("custom_css", True)
 
     def get_page_config(self) -> dict[str, t.Any]:
