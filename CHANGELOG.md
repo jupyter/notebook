@@ -14,6 +14,42 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.5
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/app@7.0.4...839193d07f0780ded6f559892517f061f3776b02))
+
+### Enhancements made
+
+- Update to JupyterLab 4.0.7 [#7103](https://github.com/jupyter/notebook/pull/7103) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update `permissions` in the galata snapshot workflow [#7105](https://github.com/jupyter/notebook/pull/7105) ([@jtpio](https://github.com/jtpio))
+- Fix typings check on CI [#7104](https://github.com/jupyter/notebook/pull/7104) ([@jtpio](https://github.com/jtpio))
+- Ignore yarn.lock for codespell [#7098](https://github.com/jupyter/notebook/pull/7098) ([@jtpio](https://github.com/jtpio))
+- Remove link to the PDF documentation [#7094](https://github.com/jupyter/notebook/pull/7094) ([@jtpio](https://github.com/jtpio))
+- Bump postcss from 8.4.23 to 8.4.31 in /ui-tests [#7088](https://github.com/jupyter/notebook/pull/7088) ([@dependabot](https://github.com/dependabot))
+- React to the galata update comment [#7086](https://github.com/jupyter/notebook/pull/7086) ([@jtpio](https://github.com/jtpio))
+- Switch from `hub` to `gh` in the Playwright snapshots update workflow [#7085](https://github.com/jupyter/notebook/pull/7085) ([@jtpio](https://github.com/jtpio))
+- chore: update pre-commit hooks [#7084](https://github.com/jupyter/notebook/pull/7084) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Fix traitlets typing [#7082](https://github.com/jupyter/notebook/pull/7082) ([@jtpio](https://github.com/jtpio))
+- Bump toshimaru/auto-author-assign from 2.0.0 to 2.0.1 [#7080](https://github.com/jupyter/notebook/pull/7080) ([@dependabot](https://github.com/dependabot))
+- Bump toshimaru/auto-author-assign from 1.6.2 to 2.0.0 [#7072](https://github.com/jupyter/notebook/pull/7072) ([@dependabot](https://github.com/dependabot))
+- ci: set minimal permissions to workflows [#7070](https://github.com/jupyter/notebook/pull/7070) ([@diogoteles08](https://github.com/diogoteles08))
+- Bump systeminformation from 5.17.12 to 5.21.8 in /ui-tests [#7064](https://github.com/jupyter/notebook/pull/7064) ([@dependabot](https://github.com/dependabot))
+
+### Documentation improvements
+
+- Improve docs setup (SVG logos, repo links) [#7074](https://github.com/jupyter/notebook/pull/7074) ([@krassowski](https://github.com/krassowski))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-09-20&to=2023-10-12&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-09-20..2023-10-12&type=Issues) | [@diogoteles08](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adiogoteles08+updated%3A2023-09-20..2023-10-12&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-09-20..2023-10-12&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-09-20..2023-10-12&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2023-09-20..2023-10-12&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-09-20..2023-10-12&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.4
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/app@7.0.3...0e62386fc71ed4bd424c989f9d5493ca346f1d9a))
@@ -43,8 +79,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-08-30&to=2023-09-20&type=c))
 
 [@adigaboy](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aadigaboy+updated%3A2023-08-30..2023-09-20&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2023-08-30..2023-09-20&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-08-30..2023-09-20&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-08-30..2023-09-20&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-08-30..2023-09-20&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-08-30..2023-09-20&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.3
 
