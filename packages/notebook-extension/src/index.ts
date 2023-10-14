@@ -510,12 +510,14 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
         // Check if Show Notebook Tools (Right Sidebar) is open (expanded)
         if (!commands.isToggled(command, args)) {
           await commands.execute(command, args).then((_) => {
-
             // For expanding the 'Advanced Tools' section (default: collapsed)
             if (notebookTools) {
               const tools = (notebookTools?.layout as any).widgets;
               tools.forEach((tool: any) => {
-                if ( tool.widget.title.label === 'Advanced Tools' && tool.collapsed ){
+                if (
+                  tool.widget.title.label === trans.__('Advanced Tools') &&
+                  tool.collapsed
+                  ) {
                   tool.toggle();
                 }
               });
@@ -526,7 +528,7 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
     });
 
     // Add `Edit Notebook Metadata` option to Edit menu
-    menu.editMenu.addItem({ type: 'command', command: id, rank: 40 })
+    menu.editMenu.addItem({ type: 'command', command: id, rank: 40 });
   },
 };
 
