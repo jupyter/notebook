@@ -517,7 +517,7 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
                 if (
                   tool.widget.title.label === trans.__('Advanced Tools') &&
                   tool.collapsed
-                  ) {
+                ) {
                   tool.toggle();
                 }
               });
