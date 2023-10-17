@@ -38,6 +38,9 @@ import { Widget } from '@lumino/widgets';
 
 import { TrustedComponent } from './trusted';
 
+import { PageConfig } from '@jupyterlab/coreutils';
+
+
 /**
  * The class for kernel status errors.
  */
@@ -411,6 +414,7 @@ const tabIcon: JupyterFrontEndPlugin<void> = {
   requires: [INotebookTracker],
   activate: (app: JupyterFrontEnd, tracker: INotebookTracker) => {
     // the favicons are provided by Jupyter Server
+    const baseURL = PageConfig.getBaseUrl();
     const notebookIcon = ' /static/favicons/favicon-notebook.ico';
     const busyIcon = ' /static/favicons/favicon-busy-1.ico';
 
@@ -422,10 +426,10 @@ const tabIcon: JupyterFrontEndPlugin<void> = {
       ) as HTMLLinkElement;
       switch (status) {
         case 'busy':
-          link.href = busyIcon;
+          link.href = baseURL + busyIcon;
           break;
         case 'idle':
-          link.href = notebookIcon;
+          link.href = baseURL + notebookIcon;
           break;
       }
     };
