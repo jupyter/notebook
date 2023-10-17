@@ -415,8 +415,8 @@ const tabIcon: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, tracker: INotebookTracker) => {
     // the favicons are provided by Jupyter Server
     const baseURL = PageConfig.getBaseUrl();
-    const notebookIcon = ' /static/favicons/favicon-notebook.ico';
-    const busyIcon = ' /static/favicons/favicon-busy-1.ico';
+    const notebookIcon = `${baseURL}/static/favicons/favicon-notebook.ico`;
+    const busyIcon = `${baseURL}/static/favicons/favicon-busy-1.ico`;
 
     const updateBrowserFavicon = (
       status: ISessionContext.KernelDisplayStatus
@@ -426,10 +426,10 @@ const tabIcon: JupyterFrontEndPlugin<void> = {
       ) as HTMLLinkElement;
       switch (status) {
         case 'busy':
-          link.href = baseURL + busyIcon;
+          link.href = busyIcon;
           break;
         case 'idle':
-          link.href = baseURL + notebookIcon;
+          link.href = notebookIcon;
           break;
       }
     };
