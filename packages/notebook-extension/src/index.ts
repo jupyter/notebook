@@ -38,7 +38,7 @@ import { Widget } from '@lumino/widgets';
 
 import { TrustedComponent } from './trusted';
 
-import { PageConfig } from '@jupyterlab/coreutils';
+import { PageConfig, URLExt } from '@jupyterlab/coreutils';
 
 
 /**
@@ -415,8 +415,8 @@ const tabIcon: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, tracker: INotebookTracker) => {
     // the favicons are provided by Jupyter Server
     const baseURL = PageConfig.getBaseUrl();
-    const notebookIcon = `${baseURL}/static/favicons/favicon-notebook.ico`;
-    const busyIcon = `${baseURL}/static/favicons/favicon-busy-1.ico`;
+    const notebookIcon = URLExt.join(baseURL, 'static/favicons/favicon-notebook.ico');
+    const busyIcon = URLExt.join(baseURL, 'static/favicons/favicon-busy-1.ico');
 
     const updateBrowserFavicon = (
       status: ISessionContext.KernelDisplayStatus
