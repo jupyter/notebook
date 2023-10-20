@@ -125,7 +125,7 @@ namespace CommandIDs {
 }
 
 /**
- * Check if the application is dirty before closing the browser tab.
+ *  Provides a safeguard against accidental loss of unsaved changes
  */
 const dirty: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:dirty',
@@ -153,7 +153,7 @@ const dirty: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * The logo plugin.
+ * Adds a Jupyter Notebook logo to the user interface
  */
 const logo: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:logo',
@@ -181,7 +181,9 @@ const logo: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A plugin to open documents in the main area.
+ *  Responsible for routing URL requests and opening documents.
+ *  It ensures that when users navigate to specific URLs,
+ *  the associated documents are correctly opened within the notebook interface.
  */
 const opener: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:opener',
@@ -249,7 +251,8 @@ const opener: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A plugin to customize menus
+ *  Enables for customization of the menu structure of the the application,
+ *  based on the current page or context.
  */
 const menus: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:menus',
@@ -279,7 +282,9 @@ const menus: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A plugin to provide a spacer at rank 900 in the menu area
+ *  Adds a visual separator, or spacer, between menu items,
+ *  helping to group related menu items and improve the overall
+ *  visual clarity of the menu interface.
  */
 const menuSpacer: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:menu-spacer',
@@ -348,6 +353,7 @@ const pathOpener: JupyterFrontEndPlugin<INotebookPathOpener> = {
 
 /**
  * The default paths for a Jupyter Notebook app.
+ * This plugin ensures that the paths functionality is available to other extensions or components that may rely on it.
  */
 const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
   id: '@jupyter-notebook/application-extension:paths',
@@ -363,6 +369,8 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
 
 /**
  * A plugin providing a rendermime registry.
+ * Responsible for managing and rendering MIME (Multipurpose Internet Mail Extensions)
+ * types, allowing for the display of various content types within the notebook interface
  */
 const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
   id: '@jupyter-notebook/application-extension:rendermime',
@@ -435,7 +443,7 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
 };
 
 /**
- * The default Jupyter Notebook application shell.
+ * Responsible for defining the default Jupyter Notebook application shell
  */
 const shell: JupyterFrontEndPlugin<INotebookShell> = {
   id: '@jupyter-notebook/application-extension:shell',
@@ -946,7 +954,9 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * The default tree route resolver plugin.
+ *  The default tree route resolver plugin.
+ *  Responsible for handling and resolving routes related to the file tree view.
+ *  It ensures that the application can navigate to specific tree paths and resolve tree-related URLs correctly.
  */
 const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
   id: '@jupyter-notebook/application-extension:tree-resolver',
@@ -1007,6 +1017,11 @@ const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
   },
 };
 
+/**
+ *  Responsible for keeping the URL's tree path synchronized with the user's
+ *  actions and selections within the file tree view. Ensures that the URL reflects the current tree path,
+ *  allowing for bookmarking and sharing specific locations within the file tree.
+ */
 const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
   id: '@jupyter-notebook/application-extension:tree-updater',
   requires: [IRouter],
@@ -1029,6 +1044,11 @@ const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
   autoStart: true,
 };
 
+/**
+ *  Integrates the ITranslator interface with the notebook shell,
+ *  allowing for the translation of user interface elements, labels,
+ *  and descriptions into different languages.
+ */
 const translator: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:translator',
   requires: [INotebookShell, ITranslator],
@@ -1043,7 +1063,11 @@ const translator: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * Zen mode plugin
+ * Zen mode plugin.
+ * This mode offers a distraction-free and immersive editing environment
+ * for users who want to focus solely on their notebook content. When activated,
+ * Zen Mode maximizes the notebook interface, hides menus, and enters fullscreen
+ * mode.
  */
 const zen: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:zen',
