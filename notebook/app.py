@@ -56,8 +56,8 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
     def get_page_config(self) -> dict[str, t.Any]:
         """Get the page config."""
         config = LabConfig()
-        app = self.extensionapp
-        base_url = self.settings.get("base_url")
+        app: JupyterNotebookApp = self.extensionapp  # type:ignore[assignment]
+        base_url = self.settings.get("base_url", "/")
         page_config_data = self.settings.setdefault("page_config_data", {})
         page_config = {
             **page_config_data,
