@@ -79,6 +79,12 @@ There are also end to end tests to cover higher level user interactions, located
 
 ```bash
 cd ui-tests
+#install required packages for jlpm
+jlpm
+
+#install playwright
+npx playwright install
+
 # start a new Jupyter server in a terminal
 jlpm start
 
