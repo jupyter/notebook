@@ -134,7 +134,8 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
  */
 const closeTab: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:close-tab',
-  description: 'Add a command to close the browser tab when clicking on "Close and Shut Down".',
+  description:
+    'Add a command to close the browser tab when clicking on "Close and Shut Down".',
   autoStart: true,
   requires: [IMainMenu],
   optional: [ITranslator],
