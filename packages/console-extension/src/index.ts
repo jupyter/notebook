@@ -25,6 +25,7 @@ const opener: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/console-extension:opener',
   requires: [IRouter],
   autoStart: true,
+  description: 'A plugin to open consoles in a new tab',
   activate: (app: JupyterFrontEnd, router: IRouter) => {
     const { commands } = app;
     const consolePattern = new RegExp('/consoles/(.*)');
@@ -59,6 +60,7 @@ const redirect: JupyterFrontEndPlugin<void> = {
   requires: [IConsoleTracker],
   optional: [INotebookPathOpener],
   autoStart: true,
+  description: 'Open consoles in a new tab',
   activate: (
     app: JupyterFrontEnd,
     tracker: IConsoleTracker,
