@@ -76,7 +76,8 @@ namespace CommandIDs {
  */
 const createNew: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:new',
-  description: 'Plugin to add extra commands to the file browser to create new notebooks, files, consoles and terminals.',
+  description:
+    'Plugin to add extra commands to the file browser to create new notebooks, files, consoles and terminals.',
   requires: [ITranslator],
   optional: [IToolbarWidgetRegistry],
   autoStart: true,
@@ -129,7 +130,8 @@ const createNew: JupyterFrontEndPlugin<void> = {
  */
 const fileActions: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:file-actions',
-  description: 'A plugin to add file browser actions to the file browser toolbar.',
+  description:
+    'A plugin to add file browser actions to the file browser toolbar.',
   autoStart: true,
   requires: [IDefaultFileBrowser, IToolbarWidgetRegistry, ITranslator],
   activate: (
@@ -179,7 +181,8 @@ const fileActions: JupyterFrontEndPlugin<void> = {
  */
 const loadPlugins: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:load-plugins',
-  description: 'Plugin to load the default plugins that are loaded on all the Notebook pages (tree, edit, view, etc.) so they are visible in the settings editor.',
+  description:
+    'Plugin to load the default plugins that are loaded on all the Notebook pages (tree, edit, view, etc.) so they are visible in the settings editor.',
   autoStart: true,
   requires: [ISettingRegistry],
   activate(app: JupyterFrontEnd, settingRegistry: ISettingRegistry) {
