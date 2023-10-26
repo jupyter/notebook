@@ -23,6 +23,7 @@ import { find } from '@lumino/algorithm';
  */
 const opener: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/terminal-extension:opener',
+  description: 'A plugin to open terminals in a new tab.',
   requires: [IRouter, ITerminalTracker],
   autoStart: true,
   activate: (
@@ -62,6 +63,7 @@ const opener: JupyterFrontEndPlugin<void> = {
  */
 const redirect: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/terminal-extension:redirect',
+  description: 'Open terminals in a new tab.',
   requires: [ITerminalTracker],
   optional: [INotebookPathOpener],
   autoStart: true,

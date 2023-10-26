@@ -76,6 +76,7 @@ namespace CommandIDs {
  */
 const createNew: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:new',
+  description: 'Plugin to add extra commands to the file browser to create new notebooks, files, consoles and terminals.',
   requires: [ITranslator],
   optional: [IToolbarWidgetRegistry],
   autoStart: true,
@@ -128,6 +129,7 @@ const createNew: JupyterFrontEndPlugin<void> = {
  */
 const fileActions: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:file-actions',
+  description: 'A plugin to add file browser actions to the file browser toolbar.',
   autoStart: true,
   requires: [IDefaultFileBrowser, IToolbarWidgetRegistry, ITranslator],
   activate: (
@@ -177,6 +179,7 @@ const fileActions: JupyterFrontEndPlugin<void> = {
  */
 const loadPlugins: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:load-plugins',
+  description: 'Plugin to load the default plugins that are loaded on all the Notebook pages (tree, edit, view, etc.) so they are visible in the settings editor.',
   autoStart: true,
   requires: [ISettingRegistry],
   activate(app: JupyterFrontEnd, settingRegistry: ISettingRegistry) {
@@ -233,6 +236,7 @@ const loadPlugins: JupyterFrontEndPlugin<void> = {
  */
 const openFileBrowser: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:open-file-browser',
+  description: 'A plugin to add file browser commands for the tree view.',
   requires: [INotebookTree, IDefaultFileBrowser],
   autoStart: true,
   activate: (
@@ -254,6 +258,7 @@ const openFileBrowser: JupyterFrontEndPlugin<void> = {
  */
 const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
   id: '@jupyter-notebook/tree-extension:widget',
+  description: 'A plugin to add the file browser widget to an INotebookShell.',
   requires: [
     IDefaultFileBrowser,
     ITranslator,
