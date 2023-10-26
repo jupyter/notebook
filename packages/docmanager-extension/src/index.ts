@@ -29,6 +29,7 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
   autoStart: true,
   optional: [INotebookPathOpener, INotebookShell],
   provides: IDocumentWidgetOpener,
+  description: 'Open documents in a new browser tab',
   activate: (
     app: JupyterFrontEnd,
     notebookPathOpener: INotebookPathOpener,
