@@ -129,6 +129,7 @@ namespace CommandIDs {
  */
 const dirty: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:dirty',
+  description: 'Check if the application is dirty before closing the browser tab.',
   autoStart: true,
   requires: [ILabStatus, ITranslator],
   activate: (
@@ -157,6 +158,7 @@ const dirty: JupyterFrontEndPlugin<void> = {
  */
 const logo: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:logo',
+  description: 'The logo plugin.',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
     const baseUrl = PageConfig.getBaseUrl();
@@ -185,6 +187,7 @@ const logo: JupyterFrontEndPlugin<void> = {
  */
 const opener: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:opener',
+  description: 'A plugin to open documents in the main area.',
   autoStart: true,
   requires: [IRouter, IDocumentManager],
   optional: [ISettingRegistry],
@@ -253,6 +256,7 @@ const opener: JupyterFrontEndPlugin<void> = {
  */
 const menus: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:menus',
+  description: 'A plugin to customize menus.',
   requires: [IMainMenu],
   autoStart: true,
   activate: (app: JupyterFrontEnd, menu: IMainMenu) => {
@@ -283,6 +287,7 @@ const menus: JupyterFrontEndPlugin<void> = {
  */
 const menuSpacer: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:menu-spacer',
+  description: 'A plugin to provide a spacer at rank 900 in the menu area.',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
     const menu = new Widget();
@@ -297,6 +302,7 @@ const menuSpacer: JupyterFrontEndPlugin<void> = {
  */
 const pages: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:pages',
+  description: 'Add commands to open the tree and running pages.',
   autoStart: true,
   requires: [ITranslator],
   optional: [ICommandPalette],
@@ -339,6 +345,7 @@ const pages: JupyterFrontEndPlugin<void> = {
  */
 const pathOpener: JupyterFrontEndPlugin<INotebookPathOpener> = {
   id: '@jupyter-notebook/application-extension:path-opener',
+  description: 'A plugin to open paths in new browser tabs.',
   autoStart: true,
   provides: INotebookPathOpener,
   activate: (app: JupyterFrontEnd): INotebookPathOpener => {
@@ -351,6 +358,7 @@ const pathOpener: JupyterFrontEndPlugin<INotebookPathOpener> = {
  */
 const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
   id: '@jupyter-notebook/application-extension:paths',
+  description: 'The default paths for a Jupyter Notebook app.',
   autoStart: true,
   provides: JupyterFrontEnd.IPaths,
   activate: (app: JupyterFrontEnd): JupyterFrontEnd.IPaths => {
@@ -366,9 +374,9 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
  */
 const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
   id: '@jupyter-notebook/application-extension:rendermime',
+  description: 'A plugin providing a rendermime registry.',
   autoStart: true,
   provides: IRenderMimeRegistry,
-  description: 'Provides the render mime registry.',
   optional: [
     IDocumentManager,
     ILatexTypesetter,
@@ -439,6 +447,7 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
  */
 const shell: JupyterFrontEndPlugin<INotebookShell> = {
   id: '@jupyter-notebook/application-extension:shell',
+  description: 'The default Jupyter Notebook application shell.',
   autoStart: true,
   provides: INotebookShell,
   optional: [ISettingRegistry],
@@ -505,6 +514,7 @@ const splash: JupyterFrontEndPlugin<ISplashScreen> = {
  */
 const status: JupyterFrontEndPlugin<ILabStatus> = {
   id: '@jupyter-notebook/application-extension:status',
+  description: 'The default JupyterLab application status provider.',
   autoStart: true,
   provides: ILabStatus,
   activate: (app: JupyterFrontEnd) => {
@@ -520,6 +530,7 @@ const status: JupyterFrontEndPlugin<ILabStatus> = {
  */
 const tabTitle: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:tab-title',
+  description: 'A plugin to display the document title in the browser tab title.',
   autoStart: true,
   requires: [INotebookShell],
   activate: (app: JupyterFrontEnd, shell: INotebookShell) => {
@@ -556,6 +567,7 @@ const tabTitle: JupyterFrontEndPlugin<void> = {
  */
 const title: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:title',
+  description: 'A plugin to display and rename the title of a file.',
   autoStart: true,
   requires: [INotebookShell, ITranslator],
   optional: [IDocumentManager, IRouter, IToolbarWidgetRegistry],
@@ -654,6 +666,7 @@ const title: JupyterFrontEndPlugin<void> = {
  */
 const topVisibility: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:top',
+  description: 'Plugin to toggle the top header visibility.',
   requires: [INotebookShell, ITranslator],
   optional: [ISettingRegistry, ICommandPalette],
   activate: (
@@ -735,6 +748,7 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
  */
 const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:sidepanel',
+  description: 'Plugin to toggle the visibility of left or right side panel.',
   requires: [INotebookShell, ITranslator],
   optional: [IMainMenu, ICommandPalette],
   autoStart: true,
@@ -950,6 +964,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
  */
 const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
   id: '@jupyter-notebook/application-extension:tree-resolver',
+  description: 'The default tree route resolver plugin.',
   autoStart: true,
   requires: [IRouter],
   provides: JupyterFrontEnd.ITreeResolver,
@@ -1007,8 +1022,12 @@ const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
   },
 };
 
+/**
+ * Plugin to update tree path.
+ */
 const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
   id: '@jupyter-notebook/application-extension:tree-updater',
+  description: 'Plugin to update tree path.',
   requires: [IRouter],
   provides: ITreePathUpdater,
   activate: (app: JupyterFrontEnd, router: IRouter) => {
@@ -1029,8 +1048,12 @@ const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
   autoStart: true,
 };
 
+/**
+ * Translator plugin
+ */
 const translator: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:translator',
+  description: 'Translator plugin',
   requires: [INotebookShell, ITranslator],
   autoStart: true,
   activate: (
@@ -1047,6 +1070,7 @@ const translator: JupyterFrontEndPlugin<void> = {
  */
 const zen: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:zen',
+  description: 'Zen mode plugin.',
   autoStart: true,
   requires: [ITranslator],
   optional: [ICommandPalette, INotebookShell],
