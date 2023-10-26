@@ -49,6 +49,7 @@ namespace CommandIDs {
 const open: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/help-extension:open',
   autoStart: true,
+  description: 'A plugin to open the about section with resources',
   activate: (app: JupyterFrontEnd): void => {
     const { commands } = app;
 
@@ -70,6 +71,7 @@ const about: JupyterFrontEndPlugin<void> = {
   autoStart: true,
   requires: [ITranslator],
   optional: [IMainMenu, ICommandPalette],
+  description: 'Plugin to add a command to show an About Jupyter Notebook and Markdown Reference',
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
