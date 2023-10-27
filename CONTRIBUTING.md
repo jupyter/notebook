@@ -83,7 +83,7 @@ cd ui-tests
 jlpm
 
 #install playwright
-npx playwright install
+jlpm playwright install
 
 # start a new Jupyter server in a terminal
 jlpm start
