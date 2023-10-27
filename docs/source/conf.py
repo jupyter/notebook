@@ -203,6 +203,7 @@ html_theme_options = {
         "image_dark": "_static/logo-rectangle-dark.svg",
     },
     "use_edit_page_button": True,
+    "navigation_with_keys": False,
 }
 
 # Output for github to be used in links
