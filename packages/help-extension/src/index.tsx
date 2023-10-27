@@ -71,7 +71,8 @@ const about: JupyterFrontEndPlugin<void> = {
   autoStart: true,
   requires: [ITranslator],
   optional: [IMainMenu, ICommandPalette],
-  description: 'Plugin to add a command to show an About Jupyter Notebook and Markdown Reference',
+  description:
+    'Plugin to add a command to show an About Jupyter Notebook and Markdown Reference',
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,

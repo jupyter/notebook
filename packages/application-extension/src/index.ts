@@ -129,7 +129,8 @@ namespace CommandIDs {
  */
 const dirty: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:dirty',
-  description: 'Check if the application is dirty before closing the browser tab.',
+  description:
+    'Check if the application is dirty before closing the browser tab.',
   autoStart: true,
   requires: [ILabStatus, ITranslator],
   activate: (
@@ -530,7 +531,8 @@ const status: JupyterFrontEndPlugin<ILabStatus> = {
  */
 const tabTitle: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:tab-title',
-  description: 'A plugin to display the document title in the browser tab title.',
+  description:
+    'A plugin to display the document title in the browser tab title.',
   autoStart: true,
   requires: [INotebookShell],
   activate: (app: JupyterFrontEnd, shell: INotebookShell) => {
