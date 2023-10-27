@@ -136,7 +136,7 @@ commander
       } else if (prev.indexOf('rc') !== -1) {
         pySpec = `${spec},release`;
       } else {
-        pySpec = `${spec},beta`;
+        pySpec = `${spec},alpha`;
       }
     }
     utils.run(`hatch version ${pySpec}`);
