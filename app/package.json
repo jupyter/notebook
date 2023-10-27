@@ -53,6 +53,7 @@
     "@jupyterlab/filebrowser-extension": "~4.1.0-alpha.3",
     "@jupyterlab/fileeditor": "~4.1.0-alpha.3",
     "@jupyterlab/fileeditor-extension": "~4.1.0-alpha.3",
+    "@jupyterlab/help-extension": "~4.1.0-alpha.3",
     "@jupyterlab/htmlviewer": "~4.1.0-alpha.3",
     "@jupyterlab/htmlviewer-extension": "~4.1.0-alpha.3",
     "@jupyterlab/hub-extension": "~4.1.0-alpha.3",
