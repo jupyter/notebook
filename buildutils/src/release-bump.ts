@@ -128,6 +128,14 @@ commander
       } else if (prev.indexOf('rc') !== -1) {
         pySpec = 'rc';
       }
+    } else if (spec === 'major' || spec === 'minor') {
+      if (prev.indexOf('a') !== -1) {
+        pySpec = `${spec},alpha`;
+      } else if (prev.indexOf('b') !== -1) {
+        pySpec = `${spec},beta`;
+      } else if (prev.indexOf('rc') !== -1) {
+        pySpec = `${spec},rc`;
+      }
     }
     utils.run(`hatch version ${pySpec}`);
 
