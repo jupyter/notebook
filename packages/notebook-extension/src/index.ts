@@ -14,7 +14,7 @@ import {
 
 import { Cell, CodeCell } from '@jupyterlab/cells';
 
-import { Text, Time } from '@jupyterlab/coreutils';
+import { PageConfig, Text, Time, URLExt } from '@jupyterlab/coreutils';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
@@ -411,8 +411,12 @@ const tabIcon: JupyterFrontEndPlugin<void> = {
   requires: [INotebookTracker],
   activate: (app: JupyterFrontEnd, tracker: INotebookTracker) => {
     // the favicons are provided by Jupyter Server
-    const notebookIcon = ' /static/favicons/favicon-notebook.ico';
-    const busyIcon = ' /static/favicons/favicon-busy-1.ico';
+    const baseURL = PageConfig.getBaseUrl();
+    const notebookIcon = URLExt.join(
+      baseURL,
+      'static/favicons/favicon-notebook.ico'
+    );
+    const busyIcon = URLExt.join(baseURL, 'static/favicons/favicon-busy-1.ico');
 
     const updateBrowserFavicon = (
       status: ISessionContext.KernelDisplayStatus
