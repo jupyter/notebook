@@ -130,11 +130,13 @@ commander
       }
     } else if (spec === 'major' || spec === 'minor') {
       if (prev.indexOf('a') !== -1) {
-        pySpec = `${spec},alpha`;
-      } else if (prev.indexOf('b') !== -1) {
         pySpec = `${spec},beta`;
-      } else if (prev.indexOf('rc') !== -1) {
+      } else if (prev.indexOf('b') !== -1) {
         pySpec = `${spec},rc`;
+      } else if (prev.indexOf('rc') !== -1) {
+        pySpec = `${spec},release`;
+      } else {
+        pySpec = `${spec},beta`;
       }
     }
     utils.run(`hatch version ${pySpec}`);
