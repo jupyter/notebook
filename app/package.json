@@ -68,6 +68,7 @@
     "@jupyterlab/markdownviewer-extension": "~4.1.0-alpha.2",
     "@jupyterlab/markedparser-extension": "~4.1.0-alpha.2",
     "@jupyterlab/mathjax-extension": "~4.1.0-alpha.2",
+    "@jupyterlab/mermaid": "~4.1.0-alpha.2",
     "@jupyterlab/mermaid-extension": "~4.1.0-alpha.2",
     "@jupyterlab/metadataform": "~4.1.0-alpha.2",
     "@jupyterlab/metadataform-extension": "~4.1.0-alpha.2",
