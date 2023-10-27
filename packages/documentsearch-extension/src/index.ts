@@ -18,6 +18,7 @@ const notebookShellWidgetListener: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/documentsearch-extension:notebookShellWidgetListener',
   requires: [INotebookShell, ISearchProviderRegistry],
   autoStart: true,
+  description: 'A plugin to add document search functionalities',
   activate: (
     app: JupyterFrontEnd,
     notebookShell: INotebookShell,
