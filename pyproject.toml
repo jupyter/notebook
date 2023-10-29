@@ -142,21 +142,20 @@ test = "mypy --install-types --non-interactive {args}"
 
 [tool.hatch.envs.lint]
 dependencies = [
-  "black[jupyter]==22.10.0",
   "mdformat>0.7",
   "mdformat-gfm>=0.3.5",
-  "ruff==0.0.276"
+  "ruff==0.1.3"
 ]
 detached = true
 [tool.hatch.envs.lint.scripts]
 style = [
   "ruff {args:.}",
-  "black --check --diff {args:.}",
+  "ruff format {args:.}",
   "mdformat --check {args:CHANGELOG.md}"
 ]
 fmt = [
-  "black {args:.}",
   "ruff --fix {args:.}",
+  "ruff format {args:.}",
   "mdformat {args:CHANGELOG.md}"
 ]
 
@@ -246,16 +245,13 @@ show_error_codes = true
 enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
 warn_unreachable = true
 
-[tool.black]
-line-length = 100
-target-version = ["py37"]
-skip-string-normalization = true
-
 [tool.ruff]
-target-version = "py37"
+target-version = "py38"
 line-length = 100
+
+[tool.ruff.lint]
 select = [
-  "A", "B", "C", "DTZ", "E", "EM", "F", "FBT", "I", "ICN", "ISC", "N",
+  "A", "B", "C", "DTZ", "E", "EM", "F", "FBT", "I", "ICN", "N",
   "PLC", "PLE", "PLR", "PLW", "Q", "RUF", "S", "SIM", "T", "TID", "UP",
   "W", "YTT",
 ]
@@ -270,7 +266,7 @@ ignore = [
 "RUF012",
 ]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 # S101 Use of `assert` detected
 # F841 Local variable `foo` is assigned to but never used
 # PLR2004 Magic value used in comparison
@@ -290,6 +286,3 @@ exclude = ["tests", "ui-tests", "docs", "node_modules", "setup.py"]
 
 [tool.repo-review]
 ignore = ["PY007", "PP308", "GH102", "PC140", "PC180"]
-
-[tool.codespell]
-ignore-words-list = "hart,noteable"
