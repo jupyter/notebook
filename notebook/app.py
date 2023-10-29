@@ -210,12 +210,12 @@ class CustomCssHandler(NotebookBaseHandler):
     def get(self) -> t.Any:
         """Get the custom css file."""
 
-        self.set_header("Content-Type", 'text/css')
+        self.set_header("Content-Type", "text/css")
         page_config = self.get_page_config()
         custom_css_file = f"{page_config['jupyterConfigDir']}/custom/custom.css"
 
         if not os.path.isfile(custom_css_file):
-            static_path_root = re.match('^(.*?)static', page_config['staticDir'])
+            static_path_root = re.match("^(.*?)static", page_config["staticDir"])
             if static_path_root is not None:
                 custom_dir = static_path_root.groups()[0]
                 custom_css_file = f"{custom_dir}custom/custom.css"
