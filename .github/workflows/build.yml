@@ -187,7 +187,7 @@ jobs:
       - name: Run Linters
         run: |
           hatch run typing:test
-          hatch run lint:style
+          hatch run lint:build
           pipx run interrogate -v .
           pipx run doc8 --max-line-length=200 docs/source *.md
           npm install -g yarn

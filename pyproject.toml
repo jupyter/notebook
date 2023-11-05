@@ -134,30 +134,17 @@ dependencies = ["coverage[toml]", "pytest-cov"]
 test = "python -m pytest -vv --cov notebook --cov-branch --cov-report term-missing:skip-covered {args}"
 nowarn = "test -W default {args}"
 
-[tool.hatch.envs.typing]
-features = ["test"]
-dependencies = ["mypy>=1.5.1"]
-[tool.hatch.envs.typing.scripts]
-test = "mypy --install-types --non-interactive {args}"
-
 [tool.hatch.envs.lint]
-dependencies = [
-  "mdformat>0.7",
-  "mdformat-gfm>=0.3.5",
-  "ruff==0.1.3"
-]
 detached = true
+dependencies = ["pre-commit"]
 [tool.hatch.envs.lint.scripts]
-style = [
-  "ruff {args:.}",
-  "ruff format {args:.}",
-  "mdformat --check {args:CHANGELOG.md}"
-]
-fmt = [
-  "ruff --fix {args:.}",
-  "ruff format {args:.}",
-  "mdformat {args:CHANGELOG.md}"
-]
+build = "pre-commit run --all-files ruff"
+
+[tool.hatch.envs.typing]
+dependencies = [ "pre-commit"]
+detached = true
+[tool.hatch.envs.typing.scripts]
+test = "pre-commit run --all-files --hook-stage manual mypy"
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.5"]
@@ -203,7 +190,7 @@ minversion = "6.0"
 xfail_strict = true
 log_cli_level = "info"
 addopts = [
-  "-raXs", "--durations=10", "--color=yes", "--doctest-modules",
+  "-ra", "--durations=10", "--color=yes", "--doctest-modules",
    "--showlocals", "--strict-markers", "--strict-config"
 ]
 testpaths = [
@@ -285,4 +272,4 @@ fail-under=100
 exclude = ["tests", "ui-tests", "docs", "node_modules", "setup.py"]
 
 [tool.repo-review]
-ignore = ["PY007", "PP308", "GH102", "PC140", "PC180"]
+ignore = ["PY007", "GH102", "PC180"]
