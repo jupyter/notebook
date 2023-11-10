@@ -138,7 +138,10 @@ nowarn = "test -W default {args}"
 detached = true
 dependencies = ["pre-commit"]
 [tool.hatch.envs.lint.scripts]
-build = "pre-commit run --all-files ruff"
+build = [
+    "pre-commit run --all-files ruff",
+    "pre-commit run --all-files ruff-format"
+]
 
 [tool.hatch.envs.typing]
 dependencies = [ "pre-commit"]
@@ -233,7 +236,6 @@ enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
 warn_unreachable = true
 
 [tool.ruff]
-target-version = "py38"
 line-length = 100
 
 [tool.ruff.lint]
@@ -260,6 +262,7 @@ ignore = [
 "tests/*" = ["S101", "F841", "PLR2004"]
 # undefined name 'c'
 "ui-tests/test/jupyter_server_config.py" = ["F821"]
+"*.ipynb" = ["E402", "B018", "E501", "T201"]
 
 [tool.interrogate]
 ignore-init-module=true
