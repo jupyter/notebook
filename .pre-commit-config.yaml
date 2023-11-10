@@ -64,9 +64,11 @@ repos:
     hooks:
       - id: ruff
         types_or: [ python, jupyter ]
+        exclude: '^docs/source/examples/Notebook/Importing Notebooks.ipynb'
         args: ['--fix', '--show-fixes']
       - id: ruff-format
         types_or: [ python, jupyter ]
+        exclude: '^docs/source/examples/Notebook/Importing Notebooks.ipynb'
 
   - repo: https://github.com/scientific-python/cookie
     rev: '2023.10.27'

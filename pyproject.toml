@@ -262,6 +262,7 @@ ignore = [
 "tests/*" = ["S101", "F841", "PLR2004"]
 # undefined name 'c'
 "ui-tests/test/jupyter_server_config.py" = ["F821"]
+"*.ipynb" = ["E402", "B018", "E501", "T201"]
 
 [tool.interrogate]
 ignore-init-module=true
