@@ -301,6 +301,8 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
 
     def server_extension_is_enabled(self, extension: str) -> bool:
         """Check if server extension is enabled."""
+        if self.serverapp is None:
+            return False
         try:
             extension_enabled = (
                 self.serverapp.extension_manager.extensions[extension].enabled is True
@@ -311,6 +313,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
 
     def initialize_handlers(self) -> None:
         """Initialize handlers."""
+        assert self.serverapp is not None  # noqa: S101
         page_config = self.serverapp.web_app.settings.setdefault("page_config_data", {})
         nbclassic_enabled = self.server_extension_is_enabled("nbclassic")
         page_config["nbclassic_enabled"] = nbclassic_enabled
