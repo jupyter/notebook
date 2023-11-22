@@ -44,7 +44,6 @@
     "watch:lib": "lerna exec --stream --scope @jupyter-notebook/metapackage jlpm watch"
   },
   "resolutions": {
-    "@jupyterlab/rendermime-interfaces": "3.8.3-alpha.1",
     "@types/react": "^18.0.26",
     "react": "^18.2.0",
     "yjs": "^13.5.40"

@@ -2172,7 +2172,7 @@ __metadata:
     "@jupyterlab/application": ^4.1.0-alpha.3
     "@jupyterlab/coreutils": ^6.1.0-alpha.3
     "@jupyterlab/docregistry": ^4.1.0-alpha.3
-    "@jupyterlab/rendermime-interfaces": ~4.0.0-alpha.9
+    "@jupyterlab/rendermime-interfaces": "^3.9.0-alpha.2    "
     "@jupyterlab/testutils": ^4.1.0-alpha.3
     "@jupyterlab/ui-components": ^4.1.0-alpha.3
     "@lumino/algorithm": ^2.0.1
@@ -3824,13 +3824,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/rendermime-interfaces@npm:3.8.3-alpha.1":
-  version: 3.8.3-alpha.1
-  resolution: "@jupyterlab/rendermime-interfaces@npm:3.8.3-alpha.1"
+"@jupyterlab/rendermime-interfaces@npm:^3.9.0-alpha.2, @jupyterlab/rendermime-interfaces@npm:^3.9.0-alpha.2    ":
+  version: 3.9.0-alpha.2
+  resolution: "@jupyterlab/rendermime-interfaces@npm:3.9.0-alpha.2"
   dependencies:
     "@lumino/coreutils": ^1.11.0 || ^2.1.2
     "@lumino/widgets": ^1.37.2 || ^2.3.1-alpha.0
-  checksum: 59596652aa4e3e2089b8a22ffab7279fa2c73c09ae84fad445deab4d9fe9eeca24027805e2794422e987b9590140cda77404ac92dcadd5d5e5b9d58f116da327
+  checksum: a6b4c2134955304012ea20392be6836f3f1518a4724a701bc979109f8e67b926dd4d493705aa3af22165025d9eb3d0cae60daef901a78a47c7cfdebc5469ae7f
   languageName: node
   linkType: hard
 
