@@ -237,6 +237,9 @@
         "@jupyterlab/codemirror-extension": true,
         "@jupyterlab/completer-extension": [
           "@jupyterlab/completer-extension:base-service",
+          "@jupyterlab/completer-extension:inline-completer",
+          "@jupyterlab/completer-extension:inline-completer-factory",
+          "@jupyterlab/completer-extension:inline-history",
           "@jupyterlab/completer-extension:manager"
         ],
         "@jupyterlab/console-extension": [
