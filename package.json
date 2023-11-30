@@ -44,13 +44,12 @@
     "watch:lib": "lerna exec --stream --scope @jupyter-notebook/metapackage jlpm watch"
   },
   "resolutions": {
-    "@jupyterlab/rendermime-interfaces": "3.8.3-alpha.1",
     "@types/react": "^18.0.26",
     "react": "^18.2.0",
     "yjs": "^13.5.40"
   },
   "devDependencies": {
-    "@jupyterlab/buildutils": "^4.1.0-alpha.2",
+    "@jupyterlab/buildutils": "^4.1.0-alpha.3",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "eslint": "^8.36.0",

@@ -359,6 +359,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
           'showFileCheckboxes',
           'showFileSizeColumn',
           'sortNotebooksFirst',
+          'showFullPath',
         ].forEach((setting) => {
           if (settings.user[setting] === undefined) {
             void settings.set(setting, true);
