@@ -4,7 +4,6 @@
 import {
   CommandToolbarButtonComponent,
   ReactWidget,
-  UseSignal,
 } from '@jupyterlab/apputils';
 
 import { FileBrowser } from '@jupyterlab/filebrowser';
@@ -17,113 +16,74 @@ import { ISignal } from '@lumino/signaling';
 
 import React from 'react';
 
-/**
- * A React component to display the list of command toolbar buttons.
- *
- */
-const Commands = ({
-  commands,
-  browser,
-  translator,
-}: {
-  commands: CommandRegistry;
-  browser: FileBrowser;
-  translator: ITranslator;
-}): JSX.Element => {
-  const trans = translator.load('notebook');
-  const selection = Array.from(browser.selectedItems());
-  const oneFolder = selection.some((item) => item.type === 'directory');
-  const multipleFiles =
-    selection.filter((item) => item.type === 'file').length > 1;
-  if (selection.length === 0) {
-    return <div>{trans.__('Select items to perform actions on them.')}</div>;
-  } else {
-    const buttons = ['delete'];
-    if (!oneFolder) {
-      buttons.unshift('duplicate');
-      if (!multipleFiles) {
-        buttons.unshift('rename');
-      }
-      buttons.unshift('download');
-      buttons.unshift('open');
-    } else if (selection.length === 1) {
-      buttons.unshift('rename');
-    }
-
-    return (
-      <>
-        {buttons.map((action) => (
-          <CommandToolbarButtonComponent
-            key={action}
-            commands={commands}
-            id={`filebrowser:${action}`}
-            args={{ toolbar: true }}
-            icon={undefined}
-          />
-        ))}
-      </>
-    );
-  }
-};
-
-/**
- * A React component to display the file action buttons in the file browser toolbar.
- *
- * @param translator The Translation service
- */
-const FileActions = ({
-  commands,
-  browser,
-  selectionChanged,
-  translator,
-}: {
-  commands: CommandRegistry;
-  browser: FileBrowser;
-  selectionChanged: ISignal<FileBrowser, void>;
-  translator: ITranslator;
-}): JSX.Element => {
-  return (
-    <UseSignal signal={selectionChanged} shouldUpdate={() => true}>
-      {(): JSX.Element => (
-        <Commands
-          commands={commands}
-          browser={browser}
-          translator={translator}
-        />
-      )}
-    </UseSignal>
-  );
-};
-
-/**
- * A namespace for FileActionsComponent static functions.
- */
-export namespace FileActionsComponent {
+export class FilesActionButtons {
   /**
-   * Create a new FileActionsComponent
-   *
-   * @param translator The translator
+   * The constructor of FilesActionButtons.
+   * @param options
    */
-  export const create = ({
-    commands,
-    browser,
-    selectionChanged,
-    translator,
-  }: {
+  constructor(options: {
     commands: CommandRegistry;
     browser: FileBrowser;
     selectionChanged: ISignal<FileBrowser, void>;
     translator: ITranslator;
-  }): ReactWidget => {
-    const widget = ReactWidget.create(
-      <FileActions
-        commands={commands}
-        browser={browser}
-        selectionChanged={selectionChanged}
-        translator={translator}
-      />
+  }) {
+    this._browser = options.browser;
+    const { commands, selectionChanged, translator } = options;
+    const trans = translator.load('notebook');
+
+    // Placeholder, when no file is selected.
+    const placeholder = ReactWidget.create(
+      <div key={'placeholder'}>
+        {trans.__('Select items to perform actions on them.')}
+      </div>
     );
-    widget.addClass('jp-FileActions');
-    return widget;
+    placeholder.id = 'fileAction-placeholder';
+    this._widgets.set('placeholder', placeholder);
+
+    // The action buttons.
+    const actions = ['open', 'download', 'rename', 'duplicate', 'delete'];
+    actions.forEach((action) => {
+      const widget = ReactWidget.create(
+        <CommandToolbarButtonComponent
+          key={action}
+          commands={commands}
+          id={`filebrowser:${action}`}
+          args={{ toolbar: true }}
+          icon={undefined}
+        />
+      );
+      widget.id = `fileAction-${action}`;
+      widget.addClass('jp-FileAction');
+      this._widgets.set(action, widget);
+    });
+
+    selectionChanged.connect(this._onSelectionChanged, this);
+    this._onSelectionChanged();
+  }
+
+  /**
+   * Return an iterator with all the action widgets.
+   */
+  get widgets(): IterableIterator<ReactWidget> {
+    return this._widgets.values();
+  }
+
+  /**
+   * Triggered when the selection change in file browser.
+   */
+  private _onSelectionChanged = () => {
+    const selectedItems = Array.from(this._browser.selectedItems());
+    const selection = selectedItems.length > 0;
+    const oneFolder = selectedItems.some((item) => item.type === 'directory');
+
+    this._widgets.get('placeholder')?.setHidden(selection);
+    this._widgets.get('delete')?.setHidden(!selection);
+    this._widgets.get('duplicate')?.setHidden(!selection || oneFolder);
+    this._widgets.get('download')?.setHidden(!selection || oneFolder);
+    this._widgets.get('open')?.setHidden(!selection || oneFolder);
+    this._widgets.get('rename')?.setHidden(selectedItems.length !== 1);
   };
+
+  private _browser: FileBrowser;
+  private _widgets = new Map<string, ReactWidget>();
 }
