@@ -36,7 +36,9 @@
 }
 
 .jp-FileBrowser-toolbar
-  .jp-FileAction:has(> .jp-ToolbarButtonComponent[data-command='filebrowser:delete']) {
+  .jp-FileAction:has(
+    > .jp-ToolbarButtonComponent[data-command='filebrowser:delete']
+  ) {
   background-color: var(--jp-error-color1);
 }
 

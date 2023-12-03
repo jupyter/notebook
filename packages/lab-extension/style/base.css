@@ -18,8 +18,6 @@
   flex-direction: row-reverse;
 }
 
-.jp-nb-interface-switcher-button
-  > .jp-ToolbarButtonComponent
-  > svg {
+.jp-nb-interface-switcher-button > .jp-ToolbarButtonComponent > svg {
   padding-left: 3px;
 }
