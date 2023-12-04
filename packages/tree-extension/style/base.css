@@ -12,8 +12,22 @@
   padding: 0px;
 }
 
-.jp-FileBrowser-toolbar button.jp-ToolbarButtonComponent {
+.jp-FileBrowser-toolbar > .jp-Toolbar-item.jp-ToolbarButton:hover,
+.jp-FileBrowser-toolbar > .jp-Toolbar-item.jp-CommandToolbarButton:hover,
+.jp-FileBrowser-toolbar > .jp-Toolbar-item.jp-DropdownMenu:hover {
+  background: var(--neutral-fill-stealth-hover);
+}
+
+.jp-FileBrowser-toolbar .lm-MenuBar-item {
+  height: var(--jp-private-toolbar-height);
+}
+
+.jp-FileBrowser-toolbar .jp-ToolbarButtonComponent {
   height: var(--jp-flat-button-height);
+}
+
+.jp-FileBrowser-toolbar jp-button.jp-ToolbarButtonComponent:hover {
+  background: inherit;
 }
 
 .jp-FileBrowser-filterBox {
@@ -35,10 +49,7 @@
   display: none;
 }
 
-.jp-FileBrowser-toolbar
-  .jp-FileAction:has(
-    > .jp-ToolbarButtonComponent[data-command='filebrowser:delete']
-  ) {
+.jp-FileBrowser-toolbar > #fileAction-delete {
   background-color: var(--jp-error-color1);
 }
 

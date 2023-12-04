@@ -53,6 +53,7 @@ export class FilesActionButtons {
         />
       );
       widget.id = `fileAction-${action}`;
+      widget.addClass('jp-ToolbarButton');
       widget.addClass('jp-FileAction');
       this._widgets.set(action, widget);
     });
