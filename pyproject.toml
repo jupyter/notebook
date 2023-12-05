@@ -231,7 +231,7 @@ source = ["notebook"]
 files = "notebook"
 python_version = "3.8"
 strict = true
-show_error_codes = true
+hide_error_codes = false
 enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
 warn_unreachable = true
 
