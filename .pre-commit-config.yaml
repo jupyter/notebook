@@ -43,6 +43,15 @@ repos:
               docs/source/examples/images/FrontendKernel.graffle/data.plist|
           )$
 
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: "v1.6.1"
+    hooks:
+      - id: mypy
+        files: "^notebook"
+        stages: [manual]
+        args: ["--install-types", "--non-interactive"]
+        additional_dependencies: ["traitlets>=5.13", "tornado", "jupyter_server>=2.9", "jupyterlab_server>=2.25", "jupyterlab>=4.0"]
+
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: 'v1.10.0'
     hooks:
