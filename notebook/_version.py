@@ -23,7 +23,7 @@ _version_regex = re.compile(
 
 _version_fields = _version_regex.match(__version__).groupdict()  # type:ignore[union-attr]
 
-VersionInfo = namedtuple("VersionInfo", ["major", "minor", "micro", "releaselevel", "serial"])
+VersionInfo = namedtuple("VersionInfo", ["major", "minor", "micro", "releaselevel", "serial"])  # noqa: PYI024
 
 version_info = VersionInfo(
     *[

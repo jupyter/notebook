@@ -2,8 +2,6 @@ from __future__ import annotations
 
 from typing import Any
 
-from ._version import __version__  # noqa
-
 
 def _jupyter_server_extension_paths() -> list[dict[str, str]]:
     return [{"module": "notebook"}]

@@ -6,7 +6,7 @@ from tornado.httpclient import HTTPClientError
 from notebook.app import JupyterNotebookApp, TreeHandler
 
 
-@pytest.fixture
+@pytest.fixture()
 def notebooks(jp_create_notebook, notebookapp):
     nbpaths = (
         "notebook1.ipynb",
@@ -48,7 +48,7 @@ async def test_tree_handler(notebooks, notebookapp, jp_fetch):
         nonlocal redirected_url
         redirected_url = url
 
-    TreeHandler.redirect = redirect  # type:ignore
+    TreeHandler.redirect = redirect
     await jp_fetch("tree", "notebook1.ipynb")
     assert redirected_url == "/a%40b/notebooks/notebook1.ipynb"
 
