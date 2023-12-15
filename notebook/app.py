@@ -72,7 +72,7 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
 
         server_root = self.settings.get("server_root_dir", "")
         server_root = server_root.replace(os.sep, "/")
-        server_root = Path(server_root).expanduser().resolve()
+        server_root = os.path.normpath(Path(server_root).expanduser())
         try:
             # Remove the server_root from pref dir
             if self.serverapp.preferred_dir != server_root:
