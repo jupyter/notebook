@@ -12,8 +12,24 @@
   padding: 0px;
 }
 
-.jp-FileBrowser-toolbar button.jp-ToolbarButtonComponent {
+.jp-FileBrowser-toolbar > .jp-Toolbar-item.jp-ToolbarButton:hover,
+.jp-FileBrowser-toolbar > .jp-Toolbar-item.jp-CommandToolbarButton:hover,
+.jp-FileBrowser-toolbar > .jp-Toolbar-item.jp-DropdownMenu:hover {
+  background: var(--neutral-fill-stealth-hover);
+}
+
+.jp-FileBrowser-toolbar .lm-MenuBar-item {
+  height: var(--jp-private-toolbar-height);
+  display: inline-flex;
+  align-items: center;
+}
+
+.jp-FileBrowser-toolbar .jp-ToolbarButtonComponent {
   height: var(--jp-flat-button-height);
+}
+
+.jp-FileBrowser-toolbar jp-button.jp-ToolbarButtonComponent:hover {
+  background: inherit;
 }
 
 .jp-FileBrowser-filterBox {
@@ -31,27 +47,22 @@
 
 /* Action buttons */
 
-.jp-FileBrowser-toolbar > .jp-FileActions.jp-Toolbar-item {
-  display: flex;
-  flex-direction: row;
-}
-
-.jp-FileActions .jp-ToolbarButtonComponent-icon {
+.jp-FileBrowser-toolbar > .jp-FileAction > .jp-ToolbarButtonComponent > svg {
   display: none;
 }
 
-.jp-FileActions .jp-ToolbarButtonComponent[data-command='filebrowser:delete'] {
+.jp-FileBrowser-toolbar > #fileAction-delete {
   background-color: var(--jp-error-color1);
 }
 
-.jp-FileActions
+.jp-FileBrowser-toolbar
   .jp-ToolbarButtonComponent[data-command='filebrowser:delete']
   .jp-ToolbarButtonComponent-label {
   color: var(--jp-ui-inverse-font-color1);
 }
 
-.jp-FileBrowser-toolbar .jp-FileActions .jp-ToolbarButtonComponent {
+.jp-FileBrowser-toolbar .jp-FileAction {
   border: solid 1px var(--jp-border-color2);
   margin: 1px;
-  min-height: 100%;
+  min-height: var(--jp-private-toolbar-height);
 }

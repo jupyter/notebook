@@ -45,7 +45,7 @@ import { Menu, MenuBar } from '@lumino/widgets';
 
 import { NotebookTreeWidget, INotebookTree } from '@jupyter-notebook/tree';
 
-import { FileActionsComponent } from './fileactions';
+import { FilesActionButtons } from './fileactions';
 
 /**
  * The file browser factory.
@@ -158,20 +158,16 @@ const fileActions: JupyterFrontEndPlugin<void> = {
 
     // Create a toolbar item that adds buttons to the file browser toolbar
     // to perform actions on the files
-    toolbarRegistry.addFactory(
-      FILE_BROWSER_FACTORY,
-      'fileActions',
-      (browser: FileBrowser) => {
-        const { commands } = app;
-        const fileActions = FileActionsComponent.create({
-          commands,
-          browser,
-          selectionChanged,
-          translator,
-        });
-        return fileActions;
-      }
-    );
+    const { commands } = app;
+    const fileActions = new FilesActionButtons({
+      commands,
+      browser,
+      selectionChanged,
+      translator,
+    });
+    for (const widget of fileActions.widgets) {
+      toolbarRegistry.addFactory(FILE_BROWSER_FACTORY, widget.id, () => widget);
+    }
   },
 };
 
@@ -359,6 +355,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
           'showFileCheckboxes',
           'showFileSizeColumn',
           'sortNotebooksFirst',
+          'showFullPath',
         ].forEach((setting) => {
           if (settings.user[setting] === undefined) {
             void settings.set(setting, true);
