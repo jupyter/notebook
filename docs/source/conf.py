@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-#
 # Jupyter Notebook documentation build configuration file, created by
 # sphinx-quickstart on Mon Apr 13 09:51:11 2015.
 #
@@ -73,7 +71,7 @@ extensions = [
 ]
 
 try:
-    import enchant  # type:ignore  # noqa
+    import enchant  # noqa: F401
 
     extensions += ["sphinxcontrib.spelling"]
 except ImportError:
@@ -97,7 +95,7 @@ master_doc = "index"
 
 # General information about the project.
 project = "Jupyter Notebook"
-copyright = "2015, Jupyter Team, https://jupyter.org"  # noqa
+copyright = "2015, Jupyter Team, https://jupyter.org"
 author = "The Jupyter Team"
 
 # ghissue config
@@ -109,7 +107,7 @@ github_project_url = "https://github.com/jupyter/notebook"
 #
 _version_py = os.path.join(here, "../../notebook/_version.py")
 version_ns = {}
-exec(compile(open(_version_py).read(), _version_py, "exec"), version_ns)  # noqa
+exec(compile(open(_version_py).read(), _version_py, "exec"), version_ns)  # noqa: S102, SIM115
 # The short X.Y version.
 version = "%i.%i" % version_ns["version_info"][:2]
 # The full version, including alpha/beta/rc tags.
