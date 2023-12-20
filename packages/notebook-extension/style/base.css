@@ -147,6 +147,7 @@ body[data-format='mobile'] .jp-ToolbarButton .jp-DebuggerBugButton {
 
 body[data-notebook='notebooks'] .jp-WindowedPanel-viewport {
   background: var(--jp-layout-color0);
+  padding: unset;
 }
 
 /* Notebook box shadow */
