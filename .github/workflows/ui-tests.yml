@@ -62,7 +62,7 @@ jobs:
 
       - name: Upload Playwright Test assets
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: notebook-${{ matrix.browser }}-test-assets
           path: |
@@ -70,7 +70,7 @@ jobs:
 
       - name: Upload Playwright Test report
         if: always()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: notebook-${{ matrix.browser }}-test-report
           path: |
@@ -87,7 +87,7 @@ jobs:
 
       - name: Upload updated snapshots
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: notebook-${{ matrix.browser }}-updated-snapshots
           path: ui-tests/test
