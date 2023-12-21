@@ -2165,6 +2165,7 @@ __metadata:
     "@jupyterlab/metadataform-extension": ^4.1.0-beta.0
     "@jupyterlab/notebook-extension": ^4.1.0-beta.0
     "@jupyterlab/pdf-extension": ^4.1.0-beta.0
+    "@jupyterlab/pluginmanager-extension": ^4.1.0-beta.0
     "@jupyterlab/running-extension": ^4.1.0-beta.0
     "@jupyterlab/settingeditor": ^4.1.0-beta.0
     "@jupyterlab/settingeditor-extension": ^4.1.0-beta.0
@@ -3895,6 +3896,20 @@ __metadata:
     "@lumino/disposable": ^2.1.2
     "@lumino/widgets": ^2.3.1
   checksum: 50288f235b6114902ce2eaf9a27d3ac0f3eb05c9098fefdf522d6b22bb2f7ce9ad79fd2d66b3cef45d154f4bf0b0fb7f4bea71ace966659175fa963928e69e91
+  languageName: node
+  linkType: hard
+
+"@jupyterlab/pluginmanager-extension@npm:^4.1.0-beta.0":
+  version: 4.1.0-beta.0
+  resolution: "@jupyterlab/pluginmanager-extension@npm:4.1.0-beta.0"
+  dependencies:
+    "@jupyterlab/application": ^4.1.0-beta.0
+    "@jupyterlab/apputils": ^4.2.0-beta.0
+    "@jupyterlab/pluginmanager": ^4.1.0-beta.0
+    "@jupyterlab/translation": ^4.1.0-beta.0
+    "@jupyterlab/ui-components": ^4.1.0-beta.0
+    "@lumino/coreutils": ^2.1.2
+  checksum: 70a2defa672b2e273d304846d5e7a0ca8f9b617787044fc65bc5332403f0d7d3f78ce9e2eee8d7b1d1085f806b084e2f12e3e1e6a9a83f0905e9a927982593e0
   languageName: node
   linkType: hard
 
