@@ -6,6 +6,8 @@ import {
   JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
+import type { JupyterLab } from '@jupyterlab/application';
+
 import { Base64ModelFactory } from '@jupyterlab/docregistry';
 
 import { createRendermimePlugins } from '@jupyterlab/application/lib/mimerenderers';
@@ -173,6 +175,11 @@ export namespace NotebookApp {
      * The mime renderer extensions.
      */
     readonly mimeExtensions: IRenderMime.IExtensionModule[];
+
+    /**
+     * The information about available plugins.
+     */
+    readonly availablePlugins: JupyterLab.IPluginInfo[];
   }
 
   /**
