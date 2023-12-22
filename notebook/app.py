@@ -4,7 +4,7 @@ from __future__ import annotations
 import os
 import re
 import typing as t
-from os.path import join as pjoin
+from pathlib import Path
 
 from jupyter_client.utils import ensure_async  # type:ignore[attr-defined]
 from jupyter_core.application import base_aliases
@@ -36,11 +36,11 @@ from traitlets.config.loader import Config
 
 from ._version import __version__
 
-HERE = os.path.dirname(__file__)
+HERE = Path(__file__).parent.resolve()
 
 Flags = t.Dict[t.Union[str, t.Tuple[str, ...]], t.Tuple[t.Union[t.Dict[str, t.Any], Config], str]]
 
-app_dir = get_app_dir()
+app_dir = Path(get_app_dir())
 version = __version__
 
 # mypy: disable-error-code="no-untyped-call"
@@ -56,8 +56,8 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
     def get_page_config(self) -> dict[str, t.Any]:
         """Get the page config."""
         config = LabConfig()
-        app = self.extensionapp
-        base_url = self.settings.get("base_url")
+        app: JupyterNotebookApp = self.extensionapp  # type:ignore[assignment]
+        base_url = self.settings.get("base_url", "/")
         page_config_data = self.settings.setdefault("page_config_data", {})
         page_config = {
             **page_config_data,
@@ -72,7 +72,7 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
 
         server_root = self.settings.get("server_root_dir", "")
         server_root = server_root.replace(os.sep, "/")
-        server_root = os.path.normpath(os.path.expanduser(server_root))
+        server_root = os.path.normpath(Path(server_root).expanduser())
         try:
             # Remove the server_root from pref dir
             if self.serverapp.preferred_dir != server_root:
@@ -149,7 +149,7 @@ class TreeHandler(NotebookBaseHandler):
 
             tpl = self.render_template("tree.html", page_config=page_config)
             return self.write(tpl)
-        elif await ensure_async(cm.file_exists(path)):
+        if await ensure_async(cm.file_exists(path)):
             # it's not a directory, we have redirecting to do
             model = await ensure_async(cm.get(path, content=False))
             if model["type"] == "notebook":
@@ -159,15 +159,15 @@ class TreeHandler(NotebookBaseHandler):
                 url = ujoin(self.base_url, "files", url_escape(path))
             self.log.debug("Redirecting %s to %s", self.request.path, url)
             self.redirect(url)
-        else:
-            raise web.HTTPError(404)
+            return None
+        raise web.HTTPError(404)
 
 
 class ConsoleHandler(NotebookBaseHandler):
     """A console page handler."""
 
     @web.authenticated
-    def get(self, path: str | None = None) -> t.Any:
+    def get(self, path: str | None = None) -> t.Any:  # noqa: ARG002
         """Get the console page."""
         tpl = self.render_template("consoles.html", page_config=self.get_page_config())
         return self.write(tpl)
@@ -177,7 +177,7 @@ class TerminalHandler(NotebookBaseHandler):
     """A terminal page handler."""
 
     @web.authenticated
-    def get(self, path: str | None = None) -> t.Any:
+    def get(self, path: str | None = None) -> t.Any:  # noqa: ARG002
         """Get the terminal page."""
         tpl = self.render_template("terminals.html", page_config=self.get_page_config())
         return self.write(tpl)
@@ -187,7 +187,7 @@ class FileHandler(NotebookBaseHandler):
     """A file page handler."""
 
     @web.authenticated
-    def get(self, path: str | None = None) -> t.Any:
+    def get(self, path: str | None = None) -> t.Any:  # noqa: ARG002
         """Get the file page."""
         tpl = self.render_template("edit.html", page_config=self.get_page_config())
         return self.write(tpl)
@@ -197,7 +197,7 @@ class NotebookHandler(NotebookBaseHandler):
     """A notebook page handler."""
 
     @web.authenticated
-    def get(self, path: str | None = None) -> t.Any:
+    def get(self, path: str | None = None) -> t.Any:  # noqa: ARG002
         """Get the notebook page."""
         tpl = self.render_template("notebooks.html", page_config=self.get_page_config())
         return self.write(tpl)
@@ -210,17 +210,17 @@ class CustomCssHandler(NotebookBaseHandler):
     def get(self) -> t.Any:
         """Get the custom css file."""
 
-        self.set_header("Content-Type", 'text/css')
+        self.set_header("Content-Type", "text/css")
         page_config = self.get_page_config()
         custom_css_file = f"{page_config['jupyterConfigDir']}/custom/custom.css"
 
-        if not os.path.isfile(custom_css_file):
-            static_path_root = re.match('^(.*?)static', page_config['staticDir'])
+        if not Path(custom_css_file).is_file():
+            static_path_root = re.match("^(.*?)static", page_config["staticDir"])
             if static_path_root is not None:
                 custom_dir = static_path_root.groups()[0]
                 custom_css_file = f"{custom_dir}custom/custom.css"
 
-        with open(custom_css_file) as css_f:
+        with Path(custom_css_file).open() as css_f:
             return self.write(css_f.read())
 
 
@@ -269,23 +269,23 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
 
     @default("static_dir")
     def _default_static_dir(self) -> str:
-        return os.path.join(HERE, "static")
+        return str(HERE / "static")
 
     @default("templates_dir")
     def _default_templates_dir(self) -> str:
-        return os.path.join(HERE, "templates")
+        return str(HERE / "templates")
 
     @default("app_settings_dir")
     def _default_app_settings_dir(self) -> str:
-        return pjoin(app_dir, "settings")
+        return str(app_dir / "settings")
 
     @default("schemas_dir")
     def _default_schemas_dir(self) -> str:
-        return pjoin(app_dir, "schemas")
+        return str(app_dir / "schemas")
 
     @default("themes_dir")
     def _default_themes_dir(self) -> str:
-        return pjoin(app_dir, "themes")
+        return str(app_dir / "themes")
 
     @default("user_settings_dir")
     def _default_user_settings_dir(self) -> str:
@@ -301,6 +301,8 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
 
     def server_extension_is_enabled(self, extension: str) -> bool:
         """Check if server extension is enabled."""
+        if self.serverapp is None:
+            return False
         try:
             extension_enabled = (
                 self.serverapp.extension_manager.extensions[extension].enabled is True
@@ -311,6 +313,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
 
     def initialize_handlers(self) -> None:
         """Initialize handlers."""
+        assert self.serverapp is not None  # noqa: S101
         page_config = self.serverapp.web_app.settings.setdefault("page_config_data", {})
         nbclassic_enabled = self.server_extension_is_enabled("nbclassic")
         page_config["nbclassic_enabled"] = nbclassic_enabled
@@ -340,7 +343,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
         self.handlers.append(("/custom/custom.css", CustomCssHandler))
         super().initialize_handlers()
 
-    def initialize(self, argv: list[str] | None = None) -> None:
+    def initialize(self, argv: list[str] | None = None) -> None:  # noqa: ARG002
         """Subclass because the ExtensionApp.initialize() method does not take arguments"""
         super().initialize()
 

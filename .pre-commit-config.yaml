@@ -4,7 +4,7 @@ ci:
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: check-case-conflict
       - id: check-ast
@@ -21,32 +21,30 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.27.0
+    rev: 0.27.3
     hooks:
       - id: check-github-workflows
-
-  - repo: https://github.com/adamchainz/blacken-docs
-    rev: '1.16.0'
-    hooks:
-      - id: blacken-docs
-        additional_dependencies: [black==23.7.0]
-
-  - repo: https://github.com/psf/black-pre-commit-mirror
-    rev: 23.9.1
-    hooks:
-      - id: black
 
   - repo: https://github.com/codespell-project/codespell
     rev: 'v2.2.6'
     hooks:
       - id: codespell
-        args: ['-L', 'sur,nd']
+        args: ['-L', 'hart,noteable']
         exclude: |
           (?x)^(
               yarn.lock|
               binder/example.ipynb|
               docs/source/examples/images/FrontendKernel.graffle/data.plist|
           )$
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: "v1.7.1"
+    hooks:
+      - id: mypy
+        files: "^notebook"
+        stages: [manual]
+        args: ["--install-types", "--non-interactive"]
+        additional_dependencies: ["traitlets>=5.13", "tornado", "jupyter_server>=2.10", "jupyterlab_server>=2.25", "jupyterlab>=4.1.0b0"]
 
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: 'v1.10.0'
@@ -56,13 +54,18 @@ repos:
       - id: rst-inline-touching-normal
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.0.292
+    rev: v0.1.8
     hooks:
       - id: ruff
+        types_or: [ python, jupyter ]
+        exclude: '^docs/source/examples/Notebook/Importing Notebooks.ipynb'
         args: ['--fix', '--show-fixes']
+      - id: ruff-format
+        types_or: [ python, jupyter ]
+        exclude: '^docs/source/examples/Notebook/Importing Notebooks.ipynb'
 
   - repo: https://github.com/scientific-python/cookie
-    rev: '2023.09.21'
+    rev: '2023.11.17'
     hooks:
       - id: sp-repo-review
         additional_dependencies: ['repo-review[cli]']

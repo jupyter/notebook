@@ -138,7 +138,7 @@ jobs:
             py_cmd: python
     steps:
       - name: Install Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
           architecture: 'x64'
@@ -175,7 +175,7 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
       - uses: jupyterlab/maintainer-tools/.github/actions/check-links@v1
         with:
-          ignore_links: 'https://playwright.dev/docs/test-cli/ https://blog.jupyter.org/the-big-split-9d7b88a031a7 https://blog.jupyter.org/jupyter-ascending-1bf5b362d97e https://mybinder.org/v2/gh/jupyter/notebook/main'
+          ignore_links: 'https://playwright.dev/docs/test-cli/ https://blog.jupyter.org/the-big-split-9d7b88a031a7 https://blog.jupyter.org/jupyter-ascending-1bf5b362d97e https://mybinder.org/v2/gh/jupyter/notebook/main https://nbviewer.jupyter.org'
           ignore_glob: 'ui-tests/test/notebooks/*'
 
   test_lint:
@@ -187,13 +187,14 @@ jobs:
       - name: Run Linters
         run: |
           hatch run typing:test
-          hatch run lint:style
+          hatch run lint:build
           pipx run interrogate -v .
           pipx run doc8 --max-line-length=200 docs/source *.md
           npm install -g yarn
           yarn
           yarn eslint:check
           yarn prettier:check
+          yarn build:utils
           yarn integrity
 
   tests_check: # This job does nothing and is only used for the branch protection
