@@ -163,6 +163,7 @@
     "@jupyterlab/metadataform-extension": "^4.1.0-beta.0",
     "@jupyterlab/notebook-extension": "^4.1.0-beta.0",
     "@jupyterlab/pdf-extension": "^4.1.0-beta.0",
+    "@jupyterlab/pluginmanager-extension": "^4.1.0-beta.0",
     "@jupyterlab/running-extension": "^4.1.0-beta.0",
     "@jupyterlab/settingeditor": "^4.1.0-beta.0",
     "@jupyterlab/settingeditor-extension": "^4.1.0-beta.0",
@@ -284,6 +285,7 @@
           "@jupyterlab/notebook-extension:tracker",
           "@jupyterlab/notebook-extension:widget-factory"
         ],
+        "@jupyterlab/pluginmanager-extension": true,
         "@jupyterlab/shortcuts-extension": true,
         "@jupyterlab/terminal-extension": true,
         "@jupyterlab/theme-light-extension": true,
