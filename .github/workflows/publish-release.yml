@@ -20,11 +20,11 @@ jobs:
       # and NPM provenance
       id-token: write
     steps:
-      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@4b05d5f62ffa18bed92d556309c86a95554401b9 # v1
 
       - name: Populate Release
         id: populate-release
-        uses: jupyter-server/jupyter_releaser/.github/actions/populate-release@v2
+        uses: jupyter-server/jupyter_releaser/.github/actions/populate-release@035118abd7c9d96213f84a3db281cb2273758f00 # v2
         with:
           token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
           branch: ${{ github.event.inputs.branch }}
@@ -35,7 +35,7 @@ jobs:
         id: finalize-release
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        uses: jupyter-server/jupyter_releaser/.github/actions/finalize-release@v2
+        uses: jupyter-server/jupyter-releaser/.github/actions/finalize-release@035118abd7c9d96213f84a3db281cb2273758f00 # v2
         with:
           token: ${{ secrets.ADMIN_GITHUB_TOKEN }}
           release_url: ${{ steps.populate-release.outputs.release_url }}

@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
       - name: React to the triggering comment
         run: |
@@ -40,12 +40,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Base Setup
-        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@4b05d5f62ffa18bed92d556309c86a95554401b9 # v1
 
       - name: Build
         uses: ./.github/actions/build-dist
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
         with:
           name: notebook-dist-${{ github.run_number }}
           path: ./dist
@@ -65,7 +65,7 @@ jobs:
           jlpm playwright install
 
       - name: Update snapshots
-        uses: jupyterlab/maintainer-tools/.github/actions/update-snapshots@v1
+        uses: jupyterlab/maintainer-tools/.github/actions/update-snapshots@4b05d5f62ffa18bed92d556309c86a95554401b9 # v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           npm_client: jlpm
