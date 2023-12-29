@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from ._version import __version__  # noqa
+from ._version import __version__  # noqa: F401
 
 
 def _jupyter_server_extension_paths() -> list[dict[str, str]]:

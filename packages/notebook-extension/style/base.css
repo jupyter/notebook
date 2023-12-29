@@ -23,7 +23,7 @@ body[data-notebook='notebooks'] .jp-NotebookPanel-toolbar {
   padding-right: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
 }
 
-body[data-notebook='notebooks'] .jp-Notebook {
+body[data-notebook='notebooks'] .jp-WindowedPanel-outer {
   padding-top: unset;
   padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
   padding-right: calc(
@@ -51,7 +51,7 @@ body[data-notebook='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
 
 /* Fix background colors */
 
-body[data-notebook='notebooks'] .jp-Notebook > * {
+body[data-notebook='notebooks'] .jp-WindowedPanel-outer > * {
   background: var(--jp-layout-color0);
 }
 
@@ -69,7 +69,7 @@ body[data-notebook='notebooks']
   padding-top: calc(2 * var(--jp-notebook-padding));
 }
 
-body[data-notebook='notebooks'] .jp-WindowedPanel-window > *:last-child {
+body[data-notebook='notebooks'] .jp-WindowedPanel-viewport > *:last-child {
   padding-bottom: calc(2 * var(--jp-notebook-padding));
 }
 
@@ -135,7 +135,7 @@ body[data-format='mobile'] .jp-NotebookCheckpoint {
   display: none;
 }
 
-body[data-format='mobile'] .jp-Notebook > *:first-child {
+body[data-format='mobile'] .jp-WindowedPanel-outer > *:first-child {
   margin-top: 0;
 }
 
@@ -145,13 +145,16 @@ body[data-format='mobile'] .jp-ToolbarButton .jp-DebuggerBugButton {
 
 /* Virtual Notebook fixes */
 
-body[data-notebook='notebooks'] .jp-WindowedPanel-window {
+body[data-notebook='notebooks'] .jp-WindowedPanel-viewport {
   background: var(--jp-layout-color0);
+  padding: unset;
 }
 
 /* Notebook box shadow */
 
-body[data-notebook='notebooks'] .jp-Notebook > *:first-child:not(:last-child) {
+body[data-notebook='notebooks']
+  .jp-WindowedPanel-outer
+  > *:first-child:not(:last-child) {
   box-shadow: var(--jp-elevation-z4);
 }
 

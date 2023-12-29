@@ -21,15 +21,9 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.27.2
+    rev: 0.27.3
     hooks:
       - id: check-github-workflows
-
-  - repo: https://github.com/adamchainz/blacken-docs
-    rev: '1.16.0'
-    hooks:
-      - id: blacken-docs
-        additional_dependencies: [black==23.7.0]
 
   - repo: https://github.com/codespell-project/codespell
     rev: 'v2.2.6'
@@ -50,7 +44,7 @@ repos:
         files: "^notebook"
         stages: [manual]
         args: ["--install-types", "--non-interactive"]
-        additional_dependencies: ["traitlets>=5.13", "tornado", "jupyter_server>=2.10", "jupyterlab_server>=2.25", "jupyterlab>=4.1.0a4"]
+        additional_dependencies: ["traitlets>=5.13", "tornado", "jupyter_server>=2.10", "jupyterlab_server>=2.25", "jupyterlab>=4.1.0b0"]
 
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: 'v1.10.0'
@@ -60,7 +54,7 @@ repos:
       - id: rst-inline-touching-normal
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.6
+    rev: v0.1.8
     hooks:
       - id: ruff
         types_or: [ python, jupyter ]

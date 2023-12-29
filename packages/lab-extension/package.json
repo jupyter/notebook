@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/lab-extension",
-  "version": "7.1.0-alpha.1",
+  "version": "7.1.0-alpha.2",
   "description": "Jupyter Notebook - Lab Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -43,19 +43,19 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.1.0-alpha.1",
-    "@jupyterlab/application": "^4.1.0-alpha.4",
-    "@jupyterlab/apputils": "^4.2.0-alpha.4",
-    "@jupyterlab/coreutils": "^6.1.0-alpha.4",
-    "@jupyterlab/docregistry": "^4.1.0-alpha.4",
-    "@jupyterlab/notebook": "^4.1.0-alpha.4",
-    "@jupyterlab/translation": "^4.1.0-alpha.4",
-    "@jupyterlab/ui-components": "^4.1.0-alpha.4",
+    "@jupyter-notebook/application": "^7.1.0-alpha.2",
+    "@jupyterlab/application": "^4.1.0-beta.0",
+    "@jupyterlab/apputils": "^4.2.0-beta.0",
+    "@jupyterlab/coreutils": "^6.1.0-beta.0",
+    "@jupyterlab/docregistry": "^4.1.0-beta.0",
+    "@jupyterlab/notebook": "^4.1.0-beta.0",
+    "@jupyterlab/translation": "^4.1.0-beta.0",
+    "@jupyterlab/ui-components": "^4.1.0-beta.0",
     "@lumino/commands": "^2.2.0",
     "@lumino/disposable": "^2.1.2"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "^4.1.0-alpha.4",
+    "@jupyterlab/builder": "^4.1.0-beta.0",
     "rimraf": "^3.0.2",
     "typescript": "~5.0.2"
   },

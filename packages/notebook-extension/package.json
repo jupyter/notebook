@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/notebook-extension",
-  "version": "7.1.0-alpha.1",
+  "version": "7.1.0-alpha.2",
   "description": "Jupyter Notebook - Notebook Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -38,14 +38,14 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.1.0-alpha.1",
-    "@jupyterlab/application": "^4.1.0-alpha.4",
-    "@jupyterlab/apputils": "^4.2.0-alpha.4",
-    "@jupyterlab/cells": "^4.1.0-alpha.4",
-    "@jupyterlab/docmanager": "^4.1.0-alpha.4",
-    "@jupyterlab/notebook": "^4.1.0-alpha.4",
-    "@jupyterlab/settingregistry": "^4.1.0-alpha.4",
-    "@jupyterlab/translation": "^4.1.0-alpha.4",
+    "@jupyter-notebook/application": "^7.1.0-alpha.2",
+    "@jupyterlab/application": "^4.1.0-beta.0",
+    "@jupyterlab/apputils": "^4.2.0-beta.0",
+    "@jupyterlab/cells": "^4.1.0-beta.0",
+    "@jupyterlab/docmanager": "^4.1.0-beta.0",
+    "@jupyterlab/notebook": "^4.1.0-beta.0",
+    "@jupyterlab/settingregistry": "^4.1.0-beta.0",
+    "@jupyterlab/translation": "^4.1.0-beta.0",
     "@lumino/polling": "^2.1.2",
     "@lumino/widgets": "^2.3.1",
     "react": "^18.2.0",
