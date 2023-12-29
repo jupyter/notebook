@@ -23,7 +23,7 @@ for Notebook v5 or Classic Notebook v6 are not compatible with Notebook v7.
 
 The newest major version of Notebook is based on:
 
-- JupyterLab components for the frontend
+- JupyterLab components for the frontend work
 - Jupyter Server for the Python server
 
 This represents a significant change to the `jupyter/notebook` code base.
