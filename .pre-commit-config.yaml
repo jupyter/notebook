@@ -38,7 +38,7 @@ repos:
           )$
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v1.7.1"
+    rev: "v1.8.0"
     hooks:
       - id: mypy
         files: "^notebook"
@@ -54,7 +54,7 @@ repos:
       - id: rst-inline-touching-normal
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.1.8
+    rev: v0.1.9
     hooks:
       - id: ruff
         types_or: [ python, jupyter ]
@@ -65,7 +65,7 @@ repos:
         exclude: '^docs/source/examples/Notebook/Importing Notebooks.ipynb'
 
   - repo: https://github.com/scientific-python/cookie
-    rev: '2023.11.17'
+    rev: '2023.12.21'
     hooks:
       - id: sp-repo-review
         additional_dependencies: ['repo-review[cli]']
