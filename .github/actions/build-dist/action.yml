@@ -32,13 +32,13 @@ runs:
         sha256sum * | tee SHA256SUMS
 
     - name: Upload distributions
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: notebook-dist-${{ github.run_number }}
         path: ./dist
 
     - name: Upload distributions
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: notebook-pkgs-${{ github.run_number }}
         path: ./pkgs

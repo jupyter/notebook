@@ -2,6 +2,7 @@
 // Distributed under the terms of the Modified BSD License.
 
 import {
+  JupyterLab,
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
@@ -40,6 +41,17 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
       }
     }
 
+    // Create an IInfo dictionary from the options to override the defaults.
+    const info = Object.keys(JupyterLab.defaultInfo).reduce((acc, val) => {
+      if (val in options) {
+        (acc as any)[val] = JSON.parse(JSON.stringify((options as any)[val]));
+      }
+      return acc;
+    }, {} as Partial<JupyterLab.IInfo>);
+
+    // Populate application info.
+    this._info = { ...JupyterLab.defaultInfo, ...info };
+
     this.restored = this.shell.restored;
 
     this.restored.then(() => this._formatter.invoke());
@@ -70,6 +82,13 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
    */
 
   readonly version = PageConfig.getOption('appVersion') ?? 'unknown';
+
+  /**
+   * The NotebookApp application information dictionary.
+   */
+  get info(): JupyterLab.IInfo {
+    return this._info;
+  }
 
   /**
    * The JupyterLab application paths dictionary.
@@ -149,6 +168,7 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
     });
   }
 
+  private _info: JupyterLab.IInfo = JupyterLab.defaultInfo;
   private _formatter = new Throttler(() => {
     Private.setFormat(this);
   }, 250);
@@ -173,6 +193,11 @@ export namespace NotebookApp {
      * The mime renderer extensions.
      */
     readonly mimeExtensions: IRenderMime.IExtensionModule[];
+
+    /**
+     * The information about available plugins.
+     */
+    readonly availablePlugins: JupyterLab.IPluginInfo[];
   }
 
   /**
