@@ -18,6 +18,7 @@ import {
   FileBrowser,
   Uploader,
   IDefaultFileBrowser,
+  IFileBrowserFactory,
 } from '@jupyterlab/filebrowser';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -263,6 +264,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     ITranslator,
     ISettingRegistry,
     IToolbarWidgetRegistry,
+    IFileBrowserFactory,
   ],
   optional: [
     IRunningSessionManagers,
@@ -277,6 +279,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     translator: ITranslator,
     settingRegistry: ISettingRegistry,
     toolbarRegistry: IToolbarWidgetRegistry,
+    factory: IFileBrowserFactory,
     manager: IRunningSessionManagers | null,
     settingEditorTracker: ISettingEditorTracker | null,
     jsonSettingEditorTracker: IJSONSettingEditorTracker | null
@@ -380,6 +383,16 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
         }
       }
     );
+
+    // workaround for https://github.com/jupyter/notebook/issues/7210
+    const { tracker } = factory;
+
+    const setCurrentToDefaultBrower = () => {
+      tracker['_pool'].current = browser;
+    };
+
+    tracker.widgetAdded.connect(setCurrentToDefaultBrower);
+    setCurrentToDefaultBrower();
 
     return nbTreeWidget;
   },
