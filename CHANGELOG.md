@@ -14,6 +14,30 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.0.7
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.0.6...089c78c48fd00b2b0d2f33e4463eb42018e86803))
+
+### Enhancements made
+
+- Update to JupyterLab 4.0.11 [#7215](https://github.com/jupyter/notebook/pull/7215) ([@krassowski](https://github.com/krassowski))
+
+### Maintenance and upkeep improvements
+
+- Update ruff config and typing [#7145](https://github.com/jupyter/notebook/pull/7145) ([@blink1073](https://github.com/blink1073))
+- Clean up lint handling [#7142](https://github.com/jupyter/notebook/pull/7142) ([@blink1073](https://github.com/blink1073))
+- Adopt ruff format [#7132](https://github.com/jupyter/notebook/pull/7132) ([@blink1073](https://github.com/blink1073))
+- \[7.0.x\] Install stable JupyterLab 4.0 in the releaser hook [#7183](https://github.com/jupyter/notebook/pull/7183) ([@jtpio](https://github.com/jtpio))
+- Update publish-release workflow for PyPI trusted publisher [#7176](https://github.com/jupyter/notebook/pull/7176) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-10-17&to=2024-01-19&type=c))
+
+[@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2023-10-17..2024-01-19&type=Issues) | [@d5423197](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ad5423197+updated%3A2023-10-17..2024-01-19&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-10-17..2024-01-19&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-10-17..2024-01-19&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2023-10-17..2024-01-19&type=Issues) | [@meeseeksmachine](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ameeseeksmachine+updated%3A2023-10-17..2024-01-19&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.0.6
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/app@7.0.5...c62caffb02856737870cbc79a2cdb43b3e89c363))
@@ -32,8 +56,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-10-12&to=2023-10-17&type=c))
 
 [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-10-12..2023-10-17&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-10-12..2023-10-17&type=Issues) | [@jayeshsingh9767](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajayeshsingh9767+updated%3A2023-10-12..2023-10-17&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-10-12..2023-10-17&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.5
 
