@@ -380,7 +380,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
       (editorTracker) => {
         if (editorTracker) {
           editorTracker.widgetAdded.connect((_, editor) => {
-            nbTreeWidget.adWidget(editor);
+            nbTreeWidget.addWidget(editor);
             nbTreeWidget.tabBar.addTab(editor.title);
             nbTreeWidget.currentWidget = editor;
           });
