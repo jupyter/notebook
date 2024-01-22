@@ -537,7 +537,7 @@ Check out the [JupyterLab `4.0.0a37` release notes](https://github.com/jupyterla
 
 ### Maintenance and upkeep improvements
 
-- Replace the use of `toArray` by `Array.from` [#6775](https://github.com/jupyter/notebook/pull/6775) ([@tarunsamanta2k20](https://github.com/tarunsamanta2k20))
+- Replace the use of `toArray` by `Array.from` [#6775](https://github.com/jupyter/notebook/pull/6775) (`@tarunsamanta2k20`)
 
 ### Contributors to this release
 
