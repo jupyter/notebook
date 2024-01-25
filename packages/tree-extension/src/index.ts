@@ -397,6 +397,8 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
       setCurrentToDefaultBrower()
     );
 
+    setCurrentToDefaultBrower();
+
     return nbTreeWidget;
   },
 };
