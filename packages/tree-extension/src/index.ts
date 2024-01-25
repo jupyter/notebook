@@ -18,6 +18,7 @@ import {
   FileBrowser,
   Uploader,
   IDefaultFileBrowser,
+  IFileBrowserFactory,
 } from '@jupyterlab/filebrowser';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -263,6 +264,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     ITranslator,
     ISettingRegistry,
     IToolbarWidgetRegistry,
+    IFileBrowserFactory,
   ],
   optional: [
     IRunningSessionManagers,
@@ -277,13 +279,16 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     translator: ITranslator,
     settingRegistry: ISettingRegistry,
     toolbarRegistry: IToolbarWidgetRegistry,
+    factory: IFileBrowserFactory,
     manager: IRunningSessionManagers | null,
     settingEditorTracker: ISettingEditorTracker | null,
     jsonSettingEditorTracker: IJSONSettingEditorTracker | null
   ): INotebookTree => {
     const nbTreeWidget = new NotebookTreeWidget();
+    nbTreeWidget.tabsMovable = false;
 
     const trans = translator.load('notebook');
+    const { tracker } = factory;
 
     browser.title.label = trans.__('Files');
     browser.node.setAttribute('role', 'region');
@@ -292,7 +297,6 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
 
     nbTreeWidget.addWidget(browser);
     nbTreeWidget.tabBar.addTab(browser.title);
-    nbTreeWidget.tabsMovable = false;
 
     toolbarRegistry.addFactory(
       FILE_BROWSER_FACTORY,
@@ -379,6 +383,38 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
           });
         }
       }
+    );
+
+    const moveDrive = (widget: FileBrowser) => {
+      if (widget.model.driveName) {
+        // const parent = widget.parent;
+        widget.parent = null;
+        nbTreeWidget.addWidget(widget);
+        widget.title.label = widget.model.driveName;
+        nbTreeWidget.tabBar.addTab(widget.title);
+        // parent?.dispose();
+      }
+    };
+
+    requestAnimationFrame(() => {
+      // add drives to the notebook tree widget
+      tracker.forEach((widget) => {
+        // move the additional drives to the notebook tree widget
+        moveDrive(widget);
+      });
+
+      setCurrentToDefaultBrower();
+    });
+
+    // TODO: remove
+    // Workaround to force the focus on the default file browser
+    // See https://github.com/jupyterlab/jupyterlab/issues/15629 for more info
+    const setCurrentToDefaultBrower = () => {
+      tracker['_pool'].current = browser;
+    };
+
+    tracker.widgetAdded.connect((sender, widget) =>
+      setCurrentToDefaultBrower()
     );
 
     return nbTreeWidget;
