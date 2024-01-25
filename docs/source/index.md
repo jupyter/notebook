@@ -9,5 +9,3 @@ plt.ylabel('育児の機会費用 (C)')
 plt.legend()
 plt.grid(True)
 plt.show()
-
-
