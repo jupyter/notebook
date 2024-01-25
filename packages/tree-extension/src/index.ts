@@ -47,7 +47,6 @@ import { Menu, MenuBar } from '@lumino/widgets';
 import { NotebookTreeWidget, INotebookTree } from '@jupyter-notebook/tree';
 
 import { FilesActionButtons } from './fileactions';
-import { INotebookShell } from '@jupyter-notebook/application';
 
 /**
  * The file browser factory.
@@ -266,7 +265,6 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     ISettingRegistry,
     IToolbarWidgetRegistry,
     IFileBrowserFactory,
-    INotebookShell,
   ],
   optional: [
     IRunningSessionManagers,
@@ -282,7 +280,6 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     settingRegistry: ISettingRegistry,
     toolbarRegistry: IToolbarWidgetRegistry,
     factory: IFileBrowserFactory,
-    notebookShell: INotebookShell,
     manager: IRunningSessionManagers | null,
     settingEditorTracker: ISettingEditorTracker | null,
     jsonSettingEditorTracker: IJSONSettingEditorTracker | null
@@ -388,17 +385,25 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
       }
     );
 
-    // add drives to the notebook tree widget
-    tracker.forEach((widget) => {
-      // move the additional drives to the notebook tree widget
+    const moveDrive = (widget: FileBrowser) => {
       if (widget.model.driveName) {
-        const parent = widget.parent;
+        // const parent = widget.parent;
         widget.parent = null;
         nbTreeWidget.addWidget(widget);
         widget.title.label = widget.model.driveName;
         nbTreeWidget.tabBar.addTab(widget.title);
-        parent?.dispose();
+        // parent?.dispose();
       }
+    };
+
+    requestAnimationFrame(() => {
+      // add drives to the notebook tree widget
+      tracker.forEach((widget) => {
+        // move the additional drives to the notebook tree widget
+        moveDrive(widget);
+      });
+
+      setCurrentToDefaultBrower();
     });
 
     // TODO: remove
@@ -408,8 +413,9 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
       tracker['_pool'].current = browser;
     };
 
-    tracker.widgetAdded.connect(setCurrentToDefaultBrower);
-    setCurrentToDefaultBrower();
+    tracker.widgetAdded.connect((sender, widget) =>
+      setCurrentToDefaultBrower()
+    );
 
     return nbTreeWidget;
   },
