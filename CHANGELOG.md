@@ -14,6 +14,30 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.1.0b0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.1.0a2...5d265b90ed5f097af4ca22d283ecdc705229ff92))
+
+### Bugs fixed
+
+- Workaround for the file browser tracker focus issue [#7224](https://github.com/jupyter/notebook/pull/7224) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab 4.1.0b2 [#7222](https://github.com/jupyter/notebook/pull/7222) ([@jtpio](https://github.com/jtpio))
+- Fix `check_links` on CI [#7219](https://github.com/jupyter/notebook/pull/7219) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 1 update [#7218](https://github.com/jupyter/notebook/pull/7218) ([@dependabot](https://github.com/dependabot))
+- Bump the actions group with 2 updates [#7207](https://github.com/jupyter/notebook/pull/7207) ([@dependabot](https://github.com/dependabot))
+- chore: update pre-commit hooks [#7206](https://github.com/jupyter/notebook/pull/7206) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-12-27&to=2024-01-26&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-12-27..2024-01-26&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-12-27..2024-01-26&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-12-27..2024-01-26&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-12-27..2024-01-26&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2023-12-27..2024-01-26&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.1.0a2
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.1.0a1...251e0e360603b6e63b280b3bd04a5406f7da28da))
@@ -43,8 +67,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-12-04&to=2023-12-27&type=c))
 
 [@akx](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aakx+updated%3A2023-12-04..2023-12-27&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2023-12-04..2023-12-27&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-12-04..2023-12-27&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-12-04..2023-12-27&type=Issues) | [@haok1402](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahaok1402+updated%3A2023-12-04..2023-12-27&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-12-04..2023-12-27&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-12-04..2023-12-27&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.1.0a1
 
