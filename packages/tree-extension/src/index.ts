@@ -18,6 +18,7 @@ import {
   FileBrowser,
   Uploader,
   IDefaultFileBrowser,
+  IFileBrowserFactory,
 } from '@jupyterlab/filebrowser';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -263,6 +264,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     ITranslator,
     ISettingRegistry,
     IToolbarWidgetRegistry,
+    IFileBrowserFactory,
   ],
   optional: [
     IRunningSessionManagers,
@@ -277,6 +279,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     translator: ITranslator,
     settingRegistry: ISettingRegistry,
     toolbarRegistry: IToolbarWidgetRegistry,
+    factory: IFileBrowserFactory,
     manager: IRunningSessionManagers | null,
     settingEditorTracker: ISettingEditorTracker | null,
     jsonSettingEditorTracker: IJSONSettingEditorTracker | null
@@ -380,6 +383,21 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
         }
       }
     );
+
+    const { tracker } = factory;
+
+    // TODO: remove
+    // Workaround to force the focus on the default file browser
+    // See https://github.com/jupyterlab/jupyterlab/issues/15629 for more info
+    const setCurrentToDefaultBrower = () => {
+      tracker['_pool'].current = browser;
+    };
+
+    tracker.widgetAdded.connect((sender, widget) =>
+      setCurrentToDefaultBrower()
+    );
+
+    setCurrentToDefaultBrower();
 
     return nbTreeWidget;
   },
