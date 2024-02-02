@@ -43,7 +43,8 @@ which renders as:
 ### Inline completer
 
 JupyterLab now supports completion presented as ghost text in the cell and file editors,
-allowing generative AI models to provide multi-line completions.
+allowing generative AI models to provide multi-line completions. This can now also be leveraged in Jupyter Notebook.
+
 The suggestions are provided by plugins implementing the ``IInlineCompletionProvider`` API;
 by default a single provider which uses kernel history is available.
 
