@@ -12,6 +12,101 @@ upgrading `notebook`.
 Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 `pip --version`.
 
+## v7.1
+
+Jupyter Notebook 7.1 is based on JupyterLab 4.1, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-0-to-4-1) which lists deprecations and changes to the public API.
+
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.1, although they are not all supported in Notebook 7.1.
+
+For reference you may have a look at the JupyterLab 4.1 changelog to learn more: https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-1
+
+### Diagrams in Markdown
+
+Matching GitHub-Flavoured Markdown, JupyterLab 4.1 now supports [Mermaid](https://github.com/mermaid-js/mermaid) diagrams.
+To create a mermaid diagram use the `mermaid` language specifier for a code block in a markdown cell or document, for example:
+
+~~~
+```mermaid
+flowchart LR
+
+A[Hard] -->|Text| B(Round)
+B --> C{Decision}
+C -->|One| D[Result 1]
+C -->|Two| E[Result 2]
+```
+~~~
+
+which renders as:
+
+<img alt="Rendered Mermaid diagram going from left to right with modern look; the diagram contains blueish square node with text Hard pointing to round square node with text Round; over the arrow connecting the two nodes there is a word Text; the second node further connects to a rhombus-shaped node with text Decision which then connects to two further nodes, Result 1 and Result 2." src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.1-merimad-diagram.png" class="jp-screenshot">
+
+### Inline completer
+
+JupyterLab now supports completion presented as ghost text in the cell and file editors,
+allowing generative AI models to provide multi-line completions. This can now also be leveraged in Jupyter Notebook.
+
+The suggestions are provided by plugins implementing the ``IInlineCompletionProvider`` API;
+by default a single provider which uses kernel history is available.
+
+<img alt="In a code cell with `def fac` content a ghost text containing a suggestion representing further code of factorial function is shown; over the code cell there is a floating widget allowing to accept the suggestion and iterate between alternative suggestions" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.1-inline-completer.png" class="jp-screenshot">
+
+The suggestions can be invoked as-you-type or manually using a configurable shortcut (by default <kbd>Alt</kbd> + <kbd>\\</kbd>).
+The default keyboard shortcuts are displayed in the small widget shown when hovering over the ghost suggestion:
+- <kbd>Alt</kbd> + <kbd>End</kbd> - accept suggestion
+- <kbd>Alt</kbd> + <kbd>[</kbd> - previous suggestion
+- <kbd>Alt</kbd> + <kbd>]</kbd> - next suggestion
+
+To enable the inline suggestions based on the kernel history, go to Settings → Inline Completer → History provider → check the "enabled" checkbox.
+
+In addition to the built-in history suggestions,
+the [`jupyter-ai`](https://github.com/jupyterlab/jupyter-ai) extension will provide
+suggestions from supported models.
+
+Note that the Jupyter AI extension is not yet compatible with Jupyter Notebook 7.
+
+### Keyboard navigation improvements
+
+Numerous improvements to keyboard navigation with focus on accessibility and usability are included in this release:
+- the notebook cells now retain focus
+- the focus can now be moved beyond the active notebook
+- the toolbars can now be navigated using arrow keys
+
+For more details, see [this post on Jupyter Blog](https://blog.jupyter.org/recent-keyboard-navigation-improvements-in-jupyter-4df32f97628d).
+
+### Execution history in notebook
+
+The code from previously executed cells can be used to populate empty cells,
+allowing to iterate on code from previous cells or even sessions
+(depending on how a specific kernel stores history).
+
+To cycle between history items press <kbd>Alt</kbd> + <kbd>Arrow Up</kbd> and  <kbd>Alt</kbd> + <kbd>Arrow Down</kbd>.
+
+To enable execution history, go to Settings → Notebook → check the "Kernel history access" checkbox.
+
+This feature was already available in the console in previous releases; it only works with kernels supporting execution history requests.
+To clear the execution history consult the documentation of the kernel you are using (e.g., IPython/ipykernel).
+
+### Error indicator in the table of contents
+
+When a cell fails during execution, an error indicator will be displayed by the corresponding heading,
+increasing awareness of the notebook state and enabling users to quickly navigate to the cell which requires attention.
+
+<img alt="Error indicator in the shape of a triangle with exclamation sign (using ⚠ UTF character) shown next to one of the headings in the table of contents panel" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.1-toc-error-indicator.png" class="jp-screenshot">
+
+### Search improvements
+
+- The search box will now grow automatically to accommodate longer text
+- Search in selection can now be toggled using <kbd>Alt</kbd> + <kbd>L</kbd> and automatic search in selection can be configured in settings
+- Tooltips with shortcuts were added to the buttons in the search box to improve discoverability of the shortcuts
+
+### Miscellaneous
+
+- The current theme (dark/light) can now be synced with the browser/system preference (Settings menu → Theme → Synchronise with System Settings)
+- A blue "read-only" status indicator is now  displayed in the toolbar of documents which cannot be saved because their model is read-only.
+- Native support for viewing jsonl/ndjson files was added
+- Collapsing of breadcrumbs in the File Browser can be disabled in File Browser settings
+
+
 <!-- <START NEW CHANGELOG ENTRY> -->
 
 ## 7.1.0b0
@@ -118,6 +213,8 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-10-17&to=2023-10-27&type=c))
 
 [@Dilip-Jain](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ADilip-Jain+updated%3A2023-10-17..2023-10-27&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-10-17..2023-10-27&type=Issues) | [@jayeshsingh9767](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajayeshsingh9767+updated%3A2023-10-17..2023-10-27&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-10-17..2023-10-27&type=Issues)
+
+## v7.0
 
 ## 7.0.6
 
