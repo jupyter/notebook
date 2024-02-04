@@ -64,6 +64,14 @@ const KERNEL_STATUS_FADE_OUT_CLASS = 'jp-NotebookKernelStatus-fade';
 const SCROLLED_OUTPUTS_CLASS = 'jp-mod-outputsScrolled';
 
 /**
+ * The command IDs used by the notebook plugins.
+ */
+namespace CommandIDs {
+  export const openEditNotebookMetadata = 'notebook:edit-metadata';
+}
+
+
+/**
  * A plugin for the checkpoint indicator
  */
 const checkpoints: JupyterFrontEndPlugin<void> = {
@@ -496,12 +504,11 @@ const trusted: JupyterFrontEndPlugin<void> = {
  */
 const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:edit-notebook-metadata',
+  description: 'Add a command to open right sidebar for Editing Notebook Metadata when clicking on "Edit Notebook Metadata" under Edit menu',
   autoStart: true,
-  requires: [IMainMenu],
   optional: [ITranslator, INotebookTools],
   activate: (
     app: JupyterFrontEnd,
-    menu: IMainMenu,
     translator: ITranslator | null,
     notebookTools: INotebookTools | null
   ) => {
@@ -509,8 +516,7 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
     translator = translator ?? nullTranslator;
     const trans = translator.load('notebook');
 
-    const id = 'notebook:edit-metadata';
-    commands.addCommand(id, {
+    commands.addCommand(CommandIDs.openEditNotebookMetadata, {
       label: trans.__('Edit Notebook Metadata'),
       execute: async () => {
         const command = 'application:toggle-panel';
@@ -541,7 +547,7 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
     });
 
     // Add `Edit Notebook Metadata` option to Edit menu
-    menu.editMenu.addItem({ type: 'command', command: id, rank: 40 });
+    // menu.editMenu.addItem({ type: 'command', command: CommandIDs.openEditNotebookMetadata, rank: 40 });
   },
 };
 
