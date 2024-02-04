@@ -70,7 +70,6 @@ namespace CommandIDs {
   export const openEditNotebookMetadata = 'notebook:edit-metadata';
 }
 
-
 /**
  * A plugin for the checkpoint indicator
  */
@@ -170,7 +169,7 @@ const closeTab: JupyterFrontEndPlugin<void> = {
       // shut down action for the notebook
       rank: 0,
     });
-  }
+  },
 };
 
 /**
