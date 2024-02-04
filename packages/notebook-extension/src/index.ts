@@ -170,7 +170,7 @@ const closeTab: JupyterFrontEndPlugin<void> = {
       // shut down action for the notebook
       rank: 0,
     });
-  },
+  }
 };
 
 /**
@@ -504,7 +504,8 @@ const trusted: JupyterFrontEndPlugin<void> = {
  */
 const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:edit-notebook-metadata',
-  description: 'Add a command to open right sidebar for Editing Notebook Metadata when clicking on "Edit Notebook Metadata" under Edit menu',
+  description:
+   'Add a command to open right sidebar for Editing Notebook Metadata when clicking on "Edit Notebook Metadata" under Edit menu',
   autoStart: true,
   optional: [ITranslator, INotebookTools],
   activate: (
