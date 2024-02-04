@@ -504,7 +504,7 @@ const trusted: JupyterFrontEndPlugin<void> = {
 const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:edit-notebook-metadata',
   description:
-   'Add a command to open right sidebar for Editing Notebook Metadata when clicking on "Edit Notebook Metadata" under Edit menu',
+    'Add a command to open right sidebar for Editing Notebook Metadata when clicking on "Edit Notebook Metadata" under Edit menu',
   autoStart: true,
   optional: [ITranslator, INotebookTools],
   activate: (
