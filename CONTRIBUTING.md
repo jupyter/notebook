@@ -119,7 +119,7 @@ Running the command will open a browser tab by default with a graph that looks l
 To learn more about Lerna caching:
 
 - https://lerna.js.org/docs/features/cache-tasks
-- https://nx.dev/core-features/cache-task-results
+- https://nx.dev/features/cache-task-results
 
 ### Updating reference snapshots
 
