@@ -67,6 +67,9 @@ const SCROLLED_OUTPUTS_CLASS = 'jp-mod-outputsScrolled';
  * The command IDs used by the notebook plugins.
  */
 namespace CommandIDs {
+  /**
+   * A command to open right sidebar for Editing Notebook Metadata
+   */
   export const openEditNotebookMetadata = 'notebook:edit-metadata';
 }
 
@@ -545,9 +548,6 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
         }
       },
     });
-
-    // Add `Edit Notebook Metadata` option to Edit menu
-    // menu.editMenu.addItem({ type: 'command', command: CommandIDs.openEditNotebookMetadata, rank: 40 });
   },
 };
 
