@@ -10,6 +10,7 @@ import {
   ISessionContext,
   DOMUtils,
   IToolbarWidgetRegistry,
+  ICommandPalette,
 } from '@jupyterlab/apputils';
 
 import { Cell, CodeCell } from '@jupyterlab/cells';
@@ -62,6 +63,16 @@ const KERNEL_STATUS_FADE_OUT_CLASS = 'jp-NotebookKernelStatus-fade';
  * The class for scrolled outputs
  */
 const SCROLLED_OUTPUTS_CLASS = 'jp-mod-outputsScrolled';
+
+/**
+ * The command IDs used by the notebook plugins.
+ */
+namespace CommandIDs {
+  /**
+   * A command to open right sidebar for Editing Notebook Metadata
+   */
+  export const openEditNotebookMetadata = 'notebook:edit-metadata';
+}
 
 /**
  * A plugin for the checkpoint indicator
@@ -492,11 +503,70 @@ const trusted: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * Add a command to open right sidebar for Editing Notebook Metadata when clicking on "Edit Notebook Metadata" under Edit menu
+ */
+const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:edit-notebook-metadata',
+  description:
+    'Add a command to open right sidebar for Editing Notebook Metadata when clicking on "Edit Notebook Metadata" under Edit menu',
+  autoStart: true,
+  optional: [ICommandPalette, ITranslator, INotebookTools],
+  activate: (
+    app: JupyterFrontEnd,
+    palette: ICommandPalette | null,
+    translator: ITranslator | null,
+    notebookTools: INotebookTools | null
+  ) => {
+    const { commands } = app;
+    translator = translator ?? nullTranslator;
+    const trans = translator.load('notebook');
+
+    commands.addCommand(CommandIDs.openEditNotebookMetadata, {
+      label: trans.__('Edit Notebook Metadata'),
+      execute: async () => {
+        const command = 'application:toggle-panel';
+        const args = {
+          side: 'right',
+          title: 'Show Notebook Tools',
+          id: 'notebook-tools',
+        };
+
+        // Check if Show Notebook Tools (Right Sidebar) is open (expanded)
+        if (!commands.isToggled(command, args)) {
+          await commands.execute(command, args).then((_) => {
+            // For expanding the 'Advanced Tools' section (default: collapsed)
+            if (notebookTools) {
+              const tools = (notebookTools?.layout as any).widgets;
+              tools.forEach((tool: any) => {
+                if (
+                  tool.widget.title.label === trans.__('Advanced Tools') &&
+                  tool.collapsed
+                ) {
+                  tool.toggle();
+                }
+              });
+            }
+          });
+        }
+      },
+    });
+
+    if (palette) {
+      palette.addItem({
+        command: CommandIDs.openEditNotebookMetadata,
+        category: 'Notebook Operations',
+      });
+    }
+  },
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   closeTab,
+  editNotebookMetadata,
   kernelLogo,
   kernelStatus,
   notebookToolsWidget,
