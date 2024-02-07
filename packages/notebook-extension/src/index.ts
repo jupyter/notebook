@@ -10,6 +10,7 @@ import {
   ISessionContext,
   DOMUtils,
   IToolbarWidgetRegistry,
+  ICommandPalette,
 } from '@jupyterlab/apputils';
 
 import { Cell, CodeCell } from '@jupyterlab/cells';
@@ -509,9 +510,10 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
   description:
     'Add a command to open right sidebar for Editing Notebook Metadata when clicking on "Edit Notebook Metadata" under Edit menu',
   autoStart: true,
-  optional: [ITranslator, INotebookTools],
+  optional: [ICommandPalette, ITranslator, INotebookTools],
   activate: (
     app: JupyterFrontEnd,
+    palette: ICommandPalette | null,
     translator: ITranslator | null,
     notebookTools: INotebookTools | null
   ) => {
@@ -548,6 +550,13 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
         }
       },
     });
+
+    if (palette) {
+      palette.addItem({
+        command: CommandIDs.openEditNotebookMetadata,
+        category: 'Notebook Operations',
+      });
+    }
   },
 };
 
