@@ -73,6 +73,7 @@ notebook_7_features.md
 
 migrating/frontend-extensions.md
 migrating/server-extensions.md
+migrating/server-imports.md
 migrating/custom-themes.md
 migrating/multiple-interfaces.md
 ```
