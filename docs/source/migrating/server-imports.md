@@ -6,6 +6,7 @@ Prior to Notebook 7, the Classic Notebook server included the server modules in 
 
 ```python
 from notebook.auth import passwd
+
 passwd("foo")
 ```
 
@@ -13,6 +14,7 @@ Or:
 
 ```python
 from notebook import notebookapp
+
 notebookapp.list_running_servers()
 ```
 
@@ -20,6 +22,7 @@ In Notebook 7, these server modules are now exposed by the `jupyter_server` pack
 
 ```python
 from jupyter_server.auth import passwd
+
 passwd("foo")
 ```
 
@@ -27,6 +30,7 @@ And:
 
 ```python
 from jupyter_server import serverapp
+
 serverapp.list_running_servers()
 ```
 
