@@ -108,6 +108,26 @@ increasing awareness of the notebook state and enabling users to quickly navigat
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.1.0rc1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.1.0rc0...376a2f97c883e6e91f321d0a676e1ee9ff3b8d87))
+
+### Maintenance and upkeep improvements
+
+- Follow JupyterLab minor versions [#7250](https://github.com/jupyter/notebook/pull/7250) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Add documentation for updating `notebook` imports [#7244](https://github.com/jupyter/notebook/pull/7244) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-02-07&to=2024-02-09&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-02-07..2024-02-09&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-02-07..2024-02-09&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.1.0rc0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.1.0b0...2d717f5896a1d4310baa2499c7e6197d1914201d))
@@ -133,8 +153,6 @@ increasing awareness of the notebook state and enabling users to quickly navigat
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-01-26&to=2024-02-07&type=c))
 
 [@Dilip-Jain](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ADilip-Jain+updated%3A2024-01-26..2024-02-07&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-01-26..2024-02-07&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-01-26..2024-02-07&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2024-01-26..2024-02-07&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.1.0b0
 
