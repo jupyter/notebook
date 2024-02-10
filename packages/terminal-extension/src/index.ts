@@ -33,7 +33,7 @@ const opener: JupyterFrontEndPlugin<void> = {
   ) => {
     const { commands } = app;
     const terminalPattern = new RegExp('/terminals/(.*)');
-    const ignoreTreePattern = new RegExp('/tree/(.*)');
+    const ignoreTreePattern = new RegExp('/(tree|notebooks|edit)/(.*)');
 
     const command = 'router:terminal';
     commands.addCommand(command, {

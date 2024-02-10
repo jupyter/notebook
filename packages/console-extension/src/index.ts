@@ -29,7 +29,7 @@ const opener: JupyterFrontEndPlugin<void> = {
   activate: (app: JupyterFrontEnd, router: IRouter) => {
     const { commands } = app;
     const consolePattern = new RegExp('/consoles/(.*)');
-    const ignoreTreePattern = new RegExp('/tree/(.*)');
+    const ignoreTreePattern = new RegExp('/(tree|notebooks|edit)/(.*)');
 
     const command = 'router:console';
     commands.addCommand(command, {
