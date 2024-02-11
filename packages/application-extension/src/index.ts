@@ -208,8 +208,9 @@ const opener: JupyterFrontEndPlugin<void> = {
         const matches = parsed.path.match(TREE_PATTERN) ?? [];
         const isTreeMatch = parsed.path.match(ignoreTreePattern);
 
-        if(isTreeMatch)
+        if(isTreeMatch){
           return;
+        }
 
         const [, , path] = matches;
         if (!path) {
