@@ -87,7 +87,7 @@ const createNew: JupyterFrontEndPlugin<void> = {
     translator: ITranslator,
     toolbarRegistry: IToolbarWidgetRegistry | null
   ) => {
-    const { commands } = app;
+    const { commands, serviceManager } = app;
     const trans = translator.load('notebook');
 
     const overflowOptions = {
@@ -99,17 +99,34 @@ const createNew: JupyterFrontEndPlugin<void> = {
     newMenu.title.icon = caretDownIcon;
     menubar.addMenu(newMenu);
 
-    const newCommands = [
-      'notebook:create-new',
-      'terminal:create-new',
-      'console:create',
-      'filebrowser:create-new-file',
-      'filebrowser:create-new-directory',
-    ];
+    const populateNewMenu = () => {
+      // create an entry per kernel spec for creating a new notebook
+      const specs = serviceManager.kernelspecs?.specs?.kernelspecs;
+      for (const name in specs) {
+        newMenu.addItem({
+          args: { kernelName: name, isLauncher: true },
+          command: 'notebook:create-new',
+        });
+      }
 
-    newCommands.forEach((command) => {
-      newMenu.addItem({ command });
+      const baseCommands = [
+        'terminal:create-new',
+        'console:create',
+        'filebrowser:create-new-file',
+        'filebrowser:create-new-directory',
+      ];
+
+      baseCommands.forEach((command) => {
+        newMenu.addItem({ command });
+      });
+    };
+
+    serviceManager.kernelspecs?.specsChanged.connect(() => {
+      newMenu.clearItems();
+      populateNewMenu();
     });
+
+    populateNewMenu();
 
     if (toolbarRegistry) {
       toolbarRegistry.addFactory(
