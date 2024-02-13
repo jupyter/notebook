@@ -58,8 +58,10 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
             widgetName.includes('Notebook')
           ) {
             // make sure to save the notebook before opening it in a new tab
-            // so the kernel info is saved
-            await widget.context.save();
+            // so the kernel info is saved (if created from the New dropdown)
+            if (widget.context.sessionContext.kernelPreference.name) {
+              await widget.context.save();
+            }
             route = 'notebooks';
           }
           // append ?factory only if it's not the default
