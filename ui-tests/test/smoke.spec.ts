@@ -27,7 +27,7 @@ test.describe('Smoke', () => {
     const [notebook] = await Promise.all([
       page.waitForEvent('popup'),
       page.click('text="New"'),
-      page.click('text="Notebook"'),
+      page.click('text="Python 3 (ipykernel)"'),
     ]);
 
     try {
