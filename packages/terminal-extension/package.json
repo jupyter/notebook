@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/terminal-extension",
-  "version": "7.1.0-rc.1",
+  "version": "7.1.0",
   "description": "Jupyter Notebook - Terminal Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -38,10 +38,10 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.1.0-rc.1",
-    "@jupyterlab/application": "~4.1.0",
-    "@jupyterlab/coreutils": "~6.1.0",
-    "@jupyterlab/terminal": "~4.1.0",
+    "@jupyter-notebook/application": "^7.1.0",
+    "@jupyterlab/application": "~4.1.1",
+    "@jupyterlab/coreutils": "~6.1.1",
+    "@jupyterlab/terminal": "~4.1.1",
     "@lumino/algorithm": "^2.0.1"
   },
   "devDependencies": {

@@ -40,7 +40,10 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
     const pathOpener = notebookPathOpener ?? defaultNotebookPathOpener;
     let id = 0;
     return new (class {
-      open(widget: IDocumentWidget, options?: DocumentRegistry.IOpenOptions) {
+      async open(
+        widget: IDocumentWidget,
+        options?: DocumentRegistry.IOpenOptions
+      ) {
         const widgetName = options?.type ?? '';
         const ref = options?.ref;
         // check if there is an setting override and if it would add the widget in the main area
@@ -54,6 +57,11 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
             (widgetName === 'default' && ext === '.ipynb') ||
             widgetName.includes('Notebook')
           ) {
+            // make sure to save the notebook before opening it in a new tab
+            // so the kernel info is saved (if created from the New dropdown)
+            if (widget.context.sessionContext.kernelPreference.name) {
+              await widget.context.save();
+            }
             route = 'notebooks';
           }
           // append ?factory only if it's not the default
