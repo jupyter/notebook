@@ -551,7 +551,7 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
       },
       isVisible: () =>
               shell.currentWidget !== null &&
-              shell.currentWidget instanceof NotebookPanel
+        shell.currentWidget instanceof NotebookPanel
     });
 
     if (palette) {
