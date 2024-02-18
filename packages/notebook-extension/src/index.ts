@@ -549,7 +549,9 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
           });
         }
       },
-      isEnabled: () => shell.currentWidget !== null && shell.currentWidget instanceof NotebookPanel
+      isVisible: () =>
+              shell.currentWidget !== null &&
+              shell.currentWidget instanceof NotebookPanel
     });
 
     if (palette) {
