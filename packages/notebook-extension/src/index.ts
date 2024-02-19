@@ -517,7 +517,7 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
     translator: ITranslator | null,
     notebookTools: INotebookTools | null
   ) => {
-    const { commands } = app;
+    const { commands, shell } = app;
     translator = translator ?? nullTranslator;
     const trans = translator.load('notebook');
 
@@ -549,6 +549,9 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
           });
         }
       },
+      isVisible: () =>
+        shell.currentWidget !== null &&
+        shell.currentWidget instanceof NotebookPanel,
     });
 
     if (palette) {
