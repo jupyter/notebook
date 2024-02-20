@@ -201,6 +201,7 @@ const opener: JupyterFrontEndPlugin<void> = {
     const { commands, docRegistry } = app;
 
     const ignoredPattern = new RegExp('/tree/(.*)');
+    const pathSegmentPattern = new RegExp('\\bnotebooks\\b|\\bedit\\b');
     const command = 'router:tree';
     commands.addCommand(command, {
       execute: (args: any) => {
@@ -212,8 +213,8 @@ const opener: JupyterFrontEndPlugin<void> = {
           return;
         }
 
-        const pathSegments: string[] = parsed.path.split('/\bnotebooks\b/|/\bedit\b/');
-        if ( pathSegments.length > 1 && pathSegments[0].match(ignoredPattern) ) {
+        const pathSegments: string[] = parsed.path.split(pathSegmentPattern);
+        if (pathSegments.length > 1 && pathSegments[0].match(ignoredPattern)) {
           return;
         }
 
