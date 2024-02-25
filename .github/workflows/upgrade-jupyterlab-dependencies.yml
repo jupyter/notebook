@@ -51,7 +51,7 @@ jobs:
           set -eux
           for version in ${{ inputs.version || env.version }} 
           do 
-            export LATEST=$(python scripts/get_latest_lab_version.py --set-release version)
+            export LATEST=$(python scripts/get-latest-lab-version.py --set-release version)
           done
 
           echo "latest=${LATEST}" >> $GITHUB_ENV
@@ -63,8 +63,8 @@ jobs:
       - name: Create a PR
         shell: bash
         env:
-          GITHUB_USER: ${{ secrets.GITHUB_USER }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_USER: ${{ secrets.G_USER }}
+          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
         run: |
           set -eux
           # if resulted in any change:
