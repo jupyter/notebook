@@ -4,22 +4,15 @@ on:
   schedule:
     - cron: 30 17 * * *
   workflow_dispatch:
-    inputs:
-        branchname:
-            description: 'Branch name'
-            default: main
-            required: true
-            type: string
-        
-        version:
-            description: 'latest or prerelease'
-            default: latest
-            required: true
-            type: string
+    inputs:        
+      version:
+        description: 'latest or prerelease'
+        default: latest
+        required: true
+        type: string
 
 env:
-    branch: 'main'
-    version: 'latest'
+  version: 'latest'
         
 permissions:
   contents: write
@@ -32,18 +25,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          ref: inputs.branchname || env.branch
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.9'
+          python-version: '3.11'
 
       - name: Install Python dependencies
         run: |
-          python -m pip install tbump
-          python -m pip install pre-commit
+          python -m pip install requests pre-commit
 
       - name: Install Node
         uses: actions/setup-node@v2
@@ -55,7 +45,7 @@ jobs:
           npm install --global yarn
           yarn install
 
-      - name: Check for new releases
+      - name: Check for new releases and update
         shell: bash
         run: |
           set -eux
@@ -67,11 +57,10 @@ jobs:
           echo "latest=${LATEST}" >> $GITHUB_ENV
           python scripts/upgrade-lab-dependencies.py --set-version ${LATEST}
           if [[ ! -z "$(git status --porcelain package.json)" ]]; then
-            tbump --only-patch ${LATEST}-1 --non-interactive
             yarn install
           fi
 
-      - name: Create a PR if needed
+      - name: Create a PR
         shell: bash
         env:
           GITHUB_USER: ${{ secrets.GITHUB_USER }}
@@ -82,13 +71,13 @@ jobs:
           export LATEST=${{ env.latest }}
           if [[ ! -z "$(git status --porcelain package.json)" ]]; then
             export BRANCH_NAME=update-to-v${LATEST}
+
             # this will fail if the branch already exists which means we won't have duplicate PRs
             git checkout -b "${BRANCH_NAME}"
             git config user.name "JupyterLab Desktop Bot"
             git config user.email 'jupyterlab-bot@users.noreply.github.com'
 
             pre-commit run
-
             git commit . -m "Update to JupyterLab v${LATEST}"
 
             git push --set-upstream origin "${BRANCH_NAME}"            
