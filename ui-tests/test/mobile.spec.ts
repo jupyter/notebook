@@ -25,8 +25,11 @@ test.describe('Mobile', () => {
 
   test('The layout should be more compact on the notebook page', async ({
     page,
+    tmpPath,
     browserName,
   }) => {
+    await page.goto(`tree/${tmpPath}`);
+
     // Create a new notebook
     const [notebook] = await Promise.all([
       page.waitForEvent('popup'),
