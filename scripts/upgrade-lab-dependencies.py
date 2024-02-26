@@ -23,7 +23,7 @@ PACKAGE_JSON_PATHS = [
 DEPENDENCY_NAME = "@jupyterlab"
 
 def update_package_json(new_version):
-    url = f'https://raw.githubusercontent.com/jupyterlab/jupyterlab/v{new_version}/jupyterlab/staging/package.json'
+    url = f'https://api.github.com/repos/{owner}/{repository}/releases'
     
     response = requests.get(url)
     
@@ -57,7 +57,17 @@ def update_dependencies(existing_json, new_json):
         updated = existing_json.get(section)
         for package, version in existing_json.get(section).items():
             if(package.startswith(DEPENDENCY_NAME) and package in new_json):
-                updated[package] = new_json[package]
+                # To maintaing the existing prefix ~ or ^
+                if version[0] in ('^','~'):
+                    updated[package] = version[0] + absolute_version(new_json[package])
+                else:
+                    updated[package] = absolute_version(new_json[package])
+
+def absolute_version(version):
+    if len(version) > 0 and version[0] in ('^','~'):
+        return version[1:];
+    return version;
+
 
 def main():
     parser = argparse.ArgumentParser(description='Update dependencies in package.json.')

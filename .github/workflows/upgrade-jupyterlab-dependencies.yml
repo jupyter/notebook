@@ -1,4 +1,4 @@
-name: Check for new JupyterLab releases
+name: Check for latest JupyterLab releases
 
 on:
   schedule:
@@ -6,13 +6,13 @@ on:
   workflow_dispatch:
     inputs:        
       version:
-        description: 'latest or prerelease'
+        description: 'JupyterLab version'
         default: latest
         required: true
         type: string
 
 env:
-  version: 'latest'
+  version_tag: 'latest'
         
 permissions:
   contents: write
@@ -31,9 +31,10 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Python dependencies
+      - name: Install required dependencies
         run: |
           python -m pip install requests pre-commit
+          sudo apt-get install hub
 
       - name: Install Node
         uses: actions/setup-node@v2
@@ -49,9 +50,9 @@ jobs:
         shell: bash
         run: |
           set -eux
-          for version in ${{ inputs.version || env.version }} 
+          for version in ${{ inputs.version || env.version_tag }} 
           do 
-            export LATEST=$(python scripts/get-latest-lab-version.py --set-release version)
+            export LATEST=$(python scripts/get-latest-lab-version.py --set-version version)
           done
 
           echo "latest=${LATEST}" >> $GITHUB_ENV
