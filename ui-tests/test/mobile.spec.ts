@@ -25,29 +25,29 @@ test.describe('Mobile', () => {
 
   test('The layout should be more compact on the notebook page', async ({
     page,
-    tmpPath,
     browserName,
   }) => {
-    const notebook = 'empty.ipynb';
-    await page.contents.uploadFile(
-      path.resolve(__dirname, `./notebooks/${notebook}`),
-      `${tmpPath}/${notebook}`
-    );
-    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+    // Create a new notebook
+    const [notebook] = await Promise.all([
+      page.waitForEvent('popup'),
+      page.click('text="New"'),
+      page.click('text="Python 3 (ipykernel)"'),
+    ]);
 
     // wait for the kernel status animations to be finished
-    await waitForKernelReady(page);
+    await waitForKernelReady(notebook);
 
     // force switching back to command mode to avoid capturing the cursor in the screenshot
-    await page.evaluate(async () => {
+    await notebook.evaluate(async () => {
       await window.jupyterapp.commands.execute('notebook:enter-command-mode');
     });
 
     // TODO: remove
     if (browserName === 'firefox') {
-      await hideAddCellButton(page);
+      await hideAddCellButton(notebook);
     }
 
-    expect(await page.screenshot()).toMatchSnapshot('notebook.png');
+    expect(await notebook.screenshot()).toMatchSnapshot('notebook.png');
+    await notebook.close();
   });
 });
