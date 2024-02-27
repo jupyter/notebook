@@ -23,7 +23,7 @@ PACKAGE_JSON_PATHS = [
 DEPENDENCY_NAME = "@jupyterlab"
 
 def update_package_json(new_version):
-    url = f'https://api.github.com/repos/{owner}/{repository}/releases'
+    url = f'https://raw.githubusercontent.com/jupyterlab/jupyterlab/v{new_version}/jupyterlab/staging/package.json'
     
     response = requests.get(url)
     
