@@ -1,0 +1,86 @@
+name: Check for latest JupyterLab releases
+
+on:
+  schedule:
+    - cron: 30 17 * * *
+  workflow_dispatch:
+    inputs:        
+      version:
+        description: 'JupyterLab version'
+        default: latest
+        required: true
+        type: string
+
+env:
+  version_tag: 'latest'
+        
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check_for_lab_updates:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install required dependencies
+        run: |
+          python -m pip install requests
+          sudo apt-get install hub
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.x'
+
+      - name: Install npm dependencies
+        run: |
+          npm install --global yarn
+          yarn install
+
+      - name: Check for new releases and update
+        shell: bash
+        run: |
+          set -eux
+          for version in ${{ inputs.version || env.version_tag }} 
+          do 
+            export LATEST=$(python scripts/get-latest-lab-version.py --set-version $version)
+          done
+
+          echo "latest=${LATEST}" >> $GITHUB_ENV
+          python scripts/upgrade-lab-dependencies.py --set-version ${LATEST}
+          if [[ ! -z "$(git status --porcelain package.json)" ]]; then
+            yarn install
+          fi
+
+      - name: Create a PR
+        shell: bash
+        env:
+          GITHUB_USER: ${{ secrets.G_USER }}
+          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
+        run: |
+          set -eux
+          # if resulted in any change:
+          export LATEST=${{ env.latest }}
+          if [[ ! -z "$(git status --porcelain package.json)" ]]; then
+            export BRANCH_NAME=update-to-v${LATEST}
+
+            # this will fail if the branch already exists which means we won't have duplicate PRs
+            git checkout -b "${BRANCH_NAME}"
+            git config user.name "JupyterLab Desktop Bot"
+            git config user.email 'jupyterlab-bot@users.noreply.github.com'
+
+            git commit . -m "Update to JupyterLab v${LATEST}"
+
+            git push --set-upstream origin "${BRANCH_NAME}"            
+            hub pull-request -m "Update to JupyterLab v${LATEST}" \
+                -m "New JupyterLab release [v${LATEST}](https://github.com/jupyterlab/jupyterlab/releases/tag/v${LATEST}) is available. Please review the lock file carefully.".
+          fi
