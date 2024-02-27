@@ -1,7 +1,6 @@
-from urllib.request import urlopen
-import json
 import argparse
-
+import requests
+import sys
 
 REPOSITORY = "jupyterlab"
 ORGANIZATION = "jupyterlab"
@@ -20,16 +19,20 @@ def extract_version_from_releases(releases, version_tag):
 
 
 def find_version(owner, repository, version_tag):
-    """Find latest stable release on GitHub for given repository."""
-    endpoint = f"https://api.github.com/repos/{owner}/{repository}/releases"
-    releases = json.loads(urlopen(endpoint).read())
+    url = f"https://api.github.com/repos/{owner}/{repository}/releases"
 
-    version = extract_version_from_releases(releases,version_tag)
+    response = requests.get(url, timeout=10)
+    
+    if response.status_code != 200:
+        error_message = f"Failed to fetch package.json from {url}. HTTP status code: {response.status_code}"
+        raise requests.HTTPError(error_message)
+
+    releases = response.json()
+    version = extract_version_from_releases(releases, version_tag)
 
     if version is None:
-        raise ValueError('Invalid release tag')
-    if not version.startswith('v'):
-        raise ValueError('Unexpected release tag name format: does not start with v')
+        error_message = 'Invalid release tag'
+        raise ValueError(error_message)
     return version[1:]
 
 def main():
@@ -37,8 +40,10 @@ def main():
     parser.add_argument('--set-version', dest='version_tag', type=str, required=True, help='Set version tag')
     
     args = parser.parse_args()
-    print(find_version(owner=ORGANIZATION,repository=REPOSITORY,version_tag=args.version_tag))
-    
+
+    result = find_version(owner=ORGANIZATION, repository=REPOSITORY, version_tag=args.version_tag)
+    sys.stdout.write(result)
+    sys.stdout.flush()
 
 if __name__ == '__main__':   
     main()
