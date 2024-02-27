@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: 30 17 * * *
   workflow_dispatch:
-    inputs:        
+    inputs:
       version:
         description: 'JupyterLab version'
         default: latest
@@ -13,7 +13,7 @@ on:
 
 env:
   version_tag: 'latest'
-        
+
 permissions:
   contents: write
   pull-requests: write
@@ -49,8 +49,8 @@ jobs:
         shell: bash
         run: |
           set -eux
-          for version in ${{ inputs.version || env.version_tag }} 
-          do 
+          for version in ${{ inputs.version || env.version_tag }}
+          do
             export LATEST=$(python scripts/get-latest-lab-version.py --set-version $version)
           done
 
@@ -79,7 +79,7 @@ jobs:
 
             git commit . -m "Update to JupyterLab v${LATEST}"
 
-            git push --set-upstream origin "${BRANCH_NAME}"            
+            git push --set-upstream origin "${BRANCH_NAME}"
             hub pull-request -m "Update to JupyterLab v${LATEST}" \
                 -m "New JupyterLab release [v${LATEST}](https://github.com/jupyterlab/jupyterlab/releases/tag/v${LATEST}) is available. Please review the lock file carefully.".
           fi
