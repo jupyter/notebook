@@ -68,7 +68,7 @@ jupyter notebook
 
 ### Local changes in Notebook dependencies
 
-The development installation described above fetches javascript dependencies from [npmjs](https://www.npmjs.com/),
+The development installation described above fetches JavaScript dependencies from [npmjs](https://www.npmjs.com/),
 according to the versions in the _package.json_ file.
 However, some changes in Notebook depend on changes in dependencies (e.g. `@jupyterlab` packages) that have not yet
 been published.
