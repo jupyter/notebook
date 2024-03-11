@@ -73,7 +73,7 @@ according to the versions in the _package.json_ file.
 However, it is sometimes useful to be able to test changes in Notebook, with dependencies (e.g. `@jupyterlab` packages) that have not yet
 been published.
 
-[yalc](https://github.com/wclr/yalc) can be a solution for easily fetching local javascript packages in your build of
+[yalc](https://github.com/wclr/yalc) can help use local JavaScript packages in your build of
 Notebook, acting as a local package repository.
 
 - Install yalc globally in you environment:
