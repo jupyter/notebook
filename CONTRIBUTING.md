@@ -70,7 +70,7 @@ jupyter notebook
 
 The development installation described above fetches JavaScript dependencies from [npmjs](https://www.npmjs.com/),
 according to the versions in the _package.json_ file.
-However, some changes in Notebook depend on changes in dependencies (e.g. `@jupyterlab` packages) that have not yet
+However, it is sometimes useful to be able to test changes in Notebook, with dependencies (e.g. `@jupyterlab` packages) that have not yet
 been published.
 
 [yalc](https://github.com/wclr/yalc) can be a solution for easily fetching local javascript packages in your build of
