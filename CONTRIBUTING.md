@@ -66,6 +66,40 @@ Then start Jupyter Notebook with:
 jupyter notebook
 ```
 
+### Local changes in Notebook dependencies
+
+The development installation described above fetches javascript dependencies from [npmjs](https://www.npmjs.com/),
+according to the versions in the *package.json* file.
+However, some changes in Notebook depend on changes in dependencies (e.g. `@jupyterlab` packages) that have not yet
+been published.
+
+[yalc](https://github.com/wclr/yalc) can be a solution for easily fetching local javascript packages in your build of
+Notebook, acting as a local package repository.
+
+- Install yalc globally in you environment:
+  `npm install -g yalc`
+- Publish you dependency package:\
+  `yalc publish`, from the package root directory.\
+  For instance, if you have are developing on *@jupyterlab/ui-components*, this command must be executed from
+  *path_to_jupyterlab/packages/ui-components*.
+- Depend on this local repository in Notebook:
+  - from the Notebook root directory:\
+    `yalc add your_package` : this will create a *dependencies* entry in the main *package.json* file.\
+    With the previous example, it would be `yalc add @jupyterlab/ui-components`.
+  - Notebook is a monerepo, so we want this dependency to be 'linked' as a resolution (for all sub-packages) instead
+    of a dependency.\
+    The easiest way is probably to manually move the new entry in *package.json* from *dependencies* to *resolutions*.
+  - Build Notebook with the local dependency:\
+    `jlpm install && jlpm build`
+
+Changes in dependency must then be built and pushed using `jlpm build && yalc push` (from the package root directory),
+and fetched from Notebook using `yarn install`.
+
+**Warning**: you need to make sure that the dependencies of Notebook and the local package match correctly,
+otherwise there will be errors with webpack during build.\
+In the previous example, both *@jupyterlab/ui-components* and Notebook depend on *@jupyterlab/coreutils*. We
+strongly advise you to depend on the same version.
+
 ## Running Tests
 
 To run the tests:
