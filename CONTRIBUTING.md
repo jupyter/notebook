@@ -92,7 +92,7 @@ Notebook, acting as a local package repository.
   - Build Notebook with the local dependency:\
     `jlpm install && jlpm build`
 
-Changes in dependency must then be built and pushed using `jlpm build && yalc push` (from the package root directory),
+Changes in the dependency must then be built and pushed using `jlpm build && yalc push` (from the package root directory),
 and fetched from Notebook using `yarn install`.
 
 **Warning**: you need to make sure that the dependencies of Notebook and the local package match correctly,
