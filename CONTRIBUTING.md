@@ -69,7 +69,7 @@ jupyter notebook
 ### Local changes in Notebook dependencies
 
 The development installation described above fetches javascript dependencies from [npmjs](https://www.npmjs.com/),
-according to the versions in the *package.json* file.
+according to the versions in the _package.json_ file.
 However, some changes in Notebook depend on changes in dependencies (e.g. `@jupyterlab` packages) that have not yet
 been published.
 
@@ -80,15 +80,15 @@ Notebook, acting as a local package repository.
   `npm install -g yalc`
 - Publish you dependency package:\
   `yalc publish`, from the package root directory.\
-  For instance, if you have are developing on *@jupyterlab/ui-components*, this command must be executed from
-  *path_to_jupyterlab/packages/ui-components*.
+  For instance, if you have are developing on _@jupyterlab/ui-components_, this command must be executed from
+  _path_to_jupyterlab/packages/ui-components_.
 - Depend on this local repository in Notebook:
   - from the Notebook root directory:\
-    `yalc add your_package` : this will create a *dependencies* entry in the main *package.json* file.\
+    `yalc add your_package` : this will create a _dependencies_ entry in the main _package.json_ file.\
     With the previous example, it would be `yalc add @jupyterlab/ui-components`.
   - Notebook is a monerepo, so we want this dependency to be 'linked' as a resolution (for all sub-packages) instead
     of a dependency.\
-    The easiest way is probably to manually move the new entry in *package.json* from *dependencies* to *resolutions*.
+    The easiest way is probably to manually move the new entry in _package.json_ from _dependencies_ to _resolutions_.
   - Build Notebook with the local dependency:\
     `jlpm install && jlpm build`
 
@@ -97,7 +97,7 @@ and fetched from Notebook using `yarn install`.
 
 **Warning**: you need to make sure that the dependencies of Notebook and the local package match correctly,
 otherwise there will be errors with webpack during build.\
-In the previous example, both *@jupyterlab/ui-components* and Notebook depend on *@jupyterlab/coreutils*. We
+In the previous example, both _@jupyterlab/ui-components_ and Notebook depend on _@jupyterlab/coreutils_. We
 strongly advise you to depend on the same version.
 
 ## Running Tests
