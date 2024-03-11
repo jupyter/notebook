@@ -88,7 +88,7 @@ Notebook, acting as a local package repository.
     With the previous example, it would be `yalc add @jupyterlab/ui-components`.
   - Notebook is a monerepo, so we want this dependency to be 'linked' as a resolution (for all sub-packages) instead
     of a dependency.\
-    The easiest way is probably to manually move the new entry in _package.json_ from _dependencies_ to _resolutions_.
+    The easiest way is to manually move the new entry in _package.json_ from _dependencies_ to _resolutions_.
   - Build Notebook with the local dependency:\
     `jlpm install && jlpm build`
 
