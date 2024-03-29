@@ -257,8 +257,7 @@
           "@jupyterlab/docmanager-extension:plugin",
           "@jupyterlab/docmanager-extension:download",
           "@jupyterlab/docmanager-extension:contexts",
-          "@jupyterlab/docmanager-extension:manager",
-          "@jupyterlab/docmanager-extension:recents"
+          "@jupyterlab/docmanager-extension:manager"
         ],
         "@jupyterlab/documentsearch-extension": [
           "@jupyterlab/documentsearch-extension:plugin"
@@ -309,7 +308,9 @@
           "@jupyterlab/filebrowser-extension:share-file"
         ],
         "@jupyter-notebook/tree-extension": true,
-        "@jupyterlab/running-extension": true,
+        "@jupyterlab/running-extension": [
+          "@jupyterlab/running-extension:plugin"
+        ],
         "@jupyterlab/settingeditor-extension": true
       },
       "/notebooks": {
