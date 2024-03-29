@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/tree-extension",
-  "version": "7.1.2",
+  "version": "7.2.0-alpha.0",
   "description": "Jupyter Notebook - Tree Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -38,8 +38,8 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.1.2",
-    "@jupyter-notebook/tree": "^7.1.2",
+    "@jupyter-notebook/application": "^7.2.0-alpha.0",
+    "@jupyter-notebook/tree": "^7.2.0-alpha.0",
     "@jupyterlab/application": "~4.2.0-alpha.2",
     "@jupyterlab/apputils": "~4.3.0-alpha.2",
     "@jupyterlab/coreutils": "~6.2.0-alpha.2",
