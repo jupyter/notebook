@@ -257,7 +257,8 @@
           "@jupyterlab/docmanager-extension:plugin",
           "@jupyterlab/docmanager-extension:download",
           "@jupyterlab/docmanager-extension:contexts",
-          "@jupyterlab/docmanager-extension:manager"
+          "@jupyterlab/docmanager-extension:manager",
+          "@jupyterlab/docmanager-extension:recents"
         ],
         "@jupyterlab/documentsearch-extension": [
           "@jupyterlab/documentsearch-extension:plugin"
@@ -275,7 +276,9 @@
         "@jupyterlab/htmlviewer-extension": true,
         "@jupyterlab/imageviewer-extension": true,
         "@jupyterlab/lsp-extension": true,
-        "@jupyterlab/mainmenu-extension": true,
+        "@jupyterlab/mainmenu-extension": [
+          "@jupyterlab/mainmenu-extension:plugin"
+        ],
         "@jupyterlab/markedparser-extension": true,
         "@jupyterlab/mathjax-extension": true,
         "@jupyterlab/mermaid-extension": true,
