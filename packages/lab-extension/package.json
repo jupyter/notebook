@@ -51,7 +51,7 @@
     "@jupyterlab/notebook": "~4.2.0-alpha.2",
     "@jupyterlab/translation": "~4.2.0-alpha.2",
     "@jupyterlab/ui-components": "~4.2.0-alpha.2",
-    "@lumino/commands": "^2.2.0",
+    "@lumino/commands": "^2.3.0",
     "@lumino/disposable": "^2.1.2"
   },
   "devDependencies": {
