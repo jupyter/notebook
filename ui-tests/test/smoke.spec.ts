@@ -10,8 +10,8 @@ test.describe('Smoke', () => {
   test('Tour', async ({ page, tmpPath }) => {
     // Open the tree page
     await page.goto(`tree/${tmpPath}`);
-    await page.click('text="Running"');
-    await page.click('text="Files"');
+    await page.locator('.jp-TreePanel >> text="Running"').click();
+    await page.locator('.jp-TreePanel >> text="Files"').click();
 
     // Create a new console
     await page.menu.clickMenuItem('New>Console');
@@ -71,7 +71,7 @@ math.pi`);
     ]);
 
     // Shut down the kernels
-    await tree2.click('text="Running"');
+    await tree2.locator('.jp-TreePanel >> text="Running"').click();
     await tree2.click('#main-panel jp-button :text("Shut Down All")');
     await tree2.press('.jp-Dialog', 'Enter');
 
