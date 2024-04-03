@@ -175,7 +175,7 @@ version-cmd = "jlpm run release:bump --force --skip-commit"
 
 [tool.jupyter-releaser.hooks]
 before-bump-version = [
-    "python -m pip install -U jupyterlab~=4.1.1",
+    "python -m pip install -U \"jupyterlab>=4.2.0b0,<4.3\"",
     "jlpm",
     "jlpm run build:utils",
     "python -m pip install hatch"
