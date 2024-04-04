@@ -4,7 +4,7 @@ runs:
   using: 'composite'
   steps:
     - name: Base Setup
-      uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      uses: jupyterlab/maintainer-tools/.github/actions/base-setup@0.25.0
 
     - name: Install dependencies
       shell: bash
