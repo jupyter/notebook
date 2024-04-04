@@ -33,7 +33,7 @@ classifiers = [
 dependencies = [
     "jupyter_server>=2.4.0,<3",
     "jupyterlab>=4.2.0a2,<4.3",
-    "jupyterlab_server>=2.22.1,<3",
+    "jupyterlab_server>=2.23.0,<3",
     "notebook_shim>=0.2,<0.3",
     "tornado>=6.2.0",
 ]
@@ -58,8 +58,8 @@ test = [
     "pytest-console-scripts",
     "ipykernel>=6.5.0",
     "jupyter_server[test]>=2.4.0,<3",
-    "jupyterlab_server[test]>=2.22.1,<3",
-    "importlib-resources>=1.4;python_version<\"3.10\"",
+    "jupyterlab_server[test]>=2.23.0,<3",
+    "importlib-resources>=5.0;python_version<\"3.10\"",
 ]
 docs = [
     "myst_parser",
