@@ -47,7 +47,7 @@ jobs:
         uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
       - name: Test the package
-        run: hatch run cov:test
+        run: hatch run -v cov:test
 
       - name: JavaScript tests
         run: |
@@ -99,7 +99,7 @@ jobs:
           python_version: '3.10'
       - name: Run the unit tests
         run: |
-          hatch run test:nowarn || hatch run test:nowarn --lf
+          hatch -v run test:nowarn || hatch -v run test:nowarn --lf
 
   test_prereleases:
     name: Test Prereleases
@@ -112,7 +112,7 @@ jobs:
           dependency_type: pre
       - name: Run the tests
         run: |
-          hatch run test:nowarn || hatch run test:nowarn --lf
+          hatch run -v test:nowarn || hatch run -v test:nowarn --lf
 
   install:
     needs: [build]
