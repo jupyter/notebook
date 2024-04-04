@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: release
     steps:
-      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@0.25.0
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v0.25.0
 
       - uses: actions/create-github-app-token@v1
         id: app-token
