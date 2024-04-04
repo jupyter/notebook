@@ -48,6 +48,10 @@ jobs:
         with:
           dependency_type: minimum
 
+      - name: debug
+        run: |
+          pip install -ve ".[dev,test]"
+
       - name: Test the package
         run: hatch run cov:test
 
