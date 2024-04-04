@@ -56,7 +56,7 @@ test = [
     "pytest-tornasync",
     "pytest-timeout",
     "pytest-console-scripts",
-    "ipykernel",
+    "ipykernel>=6.5.0",
     "jupyter_server[test]>=2.4.0,<3",
     "jupyterlab_server[test]>=2.22.1,<3",
     "importlib-resources>=5.0;python_version<\"3.10\"",
