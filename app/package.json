@@ -247,6 +247,7 @@
           "@jupyterlab/completer-extension:manager"
         ],
         "@jupyterlab/console-extension": [
+          "@jupyterlab/console-extension:cell-executor",
           "@jupyterlab/console-extension:completer",
           "@jupyterlab/console-extension:factory",
           "@jupyterlab/console-extension:foreign",
@@ -282,6 +283,7 @@
         "@jupyterlab/mathjax-extension": true,
         "@jupyterlab/mermaid-extension": true,
         "@jupyterlab/notebook-extension": [
+          "@jupyterlab/notebook-extension:cell-executor",
           "@jupyterlab/notebook-extension:code-console",
           "@jupyterlab/notebook-extension:export",
           "@jupyterlab/notebook-extension:factory",
