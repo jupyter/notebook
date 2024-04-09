@@ -35,7 +35,6 @@ body[data-notebook='notebooks'] .jp-WindowedPanel-outer {
 }
 
 body[data-notebook='notebooks'] .jp-WindowedPanel-inner {
-  max-width: var(--jp-notebook-max-width);
   margin-top: var(--jp-notebook-toolbar-margin-bottom);
 }
 
