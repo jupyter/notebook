@@ -565,6 +565,7 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
 
 /**
  * A plugin to set the default windowing mode for the notebook
+ * TODO: remove
  */
 const windowing: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:windowing',
