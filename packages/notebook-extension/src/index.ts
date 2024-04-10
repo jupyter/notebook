@@ -564,6 +564,31 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to set the default windowing mode for the notebook
+ * TODO: remove
+ */
+const windowing: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:windowing',
+  autoStart: true,
+  requires: [ISettingRegistry],
+  activate: (app: JupyterFrontEnd, settingRegistry: ISettingRegistry): void => {
+    // default to `none` to avoid notebook rendering glitches
+    const settings = settingRegistry.load(
+      '@jupyterlab/notebook-extension:tracker'
+    );
+    Promise.all([settings, app.restored])
+      .then(([settings]) => {
+        if (settings.user.windowing === undefined) {
+          void settings.set('windowingMode', 'defer');
+        }
+      })
+      .catch((reason: Error) => {
+        console.error(reason.message);
+      });
+  },
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
@@ -576,6 +601,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   scrollOutput,
   tabIcon,
   trusted,
+  windowing,
 ];
 
 export default plugins;
