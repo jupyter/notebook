@@ -108,6 +108,23 @@ increasing awareness of the notebook state and enabling users to quickly navigat
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.2.0b0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.2.0-alpha.0...09bcd99e6dfffce92acc9a7f9d11a2a2122131c0))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab `4.2.0b1` [#7319](https://github.com/jupyter/notebook/pull/7319) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.2.0b0 [#7312](https://github.com/jupyter/notebook/pull/7312) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-03-29&to=2024-04-12&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-03-29..2024-04-12&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-03-29..2024-04-12&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-03-29..2024-04-12&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.2.0a0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.1.2...80b582bce69e33e36e936af2ea981bcb22a4d285))
@@ -125,8 +142,6 @@ increasing awareness of the notebook state and enabling users to quickly navigat
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-03-14&to=2024-03-29&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-03-14..2024-03-29&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-03-14..2024-03-29&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.1.2
 
