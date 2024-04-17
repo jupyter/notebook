@@ -564,22 +564,6 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A plugin to set the default windowing mode to defer for the notebook
- * TODO: remove?
- */
-const windowing: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/notebook-extension:windowing',
-  autoStart: true,
-  requires: [INotebookTracker],
-  activate: (app: JupyterFrontEnd, notebookTracker: INotebookTracker): void => {
-    notebookTracker.widgetAdded.connect((sender, widget) => {
-      widget.content['_viewModel'].windowingActive = false;
-      widget.content.notebookConfig.windowingMode = 'defer';
-    });
-  },
-};
-
-/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
@@ -592,7 +576,6 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   scrollOutput,
   tabIcon,
   trusted,
-  windowing,
 ];
 
 export default plugins;
