@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/documentsearch-extension",
-  "version": "7.1.2",
+  "version": "7.1.3",
   "description": "Jupyter Notebook - Document Search Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -38,7 +38,7 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.1.2",
+    "@jupyter-notebook/application": "^7.1.3",
     "@jupyterlab/application": "~4.1.5",
     "@jupyterlab/documentsearch": "~4.1.5",
     "@lumino/widgets": "^2.3.1"

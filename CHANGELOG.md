@@ -108,6 +108,26 @@ increasing awareness of the notebook state and enabling users to quickly navigat
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.1.3
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.1.2...c1453abee561292f2182c4bda6cb6383224c1fcb))
+
+### Bugs fixed
+
+- Fix scrollbar always showing up by default [#7327](https://github.com/jupyter/notebook/pull/7327) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Ignore links to GitHub user and organisation profiles [#7308](https://github.com/jupyter/notebook/pull/7308) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-03-14&to=2024-04-17&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-03-14..2024-04-17&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-03-14..2024-04-17&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-03-14..2024-04-17&type=Issues) | [@meeseeksmachine](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ameeseeksmachine+updated%3A2024-03-14..2024-04-17&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.1.2
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.1.1...ca41222a9c8d75356c6d67d3bd36e34d71cce2d8))
@@ -127,8 +147,6 @@ increasing awareness of the notebook state and enabling users to quickly navigat
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-02-26&to=2024-03-14&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2024-02-26..2024-03-14&type=Issues) | [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2024-02-26..2024-03-14&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-02-26..2024-03-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-02-26..2024-03-14&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.1.1
 
