@@ -92,6 +92,7 @@
     "@jupyterlab/terminal": "~4.2.0-beta.1",
     "@jupyterlab/terminal-extension": "~4.2.0-beta.1",
     "@jupyterlab/theme-dark-extension": "~4.2.0-beta.1",
+    "@jupyterlab/theme-dark-high-contrast-extension": "~4.2.0-beta.1",
     "@jupyterlab/theme-light-extension": "~4.2.0-beta.1",
     "@jupyterlab/toc-extension": "~6.2.0-beta.1",
     "@jupyterlab/tooltip": "~4.2.0-beta.1",
@@ -171,6 +172,7 @@
     "@jupyterlab/shortcuts-extension": "~5.0.0-beta.1",
     "@jupyterlab/terminal-extension": "~4.2.0-beta.1",
     "@jupyterlab/theme-dark-extension": "~4.2.0-beta.1",
+    "@jupyterlab/theme-dark-high-contrast-extension": "~4.2.0-beta.1",
     "@jupyterlab/theme-light-extension": "~4.2.0-beta.1",
     "@jupyterlab/toc-extension": "~6.2.0-beta.1",
     "@jupyterlab/tooltip-extension": "~4.2.0-beta.1",
@@ -295,6 +297,7 @@
         "@jupyterlab/terminal-extension": true,
         "@jupyterlab/theme-light-extension": true,
         "@jupyterlab/theme-dark-extension": true,
+        "@jupyterlab/theme-dark-high-contrast-extension": true,
         "@jupyterlab/translation-extension": true,
         "@jupyterlab/ui-components-extension": true,
         "@jupyterlab/hub-extension": true
