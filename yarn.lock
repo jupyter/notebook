@@ -2103,6 +2103,7 @@ __metadata:
     "@jupyterlab/shortcuts-extension": ~5.0.0-beta.1
     "@jupyterlab/terminal-extension": ~4.2.0-beta.1
     "@jupyterlab/theme-dark-extension": ~4.2.0-beta.1
+    "@jupyterlab/theme-dark-high-contrast-extension": ~4.2.0-beta.1
     "@jupyterlab/theme-light-extension": ~4.2.0-beta.1
     "@jupyterlab/toc-extension": ~6.2.0-beta.1
     "@jupyterlab/tooltip-extension": ~4.2.0-beta.1
@@ -4178,6 +4179,17 @@ __metadata:
     "@jupyterlab/apputils": ^4.3.0-beta.1
     "@jupyterlab/translation": ^4.2.0-beta.1
   checksum: 9a4ef6d0c13b7ba635c50f9bad7df4e85be625186faeb2bded7d84e0c53eed064b36512fcf30bcd7948902400190732d1c97d84f150a7d0243628f9bf7d5a94e
+  languageName: node
+  linkType: hard
+
+"@jupyterlab/theme-dark-high-contrast-extension@npm:~4.2.0-beta.1":
+  version: 4.2.0-beta.1
+  resolution: "@jupyterlab/theme-dark-high-contrast-extension@npm:4.2.0-beta.1"
+  dependencies:
+    "@jupyterlab/application": ^4.2.0-beta.1
+    "@jupyterlab/apputils": ^4.3.0-beta.1
+    "@jupyterlab/translation": ^4.2.0-beta.1
+  checksum: 6d282b3a7d19b32a608164489bd7f6b1bd9733fb2d3120c6f4fe8af2deaaf54cb57f2d70859e0b4123b3e45b7275852cc31868115768b4deba9e8e94a849a73b
   languageName: node
   linkType: hard
 
