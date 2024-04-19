@@ -51,6 +51,12 @@ body[data-notebook='notebooks']
   min-height: 100px;
 }
 
+/* Workaround for disabling the full windowing mode */
+body[data-notebook='notebooks']
+  .jp-Toolbar-item[data-jp-item-name='scrollbar'] {
+  display: none;
+}
+
 /* Fix background colors */
 
 body[data-notebook='notebooks'] .jp-WindowedPanel-outer > * {
