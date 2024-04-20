@@ -45,8 +45,16 @@ body[data-notebook='notebooks'] .jp-Notebook-cell {
 }
 
 /* Empty space at the bottom of the notebook (similar to classic) */
-body[data-notebook='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
+body[data-notebook='notebooks']
+  .jp-Notebook.jp-mod-scrollPastEnd
+  .jp-WindowedPanel-outer::after {
   min-height: 100px;
+}
+
+/* Workaround for disabling the full windowing mode */
+body[data-notebook='notebooks']
+  .jp-Toolbar-item[data-jp-item-name='scrollbar'] {
+  display: none;
 }
 
 /* Fix background colors */
