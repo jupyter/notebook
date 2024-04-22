@@ -10,11 +10,12 @@ import {
   ISessionContext,
   DOMUtils,
   IToolbarWidgetRegistry,
+  ICommandPalette,
 } from '@jupyterlab/apputils';
 
 import { Cell, CodeCell } from '@jupyterlab/cells';
 
-import { Text, Time } from '@jupyterlab/coreutils';
+import { PageConfig, Text, Time, URLExt } from '@jupyterlab/coreutils';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
@@ -64,10 +65,21 @@ const KERNEL_STATUS_FADE_OUT_CLASS = 'jp-NotebookKernelStatus-fade';
 const SCROLLED_OUTPUTS_CLASS = 'jp-mod-outputsScrolled';
 
 /**
+ * The command IDs used by the notebook plugins.
+ */
+namespace CommandIDs {
+  /**
+   * A command to open right sidebar for Editing Notebook Metadata
+   */
+  export const openEditNotebookMetadata = 'notebook:edit-metadata';
+}
+
+/**
  * A plugin for the checkpoint indicator
  */
 const checkpoints: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:checkpoints',
+  description: 'A plugin for the checkpoint indicator.',
   autoStart: true,
   requires: [IDocumentManager, ITranslator],
   optional: [INotebookShell, IToolbarWidgetRegistry],
@@ -133,6 +145,8 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
  */
 const closeTab: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:close-tab',
+  description:
+    'Add a command to close the browser tab when clicking on "Close and Shut Down".',
   autoStart: true,
   requires: [IMainMenu],
   optional: [ITranslator],
@@ -167,6 +181,7 @@ const closeTab: JupyterFrontEndPlugin<void> = {
  */
 const kernelLogo: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:kernel-logo',
+  description: 'The kernel logo plugin.',
   autoStart: true,
   requires: [INotebookShell],
   optional: [IToolbarWidgetRegistry],
@@ -230,6 +245,7 @@ const kernelLogo: JupyterFrontEndPlugin<void> = {
  */
 const kernelStatus: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:kernel-status',
+  description: 'A plugin to display the kernel status.',
   autoStart: true,
   requires: [INotebookShell, ITranslator],
   activate: (
@@ -294,6 +310,7 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
  */
 const scrollOutput: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:scroll-output',
+  description: 'A plugin to enable scrolling for outputs by default.',
   autoStart: true,
   requires: [INotebookTracker],
   optional: [ISettingRegistry],
@@ -379,6 +396,7 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
  */
 const notebookToolsWidget: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:notebook-tools',
+  description: 'A plugin to add the NotebookTools to the side panel.',
   autoStart: true,
   requires: [INotebookShell],
   optional: [INotebookTools],
@@ -407,12 +425,17 @@ const notebookToolsWidget: JupyterFrontEndPlugin<void> = {
  */
 const tabIcon: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:tab-icon',
+  description: 'A plugin to update the tab icon based on the kernel status.',
   autoStart: true,
   requires: [INotebookTracker],
   activate: (app: JupyterFrontEnd, tracker: INotebookTracker) => {
     // the favicons are provided by Jupyter Server
-    const notebookIcon = ' /static/favicons/favicon-notebook.ico';
-    const busyIcon = ' /static/favicons/favicon-busy-1.ico';
+    const baseURL = PageConfig.getBaseUrl();
+    const notebookIcon = URLExt.join(
+      baseURL,
+      'static/favicons/favicon-notebook.ico'
+    );
+    const busyIcon = URLExt.join(baseURL, 'static/favicons/favicon-busy-1.ico');
 
     const updateBrowserFavicon = (
       status: ISessionContext.KernelDisplayStatus
@@ -452,6 +475,7 @@ const tabIcon: JupyterFrontEndPlugin<void> = {
  */
 const trusted: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:trusted',
+  description: 'A plugin that adds a Trusted indicator to the menu area.',
   autoStart: true,
   requires: [INotebookShell, ITranslator],
   activate: (
@@ -479,17 +503,96 @@ const trusted: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * Add a command to open right sidebar for Editing Notebook Metadata when clicking on "Edit Notebook Metadata" under Edit menu
+ */
+const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:edit-notebook-metadata',
+  description:
+    'Add a command to open right sidebar for Editing Notebook Metadata when clicking on "Edit Notebook Metadata" under Edit menu',
+  autoStart: true,
+  optional: [ICommandPalette, ITranslator, INotebookTools],
+  activate: (
+    app: JupyterFrontEnd,
+    palette: ICommandPalette | null,
+    translator: ITranslator | null,
+    notebookTools: INotebookTools | null
+  ) => {
+    const { commands, shell } = app;
+    translator = translator ?? nullTranslator;
+    const trans = translator.load('notebook');
+
+    commands.addCommand(CommandIDs.openEditNotebookMetadata, {
+      label: trans.__('Edit Notebook Metadata'),
+      execute: async () => {
+        const command = 'application:toggle-panel';
+        const args = {
+          side: 'right',
+          title: 'Show Notebook Tools',
+          id: 'notebook-tools',
+        };
+
+        // Check if Show Notebook Tools (Right Sidebar) is open (expanded)
+        if (!commands.isToggled(command, args)) {
+          await commands.execute(command, args).then((_) => {
+            // For expanding the 'Advanced Tools' section (default: collapsed)
+            if (notebookTools) {
+              const tools = (notebookTools?.layout as any).widgets;
+              tools.forEach((tool: any) => {
+                if (
+                  tool.widget.title.label === trans.__('Advanced Tools') &&
+                  tool.collapsed
+                ) {
+                  tool.toggle();
+                }
+              });
+            }
+          });
+        }
+      },
+      isVisible: () =>
+        shell.currentWidget !== null &&
+        shell.currentWidget instanceof NotebookPanel,
+    });
+
+    if (palette) {
+      palette.addItem({
+        command: CommandIDs.openEditNotebookMetadata,
+        category: 'Notebook Operations',
+      });
+    }
+  },
+};
+
+/**
+ * A plugin to set the default windowing mode to defer for the notebook
+ * TODO: remove?
+ */
+const windowing: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:windowing',
+  autoStart: true,
+  requires: [INotebookTracker],
+  activate: (app: JupyterFrontEnd, notebookTracker: INotebookTracker): void => {
+    notebookTracker.widgetAdded.connect((sender, widget) => {
+      widget.content['_viewModel'].windowingActive = false;
+      widget.content.notebookConfig.windowingMode = 'defer';
+    });
+  },
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   closeTab,
+  editNotebookMetadata,
   kernelLogo,
   kernelStatus,
   notebookToolsWidget,
   scrollOutput,
   tabIcon,
   trusted,
+  windowing,
 ];
 
 export default plugins;

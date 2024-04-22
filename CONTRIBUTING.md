@@ -66,6 +66,40 @@ Then start Jupyter Notebook with:
 jupyter notebook
 ```
 
+### Local changes in Notebook dependencies
+
+The development installation described above fetches JavaScript dependencies from [npmjs](https://www.npmjs.com/),
+according to the versions in the _package.json_ file.
+However, it is sometimes useful to be able to test changes in Notebook, with dependencies (e.g. `@jupyterlab` packages) that have not yet
+been published.
+
+[yalc](https://github.com/wclr/yalc) can help use local JavaScript packages in your build of
+Notebook, acting as a local package repository.
+
+- Install yalc globally in you environment:
+  `npm install -g yalc`
+- Publish you dependency package:\
+  `yalc publish`, from the package root directory.\
+  For instance, if you have are developing on _@jupyterlab/ui-components_, this command must be executed from
+  _path_to_jupyterlab/packages/ui-components_.
+- Depend on this local repository in Notebook:
+  - from the Notebook root directory:\
+    `yalc add your_package` : this will create a _dependencies_ entry in the main _package.json_ file.\
+    With the previous example, it would be `yalc add @jupyterlab/ui-components`.
+  - Notebook is a monerepo, so we want this dependency to be 'linked' as a resolution (for all sub-packages) instead
+    of a dependency.\
+    The easiest way is to manually move the new entry in _package.json_ from _dependencies_ to _resolutions_.
+  - Build Notebook with the local dependency:\
+    `jlpm install && jlpm build`
+
+Changes in the dependency must then be built and pushed using `jlpm build && yalc push` (from the package root directory),
+and fetched from Notebook using `yarn install`.
+
+**Warning**: you need to make sure that the dependencies of Notebook and the local package match correctly,
+otherwise there will be errors with webpack during build.\
+In the previous example, both _@jupyterlab/ui-components_ and Notebook depend on _@jupyterlab/coreutils_. We
+strongly advise you to depend on the same version.
+
 ## Running Tests
 
 To run the tests:
@@ -79,6 +113,12 @@ There are also end to end tests to cover higher level user interactions, located
 
 ```bash
 cd ui-tests
+#install required packages for jlpm
+jlpm
+
+#install playwright
+jlpm playwright install
+
 # start a new Jupyter server in a terminal
 jlpm start
 
@@ -113,7 +153,7 @@ Running the command will open a browser tab by default with a graph that looks l
 To learn more about Lerna caching:
 
 - https://lerna.js.org/docs/features/cache-tasks
-- https://nx.dev/core-features/cache-task-results
+- https://nx.dev/features/cache-task-results
 
 ### Updating reference snapshots
 

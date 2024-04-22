@@ -67,6 +67,7 @@ interface ISwitcherChoice {
  */
 const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/lab-extension:interface-switcher',
+  description: 'A plugin to add custom toolbar items to the notebook page.',
   autoStart: true,
   requires: [ITranslator, INotebookTracker],
   optional: [
@@ -218,6 +219,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
  */
 const launchNotebookTree: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/lab-extension:launch-tree',
+  description: 'A plugin to add a command to open the Jupyter Notebook Tree.',
   autoStart: true,
   requires: [ITranslator],
   optional: [ICommandPalette],

@@ -22,7 +22,7 @@ test.describe('File Browser', () => {
 
     await page.getByText('folder1').last().click();
 
-    const toolbar = page.getByRole('navigation');
+    const toolbar = page.getByRole('toolbar');
 
     expect(toolbar.getByText('Rename')).toBeVisible();
     expect(toolbar.getByText('Delete')).toBeVisible();
@@ -33,7 +33,7 @@ test.describe('File Browser', () => {
 
     await page.getByText('empty.ipynb').last().click();
 
-    const toolbar = page.getByRole('navigation');
+    const toolbar = page.getByRole('toolbar');
 
     ['Rename', 'Delete', 'Open', 'Download', 'Delete'].forEach(async (text) => {
       expect(toolbar.getByText(text)).toBeVisible();
@@ -48,7 +48,7 @@ test.describe('File Browser', () => {
     await page.getByText('folder2').last().click();
     await page.getByText('empty.ipynb').last().click();
 
-    const toolbar = page.getByRole('navigation');
+    const toolbar = page.getByRole('toolbar');
 
     expect(toolbar.getByText('Rename')).toBeHidden();
     expect(toolbar.getByText('Open')).toBeHidden();
@@ -67,7 +67,7 @@ test.describe('File Browser', () => {
     await page.getByText('simple.ipynb').last().click();
     await page.getByText('empty.ipynb').last().click();
 
-    const toolbar = page.getByRole('navigation');
+    const toolbar = page.getByRole('toolbar');
 
     const [nb1, nb2] = await Promise.all([
       page.waitForEvent('popup'),

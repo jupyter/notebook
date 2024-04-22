@@ -165,17 +165,20 @@ export class SidePanelHandler extends PanelHandler {
    * if there is no most recently used.
    */
   expand(id?: string): void {
-    if (this._currentWidget) {
-      this.collapse();
-    }
     if (id) {
-      this.activate(id);
-    } else {
-      const visibleWidget = this.currentWidget;
-      if (visibleWidget) {
-        this._currentWidget = visibleWidget;
-        this.activate(visibleWidget.id);
+      if (this._currentWidget && this._currentWidget.id === id) {
+        this.collapse();
+        this.hide();
+      } else {
+        this.collapse();
+        this.hide();
+        this.activate(id);
+        this.show();
       }
+    } else if (this.currentWidget) {
+      this._currentWidget = this.currentWidget;
+      this.activate(this._currentWidget.id);
+      this.show();
     }
   }
 

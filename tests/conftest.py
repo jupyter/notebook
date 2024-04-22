@@ -32,8 +32,8 @@ workspaces_dir = pytest.fixture(lambda tmp_path: mkdir(tmp_path, "workspaces"))
 labextensions_dir = pytest.fixture(lambda tmp_path: mkdir(tmp_path, "labextensions_dir"))
 
 
-@pytest.fixture
-def make_notebook_app(  # noqa PLR0913
+@pytest.fixture()
+def make_notebook_app(  # PLR0913
     jp_root_dir,
     jp_template_dir,
     app_settings_dir,
@@ -92,7 +92,7 @@ def make_notebook_app(  # noqa PLR0913
     )
 
     # Copy the schema files.
-    test_data = str(files("jupyterlab_server.test_data")._paths[0])  # type: ignore
+    test_data = str(files("jupyterlab_server.test_data")._paths[0])
     src = pathlib.PurePath(test_data, "schemas", "@jupyterlab")
     dst = pathlib.PurePath(str(schemas_dir), "@jupyterlab")
     if os.path.exists(dst):
@@ -131,7 +131,7 @@ def make_notebook_app(  # noqa PLR0913
     return _make_notebook_app
 
 
-@pytest.fixture
+@pytest.fixture()
 def notebookapp(jp_serverapp, make_notebook_app):
     app = make_notebook_app()
     app._link_jupyter_server_extension(jp_serverapp)

@@ -9,7 +9,13 @@ import { find } from '@lumino/algorithm';
 import { JSONExt, PromiseDelegate, Token } from '@lumino/coreutils';
 import { ISignal, Signal } from '@lumino/signaling';
 
-import { BoxLayout, Panel, SplitPanel, Widget } from '@lumino/widgets';
+import {
+  BoxLayout,
+  FocusTracker,
+  Panel,
+  SplitPanel,
+  Widget,
+} from '@lumino/widgets';
 import { PanelHandler, SidePanelHandler } from './panelhandler';
 
 /**
@@ -163,7 +169,10 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   /**
    * A signal emitted when the current widget changes.
    */
-  get currentChanged(): ISignal<NotebookShell, void> {
+  get currentChanged(): ISignal<
+    JupyterFrontEnd.IShell,
+    FocusTracker.IChangedArgs<Widget>
+  > {
     return this._currentChanged;
   }
 
@@ -314,16 +323,21 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
       case 'menu':
         return this._menuHandler.addWidget(widget, rank);
       case 'main':
-      case undefined:
+      case undefined: {
         if (this._main.widgets.length > 0) {
           // do not add the widget if there is already one
           return;
         }
+        const previousWidget = this.currentWidget;
         this._main.addWidget(widget);
         this._main.update();
-        this._currentChanged.emit(void 0);
+        this._currentChanged.emit({
+          newValue: widget,
+          oldValue: previousWidget,
+        });
         this._mainWidgetLoaded.resolve();
         break;
+      }
       case 'left':
         return this._leftHandler.addWidget(widget, rank);
       case 'right':
@@ -429,7 +443,9 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   private _skipLinkWidgetHandler: Private.SkipLinkWidgetHandler;
   private _main: Panel;
   private _translator: ITranslator = nullTranslator;
-  private _currentChanged = new Signal<this, void>(this);
+  private _currentChanged = new Signal<this, FocusTracker.IChangedArgs<Widget>>(
+    this
+  );
   private _mainWidgetLoaded = new PromiseDelegate<void>();
   private _userLayout: INotebookShell.IUserLayout;
 }

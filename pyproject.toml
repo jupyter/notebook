@@ -1,5 +1,5 @@
 [build-system]
-requires = ["hatchling>=1.11", "jupyterlab>=4.0.2,<5"]
+requires = ["hatchling>=1.11", "jupyterlab>=4.2.0b1,<4.3"]
 build-backend = "hatchling.build"
 
 [project]
@@ -27,11 +27,12 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Typing :: Typed",
 ]
 dependencies = [
     "jupyter_server>=2.4.0,<3",
-    "jupyterlab>=4.0.2,<5",
+    "jupyterlab>=4.2.0b1,<4.3",
     "jupyterlab_server>=2.22.1,<3",
     "notebook_shim>=0.2,<0.3",
     "tornado>=6.2.0",
@@ -133,31 +134,20 @@ dependencies = ["coverage[toml]", "pytest-cov"]
 test = "python -m pytest -vv --cov notebook --cov-branch --cov-report term-missing:skip-covered {args}"
 nowarn = "test -W default {args}"
 
-[tool.hatch.envs.typing]
-features = ["test"]
-dependencies = ["mypy>=1.5.1"]
-[tool.hatch.envs.typing.scripts]
-test = "mypy --install-types --non-interactive {args}"
-
 [tool.hatch.envs.lint]
-dependencies = [
-  "black[jupyter]==22.10.0",
-  "mdformat>0.7",
-  "mdformat-gfm>=0.3.5",
-  "ruff==0.0.276"
-]
 detached = true
+dependencies = ["pre-commit"]
 [tool.hatch.envs.lint.scripts]
-style = [
-  "ruff {args:.}",
-  "black --check --diff {args:.}",
-  "mdformat --check {args:CHANGELOG.md}"
+build = [
+    "pre-commit run --all-files ruff",
+    "pre-commit run --all-files ruff-format"
 ]
-fmt = [
-  "black {args:.}",
-  "ruff --fix {args:.}",
-  "mdformat {args:CHANGELOG.md}"
-]
+
+[tool.hatch.envs.typing]
+dependencies = [ "pre-commit"]
+detached = true
+[tool.hatch.envs.typing.scripts]
+test = "pre-commit run --all-files --hook-stage manual mypy"
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.5"]
@@ -185,7 +175,7 @@ version-cmd = "jlpm run release:bump --force --skip-commit"
 
 [tool.jupyter-releaser.hooks]
 before-bump-version = [
-    "python -m pip install --pre -U jupyterlab",
+    "python -m pip install -U \"jupyterlab>=4.2.0b1,<4.3\"",
     "jlpm",
     "jlpm run build:utils",
     "python -m pip install hatch"
@@ -203,7 +193,7 @@ minversion = "6.0"
 xfail_strict = true
 log_cli_level = "info"
 addopts = [
-  "-raXs", "--durations=10", "--color=yes", "--doctest-modules",
+  "-ra", "--durations=10", "--color=yes", "--doctest-modules",
    "--showlocals", "--strict-markers", "--strict-config"
 ]
 testpaths = [
@@ -241,41 +231,52 @@ source = ["notebook"]
 files = "notebook"
 python_version = "3.8"
 strict = true
-show_error_codes = true
 enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
 warn_unreachable = true
 
-[tool.black]
-line-length = 100
-target-version = ["py37"]
-skip-string-normalization = true
-
 [tool.ruff]
-target-version = "py37"
 line-length = 100
-select = [
-  "A", "B", "C", "DTZ", "E", "EM", "F", "FBT", "I", "ICN", "ISC", "N",
-  "PLC", "PLE", "PLR", "PLW", "Q", "RUF", "S", "SIM", "T", "TID", "UP",
-  "W", "YTT",
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+extend-select = [
+  "B",           # flake8-bugbear
+  "I",           # isort
+  "ARG",         # flake8-unused-arguments
+  "C4",          # flake8-comprehensions
+  "EM",          # flake8-errmsg
+  "ICN",         # flake8-import-conventions
+  "G",           # flake8-logging-format
+  "PGH",         # pygrep-hooks
+  "PIE",         # flake8-pie
+  "PL",          # pylint
+  "PTH",         # flake8-use-pathlib
+  "PT",          # flake8-pytest-style
+  "RET",         # flake8-return
+  "RUF",         # Ruff-specific
+  "SIM",         # flake8-simplify
+  "T20",         # flake8-print
+  "UP",          # pyupgrade
+  "YTT",         # flake8-2020
+  "EXE",         # flake8-executable
+  "PYI",         # flake8-pyi
+  "S",           # flake8-bandit
 ]
 ignore = [
-# Q000 Single quotes found but double quotes preferred
-"Q000",
-# FBT001 Boolean positional arg in function definition
-"FBT001", "FBT002", "FBT003",
-# C408 Unnecessary `dict` call (rewrite as a literal)
-"C408", "C416",
-# RUF012 Mutable class attributes should be annotated with `typing.ClassVar`
-"RUF012",
+  "PLR",    # Design related pylint codes
+  "C408", "C416",  # Unnecessary `dict` call (rewrite as a literal)
+  "RUF012",   # Mutable class attributes should be annotated with `typing.ClassVar`
 ]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 # S101 Use of `assert` detected
 # F841 Local variable `foo` is assigned to but never used
-# PLR2004 Magic value used in comparison
-"tests/*" = ["S101", "F841", "PLR2004"]
-# undefined name 'c'
+"tests/*" = ["S101", "F841", "ARG", "PTH"]
+"docs/source/conf.py" = ["PTH"]
 "ui-tests/test/jupyter_server_config.py" = ["F821"]
+"*.ipynb" = ["E402", "B018", "E501", "T201", "RET"]
 
 [tool.interrogate]
 ignore-init-module=true
@@ -288,7 +289,4 @@ fail-under=100
 exclude = ["tests", "ui-tests", "docs", "node_modules", "setup.py"]
 
 [tool.repo-review]
-ignore = ["PY007", "PP308", "GH102", "PC140", "PC180"]
-
-[tool.codespell]
-ignore-words-list = "hart,noteable"
+ignore = ["GH102", "PC180", "PC111"]

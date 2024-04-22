@@ -52,6 +52,12 @@ front-end Notebook client (i.e. the familiar notebook interface).
 > - Related: [Configuring a language kernel](https://ipython.readthedocs.io/en/latest/install/kernel_install.html)
 >   to run in the Jupyter Server enables your server to run other languages, like R or Julia.
 
+```{warning}
+Jupyter Notebook 7 is now based on Jupyter Server. This may break some previous `notebook` imports you may have been using, such as `notebook.auth` or `notebook.notebookapp`.
+
+Check out the [migration guide](../migrating/server-imports.md) to learn more on how to update these server imports.
+```
+
 (configure-nbextensions)=
 
 ## Notebook extensions

@@ -18,6 +18,7 @@ import {
   FileBrowser,
   Uploader,
   IDefaultFileBrowser,
+  IFileBrowserFactory,
 } from '@jupyterlab/filebrowser';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
@@ -45,7 +46,7 @@ import { Menu, MenuBar } from '@lumino/widgets';
 
 import { NotebookTreeWidget, INotebookTree } from '@jupyter-notebook/tree';
 
-import { FileActionsComponent } from './fileactions';
+import { FilesActionButtons } from './fileactions';
 
 /**
  * The file browser factory.
@@ -76,6 +77,8 @@ namespace CommandIDs {
  */
 const createNew: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:new',
+  description:
+    'Plugin to add extra commands to the file browser to create new notebooks, files, consoles and terminals.',
   requires: [ITranslator],
   optional: [IToolbarWidgetRegistry],
   autoStart: true,
@@ -84,7 +87,7 @@ const createNew: JupyterFrontEndPlugin<void> = {
     translator: ITranslator,
     toolbarRegistry: IToolbarWidgetRegistry | null
   ) => {
-    const { commands } = app;
+    const { commands, serviceManager } = app;
     const trans = translator.load('notebook');
 
     const overflowOptions = {
@@ -96,17 +99,34 @@ const createNew: JupyterFrontEndPlugin<void> = {
     newMenu.title.icon = caretDownIcon;
     menubar.addMenu(newMenu);
 
-    const newCommands = [
-      'notebook:create-new',
-      'terminal:create-new',
-      'console:create',
-      'filebrowser:create-new-file',
-      'filebrowser:create-new-directory',
-    ];
+    const populateNewMenu = () => {
+      // create an entry per kernel spec for creating a new notebook
+      const specs = serviceManager.kernelspecs?.specs?.kernelspecs;
+      for (const name in specs) {
+        newMenu.addItem({
+          args: { kernelName: name, isLauncher: true },
+          command: 'notebook:create-new',
+        });
+      }
 
-    newCommands.forEach((command) => {
-      newMenu.addItem({ command });
+      const baseCommands = [
+        'terminal:create-new',
+        'console:create',
+        'filebrowser:create-new-file',
+        'filebrowser:create-new-directory',
+      ];
+
+      baseCommands.forEach((command) => {
+        newMenu.addItem({ command });
+      });
+    };
+
+    serviceManager.kernelspecs?.specsChanged.connect(() => {
+      newMenu.clearItems();
+      populateNewMenu();
     });
+
+    populateNewMenu();
 
     if (toolbarRegistry) {
       toolbarRegistry.addFactory(
@@ -128,6 +148,8 @@ const createNew: JupyterFrontEndPlugin<void> = {
  */
 const fileActions: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:file-actions',
+  description:
+    'A plugin to add file browser actions to the file browser toolbar.',
   autoStart: true,
   requires: [IDefaultFileBrowser, IToolbarWidgetRegistry, ITranslator],
   activate: (
@@ -154,20 +176,16 @@ const fileActions: JupyterFrontEndPlugin<void> = {
 
     // Create a toolbar item that adds buttons to the file browser toolbar
     // to perform actions on the files
-    toolbarRegistry.addFactory(
-      FILE_BROWSER_FACTORY,
-      'fileActions',
-      (browser: FileBrowser) => {
-        const { commands } = app;
-        const fileActions = FileActionsComponent.create({
-          commands,
-          browser,
-          selectionChanged,
-          translator,
-        });
-        return fileActions;
-      }
-    );
+    const { commands } = app;
+    const fileActions = new FilesActionButtons({
+      commands,
+      browser,
+      selectionChanged,
+      translator,
+    });
+    for (const widget of fileActions.widgets) {
+      toolbarRegistry.addFactory(FILE_BROWSER_FACTORY, widget.id, () => widget);
+    }
   },
 };
 
@@ -177,6 +195,8 @@ const fileActions: JupyterFrontEndPlugin<void> = {
  */
 const loadPlugins: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:load-plugins',
+  description:
+    'Plugin to load the default plugins that are loaded on all the Notebook pages (tree, edit, view, etc.) so they are visible in the settings editor.',
   autoStart: true,
   requires: [ISettingRegistry],
   activate(app: JupyterFrontEnd, settingRegistry: ISettingRegistry) {
@@ -233,6 +253,7 @@ const loadPlugins: JupyterFrontEndPlugin<void> = {
  */
 const openFileBrowser: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:open-file-browser',
+  description: 'A plugin to add file browser commands for the tree view.',
   requires: [INotebookTree, IDefaultFileBrowser],
   autoStart: true,
   activate: (
@@ -254,11 +275,13 @@ const openFileBrowser: JupyterFrontEndPlugin<void> = {
  */
 const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
   id: '@jupyter-notebook/tree-extension:widget',
+  description: 'A plugin to add the file browser widget to an INotebookShell.',
   requires: [
     IDefaultFileBrowser,
     ITranslator,
     ISettingRegistry,
     IToolbarWidgetRegistry,
+    IFileBrowserFactory,
   ],
   optional: [
     IRunningSessionManagers,
@@ -273,6 +296,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     translator: ITranslator,
     settingRegistry: ISettingRegistry,
     toolbarRegistry: IToolbarWidgetRegistry,
+    factory: IFileBrowserFactory,
     manager: IRunningSessionManagers | null,
     settingEditorTracker: ISettingEditorTracker | null,
     jsonSettingEditorTracker: IJSONSettingEditorTracker | null
@@ -351,6 +375,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
           'showFileCheckboxes',
           'showFileSizeColumn',
           'sortNotebooksFirst',
+          'showFullPath',
         ].forEach((setting) => {
           if (settings.user[setting] === undefined) {
             void settings.set(setting, true);
@@ -375,6 +400,21 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
         }
       }
     );
+
+    const { tracker } = factory;
+
+    // TODO: remove
+    // Workaround to force the focus on the default file browser
+    // See https://github.com/jupyterlab/jupyterlab/issues/15629 for more info
+    const setCurrentToDefaultBrower = () => {
+      tracker['_pool'].current = browser;
+    };
+
+    tracker.widgetAdded.connect((sender, widget) =>
+      setCurrentToDefaultBrower()
+    );
+
+    setCurrentToDefaultBrower();
 
     return nbTreeWidget;
   },
