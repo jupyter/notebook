@@ -1,1 +1,1 @@
-Used to test globbing.
+Test file used to test globbing.
