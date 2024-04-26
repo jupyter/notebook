@@ -6,11 +6,11 @@ on:
     branches: '*'
 jobs:
   build:
-    runs-on: ${{ matrix.os }}-latest
+    runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu, macos, windows]
+        os: [ubuntu-latest, macos-12, windows-latest]
         python-version: [ '3.7', '3.8', '3.9', '3.10' ]
     steps:
     - name: Checkout

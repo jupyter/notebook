@@ -57,7 +57,7 @@ IPython代码库的Big Split™。 IPython 3是最后一个主要的整体
 
 ### 在远程安装中运行
 
-在远程启动Jupiter笔记本电脑之前，需要进行一些配置。请参阅 [运行笔记本服务器](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html).
+在远程启动Jupiter笔记本电脑之前，需要进行一些配置。请参阅 [运行笔记本服务器](https://jupyter-server.readthedocs.io/en/latest/operators/public-server.html).
 
 ## 开发设置
 

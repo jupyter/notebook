@@ -37,7 +37,7 @@ Jupyter Notebookの発展的な使用方法に関するドキュメントは、[
 
 ### リモートへのインストールにおける実行
 
-Jupyter Notebookをリモートで起動する前に、いくつかの構成が必要です。 [Notebookサーバーの実行](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html)を参照してください。
+Jupyter Notebookをリモートで起動する前に、いくつかの構成が必要です。 [Notebookサーバーの実行](https://jupyter-server.readthedocs.io/en/latest/operators/public-server.html)を参照してください。
 
 ## 開発用インストール
 

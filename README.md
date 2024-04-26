@@ -56,7 +56,7 @@ Launch with:
 
 ### Running in a remote installation
 
-You need some configuration before starting Jupyter notebook remotely. See [Running a notebook server](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html).
+You need some configuration before starting Jupyter notebook remotely. See [Running a notebook server](https://jupyter-server.readthedocs.io/en/latest/operators/public-server.html).
 
 ## Development Installation
 

@@ -57,7 +57,7 @@ IPython कोडबेस का बिग स्प्लिट ™। IPython
 
 ### एक दूरस्थ स्थापना में चल रहा है
 
-आपको बृहस्पति नोटबुक को दूरस्थ रूप से शुरू करने से पहले कुछ कॉन्फ़िगरेशन की आवश्यकता है। देखें [नोटबुक सर्वर चला रहा है](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html).
+आपको बृहस्पति नोटबुक को दूरस्थ रूप से शुरू करने से पहले कुछ कॉन्फ़िगरेशन की आवश्यकता है। देखें [नोटबुक सर्वर चला रहा है](https://jupyter-server.readthedocs.io/en/latest/operators/public-server.html).
 
 ## विकास स्थापना
 
