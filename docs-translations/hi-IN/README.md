@@ -1,7 +1,6 @@
 # Jupyter Notebook
 
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
-[![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
 [![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/stable/?badge=latest)
                 
 
@@ -57,7 +56,7 @@ IPython कोडबेस का बिग स्प्लिट ™। IPython
 
 ### एक दूरस्थ स्थापना में चल रहा है
 
-आपको बृहस्पति नोटबुक को दूरस्थ रूप से शुरू करने से पहले कुछ कॉन्फ़िगरेशन की आवश्यकता है। देखें [नोटबुक सर्वर चला रहा है](https://jupyter-server.readthedocs.io/en/latest/operators/public-server.html).
+आपको बृहस्पति नोटबुक को दूरस्थ रूप से शुरू करने से पहले कुछ कॉन्फ़िगरेशन की आवश्यकता है। देखें [नोटबुक सर्वर चला रहा है](https://jupyter-notebook.readthedocs.io/en/v6.5.4/public_server.html).
 
 ## विकास स्थापना
 

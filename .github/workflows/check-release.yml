@@ -65,5 +65,3 @@ jobs:
       - name: Check Links
         if: ${{ matrix.group == 'link_check' }}
         uses: jupyter-server/jupyter_releaser/.github/actions/check-links@v1
-        with:
-          ignore-links: 'https://travis-ci.org/jupyter/notebook.svg?branch=master'
