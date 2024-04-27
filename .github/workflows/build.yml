@@ -132,7 +132,7 @@ jobs:
             dist: 'notebook*.whl'
           - os: windows-latest
             py_cmd: python
-          - os: macos-latest
+          - os: macos-12
             py_cmd: python3
           - os: ubuntu-latest
             py_cmd: python
