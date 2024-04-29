@@ -99,15 +99,6 @@ body[data-notebook='notebooks'] .jp-cell-toolbar {
   box-shadow: unset;
 }
 
-body[data-notebook='notebooks']
-  .jp-RawCell[data-windowed-list-index='0']
-  .jp-cell-toolbar,
-body[data-notebook='notebooks']
-  .jp-MarkdownCell[data-windowed-list-index='0']
-  .jp-cell-toolbar {
-  top: calc(2 * var(--jp-notebook-padding));
-}
-
 /** first code cell on mobile
     (keep the selector above the media query)
 */
