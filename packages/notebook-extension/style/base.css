@@ -24,13 +24,14 @@ body[data-notebook='notebooks'] .jp-NotebookPanel-toolbar {
 }
 
 body[data-notebook='notebooks'] .jp-WindowedPanel-outer {
+  width: unset !important;
   padding-top: unset;
   padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
   padding-right: calc(
     calc(
         100% - var(--jp-notebook-max-width) - var(--jp-notebook-padding-offset)
       ) * 0.5
-  );
+  ) !important;
   background: var(--jp-layout-color2);
 }
 
@@ -45,8 +46,16 @@ body[data-notebook='notebooks'] .jp-Notebook-cell {
 }
 
 /* Empty space at the bottom of the notebook (similar to classic) */
-body[data-notebook='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
+body[data-notebook='notebooks']
+  .jp-Notebook.jp-mod-scrollPastEnd
+  .jp-WindowedPanel-outer::after {
   min-height: 100px;
+}
+
+/* Workaround for disabling the full windowing mode */
+body[data-notebook='notebooks']
+  .jp-Toolbar-item[data-jp-item-name='scrollbar'] {
+  display: none;
 }
 
 /* Fix background colors */
