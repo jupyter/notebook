@@ -15,13 +15,9 @@ jobs:
       - name: enforce-triage-label
         uses: jupyterlab/maintainer-tools/.github/actions/enforce-label@v1
              
-        # GitHub CLI api
-# https://cli.github.com/manual/gh_api
 
-gh api \
-  -H "Accept: application/vnd.github+json" \
-  -H "X-GitHub-Api-Version: 2022-11-28" \
+
+
 
 
   
-  /issues
