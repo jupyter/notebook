@@ -1,0 +1,759 @@
+repo_name: colleenpridemore/notebook
+report_id: c2df6d10ae397e97560d091505b3157c
+version: 0.1
+repo_type: Public
+timestamp: '2024-03-23T06:19:50+00:00'
+requested_by: jtpio
+provider: github
+branch: main
+detected_tools_count: 56
+tools:
+- name: CSS 3
+  description: The latest evolution of the Cascading Style Sheets language
+  website_url: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/6727/css.png
+  detection_source_url: https://github.com/colleenpridemore/notebook
+  detection_source: Repo Metadata
+- name: Handlebars.js
+  description: Minimal Templating on Steroids
+  website_url: http://handlebarsjs.com/
+  version: 4.7.8
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Templating Languages & Extensions
+  image_url: https://img.stackshare.io/service/1143/Handlebars.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-15 08:50:55.000000000 Z
+- name: JavaScript
+  description: Lightweight, interpreted, object-oriented language with first-class
+    functions
+  website_url: https://developer.mozilla.org/en-US/docs/Web/JavaScript
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/1209/javascript.jpeg
+  detection_source_url: https://github.com/colleenpridemore/notebook
+  detection_source: Repo Metadata
+- name: Python
+  description: A clear and powerful object-oriented programming language, comparable
+    to Perl, Ruby, Scheme, or Java.
+  website_url: https://www.python.org
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/993/pUBY5pVj.png
+  detection_source_url: https://github.com/colleenpridemore/notebook
+  detection_source: Repo Metadata
+- name: TypeScript
+  description: A superset of JavaScript that compiles to clean JavaScript output
+  website_url: http://www.typescriptlang.org
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/1612/bynNY5dJ.jpg
+  detection_source_url: https://github.com/colleenpridemore/notebook
+  detection_source: Repo Metadata
+- name: ".NET"
+  description: A free, cross-platform, open source developer platform for building
+    many different types of applications
+  website_url: http://www.microsoft.com/net/
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Frameworks (Full Stack)
+  image_url: https://img.stackshare.io/service/1014/IoPy1dce_400x400.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/app/package.json
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2020-12-04 13:15:41.000000000 Z
+- name: Node.js
+  description: A platform built on Chrome's JavaScript runtime for easily building
+    fast, scalable network applications
+  website_url: http://nodejs.org/
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Frameworks (Full Stack)
+  image_url: https://img.stackshare.io/service/1011/n1JRsFeB_400x400.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/buildutils/package.json
+  detection_source: buildutils/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2021-01-19 08:35:54.000000000 Z
+- name: React
+  description: A JavaScript library for building user interfaces
+  website_url: https://reactjs.org/
+  version: 18.2.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Javascript UI Libraries
+  image_url: https://img.stackshare.io/service/1020/OYIaJ1KK.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/ui-tests/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-07-31 13:07:15.000000000 Z
+- name: css-loader
+  description: Helps webpack to collect CSS from all the css files
+  website_url: https://github.com/webpack-contrib/css-loader
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: CSS Pre-processors / Extensions
+  image_url: https://img.stackshare.io/service/8074/default_d2b16fd6997fb2e164de645a34f9b8d5a880d999.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/app/package.json
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-02-27 09:32:34.000000000 Z
+- name: Babel
+  description: Use next generation JavaScript, today.
+  website_url: http://babeljs.io/
+  version: 7.23.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: JavaScript Compilers
+  image_url: https://img.stackshare.io/service/2739/-1wfGjNw.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: packages/application/babel.config.js
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2020-12-04 13:15:41.000000000 Z
+- name: CodeMirror
+  description: A versatile text editor implemented in JavaScript for the browser
+  website_url: http://codemirror.net/
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Text Editor
+  image_url: https://img.stackshare.io/service/2490/E_fCaAi6.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/app/package.json
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2024-03-14 18:32:15.000000000 Z
+- name: ESLint
+  description: The fully pluggable JavaScript code quality tool
+  website_url: http://eslint.org/
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Code Review
+  image_url: https://img.stackshare.io/service/3337/Q4L7Jncy.jpg
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/package.json
+  detection_source: package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2020-12-04 13:15:41.000000000 Z
+- name: Git
+  description: Fast, scalable, distributed revision control system
+  website_url: http://git-scm.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Version Control System
+  image_url: https://img.stackshare.io/service/1046/git.png
+  detection_source_url: https://github.com/colleenpridemore/notebook
+  detection_source: Repo Metadata
+- name: GitHub Actions
+  description: Automate your workflow from idea to production
+  website_url: https://github.com/features/actions
+  open_source: false
+  hosted_saas: true
+  category: Build, Test, Deploy
+  sub_category: Continuous Integration
+  image_url: https://img.stackshare.io/service/11563/actions.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/.github/workflows/auto_author_assign.yml
+  detection_source: ".github/workflows/auto_author_assign.yml"
+  last_updated_by: Diogo Teles Sant'Anna
+  last_updated_on: 2023-09-25 08:45:23.000000000 Z
+- name: Jest
+  description: Painless JavaScript Unit Testing
+  website_url: http://facebook.github.io/jest/
+  version: 29.7.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Javascript Testing Framework
+  image_url: https://img.stackshare.io/service/830/jest.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2020-12-04 13:15:41.000000000 Z
+- name: NuGet
+  description: The package manager for .NET
+  website_url: https://www.nuget.org/
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Package Managers
+  image_url: https://img.stackshare.io/service/2637/6I3oEOP4_400x400.jpg
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/app/package.json
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2020-12-04 13:15:41.000000000 Z
+- name: Prettier
+  description: Prettier is an opinionated code formatter.
+  website_url: https://prettier.io/
+  version: 2.8.8
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Code Review
+  image_url: https://img.stackshare.io/service/7035/default_66f265943abed56bcdbfca1c866a4261b1fbb063.jpg
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-20 12:49:22.000000000 Z
+- name: PyPI
+  description: A repository of software for the Python programming language
+  website_url: https://pypi.org/
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Hosted Package Repository
+  image_url: https://img.stackshare.io/service/12572/-RIWgodF_400x400.jpg
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/binder/environment.yml
+  detection_source: binder/environment.yml
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2020-12-07 18:55:10.000000000 Z
+- name: Webpack
+  description: A bundler for javascript and friends
+  website_url: http://webpack.js.org
+  version: 5.88.2
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: JS Build Tools / JS Task Runners
+  image_url: https://img.stackshare.io/service/1682/IMG_4636.PNG
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-20 12:49:22.000000000 Z
+- name: Yarn
+  description: A new package manager for JavaScript
+  website_url: https://yarnpkg.com/
+  open_source: true
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Front End Package Manager
+  image_url: https://img.stackshare.io/service/5848/44mC-kJ3.jpg
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/ui-tests/yarn.lock
+  detection_source: ui-tests/yarn.lock
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-20 12:49:22.000000000 Z
+- name: npm
+  description: The package manager for JavaScript.
+  website_url: https://www.npmjs.com/
+  open_source: false
+  hosted_saas: false
+  category: Build, Test, Deploy
+  sub_category: Front End Package Manager
+  image_url: https://img.stackshare.io/service/1120/lejvzrnlpb308aftn31u.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/package.json
+  detection_source: package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2020-12-04 13:15:41.000000000 Z
+- name: Jupyter
+  description: Multi-language interactive computing environments.
+  website_url: http://jupyter.org
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Application Utilities
+  sub_category: Data Science Notebooks
+  image_url: https://img.stackshare.io/service/4190/fGBUdNf__400x400.jpg
+  detection_source_url: https://github.com/colleenpridemore/notebook
+  detection_source: Repo Metadata
+- name: Lerna
+  description: A tool for managing JavaScript projects
+  website_url: https://lerna.js.org/
+  version: 6.6.2
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Javascript Utilities & Libraries
+  image_url: https://img.stackshare.io/service/6207/OwqAUSQi_400x400.jpg
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-07-31 13:07:15.000000000 Z
+- name: NumPy
+  description: Fundamental package for scientific computing with Python
+  website_url: http://www.numpy.org/
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: Data Science Tools
+  image_url: https://img.stackshare.io/service/2179/default_332f874a2edb2686f578aa6389313efcea1eec41.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/binder/environment.yml
+  detection_source: binder/environment.yml
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2020-12-07 18:55:10.000000000 Z
+- name: Shell
+  description: A shell is a text-based terminal, used for manipulating programs and
+    files. Shell scripts typically manage program execution.
+  website_url: https://en.wikipedia.org/wiki/Shell_script
+  open_source: false
+  hosted_saas: false
+  category: Languages & Frameworks
+  sub_category: Languages
+  image_url: https://img.stackshare.io/service/4631/default_c2062d40130562bdc836c13dbca02d318205a962.png
+  detection_source_url: https://github.com/colleenpridemore/notebook
+  detection_source: Repo Metadata
+- name: "@babel/core"
+  description: Babel compiler core
+  package_url: https://www.npmjs.com/@babel/core
+  version: 7.23.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15810/default_004658cda9b38934f2871435e9dc15608c86e8be.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: packages/application/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2024-03-14 18:32:15.000000000 Z
+- name: "@babel/preset-env"
+  description: A Babel preset for each environment
+  package_url: https://www.npmjs.com/@babel/preset-env
+  version: 7.22.20
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15819/default_98aa227f51aa9d787815ec3fd98d0ab2bfebbb91.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: packages/application/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2020-12-04 13:15:41.000000000 Z
+- name: "@jupyterlab/application"
+  description: JupyterLab - Application
+  package_url: https://www.npmjs.com/@jupyterlab/application
+  version: 4.1.0
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/17590/default_78eeaf18342bdd59207e3ddbe161d5d7c0391a23.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/ui-tests/yarn.lock
+  detection_source: packages/application-extension/package.json
+  last_updated_by: jtpio
+  last_updated_on: 2024-03-14 18:46:38.000000000 Z
+- name: "@jupyterlab/apputils"
+  description: JupyterLab - Application Utilities
+  package_url: https://www.npmjs.com/@jupyterlab/apputils
+  version: 4.2.0
+  license: BSD-3-Clause
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/18035/default_7826192e433c1035ad42082e7f65b825c34bb056.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/ui-tests/yarn.lock
+  detection_source: packages/application-extension/package.json
+  last_updated_by: jtpio
+  last_updated_on: 2024-03-14 18:46:38.000000000 Z
+- name: "@types/fs-extra"
+  description: TypeScript definitions for fs-extra
+  package_url: https://www.npmjs.com/@types/fs-extra
+  version: 9.0.13
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/16170/default_1f3a2fc7d882e29a43394ecdf491b8989ea3f0fa.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: buildutils/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-20 12:49:22.000000000 Z
+- name: "@types/jest"
+  description: TypeScript definitions for Jest
+  package_url: https://www.npmjs.com/@types/jest
+  version: 29.5.5
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15840/default_004658cda9b38934f2871435e9dc15608c86e8be.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: packages/application/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-20 12:49:22.000000000 Z
+- name: "@types/node"
+  description: TypeScript definitions for Node.js
+  package_url: https://www.npmjs.com/@types/node
+  version: 18.16.1
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15809/default_5e5e8ac63beda29f31f1844df64d4b8247570a66.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/ui-tests/yarn.lock
+  detection_source: buildutils/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-20 12:49:22.000000000 Z
+- name: "@types/rimraf"
+  description: TypeScript definitions for rimraf
+  package_url: https://www.npmjs.com/@types/rimraf
+  version: 3.0.2
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/16613/default_8bb559d64720e298d7108ccd64281e535c1c76a8.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Nicolas Brichet
+  last_updated_on: 2023-04-05 21:28:09.000000000 Z
+- name: "@typescript-eslint/eslint-plugin"
+  description: TypeScript plugin for ESLint
+  package_url: https://www.npmjs.com/@typescript-eslint/eslint-plugin
+  version: 5.62.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15982/default_8b5680d4e916298d08363c291a0d6e34c07ceb15.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-08-04 06:29:07.000000000 Z
+- name: "@typescript-eslint/parser"
+  description: An ESLint custom parser which leverages TypeScript ESTree
+  package_url: https://www.npmjs.com/@typescript-eslint/parser
+  version: 5.62.0
+  license: BSD-2-Clause
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15980/default_732016a20524708efe7a4c77497fe9bfeea19ba6.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-08-04 06:29:07.000000000 Z
+- name: babel-loader
+  description: Babel module loader for webpack
+  package_url: https://www.npmjs.com/babel-loader
+  version: 8.3.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15800/default_4acafe585186b4157fa23322ae7ca89e24b5cdef.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: packages/ui-components/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2020-12-04 13:15:41.000000000 Z
+- name: commander
+  description: The complete solution for node.js command-line programs
+  package_url: https://www.npmjs.com/commander
+  version: 2.20.3
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15829/default_50135978d26eba7c09093ceb23b96d522898e4eb.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/ui-tests/yarn.lock
+  detection_source: buildutils/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2021-01-19 09:46:01.000000000 Z
+- name: eslint-config-prettier
+  description: Turns off all rules that are unnecessary or might conflict with Prettier
+  package_url: https://www.npmjs.com/eslint-config-prettier
+  version: 8.10.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15879/default_0b10af8ca19c215f781dc07442e75bdc831089d0.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-20 12:49:22.000000000 Z
+- name: eslint-plugin-jest
+  description: Eslint rules for Jest
+  package_url: https://www.npmjs.com/eslint-plugin-jest
+  version: 27.4.2
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15996/default_7a88bebb451873cc63bd99007de5bd3bb8ef85de.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-20 12:49:22.000000000 Z
+- name: eslint-plugin-prettier
+  description: Runs prettier as an eslint rule
+  package_url: https://www.npmjs.com/eslint-plugin-prettier
+  version: 4.2.1
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15896/default_6e6e1d6bb189c8bb26c6410618bd597979578f39.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-20 12:49:22.000000000 Z
+- name: eslint-plugin-react
+  description: React specific linting rules for ESLint
+  package_url: https://www.npmjs.com/eslint-plugin-react
+  version: 7.33.2
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15817/default_14fd11531839d935f920b6d55bd6f3528c890ad7.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-08-04 06:29:07.000000000 Z
+- name: fs-extra
+  description: Fs-extra contains methods that aren't included in the vanilla Node.js
+    fs package
+  package_url: https://www.npmjs.com/fs-extra
+  version: 10.1.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15836/default_b71c906aeda030a5e2f1fe40bf12a93be52404ab.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/ui-tests/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: jtpio
+  last_updated_on: 2024-03-14 18:46:38.000000000 Z
+- name: glob
+  description: A little globber
+  package_url: https://www.npmjs.com/glob
+  version: 7.2.3
+  license: ISC
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15875/default_7c39a83d4acd952df89b1ebfdb94c8646324fbf1.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/ui-tests/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2020-12-04 13:15:41.000000000 Z
+- name: handlebars
+  description: Handlebars provides the power necessary to let you build semantic templates
+    effectively with no frustration
+  package_url: https://www.npmjs.com/handlebars
+  version: 4.7.8
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/16013/default_f8be85789693a9901dbcfa43c135c60525ae49a1.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-15 08:50:55.000000000 Z
+- name: mini-css-extract-plugin
+  description: Extracts CSS into separate files
+  package_url: https://www.npmjs.com/mini-css-extract-plugin
+  version: 2.7.6
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15992/default_8b5680d4e916298d08363c291a0d6e34c07ceb15.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: jtpio
+  last_updated_on: 2024-03-14 18:46:38.000000000 Z
+- name: npm-run-all
+  description: A CLI tool to run multiple npm-scripts in parallel or sequential
+  package_url: https://www.npmjs.com/npm-run-all
+  version: 4.1.5
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15926/default_b45165a5d30e541ab11711a34a78209b3e8ed7fd.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: package.json
+  last_updated_by: gabalafou
+  last_updated_on: 2022-11-18 16:37:53.000000000 Z
+- name: react-dom
+  description: React package for working with the DOM
+  package_url: https://www.npmjs.com/react-dom
+  version: 18.2.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15808/default_14fd11531839d935f920b6d55bd6f3528c890ad7.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/ui-tests/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-07-31 13:07:15.000000000 Z
+- name: rimraf
+  description: A deep deletion module for node
+  package_url: https://www.npmjs.com/rimraf
+  version: 3.0.2
+  license: ISC
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15807/default_db4a7791d2f1174547374b9b587bc10fec088a5a.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/ui-tests/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Afshin T. Darian
+  last_updated_on: 2022-09-29 09:43:21.000000000 Z
+- name: style-loader
+  description: Style loader module for webpack
+  package_url: https://www.npmjs.com/style-loader
+  version: 1.0.2
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15822/default_004658cda9b38934f2871435e9dc15608c86e8be.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-02-27 09:32:34.000000000 Z
+- name: svg-url-loader
+  description: Converts SVG file to utf-8 encoded data-uri string
+  package_url: https://www.npmjs.com/svg-url-loader
+  version: 6.0.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/17954/default_e0b07170ab7d7ea66954ff35fdeaae5255c4c0aa.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-02-27 09:32:34.000000000 Z
+- name: ts-jest
+  description: A preprocessor with source maps support to help use TypeScript with
+    Jest
+  package_url: https://www.npmjs.com/ts-jest
+  version: 29.1.1
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15864/default_6743ba96cf149a3c3c68a185199f9705d6eff80e.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: packages/application/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-01-09 14:50:12.000000000 Z
+- name: watch
+  description: Utilities for watching file trees
+  package_url: https://www.npmjs.com/watch
+  version: 1.0.2
+  license: Apache-2.0
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/16280/default_97104dc50154593d2dde1d791400955934c9c715.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-20 12:49:22.000000000 Z
+- name: webpack-bundle-analyzer
+  description: Webpack plugin and CLI utility that represents bundle content as convenient
+    interactive zoomable treemap
+  package_url: https://www.npmjs.com/webpack-bundle-analyzer
+  version: 4.9.1
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15991/default_cbd6c289400672b291755183817e9dd6abe1a612.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-20 12:49:22.000000000 Z
+- name: webpack-cli
+  description: CLI for webpack &amp; friends
+  package_url: https://www.npmjs.com/webpack-cli
+  version: 5.1.4
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15826/default_14fd11531839d935f920b6d55bd6f3528c890ad7.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-20 12:49:22.000000000 Z
+- name: webpack-merge
+  description: Variant of merge that's useful for webpack configuration
+  package_url: https://www.npmjs.com/webpack-merge
+  version: 5.9.0
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/15925/default_e0a4fb1126d7400f419f0931cf1669947a5bc552.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2023-03-20 12:49:22.000000000 Z
+- name: whatwg-fetch
+  description: A window.fetch polyfill
+  package_url: https://www.npmjs.com/whatwg-fetch
+  version: 3.6.19
+  license: MIT
+  open_source: true
+  hosted_saas: false
+  category: Libraries
+  sub_category: npm Packages
+  image_url: https://img.stackshare.io/package/16094/default_63a34654baee757196ddff2457bd1c9a0dfb7287.png
+  detection_source_url: https://github.com/colleenpridemore/notebook/blob/main/yarn.lock
+  detection_source: app/package.json
+  last_updated_by: Jeremy Tuloup
+  last_updated_on: 2020-12-04 13:15:41.000000000 Z
