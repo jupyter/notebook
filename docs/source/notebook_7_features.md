@@ -110,17 +110,7 @@ However a version compatible with Notebook 7 will be available before the final 
 
 ### RISE
 
-```{warning}
-The RISE extension is still under active development and a version compatible with Notebook 7 is not yet available on PyPI.
-```
-
-The RISE extension is another popular JupyterLab extension that is being ported to work with Notebook 7. It allows you to turn your Jupyter Notebooks into a slideshow.
-
-The extension is still under [active development](https://github.com/jupyterlab-contrib/rise). When ready, it will be possible to install it with `pip`:
-
-```bash
-pip install jupyterlab-rise
-```
+The RISE extension is another popular JupyterLab extension that has been ported to work with Notebook 7. It allows you to turn your Jupyter Notebooks into a slideshow. See the [installation instructions](https://github.com/jupyterlab-contrib/rise#install).
 
 ## A document-centric user experience
 
