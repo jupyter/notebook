@@ -108,6 +108,30 @@ increasing awareness of the notebook state and enabling users to quickly navigat
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.2.0rc0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.2.0b1...49ddd0fe1e4d4bfa24f74042f2232c5b91d1c36e))
+
+### Enhancements made
+
+- Update to JupyterLab 4.2.0rc0 [#7333](https://github.com/jupyter/notebook/pull/7333) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Fix CSS for `full` windowing mode [#7337](https://github.com/jupyter/notebook/pull/7337) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Pin on `macos-12` on CI for now [#7346](https://github.com/jupyter/notebook/pull/7346) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-04-19&to=2024-05-01&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-04-19..2024-05-01&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-04-19..2024-05-01&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-04-19..2024-05-01&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.2.0b1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.2.0-beta.0...b45d666d5ee1ee053b55ac9cb6e9aecde5d53945))
@@ -126,8 +150,6 @@ increasing awareness of the notebook state and enabling users to quickly navigat
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-04-12&to=2024-04-19&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-04-12..2024-04-19&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-04-12..2024-04-19&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-04-12..2024-04-19&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.2.0b0
 
