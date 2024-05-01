@@ -28,3 +28,6 @@ tag_template = "v{new_version}"
 
 [[tool.tbump.file]]
 src = "notebook/_version.py"
+
+[tool.check-wheel-contents]
+ignore = ["W002"]
