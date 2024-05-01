@@ -14,6 +14,23 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 6.5.7
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v6.5.6...e1723f4d0d06ff62e9430d09cdac648f18a71534))
+
+### Maintenance and upkeep improvements
+
+- Ignore `check-wheel-content` duplicate file error [#7343](https://github.com/jupyter/notebook/pull/7343) ([@RRosio](https://github.com/RRosio))
+- 6.5.x: Unpin pyzmq [#7305](https://github.com/jupyter/notebook/pull/7305) ([@minrk](https://github.com/minrk))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-09-19&to=2024-05-01&type=c))
+
+[@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2023-09-19..2024-05-01&type=Issues) | [@d5423197](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ad5423197+updated%3A2023-09-19..2024-05-01&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-09-19..2024-05-01&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-09-19..2024-05-01&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2023-09-19..2024-05-01&type=Issues) | [@minrk](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aminrk+updated%3A2023-09-19..2024-05-01&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2023-09-19..2024-05-01&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2023-09-19..2024-05-01&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 6.5.6
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v6.5.5...566860bf159843f95d5f813c0baa9785014fee55))
@@ -27,8 +44,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-07-27&to=2023-09-19&type=c))
 
 [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2023-07-27..2023-09-19&type=Issues) | [@defjaf](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adefjaf+updated%3A2023-07-27..2023-09-19&type=Issues) | [@echarles](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aecharles+updated%3A2023-07-27..2023-09-19&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-07-27..2023-09-19&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-07-27..2023-09-19&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2023-07-27..2023-09-19&type=Issues) | [@minrk](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aminrk+updated%3A2023-07-27..2023-09-19&type=Issues) | [@prof-lupin](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aprof-lupin+updated%3A2023-07-27..2023-09-19&type=Issues) | [@shaneknapp](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ashaneknapp+updated%3A2023-07-27..2023-09-19&type=Issues) | [@takluyver](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atakluyver+updated%3A2023-07-27..2023-09-19&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2023-07-27..2023-09-19&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 6.5.5
 
