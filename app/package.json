@@ -333,6 +333,7 @@
         "@jupyterlab/notebook-extension": [
           "@jupyterlab/notebook-extension:active-cell-tool",
           "@jupyterlab/notebook-extension:completer",
+          "@jupyterlab/notebook-extension:copy-output",
           "@jupyterlab/notebook-extension:metadata-editor",
           "@jupyterlab/notebook-extension:search",
           "@jupyterlab/notebook-extension:toc",
