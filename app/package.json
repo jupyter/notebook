@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "webpack",
-    "build:prod": "webpack --mode=production",
+    "build:prod": "webpack --config ./webpack.prod.config.js",
     "clean": "rimraf build && jlpm run clean:static",
     "clean:static": "rimraf -g \"../notebook/static/!(favicons)\"",
     "watch": "webpack --config ./webpack.config.watch.js"
