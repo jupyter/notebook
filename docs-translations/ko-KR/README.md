@@ -1,7 +1,6 @@
 # Jupyter Notebook
 
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
-[![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
 [![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](http://jupyter-notebook.readthedocs.io/en/stable/?badge=stable)
                 
 English 버전 링크 : [[English Version](http://github.com/jupyter/notebook/)]

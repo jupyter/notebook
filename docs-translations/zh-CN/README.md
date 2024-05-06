@@ -1,7 +1,6 @@
 # Jupyter Notebook
 
-[![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
-[![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
+[![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter))
 [![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/stable/?badge=latest)
                 
 
@@ -57,7 +56,7 @@ IPython代码库的Big Split™。 IPython 3是最后一个主要的整体
 
 ### 在远程安装中运行
 
-在远程启动Jupiter笔记本电脑之前，需要进行一些配置。请参阅 [运行笔记本服务器](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html).
+在远程启动Jupiter笔记本电脑之前，需要进行一些配置。请参阅 [运行笔记本服务器](https://jupyter-notebook.readthedocs.io/en/v6.5.4/public_server.html).
 
 ## 开发设置
 

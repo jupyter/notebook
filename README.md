@@ -1,7 +1,6 @@
 # Jupyter Notebook
 
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
-[![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
 [![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/stable/?badge=latest)
 [![codecov](https://codecov.io/gh/jupyter/notebook/branch/master/graph/badge.svg)](https://codecov.io/gh/jupyter/notebook)
 
@@ -56,7 +55,7 @@ Launch with:
 
 ### Running in a remote installation
 
-You need some configuration before starting Jupyter notebook remotely. See [Running a notebook server](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html).
+You need some configuration before starting Jupyter notebook remotely. See [Running a notebook server](https://jupyter-notebook.readthedocs.io/en/v6.5.4/public_server.html).
 
 ## Development Installation
 

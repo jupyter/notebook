@@ -1,7 +1,6 @@
 # Jupyter Notebook
 
 [![Google Group](https://img.shields.io/badge/-Google%20Group-lightgrey.svg)](https://groups.google.com/forum/#!forum/jupyter)
-[![Build Status](https://travis-ci.org/jupyter/notebook.svg?branch=master)](https://travis-ci.org/jupyter/notebook)
 [![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/stable/?badge=latest)
                 
 英語版のリンク : [[English Version](http://github.com/jupyter/notebook/)]
@@ -37,7 +36,7 @@ Jupyter Notebookの発展的な使用方法に関するドキュメントは、[
 
 ### リモートへのインストールにおける実行
 
-Jupyter Notebookをリモートで起動する前に、いくつかの構成が必要です。 [Notebookサーバーの実行](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html)を参照してください。
+Jupyter Notebookをリモートで起動する前に、いくつかの構成が必要です。 [Notebookサーバーの実行](https://jupyter-notebook.readthedocs.io/en/v6.5.4/public_server.html)を参照してください。
 
 ## 開発用インストール
 
