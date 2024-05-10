@@ -37,6 +37,8 @@ body[data-notebook='notebooks'] .jp-WindowedPanel-outer {
 
 body[data-notebook='notebooks'] .jp-WindowedPanel-inner {
   margin-top: var(--jp-notebook-toolbar-margin-bottom);
+  /* Adjustments for the extra top and bottom notebook padding */
+  margin-bottom: calc(4* var(--jp-notebook-padding));
 }
 
 body[data-notebook='notebooks'] .jp-Notebook-cell {
@@ -109,8 +111,6 @@ body[data-notebook='notebooks'] .jp-Notebook-footer {
   background: unset;
   width: 100%;
   margin-left: unset;
-  /* Adjustments for the extra top and bottom notebook padding */
-  margin-top: calc(4* var(--jp-notebook-padding));
 }
 
 /* Mobile View */
