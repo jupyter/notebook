@@ -64,18 +64,6 @@ body[data-notebook='notebooks']
   background: var(--jp-layout-color0) !important;
 }
 
-/**
-  Extra padding to the first and and last cell of the notebook.
-  TODO: revisit when https://github.com/jupyterlab/jupyterlab/issues/13151 is fixed
-*/
-.jp-Notebook-cell[data-windowed-list-index='0'] {
-  padding-top: calc(2 * var(--jp-notebook-padding));
-}
-
-body[data-notebook='notebooks'] .jp-WindowedPanel-viewport > *:last-child {
-  padding-bottom: calc(2 * var(--jp-notebook-padding));
-}
-
 body[data-notebook='notebooks']
   .jp-Notebook
   .jp-Notebook-cell:not(:first-child)::before {
@@ -118,9 +106,11 @@ body[data-notebook='notebooks']
 
 /* Tweak the notebook footer (to add a new cell) */
 body[data-notebook='notebooks'] .jp-Notebook-footer {
+  background: unset;
   width: 100%;
   margin-left: unset;
-  background: unset;
+  /* Adjustments for the extra top and bottom notebook padding */
+  margin-top: calc(4* var(--jp-notebook-padding));
 }
 
 /* Mobile View */
@@ -137,20 +127,17 @@ body[data-format='mobile'] .jp-ToolbarButton .jp-DebuggerBugButton {
   display: none;
 }
 
-/* Virtual Notebook fixes */
-
 body[data-notebook='notebooks'] .jp-WindowedPanel-viewport {
   background: var(--jp-layout-color0);
+  box-shadow: var(--jp-elevation-z4);
   padding: unset;
+
+  /* Extra padding at the top and bottom so the notebook looks nicer */
+  padding-top: calc(2* var(--jp-notebook-padding));
+  padding-bottom: calc(2* var(--jp-notebook-padding));
 }
 
 /* Notebook box shadow */
-
-body[data-notebook='notebooks']
-  .jp-WindowedPanel-outer
-  > *:first-child:not(:last-child) {
-  box-shadow: var(--jp-elevation-z4);
-}
 
 body[data-notebook='notebooks']
   .jp-Notebook
