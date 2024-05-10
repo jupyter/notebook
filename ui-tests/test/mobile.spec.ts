@@ -39,7 +39,7 @@ test.describe('Mobile', () => {
     await waitForKernelReady(notebook);
 
     // click to make the blue border around the cell disappear
-    await page.click('.jp-WindowedPanel-outer');
+    await page.click('#menu-panel-wrapper');
 
     // TODO: remove
     if (browserName === 'firefox') {
