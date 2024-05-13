@@ -5,7 +5,7 @@ import { test } from './fixtures';
 
 import { expect } from '@jupyterlab/galata';
 
-test.use({ autoGoto: false });
+test.use({ autoGoto: false, tmpPath: 'settings' });
 
 test.describe('Settings', () => {
   test('Should be persisted after reloading the page', async ({
