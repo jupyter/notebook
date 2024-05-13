@@ -38,6 +38,11 @@ test.describe('Mobile', () => {
     // wait for the kernel status animations to be finished
     await waitForKernelReady(notebook);
 
+    // force switching back to command mode to avoid capturing the cursor in the screenshot
+    await notebook.evaluate(async () => {
+      await window.jupyterapp.commands.execute('notebook:enter-command-mode');
+    });
+
     // click to make the blue border around the cell disappear
     await page.click('#menu-panel-wrapper');
 
