@@ -282,6 +282,7 @@ __metadata:
   resolution: "@jupyter-notebook/ui-tests@workspace:."
   dependencies:
     "@jupyterlab/galata": ~5.2.0
+    "@playwright/test": ^1.44.0
     rimraf: ^3.0.2
   languageName: unknown
   linkType: soft
@@ -1374,7 +1375,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.43.1":
+"@playwright/test@npm:^1.43.1, @playwright/test@npm:^1.44.0":
   version: 1.44.0
   resolution: "@playwright/test@npm:1.44.0"
   dependencies:
