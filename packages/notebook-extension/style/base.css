@@ -37,6 +37,8 @@ body[data-notebook='notebooks'] .jp-WindowedPanel-outer {
 
 body[data-notebook='notebooks'] .jp-WindowedPanel-inner {
   margin-top: var(--jp-notebook-toolbar-margin-bottom);
+  /* Adjustments for the extra top and bottom notebook padding */
+  margin-bottom: calc(4 * var(--jp-notebook-padding));
 }
 
 body[data-notebook='notebooks'] .jp-Notebook-cell {
@@ -52,12 +54,6 @@ body[data-notebook='notebooks']
   min-height: 100px;
 }
 
-/* Workaround for disabling the full windowing mode */
-body[data-notebook='notebooks']
-  .jp-Toolbar-item[data-jp-item-name='scrollbar'] {
-  display: none;
-}
-
 /* Fix background colors */
 
 body[data-notebook='notebooks'] .jp-WindowedPanel-outer > * {
@@ -68,18 +64,6 @@ body[data-notebook='notebooks']
   .jp-Notebook.jp-mod-commandMode
   .jp-Cell.jp-mod-active.jp-mod-selected:not(.jp-mod-multiSelected) {
   background: var(--jp-layout-color0) !important;
-}
-
-/**
-  Extra padding to the first and and last cell of the notebook.
-  TODO: revisit when https://github.com/jupyterlab/jupyterlab/issues/13151 is fixed
-*/
-.jp-Notebook-cell[data-windowed-list-index='0'] {
-  padding-top: calc(2 * var(--jp-notebook-padding));
-}
-
-body[data-notebook='notebooks'] .jp-WindowedPanel-viewport > *:last-child {
-  padding-bottom: calc(2 * var(--jp-notebook-padding));
 }
 
 body[data-notebook='notebooks']
@@ -124,9 +108,9 @@ body[data-notebook='notebooks']
 
 /* Tweak the notebook footer (to add a new cell) */
 body[data-notebook='notebooks'] .jp-Notebook-footer {
+  background: unset;
   width: 100%;
   margin-left: unset;
-  background: unset;
 }
 
 /* Mobile View */
@@ -143,20 +127,17 @@ body[data-format='mobile'] .jp-ToolbarButton .jp-DebuggerBugButton {
   display: none;
 }
 
-/* Virtual Notebook fixes */
-
 body[data-notebook='notebooks'] .jp-WindowedPanel-viewport {
   background: var(--jp-layout-color0);
+  box-shadow: var(--jp-elevation-z4);
   padding: unset;
+
+  /* Extra padding at the top and bottom so the notebook looks nicer */
+  padding-top: calc(2 * var(--jp-notebook-padding));
+  padding-bottom: calc(2 * var(--jp-notebook-padding));
 }
 
 /* Notebook box shadow */
-
-body[data-notebook='notebooks']
-  .jp-WindowedPanel-outer
-  > *:first-child:not(:last-child) {
-  box-shadow: var(--jp-elevation-z4);
-}
 
 body[data-notebook='notebooks']
   .jp-Notebook
