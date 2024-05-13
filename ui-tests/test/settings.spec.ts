@@ -3,7 +3,7 @@
 
 import { test } from './fixtures';
 
-import { expect } from '@playwright/test';
+import { expect } from '@jupyterlab/galata';
 
 test.use({ autoGoto: false });
 
