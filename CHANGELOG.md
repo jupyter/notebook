@@ -108,6 +108,31 @@ increasing awareness of the notebook state and enabling users to quickly navigat
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.2.0rc1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.2.0rc0...f5d8aea3bdc3eea25213792f9d101738f2a1f627))
+
+### Enhancements made
+
+- Update to JupyterLab 4.2.0 [#7357](https://github.com/jupyter/notebook/pull/7357) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Add the `@jupyterlab/notebook-extension:copy-output` plugin [#7353](https://github.com/jupyter/notebook/pull/7353) ([@jtpio](https://github.com/jtpio))
+- Default to the `full` windowing mode [#7321](https://github.com/jupyter/notebook/pull/7321) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- update RISE extension installation instructions [#7299](https://github.com/jupyter/notebook/pull/7299) ([@afeld](https://github.com/afeld))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-01&to=2024-05-13&type=c))
+
+[@afeld](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafeld+updated%3A2024-05-01..2024-05-13&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-01..2024-05-13&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-01..2024-05-13&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-05-01..2024-05-13&type=Issues) | [@takluyver](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atakluyver+updated%3A2024-05-01..2024-05-13&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.2.0rc0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/v7.2.0b1...49ddd0fe1e4d4bfa24f74042f2232c5b91d1c36e))
@@ -129,8 +154,6 @@ increasing awareness of the notebook state and enabling users to quickly navigat
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-04-19&to=2024-05-01&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-04-19..2024-05-01&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-04-19..2024-05-01&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-04-19..2024-05-01&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.2.0b1
 
