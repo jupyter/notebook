@@ -3,11 +3,21 @@
 
 import { test } from './fixtures';
 
-import { expect } from '@jupyterlab/galata';
+import { expect, galata } from '@jupyterlab/galata';
 
 test.use({ autoGoto: false, tmpPath: 'settings' });
 
 test.describe('Settings', () => {
+  test.beforeAll(async ({ request, tmpPath }) => {
+    const contents = galata.newContentsHelper(request);
+    await contents.createDirectory(tmpPath);
+  });
+
+  test.afterAll(async ({ request, tmpPath }) => {
+    const contents = galata.newContentsHelper(request);
+    await contents.deleteDirectory(tmpPath);
+  });
+
   test('Should be persisted after reloading the page', async ({
     page,
     tmpPath,
