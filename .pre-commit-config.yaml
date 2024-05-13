@@ -35,6 +35,7 @@ repos:
               yarn.lock|
               binder/example.ipynb|
               docs/source/examples/images/FrontendKernel.graffle/data.plist|
+              ui-tests|
           )$
 
   - repo: https://github.com/pre-commit/mirrors-mypy
