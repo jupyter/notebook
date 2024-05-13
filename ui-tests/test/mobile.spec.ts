@@ -43,9 +43,6 @@ test.describe('Mobile', () => {
       await window.jupyterapp.commands.execute('notebook:enter-command-mode');
     });
 
-    // click to make the blue border around the cell disappear
-    await page.click('#menu-panel-wrapper');
-
     // TODO: remove
     if (browserName === 'firefox') {
       await hideAddCellButton(notebook);
