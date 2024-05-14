@@ -24,11 +24,10 @@ test.describe('Smoke', () => {
     await console.waitForSelector('.jp-CodeConsole');
 
     // Create a new notebook
+    const notebookPromise = page.waitForEvent('popup');
     await page.click('text="New"');
-    const [notebook] = await Promise.all([
-      page.waitForEvent('popup'),
-      page.click('text="Python 3 (ipykernel)"'),
-    ]);
+    await page.click('text="Python 3 (ipykernel)"');
+    const notebook = await notebookPromise;
 
     try {
       // we may have to select the kernel first
