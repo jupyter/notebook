@@ -26,7 +26,11 @@ test.describe('Smoke', () => {
     // Create a new notebook
     const notebookPromise = page.waitForEvent('popup');
     await page.click('text="New"');
-    await page.click('text="Python 3 (ipykernel)"');
+    await page
+      .locator(
+        '[data-command="notebook:create-new"] >> text="Python 3 (ipykernel)"'
+      )
+      .click();
     const notebook = await notebookPromise;
 
     try {
