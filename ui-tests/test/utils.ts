@@ -14,9 +14,7 @@ export async function runAndAdvance(
 /**
  * Wait for the kernel to be ready
  */
-export async function waitForKernelReady(
-  page: IJupyterLabPageFixture
-): Promise<void> {
+export async function waitForKernelReady(page: Page): Promise<void> {
   await page.waitForSelector('.jp-NotebookKernelStatus-fade');
   await page.waitForFunction(() => {
     const status = window.document.getElementsByClassName(
@@ -41,9 +39,7 @@ export async function waitForKernelReady(
  * Special case for firefox headless issue
  * See https://github.com/jupyter/notebook/pull/6872#issuecomment-1549594166 for more details
  */
-export async function hideAddCellButton(
-  page: IJupyterLabPageFixture
-): Promise<void> {
+export async function hideAddCellButton(page: Page): Promise<void> {
   await page
     .locator('.jp-Notebook-footer')
     .evaluate((element) => (element.style.display = 'none'));

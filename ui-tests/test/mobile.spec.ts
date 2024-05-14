@@ -1,7 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import { expect, galata } from '@jupyterlab/galata';
+import { IJupyterLabPage, expect, galata } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
@@ -46,11 +46,14 @@ test.describe('Mobile', () => {
     await page.goto(`tree/${tmpPath}`);
 
     // Create a new notebook
+    const notebookPromise = page.waitForEvent('popup');
     await page.click('text="New"');
-    const [notebook] = await Promise.all([
-      page.waitForEvent('popup'),
-      page.click('text="Python 3 (ipykernel)"'),
-    ]);
+    await page
+      .locator(
+        '[data-command="notebook:create-new"] >> text="Python 3 (ipykernel)"'
+      )
+      .click();
+    const notebook = await notebookPromise;
 
     // wait for the kernel status animations to be finished
     await waitForKernelReady(notebook);
