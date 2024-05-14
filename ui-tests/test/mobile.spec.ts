@@ -14,6 +14,7 @@ test.use({
 });
 
 test.describe('Mobile', () => {
+  // manually create the test directory since tmpPath is set to a fixed value
   test.beforeAll(async ({ request, tmpPath }) => {
     const contents = galata.newContentsHelper(request);
     await contents.createDirectory(tmpPath);
