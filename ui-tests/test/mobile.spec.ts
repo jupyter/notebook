@@ -10,6 +10,8 @@ import { hideAddCellButton, waitForKernelReady } from './utils';
 test.use({
   autoGoto: false,
   viewport: { width: 524, height: 800 },
+  // Set a fixed string as Playwright is preventing the unique test name to be too long
+  // and replaces part of the path with a hash
   tmpPath: 'mobile-layout',
 });
 

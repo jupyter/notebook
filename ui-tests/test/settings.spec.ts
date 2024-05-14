@@ -5,6 +5,8 @@ import { test } from './fixtures';
 
 import { expect, galata } from '@jupyterlab/galata';
 
+// Set a fixed string as Playwright is preventing the unique test name to be too long
+// and replaces part of the path with a hash
 test.use({ autoGoto: false, tmpPath: 'settings' });
 
 test.describe('Settings', () => {
