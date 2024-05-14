@@ -3,10 +3,10 @@ contact_links:
   - name: Is this a common issue? See our Docs.
     url: https://jupyter-notebook.readthedocs.io/en/latest/troubleshooting.html#what-to-do-when-things-go-wrong
     about: Before opening an issue, make sure your issue hasn't already been addressed in the documentation.
-  - name: \U0001F914 Support and all other questions, including if you're not sure what to do.
+  - name: 🤔 Support and all other questions, including if you're not sure what to do.
     url: https://discourse.jupyter.org/c/notebook/31
     about: If you have a question or you're having issues installing Jupyter Notebook, try posting on Discourse.
-  - name: "\U0001F4AC Chat with the devs"
+  - name: 💬 Chat with the devs
     url: https://app.gitter.im/#/room/#jupyter_notebook:gitter.im
     about: Ask short questions about using Jupyter Notebook
   - name: 📝 Do you have a feature request that may be applied upstream? See JupyterLab.
