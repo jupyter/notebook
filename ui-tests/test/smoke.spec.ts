@@ -24,9 +24,9 @@ test.describe('Smoke', () => {
     await console.waitForSelector('.jp-CodeConsole');
 
     // Create a new notebook
+    await page.click('text="New"');
     const [notebook] = await Promise.all([
       page.waitForEvent('popup'),
-      page.click('text="New"'),
       page.click('text="Python 3 (ipykernel)"'),
     ]);
 
