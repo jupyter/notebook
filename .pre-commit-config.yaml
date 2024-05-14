@@ -29,13 +29,12 @@ repos:
     rev: 'v2.2.6'
     hooks:
       - id: codespell
-        args: ['-L', 'hart,noteable']
+        args: ['-L', 'hart,noteable,beforeAll']
         exclude: |
           (?x)^(
               yarn.lock|
               binder/example.ipynb|
               docs/source/examples/images/FrontendKernel.graffle/data.plist|
-              ui-tests|
           )$
 
   - repo: https://github.com/pre-commit/mirrors-mypy
