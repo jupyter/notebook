@@ -1,7 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import { IJupyterLabPage, expect, galata } from '@jupyterlab/galata';
+import { expect, galata } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
@@ -68,6 +68,9 @@ test.describe('Mobile', () => {
       await hideAddCellButton(notebook);
     }
 
+    await expect(
+      notebook.locator('.jp-Toolbar-responsive-opener')
+    ).toBeVisible();
     expect(await notebook.screenshot()).toMatchSnapshot('notebook.png');
     await notebook.close();
   });
