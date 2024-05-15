@@ -84,6 +84,11 @@ const JUPYTERLAB_DOCMANAGER_PLUGIN_ID =
  */
 namespace CommandIDs {
   /**
+   * Duplicate the current document and open the new document
+   */
+  export const duplicate = 'application:duplicate';
+
+  /**
    * Handle local links
    */
   export const handleLink = 'application:handle-local-link';
@@ -614,6 +619,15 @@ const title: JupyterFrontEndPlugin<void> = {
         const { currentWidget } = shell;
         return !!(currentWidget && docManager.contextForWidget(currentWidget));
       };
+
+      commands.addCommand(CommandIDs.duplicate, {
+        label: () => trans.__('Duplicate'),
+        isEnabled,
+        execute: async () => {
+          // Duplicate the file, and open the new file.
+          console.log('Duplicate file');
+        },
+      });
 
       commands.addCommand(CommandIDs.rename, {
         label: () => trans.__('Rename…'),
