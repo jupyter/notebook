@@ -36,6 +36,8 @@ import {
   standardRendererFactories,
 } from '@jupyterlab/rendermime';
 
+import { Contents } from '@jupyterlab/services';
+
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
@@ -624,8 +626,23 @@ const title: JupyterFrontEndPlugin<void> = {
         label: () => trans.__('Duplicate'),
         isEnabled,
         execute: async () => {
+          if (!isEnabled()) {
+            return;
+          }
+
           // Duplicate the file, and open the new file.
-          console.log('Duplicate file');
+          const result: Contents.IModel = await docManager.duplicate(
+            current.context.path
+          );
+
+          if (result === null) {
+            console.error('Failed to duplicate file');
+            return;
+          }
+
+          // Get the new file's name, and open it.
+          const newPath = result.path;
+          await commands.execute('filebrowser:open-path', { path: newPath });
         },
       });
 
