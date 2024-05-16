@@ -635,11 +635,6 @@ const title: JupyterFrontEndPlugin<void> = {
             current.context.path
           );
 
-          if (result === null) {
-            console.error('Failed to duplicate file');
-            return;
-          }
-
           // Get the new file's name, and open it.
           await commands.execute('docmanager:open', { path: result.path });
         },
