@@ -641,8 +641,7 @@ const title: JupyterFrontEndPlugin<void> = {
           }
 
           // Get the new file's name, and open it.
-          const newPath = result.path;
-          await commands.execute('filebrowser:open-path', { path: newPath });
+          await commands.execute('docmanager:open', { path: result.path });
         },
       });
 
