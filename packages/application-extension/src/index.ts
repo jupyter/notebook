@@ -630,8 +630,6 @@ const title: JupyterFrontEndPlugin<void> = {
 
           // Duplicate the file, and open the new file.
           const result = await docManager.duplicate(current.context.path);
-
-          // Get the new file's name, and open it.
           await commands.execute('docmanager:open', { path: result.path });
         },
       });
