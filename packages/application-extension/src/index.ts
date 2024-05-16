@@ -36,8 +36,6 @@ import {
   standardRendererFactories,
 } from '@jupyterlab/rendermime';
 
-import { Contents } from '@jupyterlab/services';
-
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
@@ -631,9 +629,7 @@ const title: JupyterFrontEndPlugin<void> = {
           }
 
           // Duplicate the file, and open the new file.
-          const result: Contents.IModel = await docManager.duplicate(
-            current.context.path
-          );
+          const result = await docManager.duplicate(current.context.path);
 
           // Get the new file's name, and open it.
           await commands.execute('docmanager:open', { path: result.path });
