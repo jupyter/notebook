@@ -12,99 +12,33 @@ upgrading `notebook`.
 Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 `pip --version`.
 
-## v7.1
+## v7.2
 
-Jupyter Notebook 7.1 is based on JupyterLab 4.1, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-0-to-4-1) which lists deprecations and changes to the public API.
+Jupyter Notebook 7.2 is based on JupyterLab 4.2, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-0-to-4-1) which lists deprecations and changes to the public API.
 
-Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.1, although they are not all supported in Notebook 7.1.
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.2, although they are not all supported in Notebook 7.2.
 
-For reference you may have a look at the JupyterLab 4.1 changelog to learn more: https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-1
+For reference you may have a look at the JupyterLab 4.2 changelog to learn more: https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-2
 
-### Diagrams in Markdown
+### Full notebook windowing mode by default
 
-Matching GitHub-Flavoured Markdown, JupyterLab 4.1 now supports [Mermaid](https://github.com/mermaid-js/mermaid) diagrams.
-To create a mermaid diagram use the `mermaid` language specifier for a code block in a markdown cell or document, for example:
+Notebooks in the `full` windowing mode only render the visible cells, significantly improving the performance of the application. One limitation of `full` mode is that the search function in your browser may produce false negatives; using the search function is recommended. To revert to the behaviour from Notebook 7.2, go to Settings → Settings Editor → Notebook, scroll to “Windowing mode”, and choose `defer`.
 
-~~~
-```mermaid
-flowchart LR
+### Improved Shortcuts Editor
 
-A[Hard] -->|Text| B(Round)
-B --> C{Decision}
-C -->|One| D[Result 1]
-C -->|Two| E[Result 2]
-```
-~~~
+Among the numerous improvements and bug fixes for the keyboard shortcuts editor:
 
-which renders as:
+- it is now possible to remove the default shortcuts,
+- shortcuts are correctly sorted when using a language pack,
+- shortcuts with different arguments are now correctly displayed as individual entries.
 
-<img alt="Rendered Mermaid diagram going from left to right with modern look; the diagram contains blueish square node with text Hard pointing to round square node with text Round; over the arrow connecting the two nodes there is a word Text; the second node further connects to a rhombus-shaped node with text Decision which then connects to two further nodes, Result 1 and Result 2." src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.1-merimad-diagram.png" class="jp-screenshot">
+<img alt="A context menu opened over a keybinding in the Keyboard Shortcuts setting panel within the Settings widget" class="jp-screenshot" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.2-delete-shortcut.png">
 
-### Inline completer
+### Dark high contrast theme
 
-JupyterLab now supports completion presented as ghost text in the cell and file editors,
-allowing generative AI models to provide multi-line completions. This can now also be leveraged in Jupyter Notebook.
+A new theme, JupyterLab Dark High Contrast, which is intended to benefit users with the need for higher contrast, following the WCAG AAA accessibility standard for color contrast. To select this theme, from the menu bar, choose Settings → Theme → JupyterLab Dark High Contrast. Please provide feedback and suggestions on further improvements to this theme.
 
-The suggestions are provided by plugins implementing the ``IInlineCompletionProvider`` API;
-by default a single provider which uses kernel history is available.
-
-<img alt="In a code cell with `def fac` content a ghost text containing a suggestion representing further code of factorial function is shown; over the code cell there is a floating widget allowing to accept the suggestion and iterate between alternative suggestions" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.1-inline-completer.png" class="jp-screenshot">
-
-The suggestions can be invoked as-you-type or manually using a configurable shortcut (by default <kbd>Alt</kbd> + <kbd>\\</kbd>).
-The default keyboard shortcuts are displayed in the small widget shown when hovering over the ghost suggestion:
-- <kbd>Alt</kbd> + <kbd>End</kbd> - accept suggestion
-- <kbd>Alt</kbd> + <kbd>[</kbd> - previous suggestion
-- <kbd>Alt</kbd> + <kbd>]</kbd> - next suggestion
-
-To enable the inline suggestions based on the kernel history, go to Settings → Inline Completer → History provider → check the "enabled" checkbox.
-
-In addition to the built-in history suggestions,
-the [`jupyter-ai`](https://github.com/jupyterlab/jupyter-ai) extension will provide
-suggestions from supported models.
-
-Note that the Jupyter AI extension is not yet compatible with Jupyter Notebook 7.
-
-### Keyboard navigation improvements
-
-Numerous improvements to keyboard navigation with focus on accessibility and usability are included in this release:
-- the notebook cells now retain focus
-- the focus can now be moved beyond the active notebook
-- the toolbars can now be navigated using arrow keys
-
-For more details, see [this post on Jupyter Blog](https://blog.jupyter.org/recent-keyboard-navigation-improvements-in-jupyter-4df32f97628d).
-
-### Execution history in notebook
-
-The code from previously executed cells can be used to populate empty cells,
-allowing to iterate on code from previous cells or even sessions
-(depending on how a specific kernel stores history).
-
-To cycle between history items press <kbd>Alt</kbd> + <kbd>Arrow Up</kbd> and  <kbd>Alt</kbd> + <kbd>Arrow Down</kbd>.
-
-To enable execution history, go to Settings → Notebook → check the "Kernel history access" checkbox.
-
-This feature was already available in the console in previous releases; it only works with kernels supporting execution history requests.
-To clear the execution history consult the documentation of the kernel you are using (e.g., IPython/ipykernel).
-
-### Error indicator in the table of contents
-
-When a cell fails during execution, an error indicator will be displayed by the corresponding heading,
-increasing awareness of the notebook state and enabling users to quickly navigate to the cell which requires attention.
-
-<img alt="Error indicator in the shape of a triangle with exclamation sign (using ⚠ UTF character) shown next to one of the headings in the table of contents panel" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.1-toc-error-indicator.png" class="jp-screenshot">
-
-### Search improvements
-
-- The search box will now grow automatically to accommodate longer text
-- Search in selection can now be toggled using <kbd>Alt</kbd> + <kbd>L</kbd> and automatic search in selection can be configured in settings
-- Tooltips with shortcuts were added to the buttons in the search box to improve discoverability of the shortcuts
-
-### Miscellaneous
-
-- The current theme (dark/light) can now be synced with the browser/system preference (Settings menu → Theme → Synchronise with System Settings)
-- A blue "read-only" status indicator is now  displayed in the toolbar of documents which cannot be saved because their model is read-only.
-- Native support for viewing jsonl/ndjson files was added
-- Collapsing of breadcrumbs in the File Browser can be disabled in File Browser settings
+<img alt="A dark high contrast theme" class="jp-screenshot" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.2-dark-high-contrast.png">
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
@@ -206,6 +140,100 @@ increasing awareness of the notebook state and enabling users to quickly navigat
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-03-14&to=2024-03-29&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-03-14..2024-03-29&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-03-14..2024-03-29&type=Issues)
+
+## v7.1
+
+Jupyter Notebook 7.1 is based on JupyterLab 4.1, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-0-to-4-1) which lists deprecations and changes to the public API.
+
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.1, although they are not all supported in Notebook 7.1.
+
+For reference you may have a look at the JupyterLab 4.1 changelog to learn more: https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-1
+
+### Diagrams in Markdown
+
+Matching GitHub-Flavoured Markdown, JupyterLab 4.1 now supports [Mermaid](https://github.com/mermaid-js/mermaid) diagrams.
+To create a mermaid diagram use the `mermaid` language specifier for a code block in a markdown cell or document, for example:
+
+~~~
+```mermaid
+flowchart LR
+
+A[Hard] -->|Text| B(Round)
+B --> C{Decision}
+C -->|One| D[Result 1]
+C -->|Two| E[Result 2]
+```
+~~~
+
+which renders as:
+
+<img alt="Rendered Mermaid diagram going from left to right with modern look; the diagram contains blueish square node with text Hard pointing to round square node with text Round; over the arrow connecting the two nodes there is a word Text; the second node further connects to a rhombus-shaped node with text Decision which then connects to two further nodes, Result 1 and Result 2." src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.1-merimad-diagram.png" class="jp-screenshot">
+
+### Inline completer
+
+JupyterLab now supports completion presented as ghost text in the cell and file editors,
+allowing generative AI models to provide multi-line completions. This can now also be leveraged in Jupyter Notebook.
+
+The suggestions are provided by plugins implementing the ``IInlineCompletionProvider`` API;
+by default a single provider which uses kernel history is available.
+
+<img alt="In a code cell with `def fac` content a ghost text containing a suggestion representing further code of factorial function is shown; over the code cell there is a floating widget allowing to accept the suggestion and iterate between alternative suggestions" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.1-inline-completer.png" class="jp-screenshot">
+
+The suggestions can be invoked as-you-type or manually using a configurable shortcut (by default <kbd>Alt</kbd> + <kbd>\\</kbd>).
+The default keyboard shortcuts are displayed in the small widget shown when hovering over the ghost suggestion:
+- <kbd>Alt</kbd> + <kbd>End</kbd> - accept suggestion
+- <kbd>Alt</kbd> + <kbd>[</kbd> - previous suggestion
+- <kbd>Alt</kbd> + <kbd>]</kbd> - next suggestion
+
+To enable the inline suggestions based on the kernel history, go to Settings → Inline Completer → History provider → check the "enabled" checkbox.
+
+In addition to the built-in history suggestions,
+the [`jupyter-ai`](https://github.com/jupyterlab/jupyter-ai) extension will provide
+suggestions from supported models.
+
+Note that the Jupyter AI extension is not yet compatible with Jupyter Notebook 7.
+
+### Keyboard navigation improvements
+
+Numerous improvements to keyboard navigation with focus on accessibility and usability are included in this release:
+- the notebook cells now retain focus
+- the focus can now be moved beyond the active notebook
+- the toolbars can now be navigated using arrow keys
+
+For more details, see [this post on Jupyter Blog](https://blog.jupyter.org/recent-keyboard-navigation-improvements-in-jupyter-4df32f97628d).
+
+### Execution history in notebook
+
+The code from previously executed cells can be used to populate empty cells,
+allowing to iterate on code from previous cells or even sessions
+(depending on how a specific kernel stores history).
+
+To cycle between history items press <kbd>Alt</kbd> + <kbd>Arrow Up</kbd> and  <kbd>Alt</kbd> + <kbd>Arrow Down</kbd>.
+
+To enable execution history, go to Settings → Notebook → check the "Kernel history access" checkbox.
+
+This feature was already available in the console in previous releases; it only works with kernels supporting execution history requests.
+To clear the execution history consult the documentation of the kernel you are using (e.g., IPython/ipykernel).
+
+### Error indicator in the table of contents
+
+When a cell fails during execution, an error indicator will be displayed by the corresponding heading,
+increasing awareness of the notebook state and enabling users to quickly navigate to the cell which requires attention.
+
+<img alt="Error indicator in the shape of a triangle with exclamation sign (using ⚠ UTF character) shown next to one of the headings in the table of contents panel" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.1-toc-error-indicator.png" class="jp-screenshot">
+
+### Search improvements
+
+- The search box will now grow automatically to accommodate longer text
+- Search in selection can now be toggled using <kbd>Alt</kbd> + <kbd>L</kbd> and automatic search in selection can be configured in settings
+- Tooltips with shortcuts were added to the buttons in the search box to improve discoverability of the shortcuts
+
+### Miscellaneous
+
+- The current theme (dark/light) can now be synced with the browser/system preference (Settings menu → Theme → Synchronise with System Settings)
+- A blue "read-only" status indicator is now  displayed in the toolbar of documents which cannot be saved because their model is read-only.
+- Native support for viewing jsonl/ndjson files was added
+- Collapsing of breadcrumbs in the File Browser can be disabled in File Browser settings
 
 ## 7.1.2
 
