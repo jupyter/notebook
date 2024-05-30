@@ -198,7 +198,7 @@ const openTreeTab: JupyterFrontEndPlugin<void> = {
 
     const id = 'notebook:open-tree-tab';
     commands.addCommand(id, {
-      label: trans.__('Open...'),
+      label: trans.__('Open…'),
       execute: async () => {
         const url = URLExt.join(PageConfig.getBaseUrl(), 'tree');
         window.open(url);
