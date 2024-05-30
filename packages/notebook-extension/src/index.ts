@@ -163,7 +163,8 @@ const closeTab: JupyterFrontEndPlugin<void> = {
     commands.addCommand(id, {
       label: trans.__('Close and Shut Down Notebook'),
       execute: async () => {
-        await commands.execute('notebook:close-and-shutdown');
+        // Shut the kernel down, without confirmation
+        await commands.execute('notebook:shutdown-kernel', { activate: false });
         window.close();
       },
     });
