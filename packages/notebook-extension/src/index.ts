@@ -186,10 +186,7 @@ const openTreeTab: JupyterFrontEndPlugin<void> = {
     'Add a command to open a browser tab on the tree view when clicking "Open...".',
   autoStart: true,
   optional: [ITranslator],
-  activate: (
-    app: JupyterFrontEnd,
-    translator: ITranslator | null
-  ) => {
+  activate: (app: JupyterFrontEnd, translator: ITranslator | null) => {
     const { commands } = app;
     translator = translator ?? nullTranslator;
     const trans = translator.load('notebook');
