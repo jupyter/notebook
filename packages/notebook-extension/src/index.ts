@@ -204,10 +204,11 @@ const openTreeTab: JupyterFrontEndPlugin<void> = {
         window.open(url);
       },
     });
-    menu.fileMenu.addItem({
-      command: id,
-      rank: 1,
-    });
+    console.log('done through schema!');
+    // menu.fileMenu.addItem({
+    //   command: id,
+    //   rank: 1,
+    // });
   },
 };
 
