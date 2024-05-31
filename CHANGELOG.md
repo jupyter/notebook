@@ -42,6 +42,37 @@ A new theme, JupyterLab Dark High Contrast, which is intended to benefit users w
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.3.0a0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.2.0...1a03b9d8e502f8177684e39d7b627bed1c772bb2))
+
+### Enhancements made
+
+- Support custom page_data_hook function [#7387](https://github.com/jupyter/notebook/pull/7387) ([@bluestealth](https://github.com/bluestealth))
+- Add missing "Open..." file menu [#7385](https://github.com/jupyter/notebook/pull/7385) ([@martinRenou](https://github.com/martinRenou))
+- Duplicate notebook menu option [#7374](https://github.com/jupyter/notebook/pull/7374) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Bugs fixed
+
+- "Close and Shut Down Notebook" shuts down without the confirmation dialog [#7384](https://github.com/jupyter/notebook/pull/7384) ([@JasonWeill](https://github.com/JasonWeill))
+- Adds message about building code before running 'develop' [#7382](https://github.com/jupyter/notebook/pull/7382) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab 4.3.0a0 [#7378](https://github.com/jupyter/notebook/pull/7378) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Adds message about building code before running 'develop' [#7382](https://github.com/jupyter/notebook/pull/7382) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-16&to=2024-05-31&type=c))
+
+[@bluestealth](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abluestealth+updated%3A2024-05-16..2024-05-31&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-16..2024-05-31&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2024-05-16..2024-05-31&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-16..2024-05-31&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2024-05-16..2024-05-31&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.2.0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.1.2...31bf294e85175bbf39816a90dc8858dedaf73bde))
@@ -81,8 +112,6 @@ A new theme, JupyterLab Dark High Contrast, which is intended to benefit users w
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-03-14&to=2024-05-16&type=c))
 
 [@afeld](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafeld+updated%3A2024-03-14..2024-05-16&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-03-14..2024-05-16&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2024-03-14..2024-05-16&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-03-14..2024-05-16&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-03-14..2024-05-16&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-03-14..2024-05-16&type=Issues) | [@takluyver](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atakluyver+updated%3A2024-03-14..2024-05-16&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.2.0rc1
 
