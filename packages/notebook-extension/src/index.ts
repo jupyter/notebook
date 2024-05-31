@@ -185,11 +185,9 @@ const openTreeTab: JupyterFrontEndPlugin<void> = {
   description:
     'Add a command to open a browser tab on the tree view when clicking "Open...".',
   autoStart: true,
-  requires: [IMainMenu],
   optional: [ITranslator],
   activate: (
     app: JupyterFrontEnd,
-    menu: IMainMenu,
     translator: ITranslator | null
   ) => {
     const { commands } = app;
@@ -204,11 +202,6 @@ const openTreeTab: JupyterFrontEndPlugin<void> = {
         window.open(url);
       },
     });
-    console.log('done through schema!');
-    // menu.fileMenu.addItem({
-    //   command: id,
-    //   rank: 1,
-    // });
   },
 };
 
