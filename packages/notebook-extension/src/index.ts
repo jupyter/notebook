@@ -178,6 +178,31 @@ const closeTab: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * Add a command to open the tree view from the notebook view
+ */
+const openTreeTab: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:open-tree-tab',
+  description:
+    'Add a command to open a browser tab on the tree view when clicking "Open...".',
+  autoStart: true,
+  optional: [ITranslator],
+  activate: (app: JupyterFrontEnd, translator: ITranslator | null) => {
+    const { commands } = app;
+    translator = translator ?? nullTranslator;
+    const trans = translator.load('notebook');
+
+    const id = 'notebook:open-tree-tab';
+    commands.addCommand(id, {
+      label: trans.__('Open…'),
+      execute: async () => {
+        const url = URLExt.join(PageConfig.getBaseUrl(), 'tree');
+        window.open(url);
+      },
+    });
+  },
+};
+
+/**
  * The kernel logo plugin.
  */
 const kernelLogo: JupyterFrontEndPlugin<void> = {
@@ -570,6 +595,7 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
 const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   closeTab,
+  openTreeTab,
   editNotebookMetadata,
   kernelLogo,
   kernelStatus,

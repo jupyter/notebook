@@ -4,6 +4,15 @@
   "jupyter.lab.menus": {
     "main": [
       {
+        "id": "jp-mainmenu-file",
+        "items": [
+          {
+            "command": "notebook:open-tree-tab",
+            "rank": 1
+          }
+        ]
+      },
+      {
         "id": "jp-mainmenu-edit",
         "items": [
           {
