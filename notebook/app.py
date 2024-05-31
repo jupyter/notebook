@@ -120,6 +120,12 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
                 logger=self.log,
             ),
         )
+
+        # modify page config with custom hook
+        page_config_hook = self.settings.get("page_config_hook", None)
+        if page_config_hook:
+            page_config = page_config_hook(self, page_config)
+
         return page_config
 
 
