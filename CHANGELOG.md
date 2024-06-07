@@ -42,6 +42,22 @@ A new theme, JupyterLab Dark High Contrast, which is intended to benefit users w
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.2.1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.2.0...e881745c98ea0a0ea585df78f1ca8950a0edeaa2))
+
+### Bugs fixed
+
+- Remove pseudoelement obstructing the cell collapser [#7392](https://github.com/jupyter/notebook/pull/7392) ([@krassowski](https://github.com/krassowski))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-16&to=2024-06-07&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-16..2024-06-07&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-16..2024-06-07&type=Issues) | [@meeseeksmachine](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ameeseeksmachine+updated%3A2024-05-16..2024-06-07&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.2.0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.1.2...31bf294e85175bbf39816a90dc8858dedaf73bde))
@@ -81,8 +97,6 @@ A new theme, JupyterLab Dark High Contrast, which is intended to benefit users w
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-03-14&to=2024-05-16&type=c))
 
 [@afeld](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafeld+updated%3A2024-03-14..2024-05-16&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-03-14..2024-05-16&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2024-03-14..2024-05-16&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-03-14..2024-05-16&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-03-14..2024-05-16&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-03-14..2024-05-16&type=Issues) | [@takluyver](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atakluyver+updated%3A2024-03-14..2024-05-16&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.2.0rc1
 
