@@ -151,19 +151,6 @@ body[data-notebook='notebooks']
   box-shadow: 0px 0px 12px 1px var(--jp-shadow-umbra-color);
 }
 
-body[data-notebook='notebooks']
-  .jp-Notebook
-  .jp-Notebook-cell:not(:first-child)::after,
-body[data-notebook='notebooks']
-  .jp-Notebook
-  .jp-Notebook-cell:not(:first-child)::before {
-  content: ' ';
-  height: 100%;
-  position: absolute;
-  top: 0;
-  width: 11px;
-}
-
 /* Additional customizations of the components on the notebook page */
 
 .jp-NotebookKernelLogo {
