@@ -82,4 +82,3 @@ migrating/multiple-interfaces.md
 [team-compass note]: https://github.com/jupyter/notebook-team-compass/issues/5#issuecomment-1085254000
 [find replacements for those that are not available]: https://jupyter-notebook.readthedocs.io/en/latest/migrating/frontend-extensions.html#jupyterlab-equivalent-extensions-to-the-classic-notebook
 [nbclassic]: https://github.com/jupyter/nbclassic
-
