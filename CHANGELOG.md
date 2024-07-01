@@ -42,6 +42,26 @@ A new theme, JupyterLab Dark High Contrast, which is intended to benefit users w
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.3.0a1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-alpha.0...ff2b822d066dc8d733a259f955177da4bd4d668c))
+
+### Enhancements made
+
+- Update to JupyterLab `4.3.0a1` [#7416](https://github.com/jupyter/notebook/pull/7416) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Remove pseudoelement obstructing the cell collapser [#7392](https://github.com/jupyter/notebook/pull/7392) ([@krassowski](https://github.com/krassowski))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-31&to=2024-07-01&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-31..2024-07-01&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-31..2024-07-01&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-05-31..2024-07-01&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.3.0a0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.2.0...1a03b9d8e502f8177684e39d7b627bed1c772bb2))
@@ -70,8 +90,6 @@ A new theme, JupyterLab Dark High Contrast, which is intended to benefit users w
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-16&to=2024-05-31&type=c))
 
 [@bluestealth](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abluestealth+updated%3A2024-05-16..2024-05-31&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-16..2024-05-31&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2024-05-16..2024-05-31&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-16..2024-05-31&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2024-05-16..2024-05-31&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.2.0
 
