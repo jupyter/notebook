@@ -1,0 +1,92 @@
+name: Check for latest JupyterLab releases
+
+on:
+  schedule:
+    - cron: 30 17 * * *
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'JupyterLab version'
+        default: latest
+        required: true
+        type: string
+
+env:
+  version_tag: 'latest'
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check_for_lab_updates:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install required dependencies
+        run: |
+          python -m pip install jupyterlab
+          sudo apt-get install hub
+
+      - name: Install Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20.x'
+
+      - name: Install npm dependencies and build buildutils
+        run: |
+          jlpm install
+          jlpm run build:utils
+
+      - name: Check for new releases and update
+        shell: bash
+        run: |
+          set -eux
+          for version in ${{ inputs.version || env.version_tag }}
+          do
+            export LATEST=$(node buildutils/lib/get-latest-lab-version.js --set-version $version)
+          done
+
+          echo "latest=${LATEST}" >> $GITHUB_ENV
+          node buildutils/lib/upgrade-lab-dependencies.js --set-version ${LATEST}
+          if [[ ! -z "$(git status --porcelain package.json)" ]]; then
+            jlpm install
+          fi
+
+      - name: Create a PR
+        shell: bash
+        env:
+          GITHUB_USER: ${{ secrets.G_USER }}
+          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
+        run: |
+          set -eux
+
+          export LATEST=${{ env.latest }}
+          export BRANCH_NAME=update-to-v${LATEST}
+
+          # if resulted in any change:
+          if [[ ! -z "$(git status --porcelain package.json)" ]]; then
+            # if branch already exists.
+            if git ls-remote --heads origin | grep "refs/heads/${BRANCH_NAME}$" > /dev/null; then
+              echo "Branch '${BRANCH_NAME}' exists."
+            else
+              # new branch is created
+              git checkout -b "${BRANCH_NAME}"
+              git config user.name "Jupyter Bot"
+              git config user.email 'jupyterlab-bot@users.noreply.github.com'
+
+              git commit . -m "Update to JupyterLab v${LATEST}"
+
+              git push --set-upstream origin "${BRANCH_NAME}"
+              hub pull-request -m "Update to JupyterLab v${LATEST}" \
+                  -m "New JupyterLab release [v${LATEST}](https://github.com/jupyterlab/jupyterlab/releases/tag/v${LATEST}) is available. Please review the lock file carefully.".
+            fi
+          fi
