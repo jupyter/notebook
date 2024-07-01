@@ -39,9 +39,9 @@
   },
   "dependencies": {
     "@jupyter-notebook/application": "^7.3.0-alpha.0",
-    "@jupyterlab/application": "~4.2.3",
-    "@jupyterlab/console": "~4.2.3",
-    "@jupyterlab/coreutils": "~6.2.3",
+    "@jupyterlab/application": "~4.3.0-alpha.1",
+    "@jupyterlab/console": "~4.3.0-alpha.1",
+    "@jupyterlab/coreutils": "~6.3.0-alpha.1",
     "@lumino/algorithm": "^2.0.1"
   },
   "devDependencies": {
