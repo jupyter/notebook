@@ -34,9 +34,7 @@ import { ITranslator } from '@jupyterlab/translation';
 
 import {
   caretDownIcon,
-  FilenameSearcher,
   folderIcon,
-  IScore,
   runningIcon,
 } from '@jupyterlab/ui-components';
 
@@ -59,16 +57,13 @@ const FILE_BROWSER_FACTORY = 'FileBrowser';
 const FILE_BROWSER_PLUGIN_ID = '@jupyterlab/filebrowser-extension:browser';
 
 /**
- * The class name added to the filebrowser filterbox node.
- */
-const FILTERBOX_CLASS = 'jp-FileBrowser-filterBox';
-
-/**
  * The namespace for command IDs.
  */
 namespace CommandIDs {
   // The command to activate the filebrowser widget in tree view.
   export const activate = 'filebrowser:activate';
+
+  export const toggleFileFilter = 'filebrowser:toggle-file-filter';
 }
 
 /**
@@ -323,28 +318,6 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
           translator,
           label: trans.__('Upload'),
         })
-    );
-
-    toolbarRegistry.addFactory(
-      FILE_BROWSER_FACTORY,
-      'fileNameSearcher',
-      (browser: FileBrowser) => {
-        const searcher = FilenameSearcher({
-          updateFilter: (
-            filterFn: (item: string) => Partial<IScore> | null,
-            query?: string
-          ) => {
-            browser.model.setFilter((value) => {
-              return filterFn(value.name.toLowerCase());
-            });
-          },
-          useFuzzyFilter: true,
-          placeholder: trans.__('Filter files by name'),
-          forceRefresh: true,
-        });
-        searcher.addClass(FILTERBOX_CLASS);
-        return searcher;
-      }
     );
 
     setToolbar(
