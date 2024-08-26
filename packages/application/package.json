@@ -57,7 +57,7 @@
   "devDependencies": {
     "@babel/core": "^7.11.6",
     "@babel/preset-env": "^7.12.1",
-    "@jupyterlab/testutils": "~4.2.0",
+    "@jupyterlab/testutils": "~4.2.5",
     "@types/jest": "^29.2.5",
     "jest": "^29.3.1",
     "rimraf": "^3.0.2",
