@@ -3,7 +3,7 @@ import os
 import pytest
 from tornado.httpclient import HTTPClientError
 
-from notebook.app import JupyterNotebookApp, TreeHandler
+from notebook.app import JupyterNotebookApp, NotebookHandler, TreeHandler
 
 
 @pytest.fixture()
@@ -31,6 +31,16 @@ async def test_notebook_handler(notebooks, jp_fetch):
         # Check that the lab template is loaded
         html = r.body.decode()
         assert "Jupyter Notebook" in html
+
+    redirected_url = None
+
+    def redirect(self, url):
+        nonlocal redirected_url
+        redirected_url = url
+
+    NotebookHandler.redirect = redirect
+    await jp_fetch("notebooks", "jlab_test_notebooks")
+    assert redirected_url == "/a%40b/tree/jlab_test_notebooks"
 
 
 async def test_tree_handler(notebooks, notebookapp, jp_fetch):

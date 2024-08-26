@@ -203,8 +203,16 @@ class NotebookHandler(NotebookBaseHandler):
     """A notebook page handler."""
 
     @web.authenticated
-    def get(self, path: str | None = None) -> t.Any:  # noqa: ARG002
-        """Get the notebook page."""
+    async def get(self, path: str = "") -> t.Any:
+        """Get the notebook page. Redirect if it's a directory."""
+        path = path.strip("/")
+        cm = self.contents_manager
+
+        if await ensure_async(cm.dir_exists(path=path)):
+            url = ujoin(self.base_url, "tree", url_escape(path))
+            self.log.debug("Redirecting %s to %s since path is a directory", self.request.path, url)
+            self.redirect(url)
+            return None
         tpl = self.render_template("notebooks.html", page_config=self.get_page_config())
         return self.write(tpl)
 
