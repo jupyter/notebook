@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/buildutils",
-  "version": "7.2.0-beta.1",
+  "version": "7.3.0-alpha.1",
   "private": true,
   "description": "Jupyter Notebook - Build Utilities",
   "homepage": "https://github.com/jupyter/notebook",
@@ -29,7 +29,7 @@
     "watch": "tsc -w --listEmittedFiles"
   },
   "dependencies": {
-    "@jupyterlab/buildutils": "~4.2.0-beta.1",
+    "@jupyterlab/buildutils": "~4.3.0-alpha.1",
     "commander": "^6.2.0",
     "fs-extra": "^9.1.0",
     "typescript": "~5.0.2"

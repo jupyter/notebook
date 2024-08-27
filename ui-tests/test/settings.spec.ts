@@ -3,11 +3,23 @@
 
 import { test } from './fixtures';
 
-import { expect } from '@playwright/test';
+import { expect, galata } from '@jupyterlab/galata';
 
-test.use({ autoGoto: false });
+// Set a fixed string as Playwright is preventing the unique test name to be too long
+// and replaces part of the path with a hash
+test.use({ autoGoto: false, tmpPath: 'settings' });
 
 test.describe('Settings', () => {
+  test.beforeAll(async ({ request, tmpPath }) => {
+    const contents = galata.newContentsHelper(request);
+    await contents.createDirectory(tmpPath);
+  });
+
+  test.afterAll(async ({ request, tmpPath }) => {
+    const contents = galata.newContentsHelper(request);
+    await contents.deleteDirectory(tmpPath);
+  });
+
   test('Should be persisted after reloading the page', async ({
     page,
     tmpPath,

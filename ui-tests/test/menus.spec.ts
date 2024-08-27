@@ -5,7 +5,7 @@ import path from 'path';
 
 import { test } from './fixtures';
 
-import { expect } from '@playwright/test';
+import { expect } from '@jupyterlab/galata';
 import { waitForKernelReady } from './utils';
 
 const NOTEBOOK = 'empty.ipynb';
@@ -13,7 +13,7 @@ const NOTEBOOK = 'empty.ipynb';
 const MENU_PATHS = [
   'File',
   'File>New',
-  'File>Save and Export Notebook As…',
+  'File>Save and Export Notebook As',
   'Edit',
   'View',
   'Run',

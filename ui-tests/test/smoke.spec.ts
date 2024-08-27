@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test';
+import { expect } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
@@ -24,11 +24,14 @@ test.describe('Smoke', () => {
     await console.waitForSelector('.jp-CodeConsole');
 
     // Create a new notebook
-    const [notebook] = await Promise.all([
-      page.waitForEvent('popup'),
-      page.click('text="New"'),
-      page.click('text="Python 3 (ipykernel)"'),
-    ]);
+    const notebookPromise = page.waitForEvent('popup');
+    await page.click('text="New"');
+    await page
+      .locator(
+        '[data-command="notebook:create-new"] >> text="Python 3 (ipykernel)"'
+      )
+      .click();
+    const notebook = await notebookPromise;
 
     try {
       // we may have to select the kernel first

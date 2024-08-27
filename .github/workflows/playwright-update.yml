@@ -9,7 +9,16 @@ permissions:
 
 jobs:
   update-snapshots:
-    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, 'update playwright snapshots') }}
+    if: >
+      (
+        github.event.issue.author_association == 'OWNER' ||
+        github.event.issue.author_association == 'COLLABORATOR' ||
+        github.event.issue.author_association == 'MEMBER'
+      ) && github.event.issue.pull_request && (
+        contains(github.event.comment.body, 'please update playwright snapshots') ||
+        contains(github.event.comment.body, 'please update galata snapshots') ||
+        contains(github.event.comment.body, 'please update snapshots')
+      )
     runs-on: ubuntu-latest
     permissions:
       # Required by actions/update-snapshots
@@ -30,14 +39,43 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Checkout the branch from the PR that triggered the job
-        run: |
-          # PR branch remote must be checked out using https URL
-          git config --global hub.protocol https
+      - name: Configure git to use https
+        run: git config --global hub.protocol https
 
-          gh pr checkout ${{ github.event.issue.number }}
+      - name: Get PR Info
+        id: pr
+        env:
+          PR_NUMBER: ${{ github.event.issue.number }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          COMMENT_AT: ${{ github.event.comment.created_at }}
+        run: |
+          pr="$(gh api /repos/${GH_REPO}/pulls/${PR_NUMBER})"
+          head_sha="$(echo "$pr" | jq -r .head.sha)"
+          pushed_at="$(echo "$pr" | jq -r .pushed_at)"
+
+          if [[ $(date -d "$pushed_at" +%s) -gt $(date -d "$COMMENT_AT" +%s) ]]; then
+              echo "Updating is not allowed because the PR was pushed to (at $pushed_at) after the triggering comment was issued (at $COMMENT_AT)"
+              exit 1
+          fi
+
+          echo "head_sha=$head_sha" >> $GITHUB_OUTPUT
+
+      - name: Checkout the branch from the PR that triggered the job
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr checkout ${{ github.event.issue.number }}
+
+      - name: Validate the fetched branch HEAD revision
+        env:
+          EXPECTED_SHA: ${{ steps.pr.outputs.head_sha }}
+        run: |
+          actual_sha="$(git rev-parse HEAD)"
+
+          if [[ "$actual_sha" != "$EXPECTED_SHA" ]]; then
+              echo "The HEAD of the checked out branch ($actual_sha) differs from the HEAD commit available at the time when trigger comment was submitted ($EXPECTED_SHA)"
+              exit 1
+          fi
 
       - name: Base Setup
         uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1

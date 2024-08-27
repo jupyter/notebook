@@ -163,7 +163,8 @@ const closeTab: JupyterFrontEndPlugin<void> = {
     commands.addCommand(id, {
       label: trans.__('Close and Shut Down Notebook'),
       execute: async () => {
-        await commands.execute('notebook:close-and-shutdown');
+        // Shut the kernel down, without confirmation
+        await commands.execute('notebook:shutdown-kernel', { activate: false });
         window.close();
       },
     });
@@ -172,6 +173,31 @@ const closeTab: JupyterFrontEndPlugin<void> = {
       // use a small rank to it takes precedence over the default
       // shut down action for the notebook
       rank: 0,
+    });
+  },
+};
+
+/**
+ * Add a command to open the tree view from the notebook view
+ */
+const openTreeTab: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:open-tree-tab',
+  description:
+    'Add a command to open a browser tab on the tree view when clicking "Open...".',
+  autoStart: true,
+  optional: [ITranslator],
+  activate: (app: JupyterFrontEnd, translator: ITranslator | null) => {
+    const { commands } = app;
+    translator = translator ?? nullTranslator;
+    const trans = translator.load('notebook');
+
+    const id = 'notebook:open-tree-tab';
+    commands.addCommand(id, {
+      label: trans.__('Open…'),
+      execute: async () => {
+        const url = URLExt.join(PageConfig.getBaseUrl(), 'tree');
+        window.open(url);
+      },
     });
   },
 };
@@ -564,27 +590,12 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A plugin to set the default windowing mode to defer for the notebook
- * TODO: remove?
- */
-const windowing: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/notebook-extension:windowing',
-  autoStart: true,
-  requires: [INotebookTracker],
-  activate: (app: JupyterFrontEnd, notebookTracker: INotebookTracker): void => {
-    notebookTracker.widgetAdded.connect((sender, widget) => {
-      widget.content['_viewModel'].windowingActive = false;
-      widget.content.notebookConfig.windowingMode = 'defer';
-    });
-  },
-};
-
-/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   closeTab,
+  openTreeTab,
   editNotebookMetadata,
   kernelLogo,
   kernelStatus,
@@ -592,7 +603,6 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   scrollOutput,
   tabIcon,
   trusted,
-  windowing,
 ];
 
 export default plugins;

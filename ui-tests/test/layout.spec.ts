@@ -3,7 +3,7 @@
 
 import path from 'path';
 
-import { expect } from '@playwright/test';
+import { expect } from '@jupyterlab/galata';
 
 import { galata } from '@jupyterlab/galata';
 

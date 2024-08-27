@@ -3,7 +3,7 @@
 
 import path from 'path';
 
-import { expect } from '@playwright/test';
+import { expect } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
@@ -42,6 +42,9 @@ test.describe('General', () => {
 
     // hover somewhere else to make the add cell disappear
     await page.hover('#jp-top-bar');
+
+    // click to make the blue border around the cell disappear
+    await page.click('.jp-WindowedPanel-outer');
 
     // special case for firefox headless issue
     // see https://github.com/jupyter/notebook/pull/6872#issuecomment-1549594166 for more details
