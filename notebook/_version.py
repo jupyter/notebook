@@ -5,7 +5,7 @@ import re
 from collections import namedtuple
 
 # Use "hatch version xx.yy.zz" to handle version changes
-__version__ = "7.2.1"
+__version__ = "7.2.2"
 
 # PEP440 version parser
 _version_regex = re.compile(
