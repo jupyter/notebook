@@ -43,7 +43,7 @@ async function updatePackageJson(newVersion: string): Promise<void> {
 
     updateDependencyVersion(existingPackageJson, newDependencies);
 
-    fs.writeFileSync(filePath, JSON.stringify(existingPackageJson, null, 2));
+    fs.writeFileSync(filePath, JSON.stringify(existingPackageJson, null, 2) + '\n');
   }
 }
 
