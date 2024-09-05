@@ -185,7 +185,7 @@ class NotebookWebApplication(web.Application):
         if settings['autoreload']:
             log.info('Autoreload enabled: the webapp will restart when any Python src file changes.')
 
-        print("""
+        print(r"""
   _   _          _      _
  | | | |_ __  __| |__ _| |_ ___
  | |_| | '_ \/ _` / _` |  _/ -_)
