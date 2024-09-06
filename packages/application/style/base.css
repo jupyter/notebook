@@ -20,20 +20,13 @@ body.jp-ThemedContainer {
   background: var(--jp-layout-color2);
 }
 
-/*
-  This extra definition seems to be required to override the default from JupyterLab.
-  See https://github.com/jupyterlab/jupyterlab/pull/16519 for more information
-*/
-.jp-ThemedContainer {
-  background: var(--jp-layout-color2);
-}
-
-#main {
+#main.jp-ThemedContainer {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  background: var(--jp-layout-color2);
 }
 
 #top-panel-wrapper {
