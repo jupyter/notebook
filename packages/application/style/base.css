@@ -10,13 +10,18 @@
   --jp-notebook-max-width: 1200px;
 }
 
-body {
+/*
+  Override the default background
+  See https://github.com/jupyterlab/jupyterlab/pull/16519 for more information
+*/
+body.jp-ThemedContainer {
   margin: 0;
   padding: 0;
+  background: var(--jp-layout-color2);
 }
 
 /*
-  Override the default background
+  This extra definition seems to be required to override the default from JupyterLab.
   See https://github.com/jupyterlab/jupyterlab/pull/16519 for more information
 */
 .jp-ThemedContainer {
