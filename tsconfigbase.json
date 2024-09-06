@@ -16,6 +16,7 @@
     "strict": true,
     "strictNullChecks": true,
     "target": "ES2018",
-    "types": []
+    "types": [],
+    "lib": ["DOM", "DOM.Iterable", "ES2018", "ES2020.Intl"]
   }
 }
