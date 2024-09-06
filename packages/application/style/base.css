@@ -13,6 +13,13 @@
 body {
   margin: 0;
   padding: 0;
+}
+
+/*
+  Override the default background
+  See https://github.com/jupyterlab/jupyterlab/pull/16519 for more information
+*/
+.jp-ThemedContainer {
   background: var(--jp-layout-color2);
 }
 
