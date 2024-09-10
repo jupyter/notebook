@@ -63,7 +63,7 @@ jobs:
 
       - uses: jupyterlab/maintainer-tools/.github/actions/upload-coverage@v1
         with:
-          artifact_name: coverage-${{ matrix.python }}
+          artifact_name: coverage-${{ matrix.python-version }}
 
   coverage:
     runs-on: ubuntu-latest
