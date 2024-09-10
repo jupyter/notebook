@@ -49,7 +49,7 @@ jobs:
       - name: Test the package
         run: hatch run cov:test
 
-      - uses: jtpio/maintainer-tools/.github/actions/upload-coverage@include-hidden-files
+      - uses: jupyterlab/maintainer-tools/.github/actions/upload-coverage@main
         with:
           artifact_name: coverage-${{ matrix.python-version }}
 
@@ -71,7 +71,7 @@ jobs:
       - test
     steps:
       - uses: actions/checkout@v4
-      - uses: jupyterlab/maintainer-tools/.github/actions/report-coverage@v1
+      - uses: jtpio/maintainer-tools/.github/actions/report-coverage@debug-coverage
         with:
           fail_under: 78
 
