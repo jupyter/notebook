@@ -71,7 +71,7 @@ jobs:
       - test
     steps:
       - uses: actions/checkout@v4
-      - uses: jtpio/maintainer-tools/.github/actions/report-coverage@debug-coverage
+      - uses: jtpio/maintainer-tools/.github/actions/report-coverage@include-hidden-files-2
         with:
           fail_under: 78
 
