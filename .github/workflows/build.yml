@@ -62,6 +62,8 @@ jobs:
           python -m jupyterlab.browser_check
 
       - uses: jupyterlab/maintainer-tools/.github/actions/upload-coverage@v1
+        with:
+          artifact_name: coverage-${{ matrix.python }}
 
   coverage:
     runs-on: ubuntu-latest
