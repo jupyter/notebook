@@ -49,6 +49,10 @@ jobs:
       - name: Test the package
         run: hatch run cov:test
 
+      - uses: jupyterlab/maintainer-tools/.github/actions/upload-coverage@v1
+        with:
+          artifact_name: coverage-${{ matrix.python-version }}
+
       - name: JavaScript tests
         run: |
           hatch run js_test
@@ -60,10 +64,6 @@ jobs:
           jupyter labextension list 2>&1 | grep -ie "@jupyter-notebook/lab-extension.*enabled.*ok" -
           jupyter server extension list 2>&1 | grep -ie "notebook.*enabled" -
           python -m jupyterlab.browser_check
-
-      - uses: jupyterlab/maintainer-tools/.github/actions/upload-coverage@v1
-        with:
-          artifact_name: coverage-${{ matrix.python-version }}
 
   coverage:
     runs-on: ubuntu-latest
