@@ -82,6 +82,12 @@ jupyter notebook
 
 You need some configuration before starting Jupyter notebook remotely. See [Running a notebook server](https://jupyter-server.readthedocs.io/en/latest/operators/public-server.html).
 
+## Self-Hosting Options
+
+### Elestio
+
+[![Deploy on Elestio](https://elest.io/images/logos/deploy-to-elestio-btn.png)](https://elest.io/open-source/jupyter-notebook)
+
 ## Development Installation
 
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for how to set up a local development installation.
