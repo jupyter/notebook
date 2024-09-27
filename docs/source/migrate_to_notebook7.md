@@ -6,7 +6,7 @@ _Updated 2023-05-17_
 Version 7 of the Jupyter Notebook application might break your
 extensions or other customizations. Please read this page to find out if you
 need to take any actions to ensure a smooth, uninterrupted experience.
-```
+``` 
 
 A major upgrade to the Jupyter Notebook interface is coming with Notebook 7! This
 upgrade will bring a heap of new features, but will also break backwards
