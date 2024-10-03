@@ -77,6 +77,11 @@ Launch with:
 ```bash
 jupyter notebook
 ```
+**Access Jupyter Notebook Web Interface**
+
+1. Open a web browser (e.g., Google Chrome, Mozilla Firefox).
+2. Type: `http://localhost:8888` in the address bar.
+3. Press Enter.
 
 ### Running in a remote installation
 
