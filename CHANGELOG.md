@@ -2533,7 +2533,7 @@ installing on Windows ([3220](https://github.com/jupyter/notebook/pull/3220)).
 
 ## 5.3.0
 
-This release introduces a couple noteable improvements, such as terminal
+This release introduces a couple notable improvements, such as terminal
 support for Windows and support for OS trash (files deleted from the
 notebook dashboard are moved to the OS trash vs. deleted permanently).
 

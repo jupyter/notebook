@@ -8,7 +8,7 @@ This is for example the case for community contributed themes such as [jupyter-t
 
 Fortunately installing a custom theme for Notebook 7 is very easy. It is the same process as installing a regular extension.
 
-For exampe let's say you want to install the [JupyterLab Night](https://github.com/martinRenou/jupyterlab-night) theme. You can do so by running the following command:
+For example let's say you want to install the [JupyterLab Night](https://github.com/martinRenou/jupyterlab-night) theme. You can do so by running the following command:
 
 ```bash
 pip install jupyterlab-night
