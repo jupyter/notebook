@@ -80,7 +80,7 @@ jupyter notebook
 **Access Jupyter Notebook Web Interface**
 
 1. Open a web browser (e.g., Google Chrome, Mozilla Firefox).
-2. Type: `http://localhost:8888` in the address bar.
+2. Type: `http://localhost:'host number'` in the address baralong with the login token issued.
 3. Press Enter.
 
 ### Running in a remote installation
