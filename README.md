@@ -79,8 +79,10 @@ jupyter notebook
 ```
 **Access Jupyter Notebook Web Interface**
 
+It will open automatically by default but if does not then copy do the following:
+
 1. Open a web browser (e.g., Google Chrome, Mozilla Firefox).
-2. Type: `http://localhost:'host number'` in the address baralong with the login token issued.
+2. Type: `http://localhost:'host number'` in the address bar along with the login token issued.
 3. Press Enter.
 
 ### Running in a remote installation
