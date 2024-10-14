@@ -10,18 +10,23 @@
   --jp-notebook-max-width: 1200px;
 }
 
-body {
+/*
+  Override the default background
+  See https://github.com/jupyterlab/jupyterlab/pull/16519 for more information
+*/
+body.jp-ThemedContainer {
   margin: 0;
   padding: 0;
   background: var(--jp-layout-color2);
 }
 
-#main {
+#main.jp-ThemedContainer {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  background: var(--jp-layout-color2);
 }
 
 #top-panel-wrapper {

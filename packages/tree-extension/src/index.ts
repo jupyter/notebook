@@ -34,9 +34,7 @@ import { ITranslator } from '@jupyterlab/translation';
 
 import {
   caretDownIcon,
-  FilenameSearcher,
   folderIcon,
-  IScore,
   runningIcon,
 } from '@jupyterlab/ui-components';
 
@@ -47,6 +45,7 @@ import { Menu, MenuBar } from '@lumino/widgets';
 import { NotebookTreeWidget, INotebookTree } from '@jupyter-notebook/tree';
 
 import { FilesActionButtons } from './fileactions';
+import { IStateDB } from '@jupyterlab/statedb';
 
 /**
  * The file browser factory.
@@ -59,16 +58,13 @@ const FILE_BROWSER_FACTORY = 'FileBrowser';
 const FILE_BROWSER_PLUGIN_ID = '@jupyterlab/filebrowser-extension:browser';
 
 /**
- * The class name added to the filebrowser filterbox node.
- */
-const FILTERBOX_CLASS = 'jp-FileBrowser-filterBox';
-
-/**
  * The namespace for command IDs.
  */
 namespace CommandIDs {
   // The command to activate the filebrowser widget in tree view.
   export const activate = 'filebrowser:activate';
+
+  export const toggleFileFilter = 'filebrowser:toggle-file-filter';
 }
 
 /**
@@ -282,6 +278,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     ISettingRegistry,
     IToolbarWidgetRegistry,
     IFileBrowserFactory,
+    IStateDB,
   ],
   optional: [
     IRunningSessionManagers,
@@ -297,6 +294,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     settingRegistry: ISettingRegistry,
     toolbarRegistry: IToolbarWidgetRegistry,
     factory: IFileBrowserFactory,
+    stateDB: IStateDB,
     manager: IRunningSessionManagers | null,
     settingEditorTracker: ISettingEditorTracker | null,
     jsonSettingEditorTracker: IJSONSettingEditorTracker | null
@@ -323,28 +321,6 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
           translator,
           label: trans.__('Upload'),
         })
-    );
-
-    toolbarRegistry.addFactory(
-      FILE_BROWSER_FACTORY,
-      'fileNameSearcher',
-      (browser: FileBrowser) => {
-        const searcher = FilenameSearcher({
-          updateFilter: (
-            filterFn: (item: string) => Partial<IScore> | null,
-            query?: string
-          ) => {
-            browser.model.setFilter((value) => {
-              return filterFn(value.name.toLowerCase());
-            });
-          },
-          useFuzzyFilter: true,
-          placeholder: trans.__('Filter files by name'),
-          forceRefresh: true,
-        });
-        searcher.addClass(FILTERBOX_CLASS);
-        return searcher;
-      }
     );
 
     setToolbar(
@@ -408,11 +384,28 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     // See https://github.com/jupyterlab/jupyterlab/issues/15629 for more info
     const setCurrentToDefaultBrower = () => {
       tracker['_pool'].current = browser;
+
+      // TODO: remove?
+      // provide some default state so the file browser widths are consistent and predictable
+      setTimeout(() => {
+        stateDB
+          .save('file-browser-filebrowser:columns', {
+            sizes: {
+              name: 738.65625,
+              file_size: 109.95727378063403,
+              is_selected: 18,
+              last_modified: 406.5739762193659,
+            },
+          })
+          .then(async () => {
+            await browser['listing'].restore('filebrowser');
+          });
+      });
     };
 
-    tracker.widgetAdded.connect((sender, widget) =>
-      setCurrentToDefaultBrower()
-    );
+    tracker.widgetAdded.connect((sender, widget) => {
+      setCurrentToDefaultBrower();
+    });
 
     setCurrentToDefaultBrower();
 
