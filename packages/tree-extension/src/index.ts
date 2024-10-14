@@ -397,10 +397,10 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     stateDB
       .save('file-browser-filebrowser:columns', {
         sizes: {
-          name: 600.953125,
-          file_size: 239.49479166666688,
+          name: 496.953125,
+          file_size: 274.16145833333394,
           is_selected: 28,
-          last_modified: 404.73958333333303,
+          last_modified: 474.072916666666,
         },
       })
       .then(async () => {
