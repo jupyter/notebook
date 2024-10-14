@@ -384,28 +384,30 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     // See https://github.com/jupyterlab/jupyterlab/issues/15629 for more info
     const setCurrentToDefaultBrower = () => {
       tracker['_pool'].current = browser;
+
+      // TODO: remove?
+      // provide some default state so the file browser widths are consistent and predictable
+      setTimeout(() => {
+        stateDB
+          .save('file-browser-filebrowser:columns', {
+            sizes: {
+              name: 738.65625,
+              file_size: 109.95727378063403,
+              is_selected: 18,
+              last_modified: 406.5739762193659,
+            },
+          })
+          .then(async () => {
+            await browser['listing'].restore('filebrowser');
+          });
+      });
     };
 
-    tracker.widgetAdded.connect((sender, widget) =>
-      setCurrentToDefaultBrower()
-    );
+    tracker.widgetAdded.connect((sender, widget) => {
+      setCurrentToDefaultBrower();
+    });
 
     setCurrentToDefaultBrower();
-
-    // TODO: remove?
-    // provide some default state so the file browser widths are consistent and predictable
-    stateDB
-      .save('file-browser-filebrowser:columns', {
-        sizes: {
-          name: 496.953125,
-          file_size: 274.16145833333394,
-          is_selected: 28,
-          last_modified: 474.072916666666,
-        },
-      })
-      .then(async () => {
-        await browser['listing'].restore('filebrowser');
-      });
 
     return nbTreeWidget;
   },
