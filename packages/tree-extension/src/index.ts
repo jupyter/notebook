@@ -45,6 +45,7 @@ import { Menu, MenuBar } from '@lumino/widgets';
 import { NotebookTreeWidget, INotebookTree } from '@jupyter-notebook/tree';
 
 import { FilesActionButtons } from './fileactions';
+import { IStateDB } from '@jupyterlab/statedb';
 
 /**
  * The file browser factory.
@@ -277,6 +278,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     ISettingRegistry,
     IToolbarWidgetRegistry,
     IFileBrowserFactory,
+    IStateDB,
   ],
   optional: [
     IRunningSessionManagers,
@@ -292,6 +294,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     settingRegistry: ISettingRegistry,
     toolbarRegistry: IToolbarWidgetRegistry,
     factory: IFileBrowserFactory,
+    stateDB: IStateDB,
     manager: IRunningSessionManagers | null,
     settingEditorTracker: ISettingEditorTracker | null,
     jsonSettingEditorTracker: IJSONSettingEditorTracker | null
@@ -388,6 +391,21 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     );
 
     setCurrentToDefaultBrower();
+
+    // TODO: remove?
+    // provide some default state so the file browser widths are consistent and predictable
+    stateDB
+      .save('file-browser-filebrowser:columns', {
+        sizes: {
+          name: 556.328125,
+          file_size: 144.20312499999983,
+          is_selected: 18,
+          last_modified: 355.46875000000017,
+        },
+      })
+      .then(async () => {
+        await browser['listing'].restore('filebrowser');
+      });
 
     return nbTreeWidget;
   },
