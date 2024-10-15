@@ -36,7 +36,7 @@ test.describe('Mobile', () => {
     await page.waitForSelector('#top-panel-wrapper', { state: 'hidden' });
 
     expect(await page.screenshot()).toMatchSnapshot('tree.png', {
-      maxDiffPixels: 500,
+      maxDiffPixels: 300,
     });
   });
 
