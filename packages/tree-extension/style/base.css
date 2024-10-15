@@ -32,15 +32,6 @@
   background: inherit;
 }
 
-.jp-FileBrowser-filterBox {
-  padding: 0;
-  flex: 0 0 auto;
-}
-
-.jp-FileBrowser-filterBox input {
-  line-height: 24px;
-}
-
 .jp-DirListing-content .jp-DirListing-checkboxWrapper {
   visibility: visible;
 }
@@ -65,4 +56,8 @@
   border: solid 1px var(--jp-border-color2);
   margin: 1px;
   min-height: var(--jp-private-toolbar-height);
+}
+
+body[data-format='mobile'] #fileAction-placeholder {
+  display: none;
 }
