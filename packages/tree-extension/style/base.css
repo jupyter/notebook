@@ -57,3 +57,7 @@
   margin: 1px;
   min-height: var(--jp-private-toolbar-height);
 }
+
+body[data-format='mobile'] #fileAction-placeholder {
+  display: none;
+}
