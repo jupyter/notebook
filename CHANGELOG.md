@@ -42,6 +42,31 @@ A new theme, JupyterLab Dark High Contrast, which is intended to benefit users w
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.3.0b0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-alpha.1...fec4431305b2fd857ff81b7b60c2894dd125bec2))
+
+### Enhancements made
+
+- Redirect paths from the notebooks route to the tree route if they are directories [#7446](https://github.com/jupyter/notebook/pull/7446) ([@andyscho](https://github.com/andyscho))
+
+### Maintenance and upkeep improvements
+
+- Remove the `StateDB` file browser trick [#7477](https://github.com/jupyter/notebook/pull/7477) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `4.3.0rc0` [#7423](https://github.com/jupyter/notebook/pull/7423) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Fix typos [#7472](https://github.com/jupyter/notebook/pull/7472) ([@algonell](https://github.com/algonell))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-07-01&to=2024-10-15&type=c))
+
+[@algonell](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aalgonell+updated%3A2024-07-01..2024-10-15&type=Issues) | [@andyscho](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandyscho+updated%3A2024-07-01..2024-10-15&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-07-01..2024-10-15&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-07-01..2024-10-15&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-07-01..2024-10-15&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-07-01..2024-10-15&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.3.0a1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-alpha.0...ff2b822d066dc8d733a259f955177da4bd4d668c))
@@ -59,8 +84,6 @@ A new theme, JupyterLab Dark High Contrast, which is intended to benefit users w
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-31&to=2024-07-01&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-31..2024-07-01&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-31..2024-07-01&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-05-31..2024-07-01&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.3.0a0
 
