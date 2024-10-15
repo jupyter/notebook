@@ -7,6 +7,7 @@ import {
 } from '@jupyterlab/application';
 
 import {
+  ICommandPalette,
   IToolbarWidgetRegistry,
   createToolbarFactory,
   setToolbar,
@@ -45,7 +46,6 @@ import { Menu, MenuBar } from '@lumino/widgets';
 import { NotebookTreeWidget, INotebookTree } from '@jupyter-notebook/tree';
 
 import { FilesActionButtons } from './fileactions';
-import { IStateDB } from '@jupyterlab/statedb';
 
 /**
  * The file browser factory.
@@ -64,6 +64,7 @@ namespace CommandIDs {
   // The command to activate the filebrowser widget in tree view.
   export const activate = 'filebrowser:activate';
 
+  // Activate the file filter in the file browser
   export const toggleFileFilter = 'filebrowser:toggle-file-filter';
 }
 
@@ -186,6 +187,24 @@ const fileActions: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to add the file filter toggle command to the palette
+ */
+const fileFilterCommand: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/tree-extension:file-filter-command',
+  description: 'A plugin to add file filter command to the palette.',
+  autoStart: true,
+  optional: [ICommandPalette],
+  activate: (app: JupyterFrontEnd, palette: ICommandPalette | null) => {
+    if (palette) {
+      palette.addItem({
+        command: CommandIDs.toggleFileFilter,
+        category: 'File Browser',
+      });
+    }
+  },
+};
+
+/**
  * Plugin to load the default plugins that are loaded on all the Notebook pages
  * (tree, edit, view, etc.) so they are visible in the settings editor.
  */
@@ -278,7 +297,6 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     ISettingRegistry,
     IToolbarWidgetRegistry,
     IFileBrowserFactory,
-    IStateDB,
   ],
   optional: [
     IRunningSessionManagers,
@@ -294,7 +312,6 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
     settingRegistry: ISettingRegistry,
     toolbarRegistry: IToolbarWidgetRegistry,
     factory: IFileBrowserFactory,
-    stateDB: IStateDB,
     manager: IRunningSessionManagers | null,
     settingEditorTracker: ISettingEditorTracker | null,
     jsonSettingEditorTracker: IJSONSettingEditorTracker | null
@@ -402,6 +419,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
 const plugins: JupyterFrontEndPlugin<any>[] = [
   createNew,
   fileActions,
+  fileFilterCommand,
   loadPlugins,
   openFileBrowser,
   notebookTreeWidget,
