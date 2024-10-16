@@ -187,6 +187,56 @@ const fileActions: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to set the default file browser settings.
+ */
+const fileBrowserSettings: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/tree-extension:settings',
+  description: 'Set up the default file browser settings',
+  requires: [IDefaultFileBrowser, ISettingRegistry],
+  autoStart: true,
+  activate: (
+    app: JupyterFrontEnd,
+    browser: IDefaultFileBrowser,
+    settingRegistry: ISettingRegistry
+  ) => {
+    /**
+     * File browser default configuration.
+     */
+    const defaultFileBrowserConfig = {
+      navigateToCurrentDirectory: false,
+      singleClickNavigation: true,
+      showLastModifiedColumn: true,
+      showFileSizeColumn: true,
+      showHiddenFiles: false,
+      showFileCheckboxes: true,
+      sortNotebooksFirst: true,
+      showFullPath: false,
+    };
+
+    // apply defaults
+    let key: keyof typeof defaultFileBrowserConfig;
+    for (key in defaultFileBrowserConfig) {
+      browser[key] = defaultFileBrowserConfig[key];
+    }
+
+    void settingRegistry.load(FILE_BROWSER_PLUGIN_ID).then((settings) => {
+      function onSettingsChanged(settings: ISettingRegistry.ISettings): void {
+        let key: keyof typeof defaultFileBrowserConfig;
+        for (key in defaultFileBrowserConfig) {
+          const value = settings.get(key).user as boolean;
+          // only set the setting if it is defined by the user
+          if (value === undefined) {
+            browser[key] = value;
+          }
+        }
+      }
+      settings.changed.connect(onSettingsChanged);
+      onSettingsChanged(settings);
+    });
+  },
+};
+
+/**
  * A plugin to add the file filter toggle command to the palette
  */
 const fileFilterCommand: JupyterFrontEndPlugin<void> = {
@@ -360,25 +410,6 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
       nbTreeWidget.tabBar.addTab(running.title);
     }
 
-    const settings = settingRegistry.load(FILE_BROWSER_PLUGIN_ID);
-    Promise.all([settings, app.restored])
-      .then(([settings]) => {
-        // Set Notebook 7 defaults if there is no user setting override
-        [
-          'showFileCheckboxes',
-          'showFileSizeColumn',
-          'sortNotebooksFirst',
-          'showFullPath',
-        ].forEach((setting) => {
-          if (settings.user[setting] === undefined) {
-            void settings.set(setting, true);
-          }
-        });
-      })
-      .catch((reason: Error) => {
-        console.error(reason.message);
-      });
-
     app.shell.add(nbTreeWidget, 'main', { rank: 100 });
 
     // add a separate tab for each setting editor
@@ -419,6 +450,7 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
 const plugins: JupyterFrontEndPlugin<any>[] = [
   createNew,
   fileActions,
+  fileBrowserSettings,
   fileFilterCommand,
   loadPlugins,
   openFileBrowser,
