@@ -192,12 +192,13 @@ const fileActions: JupyterFrontEndPlugin<void> = {
 const fileBrowserSettings: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:settings',
   description: 'Set up the default file browser settings',
-  requires: [IDefaultFileBrowser, ISettingRegistry],
+  requires: [IDefaultFileBrowser],
+  optional: [ISettingRegistry],
   autoStart: true,
   activate: (
     app: JupyterFrontEnd,
     browser: IDefaultFileBrowser,
-    settingRegistry: ISettingRegistry
+    settingRegistry: ISettingRegistry | null
   ) => {
     /**
      * File browser default configuration.
@@ -219,20 +220,22 @@ const fileBrowserSettings: JupyterFrontEndPlugin<void> = {
       browser[key] = defaultFileBrowserConfig[key];
     }
 
-    void settingRegistry.load(FILE_BROWSER_PLUGIN_ID).then((settings) => {
-      function onSettingsChanged(settings: ISettingRegistry.ISettings): void {
-        let key: keyof typeof defaultFileBrowserConfig;
-        for (key in defaultFileBrowserConfig) {
-          const value = settings.get(key).user as boolean;
-          // only set the setting if it is defined by the user
-          if (value !== undefined) {
-            browser[key] = value;
+    if (settingRegistry) {
+      void settingRegistry.load(FILE_BROWSER_PLUGIN_ID).then((settings) => {
+        function onSettingsChanged(settings: ISettingRegistry.ISettings): void {
+          let key: keyof typeof defaultFileBrowserConfig;
+          for (key in defaultFileBrowserConfig) {
+            const value = settings.get(key).user as boolean;
+            // only set the setting if it is defined by the user
+            if (value !== undefined) {
+              browser[key] = value;
+            }
           }
         }
-      }
-      settings.changed.connect(onSettingsChanged);
-      onSettingsChanged(settings);
-    });
+        settings.changed.connect(onSettingsChanged);
+        onSettingsChanged(settings);
+      });
+    }
   },
 };
 
