@@ -225,7 +225,7 @@ const fileBrowserSettings: JupyterFrontEndPlugin<void> = {
         for (key in defaultFileBrowserConfig) {
           const value = settings.get(key).user as boolean;
           // only set the setting if it is defined by the user
-          if (value === undefined) {
+          if (value !== undefined) {
             browser[key] = value;
           }
         }
