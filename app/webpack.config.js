@@ -214,7 +214,18 @@ module.exports = [
         type: 'var',
         name: ['_JUPYTERLAB', 'CORE_OUTPUT'],
       },
-      filename: 'bundle.js',
+      filename: '[name].[contenthash].js',
+    },
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        cacheGroups: {
+          jlab_core: {
+            test: /[\\/]node_modules[\\/]@(jupyterlab|jupyter-notebook|lumino(?!\/datagrid))[\\/]/,
+            name: 'notebook_core',
+          },
+        },
+      },
     },
     resolve: {
       fallback: { util: false },
