@@ -590,22 +590,6 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * Export the plugins as default.
- */
-const plugins: JupyterFrontEndPlugin<any>[] = [
-  checkpoints,
-  closeTab,
-  openTreeTab,
-  editNotebookMetadata,
-  kernelLogo,
-  kernelStatus,
-  notebookToolsWidget,
-  scrollOutput,
-  tabIcon,
-  trusted,
-];
-
-/**
  * A plugin to add a "test" title at the top of the notebook.
  */
 const addTestTitle: JupyterFrontEndPlugin<void> = {
@@ -622,7 +606,23 @@ const addTestTitle: JupyterFrontEndPlugin<void> = {
   }
 };
 
-// Add this to the plugins array
-plugins.push(addTestTitle);
+
+/**
+ * Export the plugins as default.
+ */
+const plugins: JupyterFrontEndPlugin<any>[] = [
+  checkpoints,
+  closeTab,
+  openTreeTab,
+  editNotebookMetadata,
+  kernelLogo,
+  kernelStatus,
+  notebookToolsWidget,
+  scrollOutput,
+  tabIcon,
+  trusted,
+  addTestTitle
+];
+
 
 export default plugins;
