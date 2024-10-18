@@ -605,4 +605,24 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   trusted,
 ];
 
+/**
+ * A plugin to add a "test" title at the top of the notebook.
+ */
+const addTestTitle: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:add-test-title',
+  description: 'A plugin to add a "test" title at the top of the notebook.',
+  autoStart: true,
+  requires: [INotebookShell],
+  activate: (app: JupyterFrontEnd, shell: INotebookShell) => {
+    const titleWidget = new Widget({ node: document.createElement('h1') });
+    titleWidget.node.textContent = 'Test';
+    titleWidget.addClass('jp-NotebookTest-title');
+
+    app.shell.add(titleWidget, 'top', { rank: 0 });
+  }
+};
+
+// Add this to the plugins array
+plugins.push(addTestTitle);
+
 export default plugins;
