@@ -65,6 +65,11 @@ const KERNEL_STATUS_FADE_OUT_CLASS = 'jp-NotebookKernelStatus-fade';
 const SCROLLED_OUTPUTS_CLASS = 'jp-mod-outputsScrolled';
 
 /**
+ * The class for the full width notebook
+ */
+const FULL_WIDTH_NOTEBOOK_CLASS = 'jp-mod-fullwidth';
+
+/**
  * The command IDs used by the notebook plugins.
  */
 namespace CommandIDs {
@@ -72,6 +77,11 @@ namespace CommandIDs {
    * A command to open right sidebar for Editing Notebook Metadata
    */
   export const openEditNotebookMetadata = 'notebook:edit-metadata';
+
+  /**
+   * A command to toggle full width of the notebook
+   */
+  export const toggleFullWidth = 'notebook:toggle-full-width';
 }
 
 /**
@@ -199,6 +209,47 @@ const openTreeTab: JupyterFrontEndPlugin<void> = {
         window.open(url);
       },
     });
+  },
+};
+
+/**
+ * A plugin to set the notebook to full width.
+ */
+const fullWidthNotebook: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:full-width-notebook',
+  description: 'A plugin to set the notebook to full width.',
+  autoStart: true,
+  requires: [INotebookTracker],
+  optional: [ICommandPalette, ISettingRegistry, ITranslator],
+  activate: (
+    app: JupyterFrontEnd,
+    tracker: INotebookTracker,
+    palette: ICommandPalette | null,
+    settingRegistry: ISettingRegistry | null,
+    translator: ITranslator | null
+  ) => {
+    const trans = (translator ?? nullTranslator).load('notebook');
+
+    const toggleFullWidth = () => {
+      const current = tracker.currentWidget;
+      if (!current) {
+        return;
+      }
+      current.content.toggleClass(FULL_WIDTH_NOTEBOOK_CLASS);
+    };
+
+    // add a command to toggle full width
+    app.commands.addCommand(CommandIDs.toggleFullWidth, {
+      label: trans.__('Toggle Full Width'),
+      execute: toggleFullWidth,
+    });
+
+    if (palette) {
+      palette.addItem({
+        command: CommandIDs.toggleFullWidth,
+        category: 'Notebook Operations',
+      });
+    }
   },
 };
 
@@ -597,6 +648,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   closeTab,
   openTreeTab,
   editNotebookMetadata,
+  fullWidthNotebook,
   kernelLogo,
   kernelStatus,
   notebookToolsWidget,
