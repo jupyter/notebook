@@ -7,7 +7,7 @@ import { expect } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
-import { runAndAdvance, waitForKernelReady } from './utils';
+import { hideAddCellButton, runAndAdvance, waitForKernelReady } from './utils';
 
 const NOTEBOOK = 'example.ipynb';
 
@@ -174,5 +174,45 @@ test.describe('Notebook', () => {
     await page.keyboard.press('Enter');
 
     expect(page.isClosed());
+  });
+
+  test('Toggle the full width of the notebook', async ({
+    page,
+    browserName,
+    tmpPath,
+  }) => {
+    const notebook = 'simple.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    const menuPath = 'View>Enable Full Width Notebook';
+    await page.menu.clickMenuItem(menuPath);
+
+    const notebookPanel = page.locator('.jp-NotebookPanel').first();
+    await expect(notebookPanel).toHaveClass(/jp-mod-fullwidth/);
+
+    // click to make the blue border around the cell disappear
+    await page.click('.jp-WindowedPanel-outer');
+
+    // special case for firefox headless issue
+    // see https://github.com/jupyter/notebook/pull/6872#issuecomment-1549594166 for more details
+    if (browserName === 'firefox') {
+      await hideAddCellButton(page);
+    }
+
+    // wait for the kernel status animations to be finished
+    await waitForKernelReady(page);
+    await page.waitForSelector(
+      ".jp-Notebook-ExecutionIndicator[data-status='idle']"
+    );
+
+    expect(await page.screenshot()).toMatchSnapshot('notebook.png');
+
+    // undo the full width
+    await page.menu.clickMenuItem(menuPath);
+    await expect(notebookPanel).not.toHaveClass(/jp-mod-fullwidth/);
   });
 });
