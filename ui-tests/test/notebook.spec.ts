@@ -209,7 +209,7 @@ test.describe('Notebook', () => {
       ".jp-Notebook-ExecutionIndicator[data-status='idle']"
     );
 
-    expect(await page.screenshot()).toMatchSnapshot('notebook.png');
+    expect(await page.screenshot()).toMatchSnapshot('notebook-full-width.png');
 
     // undo the full width
     await page.menu.clickMenuItem(menuPath);
