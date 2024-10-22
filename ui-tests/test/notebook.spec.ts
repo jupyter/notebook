@@ -7,7 +7,7 @@ import { expect } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
-import { hideAddCellButton, runAndAdvance, waitForKernelReady } from './utils';
+import { waitForNotebook, runAndAdvance, waitForKernelReady } from './utils';
 
 const NOTEBOOK = 'example.ipynb';
 
@@ -197,17 +197,8 @@ test.describe('Notebook', () => {
     // click to make the blue border around the cell disappear
     await page.click('.jp-WindowedPanel-outer');
 
-    // special case for firefox headless issue
-    // see https://github.com/jupyter/notebook/pull/6872#issuecomment-1549594166 for more details
-    if (browserName === 'firefox') {
-      await hideAddCellButton(page);
-    }
-
-    // wait for the kernel status animations to be finished
-    await waitForKernelReady(page);
-    await page.waitForSelector(
-      ".jp-Notebook-ExecutionIndicator[data-status='idle']"
-    );
+    // wait for the notebook to be ready
+    await waitForNotebook(page, browserName);
 
     expect(await page.screenshot()).toMatchSnapshot('notebook-full-width.png');
 

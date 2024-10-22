@@ -7,7 +7,7 @@ import { expect } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
-import { hideAddCellButton, waitForKernelReady } from './utils';
+import { waitForNotebook } from './utils';
 
 test.describe('General', () => {
   test('The notebook should render', async ({ page, tmpPath, browserName }) => {
@@ -17,23 +17,6 @@ test.describe('General', () => {
       `${tmpPath}/${notebook}`
     );
     await page.goto(`notebooks/${tmpPath}/${notebook}`);
-
-    // wait for the kernel status animations to be finished
-    await waitForKernelReady(page);
-    await page.waitForSelector(
-      ".jp-Notebook-ExecutionIndicator[data-status='idle']"
-    );
-
-    const checkpointLocator = '.jp-NotebookCheckpoint';
-    // wait for the checkpoint indicator to be displayed
-    await page.waitForSelector(checkpointLocator);
-
-    // remove the amount of seconds manually since it might display strings such as "3 seconds ago"
-    await page
-      .locator(checkpointLocator)
-      .evaluate(
-        (element) => (element.innerHTML = 'Last Checkpoint: 3 seconds ago')
-      );
 
     // check the notebook footer shows up on hover
     const notebookFooter = '.jp-Notebook-footer';
@@ -46,11 +29,8 @@ test.describe('General', () => {
     // click to make the blue border around the cell disappear
     await page.click('.jp-WindowedPanel-outer');
 
-    // special case for firefox headless issue
-    // see https://github.com/jupyter/notebook/pull/6872#issuecomment-1549594166 for more details
-    if (browserName === 'firefox') {
-      await hideAddCellButton(page);
-    }
+    // wait for the notebook to be ready
+    await waitForNotebook(page, browserName);
 
     expect(await page.screenshot()).toMatchSnapshot('notebook.png');
   });
