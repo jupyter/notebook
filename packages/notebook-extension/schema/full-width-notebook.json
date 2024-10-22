@@ -1,19 +1,6 @@
 {
-  "title": "Jupyter Notebook Full Width Notebook",
-  "description": "Jupyter Notebook Full Width Notebook",
-  "jupyter.lab.menus": {
-    "main": [
-      {
-        "id": "jp-mainmenu-view",
-        "items": [
-          {
-            "command": "notebook:toggle-full-width",
-            "rank": 4
-          }
-        ]
-      }
-    ]
-  },
+  "title": "Jupyter Notebook Width Settings",
+  "description": "Jupyter Notebook Width Settings",
   "properties": {
     "fullWidthNotebook": {
       "type": "boolean",
