@@ -238,7 +238,7 @@ const fullWidthNotebook: JupyterFrontEndPlugin<void> = {
       if (!current) {
         return;
       }
-      const content = current.content;
+      const content = current;
       content.toggleClass(FULL_WIDTH_NOTEBOOK_CLASS, fullWidth);
     };
 
