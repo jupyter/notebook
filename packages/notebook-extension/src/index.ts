@@ -220,29 +220,44 @@ const fullWidthNotebook: JupyterFrontEndPlugin<void> = {
   description: 'A plugin to set the notebook to full width.',
   autoStart: true,
   requires: [INotebookTracker],
-  optional: [ISettingRegistry],
+  optional: [ICommandPalette, ISettingRegistry, ITranslator],
   activate: (
     app: JupyterFrontEnd,
     tracker: INotebookTracker,
-    settingRegistry: ISettingRegistry | null
+    palette: ICommandPalette | null,
+    settingRegistry: ISettingRegistry | null,
+    translator: ITranslator | null
   ) => {
-    const setFullWidth = (value: boolean) => {
+    const trans = (translator ?? nullTranslator).load('notebook');
+
+    let fullWidth = false;
+
+    const toggleFullWidth = () => {
       const current = tracker.currentWidget;
+      fullWidth = !fullWidth;
       if (!current) {
         return;
       }
-      current.content.toggleClass(FULL_WIDTH_NOTEBOOK_CLASS, value);
+      const content = current.content;
+      content.toggleClass(FULL_WIDTH_NOTEBOOK_CLASS, fullWidth);
     };
+
+    let notebookSettings: ISettingRegistry.ISettings;
 
     if (settingRegistry) {
       const loadSettings = settingRegistry.load(fullWidthNotebook.id);
 
       const updateSettings = (settings: ISettingRegistry.ISettings): void => {
-        setFullWidth(settings.get('fullWidthNotebook').composite as boolean);
+        const newFullWidth = settings.get('fullWidthNotebook')
+          .composite as boolean;
+        if (newFullWidth !== fullWidth) {
+          toggleFullWidth();
+        }
       };
 
       Promise.all([loadSettings, app.restored])
         .then(([settings]) => {
+          notebookSettings = settings;
           updateSettings(settings);
           settings.changed.connect((settings) => {
             updateSettings(settings);
@@ -251,6 +266,25 @@ const fullWidthNotebook: JupyterFrontEndPlugin<void> = {
         .catch((reason: Error) => {
           console.error(reason.message);
         });
+    }
+
+    app.commands.addCommand(CommandIDs.toggleFullWidth, {
+      label: trans.__('Enable Full Width Notebook'),
+      execute: () => {
+        toggleFullWidth();
+        if (notebookSettings) {
+          notebookSettings.set('fullWidthNotebook', fullWidth);
+        }
+      },
+      isEnabled: () => tracker.currentWidget !== null,
+      isToggled: () => fullWidth,
+    });
+
+    if (palette) {
+      palette.addItem({
+        command: CommandIDs.toggleFullWidth,
+        category: 'Notebook Operations',
+      });
     }
   },
 };
