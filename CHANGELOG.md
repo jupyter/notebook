@@ -14,6 +14,41 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 ## 7.3
 
+## Minimap
+
+The virtual scrollbar now acts as a minimap and exposes information on whether a cell:
+
+- is running/scheduled (`[*]`), idle (`[ ]`) or was already run (e.g. `[1]`)
+- was modified since it was last executed (“dirty”) - orange background
+- has an output that contains an error - red background
+- is markdown/code (`[ ]`/`[*]`/`[1]` for code, nothing for markdown)
+- how much text/code it contains
+
+![a screenshot showing the notebook minimap](https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.3-minimap.png)
+
+To enable the minimap, click on the hamburger icon (≡) which appears in the notebook’s toolbar. If you do not see the hamburger icon, go to `Settings → Notebook → Windowing mode` and choose “full”.
+
+## File browser enhancements
+
+The file browser now:
+
+- supports resizing the columns and remembers the column sizes after reloading JupyterLab
+- supports uploading folders by drag-and-drop
+- supports navigation with a single click (opt-in)
+- adds a file filter collapsed by default (funnel icon)
+
+![a screenshot showing that it's now possible to resize the file browser columns](https://github.com/user-attachments/assets/b0d9cd0a-2828-43f7-a922-e8b271e5f7fc)
+
+## Improved kernel and server interactions
+
+The previous release enabled connecting to external kernels, such as those spawned by a third-party application like Blender. In this release the kernel selector dialog was improved to also show the external kernels.
+
+The previous release improved the awareness of the kernel/kernel specification distinction by providing both tree and list view in the kernels sidebar panel, but only the tree view featured the kernel identifiers. In this release both the list and tree view show the kernel identifier stub.
+
+A new toolbar button was added in the kernel allowing to shut down unused kernels (kernels with no widget attached).
+
+![a screenshot showing the list view of the kernels in the sidebar](https://github.com/user-attachments/assets/c7f958c5-4054-4b09-8fad-4df6db8c9b58)
+
 ### Full Width Notebook
 
 It is now possible to configure the notebook to take up the full width of the page via:
