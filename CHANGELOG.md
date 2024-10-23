@@ -14,7 +14,7 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 ## 7.3
 
-## Minimap
+### Minimap
 
 The virtual scrollbar now acts as a minimap and exposes information on whether a cell:
 
@@ -28,7 +28,7 @@ The virtual scrollbar now acts as a minimap and exposes information on whether a
 
 To enable the minimap, click on the hamburger icon (≡) which appears in the notebook’s toolbar. If you do not see the hamburger icon, go to `Settings → Notebook → Windowing mode` and choose “full”.
 
-## File browser enhancements
+### File browser enhancements
 
 The file browser now:
 
@@ -39,7 +39,7 @@ The file browser now:
 
 ![a screenshot showing that it's now possible to resize the file browser columns](https://github.com/user-attachments/assets/b0d9cd0a-2828-43f7-a922-e8b271e5f7fc)
 
-## Improved kernel and server interactions
+### Improved kernel and server interactions
 
 The previous release enabled connecting to external kernels, such as those spawned by a third-party application like Blender. In this release the kernel selector dialog was improved to also show the external kernels.
 
