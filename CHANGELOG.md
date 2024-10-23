@@ -14,6 +14,12 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 
 ## 7.3
 
+Jupyter Notebook 7.3 is based on JupyterLab 4.3, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-2-to-4-3) which lists deprecations and changes to the public API.
+
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.3, although they may not all be supported in Notebook 7.3.
+
+For reference you may have a look at the JupyterLab 4.3 changelog to learn more: https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-3
+
 ### Minimap
 
 The virtual scrollbar now acts as a minimap and exposes information on whether a cell:
