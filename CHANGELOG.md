@@ -12,33 +12,23 @@ upgrading `notebook`.
 Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 `pip --version`.
 
-## v7.2
+## 7.3
 
-Jupyter Notebook 7.2 is based on JupyterLab 4.2, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-0-to-4-1) which lists deprecations and changes to the public API.
+### Full Width Notebook
 
-Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.2, although they are not all supported in Notebook 7.2.
+It is now possible to configure the notebook to take up the full width of the page via:
 
-For reference you may have a look at the JupyterLab 4.2 changelog to learn more: https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-2
+- a setting that can be defined by a user via the Settings Editor
+- the `View > Enable Full Width Notebook` menu entry
+- the command palette, searching for `Enable Full Width Notebook`
 
-### Full notebook windowing mode by default
+![a screenshot showing how to enable full width notebook via the menu](https://github.com/user-attachments/assets/148b227a-874a-4bb3-a4c6-c7350525ccc4)
 
-Notebooks in the `full` windowing mode only render the visible cells, significantly improving the performance of the application. One limitation of `full` mode is that the search function in your browser may produce false negatives; using the search function is recommended. To revert to the behaviour from Notebook 7.2, go to Settings → Settings Editor → Notebook, scroll to “Windowing mode”, and choose `defer`.
+This is particularly useful on large displays, or for those who prefer working with a wider notebook.
 
-### Improved Shortcuts Editor
+It is also still possible to use the JupyterLab interface for a more fully-featured interface, which allows for full-width notebooks too, and offers a "Simple Interface" mode for only showing a single notebook at a time.
 
-Among the numerous improvements and bug fixes for the keyboard shortcuts editor:
-
-- it is now possible to remove the default shortcuts,
-- shortcuts are correctly sorted when using a language pack,
-- shortcuts with different arguments are now correctly displayed as individual entries.
-
-<img alt="A context menu opened over a keybinding in the Keyboard Shortcuts setting panel within the Settings widget" class="jp-screenshot" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.2-delete-shortcut.png">
-
-### Dark high contrast theme
-
-A new theme, JupyterLab Dark High Contrast, which is intended to benefit users with the need for higher contrast, following the WCAG AAA accessibility standard for color contrast. To select this theme, from the menu bar, choose Settings → Theme → JupyterLab Dark High Contrast. Please provide feedback and suggestions on further improvements to this theme.
-
-<img alt="A dark high contrast theme" class="jp-screenshot" src="https://github.com/jupyter/notebook/assets/591645/9a1678fe-9b4d-41ad-8764-75fdc7c84071">
+You can open JupyterLab by clicking on `View > Open JupyterLab`.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
@@ -113,6 +103,34 @@ A new theme, JupyterLab Dark High Contrast, which is intended to benefit users w
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-16&to=2024-05-31&type=c))
 
 [@bluestealth](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abluestealth+updated%3A2024-05-16..2024-05-31&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-16..2024-05-31&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2024-05-16..2024-05-31&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-16..2024-05-31&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2024-05-16..2024-05-31&type=Issues)
+
+## 7.2
+
+Jupyter Notebook 7.2 is based on JupyterLab 4.2, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-0-to-4-1) which lists deprecations and changes to the public API.
+
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.2, although they are not all supported in Notebook 7.2.
+
+For reference you may have a look at the JupyterLab 4.2 changelog to learn more: https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-2
+
+### Full notebook windowing mode by default
+
+Notebooks in the `full` windowing mode only render the visible cells, significantly improving the performance of the application. One limitation of `full` mode is that the search function in your browser may produce false negatives; using the search function is recommended. To revert to the behaviour from Notebook 7.2, go to Settings → Settings Editor → Notebook, scroll to “Windowing mode”, and choose `defer`.
+
+### Improved Shortcuts Editor
+
+Among the numerous improvements and bug fixes for the keyboard shortcuts editor:
+
+- it is now possible to remove the default shortcuts,
+- shortcuts are correctly sorted when using a language pack,
+- shortcuts with different arguments are now correctly displayed as individual entries.
+
+<img alt="A context menu opened over a keybinding in the Keyboard Shortcuts setting panel within the Settings widget" class="jp-screenshot" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.2-delete-shortcut.png">
+
+### Dark high contrast theme
+
+A new theme, JupyterLab Dark High Contrast, which is intended to benefit users with the need for higher contrast, following the WCAG AAA accessibility standard for color contrast. To select this theme, from the menu bar, choose Settings → Theme → JupyterLab Dark High Contrast. Please provide feedback and suggestions on further improvements to this theme.
+
+<img alt="A dark high contrast theme" class="jp-screenshot" src="https://github.com/jupyter/notebook/assets/591645/9a1678fe-9b4d-41ad-8764-75fdc7c84071">
 
 ## 7.2.0
 
