@@ -16,6 +16,16 @@
   - compact view on mobile
 */
 
+/* Make the notebook take up the full width of the page when jp-mod-fullwidth is set */
+
+body[data-notebook='notebooks']
+  .jp-NotebookPanel.jp-mod-fullwidth
+  .jp-WindowedPanel-outer {
+  padding-left: unset;
+  padding-right: unset !important;
+  width: unset;
+}
+
 /* Keep the notebook centered on the page */
 
 body[data-notebook='notebooks'] .jp-NotebookPanel-toolbar {
