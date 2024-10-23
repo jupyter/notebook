@@ -61,7 +61,7 @@ It is now possible to configure the notebook to take up the full width of the pa
 
 This is particularly useful on large displays, or for those who prefer working with a wider notebook.
 
-It is also still possible to use the JupyterLab interface for a more fully-featured interface, which allows for full-width notebooks too, and offers a "Simple Interface" mode for only showing a single notebook at a time.
+It is also possible to use the JupyterLab interface for a more fully-featured experience, which allows for full-width notebooks too, and offers a "Simple Interface" mode for only showing a single notebook at a time.
 
 You can open JupyterLab by clicking on `View > Open JupyterLab`.
 
