@@ -171,7 +171,6 @@ const fileActions: JupyterFrontEndPlugin<void> = {
       };
     });
     browser.model.pathChanged.connect(() => {
-      console.log('path changed');
       selectionChanged.emit(void 0);
     });
 
