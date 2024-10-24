@@ -203,9 +203,8 @@ const fileBrowserSettings: JupyterFrontEndPlugin<void> = {
     browser: IDefaultFileBrowser,
     settingRegistry: ISettingRegistry | null
   ) => {
-    /**
-     * File browser default configuration.
-     */
+    // Default config for notebook.
+    // This is a different set of defaults than JupyterLab.
     const defaultFileBrowserConfig = {
       navigateToCurrentDirectory: false,
       singleClickNavigation: true,
@@ -217,7 +216,7 @@ const fileBrowserSettings: JupyterFrontEndPlugin<void> = {
       showFullPath: false,
     };
 
-    // apply defaults
+    // Apply defaults on plugin activation
     let key: keyof typeof defaultFileBrowserConfig;
     for (key in defaultFileBrowserConfig) {
       browser[key] = defaultFileBrowserConfig[key];
