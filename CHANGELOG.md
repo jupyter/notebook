@@ -40,10 +40,12 @@ The file browser now:
 
 - supports resizing the columns and remembers the column sizes after reloading JupyterLab
 - supports uploading folders by drag-and-drop
-- supports navigation with a single click (opt-in)
+- supports navigation with a single click
 - adds a file filter collapsed by default (funnel icon)
 
 ![a screenshot showing that it's now possible to resize the file browser columns](https://github.com/user-attachments/assets/b0d9cd0a-2828-43f7-a922-e8b271e5f7fc)
+
+In Jupyter Notebook, the single click navigation is enabled by default. If you would like to disable it to get the same experience as in JupyterLab, go to `Settings → File Browser` and make sure "Navigate files and directories with single click" is unchecked.
 
 ### Improved kernel and server interactions
 

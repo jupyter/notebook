@@ -20,6 +20,7 @@ test.describe('File Browser', () => {
   test('Select one folder', async ({ page, tmpPath }) => {
     await page.filebrowser.refresh();
 
+    await page.keyboard.down('Control');
     await page.getByText('folder1').last().click();
 
     const toolbar = page.getByRole('toolbar');
@@ -31,6 +32,7 @@ test.describe('File Browser', () => {
   test('Select one file', async ({ page, tmpPath }) => {
     await page.filebrowser.refresh();
 
+    await page.keyboard.down('Control');
     await page.getByText('empty.ipynb').last().click();
 
     const toolbar = page.getByRole('toolbar');
