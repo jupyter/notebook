@@ -170,6 +170,10 @@ const fileActions: JupyterFrontEndPlugin<void> = {
         selectionChanged.emit(void 0);
       };
     });
+    browser.model.pathChanged.connect(() => {
+      console.log('path changed');
+      selectionChanged.emit(void 0);
+    });
 
     // Create a toolbar item that adds buttons to the file browser toolbar
     // to perform actions on the files
