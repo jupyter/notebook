@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/metapackage",
-  "version": "7.3.0-beta.0",
+  "version": "7.3.0-beta.1",
   "private": true,
   "description": "Jupyter Notebook - Metapackage",
   "homepage": "https://github.com/jupyter/notebook",
@@ -20,18 +20,18 @@
     "watch": "tsc -b -w --preserveWatchOutput"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.3.0-beta.0",
-    "@jupyter-notebook/application-extension": "^7.3.0-beta.0",
-    "@jupyter-notebook/console-extension": "^7.3.0-beta.0",
-    "@jupyter-notebook/docmanager-extension": "^7.3.0-beta.0",
-    "@jupyter-notebook/documentsearch-extension": "^7.3.0-beta.0",
-    "@jupyter-notebook/help-extension": "^7.3.0-beta.0",
-    "@jupyter-notebook/lab-extension": "^7.3.0-beta.0",
-    "@jupyter-notebook/notebook-extension": "^7.3.0-beta.0",
-    "@jupyter-notebook/terminal-extension": "^7.3.0-beta.0",
-    "@jupyter-notebook/tree": "^7.3.0-beta.0",
-    "@jupyter-notebook/tree-extension": "^7.3.0-beta.0",
-    "@jupyter-notebook/ui-components": "^7.3.0-beta.0"
+    "@jupyter-notebook/application": "^7.3.0-beta.1",
+    "@jupyter-notebook/application-extension": "^7.3.0-beta.1",
+    "@jupyter-notebook/console-extension": "^7.3.0-beta.1",
+    "@jupyter-notebook/docmanager-extension": "^7.3.0-beta.1",
+    "@jupyter-notebook/documentsearch-extension": "^7.3.0-beta.1",
+    "@jupyter-notebook/help-extension": "^7.3.0-beta.1",
+    "@jupyter-notebook/lab-extension": "^7.3.0-beta.1",
+    "@jupyter-notebook/notebook-extension": "^7.3.0-beta.1",
+    "@jupyter-notebook/terminal-extension": "^7.3.0-beta.1",
+    "@jupyter-notebook/tree": "^7.3.0-beta.1",
+    "@jupyter-notebook/tree-extension": "^7.3.0-beta.1",
+    "@jupyter-notebook/ui-components": "^7.3.0-beta.1"
   },
   "devDependencies": {
     "typescript": "~5.0.2"

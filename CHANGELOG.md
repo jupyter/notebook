@@ -75,6 +75,35 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.3.0b1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-beta.0...f614f7c6387cc7da82e0307b70e10593b2cd6bff))
+
+### Enhancements made
+
+- Add a setting to enable the notebook to take up the full width [#7487](https://github.com/jupyter/notebook/pull/7487) ([@jtpio](https://github.com/jtpio))
+- Add the file filter button to the file browser toolbar [#7479](https://github.com/jupyter/notebook/pull/7479) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Move handling of the file browser settings to a separate plugin, enable file browser single click navigation [#7481](https://github.com/jupyter/notebook/pull/7481) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab `4.3.0rc1` [#7497](https://github.com/jupyter/notebook/pull/7497) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Add user facing changelog for `7.3.0` [#7494](https://github.com/jupyter/notebook/pull/7494) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-10-15&to=2024-10-24&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-10-15..2024-10-24&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-10-15..2024-10-24&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.3.0b0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-alpha.1...fec4431305b2fd857ff81b7b60c2894dd125bec2))
@@ -97,8 +126,6 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-07-01&to=2024-10-15&type=c))
 
 [@algonell](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aalgonell+updated%3A2024-07-01..2024-10-15&type=Issues) | [@andyscho](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandyscho+updated%3A2024-07-01..2024-10-15&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-07-01..2024-10-15&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-07-01..2024-10-15&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-07-01..2024-10-15&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-07-01..2024-10-15&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.3.0a1
 
