@@ -310,6 +310,7 @@
           "@jupyterlab/filebrowser-extension:file-upload-status",
           "@jupyterlab/filebrowser-extension:open-with",
           "@jupyterlab/filebrowser-extension:search",
+          "@jupyterlab/filebrowser-extension:settings",
           "@jupyterlab/filebrowser-extension:share-file"
         ],
         "@jupyter-notebook/tree-extension": true,
