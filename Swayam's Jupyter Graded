@@ -1,0 +1,159 @@
+# Let's compile the Jupyter Notebook content into a single file with appropriate structure and code cells.
+from nbformat import v4 as nbf
+
+# Create a new notebook
+nb = nbf.new_notebook()
+
+# Title and introduction
+nb.cells.append(nbf.new_markdown_cell("# Insights into Boston Housing Prices"))
+nb.cells.append(nbf.new_markdown_cell("## Introduction\nThis notebook presents an analysis of housing prices in Boston using a dataset derived from the U.S. Census Service. The aim is to provide insights into various aspects of housing values based on several influencing factors."))
+
+# Task 1: Familiarize with the Dataset
+nb.cells.append(nbf.new_markdown_cell("## Task 1: Familiarize with the Dataset"))
+nb.cells.append(nbf.new_code_cell("""
+import pandas as pd
+
+# Load the dataset
+boston_url = 'https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBMDeveloperSkillsNetwork-ST0151EN-SkillsNetwork/labs/boston_housing.csv'
+boston_df = pd.read_csv(boston_url)
+
+# Display the first few rows of the dataset
+boston_df.head()
+"""))
+
+# Task 2: Generate Basic Statistics and Visualizations
+nb.cells.append(nbf.new_markdown_cell("## Task 2: Generate Basic Statistics and Visualizations"))
+
+# Boxplot for Median Value of Owner-Occupied Homes (MEDV)
+nb.cells.append(nbf.new_markdown_cell("### Boxplot for Median Value of Owner-Occupied Homes (MEDV)"))
+nb.cells.append(nbf.new_code_cell("""
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Create a boxplot for MEDV
+plt.figure(figsize=(8, 6))
+sns.boxplot(y=boston_df['MEDV'])
+plt.title('Boxplot of Median Value of Owner-Occupied Homes (MEDV)')
+plt.ylabel('Median Value ($1000s)')
+plt.show()
+"""))
+
+# Bar Plot for Charles River Variable (CHAS)
+nb.cells.append(nbf.new_markdown_cell("### Bar Plot for Charles River Variable (CHAS)"))
+nb.cells.append(nbf.new_code_cell("""
+# Bar plot for CHAS
+chas_counts = boston_df['CHAS'].value_counts()
+plt.figure(figsize=(8, 6))
+sns.barplot(x=chas_counts.index, y=chas_counts.values)
+plt.title('Bar Plot of Charles River Proximity')
+plt.xlabel('Bounded by Charles River (1 = Yes, 0 = No)')
+plt.ylabel('Count of Houses')
+plt.xticks(ticks=[0, 1], labels=['Not Bounded', 'Bounded'])
+plt.show()
+"""))
+
+# Boxplot for MEDV vs. AGE
+nb.cells.append(nbf.new_markdown_cell("### Boxplot for MEDV vs. Age Proportion of Owner-Occupied Units"))
+nb.cells.append(nbf.new_code_cell("""
+# Discretize AGE variable into three groups
+bins = [0, 0.35, 0.7, 1]  # Adjust according to the proportion of units built before 1940
+labels = ['35 Years and Younger', '36 to 70 Years', '70 Years and Older']
+boston_df['AGE_GROUP'] = pd.cut(boston_df['AGE'], bins=bins, labels=labels)
+
+# Create boxplot for MEDV vs. AGE_GROUP
+plt.figure(figsize=(10, 6))
+sns.boxplot(x='AGE_GROUP', y='MEDV', data=boston_df)
+plt.title('Boxplot of MEDV by Age Group of Owner-Occupied Units')
+plt.xlabel('Age Group of Units Built Before 1940')
+plt.ylabel('Median Value ($1000s)')
+plt.show()
+"""))
+
+# Scatter Plot for NOX vs. INDUS
+nb.cells.append(nbf.new_markdown_cell("### Scatter Plot for Nitric Oxide Concentrations vs. Proportion of Non-Retail Business Acres"))
+nb.cells.append(nbf.new_code_cell("""
+# Create scatter plot for NOX vs. INDUS
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x='INDUS', y='NOX', data=boston_df)
+plt.title('Scatter Plot of Nitric Oxide Concentrations vs. Proportion of Non-Retail Business Acres')
+plt.xlabel('Proportion of Non-Retail Business Acres')
+plt.ylabel('Nitric Oxide Concentration (parts per 10 million)')
+plt.show()
+"""))
+
+# Histogram for Pupil-Teacher Ratio (PTRATIO)
+nb.cells.append(nbf.new_markdown_cell("### Histogram for Pupil-Teacher Ratio (PTRATIO)"))
+nb.cells.append(nbf.new_code_cell("""
+# Create histogram for PTRATIO
+plt.figure(figsize=(10, 6))
+sns.histplot(boston_df['PTRATIO'], bins=30, kde=True)
+plt.title('Histogram of Pupil-Teacher Ratio (PTRATIO)')
+plt.xlabel('Pupil-Teacher Ratio')
+plt.ylabel('Frequency')
+plt.show()
+"""))
+
+# Task 3: Statistical Tests
+nb.cells.append(nbf.new_markdown_cell("## Task 3: Statistical Tests"))
+
+# T-test for Median Value of Houses Bounded by Charles River
+nb.cells.append(nbf.new_markdown_cell("### T-test for Median Value of Houses Bounded by Charles River"))
+nb.cells.append(nbf.new_code_cell("""
+from scipy.stats import ttest_ind
+
+# Separate data into two groups
+medv_bounded = boston_df[boston_df['CHAS'] == 1]['MEDV']
+medv_not_bounded = boston_df[boston_df['CHAS'] == 0]['MEDV']
+
+# Conduct t-test
+t_stat, p_value = ttest_ind(medv_bounded, medv_not_bounded)
+
+print(f'T-test Results: t-statistic = {t_stat:.3f}, p-value = {p_value:.3f}')
+"""))
+
+# ANOVA for Median Values of Houses Based on Age Proportion
+nb.cells.append(nbf.new_markdown_cell("### ANOVA for Median Values of Houses Based on Age Proportion"))
+nb.cells.append(nbf.new_code_cell("""
+from scipy.stats import f_oneway
+
+# Conduct ANOVA
+groups = [boston_df[boston_df['AGE_GROUP'] == label]['MEDV'] for label in labels]
+f_stat, p_value_anova = f_oneway(*groups)
+
+print(f'ANOVA Results: F-statistic = {f_stat:.3f}, p-value = {p_value_anova:.3f}')
+"""))
+
+# Pearson Correlation between NOX and INDUS
+nb.cells.append(nbf.new_markdown_cell("### Pearson Correlation between Nitric Oxide Concentrations and Proportion of Non-Retail Business Acres"))
+nb.cells.append(nbf.new_code_cell("""
+from scipy.stats import pearsonr
+
+correlation, p_value_corr = pearsonr(boston_df['NOX'], boston_df['INDUS'])
+
+print(f'Pearson Correlation: correlation = {correlation:.3f}, p-value = {p_value_corr:.3f}')
+"""))
+
+# Regression Analysis for Impact of Distance on MEDV
+nb.cells.append(nbf.new_markdown_cell("### Regression Analysis for Impact of Additional Weighted Distance on MEDV"))
+nb.cells.append(nbf.new_code_cell("""
+import statsmodels.api as sm
+
+# Define independent and dependent variables
+X = boston_df['DIS']
+y = boston_df['MEDV']
+X = sm.add_constant(X)  # Add constant term for intercept
+
+# Fit regression model
+model = sm.OLS(y, X).fit()
+print(model.summary())
+"""))
+
+# Conclusion
+nb.cells.append(nbf.new_markdown_cell("## Conclusion\nThis analysis provides insights into the Boston housing market, highlighting the impact of location, age, and educational resources on housing prices. The statistical tests conducted offer valuable evidence for strategic decision-making."))
+
+# Save the notebook
+notebook_filename = "/mnt/data/Boston_Housing_Analysis.ipynb"
+with open(notebook_filename, 'w') as f:
+    nbf.write(nb, f)
+
+notebook_filename
