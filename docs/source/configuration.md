@@ -37,7 +37,7 @@ def estimate_price(input_date):
     # Predict future values
     future_dates = pd.date_range(start=df.index[-1] + timedelta(days=1), periods=12, freq='M')
     future_prices = model.forecast(steps=12)
-    
+
     if input_date < df.index[0]:
         # Extrapolate backwards (not typically recommended)
         past_index = df.index[df.index <= input_date]
