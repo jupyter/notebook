@@ -439,6 +439,7 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
     const autoScroll = (cell: CodeCell) => {
       if (!autoScrollOutputs) {
         // bail if disabled via the settings
+        cell.removeClass(SCROLLED_OUTPUTS_CLASS);
         return;
       }
       const { outputArea } = cell;
