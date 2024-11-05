@@ -2,34 +2,30 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>{{page_config['appName'] | e}} - Console</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{page_config['appName'] | e}} - Edit</title>
     {% block favicon %}
     <link
       rel="icon"
       type="image/x-icon"
-      href="{{ page_config['fullStaticUrl'] | e }}/favicons/favicon-console.ico"
+      href="{{ base_url | escape }}static/favicons/favicon-file.ico"
       class="favicon"
     />
-    {% endblock %} {% if custom_css %}
-    <link rel="stylesheet" href="{{ base_url | escape }}custom/custom.css" />
-    {% endif %}
-    <script
-      defer="defer"
-      src="{{page_config.fullStaticUrl}}/main.a4b72be68233e26a3717.js?v=a4b72be68233e26a3717"
-    ></script>
+    {% endblock %}
   </head>
-  <body class="jp-ThemedContainer">
+  <body class="jp-ThemedContainer" data-notebook="edit">
     {# Copy so we do not modify the page_config with updates. #} {% set
     page_config_full = page_config.copy() %} {# Set a dummy variable - we just
     want the side effect of the update. #} {% set _ =
     page_config_full.update(baseUrl=base_url, wsUrl=ws_url) %} {# Sentinel value
     to say that we are on the tree page #} {% set _ =
-    page_config_full.update(notebookPage='consoles') %}
+    page_config_full.update(notebookPage='edit') %}
+
     <script id="jupyter-config-data" type="application/json">
       {{ page_config_full | tojson }}
     </script>
-    <script>
+
+    <script type="text/javascript">
       /* Remove token from URL. */
       (function () {
         var parsedUrl = new URL(window.location.href);
