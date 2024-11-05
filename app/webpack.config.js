@@ -205,6 +205,26 @@ if (process.argv.includes('--analyze')) {
   extras.push(new BundleAnalyzerPlugin());
 }
 
+const htmlPlugins = [];
+['consoles', 'edit', 'error', 'notebooks', 'terminals', 'tree'].forEach(
+  (name) => {
+    htmlPlugins.push(
+      new HtmlWebpackPlugin({
+        chunksSortMode: 'none',
+        template: path.join(
+          path.resolve('./templates'),
+          `${name}_template.html`
+        ),
+        title: name,
+        filename: path.join(
+          path.resolve(__dirname, '..', 'notebook/templates'),
+          `${name}.html`
+        ),
+      })
+    );
+  }
+);
+
 module.exports = [
   merge(baseConfig, {
     mode: 'development',
@@ -233,78 +253,7 @@ module.exports = [
       fallback: { util: false },
     },
     plugins: [
-      new HtmlWebpackPlugin({
-        chunksSortMode: 'none',
-        template: path.join(
-          path.resolve(__dirname, '..', 'notebook/templates'),
-          'consoles_template.html'
-        ),
-        title: data.jupyterlab.name,
-        filename: path.join(
-          path.resolve(__dirname, '..', 'notebook/templates'),
-          'consoles.html'
-        ),
-      }),
-      new HtmlWebpackPlugin({
-        chunksSortMode: 'none',
-        template: path.join(
-          path.resolve(__dirname, '..', 'notebook/templates'),
-          'edit_template.html'
-        ),
-        title: data.jupyterlab.name,
-        filename: path.join(
-          path.resolve(__dirname, '..', 'notebook/templates'),
-          'edit.html'
-        ),
-      }),
-      new HtmlWebpackPlugin({
-        chunksSortMode: 'none',
-        template: path.join(
-          path.resolve(__dirname, '..', 'notebook/templates'),
-          'error_template.html'
-        ),
-        title: data.jupyterlab.name,
-        filename: path.join(
-          path.resolve(__dirname, '..', 'notebook/templates'),
-          'error.html'
-        ),
-      }),
-      new HtmlWebpackPlugin({
-        chunksSortMode: 'none',
-        template: path.join(
-          path.resolve(__dirname, '..', 'notebook/templates'),
-          'notebooks_template.html'
-        ),
-        title: data.jupyterlab.name,
-        filename: path.join(
-          path.resolve(__dirname, '..', 'notebook/templates'),
-          'notebooks.html'
-        ),
-      }),
-      new HtmlWebpackPlugin({
-        chunksSortMode: 'none',
-        template: path.join(
-          path.resolve(__dirname, '..', 'notebook/templates'),
-          'terminals_template.html'
-        ),
-        title: data.jupyterlab.name,
-        filename: path.join(
-          path.resolve(__dirname, '..', 'notebook/templates'),
-          'terminals.html'
-        ),
-      }),
-      new HtmlWebpackPlugin({
-        chunksSortMode: 'none',
-        template: path.join(
-          path.resolve(__dirname, '..', 'notebook/templates'),
-          'tree_template.html'
-        ),
-        title: data.jupyterlab.name,
-        filename: path.join(
-          path.resolve(__dirname, '..', 'notebook/templates'),
-          'tree.html'
-        ),
-      }),
+      ...htmlPlugins,
       new WPPlugin.JSONLicenseWebpackPlugin({
         excludedPackageTest: (packageName) =>
           packageName === '@jupyter-notebook/app',
