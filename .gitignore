@@ -135,3 +135,6 @@ ui-tests/playwright-report
 .pnp.*
 ui-tests/.yarn/*
 ui-tests/.pnp.*
+
+# generated html
+notebook/templates/*.html
