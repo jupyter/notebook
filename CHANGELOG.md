@@ -75,6 +75,31 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.3.0b2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-beta.1...110e728e4a239ffc7217bd07b9a50cf4eff0dff5))
+
+### Enhancements made
+
+- Fix for auto scroll output option [#7511](https://github.com/jupyter/notebook/pull/7511) ([@gjmooney](https://github.com/gjmooney))
+
+### Maintenance and upkeep improvements
+
+- Add webpack prod config [#7513](https://github.com/jupyter/notebook/pull/7513) ([@gjmooney](https://github.com/gjmooney))
+- Update to JupyterLab 4.3 final [#7507](https://github.com/jupyter/notebook/pull/7507) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Rename some header links to fit better [#7508](https://github.com/jupyter/notebook/pull/7508) ([@gjmooney](https://github.com/gjmooney))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-10-24&to=2024-11-06&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-10-24..2024-11-06&type=Issues) | [@gjmooney](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agjmooney+updated%3A2024-10-24..2024-11-06&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-10-24..2024-11-06&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.3.0b1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-beta.0...f614f7c6387cc7da82e0307b70e10593b2cd6bff))
@@ -101,8 +126,6 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-10-15&to=2024-10-24&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-10-15..2024-10-24&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-10-15..2024-10-24&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.3.0b0
 

@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/tree",
-  "version": "7.3.0-beta.1",
+  "version": "7.3.0-beta.2",
   "description": "Jupyter Notebook - Tree",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -38,7 +38,7 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.3.0-beta.1",
+    "@jupyter-notebook/application": "^7.3.0-beta.2",
     "@jupyterlab/application": "~4.3.0",
     "@jupyterlab/apputils": "~4.4.0",
     "@jupyterlab/coreutils": "~6.3.0",
