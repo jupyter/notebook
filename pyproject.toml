@@ -154,7 +154,6 @@ dependencies = ["hatch-jupyter-builder>=0.5"]
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
     "notebook/labextension/static/style.js",
-    "notebook/static/bundle.js"
 ]
 install-pre-commit-hook = true
 
