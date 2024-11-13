@@ -7,5 +7,5 @@ Type=Application
 Icon=notebook
 StartupNotify=true
 MimeType=application/x-ipynb+json;
-Categories=Development;Education;
+Categories=Development;Education;Test
 Keywords=python;
