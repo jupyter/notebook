@@ -75,6 +75,22 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.3.0rc0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-beta.2...b34449747a84fe0ba7951ae0fa8f2bb011444a60))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab 4.3.1 [#7521](https://github.com/jupyter/notebook/pull/7521) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-11-06&to=2024-11-18&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-11-06..2024-11-18&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-11-06..2024-11-18&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.3.0b2
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-beta.1...110e728e4a239ffc7217bd07b9a50cf4eff0dff5))
@@ -97,8 +113,6 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-10-24&to=2024-11-06&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-10-24..2024-11-06&type=Issues) | [@gjmooney](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agjmooney+updated%3A2024-10-24..2024-11-06&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-10-24..2024-11-06&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.3.0b1
 
