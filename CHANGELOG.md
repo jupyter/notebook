@@ -75,6 +75,22 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.3.1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0...21d0306ecef93ea23bf063bc1d8a0580450cd4df))
+
+### Maintenance and upkeep improvements
+
+- Adds jupyter-ui-toolkit packages in shared scope [#7530](https://github.com/jupyter/notebook/pull/7530) ([@brichet](https://github.com/brichet))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-04&to=2024-12-04&type=c))
+
+[@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2024-12-04..2024-12-04&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-04..2024-12-04&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.3.0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.2.0...b16eed26eff8e357eeccbef3f3434df77fb8ab48))
@@ -122,8 +138,6 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-16&to=2024-12-04&type=c))
 
 [@algonell](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aalgonell+updated%3A2024-05-16..2024-12-04&type=Issues) | [@andyscho](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandyscho+updated%3A2024-05-16..2024-12-04&type=Issues) | [@bluestealth](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abluestealth+updated%3A2024-05-16..2024-12-04&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-16..2024-12-04&type=Issues) | [@gjmooney](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agjmooney+updated%3A2024-05-16..2024-12-04&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2024-05-16..2024-12-04&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-16..2024-12-04&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-05-16..2024-12-04&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2024-05-16..2024-12-04&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-05-16..2024-12-04&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.3.0rc0
 
