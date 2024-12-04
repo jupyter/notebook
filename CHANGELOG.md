@@ -18,7 +18,7 @@ Jupyter Notebook 7.3 is based on JupyterLab 4.3, and includes a number of new fe
 
 Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.3, although they may not all be supported in Notebook 7.3.
 
-For reference you may have a look at the JupyterLab 4.3 changelog to learn more: https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-3
+For reference you may have a look at the [JupyterLab 4.3 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-3) to learn more.
 
 ### Minimap
 
