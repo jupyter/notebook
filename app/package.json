@@ -12,8 +12,6 @@
   "resolutions": {
     "@codemirror/state": "~6.4.1",
     "@codemirror/view": "~6.28.3",
-    "@jupyter/react-components": "^0.16.6",
-    "@jupyter/web-components": "^0.16.6",
     "@jupyter-notebook/application": "~7.3.0",
     "@jupyter-notebook/application-extension": "~7.3.0",
     "@jupyter-notebook/console-extension": "~7.3.0",
@@ -25,6 +23,8 @@
     "@jupyter-notebook/tree": "~7.3.0",
     "@jupyter-notebook/tree-extension": "~7.3.0",
     "@jupyter-notebook/ui-components": "~7.3.0",
+    "@jupyter/react-components": "^0.16.6",
+    "@jupyter/web-components": "^0.16.6",
     "@jupyter/ydoc": "~3.0.0",
     "@jupyterlab/application": "~4.3.2",
     "@jupyterlab/application-extension": "~4.3.2",
@@ -368,9 +368,9 @@
     "singletonPackages": [
       "@codemirror/state",
       "@codemirror/view",
+      "@jupyter-notebook/tree",
       "@jupyter/react-components",
       "@jupyter/web-components",
-      "@jupyter-notebook/tree",
       "@jupyter/ydoc",
       "@jupyterlab/application",
       "@jupyterlab/apputils",
