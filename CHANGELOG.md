@@ -75,6 +75,56 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.3.0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.2.0...b16eed26eff8e357eeccbef3f3434df77fb8ab48))
+
+### Enhancements made
+
+- Fix for auto scroll output option [#7511](https://github.com/jupyter/notebook/pull/7511) ([@gjmooney](https://github.com/gjmooney))
+- Add a setting to enable the notebook to take up the full width [#7487](https://github.com/jupyter/notebook/pull/7487) ([@jtpio](https://github.com/jtpio))
+- Add the file filter button to the file browser toolbar [#7479](https://github.com/jupyter/notebook/pull/7479) ([@jtpio](https://github.com/jtpio))
+- Redirect paths from the notebooks route to the tree route if they are directories [#7446](https://github.com/jupyter/notebook/pull/7446) ([@andyscho](https://github.com/andyscho))
+- Update to JupyterLab `4.3.0a1` [#7416](https://github.com/jupyter/notebook/pull/7416) ([@jtpio](https://github.com/jtpio))
+- Support custom page_data_hook function [#7387](https://github.com/jupyter/notebook/pull/7387) ([@bluestealth](https://github.com/bluestealth))
+- Add missing "Open..." file menu [#7385](https://github.com/jupyter/notebook/pull/7385) ([@martinRenou](https://github.com/martinRenou))
+- Duplicate notebook menu option [#7374](https://github.com/jupyter/notebook/pull/7374) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Bugs fixed
+
+- Move handling of the file browser settings to a separate plugin, enable file browser single click navigation [#7481](https://github.com/jupyter/notebook/pull/7481) ([@jtpio](https://github.com/jtpio))
+- Remove pseudoelement obstructing the cell collapser [#7392](https://github.com/jupyter/notebook/pull/7392) ([@krassowski](https://github.com/krassowski))
+- "Close and Shut Down Notebook" shuts down without the confirmation dialog [#7384](https://github.com/jupyter/notebook/pull/7384) ([@JasonWeill](https://github.com/JasonWeill))
+- Adds message about building code before running 'develop' [#7382](https://github.com/jupyter/notebook/pull/7382) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Maintenance and upkeep improvements
+
+- Bump Python version used on CI [#7528](https://github.com/jupyter/notebook/pull/7528) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.3.2 [#7527](https://github.com/jupyter/notebook/pull/7527) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.3.1 [#7521](https://github.com/jupyter/notebook/pull/7521) ([@jtpio](https://github.com/jtpio))
+- Add webpack prod config [#7513](https://github.com/jupyter/notebook/pull/7513) ([@gjmooney](https://github.com/gjmooney))
+- Update to JupyterLab 4.3 final [#7507](https://github.com/jupyter/notebook/pull/7507) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `4.3.0rc1` [#7497](https://github.com/jupyter/notebook/pull/7497) ([@jtpio](https://github.com/jtpio))
+- Remove the `StateDB` file browser trick [#7477](https://github.com/jupyter/notebook/pull/7477) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `4.3.0rc0` [#7423](https://github.com/jupyter/notebook/pull/7423) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.3.0a0 [#7378](https://github.com/jupyter/notebook/pull/7378) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Fix link to the JupyterLab 4.3 changelog [#7529](https://github.com/jupyter/notebook/pull/7529) ([@jtpio](https://github.com/jtpio))
+- Rename some header links to fit better [#7508](https://github.com/jupyter/notebook/pull/7508) ([@gjmooney](https://github.com/gjmooney))
+- Add user facing changelog for `7.3.0` [#7494](https://github.com/jupyter/notebook/pull/7494) ([@jtpio](https://github.com/jtpio))
+- Fix typos [#7472](https://github.com/jupyter/notebook/pull/7472) ([@algonell](https://github.com/algonell))
+- Adds message about building code before running 'develop' [#7382](https://github.com/jupyter/notebook/pull/7382) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-16&to=2024-12-04&type=c))
+
+[@algonell](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aalgonell+updated%3A2024-05-16..2024-12-04&type=Issues) | [@andyscho](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandyscho+updated%3A2024-05-16..2024-12-04&type=Issues) | [@bluestealth](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abluestealth+updated%3A2024-05-16..2024-12-04&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-16..2024-12-04&type=Issues) | [@gjmooney](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agjmooney+updated%3A2024-05-16..2024-12-04&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2024-05-16..2024-12-04&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-16..2024-12-04&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-05-16..2024-12-04&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2024-05-16..2024-12-04&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-05-16..2024-12-04&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.3.0rc0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-beta.2...b34449747a84fe0ba7951ae0fa8f2bb011444a60))
@@ -88,8 +138,6 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-11-06&to=2024-11-18&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-11-06..2024-11-18&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-11-06..2024-11-18&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.3.0b2
 
