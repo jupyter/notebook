@@ -42,6 +42,23 @@ A new theme, JupyterLab Dark High Contrast, which is intended to benefit users w
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.2.3
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.2.2...6dbe4b1099f8ff27ad57e79a30fd7b4534a834e3))
+
+### Maintenance and upkeep improvements
+
+- Bump Python version used on CI [#7528](https://github.com/jupyter/notebook/pull/7528) ([@jtpio](https://github.com/jtpio))
+- Backport PR #7530: Adds jupyter-ui-toolkit packages in shared scope [#7532](https://github.com/jupyter/notebook/pull/7532) ([@brichet](https://github.com/brichet))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-08-27&to=2024-12-05&type=c))
+
+[@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2024-08-27..2024-12-05&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-08-27..2024-12-05&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-08-27..2024-12-05&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-08-27..2024-12-05&type=Issues) | [@meeseeksmachine](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ameeseeksmachine+updated%3A2024-08-27..2024-12-05&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.2.2
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.2.1...0426a897ad6b5708d73e6e49ea424076de2906a1))
@@ -55,8 +72,6 @@ A new theme, JupyterLab Dark High Contrast, which is intended to benefit users w
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-06-07&to=2024-08-27&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-06-07..2024-08-27&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-06-07..2024-08-27&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-06-07..2024-08-27&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.2.1
 
