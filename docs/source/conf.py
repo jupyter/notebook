@@ -193,7 +193,7 @@ html_theme_options = {
         {
             "name": "Zulip",
             "url": "https://jupyter.zulipchat.com/",
-            "icon": "./_static/images/zulip-icon-square.svg",
+            "icon": "_static/zulip-icon-square.svg",
             "type": "local",
         },
     ],
