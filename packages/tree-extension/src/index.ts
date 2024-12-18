@@ -7,6 +7,7 @@ import {
 } from '@jupyterlab/application';
 
 import {
+  ICommandPalette,
   IToolbarWidgetRegistry,
   createToolbarFactory,
   setToolbar,
@@ -34,9 +35,7 @@ import { ITranslator } from '@jupyterlab/translation';
 
 import {
   caretDownIcon,
-  FilenameSearcher,
   folderIcon,
-  IScore,
   runningIcon,
 } from '@jupyterlab/ui-components';
 
@@ -59,16 +58,14 @@ const FILE_BROWSER_FACTORY = 'FileBrowser';
 const FILE_BROWSER_PLUGIN_ID = '@jupyterlab/filebrowser-extension:browser';
 
 /**
- * The class name added to the filebrowser filterbox node.
- */
-const FILTERBOX_CLASS = 'jp-FileBrowser-filterBox';
-
-/**
  * The namespace for command IDs.
  */
 namespace CommandIDs {
   // The command to activate the filebrowser widget in tree view.
   export const activate = 'filebrowser:activate';
+
+  // Activate the file filter in the file browser
+  export const toggleFileFilter = 'filebrowser:toggle-file-filter';
 }
 
 /**
@@ -173,6 +170,9 @@ const fileActions: JupyterFrontEndPlugin<void> = {
         selectionChanged.emit(void 0);
       };
     });
+    browser.model.pathChanged.connect(() => {
+      selectionChanged.emit(void 0);
+    });
 
     // Create a toolbar item that adds buttons to the file browser toolbar
     // to perform actions on the files
@@ -185,6 +185,76 @@ const fileActions: JupyterFrontEndPlugin<void> = {
     });
     for (const widget of fileActions.widgets) {
       toolbarRegistry.addFactory(FILE_BROWSER_FACTORY, widget.id, () => widget);
+    }
+  },
+};
+
+/**
+ * A plugin to set the default file browser settings.
+ */
+const fileBrowserSettings: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/tree-extension:settings',
+  description: 'Set up the default file browser settings',
+  requires: [IDefaultFileBrowser],
+  optional: [ISettingRegistry],
+  autoStart: true,
+  activate: (
+    app: JupyterFrontEnd,
+    browser: IDefaultFileBrowser,
+    settingRegistry: ISettingRegistry | null
+  ) => {
+    // Default config for notebook.
+    // This is a different set of defaults than JupyterLab.
+    const defaultFileBrowserConfig = {
+      navigateToCurrentDirectory: false,
+      singleClickNavigation: true,
+      showLastModifiedColumn: true,
+      showFileSizeColumn: true,
+      showHiddenFiles: false,
+      showFileCheckboxes: true,
+      sortNotebooksFirst: true,
+      showFullPath: false,
+    };
+
+    // Apply defaults on plugin activation
+    let key: keyof typeof defaultFileBrowserConfig;
+    for (key in defaultFileBrowserConfig) {
+      browser[key] = defaultFileBrowserConfig[key];
+    }
+
+    if (settingRegistry) {
+      void settingRegistry.load(FILE_BROWSER_PLUGIN_ID).then((settings) => {
+        function onSettingsChanged(settings: ISettingRegistry.ISettings): void {
+          let key: keyof typeof defaultFileBrowserConfig;
+          for (key in defaultFileBrowserConfig) {
+            const value = settings.get(key).user as boolean;
+            // only set the setting if it is defined by the user
+            if (value !== undefined) {
+              browser[key] = value;
+            }
+          }
+        }
+        settings.changed.connect(onSettingsChanged);
+        onSettingsChanged(settings);
+      });
+    }
+  },
+};
+
+/**
+ * A plugin to add the file filter toggle command to the palette
+ */
+const fileFilterCommand: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/tree-extension:file-filter-command',
+  description: 'A plugin to add file filter command to the palette.',
+  autoStart: true,
+  optional: [ICommandPalette],
+  activate: (app: JupyterFrontEnd, palette: ICommandPalette | null) => {
+    if (palette) {
+      palette.addItem({
+        command: CommandIDs.toggleFileFilter,
+        category: 'File Browser',
+      });
     }
   },
 };
@@ -325,28 +395,6 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
         })
     );
 
-    toolbarRegistry.addFactory(
-      FILE_BROWSER_FACTORY,
-      'fileNameSearcher',
-      (browser: FileBrowser) => {
-        const searcher = FilenameSearcher({
-          updateFilter: (
-            filterFn: (item: string) => Partial<IScore> | null,
-            query?: string
-          ) => {
-            browser.model.setFilter((value) => {
-              return filterFn(value.name.toLowerCase());
-            });
-          },
-          useFuzzyFilter: true,
-          placeholder: trans.__('Filter files by name'),
-          forceRefresh: true,
-        });
-        searcher.addClass(FILTERBOX_CLASS);
-        return searcher;
-      }
-    );
-
     setToolbar(
       browser,
       createToolbarFactory(
@@ -366,25 +414,6 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
       nbTreeWidget.addWidget(running);
       nbTreeWidget.tabBar.addTab(running.title);
     }
-
-    const settings = settingRegistry.load(FILE_BROWSER_PLUGIN_ID);
-    Promise.all([settings, app.restored])
-      .then(([settings]) => {
-        // Set Notebook 7 defaults if there is no user setting override
-        [
-          'showFileCheckboxes',
-          'showFileSizeColumn',
-          'sortNotebooksFirst',
-          'showFullPath',
-        ].forEach((setting) => {
-          if (settings.user[setting] === undefined) {
-            void settings.set(setting, true);
-          }
-        });
-      })
-      .catch((reason: Error) => {
-        console.error(reason.message);
-      });
 
     app.shell.add(nbTreeWidget, 'main', { rank: 100 });
 
@@ -410,9 +439,9 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
       tracker['_pool'].current = browser;
     };
 
-    tracker.widgetAdded.connect((sender, widget) =>
-      setCurrentToDefaultBrower()
-    );
+    tracker.widgetAdded.connect((sender, widget) => {
+      setCurrentToDefaultBrower();
+    });
 
     setCurrentToDefaultBrower();
 
@@ -426,6 +455,8 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
 const plugins: JupyterFrontEndPlugin<any>[] = [
   createNew,
   fileActions,
+  fileBrowserSettings,
+  fileFilterCommand,
   loadPlugins,
   openFileBrowser,
   notebookTreeWidget,

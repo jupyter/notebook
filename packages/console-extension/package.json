@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/console-extension",
-  "version": "7.3.0-alpha.1",
+  "version": "7.3.1",
   "description": "Jupyter Notebook - Console Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -38,11 +38,11 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.3.0-alpha.1",
-    "@jupyterlab/application": "~4.3.0-alpha.1",
-    "@jupyterlab/console": "~4.3.0-alpha.1",
-    "@jupyterlab/coreutils": "~6.3.0-alpha.1",
-    "@lumino/algorithm": "^2.0.1"
+    "@jupyter-notebook/application": "^7.3.1",
+    "@jupyterlab/application": "~4.3.2",
+    "@jupyterlab/console": "~4.3.2",
+    "@jupyterlab/coreutils": "~6.3.2",
+    "@lumino/algorithm": "^2.0.2"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",

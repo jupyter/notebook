@@ -12,35 +12,219 @@ upgrading `notebook`.
 Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 `pip --version`.
 
-## v7.2
+## 7.3
 
-Jupyter Notebook 7.2 is based on JupyterLab 4.2, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-0-to-4-1) which lists deprecations and changes to the public API.
+Jupyter Notebook 7.3 is based on JupyterLab 4.3, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-2-to-4-3) which lists deprecations and changes to the public API.
 
-Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.2, although they are not all supported in Notebook 7.2.
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.3, although they may not all be supported in Notebook 7.3.
 
-For reference you may have a look at the JupyterLab 4.2 changelog to learn more: https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-2
+For reference you may have a look at the [JupyterLab 4.3 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-3) to learn more.
 
-### Full notebook windowing mode by default
+### Minimap
 
-Notebooks in the `full` windowing mode only render the visible cells, significantly improving the performance of the application. One limitation of `full` mode is that the search function in your browser may produce false negatives; using the search function is recommended. To revert to the behaviour from Notebook 7.2, go to Settings → Settings Editor → Notebook, scroll to “Windowing mode”, and choose `defer`.
+The virtual scrollbar now acts as a minimap and exposes information on whether a cell:
 
-### Improved Shortcuts Editor
+- is running/scheduled (`[*]`), idle (`[ ]`) or was already run (e.g. `[1]`)
+- was modified since it was last executed (“dirty”) - orange background
+- has an output that contains an error - red background
+- is markdown/code (`[ ]`/`[*]`/`[1]` for code, nothing for markdown)
+- how much text/code it contains
 
-Among the numerous improvements and bug fixes for the keyboard shortcuts editor:
+![a screenshot showing the notebook minimap](https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.3-minimap.png)
 
-- it is now possible to remove the default shortcuts,
-- shortcuts are correctly sorted when using a language pack,
-- shortcuts with different arguments are now correctly displayed as individual entries.
+To enable the minimap, click on the hamburger icon (≡) which appears in the notebook’s toolbar. If you do not see the hamburger icon, go to `Settings → Notebook → Windowing mode` and choose “full”.
 
-<img alt="A context menu opened over a keybinding in the Keyboard Shortcuts setting panel within the Settings widget" class="jp-screenshot" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.2-delete-shortcut.png">
+### File browser enhancements
 
-### Dark high contrast theme
+The file browser now:
 
-A new theme, JupyterLab Dark High Contrast, which is intended to benefit users with the need for higher contrast, following the WCAG AAA accessibility standard for color contrast. To select this theme, from the menu bar, choose Settings → Theme → JupyterLab Dark High Contrast. Please provide feedback and suggestions on further improvements to this theme.
+- supports resizing the columns and remembers the column sizes after reloading JupyterLab
+- supports uploading folders by drag-and-drop
+- supports navigation with a single click
+- adds a file filter collapsed by default (funnel icon)
 
-<img alt="A dark high contrast theme" class="jp-screenshot" src="https://github.com/jupyter/notebook/assets/591645/9a1678fe-9b4d-41ad-8764-75fdc7c84071">
+![a screenshot showing that it's now possible to resize the file browser columns](https://github.com/user-attachments/assets/b0d9cd0a-2828-43f7-a922-e8b271e5f7fc)
+
+In Jupyter Notebook, the single click navigation is enabled by default. If you would like to disable it to get the same experience as in JupyterLab, go to `Settings → File Browser` and make sure "Navigate files and directories with single click" is unchecked.
+
+### Improved kernel and server interactions
+
+The previous release enabled connecting to external kernels, such as those spawned by a third-party application like Blender. In this release the kernel selector dialog was improved to also show the external kernels.
+
+The previous release improved the awareness of the kernel/kernel specification distinction by providing both tree and list view in the kernels sidebar panel, but only the tree view featured the kernel identifiers. In this release both the list and tree view show the kernel identifier stub.
+
+A new toolbar button was added in the kernel allowing to shut down unused kernels (kernels with no widget attached).
+
+![a screenshot showing the list view of the kernels in the sidebar](https://github.com/user-attachments/assets/c7f958c5-4054-4b09-8fad-4df6db8c9b58)
+
+### Full Width Notebook
+
+It is now possible to configure the notebook to take up the full width of the page via:
+
+- a setting that can be defined by a user via the Settings Editor
+- the `View > Enable Full Width Notebook` menu entry
+- the command palette, searching for `Enable Full Width Notebook`
+
+![a screenshot showing how to enable full width notebook via the menu](https://github.com/user-attachments/assets/148b227a-874a-4bb3-a4c6-c7350525ccc4)
+
+This is particularly useful on large displays, or for those who prefer working with a wider notebook.
+
+It is also possible to use the JupyterLab interface for a more fully-featured experience, which allows for full-width notebooks too, and offers a "Simple Interface" mode for only showing a single notebook at a time.
+
+You can open JupyterLab by clicking on `View > Open JupyterLab`.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
+
+## 7.3.1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0...21d0306ecef93ea23bf063bc1d8a0580450cd4df))
+
+### Maintenance and upkeep improvements
+
+- Adds jupyter-ui-toolkit packages in shared scope [#7530](https://github.com/jupyter/notebook/pull/7530) ([@brichet](https://github.com/brichet))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-04&to=2024-12-04&type=c))
+
+[@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2024-12-04..2024-12-04&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-04..2024-12-04&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
+## 7.3.0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.2.0...b16eed26eff8e357eeccbef3f3434df77fb8ab48))
+
+### Enhancements made
+
+- Fix for auto scroll output option [#7511](https://github.com/jupyter/notebook/pull/7511) ([@gjmooney](https://github.com/gjmooney))
+- Add a setting to enable the notebook to take up the full width [#7487](https://github.com/jupyter/notebook/pull/7487) ([@jtpio](https://github.com/jtpio))
+- Add the file filter button to the file browser toolbar [#7479](https://github.com/jupyter/notebook/pull/7479) ([@jtpio](https://github.com/jtpio))
+- Redirect paths from the notebooks route to the tree route if they are directories [#7446](https://github.com/jupyter/notebook/pull/7446) ([@andyscho](https://github.com/andyscho))
+- Update to JupyterLab `4.3.0a1` [#7416](https://github.com/jupyter/notebook/pull/7416) ([@jtpio](https://github.com/jtpio))
+- Support custom page_data_hook function [#7387](https://github.com/jupyter/notebook/pull/7387) ([@bluestealth](https://github.com/bluestealth))
+- Add missing "Open..." file menu [#7385](https://github.com/jupyter/notebook/pull/7385) ([@martinRenou](https://github.com/martinRenou))
+- Duplicate notebook menu option [#7374](https://github.com/jupyter/notebook/pull/7374) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Bugs fixed
+
+- Move handling of the file browser settings to a separate plugin, enable file browser single click navigation [#7481](https://github.com/jupyter/notebook/pull/7481) ([@jtpio](https://github.com/jtpio))
+- Remove pseudoelement obstructing the cell collapser [#7392](https://github.com/jupyter/notebook/pull/7392) ([@krassowski](https://github.com/krassowski))
+- "Close and Shut Down Notebook" shuts down without the confirmation dialog [#7384](https://github.com/jupyter/notebook/pull/7384) ([@JasonWeill](https://github.com/JasonWeill))
+- Adds message about building code before running 'develop' [#7382](https://github.com/jupyter/notebook/pull/7382) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Maintenance and upkeep improvements
+
+- Bump Python version used on CI [#7528](https://github.com/jupyter/notebook/pull/7528) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.3.2 [#7527](https://github.com/jupyter/notebook/pull/7527) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.3.1 [#7521](https://github.com/jupyter/notebook/pull/7521) ([@jtpio](https://github.com/jtpio))
+- Add webpack prod config [#7513](https://github.com/jupyter/notebook/pull/7513) ([@gjmooney](https://github.com/gjmooney))
+- Update to JupyterLab 4.3 final [#7507](https://github.com/jupyter/notebook/pull/7507) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `4.3.0rc1` [#7497](https://github.com/jupyter/notebook/pull/7497) ([@jtpio](https://github.com/jtpio))
+- Remove the `StateDB` file browser trick [#7477](https://github.com/jupyter/notebook/pull/7477) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `4.3.0rc0` [#7423](https://github.com/jupyter/notebook/pull/7423) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.3.0a0 [#7378](https://github.com/jupyter/notebook/pull/7378) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Fix link to the JupyterLab 4.3 changelog [#7529](https://github.com/jupyter/notebook/pull/7529) ([@jtpio](https://github.com/jtpio))
+- Rename some header links to fit better [#7508](https://github.com/jupyter/notebook/pull/7508) ([@gjmooney](https://github.com/gjmooney))
+- Add user facing changelog for `7.3.0` [#7494](https://github.com/jupyter/notebook/pull/7494) ([@jtpio](https://github.com/jtpio))
+- Fix typos [#7472](https://github.com/jupyter/notebook/pull/7472) ([@algonell](https://github.com/algonell))
+- Adds message about building code before running 'develop' [#7382](https://github.com/jupyter/notebook/pull/7382) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-16&to=2024-12-04&type=c))
+
+[@algonell](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aalgonell+updated%3A2024-05-16..2024-12-04&type=Issues) | [@andyscho](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandyscho+updated%3A2024-05-16..2024-12-04&type=Issues) | [@bluestealth](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abluestealth+updated%3A2024-05-16..2024-12-04&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-16..2024-12-04&type=Issues) | [@gjmooney](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agjmooney+updated%3A2024-05-16..2024-12-04&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2024-05-16..2024-12-04&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-16..2024-12-04&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-05-16..2024-12-04&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2024-05-16..2024-12-04&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-05-16..2024-12-04&type=Issues)
+
+## 7.3.0rc0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-beta.2...b34449747a84fe0ba7951ae0fa8f2bb011444a60))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab 4.3.1 [#7521](https://github.com/jupyter/notebook/pull/7521) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-11-06&to=2024-11-18&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-11-06..2024-11-18&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-11-06..2024-11-18&type=Issues)
+
+## 7.3.0b2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-beta.1...110e728e4a239ffc7217bd07b9a50cf4eff0dff5))
+
+### Enhancements made
+
+- Fix for auto scroll output option [#7511](https://github.com/jupyter/notebook/pull/7511) ([@gjmooney](https://github.com/gjmooney))
+
+### Maintenance and upkeep improvements
+
+- Add webpack prod config [#7513](https://github.com/jupyter/notebook/pull/7513) ([@gjmooney](https://github.com/gjmooney))
+- Update to JupyterLab 4.3 final [#7507](https://github.com/jupyter/notebook/pull/7507) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Rename some header links to fit better [#7508](https://github.com/jupyter/notebook/pull/7508) ([@gjmooney](https://github.com/gjmooney))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-10-24&to=2024-11-06&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-10-24..2024-11-06&type=Issues) | [@gjmooney](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agjmooney+updated%3A2024-10-24..2024-11-06&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-10-24..2024-11-06&type=Issues)
+
+## 7.3.0b1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-beta.0...f614f7c6387cc7da82e0307b70e10593b2cd6bff))
+
+### Enhancements made
+
+- Add a setting to enable the notebook to take up the full width [#7487](https://github.com/jupyter/notebook/pull/7487) ([@jtpio](https://github.com/jtpio))
+- Add the file filter button to the file browser toolbar [#7479](https://github.com/jupyter/notebook/pull/7479) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Move handling of the file browser settings to a separate plugin, enable file browser single click navigation [#7481](https://github.com/jupyter/notebook/pull/7481) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab `4.3.0rc1` [#7497](https://github.com/jupyter/notebook/pull/7497) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Add user facing changelog for `7.3.0` [#7494](https://github.com/jupyter/notebook/pull/7494) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-10-15&to=2024-10-24&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-10-15..2024-10-24&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-10-15..2024-10-24&type=Issues)
+
+## 7.3.0b0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-alpha.1...fec4431305b2fd857ff81b7b60c2894dd125bec2))
+
+### Enhancements made
+
+- Redirect paths from the notebooks route to the tree route if they are directories [#7446](https://github.com/jupyter/notebook/pull/7446) ([@andyscho](https://github.com/andyscho))
+
+### Maintenance and upkeep improvements
+
+- Remove the `StateDB` file browser trick [#7477](https://github.com/jupyter/notebook/pull/7477) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `4.3.0rc0` [#7423](https://github.com/jupyter/notebook/pull/7423) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Fix typos [#7472](https://github.com/jupyter/notebook/pull/7472) ([@algonell](https://github.com/algonell))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-07-01&to=2024-10-15&type=c))
+
+[@algonell](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aalgonell+updated%3A2024-07-01..2024-10-15&type=Issues) | [@andyscho](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandyscho+updated%3A2024-07-01..2024-10-15&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-07-01..2024-10-15&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-07-01..2024-10-15&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-07-01..2024-10-15&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-07-01..2024-10-15&type=Issues)
 
 ## 7.3.0a1
 
@@ -59,8 +243,6 @@ A new theme, JupyterLab Dark High Contrast, which is intended to benefit users w
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-31&to=2024-07-01&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-31..2024-07-01&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-31..2024-07-01&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-05-31..2024-07-01&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.3.0a0
 
@@ -90,6 +272,34 @@ A new theme, JupyterLab Dark High Contrast, which is intended to benefit users w
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-16&to=2024-05-31&type=c))
 
 [@bluestealth](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abluestealth+updated%3A2024-05-16..2024-05-31&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-16..2024-05-31&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2024-05-16..2024-05-31&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-16..2024-05-31&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2024-05-16..2024-05-31&type=Issues)
+
+## 7.2
+
+Jupyter Notebook 7.2 is based on JupyterLab 4.2, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-0-to-4-1) which lists deprecations and changes to the public API.
+
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.2, although they are not all supported in Notebook 7.2.
+
+For reference you may have a look at the JupyterLab 4.2 changelog to learn more: https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-2
+
+### Full notebook windowing mode by default
+
+Notebooks in the `full` windowing mode only render the visible cells, significantly improving the performance of the application. One limitation of `full` mode is that the search function in your browser may produce false negatives; using the search function is recommended. To revert to the behaviour from Notebook 7.2, go to Settings → Settings Editor → Notebook, scroll to “Windowing mode”, and choose `defer`.
+
+### Improved Shortcuts Editor
+
+Among the numerous improvements and bug fixes for the keyboard shortcuts editor:
+
+- it is now possible to remove the default shortcuts,
+- shortcuts are correctly sorted when using a language pack,
+- shortcuts with different arguments are now correctly displayed as individual entries.
+
+<img alt="A context menu opened over a keybinding in the Keyboard Shortcuts setting panel within the Settings widget" class="jp-screenshot" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.2-delete-shortcut.png">
+
+### Dark high contrast theme
+
+A new theme, JupyterLab Dark High Contrast, which is intended to benefit users with the need for higher contrast, following the WCAG AAA accessibility standard for color contrast. To select this theme, from the menu bar, choose Settings → Theme → JupyterLab Dark High Contrast. Please provide feedback and suggestions on further improvements to this theme.
+
+<img alt="A dark high contrast theme" class="jp-screenshot" src="https://github.com/jupyter/notebook/assets/591645/9a1678fe-9b4d-41ad-8764-75fdc7c84071">
 
 ## 7.2.0
 
@@ -2533,7 +2743,7 @@ installing on Windows ([3220](https://github.com/jupyter/notebook/pull/3220)).
 
 ## 5.3.0
 
-This release introduces a couple noteable improvements, such as terminal
+This release introduces a couple notable improvements, such as terminal
 support for Windows and support for OS trash (files deleted from the
 notebook dashboard are moved to the OS trash vs. deleted permanently).
 

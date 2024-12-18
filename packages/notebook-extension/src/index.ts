@@ -65,6 +65,11 @@ const KERNEL_STATUS_FADE_OUT_CLASS = 'jp-NotebookKernelStatus-fade';
 const SCROLLED_OUTPUTS_CLASS = 'jp-mod-outputsScrolled';
 
 /**
+ * The class for the full width notebook
+ */
+const FULL_WIDTH_NOTEBOOK_CLASS = 'jp-mod-fullwidth';
+
+/**
  * The command IDs used by the notebook plugins.
  */
 namespace CommandIDs {
@@ -72,6 +77,11 @@ namespace CommandIDs {
    * A command to open right sidebar for Editing Notebook Metadata
    */
   export const openEditNotebookMetadata = 'notebook:edit-metadata';
+
+  /**
+   * A command to toggle full width of the notebook
+   */
+  export const toggleFullWidth = 'notebook:toggle-full-width';
 }
 
 /**
@@ -199,6 +209,83 @@ const openTreeTab: JupyterFrontEndPlugin<void> = {
         window.open(url);
       },
     });
+  },
+};
+
+/**
+ * A plugin to set the notebook to full width.
+ */
+const fullWidthNotebook: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:full-width-notebook',
+  description: 'A plugin to set the notebook to full width.',
+  autoStart: true,
+  requires: [INotebookTracker],
+  optional: [ICommandPalette, ISettingRegistry, ITranslator],
+  activate: (
+    app: JupyterFrontEnd,
+    tracker: INotebookTracker,
+    palette: ICommandPalette | null,
+    settingRegistry: ISettingRegistry | null,
+    translator: ITranslator | null
+  ) => {
+    const trans = (translator ?? nullTranslator).load('notebook');
+
+    let fullWidth = false;
+
+    const toggleFullWidth = () => {
+      const current = tracker.currentWidget;
+      fullWidth = !fullWidth;
+      if (!current) {
+        return;
+      }
+      const content = current;
+      content.toggleClass(FULL_WIDTH_NOTEBOOK_CLASS, fullWidth);
+    };
+
+    let notebookSettings: ISettingRegistry.ISettings;
+
+    if (settingRegistry) {
+      const loadSettings = settingRegistry.load(fullWidthNotebook.id);
+
+      const updateSettings = (settings: ISettingRegistry.ISettings): void => {
+        const newFullWidth = settings.get('fullWidthNotebook')
+          .composite as boolean;
+        if (newFullWidth !== fullWidth) {
+          toggleFullWidth();
+        }
+      };
+
+      Promise.all([loadSettings, app.restored])
+        .then(([settings]) => {
+          notebookSettings = settings;
+          updateSettings(settings);
+          settings.changed.connect((settings) => {
+            updateSettings(settings);
+          });
+        })
+        .catch((reason: Error) => {
+          console.error(reason.message);
+        });
+    }
+
+    app.commands.addCommand(CommandIDs.toggleFullWidth, {
+      label: trans.__('Enable Full Width Notebook'),
+      execute: () => {
+        toggleFullWidth();
+        if (notebookSettings) {
+          notebookSettings.set('fullWidthNotebook', fullWidth);
+        }
+      },
+      isEnabled: () => tracker.currentWidget !== null,
+      isToggled: () => fullWidth,
+    });
+
+    if (palette) {
+      palette.addItem({
+        command: CommandIDs.toggleFullWidth,
+        category: 'Notebook Operations',
+      });
+    }
   },
 };
 
@@ -352,6 +439,7 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
     const autoScroll = (cell: CodeCell) => {
       if (!autoScrollOutputs) {
         // bail if disabled via the settings
+        cell.removeClass(SCROLLED_OUTPUTS_CLASS);
         return;
       }
       const { outputArea } = cell;
@@ -597,6 +685,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   closeTab,
   openTreeTab,
   editNotebookMetadata,
+  fullWidthNotebook,
   kernelLogo,
   kernelStatus,
   notebookToolsWidget,
