@@ -10,11 +10,17 @@ on:
         default: latest
         required: true
         type: string
+      branch:
+        description: 'The branch to target'
+        default: main
+        required: false
+        type: string
 
 env:
   version_tag: 'latest'
 
 permissions:
+  actions: write
   contents: write
   pull-requests: write
 
@@ -52,20 +58,23 @@ jobs:
           set -eux
           for version in ${{ inputs.version || env.version_tag }}
           do
-            export LATEST=$(node buildutils/lib/get-latest-lab-version.js --set-version $version)
+            if [[ "${version}" == "latest" ]]; then
+              export LATEST=$(jlpm run get:lab:version --set-version ${version})
+            else
+              export LATEST=${version}
+            fi
           done
 
           echo "latest=${LATEST}" >> $GITHUB_ENV
-          node buildutils/lib/upgrade-lab-dependencies.js --set-version ${LATEST}
+          jlpm upgrade:lab:dependencies --set-version ${LATEST}
           if [[ ! -z "$(git status --porcelain package.json)" ]]; then
             jlpm install
+            jlpm deduplicate
           fi
 
       - name: Create a PR
-        shell: bash
         env:
-          GITHUB_USER: ${{ secrets.G_USER }}
-          GITHUB_TOKEN: ${{ secrets.G_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -eux
 
@@ -80,13 +89,15 @@ jobs:
             else
               # new branch is created
               git checkout -b "${BRANCH_NAME}"
-              git config user.name "Jupyter Bot"
-              git config user.email 'jupyterlab-bot@users.noreply.github.com'
+              git config user.name "github-actions[bot]"
+              git config user.email 'github-actions[bot]@users.noreply.github.com'
 
               git commit . -m "Update to JupyterLab v${LATEST}"
 
               git push --set-upstream origin "${BRANCH_NAME}"
-              hub pull-request -m "Update to JupyterLab v${LATEST}" \
-                  -m "New JupyterLab release [v${LATEST}](https://github.com/jupyterlab/jupyterlab/releases/tag/v${LATEST}) is available. Please review the lock file carefully.".
+              gh pr create \
+                --base ${{ inputs.branch || 'main' }} \
+                --title "Update to JupyterLab v${LATEST}" \
+                --body "New JupyterLab release [v${LATEST}](https://github.com/jupyterlab/jupyterlab/releases/tag/v${LATEST}) is available. Please review the lock file carefully."
             fi
           fi
