@@ -137,30 +137,23 @@ function absoluteVersion(version: string): string {
   return version;
 }
 
-async function updatePyprojectToml(version: IVersion): Promise<void> {
-  const filePath = path.resolve('pyproject.toml');
-  const pattern = /(jupyterlab>=)[\d.]+(?:a|b|rc\d+)?,<[\d.]+/g;
-  updateVersionInFile(filePath, pattern, version);
-}
+const versionPattern = /(jupyterlab)>=[\d.]+(?:a|b|rc\d+)?,<[\d.]+/g;
 
-async function updatePreCommitConfig(version: IVersion): Promise<void> {
-  const filePath = path.resolve('.pre-commit-config.yaml');
-  const pattern = /(jupyterlab)(?:>=|==)[\d.]+(?:,<[\d.]+)?(?="|,|\s|$)/;
-  updateVersionInFile(filePath, pattern, version);
-}
+const FILES_TO_UPDATE = ['pyproject.toml', '.pre-commit-config.yaml'];
 
 async function upgradeLabDependencies(): Promise<void> {
   const args: string[] = process.argv.slice(2);
 
-  if (args.length !== 2 || args[0] !== '--set-version') {
-    console.error('Usage: node script.js --set-version <version>');
-    process.exit(1);
+  if (args.length < 2) {
+    throw new Error('Please provide the set-version flag and version');
   }
 
   const version = parseVersion(args[1]);
   await updatePackageJson(args[1]); // Keep original string version for package.json
-  await updatePyprojectToml(version);
-  await updatePreCommitConfig(version);
+
+  for (const file of FILES_TO_UPDATE) {
+    updateVersionInFile(path.resolve(file), versionPattern, version);
+  }
 }
 
 upgradeLabDependencies();
