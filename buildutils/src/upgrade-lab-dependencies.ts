@@ -137,7 +137,7 @@ function absoluteVersion(version: string): string {
   return version;
 }
 
-const versionPattern = /(jupyterlab>=)[\d.]+(?:a|b|rc\d+)?,<[\d.]+/g;
+const versionPattern = /(jupyterlab)>=[\d.]+(?:a|b|rc\d+)?,<[\d.]+/g;
 
 const FILES_TO_UPDATE = ['pyproject.toml', '.pre-commit-config.yaml'];
 
