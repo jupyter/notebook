@@ -7,7 +7,7 @@ contact_links:
     url: https://discourse.jupyter.org/c/notebook/31
     about: If you have a question or you're having issues installing Jupyter Notebook, try posting on Discourse.
   - name: 💬 Chat with the devs
-    url: https://app.gitter.im/#/room/#jupyter_notebook:gitter.im
+    url: https://jupyter.zulipchat.com/
     about: Ask short questions about using Jupyter Notebook
   - name: 📝 Do you have a feature request that may be applied upstream? See JupyterLab.
     url: https://github.com/jupyterlab/jupyterlab
