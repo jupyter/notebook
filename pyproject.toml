@@ -75,6 +75,9 @@ dev = [
     "hatch"
 ]
 
+[tool.hatch.metadata]
+allow-direct-references = true
+
 [tool.hatch.version]
 path = "notebook/_version.py"
 validate-bump = false
