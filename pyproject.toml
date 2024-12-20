@@ -60,6 +60,7 @@ test = [
     "jupyter_server[test]>=2.4.0,<3",
     "jupyterlab_server[test]>=2.27.1,<3",
     "importlib-resources>=5.0;python_version<\"3.10\"",
+    "jupyter_server @ git+https://github.com/jupyter-server/jupyter_server@main",
 ]
 docs = [
     "myst_parser",
