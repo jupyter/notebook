@@ -1,8 +1,8 @@
 name: Check for latest JupyterLab releases
 
 on:
-  schedule:
-    - cron: 30 17 * * *
+  # schedule:
+  #   - cron: 30 17 * * *
   workflow_dispatch:
     inputs:
       version:
