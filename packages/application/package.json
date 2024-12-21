@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/application",
-  "version": "7.3.2",
+  "version": "7.4.0-alpha.0",
   "description": "Jupyter Notebook - Application",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
