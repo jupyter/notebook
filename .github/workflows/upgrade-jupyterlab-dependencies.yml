@@ -15,6 +15,11 @@ on:
         default: main
         required: false
         type: string
+      target_repo:
+        description: 'Target repository'
+        required: false
+        default: jupyter/notebook
+        type: string
 
 env:
   version_tag: 'latest'
@@ -68,13 +73,17 @@ jobs:
           echo "latest=${LATEST}" >> $GITHUB_ENV
           jlpm upgrade:lab:dependencies --set-version ${LATEST}
           if [[ ! -z "$(git status --porcelain package.json)" ]]; then
-            jlpm install
+            jlpm
+            jlpm deduplicate
+
+            cd ui-tests
+            jlpm
             jlpm deduplicate
           fi
 
       - name: Create a PR
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
           set -eux
 
@@ -95,9 +104,18 @@ jobs:
               git commit . -m "Update to JupyterLab v${LATEST}"
 
               git push --set-upstream origin "${BRANCH_NAME}"
-              gh pr create \
-                --base ${{ inputs.branch || 'main' }} \
-                --title "Update to JupyterLab v${LATEST}" \
+
+              PR_ARGS=(
+                --base "${{ inputs.branch || 'main' }}"
+                --title "Update to JupyterLab v${LATEST}"
                 --body "New JupyterLab release [v${LATEST}](https://github.com/jupyterlab/jupyterlab/releases/tag/v${LATEST}) is available. Please review the lock file carefully."
+              )
+
+              # Add --repo flag only if target_repo is specified
+              if [[ -n "${{ inputs.target_repo }}" ]]; then
+                PR_ARGS+=(--repo "${{ inputs.target_repo }}")
+              fi
+
+              gh pr create "${PR_ARGS[@]}"
             fi
           fi
