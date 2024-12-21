@@ -97,7 +97,7 @@ async function updatePackageJson(newVersion: string): Promise<void> {
     const newDependencies = {
       ...newPackageJson.devDependencies,
       ...newPackageJson.resolutions,
-      '@jupyterlab/galata': galataPackageJson.version,
+      [galataPackageJson.name]: galataPackageJson.version,
     };
 
     updateDependencyVersion(existingPackageJson, newDependencies);
