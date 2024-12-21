@@ -15,7 +15,7 @@
     "test:update": "playwright test --update-snapshots"
   },
   "dependencies": {
-    "@jupyterlab/galata": "~5.3.2",
+    "@jupyterlab/galata": "~5.4.0-alpha.1",
     "@playwright/test": "~1.48.0",
     "rimraf": "^3.0.2"
   }
