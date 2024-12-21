@@ -44,7 +44,7 @@ repos:
         files: "^notebook"
         stages: [manual]
         args: ["--install-types", "--non-interactive"]
-        additional_dependencies: ["traitlets>=5.13", "tornado", "jupyter_server>=2.10", "jupyterlab_server>=2.25", "jupyterlab>=4.3.4,<4.4"]
+        additional_dependencies: ["traitlets>=5.13", "tornado", "jupyter_server>=2.10", "jupyterlab_server>=2.25", "jupyterlab>=4.4.0a1,<4.5"]
 
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: 'v1.10.0'
