@@ -39,11 +39,11 @@
   },
   "dependencies": {
     "@jupyter-notebook/application": "^7.3.1",
-    "@jupyterlab/application": "~4.3.2",
-    "@jupyterlab/coreutils": "~6.3.2",
-    "@jupyterlab/docmanager": "~4.3.2",
-    "@jupyterlab/docregistry": "~4.3.2",
-    "@jupyterlab/services": "~7.3.2",
+    "@jupyterlab/application": "~4.3.4",
+    "@jupyterlab/coreutils": "~6.3.4",
+    "@jupyterlab/docmanager": "~4.3.4",
+    "@jupyterlab/docregistry": "~4.3.4",
+    "@jupyterlab/services": "~7.3.4",
     "@lumino/algorithm": "^2.0.2",
     "@lumino/signaling": "^2.1.3"
   },
