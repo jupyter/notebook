@@ -75,6 +75,31 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.3.2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.1...7959ba0de553e9c541d2716d76108a8bc0bc2d6c))
+
+### Maintenance and upkeep improvements
+
+- Fix update script [#7550](https://github.com/jupyter/notebook/pull/7550) ([@jtpio](https://github.com/jtpio))
+- Fix workflow to update the JupyterLab version [#7548](https://github.com/jupyter/notebook/pull/7548) ([@jtpio](https://github.com/jtpio))
+- Bump nanoid from 3.3.7 to 3.3.8 in /ui-tests [#7547](https://github.com/jupyter/notebook/pull/7547) ([@dependabot](https://github.com/dependabot))
+- Bump systeminformation from 5.21.8 to 5.23.14 in /ui-tests [#7546](https://github.com/jupyter/notebook/pull/7546) ([@dependabot](https://github.com/dependabot))
+- Workflow to update JupyterLab dependencies automatically [#7281](https://github.com/jupyter/notebook/pull/7281) ([@itsmevichu](https://github.com/itsmevichu))
+- Update to JupyterLab v4.3.4 [#7551](https://github.com/jupyter/notebook/pull/7551) ([@github-actions](https://github.com/apps/github-actions))
+
+### Documentation improvements
+
+- Update chat links to Zulip. [#7539](https://github.com/jupyter/notebook/pull/7539) ([@ericsnekbytes](https://github.com/ericsnekbytes))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-04&to=2024-12-21&type=c))
+
+[@Carreau](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ACarreau+updated%3A2024-12-04..2024-12-21&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2024-12-04..2024-12-21&type=Issues) | [@ericsnekbytes](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aericsnekbytes+updated%3A2024-12-04..2024-12-21&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-12-04..2024-12-21&type=Issues) | [@itsmevichu](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aitsmevichu+updated%3A2024-12-04..2024-12-21&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-04..2024-12-21&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-12-04..2024-12-21&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.3.1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0...21d0306ecef93ea23bf063bc1d8a0580450cd4df))
@@ -88,8 +113,6 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-04&to=2024-12-04&type=c))
 
 [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2024-12-04..2024-12-04&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-04..2024-12-04&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.3.0
 
