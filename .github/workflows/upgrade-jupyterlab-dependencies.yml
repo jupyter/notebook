@@ -73,11 +73,12 @@ jobs:
           echo "latest=${LATEST}" >> $GITHUB_ENV
           jlpm upgrade:lab:dependencies --set-version ${LATEST}
           if [[ ! -z "$(git status --porcelain package.json)" ]]; then
-            jlpm install
+            jlpm
             jlpm deduplicate
 
             cd ui-tests
-            jlpm install
+            jlpm
+            jlpm deduplicate
           fi
 
       - name: Create a PR
