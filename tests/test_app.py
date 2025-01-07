@@ -6,7 +6,7 @@ from tornado.httpclient import HTTPClientError
 from notebook.app import JupyterNotebookApp, NotebookHandler, TreeHandler
 
 
-@pytest.fixture()
+@pytest.fixture
 def notebooks(jp_create_notebook, notebookapp):
     nbpaths = (
         "notebook1.ipynb",

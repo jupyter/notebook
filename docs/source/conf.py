@@ -109,7 +109,7 @@ _version_py = os.path.join(here, "../../notebook/_version.py")
 version_ns = {}
 exec(compile(open(_version_py).read(), _version_py, "exec"), version_ns)  # noqa: S102, SIM115
 # The short X.Y version.
-version = "%i.%i" % version_ns["version_info"][:2]
+version = "{}.{}".format(*version_ns["version_info"][:2])
 # The full version, including alpha/beta/rc tags.
 release = version_ns["__version__"]
 
