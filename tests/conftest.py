@@ -32,7 +32,7 @@ workspaces_dir = pytest.fixture(lambda tmp_path: mkdir(tmp_path, "workspaces"))
 labextensions_dir = pytest.fixture(lambda tmp_path: mkdir(tmp_path, "labextensions_dir"))
 
 
-@pytest.fixture()
+@pytest.fixture
 def make_notebook_app(  # PLR0913
     jp_root_dir,
     jp_template_dir,
@@ -131,7 +131,7 @@ def make_notebook_app(  # PLR0913
     return _make_notebook_app
 
 
-@pytest.fixture()
+@pytest.fixture
 def notebookapp(jp_serverapp, make_notebook_app):
     app = make_notebook_app()
     app._link_jupyter_server_extension(jp_serverapp)
