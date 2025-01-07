@@ -33,7 +33,7 @@
     "commander": "^6.2.0",
     "fs-extra": "^9.1.0",
     "semver": "^7.6.3",
-    "typescript": "~5.0.2"
+    "typescript": "~5.1.6"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.10",
