@@ -75,6 +75,26 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.4.0a1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0-alpha.0...18672b7e85ec5181e4c5c18d2e32c3e9eab7260c))
+
+### Maintenance and upkeep improvements
+
+- Update `typescript` and `lerna` [#7562](https://github.com/jupyter/notebook/pull/7562) ([@jtpio](https://github.com/jtpio))
+- Update pre-commit hooks [#7561](https://github.com/jupyter/notebook/pull/7561) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.0a2 [#7559](https://github.com/jupyter/notebook/pull/7559) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group across 1 directory with 2 updates [#7558](https://github.com/jupyter/notebook/pull/7558) ([@dependabot](https://github.com/dependabot))
+- Improve update script [#7556](https://github.com/jupyter/notebook/pull/7556) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-21&to=2025-01-07&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2024-12-21..2025-01-07&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-12-21..2025-01-07&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-21..2025-01-07&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.4.0a0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.2...12efbe601858c317bf677dc835d314489357e20d))
@@ -90,8 +110,6 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-21&to=2024-12-21&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-12-21..2024-12-21&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-21..2024-12-21&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.3.2
 
