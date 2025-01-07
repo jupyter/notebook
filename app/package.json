@@ -272,7 +272,8 @@
           "@jupyterlab/filebrowser-extension:default-file-browser"
         ],
         "@jupyterlab/fileeditor-extension": [
-          "@jupyterlab/fileeditor-extension:plugin"
+          "@jupyterlab/fileeditor-extension:plugin",
+          "@jupyterlab/fileeditor-extension:widget-factory"
         ],
         "@jupyterlab/help-extension": [
           "@jupyterlab/help-extension:resources"
