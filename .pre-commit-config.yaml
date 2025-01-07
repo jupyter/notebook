@@ -4,7 +4,7 @@ ci:
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: check-case-conflict
       - id: check-ast
@@ -21,12 +21,12 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.27.4
+    rev: 0.30.0
     hooks:
       - id: check-github-workflows
 
   - repo: https://github.com/codespell-project/codespell
-    rev: 'v2.2.6'
+    rev: 'v2.3.0'
     hooks:
       - id: codespell
         args: ['-L', 'hart,noteable', '--skip', "*.spec.ts"]
@@ -38,7 +38,7 @@ repos:
           )$
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v1.8.0"
+    rev: "v1.14.1"
     hooks:
       - id: mypy
         files: "^notebook"
@@ -54,7 +54,7 @@ repos:
       - id: rst-inline-touching-normal
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.2.0
+    rev: v0.8.6
     hooks:
       - id: ruff
         types_or: [ python, jupyter ]
@@ -65,7 +65,7 @@ repos:
         exclude: '^docs/source/examples/Notebook/Importing Notebooks.ipynb'
 
   - repo: https://github.com/scientific-python/cookie
-    rev: '2024.01.24'
+    rev: '2024.08.19'
     hooks:
       - id: sp-repo-review
         additional_dependencies: ['repo-review[cli]']
