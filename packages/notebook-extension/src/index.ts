@@ -124,7 +124,7 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
       context?.fileChanged.connect(onChange);
 
       const checkpoints = await context?.listCheckpoints();
-      if (!checkpoints) {
+      if (!checkpoints || !checkpoints.length) {
         return;
       }
       const checkpoint = checkpoints[checkpoints.length - 1];
