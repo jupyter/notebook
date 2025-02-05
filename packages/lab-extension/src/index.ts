@@ -69,8 +69,9 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/lab-extension:interface-switcher',
   description: 'A plugin to add custom toolbar items to the notebook page.',
   autoStart: true,
-  requires: [ITranslator, INotebookTracker],
+  requires: [ITranslator],
   optional: [
+    INotebookTracker,
     ICommandPalette,
     INotebookPathOpener,
     INotebookShell,
@@ -80,13 +81,18 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
-    notebookTracker: INotebookTracker,
+    notebookTracker: INotebookTracker | null,
     palette: ICommandPalette | null,
     notebookPathOpener: INotebookPathOpener | null,
     notebookShell: INotebookShell | null,
     labShell: ILabShell | null,
     toolbarRegistry: IToolbarWidgetRegistry | null
   ) => {
+    if (!notebookTracker) {
+      // bail if trying to use this plugin without a notebook tracker
+      return;
+    }
+
     const { commands, shell } = app;
     const baseUrl = PageConfig.getBaseUrl();
     const trans = translator.load('notebook');
