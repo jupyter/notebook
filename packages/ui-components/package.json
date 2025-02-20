@@ -42,7 +42,7 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/ui-components": "~4.4.0-alpha.3",
+    "@jupyterlab/ui-components": "~4.4.0-beta.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -55,7 +55,7 @@
     "jest": "^29.3.1",
     "rimraf": "^3.0.2",
     "ts-jest": "^29.0.3",
-    "typescript": "~5.1.6"
+    "typescript": "~5.5.4"
   },
   "publishConfig": {
     "access": "public"

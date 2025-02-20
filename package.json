@@ -51,7 +51,7 @@
     "yjs": "^13.5.40"
   },
   "devDependencies": {
-    "@jupyterlab/buildutils": "~4.4.0-alpha.3",
+    "@jupyterlab/buildutils": "~4.4.0-beta.0",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "eslint": "^8.36.0",
@@ -64,7 +64,7 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.5",
     "rimraf": "^3.0.2",
-    "typescript": "~5.1.6"
+    "typescript": "~5.5.4"
   },
   "nx": {}
 }
