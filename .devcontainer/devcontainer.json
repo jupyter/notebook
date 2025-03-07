@@ -1,0 +1,18 @@
+{
+	"name": "my-project",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"context": ".."
+	},
+	"customizations": {
+		"vscode": {
+			"settings": {},
+			"extensions": ["ms-python.python", "charliermarsh.ruff", "GitHub.copilot"]
+		}
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+	},
+	"mounts": ["source=${localWorkspaceFolderBasename}-pixi,target=${containerWorkspaceFolder}/.pixi,type=volume"],
+	"postCreateCommand": "sudo chown vscode .pixi && python -m pip install -e '.[dev]' && jlpm && jlpm develop"
+}
