@@ -15,6 +15,5 @@
 		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
 	},
 	"mounts": ["source=${localWorkspaceFolderBasename}-pixi,target=${containerWorkspaceFolder}/.pixi,type=volume"],
-	"postCreateCommand": "sudo chown vscode .pixi && pixi develop",
-	"postStartCommand": "pixi shell"
+	"postCreateCommand": "sudo chown vscode .pixi && pixi develop && pixi shell && pre-commit install -f"
 }
