@@ -1,9 +1,10 @@
 {
-	"name": "my-project",
+	"name": "Jupyter Notebook",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"context": ".."
 	},
+	"forwardPorts": [8888],
 	"customizations": {
 		"vscode": {
 			"settings": {},
