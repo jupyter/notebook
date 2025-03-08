@@ -304,6 +304,7 @@ docs = { features = ["docs"], solve-group = "default" }
 test = { features = ["test"], solve-group = "default" }
 
 [tool.pixi.tasks]
+develop = "jlpm develop"
 
 [tool.pixi.dependencies]
 pip = ">=25.0.1,<26"

@@ -2259,7 +2259,7 @@ packages:
 - pypi: .
   name: notebook
   version: 7.4.0b0
-  sha256: 6a1caa00bd3a9961e772becbe6b96293beeab7d115fa71d3c1bf49d109e7163d
+  sha256: 8e97d1feceea84d2a8bc2103ed5d983ed1bffc007d0ce24be5c00e9e670bbb0c
   requires_dist:
   - jupyter-server>=2.4.0,<3
   - jupyterlab-server>=2.27.1,<3
