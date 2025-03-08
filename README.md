@@ -82,46 +82,46 @@ jupyter notebook
 ### Platform-Specific Installation
 
 #### Windows
-1. **Using pip (recommended)**  
-   - Install Python first from [Python Downloads](https://www.python.org/downloads/windows/)  
-   - Be sure to check "Add Python to PATH" during installation.  
+1. **Using pip (recommended)**
+   - Install Python first from [Python Downloads](https://www.python.org/downloads/windows/)
+   - Be sure to check "Add Python to PATH" during installation.
    - Open Command Prompt as Administrator and run:
       ```bash
       pip install notebook
       ```
-2. **Using Microsoft Store**  
-   - Search for "Python" in the Microsoft Store  
-   - Install Python 3.x  
+2. **Using Microsoft Store**
+   - Search for "Python" in the Microsoft Store
+   - Install Python 3.x
    - Open Command Prompt and run:
      ```bash
      pip install notebook
      ```
 
 #### macOS
-1. **Using pip**  
-   Install Python first if not already installed  
-   - **Option 1**: Download from [Python Downloads](https://www.python.org/downloads/mac-osx/)  
-   - **Option 2**: Using Homebrew  
+1. **Using pip**
+   Install Python first if not already installed
+   - **Option 1**: Download from [Python Downloads](https://www.python.org/downloads/mac-osx/)
+   - **Option 2**: Using Homebrew
      ```bash
      brew install python
      ```
-   Then install Jupyter Notebook:  
+   Then install Jupyter Notebook:
    ```bash
    pip install notebook
    ```
-2. **Using Homebrew directly**  
+2. **Using Homebrew directly**
    ```bash
    brew install jupyter
    ```
 
 #### Linux
-1. **Debian/Ubuntu**  
+1. **Debian/Ubuntu**
    ```bash
    sudo apt update
    sudo apt install python3-pip
    pip3 install notebook
    ```
-2. **Fedora/RHEL/CentOS**  
+2. **Fedora/RHEL/CentOS**
    ```bash
    sudo dnf install python3-pip
    pip3 install notebook
@@ -129,42 +129,42 @@ jupyter notebook
 
 ### Using Conda
 
-Conda is recommended if you need to manage multiple Python environments:  
-- Install Miniconda or Anaconda first from [Miniconda](https://docs.conda.io/en/latest/miniconda.html)  
-- Create a new environment (recommended):  
+Conda is recommended if you need to manage multiple Python environments:
+- Install Miniconda or Anaconda first from [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
+- Create a new environment (recommended):
   ```bash
   conda create -n jupyter-env python=3.9
   conda activate jupyter-env
   ```
-- Install Jupyter Notebook:  
+- Install Jupyter Notebook:
   ```bash
   conda install -c conda-forge notebook
   ```
 
 ### Common Installation Issues and Solutions
 
-1. **Permission Errors**  
-   - **Windows**: Run Command Prompt as Administrator  
+1. **Permission Errors**
+   - **Windows**: Run Command Prompt as Administrator
    - **macOS/Linux**: Use `sudo pip install notebook` or `pip install --user notebook`
 
-2. **Outdated pip**  
+2. **Outdated pip**
    - Update pip before installation:
      ```bash
      python -m pip install --upgrade pip
      ```
 
-3. **"Command not found" after installation**  
-   - Make sure Python's script directory is in your PATH  
-   - **Windows**: Try `py -m notebook` instead of `jupyter notebook`  
+3. **"Command not found" after installation**
+   - Make sure Python's script directory is in your PATH
+   - **Windows**: Try `py -m notebook` instead of `jupyter notebook`
    - **macOS/Linux**: Try `python3 -m notebook`
 
-4. **Jupyter command not working after installation**  
+4. **Jupyter command not working after installation**
    - Try running:
      ```bash
      python -m notebook
      ```
 
-5. **Dependency conflicts**  
+5. **Dependency conflicts**
    - Use virtual environments:
      ```bash
      python -m venv jupyter-venv
