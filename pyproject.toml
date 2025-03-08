@@ -295,7 +295,7 @@ channels = ["conda-forge"]
 platforms = ["linux-64"]
 
 [tool.pixi.pypi-dependencies]
-notebook = { path = ".", editable = true }
+notebook = { path = ".", editable = true, extras = ["dev"] }
 
 [tool.pixi.environments]
 default = { solve-group = "default" }
@@ -307,3 +307,5 @@ test = { features = ["test"], solve-group = "default" }
 
 [tool.pixi.dependencies]
 pip = ">=25.0.1,<26"
+nodejs = "22.*"
+python = ">=3.12.0,<3.14"
