@@ -17,5 +17,5 @@
   "mounts": [
     "source=${localWorkspaceFolderBasename}-pixi,target=${containerWorkspaceFolder}/.pixi,type=volume"
   ],
-  "postCreateCommand": "sudo chown vscode .pixi && pixi develop"
+  "postCreateCommand": "sudo chown vscode .pixi && pixi install && pixi develop"
 }
