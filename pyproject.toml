@@ -295,7 +295,7 @@ channels = ["conda-forge"]
 platforms = ["linux-64"]
 
 [tool.pixi.pypi-dependencies]
-notebook = { path = ".", editable = true, extras = ["dev"] }
+notebook = { path = ".", editable = true, extras = ["dev", "docs"] }
 
 [tool.pixi.environments]
 default = { solve-group = "default" }
