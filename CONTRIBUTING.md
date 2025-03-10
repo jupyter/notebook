@@ -240,7 +240,7 @@ Now open a web browser and navigate to `http://localhost:8000` to access the doc
 
 Alternatively you can also contribute to Jupyter Notebook without setting up a local environment, directly from a web browser:
 
-- [GitHub CodeSpaces](https://github.com/codespaces) is directly integrated into GitHub. This repository uses the [pixi](https://pixi.sh/) package manager to set up the development environment. To contribute:
+- [GitHub CodeSpaces](https://github.com/codespaces) is directly integrated into GitHub. This repository uses the [pixi](https://pixi.sh/) package manager to set up the development environment. To contribute after the Codespace is started:
   - Run `pixi shell` in a terminal to activate the development environment
   - Use the commands above for building the extension and running the tests, for example: `jlpm build`
   - To start the application: `pixi run start`. A popup should appear with a button to open the Jupyter Notebook in a new browser tab. If the popup does not appear, you can navigate to the "Forwarded ports" panel to find the URL to the application.

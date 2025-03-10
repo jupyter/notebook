@@ -304,7 +304,7 @@ docs = { features = ["docs"], solve-group = "default" }
 test = { features = ["test"], solve-group = "default" }
 
 [tool.pixi.tasks]
-develop = "pre-commit install -f && jlpm develop"
+develop = "jlpm develop"
 start = "jupyter notebook --no-browser --ServerApp.token='' --ServerApp.allow_remote_access=True"
 
 [tool.pixi.dependencies]
