@@ -22,7 +22,7 @@ mamba create -n notebook -c conda-forge python nodejs -y
 mamba activate notebook
 
 # Install package in development mode
-pip install -e ".[dev,test]"
+pip install -e ".[dev,docs,test]"
 
 # Install dependencies and build packages
 jlpm
