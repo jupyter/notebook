@@ -18,3 +18,6 @@ app/index.template.js
 # ms IDE stuff
 .history/
 .vscode/
+
+# Pixi environments
+.pixi
