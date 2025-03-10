@@ -33,6 +33,7 @@ repos:
         exclude: |
           (?x)^(
               yarn.lock|
+              pixi.lock|
               binder/example.ipynb|
               docs/source/examples/images/FrontendKernel.graffle/data.plist|
           )$

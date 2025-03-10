@@ -138,3 +138,7 @@ ui-tests/.pnp.*
 
 # generated html
 notebook/templates/*.html
+
+# pixi environments
+.pixi
+*.egg-info
