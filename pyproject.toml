@@ -289,3 +289,25 @@ exclude = ["tests", "ui-tests", "docs", "node_modules", "setup.py"]
 
 [tool.repo-review]
 ignore = ["GH102", "PC180", "PC111"]
+
+[tool.pixi.project]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[tool.pixi.pypi-dependencies]
+notebook = { path = ".", editable = true, extras = ["dev", "docs"] }
+
+[tool.pixi.environments]
+default = { solve-group = "default" }
+dev = { features = ["dev"], solve-group = "default" }
+docs = { features = ["docs"], solve-group = "default" }
+test = { features = ["test"], solve-group = "default" }
+
+[tool.pixi.tasks]
+develop = "jlpm develop"
+start = "jupyter notebook --no-browser --ServerApp.token='' --ServerApp.allow_remote_access=True"
+
+[tool.pixi.dependencies]
+pip = ">=25.0.1,<26"
+nodejs = "22.*"
+python = ">=3.12.0,<3.14"
