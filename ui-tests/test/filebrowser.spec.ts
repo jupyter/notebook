@@ -26,7 +26,7 @@ test.describe('File Browser', () => {
     const toolbar = page.getByRole('toolbar');
 
     expect(toolbar.getByText('Rename')).toBeVisible();
-    expect(toolbar.getByText('Delete')).toBeVisible();
+    expect(toolbar.getByText('Move to Trash')).toBeVisible();
   });
 
   test('Select one file', async ({ page, tmpPath }) => {
@@ -37,7 +37,7 @@ test.describe('File Browser', () => {
 
     const toolbar = page.getByRole('toolbar');
 
-    ['Rename', 'Delete', 'Open', 'Download', 'Delete'].forEach(async (text) => {
+    ['Rename', 'Open', 'Download', 'Move to Trash'].forEach(async (text) => {
       expect(toolbar.getByText(text)).toBeVisible();
     });
   });
@@ -54,7 +54,7 @@ test.describe('File Browser', () => {
 
     expect(toolbar.getByText('Rename')).toBeHidden();
     expect(toolbar.getByText('Open')).toBeHidden();
-    expect(toolbar.getByText('Delete')).toBeVisible();
+    expect(toolbar.getByText('Move to Trash')).toBeVisible();
   });
 
   test('Select files and open', async ({ page, tmpPath }) => {
