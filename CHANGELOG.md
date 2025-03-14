@@ -75,6 +75,26 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.3.3
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.2...6b99aa6537f24f5ce1b36de16895246dce4b5549))
+
+### Bugs fixed
+
+- Fix undefined error when checkpoints is empty [#7567](https://github.com/jupyter/notebook/pull/7567) ([@jdavid](https://github.com/jdavid))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.3.6 [#7610](https://github.com/jupyter/notebook/pull/7610) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-21&to=2025-03-14&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2024-12-21..2025-03-14&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-12-21..2025-03-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-21..2025-03-14&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-12-21..2025-03-14&type=Issues) | [@meeseeksmachine](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ameeseeksmachine+updated%3A2024-12-21..2025-03-14&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-12-21..2025-03-14&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.3.2
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.1...7959ba0de553e9c541d2716d76108a8bc0bc2d6c))
@@ -97,8 +117,6 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-04&to=2024-12-21&type=c))
 
 [@Carreau](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ACarreau+updated%3A2024-12-04..2024-12-21&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2024-12-04..2024-12-21&type=Issues) | [@ericsnekbytes](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aericsnekbytes+updated%3A2024-12-04..2024-12-21&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-12-04..2024-12-21&type=Issues) | [@itsmevichu](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aitsmevichu+updated%3A2024-12-04..2024-12-21&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-04..2024-12-21&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-12-04..2024-12-21&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.3.1
 
