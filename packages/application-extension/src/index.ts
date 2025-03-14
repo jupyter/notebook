@@ -7,6 +7,7 @@ import {
   ITreePathUpdater,
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
+  JupyterLab,
 } from '@jupyterlab/application';
 
 import {
@@ -156,6 +157,21 @@ const dirty: JupyterFrontEndPlugin<void> = {
         return ((event as any).returnValue = message);
       }
     });
+  },
+};
+
+/**
+ * The application info.
+ */
+const info: JupyterFrontEndPlugin<JupyterLab.IInfo> = {
+  id: '@jupyter-notebook/application-extension:info',
+  autoStart: true,
+  provides: JupyterLab.IInfo,
+  activate: (app: JupyterFrontEnd): JupyterLab.IInfo => {
+    if (!(app instanceof NotebookApp)) {
+      throw new Error(`${info.id} must be activated in Jupyter Notebook.`);
+    }
+    return app.info;
   },
 };
 
@@ -1148,6 +1164,7 @@ const zen: JupyterFrontEndPlugin<void> = {
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   dirty,
+  info,
   logo,
   menus,
   menuSpacer,
