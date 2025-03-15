@@ -20,6 +20,53 @@ Below are a few highlights for this new release. Most of the new features and im
 
 For reference you may have a look at the [JupyterLab 4.4 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-4) to learn more.
 
+### Code console improvements
+
+The code console prompt can now be positioned on the top, left, or right side of the console,
+in addition to the default bottom placement. The placement is persisted in the Prompt Cell
+Position setting.
+
+The console toolbar now includes buttons to:
+- Execute code
+- Restart the kernel
+- Clear the cells
+- Switch the kernel
+
+<img alt="The option to change console prompt position is available under the three dots button in the console toolbar, which is the last toolbar button" src="https://github.com/user-attachments/assets/11f5a82a-0dd2-439b-a520-d04c73363bfe" class="jp-screenshot">
+
+Additional settings for console behavior have been added:
+- Clear Code Content on Execute (enabled by default) – When disabled, the code submitted for execution remains in the code editor, allowing for further edits.
+- Hide Code Input – When enabled, only the execution output is shown in the console.
+- Clear Cells on Execute – When enabled, only the last cell is displayed.
+
+Toggling all the three new settings transforms the console into an interactive editor
+resembling an ephemeral notebook with a single cell.
+
+<img alt="Toggling all the three new settings transforms the console into a single cell" src="https://github.com/user-attachments/assets/86eb1114-0d60-4379-a370-b538717fc74f" class="jp-screenshot">
+
+### Settings import and export
+
+Settings can now be exported to `overrides.json` from the Settings Editor,
+which can be used to pre-configure defaults in deployments or to restore settings.
+
+<img alt="The Import and Export buttons in the Settings Editor are the first two items in the toolbar panel" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.4-settings-import-export.png" class="jp-screenshot">
+
+### Support for collaboration without `RTC:` drive
+
+Real time collaboration in previous versions of JupyterLab and Jupyter Notebook
+(which can be enabled by installing jupyter-collaboration package)
+was implemented by swapping the default JupyterLab file system
+drive to a collaborative drive with the `RTC:` prefix.
+This approach was incompatible with multiple extensions.
+JupyterLab 4.4 introduces the Content Providers API, which allows the next version of `jupyter-collaboration` to work without changing the drive prefix.
+This improves compatibility with extensions that do not support arbitrary drives.
+
+### Context menu opt-out
+
+The context menu, available under right mouse click in browsers, can now be disabled globally
+by toggling the `Enable Context Menu` option available in the Command Palette,
+or via the JSON Settings Editor in the Application Context Menu.
+
 <!-- <START NEW CHANGELOG ENTRY> -->
 
 ## 7.4.0b1
