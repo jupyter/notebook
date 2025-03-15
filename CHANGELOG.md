@@ -12,66 +12,13 @@ upgrading `notebook`.
 Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 `pip --version`.
 
-## 7.3
+## 7.4
 
-Jupyter Notebook 7.3 is based on JupyterLab 4.3, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-2-to-4-3) which lists deprecations and changes to the public API.
+Jupyter Notebook 7.4 is based on JupyterLab 4.4, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-3-to-4-4) which lists deprecations and changes to the public API.
 
-Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.3, although they may not all be supported in Notebook 7.3.
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.4, although they may not all be supported in Notebook 7.4.
 
-For reference you may have a look at the [JupyterLab 4.3 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-3) to learn more.
-
-### Minimap
-
-The virtual scrollbar now acts as a minimap and exposes information on whether a cell:
-
-- is running/scheduled (`[*]`), idle (`[ ]`) or was already run (e.g. `[1]`)
-- was modified since it was last executed (“dirty”) - orange background
-- has an output that contains an error - red background
-- is markdown/code (`[ ]`/`[*]`/`[1]` for code, nothing for markdown)
-- how much text/code it contains
-
-![a screenshot showing the notebook minimap](https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.3-minimap.png)
-
-To enable the minimap, click on the hamburger icon (≡) which appears in the notebook’s toolbar. If you do not see the hamburger icon, go to `Settings → Notebook → Windowing mode` and choose “full”.
-
-### File browser enhancements
-
-The file browser now:
-
-- supports resizing the columns and remembers the column sizes after reloading JupyterLab
-- supports uploading folders by drag-and-drop
-- supports navigation with a single click
-- adds a file filter collapsed by default (funnel icon)
-
-![a screenshot showing that it's now possible to resize the file browser columns](https://github.com/user-attachments/assets/b0d9cd0a-2828-43f7-a922-e8b271e5f7fc)
-
-In Jupyter Notebook, the single click navigation is enabled by default. If you would like to disable it to get the same experience as in JupyterLab, go to `Settings → File Browser` and make sure "Navigate files and directories with single click" is unchecked.
-
-### Improved kernel and server interactions
-
-The previous release enabled connecting to external kernels, such as those spawned by a third-party application like Blender. In this release the kernel selector dialog was improved to also show the external kernels.
-
-The previous release improved the awareness of the kernel/kernel specification distinction by providing both tree and list view in the kernels sidebar panel, but only the tree view featured the kernel identifiers. In this release both the list and tree view show the kernel identifier stub.
-
-A new toolbar button was added in the kernel allowing to shut down unused kernels (kernels with no widget attached).
-
-![a screenshot showing the list view of the kernels in the sidebar](https://github.com/user-attachments/assets/c7f958c5-4054-4b09-8fad-4df6db8c9b58)
-
-### Full Width Notebook
-
-It is now possible to configure the notebook to take up the full width of the page via:
-
-- a setting that can be defined by a user via the Settings Editor
-- the `View > Enable Full Width Notebook` menu entry
-- the command palette, searching for `Enable Full Width Notebook`
-
-![a screenshot showing how to enable full width notebook via the menu](https://github.com/user-attachments/assets/148b227a-874a-4bb3-a4c6-c7350525ccc4)
-
-This is particularly useful on large displays, or for those who prefer working with a wider notebook.
-
-It is also possible to use the JupyterLab interface for a more fully-featured experience, which allows for full-width notebooks too, and offers a "Simple Interface" mode for only showing a single notebook at a time.
-
-You can open JupyterLab by clicking on `View > Open JupyterLab`.
+For reference you may have a look at the [JupyterLab 4.4 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-4) to learn more.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
@@ -186,6 +133,67 @@ You can open JupyterLab by clicking on `View > Open JupyterLab`.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-21&to=2024-12-21&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-12-21..2024-12-21&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-21..2024-12-21&type=Issues)
+
+## 7.3
+
+Jupyter Notebook 7.3 is based on JupyterLab 4.3, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-2-to-4-3) which lists deprecations and changes to the public API.
+
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.3, although they may not all be supported in Notebook 7.3.
+
+For reference you may have a look at the [JupyterLab 4.3 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-3) to learn more.
+
+### Minimap
+
+The virtual scrollbar now acts as a minimap and exposes information on whether a cell:
+
+- is running/scheduled (`[*]`), idle (`[ ]`) or was already run (e.g. `[1]`)
+- was modified since it was last executed (“dirty”) - orange background
+- has an output that contains an error - red background
+- is markdown/code (`[ ]`/`[*]`/`[1]` for code, nothing for markdown)
+- how much text/code it contains
+
+![a screenshot showing the notebook minimap](https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.3-minimap.png)
+
+To enable the minimap, click on the hamburger icon (≡) which appears in the notebook’s toolbar. If you do not see the hamburger icon, go to `Settings → Notebook → Windowing mode` and choose “full”.
+
+### File browser enhancements
+
+The file browser now:
+
+- supports resizing the columns and remembers the column sizes after reloading JupyterLab
+- supports uploading folders by drag-and-drop
+- supports navigation with a single click
+- adds a file filter collapsed by default (funnel icon)
+
+![a screenshot showing that it's now possible to resize the file browser columns](https://github.com/user-attachments/assets/b0d9cd0a-2828-43f7-a922-e8b271e5f7fc)
+
+In Jupyter Notebook, the single click navigation is enabled by default. If you would like to disable it to get the same experience as in JupyterLab, go to `Settings → File Browser` and make sure "Navigate files and directories with single click" is unchecked.
+
+### Improved kernel and server interactions
+
+The previous release enabled connecting to external kernels, such as those spawned by a third-party application like Blender. In this release the kernel selector dialog was improved to also show the external kernels.
+
+The previous release improved the awareness of the kernel/kernel specification distinction by providing both tree and list view in the kernels sidebar panel, but only the tree view featured the kernel identifiers. In this release both the list and tree view show the kernel identifier stub.
+
+A new toolbar button was added in the kernel allowing to shut down unused kernels (kernels with no widget attached).
+
+![a screenshot showing the list view of the kernels in the sidebar](https://github.com/user-attachments/assets/c7f958c5-4054-4b09-8fad-4df6db8c9b58)
+
+### Full Width Notebook
+
+It is now possible to configure the notebook to take up the full width of the page via:
+
+- a setting that can be defined by a user via the Settings Editor
+- the `View > Enable Full Width Notebook` menu entry
+- the command palette, searching for `Enable Full Width Notebook`
+
+![a screenshot showing how to enable full width notebook via the menu](https://github.com/user-attachments/assets/148b227a-874a-4bb3-a4c6-c7350525ccc4)
+
+This is particularly useful on large displays, or for those who prefer working with a wider notebook.
+
+It is also possible to use the JupyterLab interface for a more fully-featured experience, which allows for full-width notebooks too, and offers a "Simple Interface" mode for only showing a single notebook at a time.
+
+You can open JupyterLab by clicking on `View > Open JupyterLab`.
 
 ## 7.3.2
 
