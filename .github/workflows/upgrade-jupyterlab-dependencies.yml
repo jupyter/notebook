@@ -83,6 +83,7 @@ jobs:
         with:
           pixi-version: v0.41.4
           manifest-path: pyproject.toml
+          locked: false
 
       - name: Update pixi.lock
         run: pixi install
