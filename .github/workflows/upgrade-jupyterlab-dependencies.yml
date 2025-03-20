@@ -79,6 +79,14 @@ jobs:
             jlpm
             jlpm deduplicate
           fi
+      - uses: prefix-dev/setup-pixi@v0.8.3
+        with:
+          pixi-version: v0.41.4
+          manifest-path: pyproject.toml
+          locked: false
+
+      - name: Update pixi.lock
+        run: pixi install
 
       - name: Create a PR
         env:
