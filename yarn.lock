@@ -2179,6 +2179,7 @@ __metadata:
     "@jupyterlab/pdf-extension": ~4.4.0-beta.2
     "@jupyterlab/pluginmanager-extension": ~4.4.0-beta.2
     "@jupyterlab/running-extension": ~4.4.0-beta.2
+    "@jupyterlab/services-extension": ~4.4.0-beta.2
     "@jupyterlab/settingeditor": ~4.4.0-beta.2
     "@jupyterlab/settingeditor-extension": ~4.4.0-beta.2
     "@jupyterlab/shortcuts-extension": ~5.2.0-beta.2
@@ -2191,6 +2192,7 @@ __metadata:
     "@jupyterlab/translation-extension": ~4.4.0-beta.2
     "@jupyterlab/ui-components-extension": ~4.4.0-beta.2
     "@jupyterlab/vega5-extension": ~4.4.0-beta.2
+    "@lumino/coreutils": ~2.2.0
     "@types/rimraf": ^3.0.2
     css-loader: ~5.0.1
     extra-watch-webpack-plugin: ^1.0.3
@@ -4454,6 +4456,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jupyterlab/services-extension@npm:~4.4.0-beta.2":
+  version: 4.4.0-beta.2
+  resolution: "@jupyterlab/services-extension@npm:4.4.0-beta.2"
+  dependencies:
+    "@jupyterlab/services": ^7.4.0-beta.2
+    "@lumino/coreutils": ^2.2.0
+  checksum: bdc141b91af525ec33cfa6f767a93e3cd6c0663afc65314e262779501a66e4cbba56a523e168916d5aab39daa6c92b406e773a68a91f9c451d4aedc954172084
+  languageName: node
+  linkType: hard
+
 "@jupyterlab/services@npm:^7.3.4":
   version: 7.3.4
   resolution: "@jupyterlab/services@npm:7.3.4"
@@ -5281,7 +5293,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lumino/coreutils@npm:^1.11.0 || ^2.0.0, @lumino/coreutils@npm:^1.11.0 || ^2.2.0, @lumino/coreutils@npm:^2.2.0":
+"@lumino/coreutils@npm:^1.11.0 || ^2.0.0, @lumino/coreutils@npm:^1.11.0 || ^2.2.0, @lumino/coreutils@npm:^2.2.0, @lumino/coreutils@npm:~2.2.0":
   version: 2.2.0
   resolution: "@lumino/coreutils@npm:2.2.0"
   dependencies:

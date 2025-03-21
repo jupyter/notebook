@@ -169,6 +169,7 @@
     "@jupyterlab/pdf-extension": "~4.4.0-beta.2",
     "@jupyterlab/pluginmanager-extension": "~4.4.0-beta.2",
     "@jupyterlab/running-extension": "~4.4.0-beta.2",
+    "@jupyterlab/services-extension": "~4.4.0-beta.2",
     "@jupyterlab/settingeditor": "~4.4.0-beta.2",
     "@jupyterlab/settingeditor-extension": "~4.4.0-beta.2",
     "@jupyterlab/shortcuts-extension": "~5.2.0-beta.2",
@@ -181,6 +182,7 @@
     "@jupyterlab/translation-extension": "~4.4.0-beta.2",
     "@jupyterlab/ui-components-extension": "~4.4.0-beta.2",
     "@jupyterlab/vega5-extension": "~4.4.0-beta.2",
+    "@lumino/coreutils": "~2.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "yjs": "^13.5.40"
@@ -296,6 +298,7 @@
           "@jupyterlab/notebook-extension:widget-factory"
         ],
         "@jupyterlab/pluginmanager-extension": true,
+        "@jupyterlab/services-extension": true,
         "@jupyterlab/shortcuts-extension": true,
         "@jupyterlab/terminal-extension": true,
         "@jupyterlab/theme-light-extension": true,
