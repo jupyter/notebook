@@ -1,0 +1,75 @@
+diff --git a/lib/index.js b/lib/index.js
+index bbafe18540f26d4939ab94c6537bd42b88824a0e..f3056c125a53d0795cdc890a98ab70be1f64eb9d 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -6,6 +6,7 @@
+  */
+ import { ILabShell, ILayoutRestorer } from '@jupyterlab/application';
+ import { ICommandPalette, MainAreaWidget, WidgetTracker } from '@jupyterlab/apputils';
++import { DocumentWidget } from '@jupyterlab/docregistry';
+ import { ILoggerRegistry, LogConsolePanel, LoggerRegistry } from '@jupyterlab/logconsole';
+ import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
+ import { ISettingRegistry } from '@jupyterlab/settingregistry';
+@@ -34,14 +35,20 @@ const logConsolePlugin = {
+     id: LOG_CONSOLE_PLUGIN_ID,
+     description: 'Provides the logger registry.',
+     provides: ILoggerRegistry,
+-    requires: [ILabShell, IRenderMimeRegistry, ITranslator],
+-    optional: [ICommandPalette, ILayoutRestorer, ISettingRegistry, IStatusBar],
++    requires: [IRenderMimeRegistry, ITranslator],
++    optional: [
++        ILabShell,
++        ICommandPalette,
++        ILayoutRestorer,
++        ISettingRegistry,
++        IStatusBar
++    ],
+     autoStart: true
+ };
+ /**
+  * Activate the Log Console extension.
+  */
+-function activateLogConsole(app, labShell, rendermime, translator, palette, restorer, settingRegistry, statusBar) {
++function activateLogConsole(app, rendermime, translator, labShell, palette, restorer, settingRegistry, statusBar) {
+     const trans = translator.load('jupyterlab');
+     let logConsoleWidget = null;
+     let logConsolePanel = null;
+@@ -75,10 +82,21 @@ function activateLogConsole(app, labShell, rendermime, translator, palette, rest
+         },
+         translator
+     });
++    const getCurrentWidgetPath = () => {
++        const currentWidget = app.shell.currentWidget;
++        if (labShell === null || labShell === void 0 ? void 0 : labShell.currentPath) {
++            return labShell.currentPath;
++        }
++        // For other shells, set the source to the current widget path
++        if (currentWidget && currentWidget instanceof DocumentWidget) {
++            return currentWidget.context.path;
++        }
++        return null;
++    };
+     const createLogConsoleWidget = (options = {}) => {
+         var _a, _b;
+         logConsolePanel = new LogConsolePanel(loggerRegistry, translator);
+-        logConsolePanel.source = (_b = (_a = options.source) !== null && _a !== void 0 ? _a : labShell.currentPath) !== null && _b !== void 0 ? _b : null;
++        logConsolePanel.source = (_b = (_a = options.source) !== null && _a !== void 0 ? _a : getCurrentWidgetPath()) !== null && _b !== void 0 ? _b : null;
+         logConsoleWidget = new MainAreaWidget({ content: logConsolePanel });
+         logConsoleWidget.addClass('jp-LogConsole');
+         logConsoleWidget.title.closable = true;
+@@ -194,8 +212,13 @@ function activateLogConsole(app, labShell, rendermime, translator, palette, rest
+         var _a;
+         // Set source only after app is restored in order to allow restorer to
+         // restore previous source first, which may set the renderer
+-        labShell.currentPathChanged.connect((_, { newValue }) => setSource(newValue));
+-        setSource((_a = labShell.currentPath) !== null && _a !== void 0 ? _a : null);
++        if (labShell) {
++            labShell.currentPathChanged.connect((_, { newValue }) => setSource(newValue));
++            setSource((_a = labShell.currentPath) !== null && _a !== void 0 ? _a : null);
++        }
++        else {
++            setSource(getCurrentWidgetPath());
++        }
+     });
+     if (settingRegistry) {
+         const updateSettings = (settings) => {

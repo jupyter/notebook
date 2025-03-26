@@ -48,7 +48,8 @@
   "resolutions": {
     "@types/react": "^18.0.26",
     "react": "^18.2.0",
-    "yjs": "^13.5.40"
+    "yjs": "^13.5.40",
+    "@jupyterlab/logconsole-extension@~4.4.0-rc.0": "patch:@jupyterlab/logconsole-extension@npm%3A4.4.0-rc.0#./.yarn/patches/@jupyterlab-logconsole-extension-npm-4.4.0-rc.0-23754c6f79.patch"
   },
   "devDependencies": {
     "@jupyterlab/buildutils": "~4.4.0-rc.1",
