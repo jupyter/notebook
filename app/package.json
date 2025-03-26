@@ -233,6 +233,7 @@
           "@jupyterlab/application-extension:top-spacer"
         ],
         "@jupyterlab/apputils-extension": [
+          "@jupyterlab/apputils-extension:kernels-settings",
           "@jupyterlab/apputils-extension:palette",
           "@jupyterlab/apputils-extension:notification",
           "@jupyterlab/apputils-extension:sanitizer",
