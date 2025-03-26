@@ -417,6 +417,9 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
       case 'right':
         yield* this._rightHandler.widgets;
         return;
+      case 'down':
+        yield* this._downPanel.widgets;
+        return;
       default:
         console.error(`This shell has no area called "${area}"`);
         return;

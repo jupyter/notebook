@@ -63,6 +63,7 @@
     "@jupyterlab/imageviewer-extension": "~4.4.0-rc.0",
     "@jupyterlab/javascript-extension": "~4.4.0-rc.0",
     "@jupyterlab/json-extension": "~4.4.0-rc.0",
+    "@jupyterlab/logconsole-extension": "~4.4.0-rc.0",
     "@jupyterlab/lsp": "~4.4.0-rc.0",
     "@jupyterlab/lsp-extension": "~4.4.0-rc.0",
     "@jupyterlab/mainmenu": "~4.4.0-rc.0",
@@ -158,6 +159,7 @@
     "@jupyterlab/imageviewer-extension": "~4.4.0-rc.0",
     "@jupyterlab/javascript-extension": "~4.4.0-rc.0",
     "@jupyterlab/json-extension": "~4.4.0-rc.0",
+    "@jupyterlab/logconsole-extension": "~4.4.0-rc.0",
     "@jupyterlab/lsp": "~4.4.0-rc.0",
     "@jupyterlab/lsp-extension": "~4.4.0-rc.0",
     "@jupyterlab/mainmenu-extension": "~4.4.0-rc.0",
@@ -337,6 +339,7 @@
           "@jupyterlab/debugger-extension:sidebar",
           "@jupyterlab/debugger-extension:sources"
         ],
+        "@jupyterlab/logconsole-extension": true,
         "@jupyterlab/metadataform-extension": true,
         "@jupyterlab/notebook-extension": [
           "@jupyterlab/notebook-extension:active-cell-tool",
