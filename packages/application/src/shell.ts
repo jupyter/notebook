@@ -174,7 +174,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     rootLayout.addWidget(vsplitPanel);
 
     // initially hiding the down panel
-    this._downPanel.show();
+    this._downPanel.hide();
 
     // Connect down panel change listeners
     this._downPanel.tabBar.tabMoved.connect(this._onTabPanelChanged, this);
