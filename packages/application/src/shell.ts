@@ -14,9 +14,11 @@ import {
   FocusTracker,
   Panel,
   SplitPanel,
+  TabPanel,
   Widget,
 } from '@lumino/widgets';
 import { PanelHandler, SidePanelHandler } from './panelhandler';
+import { TabPanelSvg } from '@jupyterlab/ui-components';
 
 /**
  * The Jupyter Notebook application shell token.
@@ -37,7 +39,7 @@ export namespace INotebookShell {
   /**
    * The areas of the application shell where widgets can reside.
    */
-  export type Area = 'main' | 'top' | 'menu' | 'left' | 'right';
+  export type Area = 'main' | 'top' | 'menu' | 'left' | 'right' | 'down';
 
   /**
    * Widget position
@@ -134,6 +136,18 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     middlePanel.addWidget(this._spacer_bottom);
     middlePanel.layout = middleLayout;
 
+    const vsplitPanel = new SplitPanel();
+    vsplitPanel.id = 'jp-main-vsplit-panel';
+    vsplitPanel.spacing = 1;
+    vsplitPanel.orientation = 'vertical';
+    SplitPanel.setStretch(vsplitPanel, 1);
+
+    const downPanel = new TabPanelSvg({
+      tabsMovable: true,
+    });
+    this._downPanel = downPanel;
+    this._downPanel.id = 'jp-down-stack';
+
     // TODO: Consider storing this as an attribute this._hsplitPanel if saving/restoring layout needed
     const hsplitPanel = new SplitPanel();
     hsplitPanel.id = 'main-split-panel';
@@ -153,8 +167,21 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     // panel.
     hsplitPanel.setRelativeSizes([1, 2.5, 1]);
 
+    vsplitPanel.addWidget(hsplitPanel);
+    vsplitPanel.addWidget(downPanel);
+
     rootLayout.spacing = 0;
-    rootLayout.addWidget(hsplitPanel);
+    rootLayout.addWidget(vsplitPanel);
+
+    // initially hiding the down panel
+    this._downPanel.show();
+
+    // Connect down panel change listeners
+    this._downPanel.tabBar.tabMoved.connect(this._onTabPanelChanged, this);
+    this._downPanel.stackedPanel.widgetRemoved.connect(
+      this._onTabPanelChanged,
+      this
+    );
 
     this.layout = rootLayout;
 
@@ -267,7 +294,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    */
   activateById(id: string): void {
     // Search all areas that can have widgets for this widget, starting with main.
-    for (const area of ['main', 'top', 'left', 'right', 'menu']) {
+    for (const area of ['main', 'top', 'left', 'right', 'menu', 'down']) {
       const widget = find(
         this.widgets(area as INotebookShell.Area),
         (w) => w.id === id
@@ -277,6 +304,9 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
           this.expandLeft(id);
         } else if (area === 'right') {
           this.expandRight(id);
+        } else if (area === 'down') {
+          this._downPanel.show();
+          widget.activate();
         } else {
           widget.activate();
         }
@@ -342,6 +372,8 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
         return this._leftHandler.addWidget(widget, rank);
       case 'right':
         return this._rightHandler.addWidget(widget, rank);
+      case 'down':
+        return this._downPanel.addWidget(widget);
       default:
         console.warn(`Cannot add widget to area: ${area}`);
     }
@@ -432,6 +464,15 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     this._userLayout = configuration;
   }
 
+  /**
+   * Handle a change on the down panel widgets
+   */
+  private _onTabPanelChanged(): void {
+    if (this._downPanel.stackedPanel.widgets.length === 0) {
+      this._downPanel.hide();
+    }
+  }
+
   private _topWrapper: Panel;
   private _topHandler: PanelHandler;
   private _menuWrapper: Panel;
@@ -442,6 +483,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   private _spacer_bottom: Widget;
   private _skipLinkWidgetHandler: Private.SkipLinkWidgetHandler;
   private _main: Panel;
+  private _downPanel: TabPanel;
   private _translator: ITranslator = nullTranslator;
   private _currentChanged = new Signal<this, FocusTracker.IChangedArgs<Widget>>(
     this
