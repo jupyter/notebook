@@ -206,4 +206,21 @@ test.describe('Notebook', () => {
     await page.menu.clickMenuItem(menuPath);
     await expect(notebookPanel).not.toHaveClass(/jp-mod-fullwidth/);
   });
+
+  test('Open the log console widget in the down area', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'simple.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    const menuPath = 'View>Show Log Console';
+    await page.menu.clickMenuItem(menuPath);
+
+    await expect(page.locator('.jp-LogConsole')).toBeVisible();
+  });
 });
