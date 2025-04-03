@@ -136,6 +136,9 @@ ui-tests/playwright-report
 ui-tests/.yarn/*
 ui-tests/.pnp.*
 
+# keep potential upstream patches
+!.yarn/patches
+
 # generated html
 notebook/templates/*.html
 

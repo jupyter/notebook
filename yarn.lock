@@ -2167,6 +2167,7 @@ __metadata:
     "@jupyterlab/imageviewer-extension": ~4.4.0-rc.1
     "@jupyterlab/javascript-extension": ~4.4.0-rc.1
     "@jupyterlab/json-extension": ~4.4.0-rc.1
+    "@jupyterlab/logconsole-extension": ~4.4.0-rc.1
     "@jupyterlab/lsp": ~4.4.0-rc.1
     "@jupyterlab/lsp-extension": ~4.4.0-rc.1
     "@jupyterlab/mainmenu-extension": ~4.4.0-rc.1
@@ -3829,6 +3830,28 @@ __metadata:
     "@lumino/widgets": ^2.7.0
     react: ^18.2.0
   checksum: e5895a41d45c20a160022553c75fdd6b92d152c101ce9b96bd85b67d5bf510ef50d01a95384dd5ac7021da6abdf847443363aba35e8cfe99e1dca19cce50fc67
+  languageName: node
+  linkType: hard
+
+"@jupyterlab/logconsole-extension@npm:~4.4.0-rc.1":
+  version: 4.4.0-rc.1
+  resolution: "@jupyterlab/logconsole-extension@npm:4.4.0-rc.1"
+  dependencies:
+    "@jupyterlab/application": ^4.4.0-rc.1
+    "@jupyterlab/apputils": ^4.5.0-rc.1
+    "@jupyterlab/coreutils": ^6.4.0-rc.1
+    "@jupyterlab/docregistry": ^4.4.0-rc.1
+    "@jupyterlab/logconsole": ^4.4.0-rc.1
+    "@jupyterlab/rendermime": ^4.4.0-rc.1
+    "@jupyterlab/settingregistry": ^4.4.0-rc.1
+    "@jupyterlab/statusbar": ^4.4.0-rc.1
+    "@jupyterlab/translation": ^4.4.0-rc.1
+    "@jupyterlab/ui-components": ^4.4.0-rc.1
+    "@lumino/coreutils": ^2.2.1
+    "@lumino/signaling": ^2.1.4
+    "@lumino/widgets": ^2.7.0
+    react: ^18.2.0
+  checksum: b49a7a16162dd612f8e7acb24d505cfaa4540957c82630c53392e5d93be8333795777c5a31cd3a5c3864f89cff0ba725980832a86778baf952a65eacf2659a14
   languageName: node
   linkType: hard
 
