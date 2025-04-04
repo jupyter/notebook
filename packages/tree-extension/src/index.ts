@@ -207,7 +207,7 @@ const fileBrowserSettings: JupyterFrontEndPlugin<void> = {
     // This is a different set of defaults than JupyterLab.
     const defaultFileBrowserConfig = {
       navigateToCurrentDirectory: false,
-      singleClickNavigation: true,
+      singleClickNavigation: false,
       showLastModifiedColumn: true,
       showFileSizeColumn: true,
       showHiddenFiles: false,
