@@ -27,6 +27,7 @@ in addition to the default bottom placement. The placement is persisted in the P
 Position setting.
 
 The console toolbar now includes buttons to:
+
 - Execute code
 - Restart the kernel
 - Clear the cells
@@ -35,6 +36,7 @@ The console toolbar now includes buttons to:
 <img alt="The option to change console prompt position is available under the three dots button in the console toolbar, which is the last toolbar button" src="https://github.com/user-attachments/assets/11f5a82a-0dd2-439b-a520-d04c73363bfe" class="jp-screenshot">
 
 Additional settings for console behavior have been added:
+
 - Clear Code Content on Execute (enabled by default) – When disabled, the code submitted for execution remains in the code editor, allowing for further edits.
 - Hide Code Input – When enabled, only the execution output is shown in the console.
 - Clear Cells on Execute – When enabled, only the last cell is displayed.
@@ -66,6 +68,16 @@ This improves compatibility with extensions that do not support arbitrary drives
 The context menu, available under right mouse click in browsers, can now be disabled globally
 by toggling the `Enable Context Menu` option available in the Command Palette,
 or via the JSON Settings Editor in the Application Context Menu.
+
+### Double-click navigation in the file browser
+
+Jupyter Notebook 7.3 introduced support for single-click navigation in the file browser.
+
+However this was causing some issues, for example when opening a file in a new tab and going back to the file browser tab.
+
+In Jupyter Notebook 7.4, the single-click navigation is now disabled by default, and double-click navigation is enabled instead.
+
+It is still possible to change the behavior back to single-click via the Settings Editor.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
@@ -688,7 +700,7 @@ For reference you may have a look at the JupyterLab 4.1 changelog to learn more:
 Matching GitHub-Flavoured Markdown, JupyterLab 4.1 now supports [Mermaid](https://github.com/mermaid-js/mermaid) diagrams.
 To create a mermaid diagram use the `mermaid` language specifier for a code block in a markdown cell or document, for example:
 
-~~~
+````
 ```mermaid
 flowchart LR
 
@@ -697,7 +709,7 @@ B --> C{Decision}
 C -->|One| D[Result 1]
 C -->|Two| E[Result 2]
 ```
-~~~
+````
 
 which renders as:
 
@@ -708,13 +720,14 @@ which renders as:
 JupyterLab now supports completion presented as ghost text in the cell and file editors,
 allowing generative AI models to provide multi-line completions. This can now also be leveraged in Jupyter Notebook.
 
-The suggestions are provided by plugins implementing the ``IInlineCompletionProvider`` API;
+The suggestions are provided by plugins implementing the `IInlineCompletionProvider` API;
 by default a single provider which uses kernel history is available.
 
 <img alt="In a code cell with `def fac` content a ghost text containing a suggestion representing further code of factorial function is shown; over the code cell there is a floating widget allowing to accept the suggestion and iterate between alternative suggestions" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.1-inline-completer.png" class="jp-screenshot">
 
 The suggestions can be invoked as-you-type or manually using a configurable shortcut (by default <kbd>Alt</kbd> + <kbd>\\</kbd>).
 The default keyboard shortcuts are displayed in the small widget shown when hovering over the ghost suggestion:
+
 - <kbd>Alt</kbd> + <kbd>End</kbd> - accept suggestion
 - <kbd>Alt</kbd> + <kbd>[</kbd> - previous suggestion
 - <kbd>Alt</kbd> + <kbd>]</kbd> - next suggestion
@@ -730,6 +743,7 @@ Note that the Jupyter AI extension is not yet compatible with Jupyter Notebook 7
 ### Keyboard navigation improvements
 
 Numerous improvements to keyboard navigation with focus on accessibility and usability are included in this release:
+
 - the notebook cells now retain focus
 - the focus can now be moved beyond the active notebook
 - the toolbars can now be navigated using arrow keys
@@ -742,7 +756,7 @@ The code from previously executed cells can be used to populate empty cells,
 allowing to iterate on code from previous cells or even sessions
 (depending on how a specific kernel stores history).
 
-To cycle between history items press <kbd>Alt</kbd> + <kbd>Arrow Up</kbd> and  <kbd>Alt</kbd> + <kbd>Arrow Down</kbd>.
+To cycle between history items press <kbd>Alt</kbd> + <kbd>Arrow Up</kbd> and <kbd>Alt</kbd> + <kbd>Arrow Down</kbd>.
 
 To enable execution history, go to Settings → Notebook → check the "Kernel history access" checkbox.
 
@@ -765,7 +779,7 @@ increasing awareness of the notebook state and enabling users to quickly navigat
 ### Miscellaneous
 
 - The current theme (dark/light) can now be synced with the browser/system preference (Settings menu → Theme → Synchronise with System Settings)
-- A blue "read-only" status indicator is now  displayed in the toolbar of documents which cannot be saved because their model is read-only.
+- A blue "read-only" status indicator is now displayed in the toolbar of documents which cannot be saved because their model is read-only.
 - Native support for viewing jsonl/ndjson files was added
 - Collapsing of breadcrumbs in the File Browser can be disabled in File Browser settings
 
@@ -795,7 +809,7 @@ increasing awareness of the notebook state and enabling users to quickly navigat
 
 ### Bugs fixed
 
-- Grayout "Edit Notebook Metadata" for other file formats.  [#7265](https://github.com/jupyter/notebook/pull/7265) ([@itsmevichu](https://github.com/itsmevichu))
+- Grayout "Edit Notebook Metadata" for other file formats. [#7265](https://github.com/jupyter/notebook/pull/7265) ([@itsmevichu](https://github.com/itsmevichu))
 
 ### Maintenance and upkeep improvements
 
@@ -1193,7 +1207,7 @@ And the new features in Notebook 7: https://jupyter-notebook.readthedocs.io/en/l
 
 Migration Guide: https://jupyter-notebook.readthedocs.io/en/latest/migrate_to_notebook7.html
 
-______________________________________________________________________
+---
 
 For reference here is the changelog since the last `7.0.0rc2` release.
 
@@ -1303,7 +1317,7 @@ For reference here is the changelog since the last `7.0.0rc2` release.
 
 ### Bugs fixed
 
-- Add an empty splash screen on notebook launch to avoid a flash of unstyled content  [#6911](https://github.com/jupyter/notebook/pull/6911) ([@andrii-i](https://github.com/andrii-i))
+- Add an empty splash screen on notebook launch to avoid a flash of unstyled content [#6911](https://github.com/jupyter/notebook/pull/6911) ([@andrii-i](https://github.com/andrii-i))
 - Fix for "find searches only part of the file" bug [#6905](https://github.com/jupyter/notebook/pull/6905) ([@ericsnekbytes](https://github.com/ericsnekbytes))
 - Provide a custom rendermime plugin to handle local links [#6885](https://github.com/jupyter/notebook/pull/6885) ([@jtpio](https://github.com/jtpio))
 
@@ -1630,7 +1644,7 @@ Check out the [JupyterLab `4.0.0a37` release notes](https://github.com/jupyterla
 - Bump json5 from 2.2.1 to 2.2.3 in /ui-tests [#6684](https://github.com/jupyter/notebook/pull/6684) ([@dependabot](https://github.com/dependabot))
 - Bump json5 from 1.0.1 to 1.0.2 [#6681](https://github.com/jupyter/notebook/pull/6681) ([@dependabot](https://github.com/dependabot))
 - Update the copyright date to 2023 in the about dialog [#6679](https://github.com/jupyter/notebook/pull/6679) ([@jtpio](https://github.com/jtpio))
-- Fix `check_links` and  `Test Lint` CI failures [#6675](https://github.com/jupyter/notebook/pull/6675) ([@jtpio](https://github.com/jtpio))
+- Fix `check_links` and `Test Lint` CI failures [#6675](https://github.com/jupyter/notebook/pull/6675) ([@jtpio](https://github.com/jtpio))
 - Add spelling and docstring enforcement [#6669](https://github.com/jupyter/notebook/pull/6669) ([@blink1073](https://github.com/blink1073))
 - CI Cleanup [#6667](https://github.com/jupyter/notebook/pull/6667) ([@blink1073](https://github.com/blink1073))
 - Adopt ruff and typing [#6658](https://github.com/jupyter/notebook/pull/6658) ([@blink1073](https://github.com/blink1073))
