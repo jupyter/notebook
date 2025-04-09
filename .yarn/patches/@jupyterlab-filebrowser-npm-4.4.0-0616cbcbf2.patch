@@ -1,0 +1,24 @@
+diff --git a/lib/listing.js b/lib/listing.js
+index 07b699656bf1780aada21fb50c3c7748086e20e5..42c34c27f8c88993210ef1ce422a05967c2e5aeb 100644
+--- a/lib/listing.js
++++ b/lib/listing.js
+@@ -1162,6 +1162,9 @@ export class DirListing extends Widget {
+             //    previously focussed item will be focussed.
+             this._focusItem(this._focusIndex);
+         }
++        if (this._allowSingleClick) {
++            this.evtDblClick(event);
++        }
+     }
+     /**
+      * Handle the `'scroll'` event for the widget.
+@@ -1241,9 +1244,6 @@ export class DirListing extends Widget {
+             document.addEventListener('mouseup', this, true);
+             document.addEventListener('mousemove', this, true);
+         }
+-        if (this._allowSingleClick) {
+-            this.evtDblClick(event);
+-        }
+     }
+     /**
+      * Handle the `'mouseup'` event for the widget.
