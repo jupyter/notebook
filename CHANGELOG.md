@@ -69,6 +69,62 @@ or via the JSON Settings Editor in the Application Context Menu.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.4.0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.2...fbfe36574e04b16ed7ba9303c5e819330f402f87))
+
+### Highlights ✨
+
+To learn more about the highlights of the 7.4.0 release: https://jupyter-notebook.readthedocs.io/en/latest/changelog.html
+
+### Enhancements made
+
+- Update to JupyterLab v4.4.0rc1 [#7622](https://github.com/jupyter/notebook/pull/7622) ([@jtpio](https://github.com/jtpio))
+- Add support for a `down` area [#7619](https://github.com/jupyter/notebook/pull/7619) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.0rc0 [#7618](https://github.com/jupyter/notebook/pull/7618) ([@jtpio](https://github.com/jtpio))
+- Support `ServiceManagerPlugin` [#7616](https://github.com/jupyter/notebook/pull/7616) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `v4.4.0b1` [#7607](https://github.com/jupyter/notebook/pull/7607) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.0b0 [#7591](https://github.com/jupyter/notebook/pull/7591) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.0a3 [#7577](https://github.com/jupyter/notebook/pull/7577) ([@jtpio](https://github.com/jtpio))
+- Add active cell border padding, remove double cell padding [#7570](https://github.com/jupyter/notebook/pull/7570) ([@andrii-i](https://github.com/andrii-i))
+
+### Bugs fixed
+
+- Fix undefined error when checkpoints is empty [#7567](https://github.com/jupyter/notebook/pull/7567) ([@jdavid](https://github.com/jdavid))
+
+### Maintenance and upkeep improvements
+
+- Bump the actions group with 2 updates [#7626](https://github.com/jupyter/notebook/pull/7626) ([@dependabot](https://github.com/dependabot))
+- Update to JupyterLab v4.4.0b2 [#7614](https://github.com/jupyter/notebook/pull/7614) ([@jtpio](https://github.com/jtpio))
+- Add pixi step to the update workflow [#7608](https://github.com/jupyter/notebook/pull/7608) ([@jtpio](https://github.com/jtpio))
+- Update `@babel` dependencies [#7605](https://github.com/jupyter/notebook/pull/7605) ([@jtpio](https://github.com/jtpio))
+- Add devcontainer support, backed by pixi [#7602](https://github.com/jupyter/notebook/pull/7602) ([@jtpio](https://github.com/jtpio))
+- Manual dependabot bumps [#7599](https://github.com/jupyter/notebook/pull/7599) ([@jtpio](https://github.com/jtpio))
+- Bump vega-selections from 5.4.1 to 5.5.0 in /ui-tests [#7592](https://github.com/jupyter/notebook/pull/7592) ([@dependabot](https://github.com/dependabot))
+- Improve handling of optional notebook tracker [#7581](https://github.com/jupyter/notebook/pull/7581) ([@jtpio](https://github.com/jtpio))
+- Fix upgrade script [#7579](https://github.com/jupyter/notebook/pull/7579) ([@jtpio](https://github.com/jtpio))
+- Allow owners/members/collab to trigger galata update on other's PR [#7572](https://github.com/jupyter/notebook/pull/7572) ([@krassowski](https://github.com/krassowski))
+- Update `typescript` and `lerna` [#7562](https://github.com/jupyter/notebook/pull/7562) ([@jtpio](https://github.com/jtpio))
+- Update pre-commit hooks [#7561](https://github.com/jupyter/notebook/pull/7561) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.0a2 [#7559](https://github.com/jupyter/notebook/pull/7559) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group across 1 directory with 2 updates [#7558](https://github.com/jupyter/notebook/pull/7558) ([@dependabot](https://github.com/dependabot))
+- Improve update script [#7556](https://github.com/jupyter/notebook/pull/7556) ([@jtpio](https://github.com/jtpio))
+- Disable cron scheduling for now [#7555](https://github.com/jupyter/notebook/pull/7555) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.0a1 [#7554](https://github.com/jupyter/notebook/pull/7554) ([@jtpio](https://github.com/jtpio))
+- Update workflow improvements [#7552](https://github.com/jupyter/notebook/pull/7552) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- User facing changelog for 7.4 [#7612](https://github.com/jupyter/notebook/pull/7612) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-21&to=2025-04-09&type=c))
+
+[@andrii-i](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2024-12-21..2025-04-09&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2024-12-21..2025-04-09&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-12-21..2025-04-09&type=Issues) | [@jdavid](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajdavid+updated%3A2024-12-21..2025-04-09&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-21..2025-04-09&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-12-21..2025-04-09&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-12-21..2025-04-09&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.4.0rc0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0-beta.3...7fa19999c9e01d713a684e0f25d8017dbc999528))
@@ -83,8 +139,6 @@ or via the JSON Settings Editor in the Application Context Menu.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-03-26&to=2025-04-03&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-03-26..2025-04-03&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-03-26..2025-04-03&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.4.0b3
 
