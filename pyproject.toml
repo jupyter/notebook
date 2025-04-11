@@ -7,7 +7,7 @@ name = "notebook"
 description = "Jupyter Notebook - A web-based notebook environment for interactive computing"
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 authors = [
     { name = "Jupyter Development Team", email = "jupyter@googlegroups.com" },
 ]
