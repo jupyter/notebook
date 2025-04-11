@@ -7,7 +7,7 @@ name = "notebook"
 description = "Jupyter Notebook - A web-based notebook environment for interactive computing"
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 authors = [
     { name = "Jupyter Development Team", email = "jupyter@googlegroups.com" },
 ]
@@ -267,6 +267,7 @@ ignore = [
   "PLR",    # Design related pylint codes
   "C408", "C416",  # Unnecessary `dict` call (rewrite as a literal)
   "RUF012",   # Mutable class attributes should be annotated with `typing.ClassVar`
+  "UP006",  # non-pep585-annotation
 ]
 
 [tool.ruff.lint.per-file-ignores]
