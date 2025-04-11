@@ -3298,7 +3298,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/filebrowser@npm:^4.4.0, @jupyterlab/filebrowser@npm:~4.4.0":
+"@jupyterlab/filebrowser@npm:4.4.0":
   version: 4.4.0
   resolution: "@jupyterlab/filebrowser@npm:4.4.0"
   dependencies:
@@ -3323,6 +3323,34 @@ __metadata:
     "@lumino/widgets": ^2.7.0
     react: ^18.2.0
   checksum: 9fc207d33a0cdcbd916acf5b5ff94ef4d89443073a90bedd36b8ab16b82f6bd0d3463a167e07b82fac9575cbb00f54cb899536b271d7f0864dcb362b732fb9fb
+  languageName: node
+  linkType: hard
+
+"@jupyterlab/filebrowser@patch:@jupyterlab/filebrowser@npm%3A4.4.0#./.yarn/patches/@jupyterlab-filebrowser-npm-4.4.0-0616cbcbf2.patch::locator=%40jupyter-notebook%2Froot%40workspace%3A.":
+  version: 4.4.0
+  resolution: "@jupyterlab/filebrowser@patch:@jupyterlab/filebrowser@npm%3A4.4.0#./.yarn/patches/@jupyterlab-filebrowser-npm-4.4.0-0616cbcbf2.patch::version=4.4.0&hash=7a0108&locator=%40jupyter-notebook%2Froot%40workspace%3A."
+  dependencies:
+    "@jupyterlab/apputils": ^4.5.0
+    "@jupyterlab/coreutils": ^6.4.0
+    "@jupyterlab/docmanager": ^4.4.0
+    "@jupyterlab/docregistry": ^4.4.0
+    "@jupyterlab/services": ^7.4.0
+    "@jupyterlab/statedb": ^4.4.0
+    "@jupyterlab/statusbar": ^4.4.0
+    "@jupyterlab/translation": ^4.4.0
+    "@jupyterlab/ui-components": ^4.4.0
+    "@lumino/algorithm": ^2.0.3
+    "@lumino/coreutils": ^2.2.1
+    "@lumino/disposable": ^2.1.4
+    "@lumino/domutils": ^2.0.3
+    "@lumino/dragdrop": ^2.1.6
+    "@lumino/messaging": ^2.0.3
+    "@lumino/polling": ^2.1.4
+    "@lumino/signaling": ^2.1.4
+    "@lumino/virtualdom": ^2.0.3
+    "@lumino/widgets": ^2.7.0
+    react: ^18.2.0
+  checksum: e69aca6f103e00189ca3b138faef3b0e9d638e646e4e5ea65178e4f50a6c5972fd88c7f8b57b9202a9ba922baef41f1b258540b9b26e05b4ffda3eba39fc98fa
   languageName: node
   linkType: hard
 

@@ -48,7 +48,9 @@
   "resolutions": {
     "@types/react": "^18.0.26",
     "react": "^18.2.0",
-    "yjs": "^13.5.40"
+    "yjs": "^13.5.40",
+    "@jupyterlab/filebrowser@~4.4.0": "patch:@jupyterlab/filebrowser@npm%3A4.4.0#./.yarn/patches/@jupyterlab-filebrowser-npm-4.4.0-0616cbcbf2.patch",
+    "@jupyterlab/filebrowser@^4.4.0": "patch:@jupyterlab/filebrowser@npm%3A4.4.0#./.yarn/patches/@jupyterlab-filebrowser-npm-4.4.0-0616cbcbf2.patch"
   },
   "devDependencies": {
     "@jupyterlab/buildutils": "~4.4.0",
