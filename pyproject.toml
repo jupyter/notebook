@@ -267,7 +267,6 @@ ignore = [
   "PLR",    # Design related pylint codes
   "C408", "C416",  # Unnecessary `dict` call (rewrite as a literal)
   "RUF012",   # Mutable class attributes should be annotated with `typing.ClassVar`
-  "UP006",  # non-pep585-annotation
 ]
 
 [tool.ruff.lint.per-file-ignores]
