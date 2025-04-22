@@ -2302,8 +2302,8 @@ packages:
   timestamp: 1734113054756
 - pypi: .
   name: notebook
-  version: 7.4.0b2
-  sha256: 6647f575ad9bdab15fb2d5b62951f73464341fcb79de4da0d611d4efe6c2c78b
+  version: 7.4.0
+  sha256: 70100da43e7db36f18972bad65d61582ae9c71306e18962bff587cd102f19e97
   requires_dist:
   - jupyter-server>=2.4.0,<3
   - jupyterlab-server>=2.27.1,<3
@@ -2328,7 +2328,7 @@ packages:
   - pytest-tornasync ; extra == 'test'
   - pytest>=7.0 ; extra == 'test'
   - requests ; extra == 'test'
-  requires_python: '>=3.8'
+  requires_python: '>=3.9'
   editable: true
 - pypi: https://files.pythonhosted.org/packages/f9/33/bd5b9137445ea4b680023eb0469b2bb969d61303dedb2aac6560ff3d14a1/notebook_shim-0.2.4-py3-none-any.whl
   name: notebook-shim
