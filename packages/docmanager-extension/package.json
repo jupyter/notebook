@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/docmanager-extension",
-  "version": "7.4.0",
+  "version": "7.4.1",
   "description": "Jupyter Notebook - Document Manager Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -38,7 +38,7 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.4.0",
+    "@jupyter-notebook/application": "^7.4.1",
     "@jupyterlab/application": "~4.4.1",
     "@jupyterlab/coreutils": "~6.4.1",
     "@jupyterlab/docmanager": "~4.4.1",
