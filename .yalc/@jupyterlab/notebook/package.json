@@ -1,0 +1,79 @@
+{
+  "name": "@jupyterlab/notebook",
+  "version": "4.4.1",
+  "description": "JupyterLab - Notebook",
+  "homepage": "https://github.com/jupyterlab/jupyterlab",
+  "bugs": {
+    "url": "https://github.com/jupyterlab/jupyterlab/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jupyterlab/jupyterlab.git"
+  },
+  "license": "BSD-3-Clause",
+  "author": "Project Jupyter",
+  "sideEffects": [
+    "style/**/*"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "style": "style/index.css",
+  "directories": {
+    "lib": "lib/"
+  },
+  "files": [
+    "lib/*.{d.ts,js.map,js,json}",
+    "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}",
+    "style/index.js",
+    "src/**/*.{ts,tsx}",
+    "src/default.json"
+  ],
+  "scripts": {
+    "build": "tsc -b",
+    "build:test": "tsc --build tsconfig.test.json",
+    "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
+    "test": "jest -i",
+    "test:cov": "jest -i --collect-coverage",
+    "test:debug": "node --inspect-brk ../../node_modules/.bin/jest --runInBand",
+    "test:debug:watch": "node --inspect-brk ../../node_modules/.bin/jest --runInBand --watch",
+    "test:watch": "jest --runInBand --watch",
+    "watch": "tsc -b --watch"
+  },
+  "dependencies": {
+    "@jupyter/ydoc": "^3.0.4",
+    "@jupyterlab/apputils": "^4.5.1",
+    "@jupyterlab/cells": "^4.4.1",
+    "@jupyterlab/codeeditor": "^4.4.1",
+    "@jupyterlab/codemirror": "^4.4.1",
+    "@jupyterlab/coreutils": "^6.4.1",
+    "@jupyterlab/docregistry": "^4.4.1",
+    "@jupyterlab/documentsearch": "^4.4.1",
+    "@jupyterlab/lsp": "^4.4.1",
+    "@jupyterlab/nbformat": "^4.4.1",
+    "@jupyterlab/observables": "^5.4.1",
+    "@jupyterlab/rendermime": "^4.4.1",
+    "@jupyterlab/services": "^7.4.1",
+    "@jupyterlab/settingregistry": "^4.4.1",
+    "@jupyterlab/statusbar": "^4.4.1",
+    "@jupyterlab/toc": "^6.4.1",
+    "@jupyterlab/translation": "^4.4.1",
+    "@jupyterlab/ui-components": "^4.4.1",
+    "@lumino/algorithm": "^2.0.3",
+    "@lumino/coreutils": "^2.2.1",
+    "@lumino/disposable": "^2.1.4",
+    "@lumino/domutils": "^2.0.3",
+    "@lumino/dragdrop": "^2.1.6",
+    "@lumino/messaging": "^2.0.3",
+    "@lumino/polling": "^2.1.4",
+    "@lumino/properties": "^2.0.3",
+    "@lumino/signaling": "^2.1.4",
+    "@lumino/virtualdom": "^2.0.3",
+    "@lumino/widgets": "^2.7.0",
+    "react": "^18.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "styleModule": "style/index.js",
+  "yalcSig": "9fcf69f7c3db5e34220fca94eb3c4503"
+}

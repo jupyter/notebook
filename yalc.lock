@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "@jupyterlab/notebook": {
+      "signature": "9fcf69f7c3db5e34220fca94eb3c4503",
+      "pure": true
+    }
+  }
+}
