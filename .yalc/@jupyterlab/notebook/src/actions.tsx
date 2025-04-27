@@ -548,7 +548,7 @@ export namespace NotebookActions {
     if (!notebook.model || !notebook.activeCell) {
       return Promise.resolve(false);
     }
-    
+
     const state = Private.getState(notebook);
     const promise = Private.runSelected(
       notebook,
@@ -2532,7 +2532,7 @@ namespace Private {
       console.warn('Cannot execute cell: cell or cell.model is null or undefined');
       return Promise.resolve(false);
     }
-  
+
     // Check if the cell is a code cell and already running
     if (cell.model.type === 'code') {
       const metadata = cell.model.metadata as Record<string, any>;
@@ -2549,7 +2549,7 @@ namespace Private {
         // Proceed with execution
       }
     }
-  
+
     try {
       if (!executor) {
         console.warn(
