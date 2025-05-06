@@ -2193,7 +2193,7 @@ __metadata:
     "@jupyterlab/translation-extension": ~4.4.2
     "@jupyterlab/ui-components-extension": ~4.4.2
     "@jupyterlab/vega5-extension": ~4.4.2
-    "@lumino/coreutils": ~2.2.0
+    "@lumino/coreutils": ~2.2.1
     "@types/rimraf": ^3.0.2
     css-loader: ~5.0.1
     extra-watch-webpack-plugin: ^1.0.3
@@ -2233,9 +2233,9 @@ __metadata:
     "@jupyterlab/rendermime": ~4.4.2
     "@jupyterlab/settingregistry": ~4.4.2
     "@jupyterlab/translation": ~4.4.2
-    "@lumino/coreutils": ^2.2.0
-    "@lumino/disposable": ^2.1.3
-    "@lumino/widgets": ^2.5.0
+    "@lumino/coreutils": ^2.2.1
+    "@lumino/disposable": ^2.1.4
+    "@lumino/widgets": ^2.7.1
     rimraf: ^3.0.2
     typescript: ~5.5.4
   languageName: unknown
@@ -2253,12 +2253,12 @@ __metadata:
     "@jupyterlab/rendermime-interfaces": ~3.12.2
     "@jupyterlab/testutils": ~4.3.2
     "@jupyterlab/ui-components": ~4.4.2
-    "@lumino/algorithm": ^2.0.2
-    "@lumino/coreutils": ^2.2.0
-    "@lumino/messaging": ^2.0.2
-    "@lumino/polling": ^2.1.3
-    "@lumino/signaling": ^2.1.3
-    "@lumino/widgets": ^2.5.0
+    "@lumino/algorithm": ^2.0.3
+    "@lumino/coreutils": ^2.2.1
+    "@lumino/messaging": ^2.0.3
+    "@lumino/polling": ^2.1.4
+    "@lumino/signaling": ^2.1.4
+    "@lumino/widgets": ^2.7.1
     "@types/jest": ^29.2.5
     jest: ^29.3.1
     rimraf: ^3.0.2
@@ -2291,7 +2291,7 @@ __metadata:
     "@jupyterlab/application": ~4.4.2
     "@jupyterlab/console": ~4.4.2
     "@jupyterlab/coreutils": ~6.4.2
-    "@lumino/algorithm": ^2.0.2
+    "@lumino/algorithm": ^2.0.3
     rimraf: ^3.0.2
     typescript: ~5.5.4
   languageName: unknown
@@ -2307,8 +2307,8 @@ __metadata:
     "@jupyterlab/docmanager": ~4.4.2
     "@jupyterlab/docregistry": ~4.4.2
     "@jupyterlab/services": ~7.4.2
-    "@lumino/algorithm": ^2.0.2
-    "@lumino/signaling": ^2.1.3
+    "@lumino/algorithm": ^2.0.3
+    "@lumino/signaling": ^2.1.4
     rimraf: ^3.0.2
     typescript: ~5.5.4
   languageName: unknown
@@ -2321,7 +2321,7 @@ __metadata:
     "@jupyter-notebook/application": ^7.4.1
     "@jupyterlab/application": ~4.4.2
     "@jupyterlab/documentsearch": ~4.4.2
-    "@lumino/widgets": ^2.5.0
+    "@lumino/widgets": ^2.7.1
     rimraf: ^3.0.2
     typescript: ~5.5.4
   languageName: unknown
@@ -2356,8 +2356,8 @@ __metadata:
     "@jupyterlab/notebook": ~4.4.2
     "@jupyterlab/translation": ~4.4.2
     "@jupyterlab/ui-components": ~4.4.2
-    "@lumino/commands": ^2.3.1
-    "@lumino/disposable": ^2.1.3
+    "@lumino/commands": ^2.3.2
+    "@lumino/disposable": ^2.1.4
     rimraf: ^3.0.2
     typescript: ~5.5.4
   languageName: unknown
@@ -2395,8 +2395,8 @@ __metadata:
     "@jupyterlab/notebook": ~4.4.2
     "@jupyterlab/settingregistry": ~4.4.2
     "@jupyterlab/translation": ~4.4.2
-    "@lumino/polling": ^2.1.3
-    "@lumino/widgets": ^2.5.0
+    "@lumino/polling": ^2.1.4
+    "@lumino/widgets": ^2.7.1
     react: ^18.2.0
     react-dom: ^18.2.0
     rimraf: ^3.0.2
@@ -2433,7 +2433,7 @@ __metadata:
     "@jupyterlab/application": ~4.4.2
     "@jupyterlab/coreutils": ~6.4.2
     "@jupyterlab/terminal": ~4.4.2
-    "@lumino/algorithm": ^2.0.2
+    "@lumino/algorithm": ^2.0.3
     rimraf: ^3.0.2
     typescript: ~5.5.4
   languageName: unknown
@@ -2457,9 +2457,9 @@ __metadata:
     "@jupyterlab/statedb": ~4.4.2
     "@jupyterlab/translation": ~4.4.2
     "@jupyterlab/ui-components": ~4.4.2
-    "@lumino/algorithm": ^2.0.2
-    "@lumino/commands": ^2.3.1
-    "@lumino/widgets": ^2.5.0
+    "@lumino/algorithm": ^2.0.3
+    "@lumino/commands": ^2.3.2
+    "@lumino/widgets": ^2.7.1
     rimraf: ^3.0.2
     typescript: ~5.5.4
   languageName: unknown
@@ -2481,10 +2481,10 @@ __metadata:
     "@jupyterlab/statedb": ~4.4.2
     "@jupyterlab/translation": ~4.4.2
     "@jupyterlab/ui-components": ~4.4.2
-    "@lumino/algorithm": ^2.0.2
-    "@lumino/commands": ^2.3.1
-    "@lumino/coreutils": ^2.2.0
-    "@lumino/widgets": ^2.5.0
+    "@lumino/algorithm": ^2.0.3
+    "@lumino/commands": ^2.3.2
+    "@lumino/coreutils": ^2.2.1
+    "@lumino/widgets": ^2.7.1
     rimraf: ^3.0.2
     typescript: ~5.5.4
   languageName: unknown
@@ -4721,7 +4721,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lumino/algorithm@npm:^2.0.2, @lumino/algorithm@npm:^2.0.3":
+"@lumino/algorithm@npm:^2.0.3":
   version: 2.0.3
   resolution: "@lumino/algorithm@npm:2.0.3"
   checksum: 03932cdc39d612a00579ee40bafb0b1d8bf5f8a12449f777a1ae7201843ddefb557bc3f9260aa6b9441d87bfc43e53cced854e71c4737de59e32cd00d4ac1394
@@ -4748,7 +4748,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lumino/commands@npm:^2.3.1, @lumino/commands@npm:^2.3.2":
+"@lumino/commands@npm:^2.3.2":
   version: 2.3.2
   resolution: "@lumino/commands@npm:2.3.2"
   dependencies:
@@ -4763,7 +4763,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lumino/coreutils@npm:^1.11.0 || ^2.0.0, @lumino/coreutils@npm:^1.11.0 || ^2.2.1, @lumino/coreutils@npm:^2.2.0, @lumino/coreutils@npm:^2.2.1, @lumino/coreutils@npm:~2.2.0":
+"@lumino/coreutils@npm:^1.11.0 || ^2.0.0, @lumino/coreutils@npm:^1.11.0 || ^2.2.1, @lumino/coreutils@npm:^2.2.0, @lumino/coreutils@npm:^2.2.1, @lumino/coreutils@npm:~2.2.1":
   version: 2.2.1
   resolution: "@lumino/coreutils@npm:2.2.1"
   dependencies:
@@ -4789,7 +4789,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lumino/disposable@npm:^1.10.0 || ^2.0.0, @lumino/disposable@npm:^2.1.3, @lumino/disposable@npm:^2.1.4":
+"@lumino/disposable@npm:^1.10.0 || ^2.0.0, @lumino/disposable@npm:^2.1.4":
   version: 2.1.4
   resolution: "@lumino/disposable@npm:2.1.4"
   dependencies:
@@ -4822,7 +4822,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lumino/messaging@npm:^2.0.2, @lumino/messaging@npm:^2.0.3":
+"@lumino/messaging@npm:^2.0.3":
   version: 2.0.3
   resolution: "@lumino/messaging@npm:2.0.3"
   dependencies:
@@ -4832,7 +4832,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lumino/polling@npm:^2.1.3, @lumino/polling@npm:^2.1.4":
+"@lumino/polling@npm:^2.1.4":
   version: 2.1.4
   resolution: "@lumino/polling@npm:2.1.4"
   dependencies:
@@ -4869,7 +4869,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lumino/widgets@npm:^1.37.2 || ^2.7.1, @lumino/widgets@npm:^2.5.0, @lumino/widgets@npm:^2.7.1":
+"@lumino/widgets@npm:^1.37.2 || ^2.7.1, @lumino/widgets@npm:^2.7.1":
   version: 2.7.1
   resolution: "@lumino/widgets@npm:2.7.1"
   dependencies:

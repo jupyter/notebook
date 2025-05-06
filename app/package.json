@@ -10,8 +10,8 @@
     "watch": "webpack --config ./webpack.config.watch.js"
   },
   "resolutions": {
-    "@codemirror/state": "~6.5.0",
-    "@codemirror/view": "~6.36.1",
+    "@codemirror/state": "~6.5.2",
+    "@codemirror/view": "~6.36.7",
     "@jupyter-notebook/application": "~7.4.1",
     "@jupyter-notebook/application-extension": "~7.4.1",
     "@jupyter-notebook/console-extension": "~7.4.1",
@@ -109,7 +109,7 @@
     "@lezer/common": "~1.2.1",
     "@lezer/highlight": "~1.2.0",
     "@lumino/algorithm": "~2.0.3",
-    "@lumino/application": "~2.4.3",
+    "@lumino/application": "~2.4.4",
     "@lumino/commands": "~2.3.2",
     "@lumino/coreutils": "~2.2.1",
     "@lumino/disposable": "~2.1.4",
@@ -119,7 +119,7 @@
     "@lumino/properties": "~2.0.3",
     "@lumino/signaling": "~2.1.4",
     "@lumino/virtualdom": "~2.0.3",
-    "@lumino/widgets": "~2.7.0",
+    "@lumino/widgets": "~2.7.1",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "yjs": "~13.6.8"
@@ -185,7 +185,7 @@
     "@jupyterlab/translation-extension": "~4.4.2",
     "@jupyterlab/ui-components-extension": "~4.4.2",
     "@jupyterlab/vega5-extension": "~4.4.2",
-    "@lumino/coreutils": "~2.2.0",
+    "@lumino/coreutils": "~2.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "yjs": "^13.5.40"
