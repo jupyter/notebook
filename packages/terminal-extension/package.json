@@ -39,10 +39,10 @@
   },
   "dependencies": {
     "@jupyter-notebook/application": "^7.4.0",
-    "@jupyterlab/application": "~4.4.1",
-    "@jupyterlab/coreutils": "~6.4.1",
-    "@jupyterlab/terminal": "~4.4.1",
-    "@lumino/algorithm": "^2.0.2"
+    "@jupyterlab/application": "~4.5.0-alpha.0",
+    "@jupyterlab/coreutils": "~6.5.0-alpha.0",
+    "@jupyterlab/terminal": "~4.5.0-alpha.0",
+    "@lumino/algorithm": "^2.0.3"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
