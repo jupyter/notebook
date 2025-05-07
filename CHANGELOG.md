@@ -69,6 +69,28 @@ or via the JSON Settings Editor in the Application Context Menu.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.5.0a0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0...22e29fc41901ef8116670bc8a04eeb833858ff51))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.5.0a0 [#7650](https://github.com/jupyter/notebook/pull/7650) ([@jtpio](https://github.com/jtpio))
+- Run UI tests on `ubuntu-latest` [#7639](https://github.com/jupyter/notebook/pull/7639) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.1 [#7638](https://github.com/jupyter/notebook/pull/7638) ([@jtpio](https://github.com/jtpio))
+- Bump prefix-dev/setup-pixi from 0.8.5 to 0.8.8 in the actions group [#7637](https://github.com/jupyter/notebook/pull/7637) ([@dependabot](https://github.com/dependabot))
+- chore: Fix UP006 [#7633](https://github.com/jupyter/notebook/pull/7633) ([@honnix](https://github.com/honnix))
+- Bump prefix-dev/setup-pixi from 0.8.4 to 0.8.5 in the actions group [#7632](https://github.com/jupyter/notebook/pull/7632) ([@dependabot](https://github.com/dependabot))
+- Drop support for Python 3.8 [#7628](https://github.com/jupyter/notebook/pull/7628) ([@honnix](https://github.com/honnix))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-04-09&to=2025-05-07&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-04-09..2025-05-07&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-04-09..2025-05-07&type=Issues) | [@honnix](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahonnix+updated%3A2025-04-09..2025-05-07&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-04-09..2025-05-07&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.4.0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.2...fbfe36574e04b16ed7ba9303c5e819330f402f87))
@@ -122,8 +144,6 @@ To learn more about the highlights of the 7.4.0 release: https://jupyter-noteboo
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-21&to=2025-04-09&type=c))
 
 [@andrii-i](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2024-12-21..2025-04-09&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2024-12-21..2025-04-09&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-12-21..2025-04-09&type=Issues) | [@jdavid](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajdavid+updated%3A2024-12-21..2025-04-09&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-21..2025-04-09&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-12-21..2025-04-09&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-12-21..2025-04-09&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.4.0rc0
 
