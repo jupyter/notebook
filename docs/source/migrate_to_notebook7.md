@@ -64,7 +64,7 @@ Jupyter Ecosystem in the [JEP 79] and [team-compass note].
 :maxdepth: 2
 
 notebook_7_features.md
-``` 
+```
 
 ## Migration Guides
 
