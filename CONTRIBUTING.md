@@ -80,17 +80,17 @@ been published.
 [yalc](https://github.com/wclr/yalc) can help use local JavaScript packages in your build of
 Notebook, acting as a local package repository.
 
-- Install yalc globally in you environment:
+- Install yalc globally in your environment:
   `npm install -g yalc`
-- Publish you dependency package:\
+- Publish your dependency package:\
   `yalc publish`, from the package root directory.\
-  For instance, if you have are developing on _@jupyterlab/ui-components_, this command must be executed from
+  For instance, if you are developing on _@jupyterlab/ui-components_, this command must be executed from
   _path_to_jupyterlab/packages/ui-components_.
 - Depend on this local repository in Notebook:
   - from the Notebook root directory:\
     `yalc add your_package` : this will create a _dependencies_ entry in the main _package.json_ file.\
     With the previous example, it would be `yalc add @jupyterlab/ui-components`.
-  - Notebook is a monerepo, so we want this dependency to be 'linked' as a resolution (for all sub-packages) instead
+  - Notebook is a monorepo, so we want this dependency to be 'linked' as a resolution (for all sub-packages) instead
     of a dependency.\
     The easiest way is to manually move the new entry in _package.json_ from _dependencies_ to _resolutions_.
   - Build Notebook with the local dependency:\
@@ -132,11 +132,11 @@ jlpm test
 
 The `test` script calls the Playwright test runner. You can pass additional arguments to `playwright` by appending parameters to the command. For example to run the test in headed mode, `jlpm test --headed`.
 
-Checkout the [Playwright Command Line Reference](https://playwright.dev/docs/test-cli/) for more information about the available command line options.
+Check out the [Playwright Command Line Reference](https://playwright.dev/docs/test-cli/) for more information about the available command line options.
 
 Running the end to end tests in headful mode will trigger something like the following:
 
-![playwight-headed-demo](https://user-images.githubusercontent.com/591645/141274633-ca9f9c2f-eef6-430e-9228-a35827f8133d.gif)
+![playwright-headed-demo](https://user-images.githubusercontent.com/591645/141274633-ca9f9c2f-eef6-430e-9228-a35827f8133d.gif)
 
 ## Tasks caching
 
@@ -173,7 +173,7 @@ This will trigger a GitHub Action that will run the UI tests automatically and p
 
 ## Code Styling
 
-All non-python source code is formatted using [prettier](https://prettier.io) and python source code is formatted using [black](https://github.com/psf/black)s
+All non-python source code is formatted using [prettier](https://prettier.io) and python source code is formatted using [black](https://github.com/psf/black).
 When code is modified and committed, all staged files will be
 automatically formatted using pre-commit git hooks (with help from
 [pre-commit](https://github.com/pre-commit/pre-commit). The benefit of
@@ -212,7 +212,7 @@ yourself after that.
 You may also use the prettier npm script (e.g. `npm run prettier` or
 `yarn prettier` or `jlpm prettier`) to format the entire code base.
 We recommend installing a prettier extension for your code editor and
-configuring it to format your code with a keyboard shortcut or
+configuring it to format your code with a keyboard shortcut, or
 automatically on save.
 
 Some of the hooks only run on CI by default, but you can invoke them by
@@ -245,5 +245,5 @@ Alternatively you can also contribute to Jupyter Notebook without setting up a l
   - Use the commands above for building the extension and running the tests, for example: `jlpm build`
   - To start the application: `pixi run start`. A popup should appear with a button to open the Jupyter Notebook in a new browser tab. If the popup does not appear, you can navigate to the "Forwarded ports" panel to find the URL to the application.
 - [Gitpod](https://gitpod.io/#https://github.com/jupyter/notebook) integration is enabled. The Gitpod config automatically builds the Jupyter Notebook application and the documentation.
-- GitHub’s [built-in editor](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) is suitable for contributing small fixes
+- GitHub’s [built-in editor](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) is suitable for contributing small fixes.
 - A more advanced [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) editor can be accessed by pressing the dot (.) key while in the Jupyter Notebook GitHub repository
