@@ -173,7 +173,7 @@ This will trigger a GitHub Action that will run the UI tests automatically and p
 
 ## Code Styling
 
-All non-Python source code is formatted using [Prettier](https://prettier.io) and Python source code is formatted using [black](https://github.com/psf/black).
+All non-Python source code is formatted using [Prettier](https://prettier.io) and Python source code is formatted using [Black](https://github.com/psf/black).
 When code is modified and committed, all staged files will be
 automatically formatted using pre-commit git hooks with help from
 [pre-commit](https://github.com/pre-commit/pre-commit). The benefit of
@@ -201,7 +201,7 @@ pre-commit run
 
 which should run any autoformatting on your code
 and tell you about any errors it couldn't fix automatically.
-You may also install [black integration](https://github.com/psf/black#editor-integration)
+You may also install [Black integration](https://github.com/psf/black#editor-integration)
 into your text editor to format code automatically.
 
 If you have already committed files before setting up the pre-commit
@@ -220,7 +220,7 @@ running with the `--hook-stage manual` argument.
 
 ## Documentation
 
-First make sure you have set up a development environment as described above.
+First, make sure you have set up a development environment as described above.
 
 Then run the following command to build the docs:
 
@@ -234,7 +234,7 @@ In a separate terminal window, run the following command to serve the documentat
 hatch run docs:serve
 ```
 
-Now open a web browser and navigate to `http://localhost:8000` to access the documentation.
+Now, open a web browser and navigate to `http://localhost:8000` to access the documentation.
 
 ## Contributing from the browser
 
