@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/tree",
-  "version": "7.4.0",
+  "version": "7.5.0-alpha.0",
   "description": "Jupyter Notebook - Tree",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -38,22 +38,22 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.4.0",
-    "@jupyterlab/application": "~4.4.1",
-    "@jupyterlab/apputils": "~4.5.1",
-    "@jupyterlab/coreutils": "~6.4.1",
-    "@jupyterlab/docmanager": "~4.4.1",
-    "@jupyterlab/filebrowser": "~4.4.1",
-    "@jupyterlab/mainmenu": "~4.4.1",
-    "@jupyterlab/services": "~7.4.1",
-    "@jupyterlab/settingregistry": "~4.4.1",
-    "@jupyterlab/statedb": "~4.4.1",
-    "@jupyterlab/translation": "~4.4.1",
-    "@jupyterlab/ui-components": "~4.4.1",
-    "@lumino/algorithm": "^2.0.2",
-    "@lumino/commands": "^2.3.1",
-    "@lumino/coreutils": "^2.2.0",
-    "@lumino/widgets": "^2.5.0"
+    "@jupyter-notebook/application": "^7.5.0-alpha.0",
+    "@jupyterlab/application": "~4.5.0-alpha.0",
+    "@jupyterlab/apputils": "~4.6.0-alpha.0",
+    "@jupyterlab/coreutils": "~6.5.0-alpha.0",
+    "@jupyterlab/docmanager": "~4.5.0-alpha.0",
+    "@jupyterlab/filebrowser": "~4.5.0-alpha.0",
+    "@jupyterlab/mainmenu": "~4.5.0-alpha.0",
+    "@jupyterlab/services": "~7.5.0-alpha.0",
+    "@jupyterlab/settingregistry": "~4.5.0-alpha.0",
+    "@jupyterlab/statedb": "~4.5.0-alpha.0",
+    "@jupyterlab/translation": "~4.5.0-alpha.0",
+    "@jupyterlab/ui-components": "~4.5.0-alpha.0",
+    "@lumino/algorithm": "^2.0.3",
+    "@lumino/commands": "^2.3.2",
+    "@lumino/coreutils": "^2.2.1",
+    "@lumino/widgets": "^2.7.1"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",

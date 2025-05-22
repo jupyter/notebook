@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/ui-components",
-  "version": "7.4.0",
+  "version": "7.5.0-alpha.0",
   "description": "Jupyter Notebook - UI components",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -42,7 +42,7 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/ui-components": "~4.4.1",
+    "@jupyterlab/ui-components": "~4.5.0-alpha.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
