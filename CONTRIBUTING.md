@@ -7,7 +7,7 @@ for a friendly and welcoming collaborative environment.
 
 ## Setting up a development environment
 
-**Note**: you will need Node.js to build the extension package.
+**Note**: you will need Node.js installed to build the extension package.
 
 The `jlpm` command is JupyterLab's pinned version of [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
 `yarn` or `npm` in lieu of `jlpm` below.
@@ -47,7 +47,7 @@ There is also a `watch` script to watch for changes and rebuild the app automati
 jlpm watch
 ```
 
-To make sure the `notebook` server extension is installed:
+To make sure the `notebook` server extension is enabled:
 
 ```bash
 $ jupyter server extension list
@@ -82,12 +82,12 @@ Notebook, acting as a local package repository.
 
 - Install yalc globally in your environment:
   `npm install -g yalc`
-- Publish your dependency package:\
-  `yalc publish`, from the package root directory.\
+- From the package root directory, publish your dependency package:\
+  `yalc publish`\
   For instance, if you are developing on _@jupyterlab/ui-components_, this command must be executed from
   _path_to_jupyterlab/packages/ui-components_.
 - Depend on this local repository in Notebook:
-  - from the Notebook root directory:\
+  - From the Notebook root directory:\
     `yalc add your_package` : this will create a _dependencies_ entry in the main _package.json_ file.\
     With the previous example, it would be `yalc add @jupyterlab/ui-components`.
   - Notebook is a monorepo, so we want this dependency to be 'linked' as a resolution (for all sub-packages) instead
@@ -99,8 +99,8 @@ Notebook, acting as a local package repository.
 Changes in the dependency must then be built and pushed using `jlpm build && yalc push` (from the package root directory),
 and fetched from Notebook using `yarn install`.
 
-**Warning**: you need to make sure that the dependencies of Notebook and the local package match correctly,
-otherwise there will be errors with webpack during build.\
+**Warning**: you need to make sure that the dependencies of Notebook and the local package match correctly.
+Otherwise, there will be errors with webpack during build.\
 In the previous example, both _@jupyterlab/ui-components_ and Notebook depend on _@jupyterlab/coreutils_. We
 strongly advise you to depend on the same version.
 
@@ -206,10 +206,9 @@ into your text editor to format code automatically.
 
 If you have already committed files before setting up the pre-commit
 hook with `pre-commit install`, you can fix everything up using
-`pre-commit run --all-files`. You need to make the fixing commit
-yourself after that.
+`pre-commit run --all-files`. You'll need to commit the fixes manually after that.
 
-You may also use the Prettier npm script (e.g., `npm run prettier`,
+You may also run Prettier using a script (e.g., `npm run prettier`,
 `yarn prettier`, or `jlpm prettier`) to format the entire code base.
 We recommend installing a Prettier extension for your code editor and
 configuring it to format your code with a keyboard shortcut, or
@@ -222,7 +221,7 @@ running with the `--hook-stage manual` argument.
 
 First, make sure you have set up a development environment as described above.
 
-Then run the following command to build the docs:
+Run the following command to build the docs:
 
 ```shell
 hatch run docs:build
@@ -238,9 +237,9 @@ Now, open a web browser and navigate to `http://localhost:8000` to access the do
 
 ## Contributing from the browser
 
-Alternatively, you can also contribute to Jupyter Notebook without setting up a local environment, directly from a web browser:
+Alternatively, you can contribute to Jupyter Notebook without setting up a local environment, directly from a web browser:
 
-- [GitHub CodeSpaces](https://github.com/codespaces) is directly integrated into GitHub. This repository uses the [pixi](https://pixi.sh/) package manager to set up the development environment. To contribute after the Codespace is started:
+- [GitHub CodeSpaces](https://github.com/codespaces) is directly integrated into GitHub. This repository uses the [Pixi](https://pixi.sh/) package manager to set up the development environment. To contribute after the Codespace is started:
   - Run `pixi shell` in a terminal to activate the development environment.
   - Use the commands above for building the extension and running the tests, for example: `jlpm build`
   - To start the application: `pixi run start`. A popup should appear with a button to open the Jupyter Notebook in a new browser tab. If the popup does not appear, you can navigate to the "Forwarded ports" panel to find the URL to the application.
