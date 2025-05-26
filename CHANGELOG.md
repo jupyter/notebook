@@ -69,6 +69,22 @@ or via the JSON Settings Editor in the Application Context Menu.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.4.3
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.2...071d48a2452bfeebcb275e6b8f0f2b067708445d))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.4.3 [#7653](https://github.com/jupyter/notebook/pull/7653) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-05-06&to=2025-05-26&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-05-06..2025-05-26&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-05-06..2025-05-26&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-05-06..2025-05-26&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.4.2
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.1...0d8e60f43fd8a2219ad12ca1156c17a64c7b7d5b))
@@ -82,8 +98,6 @@ or via the JSON Settings Editor in the Application Context Menu.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-04-23&to=2025-05-06&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-04-23..2025-05-06&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-04-23..2025-05-06&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.4.1
 
