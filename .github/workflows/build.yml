@@ -157,6 +157,11 @@ jobs:
         run: |
           ${{ matrix.py_cmd }} -m pip freeze
           ${{ matrix.py_cmd }} -m pip check
+      - name: Temporary pin for jupyter-core on Windows 
+        if: matrix.os == 'windows-latest' 
+        run: | 
+          # See https://github.com/jupyter-server/jupyter_server/issues/1527 
+          ${{ matrix.py_cmd }} -m pip install "jupyter-core<5.8.0" 
       - name: Validate the install
         run: |
           jupyter labextension list
