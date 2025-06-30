@@ -12,7 +12,7 @@ Note: You will need NodeJS to build the extension package.
 The `jlpm` command is JupyterLab's pinned version of [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
 `yarn` or `npm` in lieu of `jlpm` below.
 
-**Note**: we recommend using `mamba` to speed the creating of the environment.
+**Note**: we recommend using `mamba` to speed up the creation of the environment.
 
 ```bash
 # create a new environment
@@ -77,8 +77,7 @@ according to the versions in the _package.json_ file.
 However, it is sometimes useful to be able to test changes in Notebook, with dependencies (e.g. `@jupyterlab` packages) that have not yet
 been published.
 
-[yalc](https://github.com/wclr/yalc) can help use local JavaScript packages in your build of
-Notebook, acting as a local package repository.
+[yalc](https://github.com/wclr/yalc) can help you use local JavaScript packages when building Notebook, acting as a local package repository.
 
 - Install yalc globally in your environment:
   `npm install -g yalc`
@@ -177,7 +176,7 @@ All non-python source code is formatted using [prettier](https://prettier.io) an
 When code is modified and committed, all staged files will be
 automatically formatted using pre-commit git hooks (with help from
 [pre-commit](https://github.com/pre-commit/pre-commit). The benefit of
-using a code formatters like `prettier` and `black` is that it removes the topic of
+using code formatters like `prettier` and `black` is that it removes the topic of
 code style from the conversation when reviewing pull requests, thereby
 speeding up the review process.
 
