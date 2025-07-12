@@ -1,27 +1,25 @@
 # Contributing to Jupyter Notebook
 
-Thanks for contributing to Jupyter Notebook!
+Thank you for your interest in contributing to Jupyter Notebook!
 
-Make sure to follow [Project Jupyter's Code of Conduct](https://github.com/jupyter/governance/blob/master/conduct/code_of_conduct.md)
-for a friendly and welcoming collaborative environment.
+Please ensure you follow [Project Jupyter's Code of Conduct](https://github.com/jupyter/governance/blob/master/conduct/code_of_conduct.md) to maintain a friendly and welcoming collaborative environment.
 
-## Setting up a development environment
+## Setting Up a Development Environment
 
-Note: You will need NodeJS to build the extension package.
+> **Note:** You will need Node.js to build the extension package.
 
-The `jlpm` command is JupyterLab's pinned version of [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
-`yarn` or `npm` in lieu of `jlpm` below.
+The `jlpm` command is JupyterLab's pinned version of [yarn](https://yarnpkg.com/), which is installed with JupyterLab. You may use `yarn` or `npm` instead of `jlpm` for the commands below.
 
-**Note**: we recommend using `mamba` to speed up the creation of the environment.
+We recommend using [mamba](https://mamba.readthedocs.io/en/latest/) to speed up environment creation.
 
 ```bash
-# create a new environment
+# Create a new environment
 mamba create -n notebook -c conda-forge python nodejs -y
 
-# activate the environment
+# Activate the environment
 mamba activate notebook
 
-# Install package in development mode
+# Install the package in development mode
 pip install -e ".[dev,docs,test]"
 
 # Install dependencies and build packages
@@ -35,22 +33,26 @@ jlpm develop
 jupyter server extension enable notebook
 ```
 
-`notebook` follows a monorepo structure. To build all the packages at once:
+The `notebook` repository follows a monorepo structure. To build all packages at once, run:
 
 ```bash
 jlpm build
 ```
 
-There is also a `watch` script to watch for changes and rebuild the app automatically:
+To automatically rebuild the app when changes are detected, use the watch script:
 
 ```bash
 jlpm watch
 ```
 
-To make sure the `notebook` server extension is installed:
+To verify the `notebook` server extension is installed:
 
 ```bash
-$ jupyter server extension list
+jupyter server extension list
+```
+
+Example output:
+```
 Config dir: /home/username/.jupyter
 
 Config dir: /home/username/miniforge3/envs/notebook/etc/jupyter
@@ -64,44 +66,53 @@ Config dir: /home/username/miniforge3/envs/notebook/etc/jupyter
 Config dir: /usr/local/etc/jupyter
 ```
 
-Then start Jupyter Notebook with:
+To start Jupyter Notebook:
 
 ```bash
 jupyter notebook
 ```
 
-### Local changes in Notebook dependencies
+---
 
-The development installation described above fetches JavaScript dependencies from [npmjs](https://www.npmjs.com/),
-according to the versions in the _package.json_ file.
-However, it is sometimes useful to be able to test changes in Notebook, with dependencies (e.g. `@jupyterlab` packages) that have not yet
-been published.
+### Using Local Changes in Notebook Dependencies
+
+By default, the development installation fetches JavaScript dependencies from [npmjs](https://www.npmjs.com/) as specified in the _package.json_ file. Sometimes, you may want to test Jupyter Notebook against local versions of dependencies (e.g., `@jupyterlab` packages) that haven't been published yet.
 
 [yalc](https://github.com/wclr/yalc) can help you use local JavaScript packages when building Notebook, acting as a local package repository.
 
-- Install yalc globally in your environment:
-  `npm install -g yalc`
-- Publish your dependency package:\
-  `yalc publish`, from the package root directory.\
-  For instance, if you are developing on _@jupyterlab/ui-components_, this command must be executed from
-  _path_to_jupyterlab/packages/ui-components_.
-- Depend on this local repository in Notebook:
-  - from the Notebook root directory:\
-    `yalc add your_package` : this will create a _dependencies_ entry in the main _package.json_ file.\
-    With the previous example, it would be `yalc add @jupyterlab/ui-components`.
-  - Notebook is a monorepo, so we want this dependency to be 'linked' as a resolution (for all sub-packages) instead
-    of a dependency.\
-    The easiest way is to manually move the new entry in _package.json_ from _dependencies_ to _resolutions_.
-  - Build Notebook with the local dependency:\
-    `jlpm install && jlpm build`
+Steps:
+- Install yalc globally:
+  ```bash
+  npm install -g yalc
+  ```
+- Publish your dependency package from its root directory:
+  ```bash
+  yalc publish
+  ```
+  For example, if you are working on _@jupyterlab/ui-components_, run this from _path_to_jupyterlab/packages/ui-components_.
+- Add the local package to Notebook:
+  ```bash
+  yalc add your_package
+  ```
+  This will add a _dependencies_ entry in the main _package.json_. For example, `yalc add @jupyterlab/ui-components`.
+- Since Notebook is a monorepo, move the new entry in _package.json_ from _dependencies_ to _resolutions_.
+- Build Notebook with the local dependency:
+  ```bash
+  jlpm install && jlpm build
+  ```
 
-Changes in the dependency must then be built and pushed using `jlpm build && yalc push` (from the package root directory),
-and fetched from Notebook using `yarn install`.
+When you update the dependency, build and push it:
+```bash
+jlpm build && yalc push
+```
+Then, in Notebook, fetch the update:
+```bash
+yarn install
+```
 
-**Warning**: you need to make sure that the dependencies of Notebook and the local package match correctly,
-otherwise there will be errors with webpack during build.\
-In the previous example, both _@jupyterlab/ui-components_ and Notebook depend on _@jupyterlab/coreutils_. We
-strongly advise you to depend on the same version.
+> **Warning:** Ensure that Notebook and the local package have compatible dependencies, or you may encounter webpack errors during build. For example, both _@jupyterlab/ui-components_ and Notebook depend on _@jupyterlab/coreutils_; they should use the same version.
+
+---
 
 ## Running Tests
 
@@ -112,137 +123,145 @@ jlpm run build:test
 jlpm run test
 ```
 
-There are also end to end tests to cover higher level user interactions, located in the `ui-tests` folder. To run these tests:
+End-to-end tests, covering high-level user interactions, are located in the `ui-tests` folder. To run these tests:
 
 ```bash
 cd ui-tests
-#install required packages for jlpm
-jlpm
+jlpm           # Install required packages
+jlpm playwright install   # Install Playwright
 
-#install playwright
-jlpm playwright install
-
-# start a new Jupyter server in a terminal
+# Start a new Jupyter server in one terminal
 jlpm start
 
-# in a new terminal, run the tests
+# In another terminal, run the tests
 jlpm test
 ```
 
-The `test` script calls the Playwright test runner. You can pass additional arguments to `playwright` by appending parameters to the command. For example to run the test in headed mode, `jlpm test --headed`.
+The `test` script calls the Playwright test runner. You may pass additional arguments to Playwright by appending parameters. For example, to run tests in headed mode:
 
-Check out the [Playwright Command Line Reference](https://playwright.dev/docs/test-cli/) for more information about the available command line options.
+```bash
+jlpm test --headed
+```
 
-Running the end to end tests in headful mode will trigger something like the following:
+See the [Playwright Command Line Reference](https://playwright.dev/docs/test-cli/) for more options.
+
+Running end-to-end tests in headed mode will show something like:
 
 ![playwright-headed-demo](https://user-images.githubusercontent.com/591645/141274633-ca9f9c2f-eef6-430e-9228-a35827f8133d.gif)
 
-## Tasks caching
+---
 
-The repository is configured to use the Lerna caching system (via `nx`) for some of the development scripts.
+## Task Caching
 
-This helps speed up rebuilds when running `jlpm run build` multiple times to avoid rebuilding packages that have not changed on disk.
+This repository uses Lerna's caching system (via `nx`) for development scripts, which speeds up rebuilds by avoiding unnecessary work.
 
-You can generate a graph to have a better idea of the dependencies between all the packages using the following command:
+To visualize package dependencies, run:
 
-```
+```bash
 npx nx graph
 ```
 
-Running the command will open a browser tab by default with a graph that looks like the following:
+This opens a browser tab showing a graph similar to:
 
-![a screenshot showing the nx task graph](https://github.com/jupyter/notebook/assets/591645/34eb46f0-b0e5-44b6-9430-ae5fbd673a4b)
+![nx task graph screenshot](https://github.com/jupyter/notebook/assets/591645/34eb46f0-b0e5-44b6-9430-ae5fbd673a4b)
 
-To learn more about Lerna caching:
+Learn more about Lerna caching:
+- [Lerna cache tasks](https://lerna.js.org/docs/features/cache-tasks)
+- [Nx cache task results](https://nx.dev/features/cache-task-results)
 
-- https://lerna.js.org/docs/features/cache-tasks
-- https://nx.dev/features/cache-task-results
+---
 
-### Updating reference snapshots
+### Updating Reference Snapshots
 
-Often a PR might make changes to the user interface, which can cause the visual regression tests to fail.
-
-If you want to update the reference snapshots while working on a PR you can post the following sentence as a GitHub comment:
+Changes to the UI may cause visual regression tests to fail. To update reference snapshots while working on a PR, post this sentence as a GitHub comment:
 
 ```
 bot please update playwright snapshots
 ```
 
-This will trigger a GitHub Action that will run the UI tests automatically and push new commits to the branch if the reference snapshots have changed.
+This will trigger a GitHub Action that runs UI tests and pushes new commits to the branch if snapshots have changed.
+
+---
 
 ## Code Styling
 
-All non-python source code is formatted using [prettier](https://prettier.io) and python source code is formatted using [black](https://github.com/psf/black).
-When code is modified and committed, all staged files will be
-automatically formatted using pre-commit git hooks (with help from
-[pre-commit](https://github.com/pre-commit/pre-commit). The benefit of
-using code formatters like `prettier` and `black` is that it removes the topic of
-code style from the conversation when reviewing pull requests, thereby
-speeding up the review process.
+- All non-Python code is formatted with [Prettier](https://prettier.io).
+- Python code is formatted with [Black](https://github.com/psf/black).
+- All staged files are automatically formatted via pre-commit git hooks (using [pre-commit](https://github.com/pre-commit/pre-commit)).
 
-As long as your code is valid,
-the pre-commit hook should take care of how it should look.
-`pre-commit` and its associated hooks will automatically be installed when
-you run `pip install -e ".[dev,test]"`
+This ensures code style does not distract from code review discussions and speeds up the review process.
 
-To install `pre-commit` manually, run the following:
+Pre-commit hooks and their dependencies are automatically installed when you run:
 
-```shell
+```bash
+pip install -e ".[dev,test]"
+```
+
+To manually install `pre-commit`:
+
+```bash
 pip install pre-commit
 pre-commit install
 ```
 
-You can invoke the pre-commit hook by hand at any time with:
+To run the pre-commit hook manually:
 
-```shell
+```bash
 pre-commit run
 ```
 
-which should run any autoformatting on your code
-and tell you about any errors it couldn't fix automatically.
-You may also install [black integration](https://github.com/psf/black#editor-integration)
-into your text editor to format code automatically.
+This will autoformat your code and report any errors it couldn't fix automatically. You can also install [Black integration](https://github.com/psf/black#editor-integration) in your editor for automatic formatting.
 
-If you have already committed files before setting up the pre-commit
-hook with `pre-commit install`, you can fix everything up using
-`pre-commit run --all-files`. You need to make the fixing commit
-yourself after that.
+If you committed files before installing the pre-commit hook, fix everything by running:
 
-You may also use the prettier npm script (e.g. `npm run prettier` or
-`yarn prettier` or `jlpm prettier`) to format the entire code base.
-We recommend installing a prettier extension for your code editor and
-configuring it to format your code with a keyboard shortcut, or
-automatically on save.
+```bash
+pre-commit run --all-files
+```
 
-Some of the hooks only run on CI by default, but you can invoke them by
-running with the `--hook-stage manual` argument.
+Remember to commit the fixes yourself after running the command.
+
+You may run Prettier across the codebase using:
+
+- `npm run prettier`
+- `yarn prettier`
+- `jlpm prettier`
+
+We recommend installing a Prettier extension for your editor and configuring it to format code on save or via shortcut.
+
+Some hooks only run on CI by default, but you can trigger them manually with:
+
+```bash
+pre-commit run --hook-stage manual
+```
+
+---
 
 ## Documentation
 
-First make sure you have set up a development environment as described above.
+After setting up your development environment, build the docs with:
 
-Then run the following command to build the docs:
-
-```shell
+```bash
 hatch run docs:build
 ```
 
-In a separate terminal window, run the following command to serve the documentation:
+Then, in a separate terminal, serve the docs:
 
-```shell
+```bash
 hatch run docs:serve
 ```
 
-Now open a web browser and navigate to `http://localhost:8000` to access the documentation.
+Open `http://localhost:8000` in your browser to view the documentation.
 
-## Contributing from the browser
+---
 
-Alternatively you can also contribute to Jupyter Notebook without setting up a local environment, directly from a web browser:
+## Contributing from the Browser
 
-- [GitHub CodeSpaces](https://github.com/codespaces) is directly integrated into GitHub. This repository uses the [pixi](https://pixi.sh/) package manager to set up the development environment. To contribute after the Codespace is started:
-  - Run `pixi shell` in a terminal to activate the development environment
-  - Use the commands above for building the extension and running the tests, for example: `jlpm build`
-  - To start the application: `pixi run start`. A popup should appear with a button to open the Jupyter Notebook in a new browser tab. If the popup does not appear, you can navigate to the "Forwarded ports" panel to find the URL to the application.
-- [Gitpod](https://gitpod.io/#https://github.com/jupyter/notebook) integration is enabled. The Gitpod config automatically builds the Jupyter Notebook application and the documentation.
-- GitHub’s [built-in editor](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) is suitable for contributing small fixes.
-- A more advanced [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) editor can be accessed by pressing the dot (.) key while in the Jupyter Notebook GitHub repository
+You can also contribute to Jupyter Notebook directly from your browser without setting up a local environment:
+
+- [GitHub CodeSpaces](https://github.com/codespaces): Integrated with GitHub. This repository uses the [pixi](https://pixi.sh/) package manager. After starting the Codespace:
+  - Run `pixi shell` in the terminal to activate the environment.
+  - Use the build and test commands described above, e.g. `jlpm build`.
+  - To start the app: `pixi run start`. A popup should appear with a button to open Jupyter Notebook in a new tab. If not, check the "Forwarded ports" panel for the URL.
+- [Gitpod](https://gitpod.io/#https://github.com/jupyter/notebook): Integration is enabled. The Gitpod config automatically builds the application and documentation.
+- GitHub’s [built-in editor](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) is suitable for small fixes.
+- For a more advanced editor, press `.` while in the Jupyter Notebook repository to launch [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor).
