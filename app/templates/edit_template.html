@@ -11,7 +11,13 @@
       href="{{ base_url | escape }}static/favicons/favicon-file.ico"
       class="favicon"
     />
-    {% endblock %}
+    {% endblock %} {% if custom_css %}
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ base_url | escape }}custom/custom.css"
+    />
+    {% endif %}
   </head>
   <body class="jp-ThemedContainer" data-notebook="edit">
     {# Copy so we do not modify the page_config with updates. #} {% set
