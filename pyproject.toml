@@ -61,7 +61,7 @@ test = [
     "jupyterlab_server[test]>=2.27.1,<3",
     "importlib-resources>=5.0;python_version<\"3.10\"",
     # See https://github.com/jupyter/notebook/issues/7690
-    "httpx>=0.25.0,<1",
+    "httpx>=0.25.0,<1.0.dev1",
 ]
 docs = [
     "myst_parser",
