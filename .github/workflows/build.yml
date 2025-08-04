@@ -110,10 +110,6 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
         with:
           dependency_type: pre
-      - name: Pin httpx
-        run: |
-          # See https://github.com/jupyter/notebook/issues/7690
-          pip install "httpx>=0.28.1,<1"
       - name: Run the tests
         run: |
           hatch run test:nowarn || hatch run test:nowarn --lf
