@@ -1,5 +1,11 @@
 [build-system]
-requires = ["hatchling>=1.11", "jupyterlab>=4.5.0a1,<4.6"]
+requires = [
+    "hatchling>=1.11",
+    "jupyterlab>=4.5.0a1,<4.6",
+    # See https://github.com/jupyter/notebook/issues/7690
+    # TODO: remove when https://github.com/jupyterlab/jupyterlab/pull/17746 is released
+    "httpx>=0.25.0,<1.0.dev1",
+]
 build-backend = "hatchling.build"
 
 [project]
