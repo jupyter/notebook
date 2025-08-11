@@ -69,6 +69,34 @@ or via the JSON Settings Editor in the Application Context Menu.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.5.0a1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-alpha.0...f56a27c17bfd85f37a27dea9512c675120571e63))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.5.0a2 [#7694](https://github.com/jupyter/notebook/pull/7694) ([@jtpio](https://github.com/jtpio))
+- Pin `httpx` [#7691](https://github.com/jupyter/notebook/pull/7691) ([@jtpio](https://github.com/jtpio))
+- Bump prefix-dev/setup-pixi from 0.8.10 to 0.8.11 in the actions group [#7675](https://github.com/jupyter/notebook/pull/7675) ([@dependabot](https://github.com/dependabot))
+- Bump prefix-dev/setup-pixi from 0.8.8 to 0.8.10 in the actions group [#7665](https://github.com/jupyter/notebook/pull/7665) ([@dependabot](https://github.com/dependabot))
+- Bump brace-expansion from 1.1.11 to 1.1.12 in /ui-tests [#7664](https://github.com/jupyter/notebook/pull/7664) ([@dependabot](https://github.com/dependabot))
+- Revert "CI: pin to `jupyter-core<5.8.0` on Windows" [#7657](https://github.com/jupyter/notebook/pull/7657) ([@minrk](https://github.com/minrk))
+- Update to JupyterLab v4.5.0a1 [#7656](https://github.com/jupyter/notebook/pull/7656) ([@jtpio](https://github.com/jtpio))
+- CI: pin to `jupyter-core<5.8.0` on Windows [#7655](https://github.com/jupyter/notebook/pull/7655) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Fix grammatical issues in Contributing.md [#7669](https://github.com/jupyter/notebook/pull/7669) ([@sangampaudel530](https://github.com/sangampaudel530))
+- Fixed grammar and typos in CONTRIBUTING.md [#7645](https://github.com/jupyter/notebook/pull/7645) ([@jchen1223](https://github.com/jchen1223))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-05-07&to=2025-08-11&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-05-07..2025-08-11&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-05-07..2025-08-11&type=Issues) | [@jchen1223](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajchen1223+updated%3A2025-05-07..2025-08-11&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-05-07..2025-08-11&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-05-07..2025-08-11&type=Issues) | [@minrk](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aminrk+updated%3A2025-05-07..2025-08-11&type=Issues) | [@sangampaudel530](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Asangampaudel530+updated%3A2025-05-07..2025-08-11&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.5.0a0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0...22e29fc41901ef8116670bc8a04eeb833858ff51))
@@ -88,8 +116,6 @@ or via the JSON Settings Editor in the Application Context Menu.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-04-09&to=2025-05-07&type=c))
 
 [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-04-09..2025-05-07&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-04-09..2025-05-07&type=Issues) | [@honnix](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahonnix+updated%3A2025-04-09..2025-05-07&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-04-09..2025-05-07&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.4.0
 
