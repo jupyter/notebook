@@ -145,3 +145,6 @@ notebook/templates/*.html
 # pixi environments
 .pixi
 *.egg-info
+
+# Temporary files used for testing
+tmp/
