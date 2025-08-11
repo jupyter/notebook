@@ -113,6 +113,10 @@ artifacts = [
     "notebook/templates",
 ]
 include = ["/notebook"]
+exclude = [
+    "notebook/labextension",
+    "notebook/schemas/@jupyter-notebook",
+]
 
 [tool.hatch.envs.docs]
 features = ["docs"]
