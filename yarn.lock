@@ -2146,6 +2146,7 @@ __metadata:
     "@jupyterlab/application-extension": ~4.5.0-alpha.2
     "@jupyterlab/apputils-extension": ~4.5.0-alpha.2
     "@jupyterlab/attachments": ~4.5.0-alpha.2
+    "@jupyterlab/audio-extension": ~4.5.0-alpha.2
     "@jupyterlab/builder": ~4.5.0-alpha.2
     "@jupyterlab/buildutils": ~4.5.0-alpha.2
     "@jupyterlab/cell-toolbar-extension": ~4.5.0-alpha.2
@@ -2194,6 +2195,7 @@ __metadata:
     "@jupyterlab/translation-extension": ~4.5.0-alpha.2
     "@jupyterlab/ui-components-extension": ~4.5.0-alpha.2
     "@jupyterlab/vega5-extension": ~4.5.0-alpha.2
+    "@jupyterlab/video-extension": ~4.5.0-alpha.2
     "@lumino/coreutils": ~2.2.1
     "@types/rimraf": ^3.0.2
     css-loader: ~5.0.1
@@ -2739,6 +2741,20 @@ __metadata:
     "@lumino/disposable": ^2.1.4
     "@lumino/signaling": ^2.1.4
   checksum: 8b5b19a9eb5a3dd4c2101bbbda3f3423e74011cdd2d1532f1e66d4a4c395386f71281f330047e45e9599c0f046717c0b2279e011d28c61b0e46de6fe1c2ee7b6
+  languageName: node
+  linkType: hard
+
+"@jupyterlab/audio-extension@npm:~4.5.0-alpha.2":
+  version: 4.5.0-alpha.2
+  resolution: "@jupyterlab/audio-extension@npm:4.5.0-alpha.2"
+  dependencies:
+    "@jupyterlab/application": ^4.5.0-alpha.2
+    "@jupyterlab/apputils": ^4.6.0-alpha.2
+    "@jupyterlab/docregistry": ^4.5.0-alpha.2
+    "@jupyterlab/services": ^7.5.0-alpha.2
+    "@jupyterlab/translation": ^4.5.0-alpha.2
+    "@lumino/widgets": ^2.7.1
+  checksum: 4f61da41fc9a27e575b8d97e65c184c06cfca0929697014421f5adf84a4e9c96c72b1577e94e12e6da71444e3a971132d28a268f2cd394476fbd3e0a492930f9
   languageName: node
   linkType: hard
 
@@ -5029,6 +5045,20 @@ __metadata:
     vega-embed: ^6.2.1
     vega-lite: ^5.6.1-next.1
   checksum: 3303019d65949b7cbaac1b652d1959456908a21562ad024f5f711a91ec46bdc5733df285f079968e4e41b8e59ef9c84546e86ac8a928f2fbf43fb506841bec2e
+  languageName: node
+  linkType: hard
+
+"@jupyterlab/video-extension@npm:~4.5.0-alpha.2":
+  version: 4.5.0-alpha.2
+  resolution: "@jupyterlab/video-extension@npm:4.5.0-alpha.2"
+  dependencies:
+    "@jupyterlab/application": ^4.5.0-alpha.2
+    "@jupyterlab/apputils": ^4.6.0-alpha.2
+    "@jupyterlab/docregistry": ^4.5.0-alpha.2
+    "@jupyterlab/services": ^7.5.0-alpha.2
+    "@jupyterlab/translation": ^4.5.0-alpha.2
+    "@lumino/widgets": ^2.7.1
+  checksum: 45714216e6e3affb3f916f0e37da6942a2f6b7f59e8de58c09ed1aa4fb5f94924dfc30bf132b7f70a6003c0ded4e06b73d07fc4787e90c9011a67797e2bea4dd
   languageName: node
   linkType: hard
 

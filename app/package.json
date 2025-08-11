@@ -139,6 +139,7 @@
     "@jupyterlab/application-extension": "~4.5.0-alpha.2",
     "@jupyterlab/apputils-extension": "~4.5.0-alpha.2",
     "@jupyterlab/attachments": "~4.5.0-alpha.2",
+    "@jupyterlab/audio-extension": "~4.5.0-alpha.2",
     "@jupyterlab/cell-toolbar-extension": "~4.5.0-alpha.2",
     "@jupyterlab/celltags-extension": "~4.5.0-alpha.2",
     "@jupyterlab/codemirror": "~4.5.0-alpha.2",
@@ -185,6 +186,7 @@
     "@jupyterlab/translation-extension": "~4.5.0-alpha.2",
     "@jupyterlab/ui-components-extension": "~4.5.0-alpha.2",
     "@jupyterlab/vega5-extension": "~4.5.0-alpha.2",
+    "@jupyterlab/video-extension": "~4.5.0-alpha.2",
     "@lumino/coreutils": "~2.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -248,6 +250,7 @@
           "@jupyterlab/apputils-extension:toolbar-registry",
           "@jupyterlab/apputils-extension:utilityCommands"
         ],
+        "@jupyterlab/audio-extension": true,
         "@jupyterlab/codemirror-extension": true,
         "@jupyterlab/completer-extension": [
           "@jupyterlab/completer-extension:base-service",
@@ -285,6 +288,7 @@
           "@jupyterlab/help-extension:resources"
         ],
         "@jupyterlab/htmlviewer-extension": true,
+        "@jupyterlab/hub-extension": true,
         "@jupyterlab/imageviewer-extension": true,
         "@jupyterlab/lsp-extension": true,
         "@jupyterlab/mainmenu-extension": [
@@ -310,7 +314,7 @@
         "@jupyterlab/theme-dark-high-contrast-extension": true,
         "@jupyterlab/translation-extension": true,
         "@jupyterlab/ui-components-extension": true,
-        "@jupyterlab/hub-extension": true
+        "@jupyterlab/video-extension": true
       },
       "/tree": {
         "@jupyterlab/extensionmanager-extension": true,
