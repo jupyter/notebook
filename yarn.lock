@@ -5501,12 +5501,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@mermaid-js/parser@npm:^0.6.2":
-  version: 0.6.2
-  resolution: "@mermaid-js/parser@npm:0.6.2"
+"@mermaid-js/parser@npm:^0.5.0":
+  version: 0.5.0
+  resolution: "@mermaid-js/parser@npm:0.5.0"
   dependencies:
     langium: 3.3.1
-  checksum: 4ed8e11731429b444f2aa4c59c420a45960ecfa2efeb0f7065fdc78fec3ea7e9872280ae47baa844665fce030c5d96addcc31cfd4d1c8046b384397b8d55643e
+  checksum: 741f6d452dfa54de30419870b124688133b80e4d15bd3923e944ef20f98011af2ca77cabf21104f6e8e08142f7fbdaef0bf93fd28c479a69d70e5b21fbcf7d2c
   languageName: node
   linkType: hard
 
@@ -13775,7 +13775,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"katex@npm:^0.16.22":
+"katex@npm:^0.16.9":
   version: 0.16.22
   resolution: "katex@npm:0.16.22"
   dependencies:
@@ -14473,15 +14473,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"marked@npm:^16.0.0":
-  version: 16.1.2
-  resolution: "marked@npm:16.1.2"
-  bin:
-    marked: bin/marked.js
-  checksum: efe785c5be470e61001fcd9505f6c7c72822c883b81b7cf014b7a19d0d74977b487e0c73a6eb89da7728dbfca04fd41a53b8a001861a63587cfea6bb6c28e86a
-  languageName: node
-  linkType: hard
-
 "math-intrinsics@npm:^1.1.0":
   version: 1.1.0
   resolution: "math-intrinsics@npm:1.1.0"
@@ -14569,13 +14560,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"mermaid@npm:^11.7.0":
-  version: 11.9.0
-  resolution: "mermaid@npm:11.9.0"
+"mermaid@npm:~11.7.0":
+  version: 11.7.0
+  resolution: "mermaid@npm:11.7.0"
   dependencies:
     "@braintree/sanitize-url": ^7.0.4
     "@iconify/utils": ^2.1.33
-    "@mermaid-js/parser": ^0.6.2
+    "@mermaid-js/parser": ^0.5.0
     "@types/d3": ^7.4.3
     cytoscape: ^3.29.3
     cytoscape-cose-bilkent: ^4.1.0
@@ -14585,15 +14576,15 @@ __metadata:
     dagre-d3-es: 7.0.11
     dayjs: ^1.11.13
     dompurify: ^3.2.5
-    katex: ^0.16.22
+    katex: ^0.16.9
     khroma: ^2.1.0
     lodash-es: ^4.17.21
-    marked: ^16.0.0
+    marked: ^15.0.7
     roughjs: ^4.6.6
     stylis: ^4.3.6
     ts-dedent: ^2.2.0
     uuid: ^11.1.0
-  checksum: 9edd02a0b9816316c96a8c490c999fc2968333aa9dcc1db1ea7c834184e326c5d9ecf2d108734e413ec6f937b562f48c0615ab20de60a962fab12b2cd93e7d09
+  checksum: 405a95f5d6872bc641b26a26af2b95720e5ed7a37c9997fb22bb4c472d7d01c67f5f05ad2b7a893369e153525903c8b863d4299ca9f2f2f4dfa57a0d2b7f60df
   languageName: node
   linkType: hard
 

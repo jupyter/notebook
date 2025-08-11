@@ -48,7 +48,8 @@
   "resolutions": {
     "@types/react": "^18.0.26",
     "react": "^18.2.0",
-    "yjs": "^13.5.40"
+    "yjs": "^13.5.40",
+    "mermaid": "~11.7.0"
   },
   "devDependencies": {
     "@jupyterlab/buildutils": "~4.5.0-alpha.2",
