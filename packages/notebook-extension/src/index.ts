@@ -38,6 +38,7 @@ import { Poll } from '@lumino/polling';
 import { Widget } from '@lumino/widgets';
 
 import { TrustedComponent } from './trusted';
+import { scrollButtons } from './scroll-buttons';
 
 /**
  * The class for kernel status errors.
@@ -432,30 +433,15 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
     tracker: INotebookTracker,
     settingRegistry: ISettingRegistry | null
   ) => {
-    const autoScrollThreshold = 100;
-    let autoScrollOutputs = true;
-
+    // Auto-scroll functionality temporarily disabled
+    // const autoScrollThreshold = 50;
+    // let autoScrollOutputs = true;
+    
     // decide whether to scroll the output of the cell based on some heuristics
     const autoScroll = (cell: CodeCell) => {
-      if (!autoScrollOutputs) {
-        // bail if disabled via the settings
-        cell.removeClass(SCROLLED_OUTPUTS_CLASS);
-        return;
-      }
-      const { outputArea } = cell;
-      // respect cells with an explicit scrolled state
-      const scrolled = cell.model.getMetadata('scrolled');
-      if (scrolled !== undefined) {
-        return;
-      }
-      const { node } = outputArea;
-      const height = node.scrollHeight;
-      const fontSize = parseFloat(node.style.fontSize.replace('px', ''));
-      const lineHeight = (fontSize || 14) * 1.3;
-      // do not set via cell.outputScrolled = true, as this would
-      // otherwise synchronize the scrolled state to the notebook metadata
-      const scroll = height > lineHeight * autoScrollThreshold;
-      cell.toggleClass(SCROLLED_OUTPUTS_CLASS, scroll);
+      // Auto-scroll disabled to fix issues
+      cell.removeClass(SCROLLED_OUTPUTS_CLASS);
+      return;
     };
 
     const handlers: { [id: string]: () => void } = {};
@@ -690,6 +676,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   kernelStatus,
   notebookToolsWidget,
   scrollOutput,
+  scrollButtons,
   tabIcon,
   trusted,
 ];

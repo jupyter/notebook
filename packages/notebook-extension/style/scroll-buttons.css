@@ -1,0 +1,42 @@
+/* Scroll buttons container */
+.jp-Notebook-scrollButtons {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1000;
+}
+
+/* Common button styles */
+.jp-Notebook-scrollButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--jp-layout-color1);
+  border: 1px solid var(--jp-border-color1);
+  color: var(--jp-ui-font-color1);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, transform 0.2s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover state */
+.jp-Notebook-scrollButton:hover {
+  background-color: var(--jp-layout-color2);
+  transform: translateY(-2px);
+}
+
+/* Active state */
+.jp-Notebook-scrollButton:active {
+  transform: translateY(0);
+}
+
+/* Hide buttons when not needed */
+.jp-Notebook-scrollButtons.jp-mod-hidden {
+  display: none;
+}
