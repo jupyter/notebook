@@ -436,7 +436,7 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
     // Auto-scroll functionality temporarily disabled
     // const autoScrollThreshold = 50;
     // let autoScrollOutputs = true;
-    
+
     // decide whether to scroll the output of the cell based on some heuristics
     const autoScroll = (cell: CodeCell) => {
       // Auto-scroll disabled to fix issues
