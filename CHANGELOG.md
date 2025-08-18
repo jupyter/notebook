@@ -69,6 +69,26 @@ or via the JSON Settings Editor in the Application Context Menu.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.5.0a2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-alpha.1...3100d879bfe09c629b4add998bd2ac408ffa2af8))
+
+### Enhancements made
+
+- Update to JupyterLab v4.5.0a3 [#7703](https://github.com/jupyter/notebook/pull/7703) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Fix open file with “#” in the filename [#7698](https://github.com/jupyter/notebook/pull/7698) ([@itsmevichu](https://github.com/itsmevichu))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-08-11&to=2025-08-18&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-08-11..2025-08-18&type=Issues) | [@itsmevichu](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aitsmevichu+updated%3A2025-08-11..2025-08-18&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-08-11..2025-08-18&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.5.0a1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-alpha.0...f56a27c17bfd85f37a27dea9512c675120571e63))
@@ -94,8 +114,6 @@ or via the JSON Settings Editor in the Application Context Menu.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-05-07&to=2025-08-11&type=c))
 
 [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-05-07..2025-08-11&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-05-07..2025-08-11&type=Issues) | [@jchen1223](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajchen1223+updated%3A2025-05-07..2025-08-11&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-05-07..2025-08-11&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-05-07..2025-08-11&type=Issues) | [@minrk](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aminrk+updated%3A2025-05-07..2025-08-11&type=Issues) | [@sangampaudel530](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Asangampaudel530+updated%3A2025-05-07..2025-08-11&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.5.0a0
 
