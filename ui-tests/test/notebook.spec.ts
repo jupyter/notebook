@@ -223,4 +223,31 @@ test.describe('Notebook', () => {
 
     await expect(page.locator('.jp-LogConsole')).toBeVisible();
   });
+
+  test('Toggle cell outputs with the O keyboard shortcut', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'autoscroll.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    await waitForKernelReady(page);
+
+    // run the two cells
+    await page.keyboard.press('Shift+Enter');
+    await page.keyboard.press('ControlOrMeta+Enter');
+
+    await page.keyboard.press('Escape');
+    await page.keyboard.press('O');
+
+    await page.waitForSelector('.jp-OutputPlaceholder', { state: 'visible' });
+
+    await page.keyboard.press('O');
+
+    await page.waitForSelector('.jp-OutputPlaceholder', { state: 'hidden' });
+  });
 });
