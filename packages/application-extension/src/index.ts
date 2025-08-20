@@ -997,6 +997,20 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin for defining keyboard shortcuts specific to the notebook application.
+ */
+const shortcuts: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/application-extension:shortcuts',
+  description:
+    'A plugin for defining keyboard shortcuts specific to the notebook application.',
+  autoStart: true,
+  activate: (app: JupyterFrontEnd) => {
+    // for now this plugin is mostly useful for defining keyboard shortcuts
+    // specific to the notebook application
+  },
+};
+
+/**
  * The default tree route resolver plugin.
  */
 const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
@@ -1175,6 +1189,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   rendermime,
   shell,
   sidePanelVisibility,
+  shortcuts,
   splash,
   status,
   tabTitle,
