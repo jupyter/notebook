@@ -16,6 +16,7 @@ import {
   ISanitizer,
   ISplashScreen,
   IToolbarWidgetRegistry,
+  showErrorMessage,
 } from '@jupyterlab/apputils';
 
 import { ConsolePanel } from '@jupyterlab/console';
@@ -658,14 +659,23 @@ const title: JupyterFrontEndPlugin<void> = {
             return;
           }
 
-          const result = await renameDialog(docManager, current.context);
+          try {
+            const result = await renameDialog(docManager, current.context);
 
-          // activate the current widget to bring the focus
-          if (current) {
-            current.activate();
-          }
+            // activate the current widget to bring the focus
+            if (current) {
+              current.activate();
+            }
 
-          if (result === null) {
+            if (result === null) {
+              return;
+            }
+          } catch (error) {
+            showErrorMessage(
+              trans.__('Rename Error'),
+              (error as Error).message ||
+                trans.__('An error occurred while renaming the file.')
+            );
             return;
           }
 
