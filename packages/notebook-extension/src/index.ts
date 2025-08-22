@@ -17,6 +17,8 @@ import { Cell, CodeCell } from '@jupyterlab/cells';
 
 import { PageConfig, Text, Time, URLExt } from '@jupyterlab/coreutils';
 
+import { ReadonlyJSONObject } from '@lumino/coreutils';
+
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
 import { DocumentRegistry } from '@jupyterlab/docregistry';
@@ -26,6 +28,13 @@ import {
   InspectionHandler,
   KernelConnector,
 } from '@jupyterlab/inspector';
+
+/**
+ * Interface for inspection handler with custom mime bundle handling
+ */
+interface ICustomInspectionHandler extends InspectionHandler {
+  onMimeBundleChange(mimeData: ReadonlyJSONObject): void;
+}
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
@@ -853,8 +862,6 @@ const pager: JupyterFrontEndPlugin<void> = {
             );
 
             if (pagePayload && pagePayload.data) {
-              const text = (pagePayload.data as any)['text/plain'];
-
               // Remove the 'page' payload from the message to prevent it from also appearing in the cell's output area
               content.payload = content.payload.filter(
                 (item) => item.source !== 'page'
@@ -864,10 +871,12 @@ const pager: JupyterFrontEndPlugin<void> = {
                 delete content.payload;
               }
 
-              await app.commands.execute('inspector:open', {
-                text,
-                refresh: true,
-              });
+              await app.commands.execute('inspector:open');
+
+              // Call our custom handler directly with the whole mime bundle
+              inspectionHandler.onMimeBundleChange(
+                pagePayload.data as ReadonlyJSONObject
+              );
             }
           }
         }
@@ -890,7 +899,7 @@ const pager: JupyterFrontEndPlugin<void> = {
       }
     };
 
-    let inspectionHandler: InspectionHandler;
+    let inspectionHandler: ICustomInspectionHandler;
 
     notebookTracker.widgetAdded.connect((_sender, panel) => {
       if (panel.sessionContext) {
@@ -924,26 +933,18 @@ const pager: JupyterFrontEndPlugin<void> = {
           return this._notebookInspected;
         }
 
-        onEditorChange(text: string): void {
-          if (text && text.trim()) {
-            this._previousInspectData = text;
-          }
+        onEditorChange(_text: string): void {
+          // no-op
+        }
 
-          // Use the current text or fall back to previous data
-          const dataToShow =
-            text && text.trim() ? text : this._previousInspectData;
-
+        onMimeBundleChange(mimeData: ReadonlyJSONObject): void {
           const update: IInspector.IInspectorUpdate = { content: null };
 
-          if (dataToShow) {
-            const data = {
-              'text/plain': dataToShow,
-            };
-
-            const mimeType = rendermime.preferredMimeType(data);
+          if (mimeData) {
+            const mimeType = rendermime.preferredMimeType(mimeData);
             if (mimeType) {
               const widget = rendermime.createRenderer(mimeType);
-              const model = new MimeModel({ data });
+              const model = new MimeModel({ data: mimeData });
               void widget.renderModel(model);
               update.content = widget;
             }
@@ -953,7 +954,6 @@ const pager: JupyterFrontEndPlugin<void> = {
           this._notebookInspected.emit(update);
         }
 
-        private _previousInspectData = '';
         private _notebookInspected: Signal<
           InspectionHandler,
           IInspector.IInspectorUpdate
