@@ -43,6 +43,7 @@
     "@jupyterlab/apputils": "~4.6.0-alpha.3",
     "@jupyterlab/cells": "~4.5.0-alpha.3",
     "@jupyterlab/docmanager": "~4.5.0-alpha.3",
+    "@jupyterlab/inspector": "~4.5.0-alpha.3",
     "@jupyterlab/notebook": "~4.5.0-alpha.3",
     "@jupyterlab/settingregistry": "~4.5.0-alpha.3",
     "@jupyterlab/translation": "~4.5.0-alpha.3",

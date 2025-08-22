@@ -9,6 +9,7 @@
       "title": "Customize shell widget positioning",
       "description": "Overrides default widget position in the application layout",
       "default": {
+        "Inspector": { "area": "down" },
         "Markdown Preview": { "area": "right" },
         "Plugins": { "area": "left" }
       }
@@ -24,7 +25,7 @@
           "type": "object",
           "properties": {
             "area": {
-              "enum": ["left", "right"]
+              "enum": ["left", "right", "down"]
             }
           },
           "additionalProperties": false
