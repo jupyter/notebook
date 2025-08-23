@@ -944,7 +944,9 @@ const pager: JupyterFrontEndPlugin<void> = {
             const mimeType = rendermime.preferredMimeType(mimeData);
             if (mimeType) {
               const widget = rendermime.createRenderer(mimeType);
-              const model = new MimeModel({ data: mimeData });
+              // set trusted since this is coming from a cell execution
+              const trusted = true;
+              const model = new MimeModel({ data: mimeData, trusted });
               void widget.renderModel(model);
               update.content = widget;
             }
