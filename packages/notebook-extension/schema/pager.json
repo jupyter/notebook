@@ -1,0 +1,14 @@
+{
+  "title": "Jupyter Notebook Pager Settings",
+  "description": "Settings for controlling pager/help display behavior",
+  "properties": {
+    "openHelpInDownArea": {
+      "type": "boolean",
+      "title": "Open Help in Down Area",
+      "description": "Whether to open help/documentation in the inspector panel (down area) or display it inline in the cell output",
+      "default": true
+    }
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

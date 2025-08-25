@@ -2167,6 +2167,7 @@ __metadata:
     "@jupyterlab/htmlviewer-extension": ~4.5.0-alpha.3
     "@jupyterlab/hub-extension": ~4.5.0-alpha.3
     "@jupyterlab/imageviewer-extension": ~4.5.0-alpha.3
+    "@jupyterlab/inspector-extension": ~4.5.0-alpha.3
     "@jupyterlab/javascript-extension": ~4.5.0-alpha.3
     "@jupyterlab/json-extension": ~4.5.0-alpha.3
     "@jupyterlab/logconsole-extension": ~4.5.0-alpha.3
@@ -2395,6 +2396,7 @@ __metadata:
     "@jupyterlab/apputils": ~4.6.0-alpha.3
     "@jupyterlab/cells": ~4.5.0-alpha.3
     "@jupyterlab/docmanager": ~4.5.0-alpha.3
+    "@jupyterlab/inspector": ~4.5.0-alpha.3
     "@jupyterlab/notebook": ~4.5.0-alpha.3
     "@jupyterlab/settingregistry": ~4.5.0-alpha.3
     "@jupyterlab/translation": ~4.5.0-alpha.3
@@ -3788,7 +3790,24 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/inspector@npm:^4.5.0-alpha.3":
+"@jupyterlab/inspector-extension@npm:~4.5.0-alpha.3":
+  version: 4.5.0-alpha.3
+  resolution: "@jupyterlab/inspector-extension@npm:4.5.0-alpha.3"
+  dependencies:
+    "@jupyterlab/application": ^4.5.0-alpha.3
+    "@jupyterlab/apputils": ^4.6.0-alpha.3
+    "@jupyterlab/console": ^4.5.0-alpha.3
+    "@jupyterlab/inspector": ^4.5.0-alpha.3
+    "@jupyterlab/launcher": ^4.5.0-alpha.3
+    "@jupyterlab/notebook": ^4.5.0-alpha.3
+    "@jupyterlab/translation": ^4.5.0-alpha.3
+    "@jupyterlab/ui-components": ^4.5.0-alpha.3
+    "@lumino/widgets": ^2.7.1
+  checksum: 12defd4c7797c6414800413316f9e1cd749ace9c8bd917dfdf8c3f74c491545293ea551e5a40e1572066218ef9b1579520db2146f51e22e7769e9359993ae2f3
+  languageName: node
+  linkType: hard
+
+"@jupyterlab/inspector@npm:^4.5.0-alpha.3, @jupyterlab/inspector@npm:~4.5.0-alpha.3":
   version: 4.5.0-alpha.3
   resolution: "@jupyterlab/inspector@npm:4.5.0-alpha.3"
   dependencies:

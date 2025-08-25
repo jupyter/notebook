@@ -305,6 +305,12 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
         } else if (area === 'right') {
           this.expandRight(id);
         } else if (area === 'down') {
+          const tabIndex = this._downPanel.tabBar.titles.findIndex(
+            (title) => title.owner.id === id
+          );
+          if (tabIndex >= 0) {
+            this._downPanel.currentIndex = tabIndex;
+          }
           this._downPanel.show();
           widget.activate();
         } else {

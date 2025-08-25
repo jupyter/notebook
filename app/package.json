@@ -62,6 +62,7 @@
     "@jupyterlab/hub-extension": "~4.5.0-alpha.3",
     "@jupyterlab/imageviewer": "~4.5.0-alpha.3",
     "@jupyterlab/imageviewer-extension": "~4.5.0-alpha.3",
+    "@jupyterlab/inspector-extension": "~4.5.0-alpha.3",
     "@jupyterlab/javascript-extension": "~4.5.0-alpha.3",
     "@jupyterlab/json-extension": "~4.5.0-alpha.3",
     "@jupyterlab/logconsole-extension": "~4.5.0-alpha.3",
@@ -160,6 +161,7 @@
     "@jupyterlab/htmlviewer-extension": "~4.5.0-alpha.3",
     "@jupyterlab/hub-extension": "~4.5.0-alpha.3",
     "@jupyterlab/imageviewer-extension": "~4.5.0-alpha.3",
+    "@jupyterlab/inspector-extension": "~4.5.0-alpha.3",
     "@jupyterlab/javascript-extension": "~4.5.0-alpha.3",
     "@jupyterlab/json-extension": "~4.5.0-alpha.3",
     "@jupyterlab/logconsole-extension": "~4.5.0-alpha.3",
@@ -292,6 +294,9 @@
         "@jupyterlab/htmlviewer-extension": true,
         "@jupyterlab/hub-extension": true,
         "@jupyterlab/imageviewer-extension": true,
+        "@jupyterlab/inspector-extension": [
+          "@jupyterlab/inspector-extension:inspector"
+        ],
         "@jupyterlab/lsp-extension": true,
         "@jupyterlab/mainmenu-extension": [
           "@jupyterlab/mainmenu-extension:plugin"
@@ -403,6 +408,7 @@
       "@jupyterlab/fileeditor",
       "@jupyterlab/htmlviewer",
       "@jupyterlab/imageviewer",
+      "@jupyterlab/inspector",
       "@jupyterlab/lsp",
       "@jupyterlab/mainmenu",
       "@jupyterlab/markdownviewer",
