@@ -807,6 +807,7 @@ const pager: JupyterFrontEndPlugin<void> = {
       const updateSettings = (settings: ISettingRegistry.ISettings): void => {
         openHelpInDownArea = settings.get('openHelpInDownArea')
           .composite as boolean;
+        setSource(app.shell.currentWidget);
       };
 
       Promise.all([loadSettings, app.restored])
@@ -822,6 +823,10 @@ const pager: JupyterFrontEndPlugin<void> = {
     }
 
     const setupPagerListener = (sessionContext: ISessionContext) => {
+      if (!openHelpInDownArea) {
+        return;
+      }
+
       const sessionId = sessionContext.session?.id;
       if (!sessionId) {
         return;
@@ -838,11 +843,6 @@ const pager: JupyterFrontEndPlugin<void> = {
         sender: Kernel.IKernelConnection,
         args: Kernel.IAnyMessageArgs
       ) => {
-        if (!openHelpInDownArea) {
-          // If false, do nothing - let the pager payload pass through
-          // so it displays inline in the cell output area like in JupyterLab
-          return;
-        }
         const { msg, direction } = args;
 
         // only check 'execute_reply' from the shell channel for pager data
@@ -901,7 +901,9 @@ const pager: JupyterFrontEndPlugin<void> = {
 
     let inspectionHandler: ICustomInspectionHandler;
 
+    // Create a handler for each notebook that is created.
     notebookTracker.widgetAdded.connect((_sender, panel) => {
+      // Use custom pager behavior
       if (panel.sessionContext) {
         setupPagerListener(panel.sessionContext);
       }
@@ -933,7 +935,7 @@ const pager: JupyterFrontEndPlugin<void> = {
           return this._notebookInspected;
         }
 
-        onEditorChange(_text: string): void {
+        onEditorChange(text: string): void {
           // no-op
         }
 
@@ -968,30 +970,42 @@ const pager: JupyterFrontEndPlugin<void> = {
       });
     });
 
-    // Handle current notebook if already open
-    if (notebookTracker.currentWidget) {
-      const panel = notebookTracker.currentWidget;
-      if (panel.sessionContext) {
-        setupPagerListener(panel.sessionContext);
-
-        panel.sessionContext.sessionChanged.connect(() => {
-          if (panel.sessionContext) {
-            setupPagerListener(panel.sessionContext);
-          }
-        });
-
-        panel.sessionContext.kernelChanged.connect(() => {
-          if (panel.sessionContext) {
-            setupPagerListener(panel.sessionContext);
-          }
-        });
-      }
-    }
-
     // Keep track of notebook instances and set inspector source.
-    const setSource = (_widget: Widget | null): void => {
-      inspector.source = inspectionHandler;
+    const setSource = (widget: Widget | null): void => {
+      if (openHelpInDownArea) {
+        inspector.source = inspectionHandler;
+      } else {
+        if (widget && notebookTracker.currentWidget) {
+          // default to the JupyterLab behavior but with a single inspection handler,
+          // since there is only one active notebook at a time
+          const panel = notebookTracker.currentWidget;
+          const sessionContext = panel.sessionContext;
+          const rendermime = panel.content.rendermime;
+          const connector = new KernelConnector({ sessionContext });
+          const handler = new InspectionHandler({
+            connector,
+            rendermime,
+          });
+
+          const cell = panel.content.activeCell;
+          handler.editor = cell && cell.editor;
+
+          panel.content.activeCellChanged.connect((sender, cell) => {
+            void cell?.ready.then(() => {
+              if (cell === panel.content.activeCell && cell) {
+                handler.editor = cell.editor;
+              }
+            });
+          });
+
+          panel.disposed.connect(() => {
+            handler.dispose();
+          });
+          inspector.source = handler;
+        }
+      }
     };
+    app.shell.currentChanged?.connect((_, args) => setSource(args.newValue));
     void app.restored.then(() => setSource(app.shell.currentWidget));
   },
 };
