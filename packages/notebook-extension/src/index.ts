@@ -802,6 +802,14 @@ const pager: JupyterFrontEndPlugin<void> = {
       };
     } = {};
 
+    const cleanupKernelMessageHandler = (sessionId: string) => {
+      if (kernelMessageHandlers[sessionId]) {
+        const { kernel, handler } = kernelMessageHandlers[sessionId];
+        kernel.anyMessage.disconnect(handler);
+        delete kernelMessageHandlers[sessionId];
+      }
+    };
+
     if (settingRegistry) {
       const loadSettings = settingRegistry.load(pager.id);
       const updateSettings = (settings: ISettingRegistry.ISettings): void => {
@@ -823,19 +831,16 @@ const pager: JupyterFrontEndPlugin<void> = {
     }
 
     const setupPagerListener = (sessionContext: ISessionContext) => {
-      if (!openHelpInDownArea) {
-        return;
-      }
-
       const sessionId = sessionContext.session?.id;
       if (!sessionId) {
         return;
       }
 
-      if (kernelMessageHandlers[sessionId]) {
-        const { kernel, handler } = kernelMessageHandlers[sessionId];
-        kernel.anyMessage.disconnect(handler);
-        delete kernelMessageHandlers[sessionId];
+      // Always clean up existing handlers first
+      cleanupKernelMessageHandler(sessionId);
+
+      if (!openHelpInDownArea) {
+        return;
       }
 
       // Listen for kernel messages that may contain pager payloads
@@ -883,14 +888,8 @@ const pager: JupyterFrontEndPlugin<void> = {
       };
 
       // Connect to the kernel's anyMessage signal to catch
-      // pager payloads before the output area by cleaning up and reconnecting
+      // pager payloads before the output area
       if (sessionContext.session?.kernel) {
-        if (kernelMessageHandlers[sessionId]) {
-          const { kernel, handler: oldHandler } =
-            kernelMessageHandlers[sessionId];
-          kernel.anyMessage.disconnect(oldHandler);
-        }
-
         sessionContext.session.kernel.anyMessage.connect(kernelMessageHandler);
         kernelMessageHandlers[sessionId] = {
           kernel: sessionContext.session.kernel,
