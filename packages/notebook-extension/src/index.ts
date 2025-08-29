@@ -924,7 +924,7 @@ const pager: JupyterFrontEndPlugin<void> = {
       const rendermime = panel.content.rendermime;
       const connector = new (class extends KernelConnector {
         async fetch(request: InspectionHandler.IRequest): Promise<any> {
-          console.log('Custom fetch called with:', request);
+          // no-op
         }
       })({ sessionContext });
 
