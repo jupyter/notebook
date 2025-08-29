@@ -250,4 +250,39 @@ test.describe('Notebook', () => {
 
     await page.waitForSelector('.jp-OutputPlaceholder', { state: 'hidden' });
   });
+
+  test('Help pager should open in down area with question mark syntax', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'empty.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    await waitForKernelReady(page);
+
+    await page.click('.jp-Cell-inputArea');
+
+    // Enter code in the first cell
+    await page.locator(
+      '.jp-Cell-inputArea >> .cm-editor >> .cm-content[contenteditable="true"]'
+    ).type(`import math
+
+math.pi?`);
+
+    // Run the cell
+    runAndAdvance(page);
+
+    const inspector = page.locator('.jp-Inspector');
+    await expect(inspector).toBeVisible();
+
+    const inspectorContent = page.locator('.jp-Inspector-content');
+    await expect(inspectorContent).toContainText('3.14');
+
+    const cellOutput = page.locator('.jp-Cell-outputArea');
+    await expect(cellOutput.first()).toBeEmpty();
+  });
 });
