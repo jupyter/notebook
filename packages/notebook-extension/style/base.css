@@ -41,7 +41,7 @@ body[data-notebook='notebooks'] .jp-WindowedPanel {
     100% - var(--jp-notebook-max-width) - var(--jp-notebook-padding-offset)
     ) * 0.5
   ) !important;
-  padding-top: calc(1*var(--jp-notebook-padding-offset));
+  padding-top: var(--jp-notebook-padding-offset);
   height: 100%;
   overflow-y: auto;
 
