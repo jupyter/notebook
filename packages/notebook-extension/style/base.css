@@ -33,22 +33,37 @@ body[data-notebook='notebooks'] .jp-NotebookPanel-toolbar {
   padding-right: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
 }
 
-body[data-notebook='notebooks'] .jp-WindowedPanel-outer {
-  width: unset !important;
-  padding-top: unset;
+body[data-notebook='notebooks'] .jp-WindowedPanel {
+  background: var(--jp-layout-color2);
   padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
   padding-right: calc(
     calc(
-        100% - var(--jp-notebook-max-width) - var(--jp-notebook-padding-offset)
-      ) * 0.5
+    100% - var(--jp-notebook-max-width) - var(--jp-notebook-padding-offset)
+    ) * 0.5
   ) !important;
-  background: var(--jp-layout-color2);
+  padding-top: calc(1*var(--jp-notebook-padding-offset));
+  height: 100%;
+  overflow-y: auto;
+
+}
+
+body[data-notebook='notebooks'] .jp-WindowedPanel-outer {
+  width: unset !important;
+  height: fit-content;
+
+
+  background: var(--jp-layout-color0);
+  box-shadow: var(--jp-elevation-z4);
+
+  /* Extra padding at the top and bottom so the notebook looks nicer */
+  padding-top: calc(2 * var(--jp-notebook-padding));
+  padding-bottom: calc(2 * var(--jp-notebook-padding));
 }
 
 body[data-notebook='notebooks'] .jp-WindowedPanel-inner {
   margin-top: var(--jp-notebook-toolbar-margin-bottom);
   /* Adjustments for the extra top and bottom notebook padding */
-  margin-bottom: calc(4 * var(--jp-notebook-padding));
+  margin-bottom: calc(1.5 * var(--jp-notebook-padding));
 }
 
 body[data-notebook='notebooks'] .jp-Notebook-cell {
@@ -57,8 +72,7 @@ body[data-notebook='notebooks'] .jp-Notebook-cell {
 
 /* Empty space at the bottom of the notebook (similar to classic) */
 body[data-notebook='notebooks']
-  .jp-Notebook.jp-mod-scrollPastEnd
-  .jp-WindowedPanel-outer::after {
+  .jp-Notebook.jp-mod-scrollPastEnd {
   min-height: 100px;
 }
 
@@ -112,13 +126,17 @@ body[data-notebook='notebooks']
   body[data-notebook='notebooks'] .jp-RawCell .jp-cell-toolbar {
     top: calc(0.5 * var(--jp-notebook-padding));
   }
+
+  body[data-notebook='notebooks'] .jp-Notebook-footer {
+    width: calc(100vw - 43px);
+    margin-left: 28px;
+    margin-right: 15px;
+    margin-top: 10px;
+  }
 }
 
 /* Tweak the notebook footer (to add a new cell) */
 body[data-notebook='notebooks'] .jp-Notebook-footer {
-  background: unset;
-  width: 100%;
-  margin-left: unset;
 }
 
 /* Mobile View */
@@ -136,12 +154,7 @@ body[data-format='mobile'] .jp-ToolbarButton .jp-DebuggerBugButton {
 }
 
 body[data-notebook='notebooks'] .jp-WindowedPanel-viewport {
-  background: var(--jp-layout-color0);
-  box-shadow: var(--jp-elevation-z4);
 
-  /* Extra padding at the top and bottom so the notebook looks nicer */
-  padding-top: calc(2 * var(--jp-notebook-padding));
-  padding-bottom: calc(2 * var(--jp-notebook-padding));
 }
 
 /* Notebook box shadow */
