@@ -16,7 +16,6 @@ concurrency:
 
 env:
   PIP_DISABLE_PIP_VERSION_CHECK: 1
-  PIP_CONSTRAINT: .github/constraints.txt
 
 defaults:
   run:
@@ -46,6 +45,9 @@ jobs:
 
       - name: Base Setup
         uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+
+      - name: Pin click to avoid 8.3.0 issues
+        run: python -m pip install "click<8.3.0"
 
       - name: Test the package
         run: hatch run cov:test
@@ -80,6 +82,8 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - name: Pin click to avoid 8.3.0 issues
+        run: python -m pip install "click<8.3.0"
       - run: |
           sudo apt-get update
           sudo apt install enchant-2  # for spelling
@@ -98,6 +102,8 @@ jobs:
         with:
           dependency_type: minimum
           python_version: '3.10'
+      - name: Pin click to avoid 8.3.0 issues
+        run: python -m pip install "click<8.3.0"
       - name: Run the unit tests
         run: |
           hatch run test:nowarn || hatch run test:nowarn --lf
@@ -111,6 +117,8 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
         with:
           dependency_type: pre
+      - name: Pin click to avoid 8.3.0 issues
+        run: python -m pip install "click<8.3.0"
       - name: Run the tests
         run: |
           hatch run test:nowarn || hatch run test:nowarn --lf
@@ -173,6 +181,8 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - name: Pin click to avoid 8.3.0 issues
+        run: python -m pip install "click<8.3.0"
       - uses: jupyterlab/maintainer-tools/.github/actions/check-links@v1
         with:
           ignore_links: 'https://playwright.dev/docs/test-cli/ https://blog.jupyter.org/the-big-split-9d7b88a031a7 https://blog.jupyter.org/jupyter-ascending-1bf5b362d97e https://mybinder.org/v2/gh/jupyter/notebook/main https://nbviewer.jupyter.org https://stackoverflow.com https://github.com/[^/]+/?$'
@@ -184,6 +194,8 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - name: Pin click to avoid 8.3.0 issues
+        run: python -m pip install "click<8.3.0"
       - name: Run Linters
         run: |
           hatch run typing:test
