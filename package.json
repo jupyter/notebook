@@ -33,6 +33,7 @@
     "eslint:files": "eslint --fix",
     "get:lab:version": "node ./buildutils/lib/get-latest-lab-version.js",
     "integrity": "node buildutils/lib/ensure-repo.js",
+    "pack:all": "lerna exec -- npm pack",
     "prettier": "prettier --write \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "prettier:check": "prettier --list-different \"**/*{.ts,.tsx,.js,.jsx,.css,.json,.md}\"",
     "prettier:files": "prettier --write",
