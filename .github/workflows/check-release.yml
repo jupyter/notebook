@@ -24,7 +24,7 @@ jobs:
         uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
       - name: Pin click to avoid 8.3.0 issues
-        run: python -m pip install "click<8.3.0"
+        run: pipx install "click<8.3.0"
 
       - name: Check Release
         uses: jupyter-server/jupyter_releaser/.github/actions/check-release@v2
