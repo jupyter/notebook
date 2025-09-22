@@ -23,6 +23,8 @@ on:
         description: "Use PRs with activity since the last stable git tag"
         required: false
         type: boolean
+
+
 jobs:
   prep_release:
     runs-on: ubuntu-latest
@@ -30,6 +32,9 @@ jobs:
       contents: write
     steps:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+
+      - name: Pin click to avoid 8.3.0 issues
+        run: pipx inject --force hatch "click<8.3.0"
 
       - name: Prep Release
         id: prep-release
