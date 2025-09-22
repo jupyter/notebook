@@ -7,6 +7,9 @@ on:
 permissions:
   contents: read
 
+env:
+  PIP_CONSTRAINT: .github/constraints.txt
+
 jobs:
   update-snapshots:
     if: >

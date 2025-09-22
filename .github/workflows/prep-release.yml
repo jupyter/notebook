@@ -23,6 +23,10 @@ on:
         description: "Use PRs with activity since the last stable git tag"
         required: false
         type: boolean
+
+env:
+  PIP_CONSTRAINT: .github/constraints.txt
+
 jobs:
   prep_release:
     runs-on: ubuntu-latest

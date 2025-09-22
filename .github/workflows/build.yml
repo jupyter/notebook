@@ -16,6 +16,7 @@ concurrency:
 
 env:
   PIP_DISABLE_PIP_VERSION_CHECK: 1
+  PIP_CONSTRAINT: .github/constraints.txt
 
 defaults:
   run:

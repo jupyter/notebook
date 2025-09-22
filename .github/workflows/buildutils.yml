@@ -16,6 +16,9 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  PIP_CONSTRAINT: .github/constraints.txt
+
 jobs:
   versioning:
     runs-on: ubuntu-latest

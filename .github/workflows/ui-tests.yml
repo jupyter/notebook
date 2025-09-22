@@ -12,6 +12,9 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  PIP_CONSTRAINT: .github/constraints.txt
+
 jobs:
   build:
     name: Build

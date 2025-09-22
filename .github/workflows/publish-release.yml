@@ -12,6 +12,9 @@ on:
         description: "Comma separated list of steps to skip"
         required: false
 
+env:
+  PIP_CONSTRAINT: .github/constraints.txt
+
 jobs:
   publish_release:
     runs-on: ubuntu-latest
