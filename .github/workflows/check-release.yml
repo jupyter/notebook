@@ -11,6 +11,7 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
 
+
 jobs:
   check_release:
     runs-on: ubuntu-latest
@@ -18,8 +19,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+
       - name: Base Setup
         uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+
+      - name: Pin click to avoid 8.3.0 issues
+        run: pipx inject --force hatch "click<8.3.0"
+
       - name: Check Release
         uses: jupyter-server/jupyter_releaser/.github/actions/check-release@v2
         with:
