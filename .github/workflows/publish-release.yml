@@ -26,7 +26,7 @@ jobs:
         run: pipx install jupyter-releaser
 
       - name: Pin click to avoid 8.3.0 issues
-        run: pipx inject hatch "click<8.3.0"
+        run: pipx inject --force hatch "click<8.3.0"
 
       - uses: actions/create-github-app-token@v2
         id: app-token

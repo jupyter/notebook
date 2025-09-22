@@ -18,7 +18,7 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
 
       - name: Pin click to avoid 8.3.0 issues
-        run: pipx inject hatch "click<8.3.0"
+        run: pipx inject --force hatch "click<8.3.0"
 
       - uses: actions/create-github-app-token@v2
         id: app-token
