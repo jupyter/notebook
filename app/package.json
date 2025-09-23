@@ -304,6 +304,7 @@
           "@jupyterlab/notebook-extension:code-console",
           "@jupyterlab/notebook-extension:export",
           "@jupyterlab/notebook-extension:factory",
+          "@jupyterlab/notebook-extension:open-with-no-kernel",
           "@jupyterlab/notebook-extension:tracker",
           "@jupyterlab/notebook-extension:widget-factory"
         ],
@@ -322,6 +323,7 @@
         "@jupyterlab/extensionmanager-extension": true,
         "@jupyterlab/filebrowser-extension": [
           "@jupyterlab/filebrowser-extension:browser",
+          "@jupyterlab/filebrowser-extension:create-new-language-file",
           "@jupyterlab/filebrowser-extension:download",
           "@jupyterlab/filebrowser-extension:file-upload-status",
           "@jupyterlab/filebrowser-extension:open-with",
@@ -352,6 +354,7 @@
           "@jupyterlab/notebook-extension:completer",
           "@jupyterlab/notebook-extension:copy-output",
           "@jupyterlab/notebook-extension:metadata-editor",
+          "@jupyterlab/notebook-extension:open-with-no-kernel",
           "@jupyterlab/notebook-extension:search",
           "@jupyterlab/notebook-extension:toc",
           "@jupyterlab/notebook-extension:tools",
