@@ -322,6 +322,7 @@
         "@jupyterlab/extensionmanager-extension": true,
         "@jupyterlab/filebrowser-extension": [
           "@jupyterlab/filebrowser-extension:browser",
+          "@jupyterlab/filebrowser-extension:create-new-language-file",
           "@jupyterlab/filebrowser-extension:download",
           "@jupyterlab/filebrowser-extension:file-upload-status",
           "@jupyterlab/filebrowser-extension:open-with",
