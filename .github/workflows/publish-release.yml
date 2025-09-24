@@ -12,7 +12,6 @@ on:
         description: "Comma separated list of steps to skip"
         required: false
 
-
 jobs:
   publish_release:
     runs-on: ubuntu-latest
@@ -21,12 +20,6 @@ jobs:
       id-token: write
     steps:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
-
-      - name: Install jupyter-releaser
-        run: pipx install jupyter-releaser
-
-      - name: Pin click to avoid 8.3.0 issues
-        run: pipx inject --force hatch "click<8.3.0"
 
       - uses: actions/create-github-app-token@v2
         id: app-token
