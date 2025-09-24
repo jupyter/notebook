@@ -9,16 +9,12 @@ on:
         description: "The branch to target"
         required: false
 
-
 jobs:
   publish_changelog:
     runs-on: ubuntu-latest
     environment: release
     steps:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
-
-      - name: Pin click to avoid 8.3.0 issues
-        run: pipx inject --force hatch "click<8.3.0"
 
       - uses: actions/create-github-app-token@v2
         id: app-token
