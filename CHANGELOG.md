@@ -69,6 +69,31 @@ or via the JSON Settings Editor in the Application Context Menu.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.4.6
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.5...0c9b0539934bbd9919f24a383e2d0ab00b75f084))
+
+### Enhancements made
+
+- Update to JupyterLab v4.4.8 [#7735](https://github.com/jupyter/notebook/pull/7735) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Handle file rename errors [#7710](https://github.com/jupyter/notebook/pull/7710) ([@jtpio](https://github.com/jtpio))
+- Fix open file with “#” in the filename [#7698](https://github.com/jupyter/notebook/pull/7698) ([@itsmevichu](https://github.com/itsmevichu))
+
+### Maintenance and upkeep improvements
+
+- Remove link to `npmjs.com` [#7730](https://github.com/jupyter/notebook/pull/7730) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-08-05&to=2025-09-26&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-08-05..2025-09-26&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-08-05..2025-09-26&type=Issues) | [@meeseeksmachine](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ameeseeksmachine+updated%3A2025-08-05..2025-09-26&type=Issues) | [@nkn2022](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ankn2022+updated%3A2025-08-05..2025-09-26&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.4.5
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.4...4cc6a9c365e47a3276da14a5f235197f19351191))
@@ -83,8 +108,6 @@ or via the JSON Settings Editor in the Application Context Menu.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-06-30&to=2025-08-05&type=c))
 
 [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-06-30..2025-08-05&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-06-30..2025-08-05&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.4.4
 
