@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/buildutils",
-  "version": "7.4.6",
+  "version": "7.4.7",
   "private": true,
   "description": "Jupyter Notebook - Build Utilities",
   "homepage": "https://github.com/jupyter/notebook",
