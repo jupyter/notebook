@@ -339,6 +339,7 @@
         "@jupyterlab/celltags-extension": true,
         "@jupyterlab/cell-toolbar-extension": true,
         "@jupyterlab/debugger-extension": [
+          "@jupyterlab/debugger-extension:completions",
           "@jupyterlab/debugger-extension:config",
           "@jupyterlab/debugger-extension:main",
           "@jupyterlab/debugger-extension:notebooks",
