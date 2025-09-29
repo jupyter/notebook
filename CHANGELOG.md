@@ -69,6 +69,26 @@ or via the JSON Settings Editor in the Application Context Menu.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.5.0b0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-alpha.3...828708ec26cc4d2ff9f8b725b00024481ae42d2d))
+
+### Enhancements made
+
+- Update to JupyterLab v4.5.0b0 [#7739](https://github.com/jupyter/notebook/pull/7739) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Add JupyterCon banner and add Jupyter colors [#7727](https://github.com/jupyter/notebook/pull/7727) ([@choldgraf](https://github.com/choldgraf))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-09-24&to=2025-09-29&type=c))
+
+[@choldgraf](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Acholdgraf+updated%3A2025-09-24..2025-09-29&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-09-24..2025-09-29&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-09-24..2025-09-29&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.5.0a3
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-alpha.2...254b06ca4b232a0a96ad2dddde560e41df371e57))
@@ -95,8 +115,6 @@ or via the JSON Settings Editor in the Application Context Menu.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-08-18&to=2025-09-24&type=c))
 
 [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-08-18..2025-09-24&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-08-18..2025-09-24&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-08-18..2025-09-24&type=Issues) | [@nkn2022](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ankn2022+updated%3A2025-08-18..2025-09-24&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.5.0a2
 
