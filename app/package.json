@@ -341,6 +341,7 @@
         "@jupyterlab/debugger-extension": [
           "@jupyterlab/debugger-extension:completions",
           "@jupyterlab/debugger-extension:config",
+          "@jupyterlab/debugger-extension:debug-console",
           "@jupyterlab/debugger-extension:main",
           "@jupyterlab/debugger-extension:notebooks",
           "@jupyterlab/debugger-extension:service",
