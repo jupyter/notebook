@@ -25,36 +25,36 @@ def carbon_footprint(car_km, bus_km, train_km, flight_km, electricity, lpg, meat
                  bus_km * EMISSION_FACTORS["bus_km"] +
                  train_km * EMISSION_FACTORS["train_km"] +
                  flight_km * EMISSION_FACTORS["flight_km"])
-    
+
     # Energy
     energy_cf = (electricity * EMISSION_FACTORS["electricity_kwh"] +
                  lpg * EMISSION_FACTORS["lpg_kg"])
-    
+
     # Food
     food_cf = (meat * EMISSION_FACTORS["meat_meal"] +
                veg * EMISSION_FACTORS["veg_meal"] +
                vegan * EMISSION_FACTORS["vegan_meal"])
-    
+
     total_cf = travel_cf + energy_cf + food_cf
-    
+
     # Results
     print(f"🌱 Your Daily Carbon Footprint: {total_cf:.2f} kg CO₂")
     print(f"- Travel: {travel_cf:.2f} kg")
     print(f"- Energy: {energy_cf:.2f} kg")
     print(f"- Food: {food_cf:.2f} kg")
     print("\n💡 Suggestions:")
-    
+
     if car_km > 0:
         print("🚍 Use public transport or carpool instead of driving alone.")
     if meat > 0:
         print("🥦 Try reducing meat meals, include more vegetarian/vegan options.")
     if electricity > 5:
         print("🔌 Save energy: switch to LED bulbs, turn off unused devices.")
-    
+
     # Chart
     labels = ["Travel", "Energy", "Food"]
     values = [travel_cf, energy_cf, food_cf]
-    
+
     fig, ax = plt.subplots()
     ax.pie(values, labels=labels, autopct="%1.1f%%", startangle=90)
     plt.show()
@@ -72,7 +72,7 @@ interact(
     lpg=FloatSlider(min=0, max=20, step=1, value=0, description="LPG (kg)"),
     meat=IntSlider(min=0, max=10, step=1, value=0, description="Meat meals"),
     veg=IntSlider(min=0, max=10, step=1, value=0, description="Veg meals"),
-    vegan=IntSlider(min=0, max=10, step=1, value=0, description="Vegan 
+    vegan=IntSlider(min=0, max=10, step=1, value=0, description="Vegan
 :maxdepth: 2
 
 notebook
