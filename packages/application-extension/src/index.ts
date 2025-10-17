@@ -3,11 +3,13 @@
 
 import {
   ILabStatus,
+  ILayoutRestorer,
   IRouter,
   ITreePathUpdater,
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
   JupyterLab,
+  LayoutRestorer,
 } from '@jupyterlab/application';
 
 import {
@@ -16,7 +18,9 @@ import {
   ISanitizer,
   ISplashScreen,
   IToolbarWidgetRegistry,
+  IWindowResolver,
   showErrorMessage,
+  WindowResolver,
 } from '@jupyterlab/apputils';
 
 import { ConsolePanel } from '@jupyterlab/console';
@@ -39,6 +43,8 @@ import {
 } from '@jupyterlab/rendermime';
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
+
+import { IStateDB } from '@jupyterlab/statedb';
 
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
@@ -174,6 +180,46 @@ const info: JupyterFrontEndPlugin<JupyterLab.IInfo> = {
     }
     return app.info;
   },
+};
+
+/**
+ * The default layout restorer provider.
+ */
+const layoutRestorer: JupyterFrontEndPlugin<ILayoutRestorer | null> = {
+  id: '@jupyter-notebook/application-extension:layout',
+  description: 'Provides the shell layout restorer.',
+  requires: [IStateDB],
+  optional: [INotebookShell],
+  activate: async (
+    app: JupyterFrontEnd,
+    state: IStateDB,
+    notebookShell: INotebookShell | null
+  ) => {
+    if (!notebookShell) {
+      console.log('No layout for this view');
+      return null;
+    }
+
+    const first = app.started;
+    const registry = app.commands;
+
+    const restorer = new LayoutRestorer({
+      connector: state,
+      first,
+      registry,
+    });
+
+    // Restore the layout.
+    void notebookShell.restoreLayout(restorer, {}).then(() => {
+      notebookShell.layoutModified.connect(() => {
+        void restorer.save(notebookShell.saveLayout());
+      });
+    });
+
+    return restorer;
+  },
+  autoStart: true,
+  provides: ILayoutRestorer,
 };
 
 /**
@@ -466,6 +512,26 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
 };
 
 /**
+ * The default window name resolver provider.
+ */
+const resolver: JupyterFrontEndPlugin<IWindowResolver> = {
+  id: '@jupyter-notebook/apputils-extension:resolver',
+  description: 'Provides the window name resolver.',
+  autoStart: true,
+  provides: IWindowResolver,
+  requires: [JupyterFrontEnd.IPaths, IRouter],
+  activate: async (
+    app: JupyterFrontEnd,
+    paths: JupyterFrontEnd.IPaths,
+    router: IRouter
+  ) => {
+    const solver = new WindowResolver();
+    (solver as any)._name = 'nb-default';
+    return solver;
+  },
+};
+
+/**
  * The default Jupyter Notebook application shell.
  */
 const shell: JupyterFrontEndPlugin<INotebookShell> = {
@@ -491,7 +557,7 @@ const shell: JupyterFrontEndPlugin<INotebookShell> = {
           const customLayout = settings.composite['layout'] as any;
 
           // Restore the layout.
-          void notebookShell.restoreLayout(customLayout);
+          void notebookShell.restoreLayoutConf(customLayout);
         })
         .catch((reason) => {
           console.error('Fail to load settings for the layout restorer.');
@@ -1189,6 +1255,7 @@ const zen: JupyterFrontEndPlugin<void> = {
 const plugins: JupyterFrontEndPlugin<any>[] = [
   dirty,
   info,
+  layoutRestorer,
   logo,
   menus,
   menuSpacer,
@@ -1197,6 +1264,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   pathOpener,
   paths,
   rendermime,
+  resolver,
   shell,
   sidePanelVisibility,
   shortcuts,

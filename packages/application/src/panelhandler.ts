@@ -119,7 +119,7 @@ export class SidePanelHandler extends PanelHandler {
    * Whether the panel is visible
    */
   get isVisible(): boolean {
-    return this._panel.isVisible;
+    return this._currentWidget?.isVisible || false;
   }
 
   /**
@@ -148,6 +148,13 @@ export class SidePanelHandler extends PanelHandler {
    */
   get widgetRemoved(): ISignal<SidePanelHandler, Widget> {
     return this._widgetRemoved;
+  }
+
+  /**
+   * A signal emitting when the panel closes.
+   */
+  get closed(): ISignal<SidePanelHandler, void> {
+    return this._closed;
   }
 
   /**
@@ -209,6 +216,7 @@ export class SidePanelHandler extends PanelHandler {
   collapse(): void {
     this._currentWidget?.hide();
     this._currentWidget = null;
+    this._closed.emit();
   }
 
   /**
@@ -243,6 +251,28 @@ export class SidePanelHandler extends PanelHandler {
   show(): void {
     this._isHiddenByUser = false;
     this._refreshVisibility();
+  }
+
+  /**
+   * Dehydrate the panel layout.
+   */
+  dehydrate(): SidePanel.ISideArea {
+    return {
+      visible: this.isVisible,
+      currentWidget: this.currentWidget,
+    };
+  }
+
+  /**
+   * Rehydrate the panel.
+   */
+  rehydrate(data: SidePanel.ISideArea) {
+    if (data.currentWidget) {
+      this.activate(data.currentWidget.id);
+    }
+    if (data.visible) {
+      this.show();
+    }
   }
 
   /**
@@ -296,6 +326,7 @@ export class SidePanelHandler extends PanelHandler {
   private _closeButton: HTMLButtonElement;
   private _widgetAdded: Signal<SidePanelHandler, Widget> = new Signal(this);
   private _widgetRemoved: Signal<SidePanelHandler, Widget> = new Signal(this);
+  private _closed: Signal<SidePanelHandler, void> = new Signal(this);
 }
 
 /**
@@ -306,6 +337,21 @@ export namespace SidePanel {
    * The areas of the sidebar panel
    */
   export type Area = 'left' | 'right';
+
+  /**
+   * The restorable description of a sidebar in the user interface.
+   */
+  export interface ISideArea {
+    /**
+     * The current widget that has side area focus.
+     */
+    readonly currentWidget: Widget | null;
+
+    /**
+     * A flag denoting whether the side tab bar is visible.
+     */
+    readonly visible: boolean;
+  }
 }
 
 /**
