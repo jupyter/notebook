@@ -93,7 +93,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/07/e0/7bd7cff65594fd9936e2f9385701e44574fc7d721331ff676ce440b14100/jupyter_lsp-2.2.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/e2/a2/89eeaf0bb954a123a909859fa507fa86f96eb61b62dc30667b60dbd5fdaf/jupyter_server-2.15.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/07/2d/2b32cdbe8d2a602f697a649798554e4f072115438e92249624e532e8aca6/jupyter_server_terminals-0.5.3-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/4a/7a/4aa1dd621f8ad3f3724d1bae60dbc06576d6911df8e01eb35114616cdf99/jupyterlab-4.5.0b0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/a3/f9/4d8dd47de01f240e2914c04d350e17bc588bb3a742a31f82f882b83a84ff/jupyterlab-4.5.0b1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b1/dd/ead9d8ea85bf202d90cc513b533f9c363121c7792674f78e0d8a854b63b4/jupyterlab_pygments-0.3.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/54/09/2032e7d15c544a0e3cd831c51d77a8ca57f7555b2e1b2922142eddb02a84/jupyterlab_server-2.27.3-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/d3/32/da7f44bcb1105d3e88a0b74ebdca50c59121d2ddf71c9e34ba47df7f3a56/keyring-25.6.0-py3-none-any.whl
@@ -271,7 +271,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/07/e0/7bd7cff65594fd9936e2f9385701e44574fc7d721331ff676ce440b14100/jupyter_lsp-2.2.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/e2/a2/89eeaf0bb954a123a909859fa507fa86f96eb61b62dc30667b60dbd5fdaf/jupyter_server-2.15.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/07/2d/2b32cdbe8d2a602f697a649798554e4f072115438e92249624e532e8aca6/jupyter_server_terminals-0.5.3-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/4a/7a/4aa1dd621f8ad3f3724d1bae60dbc06576d6911df8e01eb35114616cdf99/jupyterlab-4.5.0b0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/a3/f9/4d8dd47de01f240e2914c04d350e17bc588bb3a742a31f82f882b83a84ff/jupyterlab-4.5.0b1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b1/dd/ead9d8ea85bf202d90cc513b533f9c363121c7792674f78e0d8a854b63b4/jupyterlab_pygments-0.3.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/54/09/2032e7d15c544a0e3cd831c51d77a8ca57f7555b2e1b2922142eddb02a84/jupyterlab_server-2.27.3-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/d3/32/da7f44bcb1105d3e88a0b74ebdca50c59121d2ddf71c9e34ba47df7f3a56/keyring-25.6.0-py3-none-any.whl
@@ -449,7 +449,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/07/e0/7bd7cff65594fd9936e2f9385701e44574fc7d721331ff676ce440b14100/jupyter_lsp-2.2.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/e2/a2/89eeaf0bb954a123a909859fa507fa86f96eb61b62dc30667b60dbd5fdaf/jupyter_server-2.15.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/07/2d/2b32cdbe8d2a602f697a649798554e4f072115438e92249624e532e8aca6/jupyter_server_terminals-0.5.3-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/4a/7a/4aa1dd621f8ad3f3724d1bae60dbc06576d6911df8e01eb35114616cdf99/jupyterlab-4.5.0b0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/a3/f9/4d8dd47de01f240e2914c04d350e17bc588bb3a742a31f82f882b83a84ff/jupyterlab-4.5.0b1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b1/dd/ead9d8ea85bf202d90cc513b533f9c363121c7792674f78e0d8a854b63b4/jupyterlab_pygments-0.3.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/54/09/2032e7d15c544a0e3cd831c51d77a8ca57f7555b2e1b2922142eddb02a84/jupyterlab_server-2.27.3-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/d3/32/da7f44bcb1105d3e88a0b74ebdca50c59121d2ddf71c9e34ba47df7f3a56/keyring-25.6.0-py3-none-any.whl
@@ -635,7 +635,7 @@ environments:
       - pypi: https://files.pythonhosted.org/packages/07/e0/7bd7cff65594fd9936e2f9385701e44574fc7d721331ff676ce440b14100/jupyter_lsp-2.2.5-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/e2/a2/89eeaf0bb954a123a909859fa507fa86f96eb61b62dc30667b60dbd5fdaf/jupyter_server-2.15.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/07/2d/2b32cdbe8d2a602f697a649798554e4f072115438e92249624e532e8aca6/jupyter_server_terminals-0.5.3-py3-none-any.whl
-      - pypi: https://files.pythonhosted.org/packages/4a/7a/4aa1dd621f8ad3f3724d1bae60dbc06576d6911df8e01eb35114616cdf99/jupyterlab-4.5.0b0-py3-none-any.whl
+      - pypi: https://files.pythonhosted.org/packages/a3/f9/4d8dd47de01f240e2914c04d350e17bc588bb3a742a31f82f882b83a84ff/jupyterlab-4.5.0b1-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/b1/dd/ead9d8ea85bf202d90cc513b533f9c363121c7792674f78e0d8a854b63b4/jupyterlab_pygments-0.3.0-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/54/09/2032e7d15c544a0e3cd831c51d77a8ca57f7555b2e1b2922142eddb02a84/jupyterlab_server-2.27.3-py3-none-any.whl
       - pypi: https://files.pythonhosted.org/packages/d3/32/da7f44bcb1105d3e88a0b74ebdca50c59121d2ddf71c9e34ba47df7f3a56/keyring-25.6.0-py3-none-any.whl
@@ -1724,10 +1724,10 @@ packages:
   - pytest-timeout ; extra == 'test'
   - pytest>=7.0 ; extra == 'test'
   requires_python: '>=3.8'
-- pypi: https://files.pythonhosted.org/packages/4a/7a/4aa1dd621f8ad3f3724d1bae60dbc06576d6911df8e01eb35114616cdf99/jupyterlab-4.5.0b0-py3-none-any.whl
+- pypi: https://files.pythonhosted.org/packages/a3/f9/4d8dd47de01f240e2914c04d350e17bc588bb3a742a31f82f882b83a84ff/jupyterlab-4.5.0b1-py3-none-any.whl
   name: jupyterlab
-  version: 4.5.0b0
-  sha256: 0dd5275a39f1846ea681825426b1c234cf1d4b048438a97bb54f0c9e5305d893
+  version: 4.5.0b1
+  sha256: 20eeb352a88633d2e180217f0be5a42865f4016be301fe4a6b6cce311221d197
   requires_dist:
   - async-lru>=1.0.0
   - httpx>=0.25.0,<1
@@ -2301,12 +2301,12 @@ packages:
   timestamp: 1734113054756
 - pypi: .
   name: notebook
-  version: 7.5.0a3
-  sha256: f90e7786a70f98226762936f70b424f9f4eda807510276da41df05f1a62323c3
+  version: 7.5.0b0
+  sha256: b1dcec9188ea3c168cc44a2ab43cd3217dc33f5f095688e0af31cd0e58a694ac
   requires_dist:
   - jupyter-server>=2.4.0,<3
   - jupyterlab-server>=2.27.1,<3
-  - jupyterlab>=4.5.0b0,<4.6
+  - jupyterlab>=4.5.0b1,<4.6
   - notebook-shim>=0.2,<0.3
   - tornado>=6.2.0
   - hatch ; extra == 'dev'
