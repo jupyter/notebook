@@ -2250,6 +2250,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.11.6
     "@babel/preset-env": ^7.12.1
+    "@jupyter-notebook/tree": ^7.5.0-beta.1
     "@jupyterlab/application": ~4.5.0-beta.1
     "@jupyterlab/coreutils": ~6.5.0-beta.1
     "@jupyterlab/docregistry": ~4.5.0-beta.1
