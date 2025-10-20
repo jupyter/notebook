@@ -268,6 +268,13 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   }
 
   /**
+   * Promise that resolves when the main widget is loaded.
+   */
+  get mainWidgetLoaded(): Promise<void> {
+    return this._mainWidgetLoaded.promise;
+  }
+
+  /**
    * Promise that resolves when the main widget is loaded and the layout restored.
    */
   get restored(): Promise<void> {
@@ -495,10 +502,14 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    */
   async restoreLayout(
     layoutRestorer: LayoutRestorer,
-    configuration: {
-      [m: string]: INotebookShell.IUserLayout;
-    } = {}
+    restore: boolean
   ): Promise<void> {
+    // If no restoration is expected for the current view, resolve the promise.
+    if (!restore) {
+      this._restored.resolve();
+      return;
+    }
+
     // Get the layout from the restorer
     const layout = await layoutRestorer.fetch();
 

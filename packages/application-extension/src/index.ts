@@ -9,7 +9,6 @@ import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
   JupyterLab,
-  LayoutRestorer,
 } from '@jupyterlab/application';
 
 import {
@@ -20,7 +19,6 @@ import {
   IToolbarWidgetRegistry,
   IWindowResolver,
   showErrorMessage,
-  WindowResolver,
 } from '@jupyterlab/apputils';
 
 import { ConsolePanel } from '@jupyterlab/console';
@@ -57,7 +55,10 @@ import {
   SidePanelPalette,
   INotebookPathOpener,
   defaultNotebookPathOpener,
+  NotebookLayoutRestorer,
 } from '@jupyter-notebook/application';
+
+import { NotebookTreeWidget } from '@jupyter-notebook/tree';
 
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
 
@@ -196,23 +197,32 @@ const layoutRestorer: JupyterFrontEndPlugin<ILayoutRestorer | null> = {
     notebookShell: INotebookShell | null
   ) => {
     if (!notebookShell) {
-      console.log('No layout for this view');
       return null;
     }
-
     const first = app.started;
     const registry = app.commands;
 
-    const restorer = new LayoutRestorer({
+    const restorer = new NotebookLayoutRestorer({
       connector: state,
       first,
       registry,
     });
 
-    // Restore the layout.
-    void notebookShell.restoreLayout(restorer, {}).then(() => {
-      notebookShell.layoutModified.connect(() => {
-        void restorer.save(notebookShell.saveLayout());
+    // Restore the layout when the main widget is loaded.
+    void notebookShell.mainWidgetLoaded.then(() => {
+      // Whether to actually restore the layout or not (not for the tree view).
+      const restoreLayout = !(
+        notebookShell.currentWidget instanceof NotebookTreeWidget
+      );
+
+      // Call the restorer even if the layout must not be restored, to resolve the
+      // promise.
+      void notebookShell.restoreLayout(restorer, restoreLayout).then(() => {
+        if (restoreLayout) {
+          notebookShell.layoutModified.connect(() => {
+            void restorer.save(notebookShell.saveLayout());
+          });
+        }
       });
     });
 
@@ -519,15 +529,10 @@ const resolver: JupyterFrontEndPlugin<IWindowResolver> = {
   description: 'Provides the window name resolver.',
   autoStart: true,
   provides: IWindowResolver,
-  requires: [JupyterFrontEnd.IPaths, IRouter],
-  activate: async (
-    app: JupyterFrontEnd,
-    paths: JupyterFrontEnd.IPaths,
-    router: IRouter
-  ) => {
-    const solver = new WindowResolver();
-    (solver as any)._name = 'nb-default';
-    return solver;
+  activate: async (app: JupyterFrontEnd) => {
+    return {
+      name: 'nb-default',
+    };
   },
 };
 

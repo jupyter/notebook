@@ -45,10 +45,7 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
         options?: DocumentRegistry.IOpenOptions
       ) {
         const widgetName = options?.type ?? '';
-
-        // Should we consider ref === null or ref === undefined as different the '_noref' ?
-        const ref = options?.ref ?? '_noref';
-
+        const ref = options?.ref;
         // check if there is an setting override and if it would add the widget in the main area
         const userLayoutArea = notebookShell?.userLayout?.[widgetName]?.area;
 
