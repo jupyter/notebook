@@ -31,6 +31,8 @@ import { DocumentWidget } from '@jupyterlab/docregistry';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
+import { NotebookPanel } from '@jupyterlab/notebook';
+
 import {
   ILatexTypesetter,
   IMarkdownParser,
@@ -57,8 +59,6 @@ import {
   defaultNotebookPathOpener,
   NotebookLayoutRestorer,
 } from '@jupyter-notebook/application';
-
-import { NotebookTreeWidget } from '@jupyter-notebook/tree';
 
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
 
@@ -223,9 +223,8 @@ const layoutRestorer: JupyterFrontEndPlugin<ILayoutRestorer | null> = {
     // Restore the layout when the main widget is loaded.
     void notebookShell.mainWidgetLoaded.then(() => {
       // Whether to actually restore the layout or not (not for the tree view).
-      const restoreLayout = !(
-        notebookShell.currentWidget instanceof NotebookTreeWidget
-      );
+      const restoreLayout =
+        notebookShell.currentWidget instanceof NotebookPanel;
 
       // Call the restorer even if the layout must not be restored, to resolve the
       // promise.
