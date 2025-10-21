@@ -615,7 +615,7 @@ const state: JupyterFrontEndPlugin<IStateDB> = {
   activate: (
     app: JupyterFrontEnd,
     router: IRouter,
-    translator: ITranslator,
+    translator: ITranslator
   ) => {
     const trans = translator.load('jupyterlab');
 
