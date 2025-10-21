@@ -612,8 +612,8 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
       rightArea: this._rightHandler.dehydrate(),
       relativeSizes: this._hsplitPanel.relativeSizes(),
       topArea: {
-        simpleVisibility: this.top.isVisible
-      }
+        simpleVisibility: this.top.isVisible,
+      },
     };
     return layout;
   }
