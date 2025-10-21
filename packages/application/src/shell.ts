@@ -248,16 +248,14 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    * Is the left sidebar visible?
    */
   get leftCollapsed(): boolean {
-    return !(this._leftHandler.isVisible && this._leftHandler.panel.isVisible);
+    return !this._leftHandler.isVisible;
   }
 
   /**
    * Is the right sidebar visible?
    */
   get rightCollapsed(): boolean {
-    return !(
-      this._rightHandler.isVisible && this._rightHandler.panel.isVisible
-    );
+    return !this._rightHandler.isVisible;
   }
 
   /**

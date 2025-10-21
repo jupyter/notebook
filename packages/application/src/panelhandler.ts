@@ -119,7 +119,7 @@ export class SidePanelHandler extends PanelHandler {
    * Whether the panel is visible
    */
   get isVisible(): boolean {
-    return this._currentWidget?.isVisible || false;
+    return (this._currentWidget?.isVisible || false) && this._panel.isVisible;
   }
 
   /**
@@ -267,10 +267,10 @@ export class SidePanelHandler extends PanelHandler {
    * Rehydrate the panel.
    */
   rehydrate(data: SidePanel.ISideArea) {
-    if (data.currentWidget) {
-      this.activate(data.currentWidget.id);
-    }
     if (data.visible) {
+      if (data.currentWidget) {
+        this.activate(data.currentWidget.id);
+      }
       this.show();
     }
   }

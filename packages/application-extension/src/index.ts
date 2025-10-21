@@ -620,8 +620,8 @@ const splash: JupyterFrontEndPlugin<ISplashScreen> = {
  *
  * #### Notes
  * If this extension is loaded with a window resolver, it will automatically add
- * state management commands, URL support for `clone` and `reset`, and workspace
- * auto-saving. Otherwise, it will return a simple in-memory state database.
+ * state management commands, URL support for `reset`, and workspace auto-saving.
+ * Otherwise, it will return a simple in-memory state database.
  */
 const state: JupyterFrontEndPlugin<IStateDB> = {
   id: '@jupyter-notebook/application-extension:state',
