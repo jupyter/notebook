@@ -42,7 +42,7 @@ import {
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
-import { IStateDB } from '@jupyterlab/statedb';
+import { IStateDB, StateDB } from '@jupyterlab/statedb';
 
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
@@ -69,6 +69,8 @@ import {
   DisposableSet,
   IDisposable,
 } from '@lumino/disposable';
+
+import { Debouncer } from '@lumino/polling';
 
 import { Menu, Widget } from '@lumino/widgets';
 
@@ -136,6 +138,16 @@ namespace CommandIDs {
    * Resolve tree path
    */
   export const resolveTree = 'application:resolve-tree';
+
+  /**
+   * Load state for the current workspace.
+   */
+  export const loadState = 'application:load-statedb';
+
+  /**
+   * Reset state when loading for the workspace.
+   */
+  export const resetOnLoad = 'application:reset-on-load';
 }
 
 /**
@@ -600,6 +612,177 @@ const splash: JupyterFrontEndPlugin<ISplashScreen> = {
         });
       },
     };
+  },
+};
+
+/**
+ * The default state database for storing application state.
+ *
+ * #### Notes
+ * If this extension is loaded with a window resolver, it will automatically add
+ * state management commands, URL support for `clone` and `reset`, and workspace
+ * auto-saving. Otherwise, it will return a simple in-memory state database.
+ */
+const state: JupyterFrontEndPlugin<IStateDB> = {
+  id: '@jupyter-notebook/application-extension:state',
+  description: 'Provides the application state. It is stored per workspaces.',
+  autoStart: true,
+  provides: IStateDB,
+  requires: [IRouter, ITranslator],
+  optional: [IWindowResolver],
+  activate: (
+    app: JupyterFrontEnd,
+    router: IRouter,
+    translator: ITranslator,
+    resolver: IWindowResolver | null
+  ) => {
+    const trans = translator.load('jupyterlab');
+
+    if (resolver === null) {
+      return new StateDB();
+    }
+
+    let resolved = false;
+    const { commands, serviceManager } = app;
+    const { workspaces } = serviceManager;
+    const workspace = resolver.name;
+    const transform = new PromiseDelegate<StateDB.DataTransform>();
+    const db = new StateDB({ transform: transform.promise });
+    const save = new Debouncer(async () => {
+      const id = workspace;
+      const metadata = { id };
+      const data = await db.toJSON();
+      await workspaces.save(id, { data, metadata });
+    });
+
+    // Any time the local state database changes, save the workspace.
+    db.changed.connect(() => void save.invoke(), db);
+
+    commands.addCommand(CommandIDs.loadState, {
+      label: trans.__('Load state for the current workspace.'),
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {
+            hash: {
+              type: 'string',
+              description: trans.__('The URL hash'),
+            },
+            path: {
+              type: 'string',
+              description: trans.__('The URL path'),
+            },
+            search: {
+              type: 'string',
+              description: trans.__(
+                'The URL search string containing query parameters'
+              ),
+            },
+          },
+        },
+      },
+      execute: async (args) => {
+        // Since the command can be executed an arbitrary number of times, make
+        // sure it is safe to call multiple times.
+        if (resolved) {
+          return;
+        }
+
+        try {
+          const saved = await workspaces.fetch(workspace);
+
+          // If this command is called after a reset, the state database
+          // will already be resolved.
+          if (!resolved) {
+            resolved = true;
+            transform.resolve({ type: 'overwrite', contents: saved.data });
+          }
+        } catch {
+          console.warn(`Fetching workspace "${workspace}" failed.`);
+
+          // If the workspace does not exist, cancel the data transformation
+          // and save a workspace with the current user state data.
+          if (!resolved) {
+            resolved = true;
+            transform.resolve({ type: 'cancel', contents: null });
+          }
+        }
+
+        // After the state database has finished loading, save it.
+        await save.invoke();
+      },
+    });
+
+    commands.addCommand(CommandIDs.resetOnLoad, {
+      label: trans.__('Reset state when loading for the workspace.'),
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {
+            hash: {
+              type: 'string',
+              description: trans.__('The URL hash'),
+            },
+            path: {
+              type: 'string',
+              description: trans.__('The URL path'),
+            },
+            search: {
+              type: 'string',
+              description: trans.__(
+                'The URL search string containing query parameters'
+              ),
+            },
+          },
+        },
+      },
+      execute: (args) => {
+        const { hash, path, search } = args;
+        const query = URLExt.queryStringToObject((search as string) || '');
+        const reset = 'reset' in query;
+
+        if (!reset) {
+          return;
+        }
+
+        // If the state database has already been resolved, resetting is
+        // impossible without reloading.
+        if (resolved) {
+          return router.reload();
+        }
+
+        // Empty the state database.
+        resolved = true;
+        transform.resolve({ type: 'clear', contents: null });
+
+        // Maintain the query string parameters but remove `reset`.
+        delete query['reset'];
+
+        const url = path + URLExt.objectToQueryString(query) + hash;
+        const cleared = db.clear().then(() => save.invoke());
+
+        // After the state has been reset, navigate to the URL.
+        void cleared.then(() => {
+          router.navigate(url);
+        });
+
+        return cleared;
+      },
+    });
+
+    router.register({
+      command: CommandIDs.loadState,
+      pattern: /.?/,
+      rank: 30, // High priority: 30:100.
+    });
+
+    router.register({
+      command: CommandIDs.resetOnLoad,
+      pattern: /(\?reset|&reset)($|&)/,
+      rank: 20, // High priority: 20:100.
+    });
+
+    return db;
   },
 };
 
@@ -1274,6 +1457,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   sidePanelVisibility,
   shortcuts,
   splash,
+  state,
   status,
   tabTitle,
   title,
