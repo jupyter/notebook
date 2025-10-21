@@ -17,7 +17,6 @@ import {
   ISanitizer,
   ISplashScreen,
   IToolbarWidgetRegistry,
-  IWindowResolver,
   showErrorMessage,
 } from '@jupyterlab/apputils';
 
@@ -533,21 +532,6 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
 };
 
 /**
- * The default window name resolver provider.
- */
-const resolver: JupyterFrontEndPlugin<IWindowResolver> = {
-  id: '@jupyter-notebook/apputils-extension:resolver',
-  description: 'Provides the window name resolver.',
-  autoStart: true,
-  provides: IWindowResolver,
-  activate: async (app: JupyterFrontEnd) => {
-    return {
-      name: 'nb-default',
-    };
-  },
-};
-
-/**
  * The default Jupyter Notebook application shell.
  */
 const shell: JupyterFrontEndPlugin<INotebookShell> = {
@@ -628,23 +612,17 @@ const state: JupyterFrontEndPlugin<IStateDB> = {
   autoStart: true,
   provides: IStateDB,
   requires: [IRouter, ITranslator],
-  optional: [IWindowResolver],
   activate: (
     app: JupyterFrontEnd,
     router: IRouter,
     translator: ITranslator,
-    resolver: IWindowResolver | null
   ) => {
     const trans = translator.load('jupyterlab');
-
-    if (resolver === null) {
-      return new StateDB();
-    }
 
     let resolved = false;
     const { commands, serviceManager } = app;
     const { workspaces } = serviceManager;
-    const workspace = resolver.name;
+    const workspace = 'nb-default';
     const transform = new PromiseDelegate<StateDB.DataTransform>();
     const db = new StateDB({ transform: transform.promise });
     const save = new Debouncer(async () => {
@@ -1451,7 +1429,6 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   pathOpener,
   paths,
   rendermime,
-  resolver,
   shell,
   sidePanelVisibility,
   shortcuts,
