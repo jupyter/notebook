@@ -512,7 +512,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     const layout = await layoutRestorer.fetch();
 
     // Reset the layout
-    const { downArea, leftArea, relativeSizes, rightArea } = layout;
+    const { downArea, leftArea, relativeSizes, rightArea, topArea } = layout;
 
     // Rehydrate the down area
     if (downArea) {
@@ -581,6 +581,14 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
       this._hsplitPanel.setRelativeSizes(relativeSizes);
     }
 
+    // Restore the top area visibility.
+    if (topArea) {
+      const { simpleVisibility } = topArea;
+      if (simpleVisibility) {
+        this.top.show();
+      }
+    }
+
     // Make sure all messages in the queue are finished before notifying
     // any extensions that are waiting for the promise that guarantees the
     // application state has been restored.
@@ -603,6 +611,9 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
       leftArea: this._leftHandler.dehydrate(),
       rightArea: this._rightHandler.dehydrate(),
       relativeSizes: this._hsplitPanel.relativeSizes(),
+      topArea: {
+        simpleVisibility: this.top.isVisible
+      }
     };
     return layout;
   }
