@@ -1,7 +1,7 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import { IJupyterLabPage, expect, galata } from '@jupyterlab/galata';
+import { expect, galata } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
@@ -33,7 +33,7 @@ test.describe('Mobile', () => {
   }) => {
     await page.goto(`tree/${tmpPath}`);
 
-    await page.waitForSelector('#top-panel-wrapper', { state: 'hidden' });
+    await page.locator(`.jp-BreadCrumbs-item[title="${tmpPath}"]`).waitFor();
 
     expect(await page.screenshot()).toMatchSnapshot('tree.png', {
       maxDiffPixels: 300,

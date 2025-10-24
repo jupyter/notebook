@@ -246,7 +246,6 @@
           "@jupyterlab/apputils-extension:sanitizer",
           "@jupyterlab/apputils-extension:sessionDialogs",
           "@jupyterlab/apputils-extension:settings",
-          "@jupyterlab/apputils-extension:state",
           "@jupyterlab/apputils-extension:themes",
           "@jupyterlab/apputils-extension:themes-palette-menu",
           "@jupyterlab/apputils-extension:toolbar-registry",
