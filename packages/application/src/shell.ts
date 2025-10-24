@@ -549,7 +549,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
         const index = this._downPanel.stackedPanel.widgets.findIndex(
           (widget) => widget.id === currentWidget.id
         );
-        if (index) {
+        if (index !== -1) {
           this._downPanel.currentIndex = index;
           this._downPanel.currentWidget?.activate();
         }
@@ -600,8 +600,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    * Save the dehydrated state of the application shell.
    */
   saveLayout(): any {
-    // If the application is in single document mode, use the cached layout if
-    // available. Otherwise, default to querying the dock panel for layout.
     const layout = {
       downArea: {
         currentWidget: this._downPanel.currentWidget,
