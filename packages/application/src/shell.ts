@@ -19,7 +19,7 @@ import {
   TabPanel,
   Widget,
 } from '@lumino/widgets';
-import { PanelHandler, SidePanelHandler } from './panelhandler';
+import { PanelHandler, SidePanel, SidePanelHandler } from './panelhandler';
 
 /**
  * The Jupyter Notebook application shell token.
@@ -64,6 +64,33 @@ export namespace INotebookShell {
      * Widget customized position
      */
     [k: string]: IWidgetPosition;
+  }
+
+  /**
+   * The notebook shell layout interface.
+   */
+  export interface ILayout {
+    downArea: IDownAreaLayout | null;
+    leftArea: SidePanel.ISideArea | null;
+    rightArea: SidePanel.ISideArea | null;
+    relativeSizes: number[] | null;
+    topArea: ITopAreaLayout | null;
+  }
+
+  /**
+   * The down area layout interface.
+   */
+  export interface IDownAreaLayout {
+    currentWidget: Widget | null;
+    widgets: Widget[] | null;
+    size: number | null;
+  }
+
+  /**
+   * The top area layout interface.
+   */
+  export interface ITopAreaLayout {
+    simpleVisibility: boolean | null;
   }
 }
 
@@ -609,7 +636,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   /**
    * Save the dehydrated state of the application shell.
    */
-  saveLayout(): any {
+  saveLayout(): INotebookShell.ILayout {
     const layout = {
       downArea: {
         currentWidget: this._downPanel.currentWidget,
