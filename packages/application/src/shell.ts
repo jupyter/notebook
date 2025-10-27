@@ -569,24 +569,34 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     // Rehydrate the left area.
     if (leftArea) {
       this._leftHandler.rehydrate(leftArea);
+    } else {
+      this.collapseLeft();
     }
 
     // Rehydrate the right area.
     if (rightArea) {
       this._rightHandler.rehydrate(rightArea);
+    } else {
+      this.collapseRight();
     }
 
     // Restore the relative sizes.
     if (relativeSizes) {
       this._hsplitPanel.setRelativeSizes(relativeSizes);
+    } else {
+      this.collapseLeft();
+      this.collapseRight();
+      this._hsplitPanel.setRelativeSizes([0, 1, 0]);
     }
 
     // Restore the top area visibility.
     if (topArea) {
       const { simpleVisibility } = topArea;
       if (simpleVisibility) {
-        this.top.show();
+        this.expandTop();
       }
+    } else {
+      this.collapseTop();
     }
 
     // Make sure all messages in the queue are finished before notifying

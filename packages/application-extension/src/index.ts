@@ -144,6 +144,11 @@ namespace CommandIDs {
   export const loadState = 'application:load-statedb';
 
   /**
+   * Reset application state.
+   */
+  export const reset = 'application:reset-state';
+
+  /**
    * Reset state when loading for the workspace.
    */
   export const resetOnLoad = 'application:reset-on-load';
@@ -612,10 +617,12 @@ const state: JupyterFrontEndPlugin<IStateDB> = {
   autoStart: true,
   provides: IStateDB,
   requires: [IRouter, ITranslator],
+  optional: [ICommandPalette],
   activate: (
     app: JupyterFrontEnd,
     router: IRouter,
-    translator: ITranslator
+    translator: ITranslator,
+    palette: ICommandPalette | null
   ) => {
     const trans = translator.load('jupyterlab');
 
@@ -690,6 +697,31 @@ const state: JupyterFrontEndPlugin<IStateDB> = {
       },
     });
 
+    commands.addCommand(CommandIDs.reset, {
+      label: trans.__('Reset Application State'),
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {
+            reload: {
+              type: 'boolean',
+              description: trans.__(
+                'Whether to reload the page after resetting'
+              ),
+            },
+          },
+        },
+      },
+      execute: async () => {
+        await db.clear();
+        await save.invoke();
+
+        // Save the current document and reload.
+        await commands.execute('docmanager:save');
+        router.reload();
+      },
+    });
+
     commands.addCommand(CommandIDs.resetOnLoad, {
       label: trans.__('Reset state when loading for the workspace.'),
       describedBy: {
@@ -746,6 +778,10 @@ const state: JupyterFrontEndPlugin<IStateDB> = {
         return cleared;
       },
     });
+
+    if (palette) {
+      palette.addItem({ category: 'state', command: CommandIDs.reset });
+    }
 
     router.register({
       command: CommandIDs.loadState,
