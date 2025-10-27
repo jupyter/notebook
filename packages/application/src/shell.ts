@@ -604,7 +604,6 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     } else {
       this.collapseLeft();
       this.collapseRight();
-      this._hsplitPanel.setRelativeSizes([0, 1, 0]);
     }
 
     // Restore the top area visibility.
