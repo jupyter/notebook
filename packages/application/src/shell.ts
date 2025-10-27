@@ -525,16 +525,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    * #### Notes
    * This should only be called once.
    */
-  async restoreLayout(
-    layoutRestorer: LayoutRestorer,
-    restore: boolean
-  ): Promise<void> {
-    // If no restoration is expected for the current view, resolve the promise.
-    if (!restore) {
-      this._restored.resolve();
-      return;
-    }
-
+  async restoreLayout(layoutRestorer: LayoutRestorer): Promise<void> {
     // Get the layout from the restorer
     const layout = await layoutRestorer.fetch();
 

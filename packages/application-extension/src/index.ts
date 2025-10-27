@@ -30,8 +30,6 @@ import { DocumentWidget } from '@jupyterlab/docregistry';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
-import { NotebookPanel } from '@jupyterlab/notebook';
-
 import {
   ILatexTypesetter,
   IMarkdownParser,
@@ -226,18 +224,12 @@ const layoutRestorer: JupyterFrontEndPlugin<ILayoutRestorer | null> = {
 
     // Restore the layout when the main widget is loaded.
     void notebookShell.mainWidgetLoaded.then(() => {
-      // Whether to actually restore the layout or not (not for the tree view).
-      const restoreLayout =
-        notebookShell.currentWidget instanceof NotebookPanel;
-
       // Call the restorer even if the layout must not be restored, to resolve the
       // promise.
-      void notebookShell.restoreLayout(restorer, restoreLayout).then(() => {
-        if (restoreLayout) {
-          notebookShell.layoutModified.connect(() => {
-            void restorer.save(notebookShell.saveLayout());
-          });
-        }
+      void notebookShell.restoreLayout(restorer).then(() => {
+        notebookShell.layoutModified.connect(() => {
+          void restorer.save(notebookShell.saveLayout());
+        });
       });
     });
 
@@ -629,7 +621,7 @@ const state: JupyterFrontEndPlugin<IStateDB> = {
     let resolved = false;
     const { commands, serviceManager } = app;
     const { workspaces } = serviceManager;
-    const workspace = 'nb-default';
+    const workspace = PageConfig.getOption('notebookPage');
     const transform = new PromiseDelegate<StateDB.DataTransform>();
     const db = new StateDB({ transform: transform.promise });
     const save = new Debouncer(async () => {
