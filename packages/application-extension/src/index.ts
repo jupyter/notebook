@@ -2,6 +2,7 @@
 // Distributed under the terms of the Modified BSD License.
 
 import {
+  ILabShell,
   ILabStatus,
   ILayoutRestorer,
   IRouter,
@@ -9,6 +10,7 @@ import {
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
   JupyterLab,
+  LayoutRestorer,
 } from '@jupyterlab/application';
 
 import {
@@ -54,7 +56,7 @@ import {
   SidePanelPalette,
   INotebookPathOpener,
   defaultNotebookPathOpener,
-  NotebookLayoutRestorer,
+  NotebookStateDB,
 } from '@jupyter-notebook/application';
 
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
@@ -216,7 +218,7 @@ const layoutRestorer: JupyterFrontEndPlugin<ILayoutRestorer | null> = {
     const first = app.started;
     const registry = app.commands;
 
-    const restorer = new NotebookLayoutRestorer({
+    const restorer = new LayoutRestorer({
       connector: state,
       first,
       registry,
@@ -228,7 +230,7 @@ const layoutRestorer: JupyterFrontEndPlugin<ILayoutRestorer | null> = {
       // promise.
       void notebookShell.restoreLayout(restorer).then(() => {
         notebookShell.layoutModified.connect(() => {
-          void restorer.save(notebookShell.saveLayout());
+          void restorer.save(notebookShell.saveLayout() as ILabShell.ILayout);
         });
       });
     });
@@ -623,7 +625,7 @@ const state: JupyterFrontEndPlugin<IStateDB> = {
     const { workspaces } = serviceManager;
     const workspace = PageConfig.getOption('notebookPage');
     const transform = new PromiseDelegate<StateDB.DataTransform>();
-    const db = new StateDB({ transform: transform.promise });
+    const db = new NotebookStateDB({ transform: transform.promise });
     const save = new Debouncer(async () => {
       const id = workspace;
       const metadata = { id };
