@@ -610,10 +610,10 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     if (topArea) {
       const { simpleVisibility } = topArea;
       if (simpleVisibility) {
-        this.expandTop();
+        this._topWrapper.setHidden(false);
       }
     } else {
-      this.collapseTop();
+      this._topWrapper.setHidden(true);
     }
 
     // Make sure all messages in the queue are finished before notifying
