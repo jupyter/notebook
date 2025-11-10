@@ -172,7 +172,6 @@ html_theme = "pydata_sphinx_theme"
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
-    "announcement": '🚀 Join us in San Diego · JupyterCon 2025 · Nov 4-5 · <a href="https://events.linuxfoundation.org/jupytercon/program/schedule/">SCHEDULE</a> · <a href="https://events.linuxfoundation.org/jupytercon/register/">REGISTER NOW</a>',
     "header_links_before_dropdown": 5,
     "icon_links": [
         {
