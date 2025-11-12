@@ -1,12 +1,14 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import { JupyterFrontEnd } from '@jupyterlab/application';
+import { JupyterFrontEnd, LayoutRestorer } from '@jupyterlab/application';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
+import { TabPanelSvg } from '@jupyterlab/ui-components';
 
-import { find } from '@lumino/algorithm';
+import { ArrayExt, find } from '@lumino/algorithm';
 import { JSONExt, PromiseDelegate, Token } from '@lumino/coreutils';
+import { Message, MessageLoop } from '@lumino/messaging';
 import { ISignal, Signal } from '@lumino/signaling';
 
 import {
@@ -17,8 +19,7 @@ import {
   TabPanel,
   Widget,
 } from '@lumino/widgets';
-import { PanelHandler, SidePanelHandler } from './panelhandler';
-import { TabPanelSvg } from '@jupyterlab/ui-components';
+import { PanelHandler, SidePanel, SidePanelHandler } from './panelhandler';
 
 /**
  * The Jupyter Notebook application shell token.
@@ -63,6 +64,33 @@ export namespace INotebookShell {
      * Widget customized position
      */
     [k: string]: IWidgetPosition;
+  }
+
+  /**
+   * The notebook shell layout interface.
+   */
+  export interface ILayout {
+    downArea: IDownAreaLayout | null;
+    leftArea: SidePanel.ISideArea | null;
+    rightArea: SidePanel.ISideArea | null;
+    relativeSizes: number[] | null;
+    topArea: ITopAreaLayout | null;
+  }
+
+  /**
+   * The down area layout interface.
+   */
+  export interface IDownAreaLayout {
+    currentWidget: Widget | null;
+    widgets: Widget[] | null;
+    size: number | null;
+  }
+
+  /**
+   * The top area layout interface.
+   */
+  export interface ITopAreaLayout {
+    simpleVisibility: boolean | null;
   }
 }
 
@@ -120,6 +148,10 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     leftHandler.hide();
     rightHandler.hide();
 
+    // Listen for the panel closed.
+    leftHandler.closed.connect(this._onLayoutModified);
+    rightHandler.closed.connect(this._onLayoutModified);
+
     const middleLayout = new BoxLayout({
       spacing: 0,
       direction: 'top-to-bottom',
@@ -136,11 +168,12 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     middlePanel.addWidget(this._spacer_bottom);
     middlePanel.layout = middleLayout;
 
-    const vsplitPanel = new SplitPanel();
-    vsplitPanel.id = 'jp-main-vsplit-panel';
-    vsplitPanel.spacing = 1;
-    vsplitPanel.orientation = 'vertical';
-    SplitPanel.setStretch(vsplitPanel, 1);
+    this._vsplitPanel = new Private.RestorableSplitPanel();
+    this._vsplitPanel.id = 'jp-main-vsplit-panel';
+    this._vsplitPanel.spacing = 1;
+    this._vsplitPanel.orientation = 'vertical';
+    SplitPanel.setStretch(this._vsplitPanel, 1);
+    this._vsplitPanel.updated.connect(this._onLayoutModified);
 
     const downPanel = new TabPanelSvg({
       tabsMovable: true,
@@ -148,30 +181,30 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     this._downPanel = downPanel;
     this._downPanel.id = 'jp-down-stack';
 
-    // TODO: Consider storing this as an attribute this._hsplitPanel if saving/restoring layout needed
-    const hsplitPanel = new SplitPanel();
-    hsplitPanel.id = 'main-split-panel';
-    hsplitPanel.spacing = 1;
-    BoxLayout.setStretch(hsplitPanel, 1);
+    this._hsplitPanel = new Private.RestorableSplitPanel();
+    this._hsplitPanel.id = 'main-split-panel';
+    this._hsplitPanel.spacing = 1;
+    BoxLayout.setStretch(this._hsplitPanel, 1);
 
     SplitPanel.setStretch(leftHandler.panel, 0);
     SplitPanel.setStretch(rightHandler.panel, 0);
     SplitPanel.setStretch(middlePanel, 1);
 
-    hsplitPanel.addWidget(leftHandler.panel);
-    hsplitPanel.addWidget(middlePanel);
-    hsplitPanel.addWidget(rightHandler.panel);
+    this._hsplitPanel.addWidget(leftHandler.panel);
+    this._hsplitPanel.addWidget(middlePanel);
+    this._hsplitPanel.addWidget(rightHandler.panel);
 
     // Use relative sizing to set the width of the side panels.
     // This will still respect the min-size of children widget in the stacked
     // panel.
-    hsplitPanel.setRelativeSizes([1, 2.5, 1]);
+    this._hsplitPanel.setRelativeSizes([1, 2.5, 1]);
+    this._hsplitPanel.updated.connect(this._onLayoutModified);
 
-    vsplitPanel.addWidget(hsplitPanel);
-    vsplitPanel.addWidget(downPanel);
+    this._vsplitPanel.addWidget(this._hsplitPanel);
+    this._vsplitPanel.addWidget(downPanel);
 
     rootLayout.spacing = 0;
-    rootLayout.addWidget(vsplitPanel);
+    rootLayout.addWidget(this._vsplitPanel);
 
     // initially hiding the down panel
     this._downPanel.hide();
@@ -242,23 +275,38 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    * Is the left sidebar visible?
    */
   get leftCollapsed(): boolean {
-    return !(this._leftHandler.isVisible && this._leftHandler.panel.isVisible);
+    return !this._leftHandler.isVisible;
   }
 
   /**
    * Is the right sidebar visible?
    */
   get rightCollapsed(): boolean {
-    return !(
-      this._rightHandler.isVisible && this._rightHandler.panel.isVisible
-    );
+    return !this._rightHandler.isVisible;
   }
 
   /**
-   * Promise that resolves when the main widget is loaded
+   * A signal emitting when the layout changed.
+   */
+  get layoutModified(): ISignal<NotebookShell, void> {
+    return this._layoutModified;
+  }
+
+  /**
+   * Promise that resolves when the main widget is loaded.
+   */
+  get mainWidgetLoaded(): Promise<void> {
+    return this._mainWidgetLoaded.promise;
+  }
+
+  /**
+   * Promise that resolves when the main widget is loaded and the layout restored.
    */
   get restored(): Promise<void> {
-    return this._mainWidgetLoaded.promise;
+    return Promise.all([
+      this._mainWidgetLoaded.promise,
+      this._restored.promise,
+    ]).then((res) => undefined);
   }
 
   /**
@@ -432,6 +480,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   expandLeft(id?: string): void {
     this._leftHandler.panel.show();
     this._leftHandler.expand(id); // Show the current widget, if any
+    this._onLayoutModified();
   }
 
   /**
@@ -440,6 +489,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   collapseLeft(): void {
     this._leftHandler.collapse();
     this._leftHandler.panel.hide();
+    this._onLayoutModified();
   }
 
   /**
@@ -448,6 +498,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   expandRight(id?: string): void {
     this._rightHandler.panel.show();
     this._rightHandler.expand(id); // Show the current widget, if any
+    this._onLayoutModified();
   }
 
   /**
@@ -456,15 +507,140 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   collapseRight(): void {
     this._rightHandler.collapse();
     this._rightHandler.panel.hide();
+    this._onLayoutModified();
   }
 
   /**
    * Restore the layout state and configuration for the application shell.
    */
-  async restoreLayout(
+  async restoreLayoutConf(
     configuration: INotebookShell.IUserLayout
   ): Promise<void> {
     this._userLayout = configuration;
+  }
+
+  /**
+   * Restore the layout state and configuration for the application shell.
+   *
+   * #### Notes
+   * This should only be called once.
+   */
+  async restoreLayout(layoutRestorer: LayoutRestorer): Promise<void> {
+    // Get the layout from the restorer
+    const layout = await layoutRestorer.fetch();
+
+    // Reset the layout
+    const { downArea, leftArea, relativeSizes, rightArea, topArea } = layout;
+
+    // Rehydrate the down area
+    if (downArea) {
+      const { currentWidget, size, widgets } = downArea;
+
+      const widgetIds = widgets?.map((widget) => widget.id) ?? [];
+      // Remove absent widgets
+      this._downPanel.tabBar.titles
+        .filter((title) => !widgetIds.includes(title.owner.id))
+        .map((title) => title.owner.close());
+      // Add new widgets
+      const titleIds = this._downPanel.tabBar.titles.map(
+        (title) => title.owner.id
+      );
+      widgets
+        ?.filter((widget) => !titleIds.includes(widget.id))
+        .map((widget) => this._downPanel.addWidget(widget));
+      // Reorder tabs
+      while (
+        !ArrayExt.shallowEqual(
+          widgetIds,
+          this._downPanel.tabBar.titles.map((title) => title.owner.id)
+        )
+      ) {
+        this._downPanel.tabBar.titles.forEach((title, index) => {
+          const position = widgetIds.findIndex((id) => title.owner.id === id);
+          if (position >= 0 && position !== index) {
+            this._downPanel.tabBar.insertTab(position, title);
+          }
+        });
+      }
+
+      if (currentWidget) {
+        const index = this._downPanel.stackedPanel.widgets.findIndex(
+          (widget) => widget.id === currentWidget.id
+        );
+        if (index !== -1) {
+          this._downPanel.currentIndex = index;
+          this._downPanel.currentWidget?.activate();
+        }
+      }
+
+      if (size && size > 0.0) {
+        this._vsplitPanel.setRelativeSizes([1.0 - size, size]);
+      } else {
+        // Close all tabs and hide the panel
+        this._downPanel.stackedPanel.widgets.forEach((widget) =>
+          widget.close()
+        );
+        this._downPanel.hide();
+      }
+    }
+
+    // Rehydrate the left area.
+    if (leftArea) {
+      this._leftHandler.rehydrate(leftArea);
+    } else {
+      this.collapseLeft();
+    }
+
+    // Rehydrate the right area.
+    if (rightArea) {
+      this._rightHandler.rehydrate(rightArea);
+    } else {
+      this.collapseRight();
+    }
+
+    // Restore the relative sizes.
+    if (relativeSizes) {
+      this._hsplitPanel.setRelativeSizes(relativeSizes);
+    } else {
+      this.collapseLeft();
+      this.collapseRight();
+    }
+
+    // Restore the top area visibility.
+    if (topArea) {
+      const { simpleVisibility } = topArea;
+      if (simpleVisibility) {
+        this._topWrapper.setHidden(false);
+      }
+    } else {
+      this._topWrapper.setHidden(true);
+    }
+
+    // Make sure all messages in the queue are finished before notifying
+    // any extensions that are waiting for the promise that guarantees the
+    // application state has been restored.
+    MessageLoop.flush();
+    this._restored.resolve();
+  }
+
+  /**
+   * Save the dehydrated state of the application shell.
+   */
+  saveLayout(): INotebookShell.ILayout {
+    const layout = {
+      downArea: {
+        currentWidget: this._downPanel.currentWidget,
+        widgets: Array.from(this._downPanel.stackedPanel.widgets),
+        size: this._vsplitPanel.relativeSizes()[1],
+      },
+      leftArea: this._leftHandler.dehydrate(),
+      rightArea: this._rightHandler.dehydrate(),
+      relativeSizes: this._hsplitPanel.relativeSizes(),
+      topArea: {
+        simpleVisibility: this.top.isVisible,
+      },
+    };
+    return layout;
   }
 
   /**
@@ -474,7 +650,12 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     if (this._downPanel.stackedPanel.widgets.length === 0) {
       this._downPanel.hide();
     }
+    this._onLayoutModified();
   }
+
+  private _onLayoutModified = () => {
+    this._layoutModified.emit();
+  };
 
   private _topWrapper: Panel;
   private _topHandler: PanelHandler;
@@ -486,13 +667,17 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   private _spacer_bottom: Widget;
   private _skipLinkWidgetHandler: Private.SkipLinkWidgetHandler;
   private _main: Panel;
+  private _hsplitPanel: Private.RestorableSplitPanel;
+  private _vsplitPanel: Private.RestorableSplitPanel;
   private _downPanel: TabPanel;
   private _translator: ITranslator = nullTranslator;
   private _currentChanged = new Signal<this, FocusTracker.IChangedArgs<Widget>>(
     this
   );
   private _mainWidgetLoaded = new PromiseDelegate<void>();
+  private _restored = new PromiseDelegate<void>();
   private _userLayout: INotebookShell.IUserLayout;
+  private _layoutModified = new Signal<NotebookShell, void>(this);
 }
 
 export namespace Private {
@@ -571,5 +756,32 @@ export namespace Private {
 
     private _skipLinkWidget: Widget;
     private _isDisposed = false;
+  }
+
+  export class RestorableSplitPanel extends SplitPanel {
+    /**
+     * Construct a new RestorableSplitPanel.
+     */
+    constructor(options: SplitPanel.IOptions = {}) {
+      super(options);
+      this._updated = new Signal(this);
+    }
+
+    /**
+     * A signal emitted when the split panel is updated.
+     */
+    get updated(): ISignal<RestorableSplitPanel, void> {
+      return this._updated;
+    }
+
+    /**
+     * Emit 'updated' signal on 'update' requests.
+     */
+    protected onUpdateRequest(msg: Message): void {
+      super.onUpdateRequest(msg);
+      this._updated.emit();
+    }
+
+    private _updated: Signal<RestorableSplitPanel, void>;
   }
 }
