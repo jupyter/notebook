@@ -69,6 +69,28 @@ or via the JSON Settings Editor in the Application Context Menu.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.5.0rc1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-rc.0...7533ccab5e4adc765e57a35b1791850daf952044))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.5.0rc1 [#7764](https://github.com/jupyter/notebook/pull/7764) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group across 1 directory with 3 updates [#7751](https://github.com/jupyter/notebook/pull/7751) ([@dependabot](https://github.com/dependabot))
+
+### Documentation improvements
+
+- Fix link to Code of Conduct in CONTRIBUTING.md [#7758](https://github.com/jupyter/notebook/pull/7758) ([@jtpio](https://github.com/jtpio))
+- Remove JupyterCon 2025 announcement banner [#7757](https://github.com/jupyter/notebook/pull/7757) ([@jasongrout](https://github.com/jasongrout))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-11-03&to=2025-11-14&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-11-03..2025-11-14&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-11-03..2025-11-14&type=Issues) | [@jasongrout](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajasongrout+updated%3A2025-11-03..2025-11-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-11-03..2025-11-14&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.5.0rc0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-beta.1...18ba796a58402999044b7e8c4401319b76fed0ce))
@@ -82,8 +104,6 @@ or via the JSON Settings Editor in the Application Context Menu.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-10-20&to=2025-11-03&type=c))
 
 [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-10-20..2025-11-03&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-10-20..2025-11-03&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-10-20..2025-11-03&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.5.0b1
 
