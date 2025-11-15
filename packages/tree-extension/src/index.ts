@@ -280,20 +280,22 @@ const loadPlugins: JupyterFrontEndPlugin<void> = {
 
     app.restored.then(async () => {
       const plugins = await connector.list('all');
-      plugins.ids.forEach(async (id: string) => {
-        const [extension] = id.split(':');
-        // load the plugin if it is built-in the notebook application explicitly
-        // either included as an extension or as a plugin directly
-        const hasPlugin = pluginsSet.has(extension) || pluginsSet.has(id);
-        if (!hasPlugin || isDisabled(id) || id in settingRegistry.plugins) {
-          return;
-        }
-        try {
-          await settingRegistry.load(id);
-        } catch (error) {
-          console.warn(`Settings failed to load for (${id})`, error);
-        }
-      });
+      await Promise.all(
+        plugins.ids.map(async (id: string) => {
+          const [extension] = id.split(':');
+          // load the plugin if it is built-in the notebook application explicitly
+          // either included as an extension or as a plugin directly
+          const hasPlugin = pluginsSet.has(extension) || pluginsSet.has(id);
+          if (!hasPlugin || isDisabled(id) || id in settingRegistry.plugins) {
+            return;
+          }
+          try {
+            await settingRegistry.load(id);
+          } catch (error) {
+            console.warn(`Settings failed to load for (${id})`, error);
+          }
+        })
+      );
     });
   },
 };
