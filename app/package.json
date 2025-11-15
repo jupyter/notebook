@@ -319,6 +319,7 @@
         "@jupyterlab/video-extension": true
       },
       "/tree": {
+        "@jupyterlab/cell-toolbar-extension": true,
         "@jupyterlab/extensionmanager-extension": true,
         "@jupyterlab/filebrowser-extension": [
           "@jupyterlab/filebrowser-extension:browser",
