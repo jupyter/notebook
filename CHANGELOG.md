@@ -26,12 +26,13 @@ The default windowing mode is now `contentVisibility` which improves cell render
 
 Additional fixes improve layout containment and scrollbar behavior when working with long cells.
 
-
 ### Debugger and console enhancements
 
 The debugger's evaluate dialog has been replaced with an interactive console featuring syntax highlighting and code completion. The variables panel now preserves state when switching editors. Visual improvements include highlighted selected breakpoints, improved empty line handling, and a paused indicator. Debugger panels now reference cell execution counts.
 
-<img alt="The debugger panel showing the new interactive console and visual improvements including paused indicator" src="TODO" class="jp-screenshot">
+<img alt="Debugger panels with reference to execution counts and paused indicator as well as console evaluation"
+src="TODO"
+class="jp-screenshot">
 
 Log Console users can configure default log levels and customize toolbars.
 
@@ -39,13 +40,13 @@ Log Console users can configure default log levels and customize toolbars.
 
 The terminal now includes search functionality, with search highlights that adapt to theme changes.
 
-<img alt="The terminal with search functionality showing highlighted search results" src="TODO" class="jp-screenshot">
-
 ### Media and content support
 
 Built-in audio and video viewers allow direct file playback within Jupyter Notebook.
 
-<img alt="A video file opened directly in JupyterLab with playback controls" src="TODO" class="jp-screenshot">
+<img alt="Video file opened in a Jupyter Notebook tab"
+src="TODO"
+class="jp-screenshot">
 
 ### File browser enhancements
 
