@@ -12,60 +12,68 @@ upgrading `notebook`.
 Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 `pip --version`.
 
-## 7.4
+## 7.5
 
-Jupyter Notebook 7.4 is based on JupyterLab 4.4, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-3-to-4-4) which lists deprecations and changes to the public API.
+Jupyter Notebook 7.5 is based on JupyterLab 4.5, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-4-to-4-5) which lists deprecations and changes to the public API.
 
-Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.4, although they may not all be supported in Notebook 7.4.
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.5, although they may not all be supported in Notebook 7.5.
 
-For reference you may have a look at the [JupyterLab 4.4 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-4) to learn more.
+For reference you may have a look at the [JupyterLab 4.5 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-5) to learn more.
 
-### Code console improvements
+### Notebook improvements
 
-The code console prompt can now be positioned on the top, left, or right side of the console,
-in addition to the default bottom placement. The placement is persisted in the Prompt Cell
-Position setting.
+The default windowing mode is now `contentVisibility` which improves cell rendering and alleviates previously reported issues. The minimap can be enabled for all windowing modes and all notebooks via the `Settings` menu, or by toggling the minimap per notebook with the `View` -> `Show Minimap` option.
 
-The console toolbar now includes buttons to:
-- Execute code
-- Restart the kernel
-- Clear the cells
-- Switch the kernel
+Additional fixes improve layout containment and scrollbar behavior when working with long cells.
 
-<img alt="The option to change console prompt position is available under the three dots button in the console toolbar, which is the last toolbar button" src="https://github.com/user-attachments/assets/11f5a82a-0dd2-439b-a520-d04c73363bfe" class="jp-screenshot">
+### Debugger and console enhancements
 
-Additional settings for console behavior have been added:
-- Clear Code Content on Execute (enabled by default) – When disabled, the code submitted for execution remains in the code editor, allowing for further edits.
-- Hide Code Input – When enabled, only the execution output is shown in the console.
-- Clear Cells on Execute – When enabled, only the last cell is displayed.
+The debugger's evaluate dialog has been replaced with an interactive console featuring syntax highlighting and code completion. The variables panel now preserves state when switching editors. Visual improvements include highlighted selected breakpoints, improved empty line handling, and a paused indicator. Debugger panels now reference cell execution counts.
 
-Toggling all the three new settings transforms the console into an interactive editor
-resembling an ephemeral notebook with a single cell.
+<img alt="Debugger panels with reference to execution counts and paused indicator as well as console evaluation"
+src="https://raw.githubusercontent.com/jupyter/notebook/main/docs/source/_static/changelog_assets/7.5-debugger.webp"
+class="jp-screenshot">
 
-<img alt="Toggling all the three new settings transforms the console into a single cell" src="https://github.com/user-attachments/assets/86eb1114-0d60-4379-a370-b538717fc74f" class="jp-screenshot">
+Log Console users can configure default log levels and customize toolbars.
 
-### Settings import and export
+### Terminal enhancements
 
-Settings can now be exported to `overrides.json` from the Settings Editor,
-which can be used to pre-configure defaults in deployments or to restore settings.
+The terminal now includes search functionality, with search highlights that adapt to theme changes.
 
-<img alt="The Import and Export buttons in the Settings Editor are the first two items in the toolbar panel" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.4-settings-import-export.png" class="jp-screenshot">
+### Media and content support
 
-### Support for collaboration without `RTC:` drive
+Built-in audio and video viewers allow direct file playback within Jupyter Notebook.
 
-Real time collaboration in previous versions of JupyterLab and Jupyter Notebook
-(which can be enabled by installing jupyter-collaboration package)
-was implemented by swapping the default JupyterLab file system
-drive to a collaborative drive with the `RTC:` prefix.
-This approach was incompatible with multiple extensions.
-JupyterLab 4.4 introduces the Content Providers API, which allows the next version of `jupyter-collaboration` to work without changing the drive prefix.
-This improves compatibility with extensions that do not support arbitrary drives.
+<img alt="Video file opened in a Jupyter Notebook tab"
+src="https://raw.githubusercontent.com/jupyter/notebook/main/docs/source/_static/changelog_assets/7.5-media-player.webp"
+class="jp-screenshot">
 
-### Context menu opt-out
+### File browser enhancements
 
-The context menu, available under right mouse click in browsers, can now be disabled globally
-by toggling the `Enable Context Menu` option available in the Command Palette,
-or via the JSON Settings Editor in the Application Context Menu.
+- There is a new `allowFileUploads` setting to control upload permissions.
+- Menu options for creating Python, R, or Julia files are now available from the New menu.
+- The "Select All" command is now available with the Ctrl + A (or Cmd + A on macOS) keyboard shortcut in the file browser.
+- Breadcrumbs are now configurable through `breadcrumbsLeftItems` and `breadcrumbsRightItems` settings.
+
+### Settings editor improvements
+
+The `addExtraLineOnCellMerge` setting removes extra lines when merging cells, matching classic notebook behavior.
+
+### Cell toolbar settings
+
+The cell toolbar settings are now exposed in the Settings Editor, making it easier to customize the cell toolbar appearance and behavior.
+
+### Keyboard shortcuts
+
+The `O` key has been defined as the keyboard shortcut to toggle cell outputs, restoring this familiar functionality from the classic notebook.
+
+### User interface and accessibility
+
+Automatic theme switching between light and dark modes is now available when system synchronization is enabled. Dialog components display buttons and checkboxes on separate lines for improved readability. Terminal selections show better visibility under high-contrast themes. Keyboard navigation and status bar tab ordering have been improved.
+
+### Breaking changes
+
+Python 3.8 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
@@ -235,6 +243,61 @@ or via the JSON Settings Editor in the Application Context Menu.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-04-09&to=2025-05-07&type=c))
 
 [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-04-09..2025-05-07&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-04-09..2025-05-07&type=Issues) | [@honnix](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahonnix+updated%3A2025-04-09..2025-05-07&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-04-09..2025-05-07&type=Issues)
+
+## 7.4
+
+Jupyter Notebook 7.4 is based on JupyterLab 4.4, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-3-to-4-4) which lists deprecations and changes to the public API.
+
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.4, although they may not all be supported in Notebook 7.4.
+
+For reference you may have a look at the [JupyterLab 4.4 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-4) to learn more.
+
+### Code console improvements
+
+The code console prompt can now be positioned on the top, left, or right side of the console,
+in addition to the default bottom placement. The placement is persisted in the Prompt Cell
+Position setting.
+
+The console toolbar now includes buttons to:
+- Execute code
+- Restart the kernel
+- Clear the cells
+- Switch the kernel
+
+<img alt="The option to change console prompt position is available under the three dots button in the console toolbar, which is the last toolbar button" src="https://github.com/user-attachments/assets/11f5a82a-0dd2-439b-a520-d04c73363bfe" class="jp-screenshot">
+
+Additional settings for console behavior have been added:
+- Clear Code Content on Execute (enabled by default) – When disabled, the code submitted for execution remains in the code editor, allowing for further edits.
+- Hide Code Input – When enabled, only the execution output is shown in the console.
+- Clear Cells on Execute – When enabled, only the last cell is displayed.
+
+Toggling all the three new settings transforms the console into an interactive editor
+resembling an ephemeral notebook with a single cell.
+
+<img alt="Toggling all the three new settings transforms the console into a single cell" src="https://github.com/user-attachments/assets/86eb1114-0d60-4379-a370-b538717fc74f" class="jp-screenshot">
+
+### Settings import and export
+
+Settings can now be exported to `overrides.json` from the Settings Editor,
+which can be used to pre-configure defaults in deployments or to restore settings.
+
+<img alt="The Import and Export buttons in the Settings Editor are the first two items in the toolbar panel" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.4-settings-import-export.png" class="jp-screenshot">
+
+### Support for collaboration without `RTC:` drive
+
+Real time collaboration in previous versions of JupyterLab and Jupyter Notebook
+(which can be enabled by installing jupyter-collaboration package)
+was implemented by swapping the default JupyterLab file system
+drive to a collaborative drive with the `RTC:` prefix.
+This approach was incompatible with multiple extensions.
+JupyterLab 4.4 introduces the Content Providers API, which allows the next version of `jupyter-collaboration` to work without changing the drive prefix.
+This improves compatibility with extensions that do not support arbitrary drives.
+
+### Context menu opt-out
+
+The context menu, available under right mouse click in browsers, can now be disabled globally
+by toggling the `Enable Context Menu` option available in the Command Palette,
+or via the JSON Settings Editor in the Application Context Menu.
 
 ## 7.4.0
 
