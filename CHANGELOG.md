@@ -31,7 +31,7 @@ Additional fixes improve layout containment and scrollbar behavior when working 
 The debugger's evaluate dialog has been replaced with an interactive console featuring syntax highlighting and code completion. The variables panel now preserves state when switching editors. Visual improvements include highlighted selected breakpoints, improved empty line handling, and a paused indicator. Debugger panels now reference cell execution counts.
 
 <img alt="Debugger panels with reference to execution counts and paused indicator as well as console evaluation"
-src="TODO"
+src="https://raw.githubusercontent.com/jtpio/notebook/3ba8aac90075b87258a0f0af733fa680a83e3bd9/docs/source/_static/changelog_assets/7.5-debugger.webp"
 class="jp-screenshot">
 
 Log Console users can configure default log levels and customize toolbars.
@@ -45,7 +45,7 @@ The terminal now includes search functionality, with search highlights that adap
 Built-in audio and video viewers allow direct file playback within Jupyter Notebook.
 
 <img alt="Video file opened in a Jupyter Notebook tab"
-src="TODO"
+src="https://raw.githubusercontent.com/jtpio/notebook/3ba8aac90075b87258a0f0af733fa680a83e3bd9/docs/source/_static/changelog_assets/7.5-media-player.webp"
 class="jp-screenshot">
 
 ### File browser enhancements
