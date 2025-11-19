@@ -77,6 +77,71 @@ Python 3.8 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.5.0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0...be53ec8bc96cdbcb64b6f1c5ec39c123c087a348))
+
+### Enhancements made
+
+- Update to JupyterLab v4.5.0b1 [#7746](https://github.com/jupyter/notebook/pull/7746) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.5.0b0 [#7739](https://github.com/jupyter/notebook/pull/7739) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.5.0a4 [#7728](https://github.com/jupyter/notebook/pull/7728) ([@jtpio](https://github.com/jtpio))
+- Increase the checkpoint polling interval to 30s [#7711](https://github.com/jupyter/notebook/pull/7711) ([@jtpio](https://github.com/jtpio))
+- Define `O` as the keyboard shortcut to toggle cell outputs [#7709](https://github.com/jupyter/notebook/pull/7709) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.5.0a3 [#7703](https://github.com/jupyter/notebook/pull/7703) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Expose the cell toolbar settings [#7766](https://github.com/jupyter/notebook/pull/7766) ([@jtpio](https://github.com/jtpio))
+- Handle file rename errors [#7710](https://github.com/jupyter/notebook/pull/7710) ([@jtpio](https://github.com/jtpio))
+- Fix open file with “#” in the filename [#7698](https://github.com/jupyter/notebook/pull/7698) ([@itsmevichu](https://github.com/itsmevichu))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.5.0 [#7768](https://github.com/jupyter/notebook/pull/7768) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.5.0rc1 [#7764](https://github.com/jupyter/notebook/pull/7764) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.5.0rc0 [#7755](https://github.com/jupyter/notebook/pull/7755) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group across 1 directory with 3 updates [#7751](https://github.com/jupyter/notebook/pull/7751) ([@dependabot](https://github.com/dependabot))
+- Use Node.js 24 / npm 11 to publish releases [#7749](https://github.com/jupyter/notebook/pull/7749) ([@jtpio](https://github.com/jtpio))
+- Revert "Pin `click<8.3`" [#7733](https://github.com/jupyter/notebook/pull/7733) ([@jtpio](https://github.com/jtpio))
+- Remove link to `npmjs.com` [#7730](https://github.com/jupyter/notebook/pull/7730) ([@jtpio](https://github.com/jtpio))
+- Pin `click<8.3` [#7729](https://github.com/jupyter/notebook/pull/7729) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group across 1 directory with 3 updates [#7704](https://github.com/jupyter/notebook/pull/7704) ([@dependabot](https://github.com/dependabot))
+- Update to JupyterLab v4.5.0a2 [#7694](https://github.com/jupyter/notebook/pull/7694) ([@jtpio](https://github.com/jtpio))
+- Pin `httpx` [#7691](https://github.com/jupyter/notebook/pull/7691) ([@jtpio](https://github.com/jtpio))
+- Bump prefix-dev/setup-pixi from 0.8.10 to 0.8.11 in the actions group [#7675](https://github.com/jupyter/notebook/pull/7675) ([@dependabot](https://github.com/dependabot))
+- Bump prefix-dev/setup-pixi from 0.8.8 to 0.8.10 in the actions group [#7665](https://github.com/jupyter/notebook/pull/7665) ([@dependabot](https://github.com/dependabot))
+- Bump brace-expansion from 1.1.11 to 1.1.12 in /ui-tests [#7664](https://github.com/jupyter/notebook/pull/7664) ([@dependabot](https://github.com/dependabot))
+- Revert "CI: pin to `jupyter-core<5.8.0` on Windows" [#7657](https://github.com/jupyter/notebook/pull/7657) ([@minrk](https://github.com/minrk))
+- Update to JupyterLab v4.5.0a1 [#7656](https://github.com/jupyter/notebook/pull/7656) ([@jtpio](https://github.com/jtpio))
+- CI: pin to `jupyter-core<5.8.0` on Windows [#7655](https://github.com/jupyter/notebook/pull/7655) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.5.0a0 [#7650](https://github.com/jupyter/notebook/pull/7650) ([@jtpio](https://github.com/jtpio))
+- Run UI tests on `ubuntu-latest` [#7639](https://github.com/jupyter/notebook/pull/7639) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.1 [#7638](https://github.com/jupyter/notebook/pull/7638) ([@jtpio](https://github.com/jtpio))
+- Bump prefix-dev/setup-pixi from 0.8.5 to 0.8.8 in the actions group [#7637](https://github.com/jupyter/notebook/pull/7637) ([@dependabot](https://github.com/dependabot))
+- chore: Fix UP006 [#7633](https://github.com/jupyter/notebook/pull/7633) ([@honnix](https://github.com/honnix))
+- Bump prefix-dev/setup-pixi from 0.8.4 to 0.8.5 in the actions group [#7632](https://github.com/jupyter/notebook/pull/7632) ([@dependabot](https://github.com/dependabot))
+- Drop support for Python 3.8 [#7628](https://github.com/jupyter/notebook/pull/7628) ([@honnix](https://github.com/honnix))
+
+### Documentation improvements
+
+- User facing changelog for 7.5 [#7770](https://github.com/jupyter/notebook/pull/7770) ([@jtpio](https://github.com/jtpio))
+- Clean up references to Gitpod [#7767](https://github.com/jupyter/notebook/pull/7767) ([@jtpio](https://github.com/jtpio))
+- Fix link to Code of Conduct in CONTRIBUTING.md [#7758](https://github.com/jupyter/notebook/pull/7758) ([@jtpio](https://github.com/jtpio))
+- Remove JupyterCon 2025 announcement banner [#7757](https://github.com/jupyter/notebook/pull/7757) ([@jasongrout](https://github.com/jasongrout))
+- Update JupyterCon 2025 announcement links [#7744](https://github.com/jupyter/notebook/pull/7744) ([@krassowski](https://github.com/krassowski))
+- Add JupyterCon banner and add Jupyter colors [#7727](https://github.com/jupyter/notebook/pull/7727) ([@choldgraf](https://github.com/choldgraf))
+- Fix grammatical issues in Contributing.md [#7669](https://github.com/jupyter/notebook/pull/7669) ([@sangampaudel530](https://github.com/sangampaudel530))
+- Fixed grammar and typos in CONTRIBUTING.md [#7645](https://github.com/jupyter/notebook/pull/7645) ([@jchen1223](https://github.com/jchen1223))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-04-09&to=2025-11-19&type=c))
+
+[@afshin](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafshin+updated%3A2025-04-09..2025-11-19&type=Issues) | [@choldgraf](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Acholdgraf+updated%3A2025-04-09..2025-11-19&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-04-09..2025-11-19&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-04-09..2025-11-19&type=Issues) | [@honnix](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahonnix+updated%3A2025-04-09..2025-11-19&type=Issues) | [@itsmevichu](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aitsmevichu+updated%3A2025-04-09..2025-11-19&type=Issues) | [@jasongrout](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajasongrout+updated%3A2025-04-09..2025-11-19&type=Issues) | [@jchen1223](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajchen1223+updated%3A2025-04-09..2025-11-19&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-04-09..2025-11-19&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-04-09..2025-11-19&type=Issues) | [@lumberbot-app](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Alumberbot-app+updated%3A2025-04-09..2025-11-19&type=Issues) | [@minrk](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aminrk+updated%3A2025-04-09..2025-11-19&type=Issues) | [@nkn2022](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ankn2022+updated%3A2025-04-09..2025-11-19&type=Issues) | [@sangampaudel530](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Asangampaudel530+updated%3A2025-04-09..2025-11-19&type=Issues)
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.5.0rc1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-rc.0...7533ccab5e4adc765e57a35b1791850daf952044))
@@ -96,8 +161,6 @@ Python 3.8 support has been dropped in this release.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-11-03&to=2025-11-14&type=c))
 
 [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-11-03..2025-11-14&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-11-03..2025-11-14&type=Issues) | [@jasongrout](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajasongrout+updated%3A2025-11-03..2025-11-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-11-03..2025-11-14&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.5.0rc0
 
