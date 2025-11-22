@@ -246,8 +246,8 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
     """The notebook server extension app."""
 
     name = "notebook"
-    app_name = "Jupyter Notebook"
-    description = "Jupyter Notebook - A web-based notebook environment for interactive computing"
+    app_name = "Thesis Scientific Notebook"
+    description = "Thesis Notebook - An agentic web-based notebook environment for interactive scientific computing"
     version = version
     app_version = Unicode(version, help="The version of the application.")
     extension_url = "/"
@@ -272,15 +272,15 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
     )
 
     flags: Flags = flags  # type:ignore[assignment]
-    flags["expose-app-in-browser"] = (
-        {"JupyterNotebookApp": {"expose_app_in_browser": True}},
-        "Expose the global app instance to browser via window.jupyterapp.",
-    )
+    # flags["expose-app-in-browser"] = (
+    #     {"JupyterNotebookApp": {"expose_app_in_browser": True}},
+    #     "Expose the global app instance to browser via window.jupyterapp.",
+    # )
 
-    flags["custom-css"] = (
-        {"JupyterNotebookApp": {"custom_css": True}},
-        "Load custom CSS in template html files. Default is True",
-    )
+    # flags["custom-css"] = (
+    #     {"JupyterNotebookApp": {"custom_css": True}},
+    #     "Load custom CSS in template html files. Default is True",
+    # )
 
     @default("static_dir")
     def _default_static_dir(self) -> str:

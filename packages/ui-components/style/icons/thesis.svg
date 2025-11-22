@@ -1,0 +1,17 @@
+<svg width="608" height="608" viewBox="0 0 608 608" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400&amp;display=swap');
+      .symbol {
+        font-family: 'Inter Tight', sans-serif;
+        font-weight: 400;
+        font-size: 328px; /* 20.5rem */
+        fill: #000000;
+        text-anchor: middle;
+        dominant-baseline: central;
+      }
+    </style>
+  </defs>
+  
+  <text x="50%" y="50%" class="symbol">δ</text>
+</svg>
