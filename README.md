@@ -17,6 +17,37 @@ It is built on a modernized fork of Jupyter Notebook.
 
 ![Jupyter notebook example](docs/resources/running_code_med.png 'Jupyter notebook example')
 
+## Development
+
+Developer experience is simple and clean relative to the upstream fork. 
+
+To setup and build your development enviroment: 
+
+```sh
+./scripts/rebuild.sh
+```
+
+To start the notebook development server from your code:
+
+```sh
+./scripts/dev.sh
+```
+
+The notebook server will run on port: 8888.
+
+In another terminal to watch for changes w/ auto hot reloading:
+
+```sh
+./scripts/watch.sh
+```
+
+To cleanly rebuild your environment from scratch:
+
+```sh
+./scripts/rebuild.sh
+```
+
+
 ## Installation (Coming Soon)
 
 You can find the installation documentation for the
