@@ -27,6 +27,8 @@
     "build:utils": "cd buildutils && npm run build",
     "clean": "lerna run clean",
     "deduplicate": "jlpm dlx yarn-berry-deduplicate -s fewerHighest && jlpm install",
+    "dev": "./scripts/dev.sh",
+    "dev:rebuild": "./scripts/rebuild.sh; ./scripts/dev.sh",
     "develop": "jupyter labextension develop . --overwrite && node ./buildutils/lib/develop.js --overwrite",
     "eslint": "eslint . --ext .ts,.tsx --fix",
     "eslint:check": "eslint . --ext .ts,.tsx",
@@ -42,8 +44,8 @@
     "update:dependency": "node ./node_modules/@jupyterlab/buildutils/lib/update-dependency.js --lerna",
     "upgrade:lab:dependencies": "node ./buildutils/lib/upgrade-lab-dependencies.js",
     "watch": "run-p watch:lib watch:app",
-    "watch:app": "lerna exec --stream --scope \"@jupyter-notebook/app\" ./.venv/bin/jlpm watch",
-    "watch:lib": "lerna exec --stream --scope @jupyter-notebook/metapackage ./.venv/bin/jlpm watch"
+    "watch:app": "lerna exec --stream --scope \"@jupyter-notebook/app\" ../.venv/bin/jlpm watch",
+    "watch:lib": "lerna exec --stream --scope @jupyter-notebook/metapackage ../../.venv/bin/jlpm watch"
   },
   "resolutions": {
     "@types/react": "^18.0.26",

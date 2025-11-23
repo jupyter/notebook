@@ -8,14 +8,14 @@ import {
 
 import {
   ISessionContext,
-  DOMUtils,
+  // DOMUtils,
   IToolbarWidgetRegistry,
   ICommandPalette,
 } from '@jupyterlab/apputils';
 
 import { Cell, CodeCell } from '@jupyterlab/cells';
 
-import { PageConfig, Text, Time, URLExt } from '@jupyterlab/coreutils';
+import { PageConfig, Text, /* Time, */ URLExt } from '@jupyterlab/coreutils';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
@@ -104,16 +104,18 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
     settingRegistry: ISettingRegistry | null
   ) => {
     const { shell } = app;
-    const trans = translator.load('notebook');
-    const node = document.createElement('div');
+    // const trans = translator.load('notebook');
+    // const node = document.createElement('div');
 
     if (toolbarRegistry) {
+      /*
       toolbarRegistry.addFactory('TopBar', 'checkpoint', (toolbar) => {
         const widget = new Widget({ node });
         widget.id = DOMUtils.createDomID();
         widget.addClass('jp-NotebookCheckpoint');
         return widget;
       });
+      */
     }
 
     const getCurrent = () => {
@@ -129,6 +131,9 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
     };
 
     const updateCheckpointDisplay = async () => {
+      // Checkpoint display disabled
+      return;
+      /*
       const current = getCurrent();
       if (!current) {
         return;
@@ -143,6 +148,7 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
         'Last Checkpoint: %1',
         Time.formatHuman(new Date(checkpoint.last_modified))
       );
+      */
     };
 
     const onSaveState = async (

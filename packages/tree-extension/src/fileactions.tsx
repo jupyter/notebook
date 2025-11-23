@@ -34,7 +34,7 @@ export class FilesActionButtons {
     // Placeholder, when no file is selected.
     const placeholder = ReactWidget.create(
       <div key={'placeholder'}>
-        {trans.__('Select items to perform actions on them.')}
+        {trans.__('Select a file or directory')}
       </div>
     );
     placeholder.id = 'fileAction-placeholder';

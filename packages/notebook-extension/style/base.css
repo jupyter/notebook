@@ -225,7 +225,7 @@ body[data-notebook='notebooks']
 
 #jp-title h1 {
   cursor: pointer;
-  font-size: 18px;
+  font-size: 14px;
   margin: 0;
   font-weight: normal;
   color: var(--jp-ui-font-color0);

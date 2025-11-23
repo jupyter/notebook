@@ -6,8 +6,16 @@ echo "[thesis] setting up notebook...";
 echo " * rm py venv";
 rm -rf ./.venv;
 
+echo " * rm build libs";
+find ./packages -type d -name "lib" -prune -exec rm -rf {} +
+rm -rf buildutils/lib
+
+echo " * rm build tsconfig.tsbuildinfo";
+find ./packages -name "tsconfig.tsbuildinfo" -type f -delete
+rm -f buildutils/tsconfig.tsbuildinfo
+
 echo " * rm node deps";
-rm -rf ./node_modules ./packages/*/node_modules;
+rm -rf ./node_modules ./packages/*/node_modules buildutils/node_modules;
 
 echo " * make py venv";
 python3 -m venv ./.venv;

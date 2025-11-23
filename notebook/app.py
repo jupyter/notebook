@@ -247,7 +247,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
 
     name = "notebook"
     app_name = "Thesis Scientific Notebook"
-    description = "Thesis Notebook - An agentic web-based notebook environment for interactive scientific computing"
+    description = "Thesis Scientific Notebook - The AI-powered notebook for scientific discovery and computing"
     version = version
     app_version = Unicode(version, help="The version of the application.")
     extension_url = "/"

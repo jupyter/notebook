@@ -60,7 +60,7 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
   /**
    * The name of the application.
    */
-  readonly name = 'Jupyter Notebook';
+  readonly name = 'Thesis Notebook';
 
   /**
    * A namespace/prefix plugins may use to denote their provenance.
