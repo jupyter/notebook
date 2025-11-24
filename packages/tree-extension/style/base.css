@@ -7,62 +7,8 @@
 .jp-FileBrowser-toolbar .jp-Toolbar-item.jp-DropdownMenu,
 .jp-FileBrowser-toolbar .jp-Toolbar-item.jp-ToolbarButton,
 .jp-FileBrowser-toolbar .jp-Toolbar-item.jp-CommandToolbarButton {
-  /* Layout: inline-flex items-center justify-center gap-2 */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.2rem; /* 8px */
-  white-space: nowrap;
-
-  /* Typography: text-sm font-medium */
-  font-size: 0.875rem; /* 14px */
-  font-weight: 500;
-  line-height: 1.25rem;
-
-  /* Sizing: h-9 px-4 py-2 */
-  height: 2.25rem; /* 36px */
-  padding: 0.2rem 0.35rem;
-  box-sizing: border-box;
-
-  /* Appearance: rounded-md border shadow-xs */
-  border-radius: 6px; /* rounded-md */
-  border: 1px solid #e4e4e7; /* Tailwind zinc-200 */
-  background-color: #ffffff;
-  color: #09090b; /* Tailwind zinc-950 */
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-
-  /* Animation: transition-all */
-  transition: all 0.15s ease-in-out;
-  cursor: pointer;
-
-  /* Your original overrides */
-  margin: 1px;
-}
-
-/* Hover State: hover:bg-accent hover:text-accent-foreground */
-.jp-FileBrowser-toolbar .jp-Toolbar-item.jp-CommandToolbarButton:hover {
-  background-color: #f4f4f5; /* Tailwind zinc-100 */
-  color: #18181b; /* Tailwind zinc-900 */
-}
-
-/* Focus State: focus-visible:ring-ring */
-.jp-FileBrowser-toolbar .jp-Toolbar-item.jp-CommandToolbarButton:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px rgba(24, 24, 27, 0.2); /* Ring effect */
-  border-color: #18181b;
-}
-
-/* Disabled State: disabled:opacity-50 */
-.jp-FileBrowser-toolbar .jp-Toolbar-item.jp-CommandToolbarButton:disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}
-
-/* SVG Icon sizing: [&_svg]:size-4 */
-.jp-FileBrowser-toolbar .jp-Toolbar-item.jp-CommandToolbarButton svg {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
+  border: solid 1px var(--jp-border-color2);
+  padding: 0px;
 }
 
 .jp-FileBrowser-toolbar > .jp-Toolbar-item.jp-ToolbarButton:hover,
@@ -113,9 +59,4 @@
 
 body[data-format='mobile'] #fileAction-placeholder {
   display: none;
-}
-
-.lm-MenuBar.lm-mod-active .lm-MenuBar-item.lm-mod-active {
-  border-left: none;
-  border-right: none;
 }
