@@ -8,14 +8,14 @@ import typing as t
 from pathlib import Path
 
 from jupyter_client.utils import ensure_async  # type:ignore[attr-defined]
-from jupyter_core.application import base_aliases
+# from jupyter_core.application import base_aliases
 from jupyter_core.paths import jupyter_config_dir
 from jupyter_server.base.handlers import JupyterHandler
 from jupyter_server.extension.handler import (
     ExtensionHandlerJinjaMixin,
     ExtensionHandlerMixin,
 )
-from jupyter_server.serverapp import flags
+# from jupyter_server.serverapp import flags
 from jupyter_server.utils import url_escape, url_is_absolute
 from jupyter_server.utils import url_path_join as ujoin
 from jupyterlab.commands import (  # type:ignore[import-untyped]
@@ -239,7 +239,7 @@ class CustomCssHandler(NotebookBaseHandler):
             return self.write(css_f.read())
 
 
-aliases = dict(base_aliases)
+# aliases = dict(base_aliases) # Remove jupyter aliases
 
 
 class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[misc]
@@ -247,7 +247,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
 
     name = "notebook"
     app_name = "Thesis Scientific Notebook"
-    description = "Thesis Scientific Notebook - The AI-powered notebook for scientific discovery and computing"
+    description = "Thesis Notebook - The AI-powered notebook scientific computation notebook"
     version = version
     app_version = Unicode(version, help="The version of the application.")
     extension_url = "/"
@@ -271,16 +271,18 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
         """,
     )
 
-    flags: Flags = flags  # type:ignore[assignment]
+    # flags: Flags = flags  # type:ignore[assignment]
+    flags = {}
     # flags["expose-app-in-browser"] = (
     #     {"JupyterNotebookApp": {"expose_app_in_browser": True}},
     #     "Expose the global app instance to browser via window.jupyterapp.",
     # )
-
+    
     # flags["custom-css"] = (
     #     {"JupyterNotebookApp": {"custom_css": True}},
     #     "Load custom CSS in template html files. Default is True",
     # )
+    aliases = {}
 
     @default("static_dir")
     def _default_static_dir(self) -> str:
