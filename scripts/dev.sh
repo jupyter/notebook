@@ -4,4 +4,4 @@ set -euo pipefail
 echo "[thesis] starting notebook development server...";
 
 echo " -> running thesis notebook development server...";
-./.venv/bin/jupyter notebook;
+./.venv/bin/thesis notebook;

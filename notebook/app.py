@@ -4,18 +4,19 @@ from __future__ import annotations
 
 import os
 import re
+import sys
 import typing as t
 from pathlib import Path
 
+import requests
 from jupyter_client.utils import ensure_async  # type:ignore[attr-defined]
-from jupyter_core.application import base_aliases
 from jupyter_core.paths import jupyter_config_dir
 from jupyter_server.base.handlers import JupyterHandler
 from jupyter_server.extension.handler import (
     ExtensionHandlerJinjaMixin,
     ExtensionHandlerMixin,
 )
-from jupyter_server.serverapp import flags
+from jupyter_server.serverapp import ServerApp
 from jupyter_server.utils import url_escape, url_is_absolute
 from jupyter_server.utils import url_path_join as ujoin
 from jupyterlab.commands import (  # type:ignore[import-untyped]
@@ -33,6 +34,7 @@ from jupyterlab_server.handlers import _camelCase, is_url
 from notebook_shim.shim import NotebookConfigShimMixin  # type:ignore[import-untyped]
 from tornado import web
 from traitlets import Bool, Unicode, default
+from traitlets.config.application import Application
 from traitlets.config.loader import Config
 
 from ._version import __version__
@@ -239,15 +241,12 @@ class CustomCssHandler(NotebookBaseHandler):
             return self.write(css_f.read())
 
 
-aliases = dict(base_aliases)
-
-
 class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[misc]
     """The notebook server extension app."""
 
     name = "notebook"
     app_name = "Thesis Scientific Notebook"
-    description = "Thesis Scientific Notebook - The AI-powered notebook for scientific discovery and computing"
+    description = "Thesis Notebook - The AI-powered notebook scientific computation notebook"
     version = version
     app_version = Unicode(version, help="The version of the application.")
     extension_url = "/"
@@ -271,16 +270,8 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
         """,
     )
 
-    flags: Flags = flags  # type:ignore[assignment]
-    # flags["expose-app-in-browser"] = (
-    #     {"JupyterNotebookApp": {"expose_app_in_browser": True}},
-    #     "Expose the global app instance to browser via window.jupyterapp.",
-    # )
-
-    # flags["custom-css"] = (
-    #     {"JupyterNotebookApp": {"custom_css": True}},
-    #     "Load custom CSS in template html files. Default is True",
-    # )
+    flags = {}  # type:ignore[assignment]
+    aliases = {}  # type:ignore[assignment]
 
     @default("static_dir")
     def _default_static_dir(self) -> str:
@@ -363,7 +354,85 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
         super().initialize()
 
 
-main = launch_new_instance = JupyterNotebookApp.launch_instance
+class NotebookLauncher(ServerApp):
+    """Launcher for the notebook."""
+
+    name = "notebook"
+    description = "Launch the Thesis scientific notebook web viewer"
+
+    def initialize(self, argv: list[str] | None = None) -> None:
+        """Initialize the app."""
+        # Ensure JupyterNotebookApp configuration is loaded
+        self.classes.append(JupyterNotebookApp)
+        # Initialize the ServerApp (this loads config, traits, etc.)
+        super().initialize(argv)
+        # Explicitly load our extension
+        JupyterNotebookApp.load_classic_server_extension(self)
+
+    def start(self) -> None:
+        """Start the app."""
+        super().start()
+
+
+class ExecApp(Application):
+    """Execute a command."""
+
+    name = "exec"
+    description = "Execute a command"
+
+    model = Unicode("gpt-5.1-codex", config=True, help="The model to use for execution")
+    notebook_path = Unicode("./development.ipynb", config=True, help="The path to the notebook")
+
+    aliases = {
+        "model": "ExecApp.model",
+        "notebook-path": "ExecApp.notebook_path",
+    }
+
+    def start(self) -> None:
+        instructions = "No instructions provided"
+        if self.extra_args:
+            instructions = self.extra_args[0]
+
+        response = requests.post(
+            "http://localhost:4242/chat",
+            json={
+                "name": "A new chat",
+                "instructions": instructions,
+                "model": self.model,
+                "notebook_path": self.notebook_path,
+            },
+            timeout=10,
+        )
+
+        if response.status_code != 200:
+            print(f"Error: Agent API responded with {response.status_code} {response.text}")  # noqa: T201
+            return None
+
+        data = response.json()
+        print(f"Thesis v{__version__} (research preview)\n\n--------\n\nworkdir: {Path.cwd()}\n\nmodel: {data['model']}\n\nnotebook path: {data['notebook_path']}\n\nchat id: {data['id']}\n\napproval: never\n\nsandbox: workspace-write\n\nreasoning effort: high\n\nreasoning summaries: auto\n\n--------\n")  # noqa: T201 # fmt: skip
+        return response.json()
+
+
+class ThesisCli(Application):
+    """thesis: Scientific Computing"""
+
+    name = "thesis"
+    description = "Thesis: Scientific Computing"
+    version = __version__
+
+    subcommands = {
+        "notebook": (NotebookLauncher, "Launch the Thesis scientific notebook web viewer"),
+        "exec": (ExecApp, "Run Thesis non-interactively"),
+    }
+
+    def start(self) -> None:
+        if self.subapp is None:
+            self.print_help()
+            sys.exit(0)
+        super().start()
+
+
+main = launch_new_instance = ThesisCli.launch_instance
 
 if __name__ == "__main__":
     main()
