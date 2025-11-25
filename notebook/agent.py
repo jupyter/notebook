@@ -5,6 +5,7 @@ from werkzeug.serving import make_server
 
 app = Flask(__name__)
 
+
 @app.route("/chat", methods=["POST"])
 def chat():
     data = request.get_json()
