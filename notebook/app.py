@@ -375,7 +375,14 @@ class NotebookLauncher(ServerApp):
 
     def start(self) -> None:
         """Start the app."""
+        from .agent import run_agent_server
+        run_agent_server()
         super().start()
+
+    def stop(self) -> None:
+        from .agent import stop_agent_server
+        stop_agent_server()
+        super().stop()
 
 
 class ExecApp(Application):
