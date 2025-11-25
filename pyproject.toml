@@ -7,16 +7,16 @@ build-backend = "hatchling.build"
 
 [project]
 name = "notebook"
-description = "Jupyter Notebook - A web-based notebook environment for interactive computing"
+description = "Thesis Notebook - A web-based scientific notebook environment for interactive computing"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.9"
 authors = [
-    { name = "Jupyter Development Team", email = "jupyter@googlegroups.com" },
+    { name = "Thesis Team", email = "ask@theislabs.ai" },
 ]
 keywords = [
-    "Jupyter",
-    "JupyterLab",
+    "Thesis",
+    "ThesisLab",
     "Notebook",
 ]
 classifiers = [
@@ -43,13 +43,13 @@ dependencies = [
 dynamic = ["version"]
 
 [project.scripts]
-jupyter-notebook = "notebook.app:main"
+thesis-notebook = "notebook.app:main"
 
 [project.urls]
-Documentation = "https://jupyter-notebook.readthedocs.io/"
-Homepage = "https://github.com/jupyter/notebook"
-Source = "https://github.com/jupyter/notebook"
-Tracker = "https://github.com/jupyter/notebook/issues"
+Documentation = "https://thesislabs.ai/notebook"
+Homepage = "https://github.com/Thesis-Labs/thesis-notebook"
+Source = "https://github.com/Thesis-Labs/thesis-notebook"
+Tracker = "https://github.com/Thesis-Labs/thesis-notebook/issues"
 
 [project.optional-dependencies]
 test = [
