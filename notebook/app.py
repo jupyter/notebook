@@ -8,6 +8,7 @@ import typing as t
 from pathlib import Path
 
 from jupyter_client.utils import ensure_async  # type:ignore[attr-defined]
+
 # from jupyter_core.application import base_aliases
 from jupyter_core.paths import jupyter_config_dir
 from jupyter_server.base.handlers import JupyterHandler
@@ -15,6 +16,7 @@ from jupyter_server.extension.handler import (
     ExtensionHandlerJinjaMixin,
     ExtensionHandlerMixin,
 )
+
 # from jupyter_server.serverapp import flags
 from jupyter_server.utils import url_escape, url_is_absolute
 from jupyter_server.utils import url_path_join as ujoin
@@ -277,7 +279,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
     #     {"JupyterNotebookApp": {"expose_app_in_browser": True}},
     #     "Expose the global app instance to browser via window.jupyterapp.",
     # )
-    
+
     # flags["custom-css"] = (
     #     {"JupyterNotebookApp": {"custom_css": True}},
     #     "Load custom CSS in template html files. Default is True",
