@@ -360,6 +360,10 @@ class NotebookLauncher(ServerApp):
     name = "notebook"
     description = "Launch the Thesis scientific notebook web viewer"
 
+    @default("open_browser")
+    def _default_open_browser(self) -> bool:
+        return True
+
     def initialize(self, argv: list[str] | None = None) -> None:
         """Initialize the app."""
         # Ensure JupyterNotebookApp configuration is loaded
@@ -424,6 +428,12 @@ class ThesisCli(Application):
         "notebook": (NotebookLauncher, "Launch the Thesis scientific notebook web viewer"),
         "exec": (ExecApp, "Run Thesis non-interactively"),
     }
+
+    def initialize(self, argv: list[str] | None = None) -> None:
+        """Initialize the app."""
+        if argv is None and len(sys.argv) == 1:
+            argv = ["notebook"]
+        super().initialize(argv)
 
     def start(self) -> None:
         if self.subapp is None:
