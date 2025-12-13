@@ -1,0 +1,16 @@
+{
+  "jupyter.lab.setting-icon": "notebook-ui-components:jupyter",
+  "jupyter.lab.setting-icon-label": "Jupyter Notebook Close Tab",
+  "title": "Jupyter Notebook Close Tab",
+  "description": "Jupyter Notebook Close Tab settings",
+  "properties": {
+    "confirmClosingNotebook": {
+      "type": "boolean",
+      "title": "Confirm Closing Notebook",
+      "description": "Whether to show a confirmation dialog when closing and shutting down a notebook",
+      "default": true
+    }
+  },
+  "additionalProperties": false,
+  "type": "object"
+}
