@@ -2301,8 +2301,8 @@ packages:
   timestamp: 1734113054756
 - pypi: .
   name: notebook
-  version: 7.5.0rc0
-  sha256: e2dd63211d4930d2f2e87576cabdfdaba057452e8a8de785bfe51ed30e872da7
+  version: 7.5.0
+  sha256: 7ef8c5626500483b32a57bf34d2e8a44fcaa531da6b150df0320b7755ab574ba
   requires_dist:
   - jupyter-server>=2.4.0,<3
   - jupyterlab-server>=2.28.0,<3
