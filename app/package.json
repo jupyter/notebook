@@ -347,7 +347,8 @@
           "@jupyterlab/debugger-extension:notebooks",
           "@jupyterlab/debugger-extension:service",
           "@jupyterlab/debugger-extension:sidebar",
-          "@jupyterlab/debugger-extension:sources"
+          "@jupyterlab/debugger-extension:sources",
+          "@jupyterlab/debugger-extension:display-registry"
         ],
         "@jupyterlab/logconsole-extension": true,
         "@jupyterlab/metadataform-extension": true,
