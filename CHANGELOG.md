@@ -77,6 +77,33 @@ Python 3.8 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.5.1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0...fccf56801be0a27a3de76c00d2710a941f255b10))
+
+### Bugs fixed
+
+- Fix selector for the `O` keyboard shortcut [#7782](https://github.com/jupyter/notebook/pull/7782) ([@jtpio](https://github.com/jtpio), [@krassowski](https://github.com/krassowski))
+- Fix missing debugger display provider in Notebook [#7774](https://github.com/jupyter/notebook/pull/7774) ([@arjxn-py](https://github.com/arjxn-py), [@jtpio](https://github.com/jtpio), [@martinRenou](https://github.com/martinRenou))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.5.1 [#7785](https://github.com/jupyter/notebook/pull/7785) ([@jtpio](https://github.com/jtpio))
+- Fix link to the IPython install page [#7783](https://github.com/jupyter/notebook/pull/7783) ([@jtpio](https://github.com/jtpio))
+- Fix `hatch build`, ignore links to `blog.jupyter.org` [#7780](https://github.com/jupyter/notebook/pull/7780) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 4 updates [#7773](https://github.com/jupyter/notebook/pull/7773) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-11-19&to=2025-12-16&type=c))
+
+@arjxn-py ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aarjxn-py+updated%3A2025-11-19..2025-12-16&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-11-19..2025-12-16&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-11-19..2025-12-16&type=Issues)) | @martinRenou ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2025-11-19..2025-12-16&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.5.0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0...be53ec8bc96cdbcb64b6f1c5ec39c123c087a348))
@@ -139,8 +166,6 @@ Python 3.8 support has been dropped in this release.
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-04-09&to=2025-11-19&type=c))
 
 [@afshin](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafshin+updated%3A2025-04-09..2025-11-19&type=Issues) | [@choldgraf](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Acholdgraf+updated%3A2025-04-09..2025-11-19&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-04-09..2025-11-19&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-04-09..2025-11-19&type=Issues) | [@honnix](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahonnix+updated%3A2025-04-09..2025-11-19&type=Issues) | [@itsmevichu](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aitsmevichu+updated%3A2025-04-09..2025-11-19&type=Issues) | [@jasongrout](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajasongrout+updated%3A2025-04-09..2025-11-19&type=Issues) | [@jchen1223](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajchen1223+updated%3A2025-04-09..2025-11-19&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-04-09..2025-11-19&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-04-09..2025-11-19&type=Issues) | [@lumberbot-app](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Alumberbot-app+updated%3A2025-04-09..2025-11-19&type=Issues) | [@minrk](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aminrk+updated%3A2025-04-09..2025-11-19&type=Issues) | [@nkn2022](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ankn2022+updated%3A2025-04-09..2025-11-19&type=Issues) | [@sangampaudel530](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Asangampaudel530+updated%3A2025-04-09..2025-11-19&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.5.0rc1
 
