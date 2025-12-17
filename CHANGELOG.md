@@ -77,6 +77,26 @@ Python 3.8 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.6.0a0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.1...e7f5e5d50ea18b0b17fe8a9df674025fcc6ab5d1))
+
+### Maintenance and upkeep improvements
+
+- Bump systeminformation from 5.23.14 to 5.27.14 in /ui-tests [#7788](https://github.com/jupyter/notebook/pull/7788) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `4.6.0a0` [#7787](https://github.com/jupyter/notebook/pull/7787) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-12-16&to=2025-12-17&type=c))
+
+@jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-12-16..2025-12-17&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.5.1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0...fccf56801be0a27a3de76c00d2710a941f255b10))
@@ -101,8 +121,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-11-19&to=2025-12-16&type=c))
 
 @arjxn-py ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aarjxn-py+updated%3A2025-11-19..2025-12-16&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-11-19..2025-12-16&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-11-19..2025-12-16&type=Issues)) | @martinRenou ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2025-11-19..2025-12-16&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.5.0
 
