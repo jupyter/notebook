@@ -23,6 +23,7 @@
     "build": "lerna run build",
     "build:lib": "lerna run build:lib",
     "build:prod": "lerna run build:prod --skip-nx-cache",
+    "build:prod:release": "lerna run build:prod --skip-nx-cache --ignore @jupyter-notebook/app && jlpm workspace @jupyter-notebook/app build:prod:release",
     "build:test": "lerna run build:test",
     "build:utils": "cd buildutils && npm run build",
     "clean": "lerna run clean",
