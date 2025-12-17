@@ -165,7 +165,7 @@ ensured-targets = [
 install-pre-commit-hook = true
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
-build_cmd = "build:prod"
+build_cmd = "build:prod:release"
 source_dir = "packages"
 build_dir = "notebook/static"
 npm = ["jlpm"]
@@ -188,7 +188,7 @@ before-bump-version = [
 ]
 before-build-npm = [
     "jlpm clean",
-    "jlpm build:prod"
+    "jlpm build:prod:release"
 ]
 before-build-python = [
     "jlpm clean"
