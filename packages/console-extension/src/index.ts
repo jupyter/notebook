@@ -25,6 +25,8 @@ import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
 
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
+
 import { consoleIcon } from '@jupyterlab/ui-components';
 
 import {
@@ -123,7 +125,7 @@ const scratchPadConsole: JupyterFrontEndPlugin<void> = {
     IRenderMimeRegistry,
     INotebookTracker,
   ],
-  optional: [INotebookShell, ICommandPalette, ITranslator],
+  optional: [INotebookShell, ICommandPalette, ITranslator, ISettingRegistry],
   autoStart: true,
   description: 'Open consoles in a new tab',
   activate: (
@@ -135,7 +137,8 @@ const scratchPadConsole: JupyterFrontEndPlugin<void> = {
     tracker: INotebookTracker,
     notebookShell: INotebookShell | null,
     palette: ICommandPalette | null,
-    translator: ITranslator | null
+    translator: ITranslator | null,
+    settingRegistry: ISettingRegistry | null
   ) => {
     const { commands } = app;
     const manager = app.serviceManager;
@@ -190,6 +193,15 @@ const scratchPadConsole: JupyterFrontEndPlugin<void> = {
           });
           panel.title.caption = trans.__('Console');
           panel.id = consoleId;
+
+          const interactionMode: string = ((
+            await settingRegistry?.get(
+              '@jupyterlab/console-extension:tracker',
+              'interactionMode'
+            )
+          )?.composite ?? 'notebook') as string;
+          (panel as ConsolePanel).console.node.dataset.jpInteractionMode =
+            interactionMode;
 
           notebookShell.add(panel, 'right');
         }
