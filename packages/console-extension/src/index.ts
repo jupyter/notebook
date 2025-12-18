@@ -31,6 +31,16 @@ import { ReadonlyJSONObject } from '@lumino/coreutils';
 
 import { Widget } from '@lumino/widgets';
 
+const COMMANDS_TO_PATCH = [
+  'console:clear',
+  'console:run-unforced',
+  'console:run-forced',
+  'console:linebreak',
+  'console:interrupt-kernel',
+  'console:restart-kernel',
+  'console:change-kernel',
+];
+
 /**
  * A plugin to open consoles in a new tab
  */
@@ -66,38 +76,58 @@ const opener: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * Open consoles in a new tab.
+ * Open consoles in a new tab or in the side panel (scratch-pad like).
  */
 const redirect: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/console-extension:redirect',
   requires: [IConsoleTracker],
-  optional: [INotebookPathOpener, INotebookShell],
+  optional: [INotebookPathOpener, INotebookShell, INotebookTracker],
   autoStart: true,
   description: 'Open consoles in a new tab',
   activate: (
     app: JupyterFrontEnd,
     tracker: IConsoleTracker,
     notebookPathOpener: INotebookPathOpener | null,
-    notebookShell: INotebookShell | null
+    notebookShell: INotebookShell | null,
+    notebookTracker: INotebookTracker | null
   ) => {
     const baseUrl = PageConfig.getBaseUrl();
     const opener = notebookPathOpener ?? defaultNotebookPathOpener;
 
     tracker.widgetAdded.connect(async (send, console) => {
-      if (notebookShell) {
-        notebookShell.add(console, 'right');
-        notebookShell.expandRight(console.id);
+      // Check if we should open the console in side panel:
+      //  - this is a notebook view
+      //  - the notebook and the console share the same kernel
+      // Otherwise, the console opens in a new tab.
+      if (notebookShell && notebookTracker) {
+        const notebook = notebookTracker.currentWidget;
 
-        app.commands
-          .listCommands()
-          .filter((id) => id.startsWith('console:'))
-          .forEach((id) => {
-            (app.commands as any)._commands.get(id).isEnabled = () =>
-              tracker.currentWidget !== null &&
-              tracker.currentWidget.node.contains(document.activeElement);
-          });
-        return;
+        // Wait for the notebook and console to be ready.
+        await Promise.all([
+          notebook?.sessionContext.ready,
+          console.sessionContext.ready,
+        ]);
+        const notebookKernelId = notebook?.sessionContext.session?.kernel?.id;
+        const consoleKernelId = console.sessionContext.session?.kernel?.id;
+
+        if (notebookKernelId === consoleKernelId) {
+          notebookShell.add(console, 'right');
+          notebookShell.expandRight(console.id);
+
+          // Some commands needs to be patched to be enabled.
+          // TODO: fix it upstream in jupyterlab.
+          app.commands
+            .listCommands()
+            .filter((id) => COMMANDS_TO_PATCH.includes(id))
+            .forEach((id) => {
+              (app.commands as any)._commands.get(id).isEnabled = () =>
+                tracker.currentWidget !== null &&
+                tracker.currentWidget.node.contains(document.activeElement);
+            });
+          return;
+        }
       }
+
       const { sessionContext } = console;
       await sessionContext.ready;
       const widget = find(
