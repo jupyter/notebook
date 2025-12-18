@@ -179,17 +179,19 @@ const scratchPadConsole: JupyterFrontEndPlugin<void> = {
           : trans.__('Scratch-pad console'),
       isVisible: () => !!tracker.currentWidget,
       icon: (args) => (args['isPalette'] ? undefined : consoleIcon),
-      execute: async () => {
+      execute: async (args) => {
         if (!notebookShell) {
           return;
         }
         const consoleId = scratchPadConsole.id;
         const sidebar = notebookShell.rightHandler;
 
-        // Close the console if it is already opened.
+        // Close the console if it is already opened (shortcut only).
         if (sidebar.isVisible && sidebar.currentWidget?.id === consoleId) {
-          notebookShell.collapseRight();
-          notebookShell.currentWidget?.activate();
+          if (!args.isPalette && !args.isMenu) {
+            notebookShell.collapseRight();
+            notebookShell.currentWidget?.activate();
+          }
           return;
         }
 
@@ -233,6 +235,12 @@ const scratchPadConsole: JupyterFrontEndPlugin<void> = {
               type: 'boolean',
               description: trans.__(
                 trans.__('Whether the command is executed from the palette')
+              ),
+            },
+            isMenu: {
+              type: 'boolean',
+              description: trans.__(
+                trans.__('Whether the command is executed from the menu')
               ),
             },
           },
