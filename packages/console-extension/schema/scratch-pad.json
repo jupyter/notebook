@@ -13,7 +13,10 @@
               "items": [
                 {
                   "command": "scratch-pad-console:open",
-                  "rank": 2
+                  "rank": 2,
+                  "args": {
+                    "isMenu": true
+                  }
                 }
               ]
             }
