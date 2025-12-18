@@ -9,23 +9,13 @@ import {
 
 import { ICommandPalette } from '@jupyterlab/apputils';
 
-import { IEditorServices } from '@jupyterlab/codeeditor';
-
-import {
-  ConsolePanel,
-  IConsoleCellExecutor,
-  IConsoleTracker,
-} from '@jupyterlab/console';
+import { IConsoleTracker } from '@jupyterlab/console';
 
 import { PageConfig, URLExt } from '@jupyterlab/coreutils';
 
 import { INotebookTracker } from '@jupyterlab/notebook';
 
-import { IRenderMimeRegistry } from '@jupyterlab/rendermime';
-
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
-
-import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { consoleIcon } from '@jupyterlab/ui-components';
 
@@ -36,6 +26,8 @@ import {
 } from '@jupyter-notebook/application';
 
 import { find } from '@lumino/algorithm';
+
+import { ReadonlyJSONObject } from '@lumino/coreutils';
 
 import { Widget } from '@lumino/widgets';
 
@@ -79,18 +71,33 @@ const opener: JupyterFrontEndPlugin<void> = {
 const redirect: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/console-extension:redirect',
   requires: [IConsoleTracker],
-  optional: [INotebookPathOpener],
+  optional: [INotebookPathOpener, INotebookShell],
   autoStart: true,
   description: 'Open consoles in a new tab',
   activate: (
     app: JupyterFrontEnd,
     tracker: IConsoleTracker,
-    notebookPathOpener: INotebookPathOpener | null
+    notebookPathOpener: INotebookPathOpener | null,
+    notebookShell: INotebookShell | null
   ) => {
     const baseUrl = PageConfig.getBaseUrl();
     const opener = notebookPathOpener ?? defaultNotebookPathOpener;
 
     tracker.widgetAdded.connect(async (send, console) => {
+      if (notebookShell) {
+        notebookShell.add(console, 'right');
+        notebookShell.expandRight(console.id);
+
+        app.commands
+          .listCommands()
+          .filter((id) => id.startsWith('console:'))
+          .forEach((id) => {
+            (app.commands as any)._commands.get(id).isEnabled = () =>
+              tracker.currentWidget !== null &&
+              tracker.currentWidget.node.contains(document.activeElement);
+          });
+        return;
+      }
       const { sessionContext } = console;
       await sessionContext.ready;
       const widget = find(
@@ -118,34 +125,23 @@ const redirect: JupyterFrontEndPlugin<void> = {
  */
 const scratchPadConsole: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/console-extension:scratch-pad',
-  requires: [
-    ConsolePanel.IContentFactory,
-    IConsoleCellExecutor,
-    IEditorServices,
-    IRenderMimeRegistry,
-    INotebookTracker,
-  ],
-  optional: [INotebookShell, ICommandPalette, ITranslator, ISettingRegistry],
+  requires: [INotebookTracker],
+  optional: [INotebookShell, ICommandPalette, ITranslator],
   autoStart: true,
   description: 'Open consoles in a new tab',
   activate: (
     app: JupyterFrontEnd,
-    contentFactory: ConsolePanel.IContentFactory,
-    executor: IConsoleCellExecutor,
-    editorServices: IEditorServices,
-    rendermime: IRenderMimeRegistry,
     tracker: INotebookTracker,
     notebookShell: INotebookShell | null,
     palette: ICommandPalette | null,
-    translator: ITranslator | null,
-    settingRegistry: ISettingRegistry | null
+    translator: ITranslator | null
   ) => {
     const { commands } = app;
     const manager = app.serviceManager;
 
     const trans = (translator ?? nullTranslator).load('notebook');
 
-    const command = 'console:scratch-pad';
+    const command = 'scratch-pad-console:open';
     commands.addCommand(command, {
       label: (args) =>
         args['isPalette']
@@ -183,30 +179,21 @@ const scratchPadConsole: JupyterFrontEndPlugin<void> = {
 
           const id = notebookSessionContext.session?.kernel?.id;
           const kernelPref = notebookSessionContext.kernelPreference;
-          panel = new ConsolePanel({
-            manager,
-            contentFactory,
-            mimeTypeService: editorServices.mimeTypeService,
-            rendermime,
-            executor,
-            kernelPreference: { ...kernelPref, id },
+
+          panel = await commands.execute('console:create', {
+            kernelPreference: { ...kernelPref, id } as ReadonlyJSONObject,
           });
+
+          if (!panel) {
+            console.log('An error occurred during console widget creation');
+            return;
+          }
+
           panel.title.caption = trans.__('Console');
           panel.id = consoleId;
-
-          const interactionMode: string = ((
-            await settingRegistry?.get(
-              '@jupyterlab/console-extension:tracker',
-              'interactionMode'
-            )
-          )?.composite ?? 'notebook') as string;
-          (panel as ConsolePanel).console.node.dataset.jpInteractionMode =
-            interactionMode;
-
-          notebookShell.add(panel, 'right');
+        } else {
+          notebookShell.expandRight(consoleId);
         }
-
-        notebookShell.expandRight(consoleId);
       },
       describedBy: {
         args: {
