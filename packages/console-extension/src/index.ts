@@ -154,9 +154,18 @@ const scratchPadConsole: JupyterFrontEndPlugin<void> = {
         if (!notebookShell) {
           return;
         }
+        const consoleId = scratchPadConsole.id;
+        const sidebar = notebookShell.rightHandler;
 
-        let panel: Widget | undefined = notebookShell.rightHandler.widgets.find(
-          (w) => w.id === scratchPadConsole.id
+        // Close the console if it is already opened.
+        if (sidebar.isVisible && sidebar.currentWidget?.id === consoleId) {
+          notebookShell.collapseRight();
+          notebookShell.currentWidget?.activate();
+          return;
+        }
+
+        let panel: Widget | undefined = sidebar.widgets.find(
+          (w) => w.id === consoleId
         );
 
         // Create the widget if it is not already in the right area.
@@ -180,12 +189,12 @@ const scratchPadConsole: JupyterFrontEndPlugin<void> = {
             kernelPreference: { ...kernelPref, id },
           });
           panel.title.caption = trans.__('Console');
-          panel.id = scratchPadConsole.id;
+          panel.id = consoleId;
 
-          app.shell.add(panel, 'right');
+          notebookShell.add(panel, 'right');
         }
 
-        notebookShell.expandRight(scratchPadConsole.id);
+        notebookShell.expandRight(consoleId);
       },
       describedBy: {
         args: {
