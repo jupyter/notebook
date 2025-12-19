@@ -62,11 +62,9 @@ Describe the tests that were run to verify your changes.
 
 Add any other context about the PR here.
 
-
 ## Closes Issue
 
 Closes #<Issue Code>
-
 
 ## Labels
 
