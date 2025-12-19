@@ -5,3 +5,16 @@ mainly to be overridden in profile/static/custom/custom.css
 
 This will always be an empty file
 */
+.jp-RunningSessions-section {
+    min-height: 50px !important;
+    max-height: 100px !important;
+    overflow: auto !important;
+}
+
+.lm-AccordionPanel-title {
+  position: relative !important;
+}
+
+.jp-RunningSessions-section {
+  position: relative !important;
+}
