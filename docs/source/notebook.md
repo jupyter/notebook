@@ -45,7 +45,7 @@ notebook and its dependencies.
 
 ### Notebook documents
 
-Notebook documents contains the inputs and outputs of a interactive session as
+Notebook documents contain the inputs and outputs of an interactive session as
 well as additional text that accompanies the code but is not meant for
 execution. In this way, notebook files can serve as a complete computational
 record of a session, interleaving executable code with explanatory text,
