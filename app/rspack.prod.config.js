@@ -16,7 +16,7 @@ config[0] = merge(config[0], {
     filename: '[name].[contenthash].js?v=[contenthash]',
   },
   optimization: {
-    minimize: false,
+    minimize: true,
   },
   plugins: [
     new WPPlugin.JSONLicenseWebpackPlugin({
