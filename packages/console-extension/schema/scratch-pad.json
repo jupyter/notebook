@@ -1,0 +1,38 @@
+{
+  "title": "Jupyter Notebook Scratchpad Console",
+  "description": "Jupyter Notebook Scratchpad Console",
+  "jupyter.lab.menus": {
+    "main": [
+      {
+        "id": "jp-mainmenu-file",
+        "items": [
+          {
+            "type": "submenu",
+            "submenu": {
+              "id": "jp-mainmenu-file-new",
+              "items": [
+                {
+                  "command": "scratch-pad-console:open",
+                  "rank": 2,
+                  "args": {
+                    "isMenu": true
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "jupyter.lab.shortcuts": [
+    {
+      "command": "scratch-pad-console:open",
+      "keys": ["Accel B"],
+      "selector": "body"
+    }
+  ],
+  "properties": {},
+  "additionalProperties": false,
+  "type": "object"
+}

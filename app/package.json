@@ -226,7 +226,6 @@
         "@jupyter-notebook/notebook-extension": true,
         "@jupyter-notebook/terminal-extension": true,
         "@jupyterlab/application-extension": [
-          "@jupyterlab/application-extension:commands",
           "@jupyterlab/application-extension:context-menu",
           "@jupyterlab/application-extension:faviconbusy",
           "@jupyterlab/application-extension:router",
@@ -313,6 +312,9 @@
         "@jupyterlab/video-extension": true
       },
       "/tree": {
+        "@jupyterlab/application-extension": [
+          "@jupyterlab/application-extension:commands"
+        ],
         "@jupyterlab/cell-toolbar-extension": true,
         "@jupyterlab/extensionmanager-extension": true,
         "@jupyterlab/filebrowser-extension": [
