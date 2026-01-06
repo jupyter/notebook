@@ -1,63 +1,26 @@
-## Description
-
-Please include a summary of the change and which issue is fixed. Also include relevant motivation and context.
-
-Fixes # (issue)
-
----
-
-## Type of change
-
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Documentation update
-- [ ] Other (please describe):
-
----
+<!--
+Thanks for contributing to Jupyter Notebook!
+Please fill out the following items to submit a pull request.
+See the contributing guidelines for more information:
+https://github.com/jupyter/notebook/blob/main/CONTRIBUTING.md
+-->
 
 ## References
 
-List any related issues, PRs, or external references relevant to this change.
+<!-- Note issue numbers this pull request addresses (should be at least one, see contributing guidelines above). -->
 
----
+<!-- Note any other pull requests that address this issue and how this pull request is different. -->
 
 ## Code changes
 
-Briefly describe the main code changes made in this PR.
-
----
+<!-- Describe the code changes and how they address the issue. -->
 
 ## User-facing changes
 
-Describe any changes visible to users (UI, behavior, output, etc.).
+<!-- Describe any visual or user interaction changes and how they address the issue. -->
 
----
+<!-- For visual changes, include before and after screenshots or GIF/mp4/other video demo here. -->
 
 ## Backwards-incompatible changes
 
-List any changes that might break backwards compatibility.
-
----
-
-## How Has This Been Tested?
-
-Describe the tests that were run to verify your changes.
-
-- [ ] Test A
-- [ ] Test B
-
----
-
-## Checklist
-
-- [ ] My code follows the project’s style guidelines
-- [ ] I have performed a self-review of my own changes
-- [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have made corresponding changes to the documentation
-- [ ] My changes generate no new warnings
-
----
-
-## Additional Notes
-
-Add any other context about the PR here.
+<!-- Describe any backwards-incompatible changes to JupyterLab public APIs. -->
