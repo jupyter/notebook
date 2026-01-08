@@ -17,6 +17,8 @@ import { Cell, CodeCell } from '@jupyterlab/cells';
 
 import { PageConfig, Text, Time, URLExt } from '@jupyterlab/coreutils';
 
+import { IDebugger, IDebuggerSidebar } from '@jupyterlab/debugger';
+
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
 import { DocumentRegistry } from '@jupyterlab/docregistry';
@@ -31,9 +33,13 @@ import {
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
+import { ITableOfContentsTracker } from '@jupyterlab/toc';
+
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
 import { INotebookShell } from '@jupyter-notebook/application';
+
+import { find } from '@lumino/algorithm';
 
 import { Poll } from '@lumino/polling';
 
@@ -750,6 +756,122 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to replace the menu item activating the TOC panel, to allow toggling it.
+ */
+const overrideMenuItems: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:menu-override',
+  description: 'A plugin to override some menu items',
+  autoStart: true,
+  optional: [
+    IDebuggerSidebar,
+    IMainMenu,
+    INotebookShell,
+    ITableOfContentsTracker,
+    ITranslator,
+  ],
+  activate: (
+    app: JupyterFrontEnd,
+    debuggerSidebar: IDebugger.ISidebar | null,
+    mainMenu: IMainMenu | null,
+    shell: INotebookShell | null,
+    tocTracker: ITableOfContentsTracker | null,
+    translator: ITranslator | null
+  ) => {
+    if (!mainMenu || !shell) {
+      return;
+    }
+    const trans = (translator ?? nullTranslator).load('notebook');
+    const { commands } = app;
+
+    if (tocTracker) {
+      const TOC_PANEL_ID = 'table-of-contents';
+      commands.addCommand('toc:toggle-panel', {
+        label: trans.__('Table of Contents'),
+        isToggleable: true,
+        isToggled: () => {
+          const area = shell.getWidgetArea(TOC_PANEL_ID);
+          if (!area) {
+            return false;
+          }
+          const widget = find(
+            shell.widgets(area as INotebookShell.Area),
+            (w) => w.id === TOC_PANEL_ID
+          );
+          if (!widget) {
+            return false;
+          }
+          return shell.isSidePanelVisible(area) && widget.isVisible;
+        },
+        execute: () => {
+          const area = shell.getWidgetArea(TOC_PANEL_ID);
+          if (!area) {
+            return;
+          }
+          const widget = find(
+            shell.widgets(area as INotebookShell.Area),
+            (w) => w.id === TOC_PANEL_ID
+          );
+          if (shell.isSidePanelVisible(area) && widget?.isVisible) {
+            shell.collapse(area);
+          } else {
+            shell.activateById(TOC_PANEL_ID);
+          }
+        },
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      });
+    }
+
+    if (debuggerSidebar) {
+      const DEBUGGER_PANEL_ID = 'jp-debugger-sidebar';
+      commands.addCommand('debugger:toggle-panel', {
+        label: trans.__('Debugger Panel'),
+        isToggleable: true,
+        isToggled: () => {
+          const area = shell.getWidgetArea(DEBUGGER_PANEL_ID);
+          if (!area) {
+            return false;
+          }
+          const widget = find(
+            shell.widgets(area as INotebookShell.Area),
+            (w) => w.id === DEBUGGER_PANEL_ID
+          );
+          if (!widget) {
+            return false;
+          }
+          return shell.isSidePanelVisible(area) && widget.isVisible;
+        },
+        execute: () => {
+          const area = shell.getWidgetArea(DEBUGGER_PANEL_ID);
+          if (!area) {
+            return;
+          }
+          const widget = find(
+            shell.widgets(area as INotebookShell.Area),
+            (w) => w.id === DEBUGGER_PANEL_ID
+          );
+          if (shell.isSidePanelVisible(area) && widget?.isVisible) {
+            shell.collapse(area);
+          } else {
+            shell.activateById(DEBUGGER_PANEL_ID);
+          }
+        },
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      });
+    }
+  },
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
@@ -761,6 +883,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   kernelLogo,
   kernelStatus,
   notebookToolsWidget,
+  overrideMenuItems,
   scrollOutput,
   tabIcon,
   trusted,
