@@ -31,16 +31,6 @@ import { ReadonlyJSONObject } from '@lumino/coreutils';
 
 import { Widget } from '@lumino/widgets';
 
-const COMMANDS_TO_PATCH = [
-  'console:clear',
-  'console:run-unforced',
-  'console:run-forced',
-  'console:linebreak',
-  'console:interrupt-kernel',
-  'console:restart-kernel',
-  'console:change-kernel',
-];
-
 /**
  * A plugin to open consoles in a new tab
  */
@@ -113,17 +103,6 @@ const redirect: JupyterFrontEndPlugin<void> = {
         if (notebookKernelId === consoleKernelId) {
           notebookShell.add(console, 'right');
           notebookShell.expandRight(console.id);
-
-          // Some commands needs to be patched to be enabled.
-          // TODO: fix it upstream in jupyterlab.
-          app.commands
-            .listCommands()
-            .filter((id) => COMMANDS_TO_PATCH.includes(id))
-            .forEach((id) => {
-              (app.commands as any)._commands.get(id).isEnabled = () =>
-                tracker.currentWidget !== null &&
-                tracker.currentWidget.node.contains(document.activeElement);
-            });
           return;
         }
       }
