@@ -77,6 +77,25 @@ Python 3.8 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.5.2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.1...5823d7a925d3b6f006d018545f83eba885be6032))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.5.2 [#7800](https://github.com/jupyter/notebook/pull/7800) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-12-16&to=2026-01-12&type=c))
+
+@jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-12-16..2026-01-12&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.5.1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0...fccf56801be0a27a3de76c00d2710a941f255b10))
@@ -101,8 +120,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-11-19&to=2025-12-16&type=c))
 
 @arjxn-py ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aarjxn-py+updated%3A2025-11-19..2025-12-16&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-11-19..2025-12-16&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-11-19..2025-12-16&type=Issues)) | @martinRenou ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2025-11-19..2025-12-16&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.5.0
 
