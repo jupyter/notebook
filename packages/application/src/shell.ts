@@ -380,6 +380,69 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   }
 
   /**
+   * Return a boolean whether the side panel is visible.
+   */
+  isSidePanelVisible(area: string): boolean {
+    if (area === 'left') {
+      return this._leftHandler.isVisible;
+    } else if (area === 'right') {
+      return this._rightHandler.isVisible;
+    }
+    return false;
+  }
+
+  /**
+   * Get the area of a widget, given its id.
+   *
+   * @param id - the widget id
+   * @returns the area where the widget belongs, or null.
+   */
+  getWidgetArea(id: string): string | null {
+    for (const area of ['main', 'top', 'left', 'right', 'menu', 'down']) {
+      const widget = find(
+        this.widgets(area as INotebookShell.Area),
+        (w) => w.id === id
+      );
+      if (widget) {
+        return area;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Expand an area.
+   */
+  expand(area: string): void {
+    if (!['top', 'left', 'right'].includes(area)) {
+      return;
+    }
+    if (area === 'top') {
+      this.expandTop();
+    } else if (area === 'left') {
+      this.expandLeft();
+    } else if (area === 'right') {
+      this.expandRight();
+    }
+  }
+
+  /**
+   * Collapse an area.
+   */
+  collapse(area: string): void {
+    if (!['top', 'left', 'right'].includes(area)) {
+      return;
+    }
+    if (area === 'top') {
+      this.collapseTop();
+    } else if (area === 'left') {
+      this.collapseLeft();
+    } else if (area === 'right') {
+      this.collapseRight();
+    }
+  }
+
+  /**
    * Collapse the top area and the spacer to make the view more compact.
    */
   collapseTop(): void {
