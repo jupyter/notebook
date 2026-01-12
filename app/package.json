@@ -197,8 +197,8 @@
   "devDependencies": {
     "@jupyterlab/builder": "~4.6.0-alpha.1",
     "@jupyterlab/buildutils": "~4.6.0-alpha.1",
-    "@rspack/cli": "^1.1.8",
-    "@rspack/core": "^1.1.8",
+    "@rspack/cli": "^1.7.1",
+    "@rspack/core": "^1.7.1",
     "@types/rimraf": "^3.0.2",
     "fs-extra": "^8.1.0",
     "glob": "~7.1.6",

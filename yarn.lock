@@ -2294,8 +2294,8 @@ __metadata:
     "@jupyterlab/vega5-extension": ~4.6.0-alpha.1
     "@jupyterlab/video-extension": ~4.6.0-alpha.1
     "@lumino/coreutils": ~2.2.2
-    "@rspack/cli": ^1.1.8
-    "@rspack/core": ^1.1.8
+    "@rspack/cli": ^1.7.1
+    "@rspack/core": ^1.7.1
     "@types/rimraf": ^3.0.2
     fs-extra: ^8.1.0
     glob: ~7.1.6
@@ -5713,23 +5713,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rspack/cli@npm:^1.1.8":
-  version: 1.6.7
-  resolution: "@rspack/cli@npm:1.6.7"
+"@rspack/cli@npm:^1.7.1":
+  version: 1.7.1
+  resolution: "@rspack/cli@npm:1.7.1"
   dependencies:
     "@discoveryjs/json-ext": ^0.5.7
-    "@rspack/dev-server": ~1.1.4
+    "@rspack/dev-server": ~1.1.5
     exit-hook: ^4.0.0
     webpack-bundle-analyzer: 4.10.2
   peerDependencies:
     "@rspack/core": ^1.0.0-alpha || ^1.x
   bin:
     rspack: bin/rspack.js
-  checksum: 5c5f22eb556ac8eb33c4d8352573512345cdccf02a8c3b281af73df247bb6c12dee43766f8f747383f0d451201c7df604dd3bb4921e5885fd7223675a267e84b
+  checksum: d10f92ba35e2d822f05a3616c69f2550379cd30d76e34228f51dcdc698507403c9f1173b8f89b900bcabd7242a0ae5ed6c65bfc65ccacd188da7a6c765092ed3
   languageName: node
   linkType: hard
 
-"@rspack/core@npm:^1.1.8, @rspack/core@npm:^1.7.1":
+"@rspack/core@npm:^1.7.1":
   version: 1.7.1
   resolution: "@rspack/core@npm:1.7.1"
   dependencies:
@@ -5745,9 +5745,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rspack/dev-server@npm:~1.1.4":
-  version: 1.1.4
-  resolution: "@rspack/dev-server@npm:1.1.4"
+"@rspack/dev-server@npm:~1.1.5":
+  version: 1.1.5
+  resolution: "@rspack/dev-server@npm:1.1.5"
   dependencies:
     chokidar: ^3.6.0
     http-proxy-middleware: ^2.0.9
@@ -5756,7 +5756,7 @@ __metadata:
     ws: ^8.18.0
   peerDependencies:
     "@rspack/core": "*"
-  checksum: 28e1ee041a88d432df2a29b30d022e78ce32ede5f2b0ce5347b35e6a57fa0351f4f9a17c8e49e3e44c26972e9478157541d1b77cfce0ec81759ebcf31e4d2ad0
+  checksum: 78c9bf8e2cf00907fc77914da6e3f1b0bf9588ed53fd3327d6ff73e0a91ad054342326802d210a31b465c1e6a8e83e01ac1e844212cb32dfdce7a7000d46edac
   languageName: node
   linkType: hard
 
@@ -6262,19 +6262,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express-serve-static-core@npm:*":
-  version: 5.1.0
-  resolution: "@types/express-serve-static-core@npm:5.1.0"
-  dependencies:
-    "@types/node": "*"
-    "@types/qs": "*"
-    "@types/range-parser": "*"
-    "@types/send": "*"
-  checksum: a2a780a9954e4553b69474ea76ab5c26534dfb274e1a49524f6394cbb590c2bbf73ce9dc67ab920c25d91583c8a99d8e486696b6e9810bef7a964fcbaad88a7b
-  languageName: node
-  linkType: hard
-
-"@types/express-serve-static-core@npm:^4.17.21, @types/express-serve-static-core@npm:^4.17.33":
+"@types/express-serve-static-core@npm:*, @types/express-serve-static-core@npm:^4.17.21, @types/express-serve-static-core@npm:^4.17.33":
   version: 4.19.7
   resolution: "@types/express-serve-static-core@npm:4.19.7"
   dependencies:
@@ -12040,7 +12028,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"http-errors@npm:~2.0.0, http-errors@npm:~2.0.1":
+"http-errors@npm:~2.0.0":
   version: 2.0.1
   resolution: "http-errors@npm:2.0.1"
   dependencies:
@@ -17459,7 +17447,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"send@npm:0.19.0":
+"send@npm:0.19.0, send@npm:~0.19.0":
   version: 0.19.0
   resolution: "send@npm:0.19.0"
   dependencies:
@@ -17477,27 +17465,6 @@ __metadata:
     range-parser: ~1.2.1
     statuses: 2.0.1
   checksum: 5ae11bd900c1c2575525e2aa622e856804e2f96a09281ec1e39610d089f53aa69e13fd8db84b52f001d0318cf4bb0b3b904ad532fc4c0014eb90d32db0cff55f
-  languageName: node
-  linkType: hard
-
-"send@npm:~0.19.0":
-  version: 0.19.2
-  resolution: "send@npm:0.19.2"
-  dependencies:
-    debug: 2.6.9
-    depd: 2.0.0
-    destroy: 1.2.0
-    encodeurl: ~2.0.0
-    escape-html: ~1.0.3
-    etag: ~1.8.1
-    fresh: ~0.5.2
-    http-errors: ~2.0.1
-    mime: 1.6.0
-    ms: 2.1.3
-    on-finished: ~2.4.1
-    range-parser: ~1.2.1
-    statuses: ~2.0.2
-  checksum: f9e11b718b48dbea72daa6a80e36e5a00fb6d01b1a6cfda8b3135c9ca9db84257738283da23371f437148ccd8f400e6171cd2a3642fb43fda462da407d9d30c0
   languageName: node
   linkType: hard
 
