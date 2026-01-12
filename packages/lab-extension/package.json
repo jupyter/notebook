@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/lab-extension",
-  "version": "7.6.0-alpha.0",
+  "version": "7.6.0-alpha.1",
   "description": "Jupyter Notebook - Lab Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -43,7 +43,7 @@
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.6.0-alpha.0",
+    "@jupyter-notebook/application": "^7.6.0-alpha.1",
     "@jupyterlab/application": "~4.6.0-alpha.1",
     "@jupyterlab/apputils": "~4.7.0-alpha.1",
     "@jupyterlab/coreutils": "~6.6.0-alpha.1",
