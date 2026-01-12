@@ -11,7 +11,7 @@ name = "notebook"
 description = "Jupyter Notebook - A web-based notebook environment for interactive computing"
 readme = "README.md"
 license = { file = "LICENSE" }
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [
     { name = "Jupyter Development Team", email = "jupyter@googlegroups.com" },
 ]
@@ -27,11 +27,11 @@ classifiers = [
     "Intended Audience :: System Administrators",
     "License :: OSI Approved :: BSD License",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Typing :: Typed",
 ]
 dependencies = [
@@ -63,7 +63,6 @@ test = [
     "ipykernel",
     "jupyter_server[test]>=2.4.0,<3",
     "jupyterlab_server[test]>=2.28.0,<3",
-    "importlib-resources>=5.0;python_version<\"3.10\"",
 ]
 docs = [
     "myst_parser",
@@ -236,7 +235,7 @@ source = ["notebook"]
 
 [tool.mypy]
 files = "notebook"
-python_version = "3.9"
+python_version = "3.10"
 strict = true
 enable_error_code = ["ignore-without-code", "redundant-expr", "truthy-bool"]
 warn_unreachable = true
@@ -318,4 +317,4 @@ start = "jupyter notebook --no-browser --ServerApp.token='' --ServerApp.allow_re
 [tool.pixi.dependencies]
 pip = ">=25.0.1,<26"
 nodejs = "22.*"
-python = ">=3.12.0,<3.14"
+python = ">=3.12.0,<3.15"
