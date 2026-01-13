@@ -12,7 +12,7 @@
               "id": "jp-mainmenu-file-new",
               "items": [
                 {
-                  "command": "scratch-pad-console:open",
+                  "command": "scratchpad-console:open",
                   "rank": 2,
                   "args": {
                     "isMenu": true
@@ -27,7 +27,7 @@
   },
   "jupyter.lab.shortcuts": [
     {
-      "command": "scratch-pad-console:open",
+      "command": "scratchpad-console:open",
       "keys": ["Accel B"],
       "selector": "body"
     }

@@ -26,31 +26,31 @@ test.describe('ScratchPad', () => {
   test('Should not have a menu entry in tree', async ({ page }) => {
     await page.goto('tree');
     const menu = (await page.menu.openLocator('File>New')) as Locator;
-    const entry = menu.getByText('Scratch-pad console');
+    const entry = menu.getByText('Scratchpad console');
     expect(entry).not.toBeVisible();
   });
 
   test('Should have a menu entry in Notebook', async ({ page, tmpPath }) => {
     await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
     const menu = (await page.menu.openLocator('File>New')) as Locator;
-    const entry = menu.getByText('Scratch-pad console');
+    const entry = menu.getByText('Scratchpad console');
     expect(entry).toBeVisible();
   });
 
-  test('Should open scratch pad console with menu', async ({
+  test('Should open scratchpad console with menu', async ({
     page,
     tmpPath,
   }) => {
     await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
     const menu = (await page.menu.openLocator('File>New')) as Locator;
-    await menu.getByText('Scratch-pad console').click();
+    await menu.getByText('Scratchpad console').click();
 
     const rightStack = page.locator('#jp-right-stack');
     await expect(rightStack).toBeVisible();
     await expect(rightStack.locator('.jp-ConsolePanel')).toBeVisible();
   });
 
-  test('Should open scratch pad console with shortcut', async ({
+  test('Should open scratchpad console with shortcut', async ({
     page,
     tmpPath,
   }) => {

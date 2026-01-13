@@ -66,7 +66,7 @@ const opener: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * Open consoles in a new tab or in the side panel (scratch-pad like).
+ * Open consoles in a new tab or in the side panel (scratchpad like).
  */
 const redirect: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/console-extension:redirect',
@@ -132,12 +132,12 @@ const redirect: JupyterFrontEndPlugin<void> = {
 /**
  * Open consoles in the side panel.
  */
-const scratchPadConsole: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/console-extension:scratch-pad',
+const scratchpadConsole: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/console-extension:scratchpad-console',
   requires: [INotebookTracker],
   optional: [INotebookShell, ICommandPalette, ITranslator],
   autoStart: true,
-  description: 'Open consoles in a new tab',
+  description: 'Open scratchpad console in side panel',
   activate: (
     app: JupyterFrontEnd,
     tracker: INotebookTracker,
@@ -150,19 +150,19 @@ const scratchPadConsole: JupyterFrontEndPlugin<void> = {
 
     const trans = (translator ?? nullTranslator).load('notebook');
 
-    const command = 'scratch-pad-console:open';
+    const command = 'scratchpad-console:open';
     commands.addCommand(command, {
       label: (args) =>
         args['isPalette']
-          ? trans.__('Open a scratch-pad console')
-          : trans.__('Scratch-pad console'),
+          ? trans.__('Open a scratchpad console')
+          : trans.__('Scratchpad console'),
       isVisible: () => !!tracker.currentWidget,
       icon: (args) => (args['isPalette'] ? undefined : consoleIcon),
       execute: async (args) => {
         if (!notebookShell) {
           return;
         }
-        const consoleId = scratchPadConsole.id;
+        const consoleId = scratchpadConsole.id;
         const sidebar = notebookShell.rightHandler;
 
         // Close the console if it is already opened (shortcut only).
@@ -196,7 +196,9 @@ const scratchPadConsole: JupyterFrontEndPlugin<void> = {
           });
 
           if (!panel) {
-            console.log('An error occurred during console widget creation');
+            console.error(
+              'An error occurred during scratchpad console creation'
+            );
             return;
           }
 
@@ -213,13 +215,13 @@ const scratchPadConsole: JupyterFrontEndPlugin<void> = {
             isPalette: {
               type: 'boolean',
               description: trans.__(
-                trans.__('Whether the command is executed from the palette')
+                'Whether the command is executed from the palette'
               ),
             },
             isMenu: {
               type: 'boolean',
               description: trans.__(
-                trans.__('Whether the command is executed from the menu')
+                'Whether the command is executed from the menu'
               ),
             },
           },
@@ -243,7 +245,7 @@ const scratchPadConsole: JupyterFrontEndPlugin<void> = {
 const plugins: JupyterFrontEndPlugin<any>[] = [
   opener,
   redirect,
-  scratchPadConsole,
+  scratchpadConsole,
 ];
 
 export default plugins;
