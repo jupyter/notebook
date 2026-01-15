@@ -2383,9 +2383,15 @@ __metadata:
   dependencies:
     "@jupyter-notebook/application": ^7.6.0-alpha.1
     "@jupyterlab/application": ~4.6.0-alpha.1
+    "@jupyterlab/apputils": ~4.7.0-alpha.1
     "@jupyterlab/console": ~4.6.0-alpha.1
     "@jupyterlab/coreutils": ~6.6.0-alpha.1
+    "@jupyterlab/notebook": ~4.6.0-alpha.1
+    "@jupyterlab/translation": ~4.6.0-alpha.1
+    "@jupyterlab/ui-components": ~4.6.0-alpha.1
     "@lumino/algorithm": ^2.0.4
+    "@lumino/coreutils": ^2.2.2
+    "@lumino/widgets": ^2.7.2
     rimraf: ^3.0.2
     typescript: ~5.5.4
   languageName: unknown
