@@ -5,6 +5,7 @@
   "scripts": {
     "build": "rspack",
     "build:prod": "rspack --config ./rspack.prod.config.js",
+    "build:prod:minimize": "rspack --config ./rspack.prod.minimize.config.js",
     "build:prod:release": "rspack --config ./rspack.prod.release.config.js",
     "clean": "rimraf build && jlpm run clean:static",
     "clean:static": "rimraf -g \"../notebook/static/!(favicons)\"",
