@@ -34,7 +34,7 @@ jobs:
       - name: Build
         uses: ./.github/actions/build-dist
 
-      - uses: actions/download-artifact@v6
+      - uses: actions/download-artifact@v7
         with:
           name: notebook-dist-${{ github.run_number }}
           path: ./dist
