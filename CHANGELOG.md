@@ -77,6 +77,33 @@ Python 3.8 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.6.0a2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.0-alpha.1...209c7da02e8245ec96bf121a641802096ff8cbb3))
+
+### Enhancements made
+
+- Add a scratch-pad console to the notebook [#7790](https://github.com/jupyter/notebook/pull/7790) ([@brichet](https://github.com/brichet), [@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.6.0a2 [#7814](https://github.com/jupyter/notebook/pull/7814) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 4 updates [#7811](https://github.com/jupyter/notebook/pull/7811) ([@jtpio](https://github.com/jtpio))
+- Bump tar from 6.1.13 to 6.2.1 in /ui-tests [#7810](https://github.com/jupyter/notebook/pull/7810) ([@jtpio](https://github.com/jtpio))
+- Update snapshots bot checkout and permission check [#7806](https://github.com/jupyter/notebook/pull/7806) ([@martinRenou](https://github.com/martinRenou), [@krassowski](https://github.com/krassowski))
+- Rename the token env variable [#7802](https://github.com/jupyter/notebook/pull/7802) ([@brichet](https://github.com/brichet), [@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-01-12&to=2026-01-23&type=c))
+
+@brichet ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2026-01-12..2026-01-23&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-01-12..2026-01-23&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2026-01-12..2026-01-23&type=Issues)) | @martinRenou ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2026-01-12..2026-01-23&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.6.0a1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.0-alpha.0...aa605fa66c6885d85a37c7ab3ba6e7f7a837a810))
@@ -106,8 +133,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-12-17&to=2026-01-12&type=c))
 
 @andrii-i ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2025-12-17..2026-01-12&type=Issues)) | @brichet ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2025-12-17..2026-01-12&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-12-17..2026-01-12&type=Issues)) | @KH-Coder865 ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AKH-Coder865+updated%3A2025-12-17..2026-01-12&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-12-17..2026-01-12&type=Issues)) | @xlumzee ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Axlumzee+updated%3A2025-12-17..2026-01-12&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.6.0a0
 
