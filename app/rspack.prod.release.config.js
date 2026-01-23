@@ -4,7 +4,7 @@
  */
 
 const merge = require('webpack-merge').default;
-const config = require('./rspack.prod.config');
+const config = require('./rspack.prod.minimize.config');
 
 config[0] = merge(config[0], {
   // Turn off source maps

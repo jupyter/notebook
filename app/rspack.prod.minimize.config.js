@@ -4,8 +4,8 @@
  */
 
 const merge = require('webpack-merge').default;
-const config = require('./rspack.config');
 const WPPlugin = require('@jupyterlab/builder').WPPlugin;
+const config = require('./rspack.config');
 
 config[0] = merge(config[0], {
   mode: 'production',
@@ -16,7 +16,7 @@ config[0] = merge(config[0], {
     filename: '[name].[contenthash].js?v=[contenthash]',
   },
   optimization: {
-    minimize: false,
+    minimize: true,
   },
   plugins: [
     new WPPlugin.JSONLicenseWebpackPlugin({
