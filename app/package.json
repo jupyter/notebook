@@ -10,8 +10,8 @@
     "watch": "webpack --config ./webpack.config.watch.js"
   },
   "resolutions": {
-    "@codemirror/state": "~6.5.2",
-    "@codemirror/view": "~6.38.1",
+    "@codemirror/state": "~6.5.4",
+    "@codemirror/view": "~6.39.11",
     "@jupyter-notebook/application": "~7.5.2",
     "@jupyter-notebook/application-extension": "~7.5.2",
     "@jupyter-notebook/console-extension": "~7.5.2",
@@ -108,10 +108,10 @@
     "@jupyterlab/ui-components-extension": "~4.5.3",
     "@jupyterlab/vega5-extension": "~4.5.3",
     "@jupyterlab/video-extension": "~4.5.3",
-    "@lezer/common": "~1.2.1",
+    "@lezer/common": "~1.5.0",
     "@lezer/highlight": "~1.2.0",
     "@lumino/algorithm": "~2.0.4",
-    "@lumino/application": "~2.4.5",
+    "@lumino/application": "~2.4.6",
     "@lumino/commands": "~2.3.3",
     "@lumino/coreutils": "~2.2.2",
     "@lumino/disposable": "~2.1.5",
@@ -121,7 +121,7 @@
     "@lumino/properties": "~2.0.4",
     "@lumino/signaling": "~2.1.5",
     "@lumino/virtualdom": "~2.0.4",
-    "@lumino/widgets": "~2.7.2",
+    "@lumino/widgets": "~2.7.3",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "yjs": "~13.6.8"
