@@ -39,8 +39,8 @@
   },
   "dependencies": {
     "@jupyter-notebook/application": "^7.5.2",
-    "@jupyterlab/application": "~4.5.2",
-    "@jupyterlab/documentsearch": "~4.5.2",
+    "@jupyterlab/application": "~4.5.3",
+    "@jupyterlab/documentsearch": "~4.5.3",
     "@lumino/widgets": "^2.7.2"
   },
   "devDependencies": {
