@@ -6,7 +6,7 @@
     "buildutils/**/*",
     "ui-tests/**/*",
     "docs/**/*",
-    ".eslintrc.js"
+    "eslint.config.mjs"
   ],
   "compilerOptions": {
     "types": ["jest"]
