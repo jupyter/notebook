@@ -177,6 +177,51 @@ jobs:
           ignore_links: 'https://playwright.dev/docs/test-cli/ https://blog.jupyter.org/.* https://mybinder.org/v2/gh/jupyter/notebook/main https://nbviewer.jupyter.org https://stackoverflow.com https://github.com/[^/]+/?$'
           ignore_glob: 'ui-tests/test/notebooks/*'
 
+  bundle_size:
+    name: Bundle Size
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -U "jupyterlab>=4.6.0a2,<4.7"
+          jlpm
+
+      - name: Measure bundle sizes
+        run: |
+          measure() {
+            find notebook/static -name "$1" -print0 2>/dev/null | xargs -0 cat 2>/dev/null | wc -c | tr -d ' '
+          }
+
+          jlpm build
+          DEV_JS=$(measure "*.js")
+          DEV_MAP=$(measure "*.js.map")
+
+          jlpm clean
+          jlpm build:prod:minimize
+          MIN_JS=$(measure "*.js")
+          MIN_MAP=$(measure "*.js.map")
+
+          jlpm clean
+          jlpm build:prod:release
+          REL_JS=$(measure "*.js")
+          REL_MAP=$(measure "*.js.map")
+
+          fmt() { numfmt --to=iec "$1"; }
+
+          {
+            echo "## Bundle Size Report"
+            echo ""
+            echo "| Build | JS Size | Source Maps |"
+            echo "|-------|---------|-------------|"
+            echo "| dev | $(fmt $DEV_JS) | $(fmt $DEV_MAP) |"
+            echo "| prod:minimize | $(fmt $MIN_JS) | $(fmt $MIN_MAP) |"
+            echo "| prod:release | $(fmt $REL_JS) | $(fmt $REL_MAP) |"
+          } >> $GITHUB_STEP_SUMMARY
+
   test_lint:
     name: Test Lint
     runs-on: ubuntu-latest
