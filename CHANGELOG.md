@@ -3749,7 +3749,7 @@ enabled by default. A token is generated and used when your browser is
 opened automatically, so you shouldn't have to enter anything in the
 default circumstances. If you see a login page (e.g. by switching
 browsers, or launching on a new port with `--no-browser`), you get a
-login URL with the token from the command `jupyter notebook list`, which
+login URL with the token from the command `jupyter server list`, which
 you can paste into your browser.
 
 Highlights:
