@@ -2551,14 +2551,14 @@ __metadata:
   linkType: hard
 
 "ajv@npm:^8.12.0":
-  version: 8.12.0
-  resolution: "ajv@npm:8.12.0"
+  version: 8.18.0
+  resolution: "ajv@npm:8.18.0"
   dependencies:
-    fast-deep-equal: "npm:^3.1.1"
-    json-schema-traverse: "npm:^1.0.0"
-    require-from-string: "npm:^2.0.2"
-    uri-js: "npm:^4.2.2"
-  checksum: 4dc13714e316e67537c8b31bc063f99a1d9d9a497eb4bbd55191ac0dcd5e4985bbb71570352ad6f1e76684fb6d790928f96ba3b2d4fd6e10024be9612fe3f001
+    fast-deep-equal: ^3.1.3
+    fast-uri: ^3.0.1
+    json-schema-traverse: ^1.0.0
+    require-from-string: ^2.0.2
+  checksum: bcdf6c7b040ca488108e2b4e219b31cf9ed478331007d4dd1ed8acc3946dd6b84295817c0f4724207b8dd8589c9966168b2fd4c7f32109d4b8526cdd3743e936
   languageName: node
   linkType: hard
 
@@ -3647,7 +3647,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-deep-equal@npm:^3.1.1, fast-deep-equal@npm:~3.1.3":
+"fast-deep-equal@npm:^3.1.3, fast-deep-equal@npm:~3.1.3":
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
   checksum: e21a9d8d84f53493b6aa15efc9cfd53dd5b714a1f23f67fb5dc8f574af80df889b3bce25dc081887c6d25457cce704e636395333abad896ccdec03abaf1f3f9d
@@ -3658,6 +3658,13 @@ __metadata:
   version: 2.1.0
   resolution: "fast-json-stable-stringify@npm:2.1.0"
   checksum: b191531e36c607977e5b1c47811158733c34ccb3bfde92c44798929e9b4154884378536d26ad90dfecd32e1ffc09c545d23535ad91b3161a27ddbb8ebe0cbecb
+  languageName: node
+  linkType: hard
+
+"fast-uri@npm:^3.0.1":
+  version: 3.1.0
+  resolution: "fast-uri@npm:3.1.0"
+  checksum: daab0efd3548cc53d0db38ecc764d125773f8bd70c34552ff21abdc6530f26fa4cb1771f944222ca5e61a0a1a85d01a104848ff88c61736de445d97bd616ea7e
   languageName: node
   linkType: hard
 
@@ -4948,7 +4955,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"punycode@npm:^2.1.0, punycode@npm:^2.1.1, punycode@npm:^2.3.1":
+"punycode@npm:^2.1.1, punycode@npm:^2.3.1":
   version: 2.3.1
   resolution: "punycode@npm:2.3.1"
   checksum: bb0a0ceedca4c3c57a9b981b90601579058903c62be23c5e8e843d2c2d4148a3ecf029d5133486fb0e1822b098ba8bba09e89d6b21742d02fa26bda6441a6fb2
@@ -5479,15 +5486,6 @@ __metadata:
   version: 2.0.0
   resolution: "universalify@npm:2.0.0"
   checksum: 2406a4edf4a8830aa6813278bab1f953a8e40f2f63a37873ffa9a3bc8f9745d06cc8e88f3572cb899b7e509013f7f6fcc3e37e8a6d914167a5381d8440518c44
-  languageName: node
-  linkType: hard
-
-"uri-js@npm:^4.2.2":
-  version: 4.4.1
-  resolution: "uri-js@npm:4.4.1"
-  dependencies:
-    punycode: "npm:^2.1.0"
-  checksum: 7167432de6817fe8e9e0c9684f1d2de2bb688c94388f7569f7dbdb1587c9f4ca2a77962f134ec90be0cc4d004c939ff0d05acc9f34a0db39a3c797dada262633
   languageName: node
   linkType: hard
 
