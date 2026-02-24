@@ -110,6 +110,9 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
         with:
           dependency_type: pre
+          # TODO: Remove this pin once rpds-py supports Python 3.15.
+          # Upstream: https://github.com/crate-py/rpds/issues/210
+          python_version: '3.14'
       - name: Run the tests
         run: |
           hatch run test:nowarn || hatch run test:nowarn --lf
