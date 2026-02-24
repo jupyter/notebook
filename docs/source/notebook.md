@@ -332,6 +332,11 @@ to remember are the following:
 For the full list of available shortcuts, click {guilabel}`Help`,
 {guilabel}`Keyboard Shortcuts` in the notebook menus.
 
+When a command mode shortcut is shown as a letter key (for example {kbd}`A`),
+press the lowercase key unless a modifier is explicitly displayed. For
+sequence shortcuts written with a comma (for example {kbd}`d,d`), press the
+keys one after another.
+
 ## Searching
 
 Jupyter Notebook has an advanced built-in search plugin for finding text within a
