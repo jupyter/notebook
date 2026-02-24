@@ -39,10 +39,10 @@
   },
   "dependencies": {
     "@jupyter-notebook/ui-components": "^7.6.0-alpha.2",
-    "@jupyterlab/application": "~4.6.0-alpha.2",
-    "@jupyterlab/apputils": "~4.7.0-alpha.2",
-    "@jupyterlab/mainmenu": "~4.6.0-alpha.2",
-    "@jupyterlab/translation": "~4.6.0-alpha.2",
+    "@jupyterlab/application": "~4.6.0-alpha.3",
+    "@jupyterlab/apputils": "~4.7.0-alpha.3",
+    "@jupyterlab/mainmenu": "~4.6.0-alpha.3",
+    "@jupyterlab/translation": "~4.6.0-alpha.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

@@ -2,7 +2,7 @@
 requires = [
     "hatchling>=1.11",
     "hatch-jupyter-builder>=0.5",
-    "jupyterlab>=4.6.0a2,<4.7",
+    "jupyterlab>=4.6.0a3,<4.7",
 ]
 build-backend = "hatchling.build"
 
@@ -36,7 +36,7 @@ classifiers = [
 ]
 dependencies = [
     "jupyter_server>=2.4.0,<3",
-    "jupyterlab>=4.6.0a2,<4.7",
+    "jupyterlab>=4.6.0a3,<4.7",
     "jupyterlab_server>=2.28.0,<3",
     "notebook_shim>=0.2,<0.3",
     "tornado>=6.2.0",
@@ -181,7 +181,7 @@ version-cmd = "jlpm run release:bump --force --skip-commit"
 
 [tool.jupyter-releaser.hooks]
 before-bump-version = [
-    "python -m pip install -U \"jupyterlab>=4.6.0a2,<4.7\"",
+    "python -m pip install -U \"jupyterlab>=4.6.0a3,<4.7\"",
     "jlpm",
     "jlpm run build:utils",
     "python -m pip install hatch"
