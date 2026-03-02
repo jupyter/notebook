@@ -193,6 +193,7 @@ const scratchpadConsole: JupyterFrontEndPlugin<void> = {
 
           panel = await commands.execute('console:create', {
             kernelPreference: { ...kernelPref, id } as ReadonlyJSONObject,
+            preventTitleUpdate: true,
           });
 
           if (!panel) {
