@@ -11,6 +11,8 @@ import {
   DOMUtils,
   IToolbarWidgetRegistry,
   ICommandPalette,
+  Dialog,
+  showDialog,
 } from '@jupyterlab/apputils';
 
 import { Cell, CodeCell } from '@jupyterlab/cells';
@@ -237,21 +239,46 @@ const closeTab: JupyterFrontEndPlugin<void> = {
     'Add a command to close the browser tab when clicking on "Close and Shut Down".',
   autoStart: true,
   requires: [IMainMenu],
-  optional: [ITranslator],
+  optional: [ITranslator, ISettingRegistry],
   activate: (
     app: JupyterFrontEnd,
     menu: IMainMenu,
-    translator: ITranslator | null
+    translator: ITranslator | null,
+    settingRegistry: ISettingRegistry | null
   ) => {
     const { commands } = app;
     translator = translator ?? nullTranslator;
     const trans = translator.load('notebook');
 
+    let confirmClosing = true; // Default to showing confirmation
+
     const id = 'notebook:close-and-halt';
     commands.addCommand(id, {
-      label: trans.__('Close and Shut Down Notebook'),
+      label: () => {
+        // Add ellipsis when confirmation is enabled
+        return confirmClosing
+          ? trans.__('Close and Shut Down Notebook…')
+          : trans.__('Close and Shut Down Notebook');
+      },
       execute: async () => {
-        // Shut the kernel down, without confirmation
+        if (confirmClosing) {
+          const result = await showDialog({
+            title: trans.__('Shut down notebook?'),
+            body: trans.__(
+              'The notebook kernel will be shut down. Any unsaved changes will be lost.'
+            ),
+            buttons: [
+              Dialog.cancelButton({ label: trans.__('Cancel') }),
+              Dialog.warnButton({ label: trans.__('Shut Down') }),
+            ],
+          });
+
+          if (!result.button.accept) {
+            return;
+          }
+        }
+
+        // Shut the kernel down
         await commands.execute('notebook:shutdown-kernel', { activate: false });
         window.close();
       },
@@ -262,6 +289,26 @@ const closeTab: JupyterFrontEndPlugin<void> = {
       // shut down action for the notebook
       rank: 0,
     });
+
+    // Load settings
+    if (settingRegistry) {
+      const loadSettings = settingRegistry.load(closeTab.id);
+      const updateSettings = (settings: ISettingRegistry.ISettings): void => {
+        confirmClosing = settings.get('confirmClosingNotebook')
+          .composite as boolean;
+      };
+
+      Promise.all([loadSettings, app.restored])
+        .then(([settings]) => {
+          updateSettings(settings);
+          settings.changed.connect(updateSettings);
+        })
+        .catch((reason: Error) => {
+          console.error(
+            `Failed to load settings for ${closeTab.id}: ${reason.message}`
+          );
+        });
+    }
   },
 };
 
