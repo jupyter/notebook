@@ -11,7 +11,7 @@ __ https://nbviewer.jupyter.org/github/jupyter/notebook/blob/main/
 .. toctree::
    :maxdepth: 2
 
-   What is the Jupyter Notebook
+   What is the jupyter server list
    Notebook Basics
    Running Code
    Working With Markdown Cells
