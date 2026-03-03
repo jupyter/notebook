@@ -123,8 +123,10 @@ body[data-notebook='notebooks'] .jp-Notebook-footer {
 
 /* Mobile View */
 
-body[data-format='mobile'] .jp-NotebookCheckpoint {
-  display: none;
+@container (max-width: 760px) {
+  #top-panel .jp-NotebookCheckpoint {
+    display: none;
+  }
 }
 
 body[data-format='mobile'] .jp-WindowedPanel-outer > *:first-child {
