@@ -34,6 +34,6 @@
     "@jupyter-notebook/ui-components": "^7.6.0-alpha.3"
   },
   "devDependencies": {
-    "typescript": "~5.5.4"
+    "typescript": "~5.9.3"
   }
 }
