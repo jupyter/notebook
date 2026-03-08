@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.26.0",
+    "@jupyter/eslint-plugin": "^0.0.1",
     "@jupyterlab/buildutils": "~4.6.0-alpha.3",
     "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.0.0",

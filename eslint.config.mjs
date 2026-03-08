@@ -5,6 +5,7 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import jestPlugin from 'eslint-plugin-jest';
 import reactPlugin from 'eslint-plugin-react';
 import globals from 'globals';
+import jupyterPlugin from '@jupyter/eslint-plugin';
 
 export default defineConfig([
   {
@@ -47,6 +48,7 @@ export default defineConfig([
     plugins: {
       jest: jestPlugin,
       react: reactPlugin,
+      jupyter: jupyterPlugin,
     },
     languageOptions: {
       globals: {
@@ -61,6 +63,9 @@ export default defineConfig([
       },
     },
     rules: {
+      'jupyter/command-described-by': 'warn',
+      'jupyter/plugin-activation-args': 'error',
+      'jupyter/plugin-description': 'warn',
       '@typescript-eslint/naming-convention': [
         'error',
         {
