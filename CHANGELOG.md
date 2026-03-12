@@ -77,6 +77,32 @@ Python 3.8 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.6.0a4
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.0-alpha.3...fc791fcb0af893e3ffe7563a4140ec6af8c9dbe2))
+
+### Bugs fixed
+
+- Prevent scratchpad console title to update [#7843](https://github.com/jupyter/notebook/pull/7843) ([@brichet](https://github.com/brichet), [@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.6.0a4 [#7859](https://github.com/jupyter/notebook/pull/7859) ([@jtpio](https://github.com/jtpio))
+- Fix check links [#7857](https://github.com/jupyter/notebook/pull/7857) ([@jtpio](https://github.com/jtpio))
+- TypeScript 5.9 [#7855](https://github.com/jupyter/notebook/pull/7855) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 2 updates [#7846](https://github.com/jupyter/notebook/pull/7846) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-02-24&to=2026-03-12&type=c))
+
+@brichet ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2026-02-24..2026-03-12&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-02-24..2026-03-12&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.6.0a3
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.0-alpha.2...767a30d1ec90e9baf4975023c7019c95d9fe8614))
@@ -104,8 +130,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-01-23&to=2026-02-24&type=c))
 
 @bodhisilberling ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abodhisilberling+updated%3A2026-01-23..2026-02-24&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-01-23..2026-02-24&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2026-01-23..2026-02-24&type=Issues)) | @RamiNoodle733 ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARamiNoodle733+updated%3A2026-01-23..2026-02-24&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.6.0a2
 
