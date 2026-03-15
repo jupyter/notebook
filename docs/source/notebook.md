@@ -45,7 +45,7 @@ notebook and its dependencies.
 
 ### Notebook documents
 
-Notebook documents contains the inputs and outputs of a interactive session as
+Notebook documents contain the inputs and outputs of an interactive session as
 well as additional text that accompanies the code but is not meant for
 execution. In this way, notebook files can serve as a complete computational
 record of a session, interleaving executable code with explanatory text,
@@ -355,7 +355,7 @@ Specific plotting library integration is a feature of the kernel.
 ## Installing kernels
 
 For information on how to install a Python kernel, refer to the
-[IPython install page](https://ipython.org/install.html).
+[IPython install page](https://ipython.org/install).
 
 The Jupyter wiki has a long list of [Kernels for other languages](https://github.com/jupyter/jupyter/wiki/Jupyter-kernels).
 They usually come with instructions on how to make the kernel available

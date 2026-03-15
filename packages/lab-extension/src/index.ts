@@ -155,7 +155,9 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
 
       commands.addCommand(command, {
         label: (args) => {
-          args.noLabel ? '' : commandLabel;
+          if (args.noLabel) {
+            return '';
+          }
           if (args.isMenu || args.isPalette) {
             return commandDescription;
           }

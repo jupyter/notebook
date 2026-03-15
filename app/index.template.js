@@ -5,6 +5,8 @@
 
 import { PageConfig, URLExt } from '@jupyterlab/coreutils';
 
+import { PluginRegistry } from '@lumino/coreutils';
+
 require('./style.js');
 require('./extraStyle.js');
 
@@ -213,10 +215,20 @@ async function main() {
   // plugin even if the debugger is only loaded on the notebook page.
   PageConfig.setOption('allPlugins', '{{{ json notebook_plugins }}}');
 
-  const NotebookApp = require('@jupyter-notebook/application').NotebookApp;
-  const app = new NotebookApp({ mimeExtensions, availablePlugins });
 
-  app.registerPluginModules(mods);
+  const pluginRegistry = new PluginRegistry();
+  const NotebookApp = require('@jupyter-notebook/application').NotebookApp;
+
+  pluginRegistry.registerPlugins(mods);
+  const IServiceManager = require('@jupyterlab/services').IServiceManager;
+  const serviceManager = await pluginRegistry.resolveRequiredService(IServiceManager);
+
+  const app = new NotebookApp({
+    pluginRegistry,
+    serviceManager,
+    mimeExtensions,
+    availablePlugins
+  });
 
   // Expose global app instance when in dev mode or when toggled explicitly.
   const exposeAppInBrowser =

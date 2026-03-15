@@ -75,7 +75,7 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
   /**
    * Promise that resolves when the state is first restored
    */
-  readonly restored: Promise<void>;
+  override readonly restored: Promise<void>;
 
   /**
    * The version of the application.
@@ -127,7 +127,7 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
    *
    * @param event - The DOM event sent to the application.
    */
-  handleEvent(event: Event): void {
+  override handleEvent(event: Event): void {
     super.handleEvent(event);
     if (event.type === 'resize') {
       void this._formatter.invoke();

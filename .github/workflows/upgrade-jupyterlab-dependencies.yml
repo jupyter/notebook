@@ -35,17 +35,17 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ inputs.branch || 'main' }}
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
       - name: Install Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: '20.x'
 
@@ -79,10 +79,18 @@ jobs:
             jlpm
             jlpm deduplicate
           fi
+      - uses: prefix-dev/setup-pixi@v0.9.4
+        with:
+          pixi-version: v0.41.4
+          manifest-path: pyproject.toml
+          locked: false
+
+      - name: Update pixi.lock
+        run: pixi install
 
       - name: Create a PR
         env:
-          GITHUB_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PERSONAL_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
         run: |
           set -eux
 

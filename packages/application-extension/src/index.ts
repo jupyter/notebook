@@ -7,6 +7,7 @@ import {
   ITreePathUpdater,
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
+  JupyterLab,
 } from '@jupyterlab/application';
 
 import {
@@ -15,6 +16,7 @@ import {
   ISanitizer,
   ISplashScreen,
   IToolbarWidgetRegistry,
+  showErrorMessage,
 } from '@jupyterlab/apputils';
 
 import { ConsolePanel } from '@jupyterlab/console';
@@ -156,6 +158,21 @@ const dirty: JupyterFrontEndPlugin<void> = {
         return ((event as any).returnValue = message);
       }
     });
+  },
+};
+
+/**
+ * The application info.
+ */
+const info: JupyterFrontEndPlugin<JupyterLab.IInfo> = {
+  id: '@jupyter-notebook/application-extension:info',
+  autoStart: true,
+  provides: JupyterLab.IInfo,
+  activate: (app: JupyterFrontEnd): JupyterLab.IInfo => {
+    if (!(app instanceof NotebookApp)) {
+      throw new Error(`${info.id} must be activated in Jupyter Notebook.`);
+    }
+    return app.info;
   },
 };
 
@@ -642,14 +659,23 @@ const title: JupyterFrontEndPlugin<void> = {
             return;
           }
 
-          const result = await renameDialog(docManager, current.context);
+          try {
+            const result = await renameDialog(docManager, current.context);
 
-          // activate the current widget to bring the focus
-          if (current) {
-            current.activate();
-          }
+            // activate the current widget to bring the focus
+            if (current) {
+              current.activate();
+            }
 
-          if (result === null) {
+            if (result === null) {
+              return;
+            }
+          } catch (error) {
+            showErrorMessage(
+              trans.__('Rename Error'),
+              (error as Error).message ||
+                trans.__('An error occurred while renaming the file.')
+            );
             return;
           }
 
@@ -981,6 +1007,20 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin for defining keyboard shortcuts specific to the notebook application.
+ */
+const shortcuts: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/application-extension:shortcuts',
+  description:
+    'A plugin for defining keyboard shortcuts specific to the notebook application.',
+  autoStart: true,
+  activate: (app: JupyterFrontEnd) => {
+    // for now this plugin is mostly useful for defining keyboard shortcuts
+    // specific to the notebook application
+  },
+};
+
+/**
  * The default tree route resolver plugin.
  */
 const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
@@ -1148,6 +1188,7 @@ const zen: JupyterFrontEndPlugin<void> = {
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   dirty,
+  info,
   logo,
   menus,
   menuSpacer,
@@ -1158,6 +1199,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   rendermime,
   shell,
   sidePanelVisibility,
+  shortcuts,
   splash,
   status,
   tabTitle,

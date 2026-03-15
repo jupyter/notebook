@@ -17,7 +17,11 @@ import { Cell, CodeCell } from '@jupyterlab/cells';
 
 import { PageConfig, Text, Time, URLExt } from '@jupyterlab/coreutils';
 
+import { IDebugger, IDebuggerSidebar } from '@jupyterlab/debugger';
+
 import { IDocumentManager } from '@jupyterlab/docmanager';
+
+import { DocumentRegistry } from '@jupyterlab/docregistry';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
@@ -29,9 +33,13 @@ import {
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
+import { ITableOfContentsTracker } from '@jupyterlab/toc';
+
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
 import { INotebookShell } from '@jupyter-notebook/application';
+
+import { find } from '@lumino/algorithm';
 
 import { Poll } from '@lumino/polling';
 
@@ -92,13 +100,14 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
   description: 'A plugin for the checkpoint indicator.',
   autoStart: true,
   requires: [IDocumentManager, ITranslator],
-  optional: [INotebookShell, IToolbarWidgetRegistry],
+  optional: [INotebookShell, IToolbarWidgetRegistry, ISettingRegistry],
   activate: (
     app: JupyterFrontEnd,
     docManager: IDocumentManager,
     translator: ITranslator,
     notebookShell: INotebookShell | null,
-    toolbarRegistry: IToolbarWidgetRegistry | null
+    toolbarRegistry: IToolbarWidgetRegistry | null,
+    settingRegistry: ISettingRegistry | null
   ) => {
     const { shell } = app;
     const trans = translator.load('notebook');
@@ -113,18 +122,26 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
       });
     }
 
-    const onChange = async () => {
+    const getCurrent = () => {
       const current = shell.currentWidget;
+      if (!current) {
+        return null;
+      }
+      const context = docManager.contextForWidget(current);
+      if (!context) {
+        return null;
+      }
+      return context;
+    };
+
+    const updateCheckpointDisplay = async () => {
+      const current = getCurrent();
       if (!current) {
         return;
       }
-      const context = docManager.contextForWidget(current);
-
-      context?.fileChanged.disconnect(onChange);
-      context?.fileChanged.connect(onChange);
-
-      const checkpoints = await context?.listCheckpoints();
+      const checkpoints = await current.listCheckpoints();
       if (!checkpoints || !checkpoints.length) {
+        node.textContent = '';
         return;
       }
       const checkpoint = checkpoints[checkpoints.length - 1];
@@ -134,19 +151,80 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
       );
     };
 
+    const onSaveState = async (
+      sender: DocumentRegistry.IContext<DocumentRegistry.IModel>,
+      state: DocumentRegistry.SaveState
+    ) => {
+      if (state !== 'completed') {
+        return;
+      }
+      // Add a small artificial delay so that the UI can pick up the newly created checkpoint.
+      // Since the save state signal is emitted after a file save, but not after a checkpoint has been created.
+      setTimeout(() => {
+        void updateCheckpointDisplay();
+      }, 500);
+    };
+
+    const onChange = async () => {
+      const context = getCurrent();
+      if (!context) {
+        return;
+      }
+
+      context.saveState.disconnect(onSaveState);
+      context.saveState.connect(onSaveState);
+
+      await updateCheckpointDisplay();
+    };
+
     if (notebookShell) {
       notebookShell.currentChanged.connect(onChange);
     }
 
-    new Poll({
-      auto: true,
-      factory: () => onChange(),
-      frequency: {
-        interval: 2000,
-        backoff: false,
-      },
-      standby: 'when-hidden',
-    });
+    let checkpointPollingInterval = 30; // Default 30 seconds
+    let poll: Poll | null = null;
+
+    const createPoll = () => {
+      if (poll) {
+        poll.dispose();
+      }
+      if (checkpointPollingInterval > 0) {
+        poll = new Poll({
+          auto: true,
+          factory: () => updateCheckpointDisplay(),
+          frequency: {
+            interval: checkpointPollingInterval * 1000,
+            backoff: false,
+          },
+          standby: 'when-hidden',
+        });
+      }
+    };
+
+    const updateSettings = (settings: ISettingRegistry.ISettings): void => {
+      checkpointPollingInterval = settings.get('checkpointPollingInterval')
+        .composite as number;
+      createPoll();
+    };
+
+    if (settingRegistry) {
+      const loadSettings = settingRegistry.load(checkpoints.id);
+      Promise.all([loadSettings, app.restored])
+        .then(([settings]) => {
+          updateSettings(settings);
+          settings.changed.connect(updateSettings);
+        })
+        .catch((reason: Error) => {
+          console.error(
+            `Failed to load settings for ${checkpoints.id}: ${reason.message}`
+          );
+          // Fall back to creating poll with default settings
+          createPoll();
+        });
+    } else {
+      // Create poll with default settings
+      createPoll();
+    }
   },
 };
 
@@ -678,6 +756,122 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to replace the menu item activating the TOC panel, to allow toggling it.
+ */
+const overrideMenuItems: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:menu-override',
+  description: 'A plugin to override some menu items',
+  autoStart: true,
+  optional: [
+    IDebuggerSidebar,
+    IMainMenu,
+    INotebookShell,
+    ITableOfContentsTracker,
+    ITranslator,
+  ],
+  activate: (
+    app: JupyterFrontEnd,
+    debuggerSidebar: IDebugger.ISidebar | null,
+    mainMenu: IMainMenu | null,
+    shell: INotebookShell | null,
+    tocTracker: ITableOfContentsTracker | null,
+    translator: ITranslator | null
+  ) => {
+    if (!mainMenu || !shell) {
+      return;
+    }
+    const trans = (translator ?? nullTranslator).load('notebook');
+    const { commands } = app;
+
+    if (tocTracker) {
+      const TOC_PANEL_ID = 'table-of-contents';
+      commands.addCommand('toc:toggle-panel', {
+        label: trans.__('Table of Contents'),
+        isToggleable: true,
+        isToggled: () => {
+          const area = shell.getWidgetArea(TOC_PANEL_ID);
+          if (!area) {
+            return false;
+          }
+          const widget = find(
+            shell.widgets(area as INotebookShell.Area),
+            (w) => w.id === TOC_PANEL_ID
+          );
+          if (!widget) {
+            return false;
+          }
+          return shell.isSidePanelVisible(area) && widget.isVisible;
+        },
+        execute: () => {
+          const area = shell.getWidgetArea(TOC_PANEL_ID);
+          if (!area) {
+            return;
+          }
+          const widget = find(
+            shell.widgets(area as INotebookShell.Area),
+            (w) => w.id === TOC_PANEL_ID
+          );
+          if (shell.isSidePanelVisible(area) && widget?.isVisible) {
+            shell.collapse(area);
+          } else {
+            shell.activateById(TOC_PANEL_ID);
+          }
+        },
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      });
+    }
+
+    if (debuggerSidebar) {
+      const DEBUGGER_PANEL_ID = 'jp-debugger-sidebar';
+      commands.addCommand('debugger:toggle-panel', {
+        label: trans.__('Debugger Panel'),
+        isToggleable: true,
+        isToggled: () => {
+          const area = shell.getWidgetArea(DEBUGGER_PANEL_ID);
+          if (!area) {
+            return false;
+          }
+          const widget = find(
+            shell.widgets(area as INotebookShell.Area),
+            (w) => w.id === DEBUGGER_PANEL_ID
+          );
+          if (!widget) {
+            return false;
+          }
+          return shell.isSidePanelVisible(area) && widget.isVisible;
+        },
+        execute: () => {
+          const area = shell.getWidgetArea(DEBUGGER_PANEL_ID);
+          if (!area) {
+            return;
+          }
+          const widget = find(
+            shell.widgets(area as INotebookShell.Area),
+            (w) => w.id === DEBUGGER_PANEL_ID
+          );
+          if (shell.isSidePanelVisible(area) && widget?.isVisible) {
+            shell.collapse(area);
+          } else {
+            shell.activateById(DEBUGGER_PANEL_ID);
+          }
+        },
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      });
+    }
+  },
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
@@ -689,6 +883,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   kernelLogo,
   kernelStatus,
   notebookToolsWidget,
+  overrideMenuItems,
   scrollOutput,
   tabIcon,
   trusted,
