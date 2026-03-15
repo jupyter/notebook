@@ -76,18 +76,20 @@ Launch with:
 ```bash
 jupyter notebook
 ```
+
 ## Installation
 
 ### Platform-Specific Installation
 
 #### Windows
+
 1. **Using pip (recommended)**
    - Install Python first from [Python Downloads](https://www.python.org/downloads/windows/)
    - Be sure to check "Add Python to PATH" during installation.
    - Open Command Prompt as Administrator and run:
-      ```bash
-      pip install notebook
-      ```
+     ```bash
+     pip install notebook
+     ```
 2. **Using Microsoft Store**
    - Search for "Python" in the Microsoft Store
    - Install Python 3.x
@@ -97,6 +99,7 @@ jupyter notebook
      ```
 
 #### macOS
+
 1. **Using pip**
    Install Python first if not already installed
    - **Option 1**: Download from [Python Downloads](https://www.python.org/downloads/mac-osx/)
@@ -104,7 +107,7 @@ jupyter notebook
      ```bash
      brew install python
      ```
-   Then install Jupyter Notebook:
+     Then install Jupyter Notebook:
    ```bash
    pip install notebook
    ```
@@ -114,6 +117,7 @@ jupyter notebook
    ```
 
 #### Linux
+
 1. **Debian/Ubuntu**
    ```bash
    sudo apt update
@@ -129,6 +133,7 @@ jupyter notebook
 ### Using Conda
 
 Conda is recommended if you need to manage multiple Python environments:
+
 - Install Miniconda or Anaconda first from [Miniconda](https://docs.conda.io/en/latest/miniconda.html)
 - Create a new environment (recommended):
   ```bash
@@ -230,4 +235,5 @@ to indicate the copyright and license terms:
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 ```
+
 Add enhanced installation instructions
