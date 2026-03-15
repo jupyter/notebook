@@ -146,21 +146,25 @@ Conda is recommended if you need to manage multiple Python environments:
 ### Common Installation Issues and Solutions
 
 1. **Permission Errors**
+
    - **Windows**: Run Command Prompt as Administrator
    - **macOS/Linux**: Use `sudo pip install notebook` or `pip install --user notebook`
 
 2. **Outdated pip**
+
    - Update pip before installation:
      ```bash
      python -m pip install --upgrade pip
      ```
 
 3. **"Command not found" after installation**
+
    - Make sure Python's script directory is in your PATH
    - **Windows**: Try `py -m notebook` instead of `jupyter notebook`
    - **macOS/Linux**: Try `python3 -m notebook`
 
 4. **Jupyter command not working after installation**
+
    - Try running:
      ```bash
      python -m notebook
