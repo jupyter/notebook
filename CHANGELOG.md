@@ -3705,7 +3705,7 @@ instructions.
   automatically scrubbed from the notebook on save ([621](https://github.com/jupyter/notebook/pull/621)).
 - Undoing cell deletion now supports undeleting multiple cells. Cells
   may not be in the same order as before their deletion, depending on
-  the actions you did on the meantime, but this should should help
+  the actions you did in the meantime, but this should help
   reduce the impact of accidentally deleting code.
 - The file browser now has _Edit_ and _View_ buttons.
 - The file browser now supports moving multiple files at once ([1088](https://github.com/jupyter/notebook/pull/1088)).
