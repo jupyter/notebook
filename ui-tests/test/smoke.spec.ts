@@ -36,7 +36,7 @@ test.describe('Smoke', () => {
     try {
       // we may have to select the kernel first
       await notebook.click('text="Select"', { timeout: 5000 });
-    } catch (e) {
+    } catch {
       // The kernel is already selected
     }
 

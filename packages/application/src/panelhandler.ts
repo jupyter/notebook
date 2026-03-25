@@ -125,7 +125,7 @@ export class SidePanelHandler extends PanelHandler {
   /**
    * Get the stacked panel managed by the handler
    */
-  get panel(): Panel {
+  override get panel(): Panel {
     return this._panel;
   }
 
@@ -213,7 +213,7 @@ export class SidePanelHandler extends PanelHandler {
    *
    * If the widget is already added, it will be moved.
    */
-  addWidget(widget: Widget, rank: number): void {
+  override addWidget(widget: Widget, rank: number): void {
     widget.parent = null;
     widget.hide();
     const item = { widget, rank };
@@ -260,8 +260,7 @@ export class SidePanelHandler extends PanelHandler {
    * Find the widget with the given id, or `null`.
    */
   private _findWidgetByID(id: string): Widget | null {
-    const item = find(this._items, (value) => value.widget.id === id);
-    return item ? item.widget : null;
+    return find(this._items, (value) => value.widget.id === id)?.widget ?? null;
   }
 
   /**
@@ -324,14 +323,11 @@ export class SidePanelPalette {
     widget: Readonly<Widget>,
     area: 'left' | 'right'
   ): SidePanelPaletteItem | null {
-    const itemList = this._items;
-    for (let i = 0; i < itemList.length; i++) {
-      const item = itemList[i];
-      if (item.widgetId === widget.id && item.area === area) {
-        return item;
-      }
-    }
-    return null;
+    return (
+      this._items.find(
+        (item) => item.widgetId === widget.id && item.area === area
+      ) ?? null
+    );
   }
 
   /**
@@ -373,9 +369,9 @@ export class SidePanelPalette {
     }
   }
 
-  _command: string;
-  _commandPalette: ICommandPalette;
-  _items: SidePanelPaletteItem[] = [];
+  private _command: string;
+  private _commandPalette: ICommandPalette;
+  private _items: SidePanelPaletteItem[] = [];
 }
 
 type SidePanelPaletteItem = {
