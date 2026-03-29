@@ -430,9 +430,9 @@ Each checkpoint represents a previously saved state of the notebook.
 ### Why is it useful?
 
 Checkpoint files can help users:
-- Recover accidentally deleted notebooks  
-- Restore earlier versions of their work  
-- Protect against data loss due to crashes or unintended changes  
+- Recover accidentally deleted notebooks
+- Restore earlier versions of their work
+- Protect against data loss due to crashes or unintended changes
 
 ### Can it be deleted?
 
