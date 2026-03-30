@@ -469,5 +469,3 @@ To restore a checkpoint:
 - Only a limited number of checkpoints may be stored
 
 <!-- trigger change -->
-
-
