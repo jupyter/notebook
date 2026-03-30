@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/application-extension",
-  "version": "7.6.0-alpha.3",
+  "version": "7.6.0-alpha.4",
   "description": "Jupyter Notebook - Application Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -38,26 +38,26 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.6.0-alpha.3",
-    "@jupyter-notebook/ui-components": "^7.6.0-alpha.3",
-    "@jupyterlab/application": "~4.6.0-alpha.3",
-    "@jupyterlab/apputils": "~4.7.0-alpha.3",
-    "@jupyterlab/codeeditor": "~4.6.0-alpha.3",
-    "@jupyterlab/console": "~4.6.0-alpha.3",
-    "@jupyterlab/coreutils": "~6.6.0-alpha.3",
-    "@jupyterlab/docmanager": "~4.6.0-alpha.3",
-    "@jupyterlab/docregistry": "~4.6.0-alpha.3",
-    "@jupyterlab/mainmenu": "~4.6.0-alpha.3",
-    "@jupyterlab/rendermime": "~4.6.0-alpha.3",
-    "@jupyterlab/settingregistry": "~4.6.0-alpha.3",
-    "@jupyterlab/translation": "~4.6.0-alpha.3",
+    "@jupyter-notebook/application": "^7.6.0-alpha.4",
+    "@jupyter-notebook/ui-components": "^7.6.0-alpha.4",
+    "@jupyterlab/application": "~4.6.0-alpha.4",
+    "@jupyterlab/apputils": "~4.7.0-alpha.4",
+    "@jupyterlab/codeeditor": "~4.6.0-alpha.4",
+    "@jupyterlab/console": "~4.6.0-alpha.4",
+    "@jupyterlab/coreutils": "~6.6.0-alpha.4",
+    "@jupyterlab/docmanager": "~4.6.0-alpha.4",
+    "@jupyterlab/docregistry": "~4.6.0-alpha.4",
+    "@jupyterlab/mainmenu": "~4.6.0-alpha.4",
+    "@jupyterlab/rendermime": "~4.6.0-alpha.4",
+    "@jupyterlab/settingregistry": "~4.6.0-alpha.4",
+    "@jupyterlab/translation": "~4.6.0-alpha.4",
     "@lumino/coreutils": "^2.2.2",
     "@lumino/disposable": "^2.1.5",
     "@lumino/widgets": "^2.7.2"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
-    "typescript": "~5.5.4"
+    "typescript": "~5.9.3"
   },
   "publishConfig": {
     "access": "public"
