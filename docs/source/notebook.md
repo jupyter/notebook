@@ -443,3 +443,29 @@ If needed, Jupyter Notebook will automatically recreate the directory when new c
 ### Why is it hidden?
 
 The directory name starts with a dot (`.`), which makes it hidden by default on many operating systems.
+
+## Checkpoints
+
+Jupyter Notebook automatically saves the state of your notebook as checkpoints.
+
+### What are checkpoints?
+
+Checkpoints are saved versions of your notebook that allow you to revert to a previous state if needed.
+
+### Creating a checkpoint
+
+A checkpoint is created automatically when you save your notebook. You can also manually create one from the menu.
+
+### Restoring a checkpoint
+
+To restore a checkpoint:
+1. Go to the **File** menu
+2. Select **Revert to Checkpoint**
+3. Choose the desired checkpoint version
+
+### Notes
+
+- Checkpoints help prevent data loss
+- Only a limited number of checkpoints may be stored
+
+
