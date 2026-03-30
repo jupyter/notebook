@@ -2553,7 +2553,7 @@ __metadata:
   dependencies:
     "@eslint/js": ^9.26.0
     "@jupyter/eslint-plugin": 0.0.3
-    "@jupyterlab/buildutils": ~4.6.0-alpha.3
+    "@jupyterlab/buildutils": ~4.6.0-alpha.4
     eslint: ^9.26.0
     eslint-config-prettier: ^10.0.0
     eslint-plugin-jest: ^28.0.0
@@ -2565,7 +2565,7 @@ __metadata:
     npm-run-all: ^4.1.5
     prettier: ^2.8.5
     rimraf: ^3.0.2
-    typescript: ~5.5.4
+    typescript: ~5.9.3
     typescript-eslint: ^8.0.0
   languageName: unknown
   linkType: soft
@@ -2878,7 +2878,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/buildutils@npm:~4.6.0-alpha.3":
+"@jupyterlab/buildutils@npm:~4.6.0-alpha.3, @jupyterlab/buildutils@npm:~4.6.0-alpha.4":
   version: 4.6.0-alpha.4
   resolution: "@jupyterlab/buildutils@npm:4.6.0-alpha.4"
   dependencies:
