@@ -16,7 +16,6 @@ import { getPythonVersion, postbump, syncWorkspaceVersions } from './utils';
 // Specify the program signature.
 commander
   .description('Create a patch release')
-  .option('--force', 'Force the upgrade')
   .option('--skip-commit', 'Whether to skip commit changes')
   .action((options: any) => {
     // Make sure we can patch release.

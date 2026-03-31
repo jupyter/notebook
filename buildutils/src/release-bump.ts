@@ -23,7 +23,6 @@ import {
 commander
   .description('Update the version')
   .option('--dry-run', 'Dry run')
-  .option('--force', 'Force the upgrade')
   .option('--skip-commit', 'Whether to skip commit changes')
   .arguments('<spec>')
   .action((spec: any, opts: any) => {
@@ -42,9 +41,6 @@ commander
     // For patch, defer to `patch:release` command
     if (spec === 'patch') {
       let cmd = 'jlpm run release:patch';
-      if (opts.force) {
-        cmd += ' --force';
-      }
       if (!commit) {
         cmd += ' --skip-commit';
       }

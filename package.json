@@ -20,10 +20,10 @@
     ]
   },
   "scripts": {
-    "build": "jlpm build:lib && jlpm workspace @jupyter-notebook/lab-extension run build && jlpm build:app",
+    "build": "jlpm run build:utils && jlpm build:lib && jlpm workspace @jupyter-notebook/lab-extension run build && jlpm build:app",
     "build:app": "jlpm workspace @jupyter-notebook/app run build",
     "build:lib": "jlpm workspace @jupyter-notebook/metapackage run build",
-    "build:prod": "jlpm build:lib && jlpm workspace @jupyter-notebook/lab-extension run build:prod && jlpm workspace @jupyter-notebook/app run build:prod",
+    "build:prod": "jlpm run build:utils && jlpm build:lib && jlpm workspace @jupyter-notebook/lab-extension run build:prod && jlpm workspace @jupyter-notebook/app run build:prod",
     "build:test": "npm run build:test --workspaces --if-present",
     "build:utils": "jlpm workspace @jupyter-notebook/buildutils run build",
     "clean": "npm run clean --workspaces --if-present",

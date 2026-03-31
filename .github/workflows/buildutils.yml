@@ -46,24 +46,24 @@ jobs:
 
       - name: Patch Release
         run: |
-          jlpm release:patch --force
+          jlpm release:patch
 
       - name: Minor Release
         run: |
-          jlpm release:bump minor --force
+          jlpm release:bump minor
 
       - name: Release Cycle
         run: |
           # beta
-          jlpm release:bump release --force
+          jlpm release:bump release
           # rc
-          jlpm release:bump release --force
+          jlpm release:bump release
           # final
-          jlpm release:bump release --force
+          jlpm release:bump release
 
       - name: Major Release
         run: |
-          jlpm release:bump major --force
+          jlpm release:bump major
 
   npm:
     runs-on: ubuntu-latest
