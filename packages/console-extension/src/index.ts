@@ -59,6 +59,18 @@ const opener: JupyterFrontEndPlugin<void> = {
         const path = decodeURIComponent(match);
         commands.execute('console:create', { path });
       },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {
+            path: {
+              type: 'string',
+              description: 'The routed URL path to handle.',
+            },
+          },
+          required: ['path'],
+        },
+      },
     });
 
     router.register({ command, pattern: consolePattern });

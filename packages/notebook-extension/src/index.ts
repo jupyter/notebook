@@ -255,6 +255,12 @@ const closeTab: JupyterFrontEndPlugin<void> = {
         await commands.execute('notebook:shutdown-kernel', { activate: false });
         window.close();
       },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
     });
     menu.fileMenu.closeAndCleaners.add({
       id,
@@ -285,6 +291,12 @@ const openTreeTab: JupyterFrontEndPlugin<void> = {
       execute: async () => {
         const url = URLExt.join(PageConfig.getBaseUrl(), 'tree');
         window.open(url);
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
       },
     });
   },
@@ -356,6 +368,12 @@ const fullWidthNotebook: JupyterFrontEndPlugin<void> = {
       },
       isEnabled: () => tracker.currentWidget !== null,
       isToggled: () => fullWidth,
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
     });
 
     if (palette) {
@@ -744,6 +762,12 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
       isVisible: () =>
         shell.currentWidget !== null &&
         shell.currentWidget instanceof NotebookPanel,
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
     });
 
     if (palette) {

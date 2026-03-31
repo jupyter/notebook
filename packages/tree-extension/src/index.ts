@@ -318,6 +318,12 @@ const openFileBrowser: JupyterFrontEndPlugin<void> = {
       execute: () => {
         notebookTree.currentWidget = browser;
       },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
     });
   },
 };
