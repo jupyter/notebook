@@ -166,6 +166,7 @@ const dirty: JupyterFrontEndPlugin<void> = {
  */
 const info: JupyterFrontEndPlugin<JupyterLab.IInfo> = {
   id: '@jupyter-notebook/application-extension:info',
+  description: 'Provides application information for the current notebook app.',
   autoStart: true,
   provides: JupyterLab.IInfo,
   activate: (app: JupyterFrontEnd): JupyterLab.IInfo => {
@@ -268,6 +269,21 @@ const opener: JupyterFrontEndPlugin<void> = {
           });
         });
       },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {
+            path: {
+              type: 'string',
+              description: 'The routed URL path to handle.',
+            },
+            search: {
+              type: 'string',
+              description: 'The routed URL query string.',
+            },
+          },
+        },
+      },
     });
 
     router.register({ command, pattern: TREE_PATTERN });
@@ -342,6 +358,12 @@ const pages: JupyterFrontEndPlugin<void> = {
       execute: () => {
         window.open(URLExt.join(baseUrl, 'lab'));
       },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
     });
     const page = PageConfig.getOption('notebookPage');
 
@@ -353,6 +375,12 @@ const pages: JupyterFrontEndPlugin<void> = {
         } else {
           window.open(URLExt.join(baseUrl, 'tree'));
         }
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
       },
     });
 
@@ -437,6 +465,21 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
                 target: '_blank',
               });
             });
+        },
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {
+              path: {
+                type: 'string',
+                description: 'The local path to open.',
+              },
+              id: {
+                type: 'string',
+                description: 'The optional fragment identifier to target.',
+              },
+            },
+          },
         },
       });
     }
@@ -649,6 +692,12 @@ const title: JupyterFrontEndPlugin<void> = {
           const result = await docManager.duplicate(current.context.path);
           await commands.execute('docmanager:open', { path: result.path });
         },
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {},
+          },
+        },
       });
 
       commands.addCommand(CommandIDs.rename, {
@@ -696,6 +745,12 @@ const title: JupyterFrontEndPlugin<void> = {
             skipRouting: true,
           });
         },
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {},
+          },
+        },
       });
 
       node.onclick = async () => {
@@ -740,6 +795,12 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
         }
       },
       isToggled: () => top.isVisible,
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
     });
 
     let adjustToScreen = false;
@@ -889,6 +950,25 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
           }
         }
         return false;
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {
+            side: {
+              type: 'string',
+              description: 'The side panel area to toggle.',
+            },
+            title: {
+              type: 'string',
+              description: 'The title shown for the side panel entry.',
+            },
+            id: {
+              type: 'string',
+              description: 'The widget id to show or hide in the side panel.',
+            },
+          },
+        },
       },
     });
 
@@ -1057,6 +1137,21 @@ const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
 
           delegate.resolve({ browser, file: PageConfig.getOption('treePath') });
         }) as (args: any) => Promise<void>,
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {
+              path: {
+                type: 'string',
+                description: 'The routed URL path to handle.',
+              },
+              search: {
+                type: 'string',
+                description: 'The routed URL query string.',
+              },
+            },
+          },
+        },
       })
     );
     set.add(
@@ -1168,6 +1263,12 @@ const zen: JupyterFrontEndPlugin<void> = {
           document.exitFullscreen();
           toggleOff();
         }
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
       },
     });
 

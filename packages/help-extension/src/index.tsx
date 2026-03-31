@@ -59,6 +59,21 @@ const open: JupyterFrontEndPlugin<void> = {
         const url = args['url'] as string;
         window.open(url);
       },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {
+            text: {
+              type: 'string',
+              description: 'The label to display for the help resource.',
+            },
+            url: {
+              type: 'string',
+              description: 'The URL to open in a new browser tab.',
+            },
+          },
+        },
+      },
     });
   },
 };
@@ -143,6 +158,12 @@ const about: JupyterFrontEndPlugin<void> = {
         });
         dialog.addClass('jp-AboutNotebook');
         void dialog.launch();
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
       },
     });
 
