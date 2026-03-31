@@ -38,7 +38,6 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.6.0-alpha.4",
     "@jupyterlab/application": "~4.6.0-alpha.4",
     "@jupyterlab/apputils": "~4.7.0-alpha.4",
     "@jupyterlab/coreutils": "~6.6.0-alpha.4",

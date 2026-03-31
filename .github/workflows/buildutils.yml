@@ -41,7 +41,7 @@ jobs:
       - name: Reset version
         run: |
           hatch version 9.8.7
-          jlpm run lerna version 9.8.7 --no-push --force-publish --no-git-tag-version --yes
+          jlpm run set:workspace-version 9.8.7
           git commit -am "Release 9.8.7"
 
       - name: Patch Release

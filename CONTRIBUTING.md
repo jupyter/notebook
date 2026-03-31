@@ -137,27 +137,6 @@ Running the end to end tests in headful mode will trigger something like the fol
 
 ![playwright-headed-demo](https://user-images.githubusercontent.com/591645/141274633-ca9f9c2f-eef6-430e-9228-a35827f8133d.gif)
 
-## Tasks caching
-
-The repository is configured to use the Lerna caching system (via `nx`) for some of the development scripts.
-
-This helps speed up rebuilds when running `jlpm run build` multiple times to avoid rebuilding packages that have not changed on disk.
-
-You can generate a graph to have a better idea of the dependencies between all the packages using the following command:
-
-```
-npx nx graph
-```
-
-Running the command will open a browser tab by default with a graph that looks like the following:
-
-![a screenshot showing the nx task graph](https://github.com/jupyter/notebook/assets/591645/34eb46f0-b0e5-44b6-9430-ae5fbd673a4b)
-
-To learn more about Lerna caching:
-
-- https://lerna.js.org/docs/features/cache-tasks
-- https://nx.dev/docs/features/cache-task-results
-
 ### Updating reference snapshots
 
 Often a PR might make changes to the user interface, which can cause the visual regression tests to fail.
