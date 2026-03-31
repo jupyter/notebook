@@ -177,7 +177,7 @@ build_dir = "notebook/static"
 npm = ["jlpm"]
 
 [tool.jupyter-releaser.options]
-version-cmd = "jlpm run release:bump --force --skip-commit"
+version-cmd = "jlpm run release:bump --skip-commit"
 
 [tool.jupyter-releaser.hooks]
 before-bump-version = [
