@@ -67,11 +67,8 @@ const opener: JupyterFrontEndPlugin<void> = {
               type: 'string',
               description: 'The routed URL path to handle.',
             },
-            search: {
-              type: 'string',
-              description: 'The routed URL query string.',
-            },
           },
+          required: ['path'],
         },
       },
     });

@@ -61,7 +61,7 @@ const opener: JupyterFrontEndPlugin<void> = {
               description: 'The routed URL path to handle.',
             },
           },
-          required: ['url'],
+          required: ['path'],
         },
       },
     });

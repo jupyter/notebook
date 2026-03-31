@@ -967,7 +967,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
               description: 'The widget id to show or hide in the side panel.',
             },
           },
-          required: ['side', 'id'],
+          required: ['side', 'title', 'id'],
         },
       },
     });
@@ -1141,10 +1141,6 @@ const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
           args: {
             type: 'object',
             properties: {
-              path: {
-                type: 'string',
-                description: 'The routed URL path to handle.',
-              },
               search: {
                 type: 'string',
                 description: 'The routed URL query string.',
