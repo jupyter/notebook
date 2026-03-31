@@ -282,6 +282,7 @@ const opener: JupyterFrontEndPlugin<void> = {
               description: 'The routed URL query string.',
             },
           },
+          required: ['path'],
         },
       },
     });
@@ -474,11 +475,8 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
                 type: 'string',
                 description: 'The local path to open.',
               },
-              id: {
-                type: 'string',
-                description: 'The optional fragment identifier to target.',
-              },
             },
+            required: ['path'],
           },
         },
       });
@@ -957,6 +955,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
           properties: {
             side: {
               type: 'string',
+              enum: ['left', 'right'],
               description: 'The side panel area to toggle.',
             },
             title: {
@@ -968,6 +967,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
               description: 'The widget id to show or hide in the side panel.',
             },
           },
+          required: ['side', 'id'],
         },
       },
     });

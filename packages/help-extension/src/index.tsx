@@ -72,6 +72,7 @@ const open: JupyterFrontEndPlugin<void> = {
               description: 'The URL to open in a new browser tab.',
             },
           },
+          required: ['url'],
         },
       },
     });
