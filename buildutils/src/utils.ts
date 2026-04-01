@@ -91,7 +91,9 @@ export function pythonVersionToJSVersion(version: string): string {
     .replace(/\.dev(\d+)$/, '-dev.$1');
 
   if (!semver.valid(jsVersion)) {
-    throw new Error(`Invalid JavaScript version: ${jsVersion} (from Python version: ${version})`);
+    throw new Error(
+      `Invalid JavaScript version: ${jsVersion} (from Python version: ${version})`
+    );
   }
 
   return jsVersion;
