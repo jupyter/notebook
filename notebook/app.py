@@ -1,5 +1,13 @@
 """Jupyter notebook application."""
 
+# Hey so there's no code change, But while reading the code I just thought about this.
+# We have Magic strings used in the code right
+# "/tree", "/notebooks", "/files", "static"
+# But my doubt is let's say If we ever want to change "/tree" to "/explorer" (just for example). We will have to manually find and update every occurrence right.
+# So wouldn't it be better if we define all of it once at top and then use them below
+# TREE_PATH = "/tree" or NOTEBOOKS_PATH = "/notebooks"
+# I might be wrong or missing something here so please have a look, I would love to read and learn what you guys have to say about it.
+
 from __future__ import annotations
 
 import os
