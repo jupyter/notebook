@@ -38,32 +38,84 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
 
-      - name: Reset version
+      - name: Check Notebook versioning flow
         run: |
+          set -eux
+
+          assert_release_state() {
+            local py_expected="$1"
+            local js_expected="$2"
+
+            test "$(hatch version)" = "${py_expected}"
+            grep -nF "__version__ = \"${py_expected}\"" notebook/_version.py
+            grep -nF "\"version\": \"${js_expected}\"" \
+              buildutils/package.json \
+              packages/application/package.json \
+              packages/lab-extension/package.json
+            grep -nF "\"@jupyter-notebook/application\": \"^${js_expected}\"" \
+              packages/application-extension/package.json \
+              packages/lab-extension/package.json
+            grep -nF "\"@jupyter-notebook/application\": \"~${js_expected}\"" \
+              app/package.json
+            grep -nF '"version": "0.1.0"' package.json ui-tests/package.json
+          }
+
           hatch version 9.8.7
           jlpm run set:workspace-version 9.8.7
           git commit -am "Release 9.8.7"
+          assert_release_state 9.8.7 9.8.7
 
-      - name: Patch Release
-        run: |
+          jlpm release:bump next --skip-commit
+          assert_release_state 9.8.8 9.8.8
+          git restore .
+
           jlpm release:patch
+          assert_release_state 9.8.8 9.8.8
 
-      - name: Minor Release
-        run: |
           jlpm release:bump minor
+          assert_release_state 9.9.0a0 9.9.0-alpha.0
 
-      - name: Release Cycle
-        run: |
-          # beta
-          jlpm release:bump release
-          # rc
-          jlpm release:bump release
-          # final
-          jlpm release:bump release
+          jlpm release:bump next --skip-commit
+          assert_release_state 9.9.0a1 9.9.0-alpha.1
+          git restore .
 
-      - name: Major Release
-        run: |
+          jlpm release:bump release
+          assert_release_state 9.9.0b0 9.9.0-beta.0
+
+          jlpm release:bump release
+          assert_release_state 9.9.0rc0 9.9.0-rc.0
+
+          jlpm release:bump release
+          assert_release_state 9.9.0 9.9.0
+
           jlpm release:bump major
+          assert_release_state 10.0.0a0 10.0.0-alpha.0
+
+      - name: Check dependency update helper
+        run: |
+          set -eux
+
+          UPDATE_LOG="$(
+            jlpm update:dependency @jupyterlab/application '~4.5.0-rc.1' --dry-run 2>&1
+          )"
+          printf '%s\n' "${UPDATE_LOG}"
+
+          grep -F 'packages/application/package.json' <<< "${UPDATE_LOG}"
+          grep -F 'packages/lab-extension/package.json' <<< "${UPDATE_LOG}"
+          git diff --exit-code
+
+      - name: Check JupyterLab version update helpers
+        run: |
+          set -eux
+
+          EXACT_VERSION=$(node ./buildutils/lib/get-latest-lab-version.js --set-version v4.5.0rc1)
+          test "${EXACT_VERSION}" = "4.5.0rc1"
+
+          node ./buildutils/lib/upgrade-lab-dependencies.js --set-version 4.5.0rc1
+
+          grep -nF 'jupyterlab>=4.5.0rc1,<4.6' pyproject.toml .pre-commit-config.yaml
+          grep -nF '"@jupyterlab/application": "~4.5.0-rc.1"' app/package.json packages/lab-extension/package.json
+          git diff --name-only -- ui-tests/package.json | grep -Fx 'ui-tests/package.json'
 
   npm:
     runs-on: ubuntu-latest
