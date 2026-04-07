@@ -79,10 +79,6 @@ export function getWorkspacePackages(basePath = '.'): WorkspacePackage[] {
     });
 }
 
-export function getPublicWorkspacePackages(basePath = '.'): WorkspacePackage[] {
-  return getWorkspacePackages(basePath).filter((pkg) => !pkg.private);
-}
-
 export function pythonVersionToJSVersion(version: string): string {
   const jsVersion = version
     .replace(/a(\d+)$/, '-alpha.$1')
@@ -159,13 +155,6 @@ export function syncWorkspaceVersions(version: string, basePath = '.'): void {
     if (changed) {
       writePackageJson(workspace.packageJsonPath, workspace.data);
     }
-  }
-}
-
-export function packPublicWorkspaces(basePath = '.'): void {
-  for (const workspace of getPublicWorkspacePackages(basePath)) {
-    const quotedPath = JSON.stringify(workspace.packagePath);
-    run(`npm pack ${quotedPath} --pack-destination ${quotedPath}`);
   }
 }
 

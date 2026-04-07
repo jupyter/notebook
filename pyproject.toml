@@ -125,7 +125,6 @@ build = "make -C docs html SPHINXOPTS='-W'"
 serve = "cd docs/build/html && python -m http.server"
 
 [tool.hatch.envs.default.scripts]
-npm_pack = "jlpm run build:utils && node ./buildutils/lib/npm-pack.js"
 js_test = "jlpm run build:test && jlpm run test"
 
 [tool.hatch.envs.test]
