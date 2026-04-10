@@ -103,7 +103,9 @@ export function jsVersionToPythonVersion(version: string): string {
     .replace(/-dev\.(\d+)$/, '.dev$1');
 
   if (!/^\d+\.\d+\.\d+((a|b|rc|\.dev)\d+)?$/.test(pythonVersion)) {
-    throw new Error(`Invalid Python version: ${version}`);
+    throw new Error(
+      `Invalid Python version: ${pythonVersion} (from JavaScript version: ${version})`
+    );
   }
 
   return pythonVersion;
