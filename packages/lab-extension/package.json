@@ -67,38 +67,5 @@
     "outputDir": "../../notebook/labextension",
     "schemaDir": "schema"
   },
-  "nx": {
-    "targets": {
-      "build:labextension:dev": {
-        "dependsOn": [
-          "^build:lib",
-          "build:lib"
-        ],
-        "outputs": [
-          "{workspaceRoot}/notebook/labextension",
-          "{workspaceRoot}/notebook/labextension/build_log.json"
-        ]
-      },
-      "build:labextension": {
-        "dependsOn": [
-          "^build:lib",
-          "build:lib"
-        ],
-        "outputs": [
-          "{workspaceRoot}/notebook/labextension"
-        ]
-      },
-      "build": {
-        "dependsOn": [
-          "build:labextension:dev"
-        ]
-      },
-      "build:prod": {
-        "dependsOn": [
-          "build:labextension"
-        ]
-      }
-    }
-  },
   "styleModule": "style/index.js"
 }

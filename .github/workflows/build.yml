@@ -192,12 +192,12 @@ jobs:
           hatch run lint:build
           pipx run interrogate -v .
           pipx run doc8 --max-line-length=200 docs/source *.md
-          npm install -g yarn
-          yarn
-          yarn eslint:check
-          yarn prettier:check
-          yarn build:utils
-          yarn integrity
+          python -m pip install -U "jupyterlab>=4.6.0a0,<4.7"
+          jlpm
+          jlpm eslint:check
+          jlpm prettier:check
+          jlpm build:utils
+          jlpm integrity
 
   tests_check: # This job does nothing and is only used for the branch protection
     if: always()

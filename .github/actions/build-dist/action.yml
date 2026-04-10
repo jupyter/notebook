@@ -16,19 +16,10 @@ runs:
       run: |
         hatch build
 
-    - name: Build npm distributions
-      shell: bash
-      run: |
-        mkdir pkgs
-        hatch run npm_pack
-        cp packages/*/*.tgz pkgs
-
     - name: Build checksum file
       shell: bash
       run: |
         cd dist
-        sha256sum * | tee SHA256SUMS
-        cd ../pkgs
         sha256sum * | tee SHA256SUMS
 
     - name: Upload distributions
@@ -36,9 +27,3 @@ runs:
       with:
         name: notebook-dist-${{ github.run_number }}
         path: ./dist
-
-    - name: Upload distributions
-      uses: actions/upload-artifact@v4
-      with:
-        name: notebook-pkgs-${{ github.run_number }}
-        path: ./pkgs

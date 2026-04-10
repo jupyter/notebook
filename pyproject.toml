@@ -125,7 +125,6 @@ build = "make -C docs html SPHINXOPTS='-W'"
 serve = "cd docs/build/html && python -m http.server"
 
 [tool.hatch.envs.default.scripts]
-npm_pack = "jlpm lerna exec -- npm pack"
 js_test = "jlpm run build:test && jlpm run test"
 
 [tool.hatch.envs.test]
@@ -177,7 +176,7 @@ build_dir = "notebook/static"
 npm = ["jlpm"]
 
 [tool.jupyter-releaser.options]
-version-cmd = "jlpm run release:bump --force --skip-commit"
+version-cmd = "jlpm run release:bump --skip-commit"
 
 [tool.jupyter-releaser.hooks]
 before-bump-version = [

@@ -20,12 +20,13 @@
     ]
   },
   "scripts": {
-    "build": "lerna run build",
-    "build:lib": "lerna run build:lib",
-    "build:prod": "lerna run build:prod --skip-nx-cache",
-    "build:test": "lerna run build:test",
-    "build:utils": "cd buildutils && npm run build",
-    "clean": "lerna run clean",
+    "build": "jlpm run build:utils && jlpm build:lib && jlpm workspace @jupyter-notebook/lab-extension run build && jlpm build:app",
+    "build:app": "jlpm workspace @jupyter-notebook/app run build",
+    "build:lib": "jlpm workspace @jupyter-notebook/metapackage run build",
+    "build:prod": "jlpm run build:utils && jlpm build:lib && jlpm workspace @jupyter-notebook/lab-extension run build:prod && jlpm workspace @jupyter-notebook/app run build:prod",
+    "build:test": "npm run build:test --workspaces --if-present",
+    "build:utils": "jlpm workspace @jupyter-notebook/buildutils run build",
+    "clean": "npm run clean --workspaces --if-present",
     "deduplicate": "jlpm dlx yarn-berry-deduplicate -s fewerHighest && jlpm install",
     "develop": "jupyter labextension develop . --overwrite && node ./buildutils/lib/develop.js --overwrite",
     "eslint": "eslint . --fix",
@@ -38,12 +39,13 @@
     "prettier:files": "prettier --write",
     "release:bump": "node ./buildutils/lib/release-bump.js",
     "release:patch": "node ./buildutils/lib/release-patch.js",
-    "test": "lerna run test",
+    "set:workspace-version": "node ./buildutils/lib/set-workspace-version.js",
+    "test": "npm test --workspaces --if-present",
     "update:dependency": "node ./node_modules/@jupyterlab/buildutils/lib/update-dependency.js --lerna",
     "upgrade:lab:dependencies": "node ./buildutils/lib/upgrade-lab-dependencies.js",
     "watch": "run-p watch:lib watch:app",
-    "watch:app": "lerna exec --stream --scope \"@jupyter-notebook/app\" jlpm watch",
-    "watch:lib": "lerna exec --stream --scope @jupyter-notebook/metapackage jlpm watch"
+    "watch:app": "jlpm workspace @jupyter-notebook/app run watch",
+    "watch:lib": "jlpm workspace @jupyter-notebook/metapackage run watch"
   },
   "resolutions": {
     "@types/react": "^18.0.26",
@@ -61,12 +63,10 @@
     "eslint-plugin-react": "^7.37.0",
     "globals": "^16.0.0",
     "html-webpack-plugin": "^5.6.3",
-    "lerna": "^7.1.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.8.5",
     "rimraf": "^3.0.2",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.0.0"
-  },
-  "nx": {}
+  }
 }

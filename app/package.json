@@ -196,7 +196,6 @@
   },
   "devDependencies": {
     "@jupyterlab/builder": "~4.6.0-alpha.4",
-    "@jupyterlab/buildutils": "~4.6.0-alpha.4",
     "@rspack/cli": "^1.7.1",
     "@rspack/core": "^1.7.1",
     "@types/rimraf": "^3.0.2",
