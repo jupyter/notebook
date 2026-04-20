@@ -123,7 +123,6 @@ const about: JupyterFrontEndPlugin<void> = {
               className="jp-Button-flat jp-AboutNotebook-about-externalLinks"
             >
               {
-                /* eslint-disable-next-line jupyter/no-untranslated-string */
                 aboutJupyter
               }
             </a>
@@ -134,7 +133,6 @@ const about: JupyterFrontEndPlugin<void> = {
               className="jp-Button-flat jp-AboutNotebook-about-externalLinks"
             >
               {
-                /* eslint-disable-next-line jupyter/no-untranslated-string */
                 contributorList
               }
             </a>
@@ -146,19 +144,16 @@ const about: JupyterFrontEndPlugin<void> = {
           <>
             <span className="jp-AboutNotebook-version">
               {
-                /* eslint-disable-next-line jupyter/no-untranslated-string */
                 version
               }
             </span>
             <div>
               {
-                /* eslint-disable-next-line jupyter/no-untranslated-string */
                 externalLinks
               }
             </div>
             <span className="jp-AboutNotebook-about-copyright">
               {
-                /* eslint-disable-next-line jupyter/no-untranslated-string */
                 copyright
               }
             </span>
