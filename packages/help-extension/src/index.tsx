@@ -122,7 +122,10 @@ const about: JupyterFrontEndPlugin<void> = {
               rel="noopener noreferrer"
               className="jp-Button-flat jp-AboutNotebook-about-externalLinks"
             >
-              {trans.__(aboutJupyter)}
+              {
+                /* eslint-disable-next-line jupyter/no-untranslated-string */
+                aboutJupyter
+              }
             </a>
             <a
               href={contributorURL}
@@ -130,7 +133,10 @@ const about: JupyterFrontEndPlugin<void> = {
               rel="noopener noreferrer"
               className="jp-Button-flat jp-AboutNotebook-about-externalLinks"
             >
-              {trans.__(contributorList)}
+              {
+                /* eslint-disable-next-line jupyter/no-untranslated-string */
+                contributorList
+              }
             </a>
           </span>
         );
@@ -139,14 +145,22 @@ const about: JupyterFrontEndPlugin<void> = {
         const body = (
           <>
             <span className="jp-AboutNotebook-version">
-              {/* eslint-disable-next-line jupyter/no-untranslated-string */}
-              {version}
+              {
+                /* eslint-disable-next-line jupyter/no-untranslated-string */
+                version
+              }
             </span>
-            {/* eslint-disable-next-line jupyter/no-untranslated-string */}
-            <div>{externalLinks}</div>
+            <div>
+              {
+                /* eslint-disable-next-line jupyter/no-untranslated-string */
+                externalLinks
+              }
+            </div>
             <span className="jp-AboutNotebook-about-copyright">
-              {/* eslint-disable-next-line jupyter/no-untranslated-string */}
-              {copyright}
+              {
+                /* eslint-disable-next-line jupyter/no-untranslated-string */
+                copyright
+              }
             </span>
           </>
         );
