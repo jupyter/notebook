@@ -122,7 +122,7 @@ const about: JupyterFrontEndPlugin<void> = {
               rel="noopener noreferrer"
               className="jp-Button-flat jp-AboutNotebook-about-externalLinks"
             >
-              {aboutJupyter}
+              {trans.__(aboutJupyter)}
             </a>
             <a
               href={contributorURL}
@@ -130,7 +130,7 @@ const about: JupyterFrontEndPlugin<void> = {
               rel="noopener noreferrer"
               className="jp-Button-flat jp-AboutNotebook-about-externalLinks"
             >
-              {contributorList}
+              {trans.__(contributorList)}
             </a>
           </span>
         );
@@ -138,10 +138,13 @@ const about: JupyterFrontEndPlugin<void> = {
         const copyright = trans.__('© 2021-2025 Jupyter Notebook Contributors');
         const body = (
           <>
-            <span className="jp-AboutNotebook-version">{version}</span>
+            <span className="jp-AboutNotebook-version">
+              {trans.__(version)}
+            </span>
+            {/* eslint-disable-next-line jupyter/no-untranslated-string */}
             <div>{externalLinks}</div>
             <span className="jp-AboutNotebook-about-copyright">
-              {copyright}
+              {trans.__(copyright)}
             </span>
           </>
         );
