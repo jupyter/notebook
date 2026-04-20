@@ -139,12 +139,14 @@ const about: JupyterFrontEndPlugin<void> = {
         const body = (
           <>
             <span className="jp-AboutNotebook-version">
-              {trans.__(version)}
+              {/* eslint-disable-next-line jupyter/no-untranslated-string */}
+              {version}
             </span>
             {/* eslint-disable-next-line jupyter/no-untranslated-string */}
             <div>{externalLinks}</div>
             <span className="jp-AboutNotebook-about-copyright">
-              {trans.__(copyright)}
+              {/* eslint-disable-next-line jupyter/no-untranslated-string */}
+              {copyright}
             </span>
           </>
         );
