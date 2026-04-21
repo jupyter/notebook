@@ -2544,7 +2544,7 @@ __metadata:
   resolution: "@jupyter-notebook/root@workspace:."
   dependencies:
     "@eslint/js": ^9.26.0
-    "@jupyter/eslint-plugin": 0.0.4
+    "@jupyter/eslint-plugin": 0.0.5
     "@jupyterlab/buildutils": ~4.6.0-alpha.4
     eslint: ^9.26.0
     eslint-config-prettier: ^10.0.0
@@ -2643,14 +2643,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@jupyter/eslint-plugin@npm:0.0.4":
-  version: 0.0.4
-  resolution: "@jupyter/eslint-plugin@npm:0.0.4"
+"@jupyter/eslint-plugin@npm:0.0.5":
+  version: 0.0.5
+  resolution: "@jupyter/eslint-plugin@npm:0.0.5"
   dependencies:
     "@typescript-eslint/utils": ^8.54.0
   peerDependencies:
     eslint: ">=9.0.0"
-  checksum: 04ab577a70dc5d507ceaee759c005c9e1024fca57436c29952aa361f4a985b2ae1398552b445a7b3a08f06f93e98ffb61bbf77c17bbf7ce1d269fbe1b7747eae
+  checksum: 8cd31224e09caf9046eee16784e42f1428bd3a3e67740821e463139cf85cd68ead731fa529af68cde06030fbb65e572aba71f281bb9c1b9cc59393e9bfba0ae7
   languageName: node
   linkType: hard
 
