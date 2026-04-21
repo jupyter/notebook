@@ -28,7 +28,7 @@
     "build:utils": "jlpm workspace @jupyter-notebook/buildutils run build",
     "clean": "npm run clean --workspaces --if-present",
     "deduplicate": "jlpm dlx yarn-berry-deduplicate -s fewerHighest && jlpm install",
-    "develop": "jupyter labextension develop . --overwrite && node ./buildutils/lib/develop.js --overwrite",
+    "develop": "jupyter-builder develop . --overwrite && node ./buildutils/lib/develop.js --overwrite",
     "eslint": "eslint . --fix",
     "eslint:check": "eslint .",
     "eslint:files": "eslint --fix",

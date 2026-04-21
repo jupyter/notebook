@@ -9,7 +9,7 @@ for a friendly and welcoming collaborative environment.
 
 Note: You will need NodeJS to build the extension package.
 
-The `jlpm` command is JupyterLab's pinned version of [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
+The `jlpm` command is Jupyter's pinned version of [yarn](https://yarnpkg.com/) that is installed with Jupyter Builder. You may use
 `yarn` or `npm` in lieu of `jlpm` below.
 
 **Note**: we recommend using `mamba` to speed up the creation of the environment.

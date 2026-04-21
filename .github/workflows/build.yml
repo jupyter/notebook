@@ -192,7 +192,7 @@ jobs:
           hatch run lint:build
           pipx run interrogate -v .
           pipx run doc8 --max-line-length=200 docs/source *.md
-          python -m pip install -U "jupyterlab>=4.6.0a0,<4.7"
+          python -m pip install -U "jupyter-builder>=0.0.7"
           jlpm
           jlpm eslint:check
           jlpm prettier:check
