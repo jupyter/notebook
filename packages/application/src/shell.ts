@@ -82,8 +82,8 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
 
     this._topHandler = new PanelHandler();
     this._menuHandler = new PanelHandler();
-    this._leftHandler = new SidePanelHandler('left');
-    this._rightHandler = new SidePanelHandler('right');
+    this._leftHandler = new SidePanelHandler('left', this.translator);
+    this._rightHandler = new SidePanelHandler('right', this.translator);
     this._main = new Panel();
     const topWrapper = (this._topWrapper = new Panel());
     const menuWrapper = (this._menuWrapper = new Panel());

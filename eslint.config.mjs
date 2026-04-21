@@ -66,6 +66,9 @@ export default defineConfig([
       'jupyter/command-described-by': 'error',
       'jupyter/plugin-activation-args': 'error',
       'jupyter/plugin-description': 'error',
+      'jupyter/token-format': 'error',
+      'jupyter/no-translation-concatenation': 'error',
+      'jupyter/no-untranslated-string': 'error',
       '@typescript-eslint/naming-convention': [
         'error',
         {

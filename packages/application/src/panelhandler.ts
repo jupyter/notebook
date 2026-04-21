@@ -8,6 +8,7 @@ import { IDisposable } from '@lumino/disposable';
 import { IMessageHandler, Message, MessageLoop } from '@lumino/messaging';
 import { ISignal, Signal } from '@lumino/signaling';
 import { Panel, StackedPanel, Widget } from '@lumino/widgets';
+import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
 /**
  * A class which manages a panel and sorts its widgets by rank.
@@ -68,11 +69,11 @@ export class SidePanelHandler extends PanelHandler {
   /**
    * Construct a new side panel handler.
    */
-  constructor(area: SidePanel.Area) {
+  constructor(area: SidePanel.Area, translator: ITranslator) {
     super();
     this._area = area;
     this._panel.hide();
-
+    this._translator = translator;
     this._currentWidget = null;
     this._lastCurrentWidget = null;
 
@@ -89,8 +90,9 @@ export class SidePanelHandler extends PanelHandler {
       this.collapse();
       this.hide();
     };
+    const trans = this._translator.load('notebook');
     this._closeButton.className = 'jp-Button jp-SidePanel-collapse';
-    this._closeButton.title = 'Collapse side panel';
+    this._closeButton.title = trans.__('Collapse side panel');
 
     const icon = new Widget({ node: this._closeButton });
     this._panel.addWidget(icon);
@@ -292,6 +294,7 @@ export class SidePanelHandler extends PanelHandler {
   private _closeButton: HTMLButtonElement;
   private _widgetAdded: Signal<SidePanelHandler, Widget> = new Signal(this);
   private _widgetRemoved: Signal<SidePanelHandler, Widget> = new Signal(this);
+  private _translator: ITranslator = nullTranslator;
 }
 
 /**
