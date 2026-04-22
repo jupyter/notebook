@@ -56,6 +56,7 @@
   },
   "devDependencies": {
     "@jupyter/builder": "^0.0.7",
+    "@jupyterlab/builder": "~4.6.0-alpha.4",
     "rimraf": "^3.0.2",
     "typescript": "~5.9.3"
   },
