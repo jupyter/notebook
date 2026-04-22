@@ -13,10 +13,10 @@ const { ModuleFederationPlugin } = rspack.container;
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const Build = require('@jupyterlab/builder').Build;
-const WPPlugin = require('@jupyterlab/builder').WPPlugin;
+const Build = require('@jupyter/builder').Build;
+const WPPlugin = require('@jupyter/builder').WPPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const baseConfig = require('@jupyterlab/builder/lib/webpack.config.base');
+const baseConfig = require('@jupyter/builder/lib/webpack.config.base');
 
 const data = require('./package.json');
 

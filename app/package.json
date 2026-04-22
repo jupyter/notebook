@@ -195,7 +195,7 @@
     "yjs": "^13.5.40"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "~4.6.0-alpha.4",
+    "@jupyter/builder": "^0.0.7",
     "@rspack/cli": "^1.7.1",
     "@rspack/core": "^1.7.1",
     "@types/rimraf": "^3.0.2",

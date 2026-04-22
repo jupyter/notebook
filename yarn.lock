@@ -2273,11 +2273,11 @@ __metadata:
     "@jupyter-notebook/tree": ^7.6.0-alpha.4
     "@jupyter-notebook/tree-extension": ^7.6.0-alpha.4
     "@jupyter-notebook/ui-components": ^7.6.0-alpha.4
+    "@jupyter/builder": ^0.0.7
     "@jupyterlab/application-extension": ~4.6.0-alpha.4
     "@jupyterlab/apputils-extension": ~4.6.0-alpha.4
     "@jupyterlab/attachments": ~4.6.0-alpha.4
     "@jupyterlab/audio-extension": ~4.6.0-alpha.4
-    "@jupyterlab/builder": ~4.6.0-alpha.4
     "@jupyterlab/cell-toolbar-extension": ~4.6.0-alpha.4
     "@jupyterlab/celltags-extension": ~4.6.0-alpha.4
     "@jupyterlab/codemirror": ~4.6.0-alpha.4
@@ -2480,6 +2480,7 @@ __metadata:
   resolution: "@jupyter-notebook/lab-extension@workspace:packages/lab-extension"
   dependencies:
     "@jupyter-notebook/application": ^7.6.0-alpha.4
+    "@jupyter/builder": ^0.0.7
     "@jupyterlab/application": ~4.6.0-alpha.4
     "@jupyterlab/apputils": ~4.7.0-alpha.4
     "@jupyterlab/builder": ~4.6.0-alpha.4
@@ -2642,6 +2643,31 @@ __metadata:
     typescript: ~5.9.3
   languageName: unknown
   linkType: soft
+
+"@jupyter/builder@npm:^0.0.7":
+  version: 0.0.7
+  resolution: "@jupyter/builder@npm:0.0.7"
+  dependencies:
+    "@jupyterlab/core-meta": 4.6.0-alpha.4
+    "@rspack/core": ^1.7.7
+    ajv: ^8.12.0
+    commander: ^9.4.1
+    css-loader: ^6.7.1
+    duplicate-package-checker-webpack-plugin: ^3.0.0
+    fs-extra: ^10.1.0
+    glob: ~7.1.6
+    license-webpack-plugin: ^4.0.2
+    mini-svg-data-uri: ^1.4.4
+    path-browserify: ^1.0.0
+    process: ^0.11.10
+    source-map-loader: ~1.0.2
+    style-loader: ~3.3.1
+    supports-color: ^7.2.0
+    webpack-merge: ^5.8.0
+    worker-loader: ^3.0.2
+  checksum: 934cf5f08914f5d99ce95efb5a2420f969f96fa018fd2239e2085d26e21f37d6f9c74543775185403309be2ce7a6f2f295705c9c0621c7652ad7a090044e8765
+  languageName: node
+  linkType: hard
 
 "@jupyter/eslint-plugin@npm:0.0.5":
   version: 0.0.5
@@ -3176,6 +3202,13 @@ __metadata:
     "@lumino/signaling": ^2.1.5
     "@lumino/widgets": ^2.7.5
   checksum: 8f3e23f8e4c312aff9dabc1104f9197b732c3e43115cf143322fc371cb025e5958d9ae1a1717d57add357a5cff8b6349a489b7b4b16cf7ce44a8bd71bbcaa5f8
+  languageName: node
+  linkType: hard
+
+"@jupyterlab/core-meta@npm:4.6.0-alpha.4":
+  version: 4.6.0-alpha.4
+  resolution: "@jupyterlab/core-meta@npm:4.6.0-alpha.4"
+  checksum: 9ee7870b1a5f41a15d20bddd716bb916bc65888bb08b6d8fe6f51d71b9d7110e701b37dd0ae3fc83342839c74555da6d7b49006c638fd32808269e3558324c06
   languageName: node
   linkType: hard
 
