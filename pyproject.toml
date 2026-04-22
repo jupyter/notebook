@@ -35,7 +35,7 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "jupyter-builder>=0.0.7",
+    "jupyter_builder>=0.0.7",
     "jupyter_server>=2.4.0,<3",
     "jupyterlab>=4.6.0a4,<4.7",
     "jupyterlab_server>=2.28.0,<3",

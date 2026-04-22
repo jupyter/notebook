@@ -2483,7 +2483,6 @@ __metadata:
     "@jupyter/builder": ^0.0.7
     "@jupyterlab/application": ~4.6.0-alpha.4
     "@jupyterlab/apputils": ~4.7.0-alpha.4
-    "@jupyterlab/builder": ~4.6.0-alpha.4
     "@jupyterlab/coreutils": ~6.6.0-alpha.4
     "@jupyterlab/docregistry": ~4.6.0-alpha.4
     "@jupyterlab/notebook": ~4.6.0-alpha.4
@@ -2852,44 +2851,6 @@ __metadata:
     "@jupyterlab/translation": ^4.6.0-alpha.4
     "@lumino/widgets": ^2.7.5
   checksum: bd56cccbbef8399e56ef4941ad42f2e748cbf810c5f1c4cc3d607517ae4ffd42fcf9e8312f8136a88585af581c0f46e44f021464552e1bac044c9764df4339db
-  languageName: node
-  linkType: hard
-
-"@jupyterlab/builder@npm:~4.6.0-alpha.4":
-  version: 4.6.0-alpha.4
-  resolution: "@jupyterlab/builder@npm:4.6.0-alpha.4"
-  dependencies:
-    "@lumino/algorithm": ^2.0.4
-    "@lumino/application": ^2.4.8
-    "@lumino/commands": ^2.3.3
-    "@lumino/coreutils": ^2.2.2
-    "@lumino/disposable": ^2.1.5
-    "@lumino/domutils": ^2.0.4
-    "@lumino/dragdrop": ^2.1.8
-    "@lumino/messaging": ^2.0.4
-    "@lumino/properties": ^2.0.4
-    "@lumino/signaling": ^2.1.5
-    "@lumino/virtualdom": ^2.0.4
-    "@lumino/widgets": ^2.7.5
-    "@rspack/core": ^1.7.7
-    ajv: ^8.12.0
-    commander: ^9.4.1
-    css-loader: ^6.7.1
-    duplicate-package-checker-webpack-plugin: ^3.0.0
-    fs-extra: ^10.1.0
-    glob: ~7.1.6
-    license-webpack-plugin: ^4.0.2
-    mini-svg-data-uri: ^1.4.4
-    path-browserify: ^1.0.0
-    process: ^0.11.10
-    source-map-loader: ~1.0.2
-    style-loader: ~3.3.1
-    supports-color: ^7.2.0
-    webpack-merge: ^5.8.0
-    worker-loader: ^3.0.2
-  bin:
-    build-labextension: lib/build-labextension.js
-  checksum: 2bb29bef010dc05bf34f311162e64bb1ef9e7e54f3592671fe4061a08b44376b07adb64813f6dd83acb93d0fccf6dbdba2ed22327e8699cd7743d081504bee2c
   languageName: node
   linkType: hard
 
