@@ -24,6 +24,8 @@
     "build:app": "jlpm workspace @jupyter-notebook/app run build",
     "build:lib": "jlpm workspace @jupyter-notebook/metapackage run build",
     "build:prod": "jlpm run build:utils && jlpm build:lib && jlpm workspace @jupyter-notebook/lab-extension run build:prod && jlpm workspace @jupyter-notebook/app run build:prod",
+    "build:prod:minimize": "jlpm run build:utils && jlpm build:lib && jlpm workspace @jupyter-notebook/lab-extension run build:prod && jlpm workspace @jupyter-notebook/app run build:prod:minimize",
+    "build:prod:release": "jlpm run build:utils && jlpm build:lib && jlpm workspace @jupyter-notebook/lab-extension run build:prod && jlpm workspace @jupyter-notebook/app run build:prod:release",
     "build:test": "npm run build:test --workspaces --if-present",
     "build:utils": "jlpm workspace @jupyter-notebook/buildutils run build",
     "clean": "npm run clean --workspaces --if-present",
