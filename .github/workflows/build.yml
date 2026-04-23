@@ -185,12 +185,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v6
-      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@f5d710df1483f19b666dd96aeabbe949a53642c2 # v1
 
       - name: Install dependencies
         run: |
-          python -m pip install -U "jupyterlab>=4.6.0a2,<4.7"
+          python -m pip install -U "jupyter-builder>=0.0.7"
           jlpm
 
       - name: Measure bundle sizes
