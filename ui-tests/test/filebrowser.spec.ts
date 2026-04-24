@@ -3,7 +3,7 @@
 
 import path from 'path';
 
-import { expect } from '@playwright/test';
+import { expect } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
@@ -20,22 +20,24 @@ test.describe('File Browser', () => {
   test('Select one folder', async ({ page, tmpPath }) => {
     await page.filebrowser.refresh();
 
+    await page.keyboard.down('Control');
     await page.getByText('folder1').last().click();
 
-    const toolbar = page.getByRole('navigation');
+    const toolbar = page.getByRole('toolbar');
 
     expect(toolbar.getByText('Rename')).toBeVisible();
-    expect(toolbar.getByText('Delete')).toBeVisible();
+    expect(toolbar.getByText('Move to Trash')).toBeVisible();
   });
 
   test('Select one file', async ({ page, tmpPath }) => {
     await page.filebrowser.refresh();
 
+    await page.keyboard.down('Control');
     await page.getByText('empty.ipynb').last().click();
 
-    const toolbar = page.getByRole('navigation');
+    const toolbar = page.getByRole('toolbar');
 
-    ['Rename', 'Delete', 'Open', 'Download', 'Delete'].forEach(async (text) => {
+    ['Rename', 'Open', 'Download', 'Move to Trash'].forEach(async (text) => {
       expect(toolbar.getByText(text)).toBeVisible();
     });
   });
@@ -48,11 +50,11 @@ test.describe('File Browser', () => {
     await page.getByText('folder2').last().click();
     await page.getByText('empty.ipynb').last().click();
 
-    const toolbar = page.getByRole('navigation');
+    const toolbar = page.getByRole('toolbar');
 
     expect(toolbar.getByText('Rename')).toBeHidden();
     expect(toolbar.getByText('Open')).toBeHidden();
-    expect(toolbar.getByText('Delete')).toBeVisible();
+    expect(toolbar.getByText('Move to Trash')).toBeVisible();
   });
 
   test('Select files and open', async ({ page, tmpPath }) => {
@@ -67,7 +69,7 @@ test.describe('File Browser', () => {
     await page.getByText('simple.ipynb').last().click();
     await page.getByText('empty.ipynb').last().click();
 
-    const toolbar = page.getByRole('navigation');
+    const toolbar = page.getByRole('toolbar');
 
     const [nb1, nb2] = await Promise.all([
       page.waitForEvent('popup'),

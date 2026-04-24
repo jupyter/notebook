@@ -1,4 +1,4 @@
-# Contributor
+# Contributing
 
 ```{toctree}
 :caption: Contributor Documentation

@@ -7,6 +7,7 @@ import {
   ITreePathUpdater,
   JupyterFrontEnd,
   JupyterFrontEndPlugin,
+  JupyterLab,
 } from '@jupyterlab/application';
 
 import {
@@ -15,6 +16,7 @@ import {
   ISanitizer,
   ISplashScreen,
   IToolbarWidgetRegistry,
+  showErrorMessage,
 } from '@jupyterlab/apputils';
 
 import { ConsolePanel } from '@jupyterlab/console';
@@ -47,6 +49,8 @@ import {
   SidePanel,
   SidePanelHandler,
   SidePanelPalette,
+  INotebookPathOpener,
+  defaultNotebookPathOpener,
 } from '@jupyter-notebook/application';
 
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
@@ -81,6 +85,11 @@ const JUPYTERLAB_DOCMANAGER_PLUGIN_ID =
  * The command IDs used by the application plugin.
  */
 namespace CommandIDs {
+  /**
+   * Duplicate the current document and open the new document
+   */
+  export const duplicate = 'application:duplicate';
+
   /**
    * Handle local links
    */
@@ -127,6 +136,8 @@ namespace CommandIDs {
  */
 const dirty: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:dirty',
+  description:
+    'Check if the application is dirty before closing the browser tab.',
   autoStart: true,
   requires: [ILabStatus, ITranslator],
   activate: (
@@ -151,10 +162,27 @@ const dirty: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * The application info.
+ */
+const info: JupyterFrontEndPlugin<JupyterLab.IInfo> = {
+  id: '@jupyter-notebook/application-extension:info',
+  description: 'Provides application information for the current notebook app.',
+  autoStart: true,
+  provides: JupyterLab.IInfo,
+  activate: (app: JupyterFrontEnd): JupyterLab.IInfo => {
+    if (!(app instanceof NotebookApp)) {
+      throw new Error(`${info.id} must be activated in Jupyter Notebook.`);
+    }
+    return app.info;
+  },
+};
+
+/**
  * The logo plugin.
  */
 const logo: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:logo',
+  description: 'The logo plugin.',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
     const baseUrl = PageConfig.getBaseUrl();
@@ -183,6 +211,7 @@ const logo: JupyterFrontEndPlugin<void> = {
  */
 const opener: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:opener',
+  description: 'A plugin to open documents in the main area.',
   autoStart: true,
   requires: [IRouter, IDocumentManager],
   optional: [ISettingRegistry],
@@ -240,6 +269,22 @@ const opener: JupyterFrontEndPlugin<void> = {
           });
         });
       },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {
+            path: {
+              type: 'string',
+              description: 'The routed URL path to handle.',
+            },
+            search: {
+              type: 'string',
+              description: 'The routed URL query string.',
+            },
+          },
+          required: ['path'],
+        },
+      },
     });
 
     router.register({ command, pattern: TREE_PATTERN });
@@ -251,6 +296,7 @@ const opener: JupyterFrontEndPlugin<void> = {
  */
 const menus: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:menus',
+  description: 'A plugin to customize menus.',
   requires: [IMainMenu],
   autoStart: true,
   activate: (app: JupyterFrontEnd, menu: IMainMenu) => {
@@ -281,6 +327,7 @@ const menus: JupyterFrontEndPlugin<void> = {
  */
 const menuSpacer: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:menu-spacer',
+  description: 'A plugin to provide a spacer at rank 900 in the menu area.',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
     const menu = new Widget();
@@ -295,6 +342,7 @@ const menuSpacer: JupyterFrontEndPlugin<void> = {
  */
 const pages: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:pages',
+  description: 'Add commands to open the tree and running pages.',
   autoStart: true,
   requires: [ITranslator],
   optional: [ICommandPalette],
@@ -309,7 +357,13 @@ const pages: JupyterFrontEndPlugin<void> = {
     app.commands.addCommand(CommandIDs.openLab, {
       label: trans.__('Open JupyterLab'),
       execute: () => {
-        window.open(`${baseUrl}lab`);
+        window.open(URLExt.join(baseUrl, 'lab'));
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
       },
     });
     const page = PageConfig.getOption('notebookPage');
@@ -320,8 +374,14 @@ const pages: JupyterFrontEndPlugin<void> = {
         if (page === 'tree') {
           app.commands.execute('filebrowser:activate');
         } else {
-          window.open(`${baseUrl}tree`);
+          window.open(URLExt.join(baseUrl, 'tree'));
         }
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
       },
     });
 
@@ -333,10 +393,24 @@ const pages: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to open paths in new browser tabs.
+ */
+const pathOpener: JupyterFrontEndPlugin<INotebookPathOpener> = {
+  id: '@jupyter-notebook/application-extension:path-opener',
+  description: 'A plugin to open paths in new browser tabs.',
+  autoStart: true,
+  provides: INotebookPathOpener,
+  activate: (app: JupyterFrontEnd): INotebookPathOpener => {
+    return defaultNotebookPathOpener;
+  },
+};
+
+/**
  * The default paths for a Jupyter Notebook app.
  */
 const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
   id: '@jupyter-notebook/application-extension:paths',
+  description: 'The default paths for a Jupyter Notebook app.',
   autoStart: true,
   provides: JupyterFrontEnd.IPaths,
   activate: (app: JupyterFrontEnd): JupyterFrontEnd.IPaths => {
@@ -352,15 +426,16 @@ const paths: JupyterFrontEndPlugin<JupyterFrontEnd.IPaths> = {
  */
 const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
   id: '@jupyter-notebook/application-extension:rendermime',
+  description: 'A plugin providing a rendermime registry.',
   autoStart: true,
   provides: IRenderMimeRegistry,
-  description: 'Provides the render mime registry.',
   optional: [
     IDocumentManager,
     ILatexTypesetter,
     ISanitizer,
     IMarkdownParser,
     ITranslator,
+    INotebookPathOpener,
   ],
   activate: (
     app: JupyterFrontEnd,
@@ -368,9 +443,11 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
     latexTypesetter: ILatexTypesetter | null,
     sanitizer: IRenderMime.ISanitizer | null,
     markdownParser: IMarkdownParser | null,
-    translator: ITranslator | null
+    translator: ITranslator | null,
+    notebookPathOpener: INotebookPathOpener | null
   ) => {
     const trans = (translator ?? nullTranslator).load('jupyterlab');
+    const opener = notebookPathOpener ?? defaultNotebookPathOpener;
     if (docManager) {
       app.commands.addCommand(CommandIDs.handleLink, {
         label: trans.__('Handle Local Link'),
@@ -382,11 +459,25 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
           return docManager.services.contents
             .get(path, { content: false })
             .then((model) => {
-              // Open in a new browser tab
-              const url = PageConfig.getBaseUrl();
-              const treeUrl = URLExt.join(url, 'tree', model.path);
-              window.open(treeUrl, '_blank');
+              const baseUrl = PageConfig.getBaseUrl();
+              opener.open({
+                prefix: URLExt.join(baseUrl, 'tree'),
+                path: model.path,
+                target: '_blank',
+              });
             });
+        },
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {
+              path: {
+                type: 'string',
+                description: 'The local path to open.',
+              },
+            },
+            required: ['path'],
+          },
         },
       });
     }
@@ -420,6 +511,7 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
  */
 const shell: JupyterFrontEndPlugin<INotebookShell> = {
   id: '@jupyter-notebook/application-extension:shell',
+  description: 'The default Jupyter Notebook application shell.',
   autoStart: true,
   provides: INotebookShell,
   optional: [ISettingRegistry],
@@ -486,6 +578,7 @@ const splash: JupyterFrontEndPlugin<ISplashScreen> = {
  */
 const status: JupyterFrontEndPlugin<ILabStatus> = {
   id: '@jupyter-notebook/application-extension:status',
+  description: 'The default JupyterLab application status provider.',
   autoStart: true,
   provides: ILabStatus,
   activate: (app: JupyterFrontEnd) => {
@@ -501,6 +594,8 @@ const status: JupyterFrontEndPlugin<ILabStatus> = {
  */
 const tabTitle: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:tab-title',
+  description:
+    'A plugin to display the document title in the browser tab title.',
   autoStart: true,
   requires: [INotebookShell],
   activate: (app: JupyterFrontEnd, shell: INotebookShell) => {
@@ -537,6 +632,7 @@ const tabTitle: JupyterFrontEndPlugin<void> = {
  */
 const title: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:title',
+  description: 'A plugin to display and rename the title of a file.',
   autoStart: true,
   requires: [INotebookShell, ITranslator],
   optional: [IDocumentManager, IRouter, IToolbarWidgetRegistry],
@@ -582,6 +678,26 @@ const title: JupyterFrontEndPlugin<void> = {
         return !!(currentWidget && docManager.contextForWidget(currentWidget));
       };
 
+      commands.addCommand(CommandIDs.duplicate, {
+        label: () => trans.__('Duplicate'),
+        isEnabled,
+        execute: async () => {
+          if (!isEnabled()) {
+            return;
+          }
+
+          // Duplicate the file, and open the new file.
+          const result = await docManager.duplicate(current.context.path);
+          await commands.execute('docmanager:open', { path: result.path });
+        },
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      });
+
       commands.addCommand(CommandIDs.rename, {
         label: () => trans.__('Rename…'),
         isEnabled,
@@ -590,14 +706,23 @@ const title: JupyterFrontEndPlugin<void> = {
             return;
           }
 
-          const result = await renameDialog(docManager, current.context);
+          try {
+            const result = await renameDialog(docManager, current.context);
 
-          // activate the current widget to bring the focus
-          if (current) {
-            current.activate();
-          }
+            // activate the current widget to bring the focus
+            if (current) {
+              current.activate();
+            }
 
-          if (result === null) {
+            if (result === null) {
+              return;
+            }
+          } catch (error) {
+            showErrorMessage(
+              trans.__('Rename Error'),
+              (error as Error).message ||
+                trans.__('An error occurred while renaming the file.')
+            );
             return;
           }
 
@@ -618,6 +743,12 @@ const title: JupyterFrontEndPlugin<void> = {
             skipRouting: true,
           });
         },
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {},
+          },
+        },
       });
 
       node.onclick = async () => {
@@ -635,6 +766,7 @@ const title: JupyterFrontEndPlugin<void> = {
  */
 const topVisibility: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:top',
+  description: 'Plugin to toggle the top header visibility.',
   requires: [INotebookShell, ITranslator],
   optional: [ISettingRegistry, ICommandPalette],
   activate: (
@@ -661,6 +793,12 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
         }
       },
       isToggled: () => top.isVisible,
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
     });
 
     let adjustToScreen = false;
@@ -716,6 +854,7 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
  */
 const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:sidepanel',
+  description: 'Plugin to toggle the visibility of left or right side panel.',
   requires: [INotebookShell, ITranslator],
   optional: [IMainMenu, ICommandPalette],
   autoStart: true,
@@ -809,6 +948,27 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
           }
         }
         return false;
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {
+            side: {
+              type: 'string',
+              enum: ['left', 'right'],
+              description: 'The side panel area to toggle.',
+            },
+            title: {
+              type: 'string',
+              description: 'The title shown for the side panel entry.',
+            },
+            id: {
+              type: 'string',
+              description: 'The widget id to show or hide in the side panel.',
+            },
+          },
+          required: ['side', 'title', 'id'],
+        },
       },
     });
 
@@ -927,10 +1087,25 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin for defining keyboard shortcuts specific to the notebook application.
+ */
+const shortcuts: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/application-extension:shortcuts',
+  description:
+    'A plugin for defining keyboard shortcuts specific to the notebook application.',
+  autoStart: true,
+  activate: (app: JupyterFrontEnd) => {
+    // for now this plugin is mostly useful for defining keyboard shortcuts
+    // specific to the notebook application
+  },
+};
+
+/**
  * The default tree route resolver plugin.
  */
 const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
   id: '@jupyter-notebook/application-extension:tree-resolver',
+  description: 'The default tree route resolver plugin.',
   autoStart: true,
   requires: [IRouter],
   provides: JupyterFrontEnd.ITreeResolver,
@@ -962,6 +1137,17 @@ const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
 
           delegate.resolve({ browser, file: PageConfig.getOption('treePath') });
         }) as (args: any) => Promise<void>,
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {
+              search: {
+                type: 'string',
+                description: 'The routed URL query string.',
+              },
+            },
+          },
+        },
       })
     );
     set.add(
@@ -988,8 +1174,12 @@ const tree: JupyterFrontEndPlugin<JupyterFrontEnd.ITreeResolver> = {
   },
 };
 
+/**
+ * Plugin to update tree path.
+ */
 const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
   id: '@jupyter-notebook/application-extension:tree-updater',
+  description: 'Plugin to update tree path.',
   requires: [IRouter],
   provides: ITreePathUpdater,
   activate: (app: JupyterFrontEnd, router: IRouter) => {
@@ -1010,8 +1200,12 @@ const treePathUpdater: JupyterFrontEndPlugin<ITreePathUpdater> = {
   autoStart: true,
 };
 
+/**
+ * Translator plugin
+ */
 const translator: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:translator',
+  description: 'Translator plugin',
   requires: [INotebookShell, ITranslator],
   autoStart: true,
   activate: (
@@ -1028,6 +1222,7 @@ const translator: JupyterFrontEndPlugin<void> = {
  */
 const zen: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/application-extension:zen',
+  description: 'Zen mode plugin.',
   autoStart: true,
   requires: [ITranslator],
   optional: [ICommandPalette, INotebookShell],
@@ -1065,6 +1260,12 @@ const zen: JupyterFrontEndPlugin<void> = {
           toggleOff();
         }
       },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
     });
 
     document.addEventListener('fullscreenchange', () => {
@@ -1084,15 +1285,18 @@ const zen: JupyterFrontEndPlugin<void> = {
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   dirty,
+  info,
   logo,
   menus,
   menuSpacer,
   opener,
   pages,
+  pathOpener,
   paths,
   rendermime,
   shell,
   sidePanelVisibility,
+  shortcuts,
   splash,
   status,
   tabTitle,

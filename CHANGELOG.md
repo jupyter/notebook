@@ -12,7 +12,1599 @@ upgrading `notebook`.
 Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 `pip --version`.
 
+## 7.5
+
+Jupyter Notebook 7.5 is based on JupyterLab 4.5, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-4-to-4-5) which lists deprecations and changes to the public API.
+
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.5, although they may not all be supported in Notebook 7.5.
+
+For reference you may have a look at the [JupyterLab 4.5 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-5) to learn more.
+
+### Notebook improvements
+
+The default windowing mode is now `contentVisibility` which improves cell rendering and alleviates previously reported issues. The minimap can be enabled for all windowing modes and all notebooks via the `Settings` menu, or by toggling the minimap per notebook with the `View` -> `Show Minimap` option.
+
+Additional fixes improve layout containment and scrollbar behavior when working with long cells.
+
+### Debugger and console enhancements
+
+The debugger's evaluate dialog has been replaced with an interactive console featuring syntax highlighting and code completion. The variables panel now preserves state when switching editors. Visual improvements include highlighted selected breakpoints, improved empty line handling, and a paused indicator. Debugger panels now reference cell execution counts.
+
+<img alt="Debugger panels with reference to execution counts and paused indicator as well as console evaluation"
+src="https://raw.githubusercontent.com/jupyter/notebook/main/docs/source/_static/changelog_assets/7.5-debugger.webp"
+class="jp-screenshot">
+
+Log Console users can configure default log levels and customize toolbars.
+
+### Terminal enhancements
+
+The terminal now includes search functionality, with search highlights that adapt to theme changes.
+
+### Media and content support
+
+Built-in audio and video viewers allow direct file playback within Jupyter Notebook.
+
+<img alt="Video file opened in a Jupyter Notebook tab"
+src="https://raw.githubusercontent.com/jupyter/notebook/main/docs/source/_static/changelog_assets/7.5-media-player.webp"
+class="jp-screenshot">
+
+### File browser enhancements
+
+- There is a new `allowFileUploads` setting to control upload permissions.
+- Menu options for creating Python, R, or Julia files are now available from the New menu.
+- The "Select All" command is now available with the Ctrl + A (or Cmd + A on macOS) keyboard shortcut in the file browser.
+- Breadcrumbs are now configurable through `breadcrumbsLeftItems` and `breadcrumbsRightItems` settings.
+
+### Settings editor improvements
+
+The `addExtraLineOnCellMerge` setting removes extra lines when merging cells, matching classic notebook behavior.
+
+### Cell toolbar settings
+
+The cell toolbar settings are now exposed in the Settings Editor, making it easier to customize the cell toolbar appearance and behavior.
+
+### Keyboard shortcuts
+
+The `O` key has been defined as the keyboard shortcut to toggle cell outputs, restoring this familiar functionality from the classic notebook.
+
+### User interface and accessibility
+
+Automatic theme switching between light and dark modes is now available when system synchronization is enabled. Dialog components display buttons and checkboxes on separate lines for improved readability. Terminal selections show better visibility under high-contrast themes. Keyboard navigation and status bar tab ordering have been improved.
+
+### Breaking changes
+
+Python 3.8 support has been dropped in this release.
+
 <!-- <START NEW CHANGELOG ENTRY> -->
+
+## 7.6.0a4
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.0-alpha.3...fc791fcb0af893e3ffe7563a4140ec6af8c9dbe2))
+
+### Bugs fixed
+
+- Prevent scratchpad console title to update [#7843](https://github.com/jupyter/notebook/pull/7843) ([@brichet](https://github.com/brichet), [@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.6.0a4 [#7859](https://github.com/jupyter/notebook/pull/7859) ([@jtpio](https://github.com/jtpio))
+- Fix check links [#7857](https://github.com/jupyter/notebook/pull/7857) ([@jtpio](https://github.com/jtpio))
+- TypeScript 5.9 [#7855](https://github.com/jupyter/notebook/pull/7855) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 2 updates [#7846](https://github.com/jupyter/notebook/pull/7846) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-02-24&to=2026-03-12&type=c))
+
+@brichet ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2026-02-24..2026-03-12&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-02-24..2026-03-12&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
+## 7.6.0a3
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.0-alpha.2...767a30d1ec90e9baf4975023c7019c95d9fe8614))
+
+### Enhancements made
+
+- Update to JupyterLab v4.6.0a3 [#7839](https://github.com/jupyter/notebook/pull/7839) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Fix PyO3 CI failure with Python 3.15 [#7836](https://github.com/jupyter/notebook/pull/7836) ([@jtpio](https://github.com/jtpio))
+- Update to ESLint 9, update other dependencies [#7821](https://github.com/jupyter/notebook/pull/7821) ([@jtpio](https://github.com/jtpio))
+- Bump prefix-dev/setup-pixi from 0.9.3 to 0.9.4 in the actions group [#7819](https://github.com/jupyter/notebook/pull/7819) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- docs: Fix broken links in troubleshooting and migration docs [#7824](https://github.com/jupyter/notebook/pull/7824) ([@RamiNoodle733](https://github.com/RamiNoodle733), [@jtpio](https://github.com/jtpio))
+- Fix grammar: join sentences in CONTRIBUTING.md [#7813](https://github.com/jupyter/notebook/pull/7813) ([@bodhisilberling](https://github.com/bodhisilberling), [@krassowski](https://github.com/krassowski))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-01-23&to=2026-02-24&type=c))
+
+@bodhisilberling ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abodhisilberling+updated%3A2026-01-23..2026-02-24&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-01-23..2026-02-24&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2026-01-23..2026-02-24&type=Issues)) | @RamiNoodle733 ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARamiNoodle733+updated%3A2026-01-23..2026-02-24&type=Issues))
+
+## 7.6.0a2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.0-alpha.1...209c7da02e8245ec96bf121a641802096ff8cbb3))
+
+### Enhancements made
+
+- Add a scratch-pad console to the notebook [#7790](https://github.com/jupyter/notebook/pull/7790) ([@brichet](https://github.com/brichet), [@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.6.0a2 [#7814](https://github.com/jupyter/notebook/pull/7814) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 4 updates [#7811](https://github.com/jupyter/notebook/pull/7811) ([@jtpio](https://github.com/jtpio))
+- Bump tar from 6.1.13 to 6.2.1 in /ui-tests [#7810](https://github.com/jupyter/notebook/pull/7810) ([@jtpio](https://github.com/jtpio))
+- Update snapshots bot checkout and permission check [#7806](https://github.com/jupyter/notebook/pull/7806) ([@martinRenou](https://github.com/martinRenou), [@krassowski](https://github.com/krassowski))
+- Rename the token env variable [#7802](https://github.com/jupyter/notebook/pull/7802) ([@brichet](https://github.com/brichet), [@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-01-12&to=2026-01-23&type=c))
+
+@brichet ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2026-01-12..2026-01-23&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-01-12..2026-01-23&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2026-01-12..2026-01-23&type=Issues)) | @martinRenou ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2026-01-12..2026-01-23&type=Issues))
+
+## 7.6.0a1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.0-alpha.0...aa605fa66c6885d85a37c7ab3ba6e7f7a837a810))
+
+### Enhancements made
+
+- Add PR template [#7792](https://github.com/jupyter/notebook/pull/7792) ([@KH-Coder865](https://github.com/KH-Coder865), [@andrii-i](https://github.com/andrii-i))
+
+### Bugs fixed
+
+- Fix toggling the side panels from menu [#7799](https://github.com/jupyter/notebook/pull/7799) ([@brichet](https://github.com/brichet), [@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Clean up node 24 install [#7803](https://github.com/jupyter/notebook/pull/7803) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.6.0a1 [#7801](https://github.com/jupyter/notebook/pull/7801) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Fix grammar in notebook documentation [#7794](https://github.com/jupyter/notebook/pull/7794) ([@xlumzee](https://github.com/xlumzee), [@krassowski](https://github.com/krassowski))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-12-17&to=2026-01-12&type=c))
+
+@andrii-i ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2025-12-17..2026-01-12&type=Issues)) | @brichet ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2025-12-17..2026-01-12&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-12-17..2026-01-12&type=Issues)) | @KH-Coder865 ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AKH-Coder865+updated%3A2025-12-17..2026-01-12&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-12-17..2026-01-12&type=Issues)) | @xlumzee ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Axlumzee+updated%3A2025-12-17..2026-01-12&type=Issues))
+
+## 7.6.0a0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.1...e7f5e5d50ea18b0b17fe8a9df674025fcc6ab5d1))
+
+### Maintenance and upkeep improvements
+
+- Bump systeminformation from 5.23.14 to 5.27.14 in /ui-tests [#7788](https://github.com/jupyter/notebook/pull/7788) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `4.6.0a0` [#7787](https://github.com/jupyter/notebook/pull/7787) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-12-16&to=2025-12-17&type=c))
+
+@jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-12-16..2025-12-17&type=Issues))
+
+## 7.5.1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0...fccf56801be0a27a3de76c00d2710a941f255b10))
+
+### Bugs fixed
+
+- Fix selector for the `O` keyboard shortcut [#7782](https://github.com/jupyter/notebook/pull/7782) ([@jtpio](https://github.com/jtpio), [@krassowski](https://github.com/krassowski))
+- Fix missing debugger display provider in Notebook [#7774](https://github.com/jupyter/notebook/pull/7774) ([@arjxn-py](https://github.com/arjxn-py), [@jtpio](https://github.com/jtpio), [@martinRenou](https://github.com/martinRenou))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.5.1 [#7785](https://github.com/jupyter/notebook/pull/7785) ([@jtpio](https://github.com/jtpio))
+- Fix link to the IPython install page [#7783](https://github.com/jupyter/notebook/pull/7783) ([@jtpio](https://github.com/jtpio))
+- Fix `hatch build`, ignore links to `blog.jupyter.org` [#7780](https://github.com/jupyter/notebook/pull/7780) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 4 updates [#7773](https://github.com/jupyter/notebook/pull/7773) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-11-19&to=2025-12-16&type=c))
+
+@arjxn-py ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aarjxn-py+updated%3A2025-11-19..2025-12-16&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-11-19..2025-12-16&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-11-19..2025-12-16&type=Issues)) | @martinRenou ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2025-11-19..2025-12-16&type=Issues))
+
+## 7.5.0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0...be53ec8bc96cdbcb64b6f1c5ec39c123c087a348))
+
+### Enhancements made
+
+- Update to JupyterLab v4.5.0b1 [#7746](https://github.com/jupyter/notebook/pull/7746) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.5.0b0 [#7739](https://github.com/jupyter/notebook/pull/7739) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.5.0a4 [#7728](https://github.com/jupyter/notebook/pull/7728) ([@jtpio](https://github.com/jtpio))
+- Increase the checkpoint polling interval to 30s [#7711](https://github.com/jupyter/notebook/pull/7711) ([@jtpio](https://github.com/jtpio))
+- Define `O` as the keyboard shortcut to toggle cell outputs [#7709](https://github.com/jupyter/notebook/pull/7709) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.5.0a3 [#7703](https://github.com/jupyter/notebook/pull/7703) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Expose the cell toolbar settings [#7766](https://github.com/jupyter/notebook/pull/7766) ([@jtpio](https://github.com/jtpio))
+- Handle file rename errors [#7710](https://github.com/jupyter/notebook/pull/7710) ([@jtpio](https://github.com/jtpio))
+- Fix open file with “#” in the filename [#7698](https://github.com/jupyter/notebook/pull/7698) ([@itsmevichu](https://github.com/itsmevichu))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.5.0 [#7768](https://github.com/jupyter/notebook/pull/7768) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.5.0rc1 [#7764](https://github.com/jupyter/notebook/pull/7764) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.5.0rc0 [#7755](https://github.com/jupyter/notebook/pull/7755) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group across 1 directory with 3 updates [#7751](https://github.com/jupyter/notebook/pull/7751) ([@dependabot](https://github.com/dependabot))
+- Use Node.js 24 / npm 11 to publish releases [#7749](https://github.com/jupyter/notebook/pull/7749) ([@jtpio](https://github.com/jtpio))
+- Revert "Pin `click<8.3`" [#7733](https://github.com/jupyter/notebook/pull/7733) ([@jtpio](https://github.com/jtpio))
+- Remove link to `npmjs.com` [#7730](https://github.com/jupyter/notebook/pull/7730) ([@jtpio](https://github.com/jtpio))
+- Pin `click<8.3` [#7729](https://github.com/jupyter/notebook/pull/7729) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group across 1 directory with 3 updates [#7704](https://github.com/jupyter/notebook/pull/7704) ([@dependabot](https://github.com/dependabot))
+- Update to JupyterLab v4.5.0a2 [#7694](https://github.com/jupyter/notebook/pull/7694) ([@jtpio](https://github.com/jtpio))
+- Pin `httpx` [#7691](https://github.com/jupyter/notebook/pull/7691) ([@jtpio](https://github.com/jtpio))
+- Bump prefix-dev/setup-pixi from 0.8.10 to 0.8.11 in the actions group [#7675](https://github.com/jupyter/notebook/pull/7675) ([@dependabot](https://github.com/dependabot))
+- Bump prefix-dev/setup-pixi from 0.8.8 to 0.8.10 in the actions group [#7665](https://github.com/jupyter/notebook/pull/7665) ([@dependabot](https://github.com/dependabot))
+- Bump brace-expansion from 1.1.11 to 1.1.12 in /ui-tests [#7664](https://github.com/jupyter/notebook/pull/7664) ([@dependabot](https://github.com/dependabot))
+- Revert "CI: pin to `jupyter-core<5.8.0` on Windows" [#7657](https://github.com/jupyter/notebook/pull/7657) ([@minrk](https://github.com/minrk))
+- Update to JupyterLab v4.5.0a1 [#7656](https://github.com/jupyter/notebook/pull/7656) ([@jtpio](https://github.com/jtpio))
+- CI: pin to `jupyter-core<5.8.0` on Windows [#7655](https://github.com/jupyter/notebook/pull/7655) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.5.0a0 [#7650](https://github.com/jupyter/notebook/pull/7650) ([@jtpio](https://github.com/jtpio))
+- Run UI tests on `ubuntu-latest` [#7639](https://github.com/jupyter/notebook/pull/7639) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.1 [#7638](https://github.com/jupyter/notebook/pull/7638) ([@jtpio](https://github.com/jtpio))
+- Bump prefix-dev/setup-pixi from 0.8.5 to 0.8.8 in the actions group [#7637](https://github.com/jupyter/notebook/pull/7637) ([@dependabot](https://github.com/dependabot))
+- chore: Fix UP006 [#7633](https://github.com/jupyter/notebook/pull/7633) ([@honnix](https://github.com/honnix))
+- Bump prefix-dev/setup-pixi from 0.8.4 to 0.8.5 in the actions group [#7632](https://github.com/jupyter/notebook/pull/7632) ([@dependabot](https://github.com/dependabot))
+- Drop support for Python 3.8 [#7628](https://github.com/jupyter/notebook/pull/7628) ([@honnix](https://github.com/honnix))
+
+### Documentation improvements
+
+- User facing changelog for 7.5 [#7770](https://github.com/jupyter/notebook/pull/7770) ([@jtpio](https://github.com/jtpio))
+- Clean up references to Gitpod [#7767](https://github.com/jupyter/notebook/pull/7767) ([@jtpio](https://github.com/jtpio))
+- Fix link to Code of Conduct in CONTRIBUTING.md [#7758](https://github.com/jupyter/notebook/pull/7758) ([@jtpio](https://github.com/jtpio))
+- Remove JupyterCon 2025 announcement banner [#7757](https://github.com/jupyter/notebook/pull/7757) ([@jasongrout](https://github.com/jasongrout))
+- Update JupyterCon 2025 announcement links [#7744](https://github.com/jupyter/notebook/pull/7744) ([@krassowski](https://github.com/krassowski))
+- Add JupyterCon banner and add Jupyter colors [#7727](https://github.com/jupyter/notebook/pull/7727) ([@choldgraf](https://github.com/choldgraf))
+- Fix grammatical issues in Contributing.md [#7669](https://github.com/jupyter/notebook/pull/7669) ([@sangampaudel530](https://github.com/sangampaudel530))
+- Fixed grammar and typos in CONTRIBUTING.md [#7645](https://github.com/jupyter/notebook/pull/7645) ([@jchen1223](https://github.com/jchen1223))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-04-09&to=2025-11-19&type=c))
+
+[@afshin](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafshin+updated%3A2025-04-09..2025-11-19&type=Issues) | [@choldgraf](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Acholdgraf+updated%3A2025-04-09..2025-11-19&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-04-09..2025-11-19&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-04-09..2025-11-19&type=Issues) | [@honnix](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahonnix+updated%3A2025-04-09..2025-11-19&type=Issues) | [@itsmevichu](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aitsmevichu+updated%3A2025-04-09..2025-11-19&type=Issues) | [@jasongrout](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajasongrout+updated%3A2025-04-09..2025-11-19&type=Issues) | [@jchen1223](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajchen1223+updated%3A2025-04-09..2025-11-19&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-04-09..2025-11-19&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-04-09..2025-11-19&type=Issues) | [@lumberbot-app](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Alumberbot-app+updated%3A2025-04-09..2025-11-19&type=Issues) | [@minrk](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aminrk+updated%3A2025-04-09..2025-11-19&type=Issues) | [@nkn2022](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ankn2022+updated%3A2025-04-09..2025-11-19&type=Issues) | [@sangampaudel530](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Asangampaudel530+updated%3A2025-04-09..2025-11-19&type=Issues)
+
+## 7.5.0rc1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-rc.0...7533ccab5e4adc765e57a35b1791850daf952044))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.5.0rc1 [#7764](https://github.com/jupyter/notebook/pull/7764) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group across 1 directory with 3 updates [#7751](https://github.com/jupyter/notebook/pull/7751) ([@dependabot](https://github.com/dependabot))
+
+### Documentation improvements
+
+- Fix link to Code of Conduct in CONTRIBUTING.md [#7758](https://github.com/jupyter/notebook/pull/7758) ([@jtpio](https://github.com/jtpio))
+- Remove JupyterCon 2025 announcement banner [#7757](https://github.com/jupyter/notebook/pull/7757) ([@jasongrout](https://github.com/jasongrout))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-11-03&to=2025-11-14&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-11-03..2025-11-14&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-11-03..2025-11-14&type=Issues) | [@jasongrout](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajasongrout+updated%3A2025-11-03..2025-11-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-11-03..2025-11-14&type=Issues)
+
+## 7.5.0rc0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-beta.1...18ba796a58402999044b7e8c4401319b76fed0ce))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.5.0rc0 [#7755](https://github.com/jupyter/notebook/pull/7755) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-10-20&to=2025-11-03&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-10-20..2025-11-03&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-10-20..2025-11-03&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-10-20..2025-11-03&type=Issues)
+
+## 7.5.0b1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-beta.0...7f84b95ed6550508f9de03d27cd8c2cb84777648))
+
+### Enhancements made
+
+- Update to JupyterLab v4.5.0b1 [#7746](https://github.com/jupyter/notebook/pull/7746) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Use Node.js 24 / npm 11 to publish releases [#7749](https://github.com/jupyter/notebook/pull/7749) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Update JupyterCon 2025 announcement links [#7744](https://github.com/jupyter/notebook/pull/7744) ([@krassowski](https://github.com/krassowski))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-09-29&to=2025-10-20&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-09-29..2025-10-20&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-09-29..2025-10-20&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-09-29..2025-10-20&type=Issues) | [@nkn2022](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ankn2022+updated%3A2025-09-29..2025-10-20&type=Issues)
+
+## 7.5.0b0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-alpha.3...828708ec26cc4d2ff9f8b725b00024481ae42d2d))
+
+### Enhancements made
+
+- Update to JupyterLab v4.5.0b0 [#7739](https://github.com/jupyter/notebook/pull/7739) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Add JupyterCon banner and add Jupyter colors [#7727](https://github.com/jupyter/notebook/pull/7727) ([@choldgraf](https://github.com/choldgraf))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-09-24&to=2025-09-29&type=c))
+
+[@choldgraf](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Acholdgraf+updated%3A2025-09-24..2025-09-29&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-09-24..2025-09-29&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-09-24..2025-09-29&type=Issues)
+
+## 7.5.0a3
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-alpha.2...254b06ca4b232a0a96ad2dddde560e41df371e57))
+
+### Enhancements made
+
+- Update to JupyterLab v4.5.0a4 [#7728](https://github.com/jupyter/notebook/pull/7728) ([@jtpio](https://github.com/jtpio))
+- Increase the checkpoint polling interval to 30s [#7711](https://github.com/jupyter/notebook/pull/7711) ([@jtpio](https://github.com/jtpio))
+- Define `O` as the keyboard shortcut to toggle cell outputs [#7709](https://github.com/jupyter/notebook/pull/7709) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Handle file rename errors [#7710](https://github.com/jupyter/notebook/pull/7710) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Revert "Pin `click<8.3`" [#7733](https://github.com/jupyter/notebook/pull/7733) ([@jtpio](https://github.com/jtpio))
+- Remove link to `npmjs.com` [#7730](https://github.com/jupyter/notebook/pull/7730) ([@jtpio](https://github.com/jtpio))
+- Pin `click<8.3` [#7729](https://github.com/jupyter/notebook/pull/7729) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group across 1 directory with 3 updates [#7704](https://github.com/jupyter/notebook/pull/7704) ([@dependabot](https://github.com/dependabot))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-08-18&to=2025-09-24&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-08-18..2025-09-24&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-08-18..2025-09-24&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-08-18..2025-09-24&type=Issues) | [@nkn2022](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ankn2022+updated%3A2025-08-18..2025-09-24&type=Issues)
+
+## 7.5.0a2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-alpha.1...3100d879bfe09c629b4add998bd2ac408ffa2af8))
+
+### Enhancements made
+
+- Update to JupyterLab v4.5.0a3 [#7703](https://github.com/jupyter/notebook/pull/7703) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Fix open file with “#” in the filename [#7698](https://github.com/jupyter/notebook/pull/7698) ([@itsmevichu](https://github.com/itsmevichu))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-08-11&to=2025-08-18&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-08-11..2025-08-18&type=Issues) | [@itsmevichu](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aitsmevichu+updated%3A2025-08-11..2025-08-18&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-08-11..2025-08-18&type=Issues)
+
+## 7.5.0a1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.0-alpha.0...f56a27c17bfd85f37a27dea9512c675120571e63))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.5.0a2 [#7694](https://github.com/jupyter/notebook/pull/7694) ([@jtpio](https://github.com/jtpio))
+- Pin `httpx` [#7691](https://github.com/jupyter/notebook/pull/7691) ([@jtpio](https://github.com/jtpio))
+- Bump prefix-dev/setup-pixi from 0.8.10 to 0.8.11 in the actions group [#7675](https://github.com/jupyter/notebook/pull/7675) ([@dependabot](https://github.com/dependabot))
+- Bump prefix-dev/setup-pixi from 0.8.8 to 0.8.10 in the actions group [#7665](https://github.com/jupyter/notebook/pull/7665) ([@dependabot](https://github.com/dependabot))
+- Bump brace-expansion from 1.1.11 to 1.1.12 in /ui-tests [#7664](https://github.com/jupyter/notebook/pull/7664) ([@dependabot](https://github.com/dependabot))
+- Revert "CI: pin to `jupyter-core<5.8.0` on Windows" [#7657](https://github.com/jupyter/notebook/pull/7657) ([@minrk](https://github.com/minrk))
+- Update to JupyterLab v4.5.0a1 [#7656](https://github.com/jupyter/notebook/pull/7656) ([@jtpio](https://github.com/jtpio))
+- CI: pin to `jupyter-core<5.8.0` on Windows [#7655](https://github.com/jupyter/notebook/pull/7655) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Fix grammatical issues in Contributing.md [#7669](https://github.com/jupyter/notebook/pull/7669) ([@sangampaudel530](https://github.com/sangampaudel530))
+- Fixed grammar and typos in CONTRIBUTING.md [#7645](https://github.com/jupyter/notebook/pull/7645) ([@jchen1223](https://github.com/jchen1223))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-05-07&to=2025-08-11&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-05-07..2025-08-11&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-05-07..2025-08-11&type=Issues) | [@jchen1223](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajchen1223+updated%3A2025-05-07..2025-08-11&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-05-07..2025-08-11&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-05-07..2025-08-11&type=Issues) | [@minrk](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aminrk+updated%3A2025-05-07..2025-08-11&type=Issues) | [@sangampaudel530](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Asangampaudel530+updated%3A2025-05-07..2025-08-11&type=Issues)
+
+## 7.5.0a0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0...22e29fc41901ef8116670bc8a04eeb833858ff51))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.5.0a0 [#7650](https://github.com/jupyter/notebook/pull/7650) ([@jtpio](https://github.com/jtpio))
+- Run UI tests on `ubuntu-latest` [#7639](https://github.com/jupyter/notebook/pull/7639) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.1 [#7638](https://github.com/jupyter/notebook/pull/7638) ([@jtpio](https://github.com/jtpio))
+- Bump prefix-dev/setup-pixi from 0.8.5 to 0.8.8 in the actions group [#7637](https://github.com/jupyter/notebook/pull/7637) ([@dependabot](https://github.com/dependabot))
+- chore: Fix UP006 [#7633](https://github.com/jupyter/notebook/pull/7633) ([@honnix](https://github.com/honnix))
+- Bump prefix-dev/setup-pixi from 0.8.4 to 0.8.5 in the actions group [#7632](https://github.com/jupyter/notebook/pull/7632) ([@dependabot](https://github.com/dependabot))
+- Drop support for Python 3.8 [#7628](https://github.com/jupyter/notebook/pull/7628) ([@honnix](https://github.com/honnix))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-04-09&to=2025-05-07&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-04-09..2025-05-07&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-04-09..2025-05-07&type=Issues) | [@honnix](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahonnix+updated%3A2025-04-09..2025-05-07&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-04-09..2025-05-07&type=Issues)
+
+## 7.4
+
+Jupyter Notebook 7.4 is based on JupyterLab 4.4, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-3-to-4-4) which lists deprecations and changes to the public API.
+
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.4, although they may not all be supported in Notebook 7.4.
+
+For reference you may have a look at the [JupyterLab 4.4 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-4) to learn more.
+
+### Code console improvements
+
+The code console prompt can now be positioned on the top, left, or right side of the console,
+in addition to the default bottom placement. The placement is persisted in the Prompt Cell
+Position setting.
+
+The console toolbar now includes buttons to:
+- Execute code
+- Restart the kernel
+- Clear the cells
+- Switch the kernel
+
+<img alt="The option to change console prompt position is available under the three dots button in the console toolbar, which is the last toolbar button" src="https://github.com/user-attachments/assets/11f5a82a-0dd2-439b-a520-d04c73363bfe" class="jp-screenshot">
+
+Additional settings for console behavior have been added:
+- Clear Code Content on Execute (enabled by default) – When disabled, the code submitted for execution remains in the code editor, allowing for further edits.
+- Hide Code Input – When enabled, only the execution output is shown in the console.
+- Clear Cells on Execute – When enabled, only the last cell is displayed.
+
+Toggling all the three new settings transforms the console into an interactive editor
+resembling an ephemeral notebook with a single cell.
+
+<img alt="Toggling all the three new settings transforms the console into a single cell" src="https://github.com/user-attachments/assets/86eb1114-0d60-4379-a370-b538717fc74f" class="jp-screenshot">
+
+### Settings import and export
+
+Settings can now be exported to `overrides.json` from the Settings Editor,
+which can be used to pre-configure defaults in deployments or to restore settings.
+
+<img alt="The Import and Export buttons in the Settings Editor are the first two items in the toolbar panel" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.4-settings-import-export.png" class="jp-screenshot">
+
+### Support for collaboration without `RTC:` drive
+
+Real time collaboration in previous versions of JupyterLab and Jupyter Notebook
+(which can be enabled by installing jupyter-collaboration package)
+was implemented by swapping the default JupyterLab file system
+drive to a collaborative drive with the `RTC:` prefix.
+This approach was incompatible with multiple extensions.
+JupyterLab 4.4 introduces the Content Providers API, which allows the next version of `jupyter-collaboration` to work without changing the drive prefix.
+This improves compatibility with extensions that do not support arbitrary drives.
+
+### Context menu opt-out
+
+The context menu, available under right mouse click in browsers, can now be disabled globally
+by toggling the `Enable Context Menu` option available in the Command Palette,
+or via the JSON Settings Editor in the Application Context Menu.
+
+## 7.4.0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.2...fbfe36574e04b16ed7ba9303c5e819330f402f87))
+
+### Highlights ✨
+
+To learn more about the highlights of the 7.4.0 release: https://jupyter-notebook.readthedocs.io/en/latest/changelog.html
+
+### Enhancements made
+
+- Update to JupyterLab v4.4.0rc1 [#7622](https://github.com/jupyter/notebook/pull/7622) ([@jtpio](https://github.com/jtpio))
+- Add support for a `down` area [#7619](https://github.com/jupyter/notebook/pull/7619) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.0rc0 [#7618](https://github.com/jupyter/notebook/pull/7618) ([@jtpio](https://github.com/jtpio))
+- Support `ServiceManagerPlugin` [#7616](https://github.com/jupyter/notebook/pull/7616) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `v4.4.0b1` [#7607](https://github.com/jupyter/notebook/pull/7607) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.0b0 [#7591](https://github.com/jupyter/notebook/pull/7591) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.0a3 [#7577](https://github.com/jupyter/notebook/pull/7577) ([@jtpio](https://github.com/jtpio))
+- Add active cell border padding, remove double cell padding [#7570](https://github.com/jupyter/notebook/pull/7570) ([@andrii-i](https://github.com/andrii-i))
+
+### Bugs fixed
+
+- Fix undefined error when checkpoints is empty [#7567](https://github.com/jupyter/notebook/pull/7567) ([@jdavid](https://github.com/jdavid))
+
+### Maintenance and upkeep improvements
+
+- Bump the actions group with 2 updates [#7626](https://github.com/jupyter/notebook/pull/7626) ([@dependabot](https://github.com/dependabot))
+- Update to JupyterLab v4.4.0b2 [#7614](https://github.com/jupyter/notebook/pull/7614) ([@jtpio](https://github.com/jtpio))
+- Add pixi step to the update workflow [#7608](https://github.com/jupyter/notebook/pull/7608) ([@jtpio](https://github.com/jtpio))
+- Update `@babel` dependencies [#7605](https://github.com/jupyter/notebook/pull/7605) ([@jtpio](https://github.com/jtpio))
+- Add devcontainer support, backed by pixi [#7602](https://github.com/jupyter/notebook/pull/7602) ([@jtpio](https://github.com/jtpio))
+- Manual dependabot bumps [#7599](https://github.com/jupyter/notebook/pull/7599) ([@jtpio](https://github.com/jtpio))
+- Bump vega-selections from 5.4.1 to 5.5.0 in /ui-tests [#7592](https://github.com/jupyter/notebook/pull/7592) ([@dependabot](https://github.com/dependabot))
+- Improve handling of optional notebook tracker [#7581](https://github.com/jupyter/notebook/pull/7581) ([@jtpio](https://github.com/jtpio))
+- Fix upgrade script [#7579](https://github.com/jupyter/notebook/pull/7579) ([@jtpio](https://github.com/jtpio))
+- Allow owners/members/collab to trigger galata update on other's PR [#7572](https://github.com/jupyter/notebook/pull/7572) ([@krassowski](https://github.com/krassowski))
+- Update `typescript` and `lerna` [#7562](https://github.com/jupyter/notebook/pull/7562) ([@jtpio](https://github.com/jtpio))
+- Update pre-commit hooks [#7561](https://github.com/jupyter/notebook/pull/7561) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.0a2 [#7559](https://github.com/jupyter/notebook/pull/7559) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group across 1 directory with 2 updates [#7558](https://github.com/jupyter/notebook/pull/7558) ([@dependabot](https://github.com/dependabot))
+- Improve update script [#7556](https://github.com/jupyter/notebook/pull/7556) ([@jtpio](https://github.com/jtpio))
+- Disable cron scheduling for now [#7555](https://github.com/jupyter/notebook/pull/7555) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.0a1 [#7554](https://github.com/jupyter/notebook/pull/7554) ([@jtpio](https://github.com/jtpio))
+- Update workflow improvements [#7552](https://github.com/jupyter/notebook/pull/7552) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- User facing changelog for 7.4 [#7612](https://github.com/jupyter/notebook/pull/7612) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-21&to=2025-04-09&type=c))
+
+[@andrii-i](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2024-12-21..2025-04-09&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2024-12-21..2025-04-09&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-12-21..2025-04-09&type=Issues) | [@jdavid](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajdavid+updated%3A2024-12-21..2025-04-09&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-21..2025-04-09&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-12-21..2025-04-09&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-12-21..2025-04-09&type=Issues)
+
+## 7.4.0rc0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0-beta.3...7fa19999c9e01d713a684e0f25d8017dbc999528))
+
+### Enhancements made
+
+- Update to JupyterLab v4.4.0rc1 [#7622](https://github.com/jupyter/notebook/pull/7622) ([@jtpio](https://github.com/jtpio))
+- Add support for a `down` area [#7619](https://github.com/jupyter/notebook/pull/7619) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-03-26&to=2025-04-03&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-03-26..2025-04-03&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-03-26..2025-04-03&type=Issues)
+
+## 7.4.0b3
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0-beta.2...434221c0fe3de3df3b4b54ed1005712e07957352))
+
+### Enhancements made
+
+- Update to JupyterLab v4.4.0rc0 [#7618](https://github.com/jupyter/notebook/pull/7618) ([@jtpio](https://github.com/jtpio))
+- Support `ServiceManagerPlugin` [#7616](https://github.com/jupyter/notebook/pull/7616) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-03-20&to=2025-03-26&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-03-20..2025-03-26&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-03-20..2025-03-26&type=Issues)
+
+## 7.4.0b2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0-beta.1...be2fd12f91a64796d9919ee8b8242f3093aac8a5))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.4.0b2 [#7614](https://github.com/jupyter/notebook/pull/7614) ([@jtpio](https://github.com/jtpio))
+- Add pixi step to the update workflow [#7608](https://github.com/jupyter/notebook/pull/7608) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- User facing changelog for 7.4 [#7612](https://github.com/jupyter/notebook/pull/7612) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-03-14&to=2025-03-20&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-03-14..2025-03-20&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-03-14..2025-03-20&type=Issues)
+
+## 7.4.0b1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0-beta.0...6d06d97302bd1bb77e25864214ade2277f2e50d4))
+
+### Enhancements made
+
+- Update to JupyterLab `v4.4.0b1` [#7607](https://github.com/jupyter/notebook/pull/7607) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update `@babel` dependencies [#7605](https://github.com/jupyter/notebook/pull/7605) ([@jtpio](https://github.com/jtpio))
+- Add devcontainer support, backed by pixi [#7602](https://github.com/jupyter/notebook/pull/7602) ([@jtpio](https://github.com/jtpio))
+- Manual dependabot bumps [#7599](https://github.com/jupyter/notebook/pull/7599) ([@jtpio](https://github.com/jtpio))
+- Bump vega-selections from 5.4.1 to 5.5.0 in /ui-tests [#7592](https://github.com/jupyter/notebook/pull/7592) ([@dependabot](https://github.com/dependabot))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-02-20&to=2025-03-14&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2025-02-20..2025-03-14&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-02-20..2025-03-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-02-20..2025-03-14&type=Issues)
+
+## 7.4.0b0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0-alpha.3...48243197bbd004555008cd7cfa14c907147aceca))
+
+### Enhancements made
+
+- Update to JupyterLab v4.4.0b0 [#7591](https://github.com/jupyter/notebook/pull/7591) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-02-05&to=2025-02-20&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-02-05..2025-02-20&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-02-05..2025-02-20&type=Issues)
+
+## 7.4.0a3
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0-alpha.2...48e52c759ffec0cea47dfef59f48d8e9fa6112d3))
+
+### Enhancements made
+
+- Add active cell border padding, remove double cell padding [#7570](https://github.com/jupyter/notebook/pull/7570) ([@andrii-i](https://github.com/andrii-i))
+
+### Maintenance and upkeep improvements
+
+- Improve handling of optional notebook tracker [#7581](https://github.com/jupyter/notebook/pull/7581) ([@jtpio](https://github.com/jtpio))
+- Fix upgrade script [#7579](https://github.com/jupyter/notebook/pull/7579) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-02-03&to=2025-02-05&type=c))
+
+[@andrii-i](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2025-02-03..2025-02-05&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-02-03..2025-02-05&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-02-03..2025-02-05&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-02-03..2025-02-05&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2025-02-03..2025-02-05&type=Issues)
+
+## 7.4.0a2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0-alpha.1...ef4f6346cd6b377ade271fcd61810b5d2a7d0f41))
+
+### Enhancements made
+
+- Update to JupyterLab v4.4.0a3 [#7577](https://github.com/jupyter/notebook/pull/7577) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Fix undefined error when checkpoints is empty [#7567](https://github.com/jupyter/notebook/pull/7567) ([@jdavid](https://github.com/jdavid))
+
+### Maintenance and upkeep improvements
+
+- Allow owners/members/collab to trigger galata update on other's PR [#7572](https://github.com/jupyter/notebook/pull/7572) ([@krassowski](https://github.com/krassowski))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-01-07&to=2025-02-03&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2025-01-07..2025-02-03&type=Issues) | [@jdavid](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajdavid+updated%3A2025-01-07..2025-02-03&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-01-07..2025-02-03&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-01-07..2025-02-03&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2025-01-07..2025-02-03&type=Issues)
+
+## 7.4.0a1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.4.0-alpha.0...18672b7e85ec5181e4c5c18d2e32c3e9eab7260c))
+
+### Maintenance and upkeep improvements
+
+- Update `typescript` and `lerna` [#7562](https://github.com/jupyter/notebook/pull/7562) ([@jtpio](https://github.com/jtpio))
+- Update pre-commit hooks [#7561](https://github.com/jupyter/notebook/pull/7561) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.0a2 [#7559](https://github.com/jupyter/notebook/pull/7559) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group across 1 directory with 2 updates [#7558](https://github.com/jupyter/notebook/pull/7558) ([@dependabot](https://github.com/dependabot))
+- Improve update script [#7556](https://github.com/jupyter/notebook/pull/7556) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-21&to=2025-01-07&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2024-12-21..2025-01-07&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-12-21..2025-01-07&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-21..2025-01-07&type=Issues)
+
+## 7.4.0a0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.2...12efbe601858c317bf677dc835d314489357e20d))
+
+### Maintenance and upkeep improvements
+
+- Disable cron scheduling for now [#7555](https://github.com/jupyter/notebook/pull/7555) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.4.0a1 [#7554](https://github.com/jupyter/notebook/pull/7554) ([@jtpio](https://github.com/jtpio))
+- Update workflow improvements [#7552](https://github.com/jupyter/notebook/pull/7552) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-21&to=2024-12-21&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-12-21..2024-12-21&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-21..2024-12-21&type=Issues)
+
+## 7.3
+
+Jupyter Notebook 7.3 is based on JupyterLab 4.3, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-2-to-4-3) which lists deprecations and changes to the public API.
+
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.3, although they may not all be supported in Notebook 7.3.
+
+For reference you may have a look at the [JupyterLab 4.3 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-3) to learn more.
+
+### Minimap
+
+The virtual scrollbar now acts as a minimap and exposes information on whether a cell:
+
+- is running/scheduled (`[*]`), idle (`[ ]`) or was already run (e.g. `[1]`)
+- was modified since it was last executed (“dirty”) - orange background
+- has an output that contains an error - red background
+- is markdown/code (`[ ]`/`[*]`/`[1]` for code, nothing for markdown)
+- how much text/code it contains
+
+![a screenshot showing the notebook minimap](https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.3-minimap.png)
+
+To enable the minimap, click on the hamburger icon (≡) which appears in the notebook’s toolbar. If you do not see the hamburger icon, go to `Settings → Notebook → Windowing mode` and choose “full”.
+
+### File browser enhancements
+
+The file browser now:
+
+- supports resizing the columns and remembers the column sizes after reloading JupyterLab
+- supports uploading folders by drag-and-drop
+- supports navigation with a single click
+- adds a file filter collapsed by default (funnel icon)
+
+![a screenshot showing that it's now possible to resize the file browser columns](https://github.com/user-attachments/assets/b0d9cd0a-2828-43f7-a922-e8b271e5f7fc)
+
+In Jupyter Notebook, the single click navigation is enabled by default. If you would like to disable it to get the same experience as in JupyterLab, go to `Settings → File Browser` and make sure "Navigate files and directories with single click" is unchecked.
+
+### Improved kernel and server interactions
+
+The previous release enabled connecting to external kernels, such as those spawned by a third-party application like Blender. In this release the kernel selector dialog was improved to also show the external kernels.
+
+The previous release improved the awareness of the kernel/kernel specification distinction by providing both tree and list view in the kernels sidebar panel, but only the tree view featured the kernel identifiers. In this release both the list and tree view show the kernel identifier stub.
+
+A new toolbar button was added in the kernel allowing to shut down unused kernels (kernels with no widget attached).
+
+![a screenshot showing the list view of the kernels in the sidebar](https://github.com/user-attachments/assets/c7f958c5-4054-4b09-8fad-4df6db8c9b58)
+
+### Full Width Notebook
+
+It is now possible to configure the notebook to take up the full width of the page via:
+
+- a setting that can be defined by a user via the Settings Editor
+- the `View > Enable Full Width Notebook` menu entry
+- the command palette, searching for `Enable Full Width Notebook`
+
+![a screenshot showing how to enable full width notebook via the menu](https://github.com/user-attachments/assets/148b227a-874a-4bb3-a4c6-c7350525ccc4)
+
+This is particularly useful on large displays, or for those who prefer working with a wider notebook.
+
+It is also possible to use the JupyterLab interface for a more fully-featured experience, which allows for full-width notebooks too, and offers a "Simple Interface" mode for only showing a single notebook at a time.
+
+You can open JupyterLab by clicking on `View > Open JupyterLab`.
+
+## 7.3.2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.1...7959ba0de553e9c541d2716d76108a8bc0bc2d6c))
+
+### Maintenance and upkeep improvements
+
+- Fix update script [#7550](https://github.com/jupyter/notebook/pull/7550) ([@jtpio](https://github.com/jtpio))
+- Fix workflow to update the JupyterLab version [#7548](https://github.com/jupyter/notebook/pull/7548) ([@jtpio](https://github.com/jtpio))
+- Bump nanoid from 3.3.7 to 3.3.8 in /ui-tests [#7547](https://github.com/jupyter/notebook/pull/7547) ([@dependabot](https://github.com/dependabot))
+- Bump systeminformation from 5.21.8 to 5.23.14 in /ui-tests [#7546](https://github.com/jupyter/notebook/pull/7546) ([@dependabot](https://github.com/dependabot))
+- Workflow to update JupyterLab dependencies automatically [#7281](https://github.com/jupyter/notebook/pull/7281) ([@itsmevichu](https://github.com/itsmevichu))
+- Update to JupyterLab v4.3.4 [#7551](https://github.com/jupyter/notebook/pull/7551) ([@github-actions](https://github.com/apps/github-actions))
+
+### Documentation improvements
+
+- Update chat links to Zulip. [#7539](https://github.com/jupyter/notebook/pull/7539) ([@ericsnekbytes](https://github.com/ericsnekbytes))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-04&to=2024-12-21&type=c))
+
+[@Carreau](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ACarreau+updated%3A2024-12-04..2024-12-21&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2024-12-04..2024-12-21&type=Issues) | [@ericsnekbytes](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aericsnekbytes+updated%3A2024-12-04..2024-12-21&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-12-04..2024-12-21&type=Issues) | [@itsmevichu](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aitsmevichu+updated%3A2024-12-04..2024-12-21&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-04..2024-12-21&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-12-04..2024-12-21&type=Issues)
+
+## 7.3.1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0...21d0306ecef93ea23bf063bc1d8a0580450cd4df))
+
+### Maintenance and upkeep improvements
+
+- Adds jupyter-ui-toolkit packages in shared scope [#7530](https://github.com/jupyter/notebook/pull/7530) ([@brichet](https://github.com/brichet))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-12-04&to=2024-12-04&type=c))
+
+[@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2024-12-04..2024-12-04&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-12-04..2024-12-04&type=Issues)
+
+## 7.3.0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.2.0...b16eed26eff8e357eeccbef3f3434df77fb8ab48))
+
+### Enhancements made
+
+- Fix for auto scroll output option [#7511](https://github.com/jupyter/notebook/pull/7511) ([@gjmooney](https://github.com/gjmooney))
+- Add a setting to enable the notebook to take up the full width [#7487](https://github.com/jupyter/notebook/pull/7487) ([@jtpio](https://github.com/jtpio))
+- Add the file filter button to the file browser toolbar [#7479](https://github.com/jupyter/notebook/pull/7479) ([@jtpio](https://github.com/jtpio))
+- Redirect paths from the notebooks route to the tree route if they are directories [#7446](https://github.com/jupyter/notebook/pull/7446) ([@andyscho](https://github.com/andyscho))
+- Update to JupyterLab `4.3.0a1` [#7416](https://github.com/jupyter/notebook/pull/7416) ([@jtpio](https://github.com/jtpio))
+- Support custom page_data_hook function [#7387](https://github.com/jupyter/notebook/pull/7387) ([@bluestealth](https://github.com/bluestealth))
+- Add missing "Open..." file menu [#7385](https://github.com/jupyter/notebook/pull/7385) ([@martinRenou](https://github.com/martinRenou))
+- Duplicate notebook menu option [#7374](https://github.com/jupyter/notebook/pull/7374) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Bugs fixed
+
+- Move handling of the file browser settings to a separate plugin, enable file browser single click navigation [#7481](https://github.com/jupyter/notebook/pull/7481) ([@jtpio](https://github.com/jtpio))
+- Remove pseudoelement obstructing the cell collapser [#7392](https://github.com/jupyter/notebook/pull/7392) ([@krassowski](https://github.com/krassowski))
+- "Close and Shut Down Notebook" shuts down without the confirmation dialog [#7384](https://github.com/jupyter/notebook/pull/7384) ([@JasonWeill](https://github.com/JasonWeill))
+- Adds message about building code before running 'develop' [#7382](https://github.com/jupyter/notebook/pull/7382) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Maintenance and upkeep improvements
+
+- Bump Python version used on CI [#7528](https://github.com/jupyter/notebook/pull/7528) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.3.2 [#7527](https://github.com/jupyter/notebook/pull/7527) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.3.1 [#7521](https://github.com/jupyter/notebook/pull/7521) ([@jtpio](https://github.com/jtpio))
+- Add webpack prod config [#7513](https://github.com/jupyter/notebook/pull/7513) ([@gjmooney](https://github.com/gjmooney))
+- Update to JupyterLab 4.3 final [#7507](https://github.com/jupyter/notebook/pull/7507) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `4.3.0rc1` [#7497](https://github.com/jupyter/notebook/pull/7497) ([@jtpio](https://github.com/jtpio))
+- Remove the `StateDB` file browser trick [#7477](https://github.com/jupyter/notebook/pull/7477) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `4.3.0rc0` [#7423](https://github.com/jupyter/notebook/pull/7423) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.3.0a0 [#7378](https://github.com/jupyter/notebook/pull/7378) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Fix link to the JupyterLab 4.3 changelog [#7529](https://github.com/jupyter/notebook/pull/7529) ([@jtpio](https://github.com/jtpio))
+- Rename some header links to fit better [#7508](https://github.com/jupyter/notebook/pull/7508) ([@gjmooney](https://github.com/gjmooney))
+- Add user facing changelog for `7.3.0` [#7494](https://github.com/jupyter/notebook/pull/7494) ([@jtpio](https://github.com/jtpio))
+- Fix typos [#7472](https://github.com/jupyter/notebook/pull/7472) ([@algonell](https://github.com/algonell))
+- Adds message about building code before running 'develop' [#7382](https://github.com/jupyter/notebook/pull/7382) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-16&to=2024-12-04&type=c))
+
+[@algonell](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aalgonell+updated%3A2024-05-16..2024-12-04&type=Issues) | [@andyscho](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandyscho+updated%3A2024-05-16..2024-12-04&type=Issues) | [@bluestealth](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abluestealth+updated%3A2024-05-16..2024-12-04&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-16..2024-12-04&type=Issues) | [@gjmooney](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agjmooney+updated%3A2024-05-16..2024-12-04&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2024-05-16..2024-12-04&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-16..2024-12-04&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-05-16..2024-12-04&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2024-05-16..2024-12-04&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-05-16..2024-12-04&type=Issues)
+
+## 7.3.0rc0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-beta.2...b34449747a84fe0ba7951ae0fa8f2bb011444a60))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab 4.3.1 [#7521](https://github.com/jupyter/notebook/pull/7521) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-11-06&to=2024-11-18&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-11-06..2024-11-18&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-11-06..2024-11-18&type=Issues)
+
+## 7.3.0b2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-beta.1...110e728e4a239ffc7217bd07b9a50cf4eff0dff5))
+
+### Enhancements made
+
+- Fix for auto scroll output option [#7511](https://github.com/jupyter/notebook/pull/7511) ([@gjmooney](https://github.com/gjmooney))
+
+### Maintenance and upkeep improvements
+
+- Add webpack prod config [#7513](https://github.com/jupyter/notebook/pull/7513) ([@gjmooney](https://github.com/gjmooney))
+- Update to JupyterLab 4.3 final [#7507](https://github.com/jupyter/notebook/pull/7507) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Rename some header links to fit better [#7508](https://github.com/jupyter/notebook/pull/7508) ([@gjmooney](https://github.com/gjmooney))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-10-24&to=2024-11-06&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-10-24..2024-11-06&type=Issues) | [@gjmooney](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agjmooney+updated%3A2024-10-24..2024-11-06&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-10-24..2024-11-06&type=Issues)
+
+## 7.3.0b1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-beta.0...f614f7c6387cc7da82e0307b70e10593b2cd6bff))
+
+### Enhancements made
+
+- Add a setting to enable the notebook to take up the full width [#7487](https://github.com/jupyter/notebook/pull/7487) ([@jtpio](https://github.com/jtpio))
+- Add the file filter button to the file browser toolbar [#7479](https://github.com/jupyter/notebook/pull/7479) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Move handling of the file browser settings to a separate plugin, enable file browser single click navigation [#7481](https://github.com/jupyter/notebook/pull/7481) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab `4.3.0rc1` [#7497](https://github.com/jupyter/notebook/pull/7497) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Add user facing changelog for `7.3.0` [#7494](https://github.com/jupyter/notebook/pull/7494) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-10-15&to=2024-10-24&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-10-15..2024-10-24&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-10-15..2024-10-24&type=Issues)
+
+## 7.3.0b0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-alpha.1...fec4431305b2fd857ff81b7b60c2894dd125bec2))
+
+### Enhancements made
+
+- Redirect paths from the notebooks route to the tree route if they are directories [#7446](https://github.com/jupyter/notebook/pull/7446) ([@andyscho](https://github.com/andyscho))
+
+### Maintenance and upkeep improvements
+
+- Remove the `StateDB` file browser trick [#7477](https://github.com/jupyter/notebook/pull/7477) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `4.3.0rc0` [#7423](https://github.com/jupyter/notebook/pull/7423) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Fix typos [#7472](https://github.com/jupyter/notebook/pull/7472) ([@algonell](https://github.com/algonell))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-07-01&to=2024-10-15&type=c))
+
+[@algonell](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aalgonell+updated%3A2024-07-01..2024-10-15&type=Issues) | [@andyscho](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandyscho+updated%3A2024-07-01..2024-10-15&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-07-01..2024-10-15&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-07-01..2024-10-15&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-07-01..2024-10-15&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-07-01..2024-10-15&type=Issues)
+
+## 7.3.0a1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.3.0-alpha.0...ff2b822d066dc8d733a259f955177da4bd4d668c))
+
+### Enhancements made
+
+- Update to JupyterLab `4.3.0a1` [#7416](https://github.com/jupyter/notebook/pull/7416) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Remove pseudoelement obstructing the cell collapser [#7392](https://github.com/jupyter/notebook/pull/7392) ([@krassowski](https://github.com/krassowski))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-31&to=2024-07-01&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-31..2024-07-01&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-31..2024-07-01&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-05-31..2024-07-01&type=Issues)
+
+## 7.3.0a0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.2.0...1a03b9d8e502f8177684e39d7b627bed1c772bb2))
+
+### Enhancements made
+
+- Support custom page_data_hook function [#7387](https://github.com/jupyter/notebook/pull/7387) ([@bluestealth](https://github.com/bluestealth))
+- Add missing "Open..." file menu [#7385](https://github.com/jupyter/notebook/pull/7385) ([@martinRenou](https://github.com/martinRenou))
+- Duplicate notebook menu option [#7374](https://github.com/jupyter/notebook/pull/7374) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Bugs fixed
+
+- "Close and Shut Down Notebook" shuts down without the confirmation dialog [#7384](https://github.com/jupyter/notebook/pull/7384) ([@JasonWeill](https://github.com/JasonWeill))
+- Adds message about building code before running 'develop' [#7382](https://github.com/jupyter/notebook/pull/7382) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab 4.3.0a0 [#7378](https://github.com/jupyter/notebook/pull/7378) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Adds message about building code before running 'develop' [#7382](https://github.com/jupyter/notebook/pull/7382) ([@JasonWeill](https://github.com/JasonWeill))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-16&to=2024-05-31&type=c))
+
+[@bluestealth](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abluestealth+updated%3A2024-05-16..2024-05-31&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-16..2024-05-31&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2024-05-16..2024-05-31&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-16..2024-05-31&type=Issues) | [@martinRenou](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2024-05-16..2024-05-31&type=Issues)
+
+## 7.2
+
+Jupyter Notebook 7.2 is based on JupyterLab 4.2, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-0-to-4-1) which lists deprecations and changes to the public API.
+
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.2, although they are not all supported in Notebook 7.2.
+
+For reference you may have a look at the JupyterLab 4.2 changelog to learn more: https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-2
+
+### Full notebook windowing mode by default
+
+Notebooks in the `full` windowing mode only render the visible cells, significantly improving the performance of the application. One limitation of `full` mode is that the search function in your browser may produce false negatives; using the search function is recommended. To revert to the behaviour from Notebook 7.2, go to Settings → Settings Editor → Notebook, scroll to “Windowing mode”, and choose `defer`.
+
+### Improved Shortcuts Editor
+
+Among the numerous improvements and bug fixes for the keyboard shortcuts editor:
+
+- it is now possible to remove the default shortcuts,
+- shortcuts are correctly sorted when using a language pack,
+- shortcuts with different arguments are now correctly displayed as individual entries.
+
+<img alt="A context menu opened over a keybinding in the Keyboard Shortcuts setting panel within the Settings widget" class="jp-screenshot" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.2-delete-shortcut.png">
+
+### Dark high contrast theme
+
+A new theme, JupyterLab Dark High Contrast, which is intended to benefit users with the need for higher contrast, following the WCAG AAA accessibility standard for color contrast. To select this theme, from the menu bar, choose Settings → Theme → JupyterLab Dark High Contrast. Please provide feedback and suggestions on further improvements to this theme.
+
+<img alt="A dark high contrast theme" class="jp-screenshot" src="https://github.com/jupyter/notebook/assets/591645/9a1678fe-9b4d-41ad-8764-75fdc7c84071">
+
+## 7.2.0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.1.2...31bf294e85175bbf39816a90dc8858dedaf73bde))
+
+### Enhancements made
+
+- Update to JupyterLab 4.2.0 [#7357](https://github.com/jupyter/notebook/pull/7357) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.2.0rc0 [#7333](https://github.com/jupyter/notebook/pull/7333) ([@jtpio](https://github.com/jtpio))
+- Add `@jupyterlab/theme-dark-high-contrast-extension` [#7331](https://github.com/jupyter/notebook/pull/7331) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.2.0a2 [#7307](https://github.com/jupyter/notebook/pull/7307) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Add the `@jupyterlab/notebook-extension:copy-output` plugin [#7353](https://github.com/jupyter/notebook/pull/7353) ([@jtpio](https://github.com/jtpio))
+- Fix CSS for `full` windowing mode [#7337](https://github.com/jupyter/notebook/pull/7337) ([@jtpio](https://github.com/jtpio))
+- Force notebook windowing mode to `defer` [#7335](https://github.com/jupyter/notebook/pull/7335) ([@jtpio](https://github.com/jtpio))
+- Fix scrollbar always showing up by default [#7327](https://github.com/jupyter/notebook/pull/7327) ([@jtpio](https://github.com/jtpio))
+- Default to the `full` windowing mode [#7321](https://github.com/jupyter/notebook/pull/7321) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Fix emoji in create issue screen [#7363](https://github.com/jupyter/notebook/pull/7363) ([@JasonWeill](https://github.com/JasonWeill))
+- Update `@jupyterlab/galata` [#7361](https://github.com/jupyter/notebook/pull/7361) ([@jtpio](https://github.com/jtpio))
+- Pin on `macos-12` on CI for now [#7346](https://github.com/jupyter/notebook/pull/7346) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab `4.2.0b1` [#7319](https://github.com/jupyter/notebook/pull/7319) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.2.0b0 [#7312](https://github.com/jupyter/notebook/pull/7312) ([@jtpio](https://github.com/jtpio))
+- Ignore links to GitHub user and organisation profiles [#7308](https://github.com/jupyter/notebook/pull/7308) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Add user facing changelog for 7.2 [#7372](https://github.com/jupyter/notebook/pull/7372) ([@jtpio](https://github.com/jtpio))
+- Fix emoji in create issue screen [#7363](https://github.com/jupyter/notebook/pull/7363) ([@JasonWeill](https://github.com/JasonWeill))
+- update RISE extension installation instructions [#7299](https://github.com/jupyter/notebook/pull/7299) ([@afeld](https://github.com/afeld))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-03-14&to=2024-05-16&type=c))
+
+[@afeld](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafeld+updated%3A2024-03-14..2024-05-16&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-03-14..2024-05-16&type=Issues) | [@JasonWeill](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AJasonWeill+updated%3A2024-03-14..2024-05-16&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-03-14..2024-05-16&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-03-14..2024-05-16&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-03-14..2024-05-16&type=Issues) | [@takluyver](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atakluyver+updated%3A2024-03-14..2024-05-16&type=Issues)
+
+## 7.2.0rc1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.2.0rc0...f5d8aea3bdc3eea25213792f9d101738f2a1f627))
+
+### Enhancements made
+
+- Update to JupyterLab 4.2.0 [#7357](https://github.com/jupyter/notebook/pull/7357) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Add the `@jupyterlab/notebook-extension:copy-output` plugin [#7353](https://github.com/jupyter/notebook/pull/7353) ([@jtpio](https://github.com/jtpio))
+- Default to the `full` windowing mode [#7321](https://github.com/jupyter/notebook/pull/7321) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- update RISE extension installation instructions [#7299](https://github.com/jupyter/notebook/pull/7299) ([@afeld](https://github.com/afeld))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-05-01&to=2024-05-13&type=c))
+
+[@afeld](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aafeld+updated%3A2024-05-01..2024-05-13&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-05-01..2024-05-13&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-05-01..2024-05-13&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-05-01..2024-05-13&type=Issues) | [@takluyver](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atakluyver+updated%3A2024-05-01..2024-05-13&type=Issues)
+
+## 7.2.0rc0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.2.0b1...49ddd0fe1e4d4bfa24f74042f2232c5b91d1c36e))
+
+### Enhancements made
+
+- Update to JupyterLab 4.2.0rc0 [#7333](https://github.com/jupyter/notebook/pull/7333) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Fix CSS for `full` windowing mode [#7337](https://github.com/jupyter/notebook/pull/7337) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Pin on `macos-12` on CI for now [#7346](https://github.com/jupyter/notebook/pull/7346) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-04-19&to=2024-05-01&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-04-19..2024-05-01&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-04-19..2024-05-01&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-04-19..2024-05-01&type=Issues)
+
+## 7.2.0b1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.2.0-beta.0...b45d666d5ee1ee053b55ac9cb6e9aecde5d53945))
+
+### Enhancements made
+
+- Add `@jupyterlab/theme-dark-high-contrast-extension` [#7331](https://github.com/jupyter/notebook/pull/7331) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Force notebook windowing mode to `defer` [#7335](https://github.com/jupyter/notebook/pull/7335) ([@jtpio](https://github.com/jtpio))
+- Fix scrollbar always showing up by default [#7327](https://github.com/jupyter/notebook/pull/7327) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-04-12&to=2024-04-19&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-04-12..2024-04-19&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-04-12..2024-04-19&type=Issues) | [@RRosio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARRosio+updated%3A2024-04-12..2024-04-19&type=Issues)
+
+## 7.2.0b0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.2.0-alpha.0...09bcd99e6dfffce92acc9a7f9d11a2a2122131c0))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab `4.2.0b1` [#7319](https://github.com/jupyter/notebook/pull/7319) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.2.0b0 [#7312](https://github.com/jupyter/notebook/pull/7312) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-03-29&to=2024-04-12&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-03-29..2024-04-12&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-03-29..2024-04-12&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2024-03-29..2024-04-12&type=Issues)
+
+## 7.2.0a0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.1.2...80b582bce69e33e36e936af2ea981bcb22a4d285))
+
+### Enhancements made
+
+- Update to JupyterLab 4.2.0a2 [#7307](https://github.com/jupyter/notebook/pull/7307) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Ignore links to GitHub user and organisation profiles [#7308](https://github.com/jupyter/notebook/pull/7308) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-03-14&to=2024-03-29&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-03-14..2024-03-29&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-03-14..2024-03-29&type=Issues)
+
+## v7.1
+
+Jupyter Notebook 7.1 is based on JupyterLab 4.1, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-0-to-4-1) which lists deprecations and changes to the public API.
+
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.1, although they are not all supported in Notebook 7.1.
+
+For reference you may have a look at the JupyterLab 4.1 changelog to learn more: https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-1
+
+### Diagrams in Markdown
+
+Matching GitHub-Flavoured Markdown, JupyterLab 4.1 now supports [Mermaid](https://github.com/mermaid-js/mermaid) diagrams.
+To create a mermaid diagram use the `mermaid` language specifier for a code block in a markdown cell or document, for example:
+
+~~~
+```mermaid
+flowchart LR
+
+A[Hard] -->|Text| B(Round)
+B --> C{Decision}
+C -->|One| D[Result 1]
+C -->|Two| E[Result 2]
+```
+~~~
+
+which renders as:
+
+<img alt="Rendered Mermaid diagram going from left to right with modern look; the diagram contains blueish square node with text Hard pointing to round square node with text Round; over the arrow connecting the two nodes there is a word Text; the second node further connects to a rhombus-shaped node with text Decision which then connects to two further nodes, Result 1 and Result 2." src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.1-merimad-diagram.png" class="jp-screenshot">
+
+### Inline completer
+
+JupyterLab now supports completion presented as ghost text in the cell and file editors,
+allowing generative AI models to provide multi-line completions. This can now also be leveraged in Jupyter Notebook.
+
+The suggestions are provided by plugins implementing the ``IInlineCompletionProvider`` API;
+by default a single provider which uses kernel history is available.
+
+<img alt="In a code cell with `def fac` content a ghost text containing a suggestion representing further code of factorial function is shown; over the code cell there is a floating widget allowing to accept the suggestion and iterate between alternative suggestions" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.1-inline-completer.png" class="jp-screenshot">
+
+The suggestions can be invoked as-you-type or manually using a configurable shortcut (by default <kbd>Alt</kbd> + <kbd>\\</kbd>).
+The default keyboard shortcuts are displayed in the small widget shown when hovering over the ghost suggestion:
+- <kbd>Alt</kbd> + <kbd>End</kbd> - accept suggestion
+- <kbd>Alt</kbd> + <kbd>[</kbd> - previous suggestion
+- <kbd>Alt</kbd> + <kbd>]</kbd> - next suggestion
+
+To enable the inline suggestions based on the kernel history, go to Settings → Inline Completer → History provider → check the "enabled" checkbox.
+
+In addition to the built-in history suggestions,
+the [`jupyter-ai`](https://github.com/jupyterlab/jupyter-ai) extension will provide
+suggestions from supported models.
+
+Note that the Jupyter AI extension is not yet compatible with Jupyter Notebook 7.
+
+### Keyboard navigation improvements
+
+Numerous improvements to keyboard navigation with focus on accessibility and usability are included in this release:
+- the notebook cells now retain focus
+- the focus can now be moved beyond the active notebook
+- the toolbars can now be navigated using arrow keys
+
+For more details, see [this post on Jupyter Blog](https://blog.jupyter.org/recent-keyboard-navigation-improvements-in-jupyter-4df32f97628d).
+
+### Execution history in notebook
+
+The code from previously executed cells can be used to populate empty cells,
+allowing to iterate on code from previous cells or even sessions
+(depending on how a specific kernel stores history).
+
+To cycle between history items press <kbd>Alt</kbd> + <kbd>Arrow Up</kbd> and  <kbd>Alt</kbd> + <kbd>Arrow Down</kbd>.
+
+To enable execution history, go to Settings → Notebook → check the "Kernel history access" checkbox.
+
+This feature was already available in the console in previous releases; it only works with kernels supporting execution history requests.
+To clear the execution history consult the documentation of the kernel you are using (e.g., IPython/ipykernel).
+
+### Error indicator in the table of contents
+
+When a cell fails during execution, an error indicator will be displayed by the corresponding heading,
+increasing awareness of the notebook state and enabling users to quickly navigate to the cell which requires attention.
+
+<img alt="Error indicator in the shape of a triangle with exclamation sign (using ⚠ UTF character) shown next to one of the headings in the table of contents panel" src="https://raw.githubusercontent.com/jupyterlab/jupyterlab/main/docs/source/getting_started/changelog_assets/4.1-toc-error-indicator.png" class="jp-screenshot">
+
+### Search improvements
+
+- The search box will now grow automatically to accommodate longer text
+- Search in selection can now be toggled using <kbd>Alt</kbd> + <kbd>L</kbd> and automatic search in selection can be configured in settings
+- Tooltips with shortcuts were added to the buttons in the search box to improve discoverability of the shortcuts
+
+### Miscellaneous
+
+- The current theme (dark/light) can now be synced with the browser/system preference (Settings menu → Theme → Synchronise with System Settings)
+- A blue "read-only" status indicator is now  displayed in the toolbar of documents which cannot be saved because their model is read-only.
+- Native support for viewing jsonl/ndjson files was added
+- Collapsing of breadcrumbs in the File Browser can be disabled in File Browser settings
+
+## 7.1.2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.1.1...ca41222a9c8d75356c6d67d3bd36e34d71cce2d8))
+
+### Maintenance and upkeep improvements
+
+- Update Release Scripts [#7295](https://github.com/jupyter/notebook/pull/7295) ([@blink1073](https://github.com/blink1073))
+- Fix jupyterlab install command in the releaser hook [#7294](https://github.com/jupyter/notebook/pull/7294) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.1.5 packages [#7291](https://github.com/jupyter/notebook/pull/7291) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Add a section to use local dependencies [#7292](https://github.com/jupyter/notebook/pull/7292) ([@brichet](https://github.com/brichet))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-02-26&to=2024-03-14&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2024-02-26..2024-03-14&type=Issues) | [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2024-02-26..2024-03-14&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-02-26..2024-03-14&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-02-26..2024-03-14&type=Issues)
+
+## 7.1.1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.1.0...da7b8d400e96ceff0eec834badd891bc5d5f154d))
+
+### Bugs fixed
+
+- Grayout "Edit Notebook Metadata" for other file formats.  [#7265](https://github.com/jupyter/notebook/pull/7265) ([@itsmevichu](https://github.com/itsmevichu))
+
+### Maintenance and upkeep improvements
+
+- Fix flaky mobile UI tests [#7278](https://github.com/jupyter/notebook/pull/7278) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.1.2 packages [#7277](https://github.com/jupyter/notebook/pull/7277) ([@jtpio](https://github.com/jtpio))
+- Ignore stackoverflow link [#7274](https://github.com/jupyter/notebook/pull/7274) ([@jtpio](https://github.com/jtpio))
+- Expose `version_info` [#7273](https://github.com/jupyter/notebook/pull/7273) ([@jtpio](https://github.com/jtpio))
+- Bump ip from 2.0.0 to 2.0.1 in /ui-tests [#7268](https://github.com/jupyter/notebook/pull/7268) ([@dependabot](https://github.com/dependabot))
+- Bump ip from 2.0.0 to 2.0.1 [#7267](https://github.com/jupyter/notebook/pull/7267) ([@dependabot](https://github.com/dependabot))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-02-13&to=2024-02-26&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2024-02-13..2024-02-26&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-02-13..2024-02-26&type=Issues) | [@itsmevichu](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aitsmevichu+updated%3A2024-02-13..2024-02-26&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-02-13..2024-02-26&type=Issues)
+
+## 7.1.0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.0.6...b8ec7e4a8eda70a8d7dca19799acd3e96e019160))
+
+### Enhancements made
+
+- Create a new notebook with a specific kernel from the new dropdown [#7255](https://github.com/jupyter/notebook/pull/7255) ([@jtpio](https://github.com/jtpio))
+- Add the plugin manager [#7198](https://github.com/jupyter/notebook/pull/7198) ([@jtpio](https://github.com/jtpio))
+- Fix toggle functionality for widgets. [#7178](https://github.com/jupyter/notebook/pull/7178) ([@haok1402](https://github.com/haok1402))
+- Bump to JupyterLab 4.1.0a4 bis [#7172](https://github.com/jupyter/notebook/pull/7172) ([@brichet](https://github.com/brichet))
+- Update to JupyterLab `4.1.0a3` [#7161](https://github.com/jupyter/notebook/pull/7161) ([@jtpio](https://github.com/jtpio))
+- Added Lumino Plugin Description (#7008) [#7127](https://github.com/jupyter/notebook/pull/7127) ([@Dilip-Jain](https://github.com/Dilip-Jain))
+- Added Edit Notebook Metadata Option (#6402) [#7099](https://github.com/jupyter/notebook/pull/7099) ([@Dilip-Jain](https://github.com/Dilip-Jain))
+- Update to JupyterLab 4.1 [#7096](https://github.com/jupyter/notebook/pull/7096) ([@jtpio](https://github.com/jtpio))
+- Add the JupyterLab resources plugin [#6968](https://github.com/jupyter/notebook/pull/6968) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Fix spurious kernel selection dialog on notebook creation [#7258](https://github.com/jupyter/notebook/pull/7258) ([@jtpio](https://github.com/jtpio))
+- Workaround for the file browser tracker focus issue [#7224](https://github.com/jupyter/notebook/pull/7224) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab 4.1.1 [#7256](https://github.com/jupyter/notebook/pull/7256) ([@jtpio](https://github.com/jtpio))
+- Follow JupyterLab minor versions [#7250](https://github.com/jupyter/notebook/pull/7250) ([@jtpio](https://github.com/jtpio))
+- chore: update pre-commit hooks [#7237](https://github.com/jupyter/notebook/pull/7237) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Update to JupyterLab 4.1.0 final [#7234](https://github.com/jupyter/notebook/pull/7234) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.1.0rc1 [#7230](https://github.com/jupyter/notebook/pull/7230) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.1.0rc0 [#7227](https://github.com/jupyter/notebook/pull/7227) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.1.0b2 [#7222](https://github.com/jupyter/notebook/pull/7222) ([@jtpio](https://github.com/jtpio))
+- Fix `check_links` on CI [#7219](https://github.com/jupyter/notebook/pull/7219) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 1 update [#7218](https://github.com/jupyter/notebook/pull/7218) ([@dependabot](https://github.com/dependabot))
+- Bump the actions group with 2 updates [#7207](https://github.com/jupyter/notebook/pull/7207) ([@dependabot](https://github.com/dependabot))
+- chore: update pre-commit hooks [#7206](https://github.com/jupyter/notebook/pull/7206) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Add nbviewer.jupyter.org to the ignore list [#7197](https://github.com/jupyter/notebook/pull/7197) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.1.0b0 [#7196](https://github.com/jupyter/notebook/pull/7196) ([@jtpio](https://github.com/jtpio))
+- Update ruff config [#7190](https://github.com/jupyter/notebook/pull/7190) ([@blink1073](https://github.com/blink1073))
+- Bump @babel/traverse from 7.23.0 to 7.23.6 [#7187](https://github.com/jupyter/notebook/pull/7187) ([@dependabot](https://github.com/dependabot))
+- Bump actions/setup-python from 4 to 5 [#7180](https://github.com/jupyter/notebook/pull/7180) ([@dependabot](https://github.com/dependabot))
+- Update publish-release workflow for PyPI trusted publisher [#7176](https://github.com/jupyter/notebook/pull/7176) ([@jtpio](https://github.com/jtpio))
+- chore: update pre-commit hooks [#7174](https://github.com/jupyter/notebook/pull/7174) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Update `yarn.lock` [#7170](https://github.com/jupyter/notebook/pull/7170) ([@jtpio](https://github.com/jtpio))
+- Bump axios from 1.5.1 to 1.6.2 [#7165](https://github.com/jupyter/notebook/pull/7165) ([@dependabot](https://github.com/dependabot))
+- Bump dessant/lock-threads from 4 to 5 [#7159](https://github.com/jupyter/notebook/pull/7159) ([@dependabot](https://github.com/dependabot))
+- Update ruff config and typing [#7145](https://github.com/jupyter/notebook/pull/7145) ([@blink1073](https://github.com/blink1073))
+- chore: update pre-commit hooks [#7143](https://github.com/jupyter/notebook/pull/7143) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Clean up lint handling [#7142](https://github.com/jupyter/notebook/pull/7142) ([@blink1073](https://github.com/blink1073))
+- Adopt ruff format [#7132](https://github.com/jupyter/notebook/pull/7132) ([@blink1073](https://github.com/blink1073))
+- Fix python bumping to `minor` [#7131](https://github.com/jupyter/notebook/pull/7131) ([@jtpio](https://github.com/jtpio))
+- Add Python 3.12 classifier [#7111](https://github.com/jupyter/notebook/pull/7111) ([@jtpio](https://github.com/jtpio))
+- Remove viewport workaround in the UI tests [#6887](https://github.com/jupyter/notebook/pull/6887) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Add documentation for updating `notebook` imports [#7244](https://github.com/jupyter/notebook/pull/7244) ([@jtpio](https://github.com/jtpio))
+- Fix link in `CONTRIBUTING.md` [#7235](https://github.com/jupyter/notebook/pull/7235) ([@jtpio](https://github.com/jtpio))
+- Add user facing changelog for 7.1 [#7232](https://github.com/jupyter/notebook/pull/7232) ([@jtpio](https://github.com/jtpio))
+- Clarify README about supported versions (post v7 release) [#7193](https://github.com/jupyter/notebook/pull/7193) ([@akx](https://github.com/akx))
+- Set `navigation_with_keys` to `False` [#7129](https://github.com/jupyter/notebook/pull/7129) ([@jtpio](https://github.com/jtpio))
+- Updated ui-tests Configuration in Contributing.md [#7124](https://github.com/jupyter/notebook/pull/7124) ([@jayeshsingh9767](https://github.com/jayeshsingh9767))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-10-17&to=2024-02-13&type=c))
+
+[@akx](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aakx+updated%3A2023-10-17..2024-02-13&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2023-10-17..2024-02-13&type=Issues) | [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2023-10-17..2024-02-13&type=Issues) | [@d5423197](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ad5423197+updated%3A2023-10-17..2024-02-13&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-10-17..2024-02-13&type=Issues) | [@Dilip-Jain](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ADilip-Jain+updated%3A2023-10-17..2024-02-13&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-10-17..2024-02-13&type=Issues) | [@haok1402](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahaok1402+updated%3A2023-10-17..2024-02-13&type=Issues) | [@jayeshsingh9767](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajayeshsingh9767+updated%3A2023-10-17..2024-02-13&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-10-17..2024-02-13&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2023-10-17..2024-02-13&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-10-17..2024-02-13&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2023-10-17..2024-02-13&type=Issues)
+
+## 7.1.0rc1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.1.0rc0...376a2f97c883e6e91f321d0a676e1ee9ff3b8d87))
+
+### Maintenance and upkeep improvements
+
+- Follow JupyterLab minor versions [#7250](https://github.com/jupyter/notebook/pull/7250) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Add documentation for updating `notebook` imports [#7244](https://github.com/jupyter/notebook/pull/7244) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-02-07&to=2024-02-09&type=c))
+
+[@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-02-07..2024-02-09&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-02-07..2024-02-09&type=Issues)
+
+## 7.1.0rc0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.1.0b0...2d717f5896a1d4310baa2499c7e6197d1914201d))
+
+### Enhancements made
+
+- Added Edit Notebook Metadata Option (#6402) [#7099](https://github.com/jupyter/notebook/pull/7099) ([@Dilip-Jain](https://github.com/Dilip-Jain))
+
+### Maintenance and upkeep improvements
+
+- chore: update pre-commit hooks [#7237](https://github.com/jupyter/notebook/pull/7237) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Update to JupyterLab 4.1.0 final [#7234](https://github.com/jupyter/notebook/pull/7234) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.1.0rc1 [#7230](https://github.com/jupyter/notebook/pull/7230) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.1.0rc0 [#7227](https://github.com/jupyter/notebook/pull/7227) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Fix link in `CONTRIBUTING.md` [#7235](https://github.com/jupyter/notebook/pull/7235) ([@jtpio](https://github.com/jtpio))
+- Add user facing changelog for 7.1 [#7232](https://github.com/jupyter/notebook/pull/7232) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2024-01-26&to=2024-02-07&type=c))
+
+[@Dilip-Jain](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ADilip-Jain+updated%3A2024-01-26..2024-02-07&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2024-01-26..2024-02-07&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2024-01-26..2024-02-07&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2024-01-26..2024-02-07&type=Issues)
+
+## 7.1.0b0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.1.0a2...5d265b90ed5f097af4ca22d283ecdc705229ff92))
+
+### Bugs fixed
+
+- Workaround for the file browser tracker focus issue [#7224](https://github.com/jupyter/notebook/pull/7224) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab 4.1.0b2 [#7222](https://github.com/jupyter/notebook/pull/7222) ([@jtpio](https://github.com/jtpio))
+- Fix `check_links` on CI [#7219](https://github.com/jupyter/notebook/pull/7219) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 1 update [#7218](https://github.com/jupyter/notebook/pull/7218) ([@dependabot](https://github.com/dependabot))
+- Bump the actions group with 2 updates [#7207](https://github.com/jupyter/notebook/pull/7207) ([@dependabot](https://github.com/dependabot))
+- chore: update pre-commit hooks [#7206](https://github.com/jupyter/notebook/pull/7206) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-12-27&to=2024-01-26&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-12-27..2024-01-26&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-12-27..2024-01-26&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-12-27..2024-01-26&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-12-27..2024-01-26&type=Issues) | [@Zsailer](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AZsailer+updated%3A2023-12-27..2024-01-26&type=Issues)
+
+## 7.1.0a2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/v7.1.0a1...251e0e360603b6e63b280b3bd04a5406f7da28da))
+
+### Enhancements made
+
+- Add the plugin manager [#7198](https://github.com/jupyter/notebook/pull/7198) ([@jtpio](https://github.com/jtpio))
+- Fix toggle functionality for widgets. [#7178](https://github.com/jupyter/notebook/pull/7178) ([@haok1402](https://github.com/haok1402))
+
+### Maintenance and upkeep improvements
+
+- Add nbviewer.jupyter.org to the ignore list [#7197](https://github.com/jupyter/notebook/pull/7197) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab 4.1.0b0 [#7196](https://github.com/jupyter/notebook/pull/7196) ([@jtpio](https://github.com/jtpio))
+- Update ruff config [#7190](https://github.com/jupyter/notebook/pull/7190) ([@blink1073](https://github.com/blink1073))
+- Bump @babel/traverse from 7.23.0 to 7.23.6 [#7187](https://github.com/jupyter/notebook/pull/7187) ([@dependabot](https://github.com/dependabot))
+- Bump actions/setup-python from 4 to 5 [#7180](https://github.com/jupyter/notebook/pull/7180) ([@dependabot](https://github.com/dependabot))
+- Update publish-release workflow for PyPI trusted publisher [#7176](https://github.com/jupyter/notebook/pull/7176) ([@jtpio](https://github.com/jtpio))
+- chore: update pre-commit hooks [#7174](https://github.com/jupyter/notebook/pull/7174) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Remove viewport workaround in the UI tests [#6887](https://github.com/jupyter/notebook/pull/6887) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Clarify README about supported versions (post v7 release) [#7193](https://github.com/jupyter/notebook/pull/7193) ([@akx](https://github.com/akx))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-12-04&to=2023-12-27&type=c))
+
+[@akx](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aakx+updated%3A2023-12-04..2023-12-27&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2023-12-04..2023-12-27&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-12-04..2023-12-27&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-12-04..2023-12-27&type=Issues) | [@haok1402](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ahaok1402+updated%3A2023-12-04..2023-12-27&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-12-04..2023-12-27&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-12-04..2023-12-27&type=Issues)
+
+## 7.1.0a1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.1.0-alpha.0...a74cd91871fcc6037d384fe59af8986557e783e5))
+
+### Enhancements made
+
+- Bump to JupyterLab 4.1.0a4 bis [#7172](https://github.com/jupyter/notebook/pull/7172) ([@brichet](https://github.com/brichet))
+- Update to JupyterLab `4.1.0a3` [#7161](https://github.com/jupyter/notebook/pull/7161) ([@jtpio](https://github.com/jtpio))
+- Add the JupyterLab resources plugin [#6968](https://github.com/jupyter/notebook/pull/6968) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update `yarn.lock` [#7170](https://github.com/jupyter/notebook/pull/7170) ([@jtpio](https://github.com/jtpio))
+- Bump axios from 1.5.1 to 1.6.2 [#7165](https://github.com/jupyter/notebook/pull/7165) ([@dependabot](https://github.com/dependabot))
+- Bump dessant/lock-threads from 4 to 5 [#7159](https://github.com/jupyter/notebook/pull/7159) ([@dependabot](https://github.com/dependabot))
+- Update ruff config and typing [#7145](https://github.com/jupyter/notebook/pull/7145) ([@blink1073](https://github.com/blink1073))
+- chore: update pre-commit hooks [#7143](https://github.com/jupyter/notebook/pull/7143) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Clean up lint handling [#7142](https://github.com/jupyter/notebook/pull/7142) ([@blink1073](https://github.com/blink1073))
+- Adopt ruff format [#7132](https://github.com/jupyter/notebook/pull/7132) ([@blink1073](https://github.com/blink1073))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-10-27&to=2023-12-04&type=c))
+
+[@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2023-10-27..2023-12-04&type=Issues) | [@brichet](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2023-10-27..2023-12-04&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-10-27..2023-12-04&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-10-27..2023-12-04&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-10-27..2023-12-04&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2023-10-27..2023-12-04&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-10-27..2023-12-04&type=Issues)
+
+## 7.1.0a0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.0.6...0cd6104b926a398b419f2433538cef437592796f))
+
+### Enhancements made
+
+- Added Lumino Plugin Description (#7008) [#7127](https://github.com/jupyter/notebook/pull/7127) ([@Dilip-Jain](https://github.com/Dilip-Jain))
+- Update to JupyterLab 4.1 [#7096](https://github.com/jupyter/notebook/pull/7096) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Fix python bumping to `minor` [#7131](https://github.com/jupyter/notebook/pull/7131) ([@jtpio](https://github.com/jtpio))
+- Add Python 3.12 classifier [#7111](https://github.com/jupyter/notebook/pull/7111) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Set `navigation_with_keys` to `False` [#7129](https://github.com/jupyter/notebook/pull/7129) ([@jtpio](https://github.com/jtpio))
+- Updated ui-tests Configuration in Contributing.md [#7124](https://github.com/jupyter/notebook/pull/7124) ([@jayeshsingh9767](https://github.com/jayeshsingh9767))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-10-17&to=2023-10-27&type=c))
+
+[@Dilip-Jain](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ADilip-Jain+updated%3A2023-10-17..2023-10-27&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-10-17..2023-10-27&type=Issues) | [@jayeshsingh9767](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajayeshsingh9767+updated%3A2023-10-17..2023-10-27&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-10-17..2023-10-27&type=Issues)
+
+## v7.0
+
+## 7.0.6
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/app@7.0.5...c62caffb02856737870cbc79a2cdb43b3e89c363))
+
+### Bugs fixed
+
+- Updated fav-icon Base URL from JupyterLab PageConfig. [#7109](https://github.com/jupyter/notebook/pull/7109) ([@jayeshsingh9767](https://github.com/jayeshsingh9767))
+
+### Maintenance and upkeep improvements
+
+- Fix typings [#7110](https://github.com/jupyter/notebook/pull/7110) ([@jtpio](https://github.com/jtpio))
+- Bump postcss from 8.4.27 to 8.4.31 [#7089](https://github.com/jupyter/notebook/pull/7089) ([@dependabot](https://github.com/dependabot))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-10-12&to=2023-10-17&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-10-12..2023-10-17&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-10-12..2023-10-17&type=Issues) | [@jayeshsingh9767](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajayeshsingh9767+updated%3A2023-10-12..2023-10-17&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-10-12..2023-10-17&type=Issues)
+
+## 7.0.5
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/app@7.0.4...839193d07f0780ded6f559892517f061f3776b02))
+
+### Enhancements made
+
+- Update to JupyterLab 4.0.7 [#7103](https://github.com/jupyter/notebook/pull/7103) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update `permissions` in the galata snapshot workflow [#7105](https://github.com/jupyter/notebook/pull/7105) ([@jtpio](https://github.com/jtpio))
+- Fix typings check on CI [#7104](https://github.com/jupyter/notebook/pull/7104) ([@jtpio](https://github.com/jtpio))
+- Ignore yarn.lock for codespell [#7098](https://github.com/jupyter/notebook/pull/7098) ([@jtpio](https://github.com/jtpio))
+- Remove link to the PDF documentation [#7094](https://github.com/jupyter/notebook/pull/7094) ([@jtpio](https://github.com/jtpio))
+- Bump postcss from 8.4.23 to 8.4.31 in /ui-tests [#7088](https://github.com/jupyter/notebook/pull/7088) ([@dependabot](https://github.com/dependabot))
+- React to the galata update comment [#7086](https://github.com/jupyter/notebook/pull/7086) ([@jtpio](https://github.com/jtpio))
+- Switch from `hub` to `gh` in the Playwright snapshots update workflow [#7085](https://github.com/jupyter/notebook/pull/7085) ([@jtpio](https://github.com/jtpio))
+- chore: update pre-commit hooks [#7084](https://github.com/jupyter/notebook/pull/7084) ([@pre-commit-ci](https://github.com/pre-commit-ci))
+- Fix traitlets typing [#7082](https://github.com/jupyter/notebook/pull/7082) ([@jtpio](https://github.com/jtpio))
+- Bump toshimaru/auto-author-assign from 2.0.0 to 2.0.1 [#7080](https://github.com/jupyter/notebook/pull/7080) ([@dependabot](https://github.com/dependabot))
+- Bump toshimaru/auto-author-assign from 1.6.2 to 2.0.0 [#7072](https://github.com/jupyter/notebook/pull/7072) ([@dependabot](https://github.com/dependabot))
+- ci: set minimal permissions to workflows [#7070](https://github.com/jupyter/notebook/pull/7070) ([@diogoteles08](https://github.com/diogoteles08))
+- Bump systeminformation from 5.17.12 to 5.21.8 in /ui-tests [#7064](https://github.com/jupyter/notebook/pull/7064) ([@dependabot](https://github.com/dependabot))
+
+### Documentation improvements
+
+- Improve docs setup (SVG logos, repo links) [#7074](https://github.com/jupyter/notebook/pull/7074) ([@krassowski](https://github.com/krassowski))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-09-20&to=2023-10-12&type=c))
+
+[@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-09-20..2023-10-12&type=Issues) | [@diogoteles08](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adiogoteles08+updated%3A2023-09-20..2023-10-12&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-09-20..2023-10-12&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-09-20..2023-10-12&type=Issues) | [@krassowski](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2023-09-20..2023-10-12&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-09-20..2023-10-12&type=Issues)
+
+## 7.0.4
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/app@7.0.3...0e62386fc71ed4bd424c989f9d5493ca346f1d9a))
+
+### Enhancements made
+
+- Update to JupyterLab 4.0.6 [#7049](https://github.com/jupyter/notebook/pull/7049) ([@jtpio](https://github.com/jtpio))
+
+### Bugs fixed
+
+- Fix `app_version` [#7061](https://github.com/jupyter/notebook/pull/7061) ([@jtpio](https://github.com/jtpio))
+- fix trusted status indication [#7036](https://github.com/jupyter/notebook/pull/7036) ([@adigaboy](https://github.com/adigaboy))
+
+### Maintenance and upkeep improvements
+
+- Update Binder environment [#7059](https://github.com/jupyter/notebook/pull/7059) ([@jtpio](https://github.com/jtpio))
+- Add `deduplicate` top-level script [#7058](https://github.com/jupyter/notebook/pull/7058) ([@jtpio](https://github.com/jtpio))
+- Move opening path in new browser tabs to a separate plugin [#7056](https://github.com/jupyter/notebook/pull/7056) ([@jtpio](https://github.com/jtpio))
+- Enable the Playwright trace [#7050](https://github.com/jupyter/notebook/pull/7050) ([@jtpio](https://github.com/jtpio))
+- Bump actions/checkout from 3 to 4 [#7040](https://github.com/jupyter/notebook/pull/7040) ([@dependabot](https://github.com/dependabot))
+- Adopt sp-repo-review [#7039](https://github.com/jupyter/notebook/pull/7039) ([@blink1073](https://github.com/blink1073))
+- Add `datetime.datetime.utc()` to the filter list [#7037](https://github.com/jupyter/notebook/pull/7037) ([@jtpio](https://github.com/jtpio))
+- Fix docs build on Gitpod [#7026](https://github.com/jupyter/notebook/pull/7026) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-08-30&to=2023-09-20&type=c))
+
+[@adigaboy](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aadigaboy+updated%3A2023-08-30..2023-09-20&type=Issues) | [@blink1073](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ablink1073+updated%3A2023-08-30..2023-09-20&type=Issues) | [@dependabot](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adependabot+updated%3A2023-08-30..2023-09-20&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-08-30..2023-09-20&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-08-30..2023-09-20&type=Issues) | [@pre-commit-ci](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Apre-commit-ci+updated%3A2023-08-30..2023-09-20&type=Issues)
 
 ## 7.0.3
 
@@ -37,8 +1629,6 @@ Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2023-08-04&to=2023-08-30&type=c))
 
 [@bnavigator](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abnavigator+updated%3A2023-08-04..2023-08-30&type=Issues) | [@defjaf](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adefjaf+updated%3A2023-08-04..2023-08-30&type=Issues) | [@frenzymadness](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Afrenzymadness+updated%3A2023-08-04..2023-08-30&type=Issues) | [@github-actions](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agithub-actions+updated%3A2023-08-04..2023-08-30&type=Issues) | [@jtpio](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2023-08-04..2023-08-30&type=Issues) | [@kevin-bates](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akevin-bates+updated%3A2023-08-04..2023-08-30&type=Issues)
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.0.2
 
@@ -373,7 +1963,7 @@ Check out the [JupyterLab `4.0.0a37` release notes](https://github.com/jupyterla
 
 ### Maintenance and upkeep improvements
 
-- Replace the use of `toArray` by `Array.from` [#6775](https://github.com/jupyter/notebook/pull/6775) ([@tarunsamanta2k20](https://github.com/tarunsamanta2k20))
+- Replace the use of `toArray` by `Array.from` [#6775](https://github.com/jupyter/notebook/pull/6775) (`@tarunsamanta2k20`)
 
 ### Contributors to this release
 
@@ -1885,7 +3475,7 @@ installing on Windows ([3220](https://github.com/jupyter/notebook/pull/3220)).
 
 ## 5.3.0
 
-This release introduces a couple noteable improvements, such as terminal
+This release introduces a couple notable improvements, such as terminal
 support for Windows and support for OS trash (files deleted from the
 notebook dashboard are moved to the OS trash vs. deleted permanently).
 
@@ -2115,7 +3705,7 @@ instructions.
   automatically scrubbed from the notebook on save ([621](https://github.com/jupyter/notebook/pull/621)).
 - Undoing cell deletion now supports undeleting multiple cells. Cells
   may not be in the same order as before their deletion, depending on
-  the actions you did on the meantime, but this should should help
+  the actions you did in the meantime, but this should help
   reduce the impact of accidentally deleting code.
 - The file browser now has _Edit_ and _View_ buttons.
 - The file browser now supports moving multiple files at once ([1088](https://github.com/jupyter/notebook/pull/1088)).

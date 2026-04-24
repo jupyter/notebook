@@ -38,3 +38,8 @@
   /* bring logo to the front so it is selectable by tab*/
   z-index: 10;
 }
+
+/* Hide the notification status item */
+.jp-Notification-Status {
+  display: none;
+}

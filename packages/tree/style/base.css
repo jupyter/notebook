@@ -42,7 +42,7 @@
   vertical-align: sub;
 }
 
-button[data-command='filebrowser:refresh'] .jp-ToolbarButtonComponent-label {
+jp-button[data-command='filebrowser:refresh'] .jp-ToolbarButtonComponent-label {
   display: none;
 }
 

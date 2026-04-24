@@ -9,13 +9,14 @@
     "module": "esnext",
     "moduleResolution": "node",
     "noEmitOnError": true,
-    "noImplicitAny": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
     "noUnusedLocals": true,
     "preserveWatchOutput": true,
     "resolveJsonModule": true,
     "strict": true,
-    "strictNullChecks": true,
     "target": "ES2018",
-    "types": []
+    "types": [],
+    "lib": ["DOM", "DOM.Iterable", "ES2018", "ES2020.Intl"]
   }
 }

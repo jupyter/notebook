@@ -135,3 +135,16 @@ ui-tests/playwright-report
 .pnp.*
 ui-tests/.yarn/*
 ui-tests/.pnp.*
+
+# keep potential upstream patches
+!.yarn/patches
+
+# generated html
+notebook/templates/*.html
+
+# pixi environments
+.pixi
+*.egg-info
+
+# Temporary files used for testing
+tmp/

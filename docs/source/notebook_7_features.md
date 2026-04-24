@@ -79,7 +79,7 @@ Notebook 7 and JupyterLab share the same language packs, so it is possible to us
 
 ## Accessibility Improvements
 
-The text editor underlying the Jupyter Notebook (CodeMirror 5) had major accessibility issues. Fortunately, this accessibility bottleneck has been unblocked as JupyterLab has been upgraded to use CodeMirror 6, a complete rewrite of the text editor with a strong focus on accessibility. Although this upgrade required extensive codebase modifications, the changes is available with JupyterLab 4. By being built on top of JupyterLab, Jupyter Notebook 7 directly benefits from the CodeMirror 6 upgrade.
+The text editor underlying the Jupyter Notebook (CodeMirror 5) had major accessibility issues. Fortunately, this accessibility bottleneck has been unblocked as JupyterLab has been upgraded to use CodeMirror 6, a complete rewrite of the text editor with a strong focus on accessibility. Although this upgrade required extensive codebase modifications, the changes are available with JupyterLab 4. By being built on top of JupyterLab, Jupyter Notebook 7 directly benefits from the CodeMirror 6 upgrade.
 
 ## Support for many JupyterLab extensions
 
@@ -110,17 +110,7 @@ However a version compatible with Notebook 7 will be available before the final 
 
 ### RISE
 
-```{warning}
-The RISE extension is still under active development and a version compatible with Notebook 7 is not yet available on PyPI.
-```
-
-The RISE extension is another popular JupyterLab extension that is being ported to work with Notebook 7. It allows you to turn your Jupyter Notebooks into a slideshow.
-
-The extension is still under [active development](https://github.com/jupyterlab-contrib/rise). When ready, it will be possible to install it with `pip`:
-
-```bash
-pip install jupyterlab-rise
-```
+The RISE extension is another popular JupyterLab extension that has been ported to work with Notebook 7. It allows you to turn your Jupyter Notebooks into a slideshow. See the [installation instructions](https://github.com/jupyterlab-contrib/rise#install).
 
 ## A document-centric user experience
 

@@ -5,6 +5,8 @@
 
 import { PageConfig, URLExt } from '@jupyterlab/coreutils';
 
+import { PluginRegistry } from '@lumino/coreutils';
+
 require('./style.js');
 require('./extraStyle.js');
 
@@ -33,7 +35,9 @@ async function loadComponent(url, scope) {
 async function createModule(scope, module) {
   try {
     const factory = await window._JUPYTERLAB[scope].get(module);
-    return factory();
+    const instance = factory();
+    instance.__scope__ = scope;
+    return instance;
   } catch (e) {
     console.warn(
       `Failed to create module: package: ${scope}; module: ${module}`
@@ -79,6 +83,7 @@ async function main() {
 
   // populate the list of disabled extensions
   const disabled = [];
+  const availablePlugins = [];
 
   /**
    * Iterate over active plugins in an extension.
@@ -98,7 +103,18 @@ async function main() {
 
     let plugins = Array.isArray(exports) ? exports : [exports];
     for (let plugin of plugins) {
-      if (PageConfig.Extension.isDisabled(plugin.id)) {
+      const isDisabled = PageConfig.Extension.isDisabled(plugin.id);
+      availablePlugins.push({
+        id: plugin.id,
+        description: plugin.description,
+        requires: plugin.requires ?? [],
+        optional: plugin.optional ?? [],
+        provides: plugin.provides ?? null,
+        autoStart: plugin.autoStart,
+        enabled: !isDisabled,
+        extension: extension.__scope__
+      });
+      if (isDisabled) {
         disabled.push(plugin.id);
         continue;
       }
@@ -199,10 +215,20 @@ async function main() {
   // plugin even if the debugger is only loaded on the notebook page.
   PageConfig.setOption('allPlugins', '{{{ json notebook_plugins }}}');
 
-  const NotebookApp = require('@jupyter-notebook/application').NotebookApp;
-  const app = new NotebookApp({ mimeExtensions });
 
-  app.registerPluginModules(mods);
+  const pluginRegistry = new PluginRegistry();
+  const NotebookApp = require('@jupyter-notebook/application').NotebookApp;
+
+  pluginRegistry.registerPlugins(mods);
+  const IServiceManager = require('@jupyterlab/services').IServiceManager;
+  const serviceManager = await pluginRegistry.resolveRequiredService(IServiceManager);
+
+  const app = new NotebookApp({
+    pluginRegistry,
+    serviceManager,
+    mimeExtensions,
+    availablePlugins
+  });
 
   // Expose global app instance when in dev mode or when toggled explicitly.
   const exposeAppInBrowser =

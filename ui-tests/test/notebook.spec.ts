@@ -3,11 +3,11 @@
 
 import path from 'path';
 
-import { expect } from '@playwright/test';
+import { expect } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
-import { runAndAdvance, waitForKernelReady } from './utils';
+import { waitForNotebook, runAndAdvance, waitForKernelReady } from './utils';
 
 const NOTEBOOK = 'example.ipynb';
 
@@ -70,7 +70,7 @@ test.describe('Notebook', () => {
     );
     await page.goto(`notebooks/${tmpPath}/${notebook}`);
 
-    // wait for the checkpoint indicator to be displayed before exexuting the cells
+    // wait for the checkpoint indicator to be displayed before executing the cells
     await page.waitForSelector('.jp-NotebookCheckpoint');
     await page.click('.jp-Notebook');
 
@@ -174,5 +174,84 @@ test.describe('Notebook', () => {
     await page.keyboard.press('Enter');
 
     expect(page.isClosed());
+  });
+
+  test('Toggle the full width of the notebook', async ({
+    page,
+    browserName,
+    tmpPath,
+  }) => {
+    const notebook = 'simple.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    const menuPath = 'View>Enable Full Width Notebook';
+    await page.menu.clickMenuItem(menuPath);
+
+    const notebookPanel = page.locator('.jp-NotebookPanel').first();
+    await expect(notebookPanel).toHaveClass(/jp-mod-fullwidth/);
+
+    // click to make the blue border around the cell disappear
+    await page.click('.jp-WindowedPanel-outer');
+
+    // wait for the notebook to be ready
+    await waitForNotebook(page, browserName);
+
+    expect(await page.screenshot()).toMatchSnapshot('notebook-full-width.png');
+
+    // undo the full width
+    await page.menu.clickMenuItem(menuPath);
+    await expect(notebookPanel).not.toHaveClass(/jp-mod-fullwidth/);
+  });
+
+  test('Open the log console widget in the down area', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'simple.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    const menuPath = 'View>Show Log Console';
+    await page.menu.clickMenuItem(menuPath);
+
+    await expect(page.locator('.jp-LogConsole')).toBeVisible();
+  });
+
+  test('Toggle cell outputs with the O keyboard shortcut', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'autoscroll.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    await waitForKernelReady(page);
+
+    // Wait for the first cell to be active
+    const firstCell = page.locator('.jp-Cell').first();
+    await expect(firstCell).toHaveClass(/jp-mod-active/);
+
+    // run the two cells
+    await page.keyboard.press('Shift+Enter');
+    await page.keyboard.press('ControlOrMeta+Enter');
+
+    await page.keyboard.press('Escape');
+    await page.keyboard.press('O');
+
+    await page.waitForSelector('.jp-OutputPlaceholder', { state: 'visible' });
+
+    await page.keyboard.press('O');
+
+    await page.waitForSelector('.jp-OutputPlaceholder', { state: 'hidden' });
   });
 });

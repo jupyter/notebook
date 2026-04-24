@@ -14,12 +14,10 @@
   vertical-align: sub;
 }
 
-.jp-nb-interface-switcher-button > .jp-ToolbarButtonComponent {
+.jp-nb-interface-switcher-button > .jp-ToolbarButtonComponent::part(content) {
   flex-direction: row-reverse;
 }
 
-.jp-nb-interface-switcher-button
-  > .jp-ToolbarButtonComponent
-  > .jp-ToolbarButtonComponent-icon {
+.jp-nb-interface-switcher-button > .jp-ToolbarButtonComponent > svg {
   padding-left: 3px;
 }

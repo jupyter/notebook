@@ -1,4 +1,4 @@
-import { expect } from '@playwright/test';
+import { expect } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
@@ -10,8 +10,8 @@ test.describe('Smoke', () => {
   test('Tour', async ({ page, tmpPath }) => {
     // Open the tree page
     await page.goto(`tree/${tmpPath}`);
-    await page.click('text="Running"');
-    await page.click('text="Files"');
+    await page.locator('.jp-TreePanel >> text="Running"').click();
+    await page.locator('.jp-TreePanel >> text="Files"').click();
 
     // Create a new console
     await page.menu.clickMenuItem('New>Console');
@@ -24,16 +24,19 @@ test.describe('Smoke', () => {
     await console.waitForSelector('.jp-CodeConsole');
 
     // Create a new notebook
-    const [notebook] = await Promise.all([
-      page.waitForEvent('popup'),
-      page.click('text="New"'),
-      page.click('text="Notebook"'),
-    ]);
+    const notebookPromise = page.waitForEvent('popup');
+    await page.click('text="New"');
+    await page
+      .locator(
+        '[data-command="notebook:create-new"] >> text="Python 3 (ipykernel)"'
+      )
+      .click();
+    const notebook = await notebookPromise;
 
     try {
       // we may have to select the kernel first
       await notebook.click('text="Select"', { timeout: 5000 });
-    } catch (e) {
+    } catch {
       // The kernel is already selected
     }
 
@@ -71,8 +74,8 @@ math.pi`);
     ]);
 
     // Shut down the kernels
-    await tree2.click('text="Running"');
-    await tree2.click('#main-panel button :text("Shut Down All")');
+    await tree2.locator('.jp-TreePanel >> text="Running"').click();
+    await tree2.click('#main-panel jp-button :text("Shut Down All")');
     await tree2.press('.jp-Dialog', 'Enter');
 
     // Close the pages

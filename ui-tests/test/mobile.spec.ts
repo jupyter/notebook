@@ -1,30 +1,43 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import path from 'path';
-
-import { expect } from '@playwright/test';
+import { expect, galata } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
 import { hideAddCellButton, waitForKernelReady } from './utils';
 
-test.use({ autoGoto: false });
+test.use({
+  autoGoto: false,
+  viewport: { width: 524, height: 800 },
+  // Set a fixed string as Playwright is preventing the unique test name to be too long
+  // and replaces part of the path with a hash
+  tmpPath: 'mobile-layout',
+});
 
 test.describe('Mobile', () => {
+  // manually create the test directory since tmpPath is set to a fixed value
+  test.beforeAll(async ({ request, tmpPath }) => {
+    const contents = galata.newContentsHelper(request);
+    await contents.createDirectory(tmpPath);
+  });
+
+  test.afterAll(async ({ request, tmpPath }) => {
+    const contents = galata.newContentsHelper(request);
+    await contents.deleteDirectory(tmpPath);
+  });
+
   test('The layout should be more compact on the file browser page', async ({
     page,
     tmpPath,
   }) => {
     await page.goto(`tree/${tmpPath}`);
 
-    // temporary workaround to trigger a toolbar resize
-    // TODO: investigate in https://github.com/jupyter/notebook/issues/6553
-    await page.setViewportSize({ width: 524, height: 800 });
-
     await page.waitForSelector('#top-panel-wrapper', { state: 'hidden' });
 
-    expect(await page.screenshot()).toMatchSnapshot('tree.png');
+    expect(await page.screenshot()).toMatchSnapshot('tree.png', {
+      maxDiffPixels: 300,
+    });
   });
 
   test('The layout should be more compact on the notebook page', async ({
@@ -32,30 +45,32 @@ test.describe('Mobile', () => {
     tmpPath,
     browserName,
   }) => {
-    const notebook = 'empty.ipynb';
-    await page.contents.uploadFile(
-      path.resolve(__dirname, `./notebooks/${notebook}`),
-      `${tmpPath}/${notebook}`
-    );
-    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+    await page.goto(`tree/${tmpPath}`);
+
+    // Create a new notebook
+    const notebookPromise = page.waitForEvent('popup');
+    await page.click('text="New"');
+    await page
+      .locator(
+        '[data-command="notebook:create-new"] >> text="Python 3 (ipykernel)"'
+      )
+      .click();
+    const notebook = await notebookPromise;
 
     // wait for the kernel status animations to be finished
-    await waitForKernelReady(page);
-
-    // temporary workaround to trigger a toolbar resize
-    // TODO: investigate in https://github.com/jupyter/notebook/issues/6553
-    await page.setViewportSize({ width: 524, height: 800 });
+    await waitForKernelReady(notebook);
 
     // force switching back to command mode to avoid capturing the cursor in the screenshot
-    await page.evaluate(async () => {
+    await notebook.evaluate(async () => {
       await window.jupyterapp.commands.execute('notebook:enter-command-mode');
     });
 
     // TODO: remove
     if (browserName === 'firefox') {
-      await hideAddCellButton(page);
+      await hideAddCellButton(notebook);
     }
 
-    expect(await page.screenshot()).toMatchSnapshot('notebook.png');
+    expect(await notebook.screenshot()).toMatchSnapshot('notebook.png');
+    await notebook.close();
   });
 });

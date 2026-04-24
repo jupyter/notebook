@@ -5,30 +5,28 @@ on:
     types: [created, edited]
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 jobs:
   update-snapshots:
-    if: ${{ github.event.issue.pull_request && contains(github.event.comment.body, 'update playwright snapshots') }}
     runs-on: ubuntu-latest
+
+    permissions:
+      # Required by actions/update-snapshots
+      contents: write
+      pull-requests: write
     strategy:
       fail-fast: false
       matrix:
         browser: [firefox, chromium]
 
+    # Only run on issue comments
+    if: github.event.issue.pull_request && contains(github.event.comment.body, 'please update snapshots')
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Checkout the branch from the PR that triggered the job
-        run: |
-          # PR branch remote must be checked out using https URL
-          git config --global hub.protocol https
-
-          hub pr checkout ${{ github.event.issue.number }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: jupyterlab/maintainer-tools/.github/actions/update-snapshots-checkout@main
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Base Setup
         uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
@@ -36,7 +34,7 @@ jobs:
       - name: Build
         uses: ./.github/actions/build-dist
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v8
         with:
           name: notebook-dist-${{ github.run_number }}
           path: ./dist

@@ -16,6 +16,16 @@
   - compact view on mobile
 */
 
+/* Make the notebook take up the full width of the page when jp-mod-fullwidth is set */
+
+body[data-notebook='notebooks']
+  .jp-NotebookPanel.jp-mod-fullwidth
+  .jp-WindowedPanel-outer {
+  padding-left: unset;
+  padding-right: unset !important;
+  width: unset;
+}
+
 /* Keep the notebook centered on the page */
 
 body[data-notebook='notebooks'] .jp-NotebookPanel-toolbar {
@@ -23,35 +33,38 @@ body[data-notebook='notebooks'] .jp-NotebookPanel-toolbar {
   padding-right: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
 }
 
-body[data-notebook='notebooks'] .jp-Notebook {
+body[data-notebook='notebooks'] .jp-WindowedPanel-outer {
+  width: unset !important;
   padding-top: unset;
   padding-left: calc(calc(100% - var(--jp-notebook-max-width)) * 0.5);
   padding-right: calc(
     calc(
         100% - var(--jp-notebook-max-width) - var(--jp-notebook-padding-offset)
       ) * 0.5
-  );
+  ) !important;
   background: var(--jp-layout-color2);
 }
 
 body[data-notebook='notebooks'] .jp-WindowedPanel-inner {
   margin-top: var(--jp-notebook-toolbar-margin-bottom);
+  /* Adjustments for the extra top and bottom notebook padding */
+  margin-bottom: calc(4 * var(--jp-notebook-padding));
 }
 
 body[data-notebook='notebooks'] .jp-Notebook-cell {
   background: var(--jp-layout-color0);
-  padding-left: calc(2 * var(--jp-cell-padding));
-  padding-right: calc(2 * var(--jp-cell-padding));
 }
 
 /* Empty space at the bottom of the notebook (similar to classic) */
-body[data-notebook='notebooks'] .jp-Notebook.jp-mod-scrollPastEnd::after {
+body[data-notebook='notebooks']
+  .jp-Notebook.jp-mod-scrollPastEnd
+  .jp-WindowedPanel-outer::after {
   min-height: 100px;
 }
 
 /* Fix background colors */
 
-body[data-notebook='notebooks'] .jp-Notebook > * {
+body[data-notebook='notebooks'] .jp-WindowedPanel-outer > * {
   background: var(--jp-layout-color0);
 }
 
@@ -59,18 +72,6 @@ body[data-notebook='notebooks']
   .jp-Notebook.jp-mod-commandMode
   .jp-Cell.jp-mod-active.jp-mod-selected:not(.jp-mod-multiSelected) {
   background: var(--jp-layout-color0) !important;
-}
-
-/**
-  Extra padding to the first and and last cell of the notebook.
-  TODO: revisit when https://github.com/jupyterlab/jupyterlab/issues/13151 is fixed
-*/
-.jp-Notebook-cell[data-windowed-list-index='0'] {
-  padding-top: calc(2 * var(--jp-notebook-padding));
-}
-
-body[data-notebook='notebooks'] .jp-WindowedPanel-window > *:last-child {
-  padding-bottom: calc(2 * var(--jp-notebook-padding));
 }
 
 body[data-notebook='notebooks']
@@ -88,15 +89,6 @@ body[data-notebook='notebooks']
 body[data-notebook='notebooks'] .jp-cell-toolbar {
   background: unset;
   box-shadow: unset;
-}
-
-body[data-notebook='notebooks']
-  .jp-RawCell[data-windowed-list-index='0']
-  .jp-cell-toolbar,
-body[data-notebook='notebooks']
-  .jp-MarkdownCell[data-windowed-list-index='0']
-  .jp-cell-toolbar {
-  top: calc(2 * var(--jp-notebook-padding));
 }
 
 /** first code cell on mobile
@@ -124,9 +116,9 @@ body[data-notebook='notebooks']
 
 /* Tweak the notebook footer (to add a new cell) */
 body[data-notebook='notebooks'] .jp-Notebook-footer {
+  background: unset;
   width: 100%;
   margin-left: unset;
-  background: unset;
 }
 
 /* Mobile View */
@@ -135,7 +127,7 @@ body[data-format='mobile'] .jp-NotebookCheckpoint {
   display: none;
 }
 
-body[data-format='mobile'] .jp-Notebook > *:first-child {
+body[data-format='mobile'] .jp-WindowedPanel-outer > *:first-child {
   margin-top: 0;
 }
 
@@ -143,17 +135,16 @@ body[data-format='mobile'] .jp-ToolbarButton .jp-DebuggerBugButton {
   display: none;
 }
 
-/* Virtual Notebook fixes */
-
-body[data-notebook='notebooks'] .jp-WindowedPanel-window {
+body[data-notebook='notebooks'] .jp-WindowedPanel-viewport {
   background: var(--jp-layout-color0);
+  box-shadow: var(--jp-elevation-z4);
+
+  /* Extra padding at the top and bottom so the notebook looks nicer */
+  padding-top: calc(2 * var(--jp-notebook-padding));
+  padding-bottom: calc(2 * var(--jp-notebook-padding));
 }
 
 /* Notebook box shadow */
-
-body[data-notebook='notebooks'] .jp-Notebook > *:first-child:not(:last-child) {
-  box-shadow: var(--jp-elevation-z4);
-}
 
 body[data-notebook='notebooks']
   .jp-Notebook
@@ -165,19 +156,6 @@ body[data-notebook='notebooks']
   left: 0;
   right: 0;
   box-shadow: 0px 0px 12px 1px var(--jp-shadow-umbra-color);
-}
-
-body[data-notebook='notebooks']
-  .jp-Notebook
-  .jp-Notebook-cell:not(:first-child)::after,
-body[data-notebook='notebooks']
-  .jp-Notebook
-  .jp-Notebook-cell:not(:first-child)::before {
-  content: ' ';
-  height: 100%;
-  position: absolute;
-  top: 0;
-  width: 11px;
 }
 
 /* Additional customizations of the components on the notebook page */

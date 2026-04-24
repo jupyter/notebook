@@ -11,12 +11,11 @@ import * as utils from '@jupyterlab/buildutils';
 
 import commander from 'commander';
 
-import { getPythonVersion, postbump } from './utils';
+import { getPythonVersion, postbump, syncWorkspaceVersions } from './utils';
 
 // Specify the program signature.
 commander
   .description('Create a patch release')
-  .option('--force', 'Force the upgrade')
   .option('--skip-commit', 'Whether to skip commit changes')
   .action((options: any) => {
     // Make sure we can patch release.
@@ -34,14 +33,7 @@ commander
 
     // Patch the python version
     utils.run('hatch version patch');
-
-    // Version the changed
-    let cmd =
-      'jlpm run lerna version patch --no-push --force-publish --no-git-tag-version';
-    if (options.force) {
-      cmd += ' --yes';
-    }
-    utils.run(cmd);
+    syncWorkspaceVersions(getPythonVersion());
 
     // Whether to commit after bumping
     const commit = options.skipCommit !== true;

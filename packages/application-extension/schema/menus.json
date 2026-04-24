@@ -11,6 +11,10 @@
             "rank": 4.5
           },
           {
+            "command": "application:duplicate",
+            "rank": 4.8
+          },
+          {
             "command": "notebook:trust",
             "rank": 20
           },

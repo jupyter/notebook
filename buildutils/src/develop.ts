@@ -45,7 +45,7 @@ commander
       try {
         fs.removeSync(destDir);
         console.log('Removed previous destination:', destDir);
-      } catch (e) {
+      } catch {
         console.info('Skip unlink', destDir);
       }
     }

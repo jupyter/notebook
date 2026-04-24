@@ -1,4 +1,4 @@
-# Migrating to Notebook 7
+# Migrating
 
 _Updated 2023-05-17_
 
@@ -56,7 +56,7 @@ continue developing the Jupyter Notebook application and _sunrise_ it as
 Notebook 7.
 
 You can find more details about the changes currently taking place in the
-Jupyter Ecosystem in the [JEP 79] and [team-compass note].
+Jupyter Ecosystem in the [JEP 79][jep 79] and [team-compass note].
 
 ## New features in Notebook 7
 
@@ -73,6 +73,7 @@ notebook_7_features.md
 
 migrating/frontend-extensions.md
 migrating/server-extensions.md
+migrating/server-imports.md
 migrating/custom-themes.md
 migrating/multiple-interfaces.md
 ```

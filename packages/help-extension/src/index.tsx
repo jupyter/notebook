@@ -49,6 +49,7 @@ namespace CommandIDs {
 const open: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/help-extension:open',
   autoStart: true,
+  description: 'A plugin to open the about section with resources',
   activate: (app: JupyterFrontEnd): void => {
     const { commands } = app;
 
@@ -57,6 +58,22 @@ const open: JupyterFrontEndPlugin<void> = {
       execute: (args) => {
         const url = args['url'] as string;
         window.open(url);
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {
+            text: {
+              type: 'string',
+              description: 'The label to display for the help resource.',
+            },
+            url: {
+              type: 'string',
+              description: 'The URL to open in a new browser tab.',
+            },
+          },
+          required: ['text', 'url'],
+        },
       },
     });
   },
@@ -70,6 +87,8 @@ const about: JupyterFrontEndPlugin<void> = {
   autoStart: true,
   requires: [ITranslator],
   optional: [IMainMenu, ICommandPalette],
+  description:
+    'Plugin to add a command to show an About Jupyter Notebook and Markdown Reference',
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
@@ -116,7 +135,7 @@ const about: JupyterFrontEndPlugin<void> = {
           </span>
         );
         const version = trans.__('Version: %1', app.version);
-        const copyright = trans.__('© 2021-2023 Jupyter Notebook Contributors');
+        const copyright = trans.__('© 2021-2025 Jupyter Notebook Contributors');
         const body = (
           <>
             <span className="jp-AboutNotebook-version">{version}</span>
@@ -140,6 +159,12 @@ const about: JupyterFrontEndPlugin<void> = {
         });
         dialog.addClass('jp-AboutNotebook');
         void dialog.launch();
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
       },
     });
 
