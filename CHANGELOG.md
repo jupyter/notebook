@@ -77,6 +77,29 @@ Python 3.8 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.5.6
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.5...2e642f0cb10be314ba5d97d709cffe41bf992d9e))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.5.7 [#7902](https://github.com/jupyter/notebook/pull/7902) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- docs: Fix broken links in troubleshooting and migration docs [#7824](https://github.com/jupyter/notebook/pull/7824) ([@RamiNoodle733](https://github.com/RamiNoodle733))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-03-11&to=2026-04-30&type=c))
+
+@jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-03-11..2026-04-30&type=Issues)) | @RamiNoodle733 ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARamiNoodle733+updated%3A2026-03-11..2026-04-30&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.5.5
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.4...4f8438b0c67dc4f010bf8cd052da4f16e2ed3828))
@@ -95,8 +118,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-02-24&to=2026-03-11&type=c))
 
 @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-02-24..2026-03-11&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.5.4
 
