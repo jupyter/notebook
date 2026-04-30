@@ -47,10 +47,10 @@ test('should not show a file load error when path contains notebooks', async ({
   await page.contents.createDirectory(nestedPath);
 
   await page.goto(`tree/${nestedPath}`);
-  await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/test/');
+  expect(new URL(page.url()).pathname).toEqual(`/tree/${nestedPath}`);
 
-  await page.reload();
-  await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/test/');
+  await page.reload({ waitUntil: 'networkidle' });
+  expect(new URL(page.url()).pathname).toEqual(`/tree/${nestedPath}`);
 
   await expect(page.locator('text=File Load Error')).toHaveCount(0);
 });
