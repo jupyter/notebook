@@ -43,6 +43,17 @@ namespace CommandIDs {
   export const about = 'help:about';
 }
 
+// CVE-2026-40171 / GHSA-rch3-82jr-f9w9
+function isUrlSafe(url: string): boolean {
+  try {
+    const parsed = new URL(url, window.location.href);
+    const protocol = parsed.protocol.toLowerCase();
+    return ['http:', 'https:', 'mailto:'].includes(protocol);
+  } catch {
+    return false;
+  }
+}
+
 /**
  * A plugin to open the about section with resources.
  */
@@ -57,6 +68,10 @@ const open: JupyterFrontEndPlugin<void> = {
       label: (args) => args['text'] as string,
       execute: (args) => {
         const url = args['url'] as string;
+        if (!isUrlSafe(url)) {
+          console.warn(`Blocked unsafe URL: ${url}`);
+          return;
+        }
         window.open(url);
       },
       describedBy: {
