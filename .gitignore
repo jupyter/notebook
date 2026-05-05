@@ -3,6 +3,7 @@ lib/
 node_modules/
 *.egg-info/
 .ipynb_checkpoints
+.jupyter
 *.tsbuildinfo
 
 # Created by https://www.gitignore.io/api/python
