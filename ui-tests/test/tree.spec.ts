@@ -37,6 +37,24 @@ test('should update url when navigating in filebrowser', async ({
   expect(url.pathname).toEqual(`/tree/${tmpPath}/${SUBFOLDER}`);
 });
 
+test('should not show a file load error when path contains notebooks', async ({
+  page,
+  tmpPath,
+}) => {
+  const nestedPath = `${tmpPath}/test/notebooks/test`;
+  await page.contents.createDirectory(`${tmpPath}/test`);
+  await page.contents.createDirectory(`${tmpPath}/test/notebooks`);
+  await page.contents.createDirectory(nestedPath);
+
+  await page.goto(`tree/${nestedPath}`);
+  expect(new URL(page.url()).pathname).toEqual(`/tree/${nestedPath}`);
+
+  await page.reload({ waitUntil: 'networkidle' });
+  expect(new URL(page.url()).pathname).toEqual(`/tree/${nestedPath}`);
+
+  await expect(page.locator('text=File Load Error')).toHaveCount(0);
+});
+
 test('Should activate file browser tab', async ({ page, tmpPath }) => {
   await page.goto(`tree/${tmpPath}`);
   await page.locator('.jp-TreePanel >> text="Running"').click();

@@ -68,7 +68,7 @@ import { Menu, Widget } from '@lumino/widgets';
 /**
  * A regular expression to match path to notebooks and documents
  */
-const TREE_PATTERN = new RegExp('/(notebooks|edit)/(.*)');
+const TREE_PATTERN = new RegExp('^/(notebooks|edit)/(.*)$');
 
 /**
  * A regular expression to suppress the file extension from display for .ipynb files.
