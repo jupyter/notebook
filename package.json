@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.26.0",
-    "@jupyter/eslint-plugin": "0.0.5",
+    "@jupyter/eslint-plugin": "^1.0.0",
     "@jupyterlab/buildutils": "~4.6.0-alpha.5",
     "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.0.0",
@@ -70,6 +70,7 @@
     "prettier": "^2.8.5",
     "rimraf": "^3.0.2",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.0.0"
+    "typescript-eslint": "^8.0.0",
+    "jsonc-eslint-parser": "^3.1.0"
   }
 }

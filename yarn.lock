@@ -2544,7 +2544,7 @@ __metadata:
   resolution: "@jupyter-notebook/root@workspace:."
   dependencies:
     "@eslint/js": ^9.26.0
-    "@jupyter/eslint-plugin": 0.0.5
+    "@jupyter/eslint-plugin": ^1.0.0
     "@jupyterlab/buildutils": ~4.6.0-alpha.5
     eslint: ^9.26.0
     eslint-config-prettier: ^10.0.0
@@ -2553,6 +2553,7 @@ __metadata:
     eslint-plugin-react: ^7.37.0
     globals: ^16.0.0
     html-webpack-plugin: ^5.6.3
+    jsonc-eslint-parser: ^3.1.0
     npm-run-all: ^4.1.5
     prettier: ^2.8.5
     rimraf: ^3.0.2
@@ -2668,14 +2669,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyter/eslint-plugin@npm:0.0.5":
-  version: 0.0.5
-  resolution: "@jupyter/eslint-plugin@npm:0.0.5"
+"@jupyter/eslint-plugin@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@jupyter/eslint-plugin@npm:1.0.0"
   dependencies:
     "@typescript-eslint/utils": ^8.54.0
   peerDependencies:
     eslint: ">=9.0.0"
-  checksum: 8cd31224e09caf9046eee16784e42f1428bd3a3e67740821e463139cf85cd68ead731fa529af68cde06030fbb65e572aba71f281bb9c1b9cc59393e9bfba0ae7
+  checksum: ec35bf023677646777d573566ac9110d6c8f23ed9663d4835728b25452e8c4250e28b5662375318bf0eea098401cf9b74ef507a0bb01cab9aca2d1e0d73081bf
   languageName: node
   linkType: hard
 
@@ -6810,7 +6811,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"acorn@npm:^8.0.4, acorn@npm:^8.1.0, acorn@npm:^8.15.0, acorn@npm:^8.16.0, acorn@npm:^8.8.1, acorn@npm:^8.8.2":
+"acorn@npm:^8.0.4, acorn@npm:^8.1.0, acorn@npm:^8.15.0, acorn@npm:^8.16.0, acorn@npm:^8.5.0, acorn@npm:^8.8.1, acorn@npm:^8.8.2":
   version: 8.16.0
   resolution: "acorn@npm:8.16.0"
   bin:
@@ -9744,6 +9745,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eslint-visitor-keys@npm:^5.0.0":
+  version: 5.0.1
+  resolution: "eslint-visitor-keys@npm:5.0.1"
+  checksum: d6cc6830536ab4a808f25325686c2c27862f27aab0c1ffed39627293b06cee05d95187da113cafd366314ea5be803b456115de71ad625e365020f20e2a6af89b
+  languageName: node
+  linkType: hard
+
 "eslint@npm:^9.26.0":
   version: 9.39.2
   resolution: "eslint@npm:9.39.2"
@@ -12465,6 +12473,17 @@ __metadata:
   bin:
     json5: lib/cli.js
   checksum: 2a7436a93393830bce797d4626275152e37e877b265e94ca69c99e3d20c2b9dab021279146a39cdb700e71b2dd32a4cebd1514cd57cee102b1af906ce5040349
+  languageName: node
+  linkType: hard
+
+"jsonc-eslint-parser@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "jsonc-eslint-parser@npm:3.1.0"
+  dependencies:
+    acorn: ^8.5.0
+    eslint-visitor-keys: ^5.0.0
+    semver: ^7.3.5
+  checksum: 23e86c3ae850564311e31cf3e28f12b423d57a97fc5e163fcd4861047806950df827036e21642fb5afa5ec5d490f493001d13829124cedc35cbc26cf6bb1ecf1
   languageName: node
   linkType: hard
 
