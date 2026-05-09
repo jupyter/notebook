@@ -33,7 +33,7 @@ test.describe('Settings', () => {
     await page.waitForSelector('#top-panel', { state: 'hidden' });
     await page.reload({ waitUntil: 'networkidle' });
     await page.menu.getMenuItem(showHeaderPath);
-    expect(await page.screenshot()).toMatchSnapshot('top-hidden.png', {
+    expect.soft(await page.screenshot()).toMatchSnapshot('top-hidden.png', {
       maxDiffPixels: 300,
     });
 
