@@ -107,10 +107,11 @@ jobs:
       contents: read
     steps:
       - name: Checkout lockfile
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           sparse-checkout: ui-tests/yarn.lock
           sparse-checkout-cone-mode: false
+          persist-credentials: false
 
       - name: Find out Playwright version
         id: pw-version
@@ -125,7 +126,7 @@ jobs:
           echo "version=$PW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Download blob artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           path: blob-reports
           pattern: notebook-blobs-*
@@ -136,19 +137,19 @@ jobs:
           npx playwright@${{ steps.pw-version.outputs.version }} merge-reports --reporter html,github ./blob-reports/
 
       - name: Upload merged report
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: notebook-test-report
           path: playwright-report
 
       - name: Inline the report
-        uses: jupyterlab/maintainer-tools/.github/actions/inline-playwright-report@v1
+        uses: jupyterlab/maintainer-tools/.github/actions/inline-playwright-report@f5d710df1483f19b666dd96aeabbe949a53642c2 # v1
         with:
           path: playwright-report
 
       - name: Upload inlined report
         id: upload-report
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           archive: false
           name: notebook-test-report-standalone
