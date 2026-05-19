@@ -241,7 +241,6 @@ jobs:
           pipx run doc8 --max-line-length=200 docs/source *.md
           python -m pip install -U "jupyter-builder>=0.0.8,<0.1.0a0"
           jlpm
-          jlpm build:lib
           jlpm eslint:check
           jlpm prettier:check
           jlpm build:utils
