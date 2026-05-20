@@ -37,6 +37,81 @@ it's easy to upgrade and get on with what you wanted to do.
 - In the address bar, try changing between `localhost` and `127.0.0.1`.
   They should be the same, but in some cases it makes a difference.
 
+## `jupyter notebook` opens VS Code (or another editor) instead of a browser
+
+When you run `jupyter notebook`, the server writes a small redirector file —
+something like `jpserver-NNNN-open.html` in your Jupyter runtime directory —
+and asks the operating system to open it. The OS then hands that
+`.html` file to whatever application is currently registered as the default
+handler for HTML files. On systems where VS Code, an IDE, or another text
+editor has claimed `.html`, that application opens (often blank) instead of
+your browser. Reports of this go back several years; see
+[issue #4304](https://github.com/jupyter/notebook/issues/4304) for a long
+collection of user reports.
+
+You have several options to work around it without touching your OS-wide
+file associations:
+
+- **Set the `BROWSER` environment variable to the executable you want
+  Jupyter (and the standard library `webbrowser` module it uses) to launch:**
+
+  ```bash
+  # Linux / macOS — pick whichever you have installed
+  BROWSER=firefox jupyter notebook
+  BROWSER="google-chrome" jupyter notebook
+  ```
+
+  ```powershell
+  # Windows PowerShell
+  $env:BROWSER = "C:\Program Files\Mozilla Firefox\firefox.exe"
+  jupyter notebook
+  ```
+
+  See the Python standard library
+  [`webbrowser` docs](https://docs.python.org/3/library/webbrowser.html)
+  for how `BROWSER` is interpreted.
+
+- **Configure it per-user via `jupyter_notebook_config.py`** so you do
+  not have to remember it every time. Generate the file (if you do not
+  have one already) and edit it:
+
+  ```bash
+  jupyter notebook --generate-config
+  ```
+
+  Then add the browser you want to use, for example:
+
+  ```python
+  c.ServerApp.browser = "firefox"
+  # or, with a full path, e.g. on macOS:
+  # c.ServerApp.browser = "open -a 'Google Chrome' %s"
+  ```
+
+  ```{note}
+  Jupyter Notebook 7 is built on top of Jupyter Server, so the relevant
+  config key is `c.ServerApp.browser`. Older Notebook 6 docs may show
+  `c.NotebookApp.browser`; on modern Notebook the alias still resolves to
+  `ServerApp` but `ServerApp` is the preferred name to use in new
+  configuration.
+  ```
+
+- **Skip the auto-open entirely** with `--no-browser`, then copy the
+  URL with the access token from the terminal into the browser you
+  actually want to use:
+
+  ```bash
+  jupyter notebook --no-browser
+  ```
+
+  This is also the recommended setup when running Jupyter inside an
+  SSH session: copy the printed `http://localhost:<port>/?token=…` URL
+  into a browser on your local machine.
+
+- **Or fix the OS-level association**: in your operating system settings,
+  set `.html` to open in a real web browser (Firefox, Chrome, Safari,
+  Edge, …) instead of an editor. Once `.html` is mapped to a browser,
+  plain `jupyter notebook` will open the notebook there as expected.
+
 ## Jupyter can't start a kernel
 
 Files called _kernel specs_ tell Jupyter how to start different kinds of kernels.

@@ -72,3 +72,5 @@ username
 webserver
 websockets
 workflow
+jpserver
+redirector
