@@ -51,6 +51,8 @@
     "watch:lib": "jlpm workspace @jupyter-notebook/metapackage run watch"
   },
   "resolutions": {
+    "@rspack/cli": "2.0.2",
+    "@rspack/core": "2.0.2",
     "@types/react": "^18.0.26",
     "react": "^18.2.0",
     "yjs": "^13.5.40"
