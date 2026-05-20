@@ -58,6 +58,60 @@ Notebooks may be exported to a range of static formats, including HTML (for
 example, for blog posts), reStructuredText, LaTeX, PDF, and slide shows, via
 the [nbconvert] command.
 
+(checkpoints)=
+
+### Checkpoints and the `.ipynb_checkpoints` directory
+
+Every time you save a notebook, Jupyter also writes a *checkpoint* — a
+snapshot of the notebook as it was at that save — to a hidden subdirectory
+called `.ipynb_checkpoints/`, alongside the notebook itself. A typical
+layout looks like:
+
+```text
+my_project/
+├── analysis.ipynb
+└── .ipynb_checkpoints/
+    └── analysis-checkpoint.ipynb
+```
+
+Checkpoints are a built-in undo safety net: if you have made changes you
+want to throw away, you can return to the last checkpoint via {guilabel}`File`,
+{guilabel}`Revert Notebook to Checkpoint`. The checkpoint file is also a
+useful "last known good" copy if the live `.ipynb` file ever gets corrupted
+in a crash. New checkpoints overwrite previous ones; only one
+checkpoint per notebook is kept at a time.
+
+The directory is *hidden* (its name starts with a dot) and is filtered out
+of the file browser by default, so most users never need to see or touch
+it. It is also created automatically — you do not need to add it yourself,
+and it will reappear the next time you save the notebook if you delete it.
+
+```{note}
+The checkpoint mechanism is provided by [Jupyter Server's `FileCheckpoints`
+class](https://jupyter-server.readthedocs.io/en/stable/developers/contents.html),
+which Jupyter Notebook uses through the contents manager. If you need to
+store checkpoints somewhere other than next to the notebook (for example
+on a different filesystem) you can configure a different checkpoints class
+via `c.ContentsManager.checkpoints_class` in your
+`jupyter_server_config.py`. See the Jupyter Server contents docs for
+details.
+```
+
+```{tip}
+- **Version control**: `.ipynb_checkpoints/` is a local cache of the live
+  notebook state — it should not be committed to git. Add
+  `.ipynb_checkpoints/` to your `.gitignore` (most Python templates,
+  including GitHub's `Python.gitignore`, already do this by default).
+- **Showing hidden files**: if you have toggled "Show Hidden Files" on
+  in the file browser (Settings → Show Hidden Files) and want to keep
+  `.ipynb_checkpoints/` out of the way, you can filter it out by adding
+  it to the `c.ContentsManager.hide_globs` list in your config.
+- **Recovering an accidentally deleted notebook**: if you deleted a
+  notebook from the file browser but Jupyter is still running and you
+  have not saved over it, look inside `.ipynb_checkpoints/` — the last
+  saved checkpoint is still there as `<notebook-name>-checkpoint.ipynb`.
+```
+
 Furthermore, any `.ipynb` notebook document available from a public
 URL can be shared via the Jupyter Notebook Viewer \<nbviewer>.
 This service loads the notebook document from the URL and renders it as a

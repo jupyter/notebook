@@ -72,3 +72,8 @@ username
 webserver
 websockets
 workflow
+checkpoint
+checkpoints
+gitignore
+snapshot
+reappear
