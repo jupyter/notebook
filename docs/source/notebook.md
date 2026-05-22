@@ -406,3 +406,66 @@ Using Safari with HTTPS and an untrusted certificate is known to not work
 
 [json]: https://en.wikipedia.org/wiki/JSON
 [mathjax]: https://www.mathjax.org/
+
+This section explains the purpose and usage of the `.ipynb_checkpoints` directory created by Jupyter Notebook.
+
+## Notebook Checkpoints (.ipynb_checkpoints)
+
+### What is `.ipynb_checkpoints`?
+
+`.ipynb_checkpoints` is a hidden directory automatically created by Jupyter Notebook. It is used to store checkpoint (backup) versions of notebook files.
+
+### Why does this directory exist?
+
+Jupyter Notebook periodically saves the state of a notebook to prevent data loss. These saved versions are called checkpoints and allow users to restore their work if needed.
+
+### What does it contain?
+
+This directory contains backup copies of notebooks. These files typically follow a naming pattern like:
+
+`notebook-name-checkpoint.ipynb`
+
+Each checkpoint represents a previously saved state of the notebook.
+
+### Why is it useful?
+
+Checkpoint files can help users:
+- Recover accidentally deleted notebooks
+- Restore earlier versions of their work
+- Protect against data loss due to crashes or unintended changes
+
+### Can it be deleted?
+
+Yes, the `.ipynb_checkpoints` directory can be safely deleted. However, doing so will remove all saved checkpoint versions.
+
+If needed, Jupyter Notebook will automatically recreate the directory when new checkpoints are generated.
+
+### Why is it hidden?
+
+The directory name starts with a dot (`.`), which makes it hidden by default on many operating systems.
+
+## Checkpoints
+
+Jupyter Notebook automatically saves the state of your notebook as checkpoints.
+
+### What are checkpoints?
+
+Checkpoints are saved versions of your notebook that allow you to revert to a previous state if needed.
+
+### Creating a checkpoint
+
+A checkpoint is created automatically when you save your notebook. You can also manually create one from the menu.
+
+### Restoring a checkpoint
+
+To restore a checkpoint:
+1. Go to the **File** menu
+2. Select **Revert to Checkpoint**
+3. Choose the desired checkpoint version
+
+### Notes
+
+- Checkpoints help prevent data loss
+- Only a limited number of checkpoints may be stored
+
+<!-- trigger change -->
