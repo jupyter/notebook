@@ -79,7 +79,27 @@ Notebook 7 and JupyterLab share the same language packs, so it is possible to us
 
 ## Accessibility Improvements
 
-The text editor underlying the Jupyter Notebook (CodeMirror 5) had major accessibility issues. Fortunately, this accessibility bottleneck has been unblocked as JupyterLab has been upgraded to use CodeMirror 6, a complete rewrite of the text editor with a strong focus on accessibility. Although this upgrade required extensive codebase modifications, the changes are available with JupyterLab 4. By being built on top of JupyterLab, Jupyter Notebook 7 directly benefits from the CodeMirror 6 upgrade.
+Notebook 7 includes important accessibility improvements, but accessibility
+work remains ongoing across the Jupyter ecosystem. Notebook 7 is built on top
+of JupyterLab components, and it benefits from the JupyterLab 4 migration from
+CodeMirror 5 to CodeMirror 6. This improves the editor foundation for many
+keyboard and assistive technology workflows.
+
+That improvement should not be read as a statement that Notebook 7 is fully
+accessible or that every workflow has complete Web Content Accessibility
+Guidelines (WCAG) conformance. Automated accessibility checks are useful, but
+they do not replace manual keyboard testing, screen reader testing, low-vision
+review, and feedback from disabled users.
+
+For current accessibility status, limitations, and tracking work, see:
+
+- [Notebook 7.0.0 WCAG 2.1 audit](https://github.com/jupyter/notebook/issues/6800)
+- [Notebook 7 prerelease keyboard navigation review](https://github.com/jupyter/notebook/issues/6595)
+- [Jupyter Accessibility Team Compass](https://jupyter-accessibility.readthedocs.io/)
+
+If you encounter an accessibility barrier in Notebook 7, please open an issue
+with the browser, operating system, assistive technology, Notebook version, and
+steps needed to reproduce the affected workflow.
 
 ## Support for many JupyterLab extensions
 
