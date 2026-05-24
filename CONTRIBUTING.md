@@ -7,10 +7,34 @@ for a friendly and welcoming collaborative environment.
 
 ## Setting up a development environment
 
+### Prerequisites
+
+| Tool    | Required Version | How to check       |
+| ------- | ---------------- | ------------------ |
+| Python  | >= 3.10          | `python --version` |
+| Node.js | 22.x             | `node --version`   |
+
 Note: You will need NodeJS to build the extension package.
 
 The `jlpm` command is Jupyter's pinned version of [yarn](https://yarnpkg.com/) that is installed with Jupyter Builder. You may use
 `yarn` or `npm` in lieu of `jlpm` below.
+
+### Option A: Using pixi
+
+[pixi](https://pixi.sh/) handles Python, Node.js, and all dependencies in one step. [Install pixi](https://pixi.prefix.dev/latest/#installation), then from the repo root:
+
+```bash
+# Install everything and set up the dev environment
+pixi install
+pixi run develop
+
+# Start the notebook server
+pixi run start
+```
+
+This installs the correct Python and Node.js versions automatically and links the extension for development.
+
+### Option B: Using mamba/conda
 
 **Note**: we recommend using `mamba` to speed up the creation of the environment.
 
@@ -35,6 +59,31 @@ jlpm develop
 jupyter server extension enable notebook
 ```
 
+### Option C: Using pip + yarn/npm (no conda)
+
+If you prefer not to use conda/mamba, you can set up the environment with pip and yarn (or npm) directly. Make sure you have Python >= 3.10 and Node.js 22.x installed on your system.
+
+```bash
+# Create and activate a virtual environment
+python -m venv .venv
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+
+# Install the package in development mode
+pip install -e ".[dev,docs,test]"
+
+# Install JavaScript dependencies (use yarn or npm)
+yarn install   # or: npm install
+yarn build     # or: npm run build
+
+# Link the notebook extension for development
+yarn develop   # or: npm run develop
+
+# Enable the server extension
+jupyter server extension enable notebook
+```
+
+### Building and running
+
 `notebook` follows a monorepo structure. To build all the packages at once:
 
 ```bash
@@ -46,6 +95,16 @@ There is also a `watch` script to watch for changes and rebuild the app automati
 ```bash
 jlpm watch
 ```
+
+To start the notebook server with development-friendly flags:
+
+```bash
+jupyter notebook --no-browser --ServerApp.token='' --NotebookApp.allow_origin='*'
+```
+
+This disables the auth token (convenient for local dev) and allows cross-origin requests (useful if you're working with a separate frontend dev server).
+
+### Verifying your setup
 
 To make sure the `notebook` server extension is installed:
 
@@ -69,6 +128,29 @@ Then start Jupyter Notebook with:
 ```bash
 jupyter notebook
 ```
+
+### Troubleshooting
+
+**`jlpm: command not found`**\
+`jlpm` is installed as part of Jupyter Builder. Make sure you ran `pip install -e ".[dev,docs,test]"` first. Alternatively, use `yarn` or `npm` directly.
+
+**JavaScript build fails with missing modules**\
+Try clearing the build cache and reinstalling:
+
+```bash
+jlpm clean
+jlpm
+jlpm build
+```
+
+**`ModuleNotFoundError` when running `jupyter notebook`**\
+Make sure you installed in editable mode (`pip install -e .`) and that your virtual environment is activated.
+
+**Node.js version mismatch**\
+This project requires Node.js 22.x. Check with `node --version`. If you're using nvm: `nvm install 22 && nvm use 22`.
+
+**Pre-commit hooks not running**\
+Run `pre-commit install` manually. The hooks should have been set up automatically by the dev install, but may need to be reinitialized if you cloned before installing.
 
 ### Local changes in Notebook dependencies
 
