@@ -53,6 +53,28 @@ test('Should redirect from notebooks route to tree route for directories', async
   expect(url.pathname).toEqual(`/tree/${dir}`);
 });
 
+test('should not show a file load error when path contains notebooks', async ({
+  page,
+  tmpPath,
+}) => {
+  const nestedPath = `${tmpPath}/test/notebooks/test`;
+  await page.contents.createDirectory(`${tmpPath}/test`);
+  await page.contents.createDirectory(`${tmpPath}/test/notebooks`);
+  await page.contents.createDirectory(nestedPath);
+
+  await page.goto(`tree/${nestedPath}`);
+  await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/test/');
+  await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/notebooks/');
+  expect(new URL(page.url()).pathname).toEqual(`/tree/${nestedPath}`);
+
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/test/');
+  await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/notebooks/');
+  expect(new URL(page.url()).pathname).toEqual(`/tree/${nestedPath}`);
+
+  await expect(page.locator('text=File Load Error')).toHaveCount(0);
+});
+
 test('Should activate file browser tab', async ({ page, tmpPath }) => {
   await page.goto(`tree/${tmpPath}`);
   await page.locator('.jp-TreePanel >> text="Running"').click();
