@@ -32,6 +32,17 @@ test.describe('Editor', () => {
     );
   });
 
+  test('Should not render cell toolbar in file editor', async ({
+    page,
+    tmpPath,
+  }) => {
+    const file = `${tmpPath}/${FILE}`;
+    await page.goto(`edit/${file}`);
+
+    await expect(page.locator('.cm-editor')).toBeVisible();
+    await expect(page.locator('.jp-cell-toolbar')).toHaveCount(0);
+  });
+
   test('Renaming the file by clicking on the title', async ({
     page,
     tmpPath,
