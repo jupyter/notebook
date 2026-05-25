@@ -211,8 +211,6 @@ filterwarnings = [
     "ignore:There is no current event loop:DeprecationWarning",
     "ignore:make_current is deprecated; start the event loop first",
     "ignore:clear_current is deprecated",
-    "ignore:datetime.utc.* is deprecated",
-    "ignore:datetime.datetime.* is deprecated",
 ]
 
 [tool.coverage.report]
