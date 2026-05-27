@@ -52,6 +52,18 @@ const opener: JupyterFrontEndPlugin<void> = {
         });
         commands.execute('terminal:open', { name });
       },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {
+            path: {
+              type: 'string',
+              description: 'The routed URL path to handle.',
+            },
+          },
+          required: ['path'],
+        },
+      },
     });
 
     router.register({ command, pattern: terminalPattern });

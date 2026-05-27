@@ -8,6 +8,7 @@ import { IDisposable } from '@lumino/disposable';
 import { IMessageHandler, Message, MessageLoop } from '@lumino/messaging';
 import { ISignal, Signal } from '@lumino/signaling';
 import { Panel, StackedPanel, Widget } from '@lumino/widgets';
+import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
 /**
  * A class which manages a panel and sorts its widgets by rank.
@@ -68,11 +69,11 @@ export class SidePanelHandler extends PanelHandler {
   /**
    * Construct a new side panel handler.
    */
-  constructor(area: SidePanel.Area) {
+  constructor(area: SidePanel.Area, translator: ITranslator) {
     super();
     this._area = area;
     this._panel.hide();
-
+    this._translator = translator;
     this._currentWidget = null;
     this._lastCurrentWidget = null;
 
@@ -89,8 +90,9 @@ export class SidePanelHandler extends PanelHandler {
       this.collapse();
       this.hide();
     };
+    const trans = this._translator.load('notebook');
     this._closeButton.className = 'jp-Button jp-SidePanel-collapse';
-    this._closeButton.title = 'Collapse side panel';
+    this._closeButton.title = trans.__('Collapse side panel');
 
     const icon = new Widget({ node: this._closeButton });
     this._panel.addWidget(icon);
@@ -125,7 +127,7 @@ export class SidePanelHandler extends PanelHandler {
   /**
    * Get the stacked panel managed by the handler
    */
-  get panel(): Panel {
+  override get panel(): Panel {
     return this._panel;
   }
 
@@ -213,7 +215,7 @@ export class SidePanelHandler extends PanelHandler {
    *
    * If the widget is already added, it will be moved.
    */
-  addWidget(widget: Widget, rank: number): void {
+  override addWidget(widget: Widget, rank: number): void {
     widget.parent = null;
     widget.hide();
     const item = { widget, rank };
@@ -260,8 +262,7 @@ export class SidePanelHandler extends PanelHandler {
    * Find the widget with the given id, or `null`.
    */
   private _findWidgetByID(id: string): Widget | null {
-    const item = find(this._items, (value) => value.widget.id === id);
-    return item ? item.widget : null;
+    return find(this._items, (value) => value.widget.id === id)?.widget ?? null;
   }
 
   /**
@@ -293,6 +294,7 @@ export class SidePanelHandler extends PanelHandler {
   private _closeButton: HTMLButtonElement;
   private _widgetAdded: Signal<SidePanelHandler, Widget> = new Signal(this);
   private _widgetRemoved: Signal<SidePanelHandler, Widget> = new Signal(this);
+  private _translator: ITranslator = nullTranslator;
 }
 
 /**
@@ -324,14 +326,11 @@ export class SidePanelPalette {
     widget: Readonly<Widget>,
     area: 'left' | 'right'
   ): SidePanelPaletteItem | null {
-    const itemList = this._items;
-    for (let i = 0; i < itemList.length; i++) {
-      const item = itemList[i];
-      if (item.widgetId === widget.id && item.area === area) {
-        return item;
-      }
-    }
-    return null;
+    return (
+      this._items.find(
+        (item) => item.widgetId === widget.id && item.area === area
+      ) ?? null
+    );
   }
 
   /**
@@ -373,9 +372,9 @@ export class SidePanelPalette {
     }
   }
 
-  _command: string;
-  _commandPalette: ICommandPalette;
-  _items: SidePanelPaletteItem[] = [];
+  private _command: string;
+  private _commandPalette: ICommandPalette;
+  private _items: SidePanelPaletteItem[] = [];
 }
 
 type SidePanelPaletteItem = {

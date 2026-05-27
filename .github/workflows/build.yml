@@ -110,6 +110,9 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
         with:
           dependency_type: pre
+          # TODO: Remove this pin once rpds-py supports Python 3.15.
+          # Upstream: https://github.com/crate-py/rpds/issues/210
+          python_version: '3.14'
       - name: Run the tests
         run: |
           hatch run test:nowarn || hatch run test:nowarn --lf
@@ -142,7 +145,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
           allow-prereleases: true
-      - uses: actions/download-artifact@v7
+      - uses: actions/download-artifact@v8
         with:
           name: notebook-dist-${{ github.run_number }}
           path: ./dist
@@ -177,6 +180,53 @@ jobs:
           ignore_links: 'https://playwright.dev/docs/test-cli/ https://blog.jupyter.org/.* https://mybinder.org/v2/gh/jupyter/notebook/main https://nbviewer.jupyter.org https://stackoverflow.com https://github.com/[^/]+/?$'
           ignore_glob: 'ui-tests/test/notebooks/*'
 
+  bundle_size:
+    name: Bundle Size
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@f5d710df1483f19b666dd96aeabbe949a53642c2 # v1
+
+      - name: Install dependencies
+        run: |
+          python -m pip install -U "jupyter-builder>=1.0.0b1,<2"
+          jlpm
+
+      - name: Measure bundle sizes
+        run: |
+          measure() {
+            find notebook/static -name "$1" -print0 2>/dev/null | xargs -0 cat 2>/dev/null | wc -c | tr -d ' '
+          }
+
+          jlpm build
+          DEV_JS=$(measure "*.js")
+          DEV_MAP=$(measure "*.js.map")
+
+          jlpm clean
+          jlpm build:prod:minimize
+          MIN_JS=$(measure "*.js")
+          MIN_MAP=$(measure "*.js.map")
+
+          jlpm clean
+          jlpm build:prod:release
+          REL_JS=$(measure "*.js")
+          REL_MAP=$(measure "*.js.map")
+
+          fmt() { numfmt --to=iec "$1"; }
+
+          {
+            echo "## Bundle Size Report"
+            echo ""
+            echo "| Build | JS Size | Source Maps |"
+            echo "|-------|---------|-------------|"
+            echo "| dev | $(fmt $DEV_JS) | $(fmt $DEV_MAP) |"
+            echo "| prod:minimize | $(fmt $MIN_JS) | $(fmt $MIN_MAP) |"
+            echo "| prod:release | $(fmt $REL_JS) | $(fmt $REL_MAP) |"
+          } >> $GITHUB_STEP_SUMMARY
+
   test_lint:
     name: Test Lint
     runs-on: ubuntu-latest
@@ -189,12 +239,12 @@ jobs:
           hatch run lint:build
           pipx run interrogate -v .
           pipx run doc8 --max-line-length=200 docs/source *.md
-          npm install -g yarn
-          yarn
-          yarn eslint:check
-          yarn prettier:check
-          yarn build:utils
-          yarn integrity
+          python -m pip install -U "jupyter-builder>=1.0.0b1,<2"
+          jlpm
+          jlpm eslint:check
+          jlpm prettier:check
+          jlpm build:utils
+          jlpm integrity
 
   tests_check: # This job does nothing and is only used for the branch protection
     if: always()

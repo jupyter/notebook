@@ -166,6 +166,26 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
         caption: commandLabel,
         execute,
         isEnabled,
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {
+              noLabel: {
+                type: 'boolean',
+                description: 'Whether to hide the command label.',
+              },
+              isMenu: {
+                type: 'boolean',
+                description: 'Whether the command is rendered in a menu.',
+              },
+              isPalette: {
+                type: 'boolean',
+                description:
+                  'Whether the command is rendered in the command palette.',
+              },
+            },
+          },
+        },
       });
 
       if (palette) {
@@ -245,6 +265,12 @@ const launchNotebookTree: JupyterFrontEndPlugin<void> = {
       execute: () => {
         const url = URLExt.join(PageConfig.getBaseUrl(), 'tree');
         window.open(url);
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
       },
     });
 

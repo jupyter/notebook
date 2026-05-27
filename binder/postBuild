@@ -2,4 +2,5 @@
 set -euo pipefail
 
 python -m pip install -e ".[dev,test]"
-jlpm develop
+jupyter-builder develop . --overwrite
+node ./buildutils/lib/develop.js --overwrite

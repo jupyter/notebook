@@ -8,9 +8,11 @@ import {
 
 import {
   ISessionContext,
+  Dialog,
   DOMUtils,
   IToolbarWidgetRegistry,
   ICommandPalette,
+  showDialog,
 } from '@jupyterlab/apputils';
 
 import { Cell, CodeCell } from '@jupyterlab/cells';
@@ -237,23 +239,70 @@ const closeTab: JupyterFrontEndPlugin<void> = {
     'Add a command to close the browser tab when clicking on "Close and Shut Down".',
   autoStart: true,
   requires: [IMainMenu],
-  optional: [ITranslator],
+  optional: [INotebookTracker, ISettingRegistry, ITranslator],
   activate: (
     app: JupyterFrontEnd,
     menu: IMainMenu,
+    tracker: INotebookTracker | null,
+    settingRegistry: ISettingRegistry | null,
     translator: ITranslator | null
   ) => {
     const { commands } = app;
     translator = translator ?? nullTranslator;
     const trans = translator.load('notebook');
 
+    let promptForConfirmation = true;
+
+    if (settingRegistry) {
+      const loadSettings = settingRegistry.load(closeTab.id);
+
+      const updateSettings = (settings: ISettingRegistry.ISettings): void => {
+        promptForConfirmation = settings.get('promptForConfirmation')
+          .composite as boolean;
+      };
+
+      Promise.all([loadSettings, app.restored])
+        .then(([settings]) => {
+          updateSettings(settings);
+          settings.changed.connect(updateSettings);
+        })
+        .catch((reason: Error) => {
+          console.error(
+            `Failed to load settings for ${closeTab.id}: ${reason.message}`
+          );
+        });
+    }
+
     const id = 'notebook:close-and-halt';
     commands.addCommand(id, {
-      label: trans.__('Close and Shut Down Notebook'),
+      label: () =>
+        promptForConfirmation
+          ? trans.__('Close and Shut Down Notebook…')
+          : trans.__('Close and Shut Down Notebook'),
       execute: async () => {
-        // Shut the kernel down, without confirmation
+        if (promptForConfirmation) {
+          const fileName =
+            tracker?.currentWidget?.title.label ?? trans.__('the notebook');
+          const result = await showDialog({
+            title: trans.__('Shut down the notebook?'),
+            body: trans.__('Are you sure you want to close "%1"?', fileName),
+            buttons: [
+              Dialog.cancelButton(),
+              Dialog.warnButton({ label: trans.__('Shut Down') }),
+            ],
+          });
+          if (!result.button.accept) {
+            return;
+          }
+        }
         await commands.execute('notebook:shutdown-kernel', { activate: false });
         window.close();
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
       },
     });
     menu.fileMenu.closeAndCleaners.add({
@@ -285,6 +334,12 @@ const openTreeTab: JupyterFrontEndPlugin<void> = {
       execute: async () => {
         const url = URLExt.join(PageConfig.getBaseUrl(), 'tree');
         window.open(url);
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
       },
     });
   },
@@ -356,6 +411,12 @@ const fullWidthNotebook: JupyterFrontEndPlugin<void> = {
       },
       isEnabled: () => tracker.currentWidget !== null,
       isToggled: () => fullWidth,
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
     });
 
     if (palette) {
@@ -744,6 +805,12 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
       isVisible: () =>
         shell.currentWidget !== null &&
         shell.currentWidget instanceof NotebookPanel,
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
     });
 
     if (palette) {

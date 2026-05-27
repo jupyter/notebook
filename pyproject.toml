@@ -2,7 +2,7 @@
 requires = [
     "hatchling>=1.11",
     "hatch-jupyter-builder>=0.5",
-    "jupyterlab>=4.6.0a2,<4.7",
+    "jupyter-builder>=1.0.0b1,<2",
 ]
 build-backend = "hatchling.build"
 
@@ -35,8 +35,9 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
+    "jupyter-builder>=1.0.0b1,<2",
     "jupyter_server>=2.4.0,<3",
-    "jupyterlab>=4.6.0a2,<4.7",
+    "jupyterlab>=4.6.0b0,<4.7",
     "jupyterlab_server>=2.28.0,<3",
     "notebook_shim>=0.2,<0.3",
     "tornado>=6.2.0",
@@ -125,7 +126,6 @@ build = "make -C docs html SPHINXOPTS='-W'"
 serve = "cd docs/build/html && python -m http.server"
 
 [tool.hatch.envs.default.scripts]
-npm_pack = "jlpm lerna exec -- npm pack"
 js_test = "jlpm run build:test && jlpm run test"
 
 [tool.hatch.envs.test]
@@ -157,7 +157,7 @@ detached = true
 test = "pre-commit run --all-files --hook-stage manual mypy"
 
 [tool.hatch.build.hooks.jupyter-builder]
-dependencies = ["hatch-jupyter-builder>=0.5"]
+dependencies = ["hatch-jupyter-builder>=0.5", "jupyter-builder>=1.0.0b1,<2"]
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
     "notebook/labextension/static/style.js",
@@ -165,7 +165,7 @@ ensured-targets = [
 install-pre-commit-hook = true
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
-build_cmd = "build:prod"
+build_cmd = "build:prod:release"
 source_dir = "packages"
 build_dir = "notebook/static"
 npm = ["jlpm"]
@@ -177,18 +177,18 @@ build_dir = "notebook/static"
 npm = ["jlpm"]
 
 [tool.jupyter-releaser.options]
-version-cmd = "jlpm run release:bump --force --skip-commit"
+version-cmd = "jlpm run release:bump --skip-commit"
 
 [tool.jupyter-releaser.hooks]
 before-bump-version = [
-    "python -m pip install -U \"jupyterlab>=4.6.0a2,<4.7\"",
+    "python -m pip install -U \"jupyter-builder>=1.0.0b1,<2\"",
     "jlpm",
     "jlpm run build:utils",
     "python -m pip install hatch"
 ]
 before-build-npm = [
     "jlpm clean",
-    "jlpm build:prod"
+    "jlpm build:prod:release"
 ]
 before-build-python = [
     "jlpm clean"
@@ -211,8 +211,6 @@ filterwarnings = [
     "ignore:There is no current event loop:DeprecationWarning",
     "ignore:make_current is deprecated; start the event loop first",
     "ignore:clear_current is deprecated",
-    "ignore:datetime.utc.* is deprecated",
-    "ignore:datetime.datetime.* is deprecated",
 ]
 
 [tool.coverage.report]
@@ -299,7 +297,7 @@ ignore = ["GH102", "PC180", "PC111"]
 
 [tool.pixi.project]
 channels = ["conda-forge"]
-platforms = ["linux-64"]
+platforms = ["linux-64", "osx-arm64", "osx-64"]
 
 [tool.pixi.pypi-dependencies]
 notebook = { path = ".", editable = true, extras = ["dev", "docs"] }

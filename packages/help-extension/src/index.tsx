@@ -43,6 +43,17 @@ namespace CommandIDs {
   export const about = 'help:about';
 }
 
+// CVE-2026-40171 / GHSA-rch3-82jr-f9w9
+function isUrlSafe(url: string): boolean {
+  try {
+    const parsed = new URL(url, window.location.href);
+    const protocol = parsed.protocol.toLowerCase();
+    return ['http:', 'https:', 'mailto:'].includes(protocol);
+  } catch {
+    return false;
+  }
+}
+
 /**
  * A plugin to open the about section with resources.
  */
@@ -57,7 +68,27 @@ const open: JupyterFrontEndPlugin<void> = {
       label: (args) => args['text'] as string,
       execute: (args) => {
         const url = args['url'] as string;
+        if (!isUrlSafe(url)) {
+          console.warn(`Blocked unsafe URL: ${url}`);
+          return;
+        }
         window.open(url);
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {
+            text: {
+              type: 'string',
+              description: 'The label to display for the help resource.',
+            },
+            url: {
+              type: 'string',
+              description: 'The URL to open in a new browser tab.',
+            },
+          },
+          required: ['text', 'url'],
+        },
       },
     });
   },
@@ -119,7 +150,7 @@ const about: JupyterFrontEndPlugin<void> = {
           </span>
         );
         const version = trans.__('Version: %1', app.version);
-        const copyright = trans.__('© 2021-2023 Jupyter Notebook Contributors');
+        const copyright = trans.__('© 2021-2025 Jupyter Notebook Contributors');
         const body = (
           <>
             <span className="jp-AboutNotebook-version">{version}</span>
@@ -143,6 +174,12 @@ const about: JupyterFrontEndPlugin<void> = {
         });
         dialog.addClass('jp-AboutNotebook');
         void dialog.launch();
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
       },
     });
 

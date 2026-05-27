@@ -5,6 +5,8 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import jestPlugin from 'eslint-plugin-jest';
 import reactPlugin from 'eslint-plugin-react';
 import globals from 'globals';
+import jupyterPlugin from '@jupyter/eslint-plugin';
+import * as jsoncParser from 'jsonc-eslint-parser';
 
 export default defineConfig([
   {
@@ -47,6 +49,7 @@ export default defineConfig([
     plugins: {
       jest: jestPlugin,
       react: reactPlugin,
+      jupyter: jupyterPlugin,
     },
     languageOptions: {
       globals: {
@@ -61,6 +64,13 @@ export default defineConfig([
       },
     },
     rules: {
+      'jupyter/command-described-by': 'error',
+      'jupyter/plugin-activation-args': 'error',
+      'jupyter/plugin-description': 'error',
+      'jupyter/token-format': 'error',
+      'jupyter/no-translation-concatenation': 'error',
+      'jupyter/no-untranslated-string': 'error',
+      'jupyter/require-soft-assertions-before-snapshots': 'error',
       '@typescript-eslint/naming-convention': [
         'error',
         {
@@ -82,6 +92,14 @@ export default defineConfig([
       curly: ['error', 'all'],
       eqeqeq: 'error',
       'prefer-arrow-callback': 'error',
+    },
+  },
+  {
+    files: ['**/schema/*.json'],
+    languageOptions: { parser: jsoncParser },
+    plugins: { jupyter: jupyterPlugin },
+    rules: {
+      'jupyter/no-schema-enum': 'error',
     },
   },
   eslintPluginPrettierRecommended,

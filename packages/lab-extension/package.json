@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/lab-extension",
-  "version": "7.6.0-alpha.2",
+  "version": "7.6.0-beta.0",
   "description": "Jupyter Notebook - Lab Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -31,33 +31,33 @@
   ],
   "scripts": {
     "build": "jlpm run build:labextension:dev",
-    "build:labextension": "jupyter labextension build .",
-    "build:labextension:dev": "jupyter labextension build --development True .",
+    "build:labextension": "jupyter-builder build .",
+    "build:labextension:dev": "jupyter-builder build --development True .",
     "build:lib": "tsc -b",
     "build:prod": "jlpm run build:labextension",
     "clean": "jlpm run clean:lib && jlpm run clean:labextension",
     "clean:labextension": "rimraf ../../notebook/labextension",
     "clean:lib": "rimraf lib tsconfig.tsbuildinfo",
     "watch": "run-p watch:src watch:labextension",
-    "watch:labextension": "jupyter labextension watch .",
+    "watch:labextension": "jupyter-builder watch .",
     "watch:src": "tsc -w"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.6.0-alpha.2",
-    "@jupyterlab/application": "~4.6.0-alpha.2",
-    "@jupyterlab/apputils": "~4.7.0-alpha.2",
-    "@jupyterlab/coreutils": "~6.6.0-alpha.2",
-    "@jupyterlab/docregistry": "~4.6.0-alpha.2",
-    "@jupyterlab/notebook": "~4.6.0-alpha.2",
-    "@jupyterlab/translation": "~4.6.0-alpha.2",
-    "@jupyterlab/ui-components": "~4.6.0-alpha.2",
+    "@jupyter-notebook/application": "^7.6.0-beta.0",
+    "@jupyterlab/application": "~4.6.0-beta.0",
+    "@jupyterlab/apputils": "~4.7.0-beta.0",
+    "@jupyterlab/coreutils": "~6.6.0-beta.0",
+    "@jupyterlab/docregistry": "~4.6.0-beta.0",
+    "@jupyterlab/notebook": "~4.6.0-beta.0",
+    "@jupyterlab/translation": "~4.6.0-beta.0",
+    "@jupyterlab/ui-components": "~4.6.0-beta.0",
     "@lumino/commands": "^2.3.3",
     "@lumino/disposable": "^2.1.5"
   },
   "devDependencies": {
-    "@jupyterlab/builder": "~4.6.0-alpha.2",
+    "@jupyter/builder": "^1.0.0-beta.1",
     "rimraf": "^3.0.2",
-    "typescript": "~5.5.4"
+    "typescript": "~5.9.3"
   },
   "publishConfig": {
     "access": "public"
@@ -66,39 +66,6 @@
     "extension": true,
     "outputDir": "../../notebook/labextension",
     "schemaDir": "schema"
-  },
-  "nx": {
-    "targets": {
-      "build:labextension:dev": {
-        "dependsOn": [
-          "^build:lib",
-          "build:lib"
-        ],
-        "outputs": [
-          "{workspaceRoot}/notebook/labextension",
-          "{workspaceRoot}/notebook/labextension/build_log.json"
-        ]
-      },
-      "build:labextension": {
-        "dependsOn": [
-          "^build:lib",
-          "build:lib"
-        ],
-        "outputs": [
-          "{workspaceRoot}/notebook/labextension"
-        ]
-      },
-      "build": {
-        "dependsOn": [
-          "build:labextension:dev"
-        ]
-      },
-      "build:prod": {
-        "dependsOn": [
-          "build:labextension"
-        ]
-      }
-    }
   },
   "styleModule": "style/index.js"
 }

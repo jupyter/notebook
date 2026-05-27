@@ -27,7 +27,7 @@ jobs:
           version_spec: next
 
       - name: Upload Distributions
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: notebook-jupyter-releaser-dist-${{ github.run_number }}
           path: .jupyter_releaser_checkout/dist
