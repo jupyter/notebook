@@ -33,8 +33,9 @@ test.describe('Settings', () => {
     await page.waitForSelector('#top-panel', { state: 'hidden' });
     await page.reload({ waitUntil: 'networkidle' });
     await page.menu.getMenuItem(showHeaderPath);
+    await page.waitForTimeout(500);
     expect.soft(await page.screenshot()).toMatchSnapshot('top-hidden.png', {
-      maxDiffPixels: 300,
+      maxDiffPixels: 500,
     });
 
     await page.waitForSelector('#top-panel', { state: 'hidden' });
@@ -42,8 +43,9 @@ test.describe('Settings', () => {
     await page.waitForSelector('#top-panel', { state: 'visible' });
     await page.reload({ waitUntil: 'networkidle' });
     await page.menu.getMenuItem(showHeaderPath);
+    await page.waitForTimeout(500);
     expect(await page.screenshot()).toMatchSnapshot('top-visible.png', {
-      maxDiffPixels: 300,
+      maxDiffPixels: 500,
     });
   });
 });

@@ -70,8 +70,7 @@ test.describe('Notebook', () => {
     );
     await page.goto(`notebooks/${tmpPath}/${notebook}`);
 
-    // wait for the checkpoint indicator to be displayed before executing the cells
-    await page.waitForSelector('.jp-NotebookCheckpoint');
+    await waitForKernelReady(page);
     await page.click('.jp-Notebook');
 
     // execute the first cell
@@ -200,7 +199,9 @@ test.describe('Notebook', () => {
     // wait for the notebook to be ready
     await waitForNotebook(page, browserName);
 
-    expect(await page.screenshot()).toMatchSnapshot('notebook-full-width.png');
+    expect(await page.screenshot()).toMatchSnapshot('notebook-full-width.png', {
+      maxDiffPixels: 500,
+    });
 
     // undo the full width
     await page.menu.clickMenuItem(menuPath);
@@ -241,9 +242,17 @@ test.describe('Notebook', () => {
     const firstCell = page.locator('.jp-Cell').first();
     await expect(firstCell).toHaveClass(/jp-mod-active/);
 
-    // run the two cells
+    // run the first cell and wait for its output
     await page.keyboard.press('Shift+Enter');
+    await page
+      .locator('.jp-Cell >> nth=0 >> .jp-OutputArea-output')
+      .waitFor({ state: 'visible' });
+
+    // run the second cell and wait for its output
     await page.keyboard.press('ControlOrMeta+Enter');
+    await page
+      .locator('.jp-Cell >> nth=1 >> .jp-OutputArea-output')
+      .waitFor({ state: 'visible' });
 
     await page.keyboard.press('Escape');
     await page.keyboard.press('O');

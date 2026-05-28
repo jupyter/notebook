@@ -47,12 +47,24 @@ jobs:
       - name: Install the package
         run: |
           cd dist
-          python -m pip install -vv notebook*.whl
+          python -m pip install notebook*.whl
 
       - name: Install the test dependencies
         run: |
           cd ui-tests
           jlpm
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('ui-tests/yarn.lock') }}
+
+      - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: |
+          cd ui-tests
           jlpm playwright install
 
       - name: Test

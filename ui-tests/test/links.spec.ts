@@ -7,6 +7,8 @@ import { expect } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
+import { waitForKernelReady } from './utils';
+
 const NOTEBOOK = 'local_links.ipynb';
 const SUBFOLDER = 'test';
 
@@ -20,6 +22,7 @@ test.describe('Local Links', () => {
 
   test('Open the current directory', async ({ page, tmpPath }) => {
     await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
+    await waitForKernelReady(page);
 
     const [current] = await Promise.all([
       page.waitForEvent('popup'),
@@ -39,6 +42,7 @@ test.describe('Local Links', () => {
     await page.contents.createDirectory(`${tmpPath}/${SUBFOLDER}`);
 
     await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
+    await waitForKernelReady(page);
 
     const [folder] = await Promise.all([
       page.waitForEvent('popup'),
