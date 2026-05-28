@@ -113,7 +113,7 @@
     "@lezer/common": "~1.5.0",
     "@lezer/highlight": "~1.2.0",
     "@lumino/algorithm": "~2.0.4",
-    "@lumino/application": "~2.4.8",
+    "@lumino/application": "~2.4.9",
     "@lumino/commands": "~2.3.3",
     "@lumino/coreutils": "~2.2.2",
     "@lumino/disposable": "~2.1.5",
@@ -123,7 +123,7 @@
     "@lumino/properties": "~2.0.4",
     "@lumino/signaling": "~2.1.5",
     "@lumino/virtualdom": "~2.0.4",
-    "@lumino/widgets": "~2.7.5",
+    "@lumino/widgets": "~2.8.0",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "yjs": "~13.6.8"
