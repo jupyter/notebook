@@ -29,7 +29,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Base Setup
-        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v0.34.1
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
 
       - name: Build
         uses: ./.github/actions/build-dist
@@ -54,7 +54,7 @@ jobs:
           jlpm playwright install
 
       - name: Update snapshots
-        uses: jupyterlab/maintainer-tools/.github/actions/update-snapshots@v0.34.1
+        uses: jupyterlab/maintainer-tools/.github/actions/update-snapshots@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           npm_client: jlpm
