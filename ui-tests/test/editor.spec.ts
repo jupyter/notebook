@@ -8,6 +8,7 @@ import { test } from './fixtures';
 import { expect } from '@jupyterlab/galata';
 
 const FILE = 'environment.yml';
+const NOTEBOOK = 'empty.ipynb';
 
 test.use({ autoGoto: false });
 
@@ -48,6 +49,20 @@ test.describe('Editor', () => {
     // Check the URL contains the new name
     const url = page.url();
     expect(url).toContain(newName);
+  });
+
+  test('Should open a notebook in the text editor with factory query arg', async ({
+    page,
+    tmpPath,
+  }) => {
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${NOTEBOOK}`),
+      `${tmpPath}/${NOTEBOOK}`
+    );
+    await page.goto(`edit/${tmpPath}/${NOTEBOOK}?factory=Editor`);
+
+    await expect(page.locator('.cm-editor')).toBeVisible();
+    await expect(page.locator('.jp-Notebook')).toHaveCount(0);
   });
 
   test('Renaming the file via the menu entry', async ({ page, tmpPath }) => {
