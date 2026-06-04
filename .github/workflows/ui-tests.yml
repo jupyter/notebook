@@ -38,6 +38,11 @@ jobs:
 
       - name: Base Setup
         uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+        with:
+          # Pin Node to 22.x: `jlpm playwright install` hangs during browser
+          # extraction on Node >=24.16 when using Playwright <1.60 (this branch
+          # is on @playwright/test ~1.57). See microsoft/playwright#40747.
+          node_version: '22.x'
 
       - uses: actions/download-artifact@v6
         with:
