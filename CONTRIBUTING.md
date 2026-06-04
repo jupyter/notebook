@@ -16,8 +16,7 @@ for a friendly and welcoming collaborative environment.
 
 Note: You will need NodeJS to build the extension package.
 
-The `jlpm` command is Jupyter's pinned version of [yarn](https://yarnpkg.com/) that is installed with Jupyter Builder. You may use
-`yarn` or `npm` in lieu of `jlpm` below.
+The `jlpm` command is Jupyter's pinned version of [yarn](https://yarnpkg.com/) that is installed with Jupyter Builder. Use `jlpm` for all JavaScript dependency and build commands below; the repo only ships a `yarn.lock`, so plain `yarn` or `npm` may resolve different versions and break the build.
 
 ### Option A: Using pixi
 
@@ -59,24 +58,24 @@ jlpm develop
 jupyter server extension enable notebook
 ```
 
-### Option C: Using pip + yarn/npm (no conda)
+### Option C: Using pip + jlpm (no conda)
 
-If you prefer not to use conda/mamba, you can set up the environment with pip and yarn (or npm) directly. Make sure you have Python >= 3.10 and Node.js 22.x installed on your system.
+If you prefer not to use conda/mamba, you can set up the environment with pip directly. Make sure you have Python >= 3.10 and Node.js 22.x installed on your system.
 
 ```bash
 # Create and activate a virtual environment
 python -m venv .venv
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
-# Install the package in development mode
+# Install the package in development mode (this also installs jlpm)
 pip install -e ".[dev,docs,test]"
 
-# Install JavaScript dependencies (use yarn or npm)
-yarn install   # or: npm install
-yarn build     # or: npm run build
+# Install JavaScript dependencies and build
+jlpm install
+jlpm build
 
 # Link the notebook extension for development
-yarn develop   # or: npm run develop
+jlpm develop
 
 # Enable the server extension
 jupyter server extension enable notebook
@@ -132,7 +131,7 @@ jupyter notebook
 ### Troubleshooting
 
 **`jlpm: command not found`**\
-`jlpm` is installed as part of Jupyter Builder. Make sure you ran `pip install -e ".[dev,docs,test]"` first. Alternatively, use `yarn` or `npm` directly.
+`jlpm` is installed as part of Jupyter Builder. Make sure you ran `pip install -e ".[dev,docs,test]"` first.
 
 **JavaScript build fails with missing modules**\
 Try clearing the build cache and reinstalling:
