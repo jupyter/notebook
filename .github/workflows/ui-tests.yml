@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Build
         uses: ./.github/actions/build-dist
@@ -34,12 +34,12 @@ jobs:
         browser: [firefox, chromium]
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Base Setup
-        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
 
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: notebook-dist-${{ github.run_number }}
           path: ./dist
@@ -67,7 +67,7 @@ jobs:
 
       - name: Upload Playwright Test assets
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: notebook-${{ matrix.browser }}-test-assets
           path: |
@@ -75,7 +75,7 @@ jobs:
 
       - name: Upload blob report
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: notebook-blobs-${{ matrix.browser }}
           path: ui-tests/blob-report
@@ -93,7 +93,7 @@ jobs:
 
       - name: Upload updated snapshots
         if: failure()
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: notebook-${{ matrix.browser }}-updated-snapshots
           path: ui-tests/test
@@ -145,7 +145,7 @@ jobs:
           path: playwright-report
 
       - name: Inline the report
-        uses: jupyterlab/maintainer-tools/.github/actions/inline-playwright-report@f5d710df1483f19b666dd96aeabbe949a53642c2 # v1
+        uses: jupyterlab/maintainer-tools/.github/actions/inline-playwright-report@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
         with:
           path: playwright-report
 

@@ -21,12 +21,12 @@ jobs:
       security-events: write
     steps:
       - name: "Checkout repository"
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           persist-credentials: false
 
       - name: "Install uv"
-        uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b
+        uses: astral-sh/setup-uv@08807647e7069bb48b6ef5acd8ec9567f424441b # v8.1.0
         with:
           version: "latest"
 
@@ -34,7 +34,7 @@ jobs:
         run: uvx zizmor --format sarif . > results.sarif
 
       - name: "Upload SARIF file"
-        uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13
+        uses: github/codeql-action/upload-sarif@87557b9c84dde89fdd9b10e88954ac2f4248e463 # v4.36.1
         with:
           # Path to SARIF file relative to the root of the repository
           sarif_file: results.sarif

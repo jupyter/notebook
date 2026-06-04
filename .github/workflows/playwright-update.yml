@@ -24,17 +24,17 @@ jobs:
     if: github.event.issue.pull_request && contains(github.event.comment.body, 'please update snapshots')
 
     steps:
-      - uses: jupyterlab/maintainer-tools/.github/actions/update-snapshots-checkout@main
+      - uses: jupyterlab/maintainer-tools/.github/actions/update-snapshots-checkout@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Base Setup
-        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
 
       - name: Build
         uses: ./.github/actions/build-dist
 
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: notebook-dist-${{ github.run_number }}
           path: ./dist
@@ -54,7 +54,7 @@ jobs:
           jlpm playwright install
 
       - name: Update snapshots
-        uses: jupyterlab/maintainer-tools/.github/actions/update-snapshots@v1
+        uses: jupyterlab/maintainer-tools/.github/actions/update-snapshots@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           npm_client: jlpm
