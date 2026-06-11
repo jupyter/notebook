@@ -15,6 +15,7 @@ def notebooks(jp_create_notebook, notebookapp):
     )
     for nb in nbpaths:
         jp_create_notebook(nb)
+
     return nbpaths
 
 
