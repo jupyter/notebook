@@ -90,12 +90,13 @@ test.describe('File Browser', () => {
     await page.filebrowser.refresh();
 
     const header = page.locator('.jp-DirListing-header');
-    await expect(header.getByText('Date Created')).toBeHidden();
+    const dateCreatedColumn = header.locator('.jp-id-created');
+    await expect(dateCreatedColumn).toBeHidden();
 
     await header.click({ button: 'right' });
     await page.getByText('Show Date Created Column').click();
 
-    await expect(header.getByText('Date Created')).toBeVisible();
+    await expect(dateCreatedColumn).toBeVisible();
   });
 });
 
@@ -115,6 +116,6 @@ test.describe('File Browser settings', () => {
     await page.filebrowser.refresh();
 
     const header = page.locator('.jp-DirListing-header');
-    await expect(header.getByText('Date Created')).toBeVisible();
+    await expect(header.locator('.jp-id-created')).toBeVisible();
   });
 });
