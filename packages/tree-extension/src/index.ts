@@ -189,11 +189,15 @@ const fileBrowserSettings: JupyterFrontEndPlugin<void> = {
       navigateToCurrentDirectory: false,
       singleClickNavigation: true,
       showLastModifiedColumn: true,
+      showDateCreatedColumn: false,
       showFileSizeColumn: true,
       showHiddenFiles: false,
       showFileCheckboxes: true,
       sortNotebooksFirst: true,
+      sortFileNamesNaturally: true,
       showFullPath: false,
+      clearFilterOnNavigation: true,
+      allowFileUploads: true,
     };
 
     // Apply defaults on plugin activation
