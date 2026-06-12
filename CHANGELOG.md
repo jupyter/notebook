@@ -27,7 +27,7 @@ A scratchpad console can now be opened next to a notebook, sharing the same kern
 The scratchpad console can be opened from the `File` -> `New` -> `Scratchpad console` menu, from the command palette, or with the Ctrl + B (or Cmd + B on macOS) keyboard shortcut, which toggles the console panel.
 
 <img alt="A notebook with a scratchpad console opened in the right side panel, evaluating an expression that uses the variables defined in the notebook"
-src="_static/changelog_assets/7.6-scratchpad-console.webp"
+src="https://raw.githubusercontent.com/jtpio/notebook/aaba228c289b16eb74083b0d7832abe58e8edcb6/docs/source/_static/changelog_assets/7.6-scratchpad-console.webp"
 class="jp-screenshot">
 
 ### Confirmation dialog when closing and shutting down a notebook
@@ -35,7 +35,7 @@ class="jp-screenshot">
 The "Close and Shut Down Notebook" command now asks for confirmation before closing the browser tab and shutting down the kernel. The confirmation prompt can be disabled in the Settings Editor with the "Prompt for confirmation before closing and shutting down" setting.
 
 <img alt="Confirmation dialog asking to confirm before shutting down the notebook, with Cancel and Shut Down buttons"
-src="_static/changelog_assets/7.6-close-and-shutdown.webp"
+src="https://raw.githubusercontent.com/jtpio/notebook/aaba228c289b16eb74083b0d7832abe58e8edcb6/docs/source/_static/changelog_assets/7.6-close-and-shutdown.webp"
 class="jp-screenshot">
 
 ### Notebook improvements
@@ -52,7 +52,7 @@ class="jp-screenshot">
 The breadcrumbs now support direct path editing with tab completion. Clicking the area behind the breadcrumbs opens an editable text field where pressing Tab completes the longest common prefix of matching subdirectories.
 
 <img alt="The file browser showing an editable breadcrumb input field with a completion dropdown listing subdirectory names"
-src="_static/changelog_assets/7.6-editable-breadcrumbs.webp"
+src="https://raw.githubusercontent.com/jtpio/notebook/aaba228c289b16eb74083b0d7832abe58e8edcb6/docs/source/_static/changelog_assets/7.6-editable-breadcrumbs.webp"
 class="jp-screenshot">
 
 - A new "Date Created" column can be enabled via the settings or by right-clicking the column headers. The latest `jupyter-server` (`v2.18`+) is required for accurate values across operating systems.
