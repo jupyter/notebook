@@ -203,7 +203,12 @@ const fileBrowserSettings: JupyterFrontEndPlugin<void> = {
     // Apply defaults on plugin activation
     let key: keyof typeof defaultFileBrowserConfig;
     for (key in defaultFileBrowserConfig) {
-      browser[key] = defaultFileBrowserConfig[key];
+      const value = defaultFileBrowserConfig[key];
+      // only set the value if it is different, since some setters trigger
+      // a relayout of the file browser
+      if (browser[key] !== value) {
+        browser[key] = value;
+      }
     }
 
     if (settingRegistry) {
@@ -212,8 +217,9 @@ const fileBrowserSettings: JupyterFrontEndPlugin<void> = {
           let key: keyof typeof defaultFileBrowserConfig;
           for (key in defaultFileBrowserConfig) {
             const value = settings.get(key).user as boolean;
-            // only set the setting if it is defined by the user
-            if (value !== undefined) {
+            // only set the setting if it is defined by the user and different,
+            // since some setters trigger a relayout of the file browser
+            if (value !== undefined && browser[key] !== value) {
               browser[key] = value;
             }
           }
