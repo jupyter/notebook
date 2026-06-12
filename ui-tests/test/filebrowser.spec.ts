@@ -3,7 +3,7 @@
 
 import path from 'path';
 
-import { expect } from '@jupyterlab/galata';
+import { expect, galata } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
@@ -82,5 +82,40 @@ test.describe('File Browser', () => {
 
     await nb2.waitForLoadState();
     await nb2.close();
+  });
+
+  test('Toggle the Date Created column from the header context menu', async ({
+    page,
+  }) => {
+    await page.filebrowser.refresh();
+
+    const header = page.locator('.jp-DirListing-header');
+    const dateCreatedColumn = header.locator('.jp-id-created');
+    await expect(dateCreatedColumn).toBeHidden();
+
+    await header.click({ button: 'right' });
+    await page.getByText('Show Date Created Column').click();
+
+    await expect(dateCreatedColumn).toBeVisible();
+  });
+});
+
+test.describe('File Browser settings', () => {
+  test.use({
+    mockSettings: {
+      ...galata.DEFAULT_SETTINGS,
+      '@jupyterlab/filebrowser-extension:browser': {
+        showDateCreatedColumn: true,
+      },
+    },
+  });
+
+  test('Should show the Date Created column when enabled in the settings', async ({
+    page,
+  }) => {
+    await page.filebrowser.refresh();
+
+    const header = page.locator('.jp-DirListing-header');
+    await expect(header.locator('.jp-id-created')).toBeVisible();
   });
 });
