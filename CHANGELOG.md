@@ -55,10 +55,6 @@ The breadcrumbs now support direct path editing with tab completion. Clicking th
 src="https://raw.githubusercontent.com/jtpio/notebook/aaba228c289b16eb74083b0d7832abe58e8edcb6/docs/source/_static/changelog_assets/7.6-editable-breadcrumbs.webp"
 class="jp-screenshot">
 
-- A new "Date Created" column can be enabled via the settings or by right-clicking the column headers. The latest `jupyter-server` (`v2.18`+) is required for accurate values across operating systems.
-- A new "Open in Terminal" option in the context menu opens a terminal navigated to the selected directory.
-- Additional improvements include a configurable file name sort order, persistence of the sort state across sessions, automatic clearing of the file filter when changing directories, and a loading animation during file browser refresh.
-
 ### Debugger improvements
 
 An overlay with continue, step and stop buttons has been added, easing the control of the debugger steps. The Kernel Sources filter has been moved to the toolbar and now supports live filtering, making it easier to search through kernel source files while debugging.
