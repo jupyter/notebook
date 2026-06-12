@@ -211,6 +211,11 @@ const fileBrowserSettings: JupyterFrontEndPlugin<void> = {
       }
     }
 
+    // Refresh the file browser after applying the defaults, which also
+    // resets the refresh poll in case an earlier tick failed and left it
+    // backing off
+    void browser.model.refresh();
+
     if (settingRegistry) {
       void settingRegistry.load(FILE_BROWSER_PLUGIN_ID).then((settings) => {
         function onSettingsChanged(settings: ISettingRegistry.ISettings): void {
