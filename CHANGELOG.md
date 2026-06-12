@@ -12,68 +12,86 @@ upgrading `notebook`.
 Use `pip install pip --upgrade` to upgrade pip. Check pip version with
 `pip --version`.
 
-## 7.5
+## 7.6
 
-Jupyter Notebook 7.5 is based on JupyterLab 4.5, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-4-to-4-5) which lists deprecations and changes to the public API.
+Jupyter Notebook 7.6 is based on JupyterLab 4.6, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-5-to-4-6) which lists deprecations and changes to the public API.
 
-Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.5, although they may not all be supported in Notebook 7.5.
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.6, although they may not all be supported in Notebook 7.6.
 
-For reference you may have a look at the [JupyterLab 4.5 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-5) to learn more.
+For reference you may have a look at the [JupyterLab 4.6 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-6) to learn more.
+
+### Scratchpad console
+
+A scratchpad console can now be opened next to a notebook, sharing the same kernel. This makes it easy to run quick experiments or inspect variables without modifying the notebook itself.
+
+The scratchpad console can be opened from the `File` -> `New` -> `Scratchpad console` menu, from the command palette, or with the Ctrl + B (or Cmd + B on macOS) keyboard shortcut, which toggles the console panel.
+
+<img alt="A notebook with a scratchpad console opened in the right side panel, evaluating an expression that uses the variables defined in the notebook"
+src="_static/changelog_assets/7.6-scratchpad-console.webp"
+class="jp-screenshot">
+
+### Confirmation dialog when closing and shutting down a notebook
+
+The "Close and Shut Down Notebook" command now asks for confirmation before closing the browser tab and shutting down the kernel. The confirmation prompt can be disabled in the Settings Editor with the "Prompt for confirmation before closing and shutting down" setting.
+
+<img alt="Confirmation dialog asking to confirm before shutting down the notebook, with Cancel and Shut Down buttons"
+src="_static/changelog_assets/7.6-close-and-shutdown.webp"
+class="jp-screenshot">
 
 ### Notebook improvements
 
-The default windowing mode is now `contentVisibility` which improves cell rendering and alleviates previously reported issues. The minimap can be enabled for all windowing modes and all notebooks via the `Settings` menu, or by toggling the minimap per notebook with the `View` -> `Show Minimap` option.
-
-Additional fixes improve layout containment and scrollbar behavior when working with long cells.
-
-### Debugger and console enhancements
-
-The debugger's evaluate dialog has been replaced with an interactive console featuring syntax highlighting and code completion. The variables panel now preserves state when switching editors. Visual improvements include highlighted selected breakpoints, improved empty line handling, and a paused indicator. Debugger panels now reference cell execution counts.
-
-<img alt="Debugger panels with reference to execution counts and paused indicator as well as console evaluation"
-src="https://raw.githubusercontent.com/jupyter/notebook/main/docs/source/_static/changelog_assets/7.5-debugger.webp"
-class="jp-screenshot">
-
-Log Console users can configure default log levels and customize toolbars.
-
-### Terminal enhancements
-
-The terminal now includes search functionality, with search highlights that adapt to theme changes.
-
-### Media and content support
-
-Built-in audio and video viewers allow direct file playback within Jupyter Notebook.
-
-<img alt="Video file opened in a Jupyter Notebook tab"
-src="https://raw.githubusercontent.com/jupyter/notebook/main/docs/source/_static/changelog_assets/7.5-media-player.webp"
-class="jp-screenshot">
+- The cell toolbar delete button now shows a confirmation dialog to prevent accidental deletion. The "Do not ask me again" preference is persisted in the Cell Toolbar settings. The `D`, `D` keyboard shortcut is unaffected.
+- A new "Paste code cells without output" setting strips outputs and execution counts from code cells when pasting, producing clean cells without outputs which may be stale or untrusted.
+- Copy, cut, and paste text commands have been added to the notebook context menu. This feature requires permission to access the clipboard and may not work in Firefox depending on version and additional restrictions.
+- Two new navigation commands, "Select Last Modified Cell" and "Select Next Modified Cell", allow jumping back and forward through recently edited cells. They are available from the command palette and as buttons in the Table of Contents toolbar.
+- Pressing Ctrl + B (or Cmd + B on macOS) while editing a Markdown cell wraps the selected text in bold formatting.
+- When exporting a notebook as HTML via `File` -> `Save and Export Notebook As` -> `HTML`, a dialog now asks whether to sanitize the HTML output before download.
 
 ### File browser enhancements
 
-- There is a new `allowFileUploads` setting to control upload permissions.
-- Menu options for creating Python, R, or Julia files are now available from the New menu.
-- The "Select All" command is now available with the Ctrl + A (or Cmd + A on macOS) keyboard shortcut in the file browser.
-- Breadcrumbs are now configurable through `breadcrumbsLeftItems` and `breadcrumbsRightItems` settings.
+The breadcrumbs now support direct path editing with tab completion. Clicking the area behind the breadcrumbs opens an editable text field where pressing Tab completes the longest common prefix of matching subdirectories.
 
-### Settings editor improvements
+<img alt="The file browser showing an editable breadcrumb input field with a completion dropdown listing subdirectory names"
+src="_static/changelog_assets/7.6-editable-breadcrumbs.webp"
+class="jp-screenshot">
 
-The `addExtraLineOnCellMerge` setting removes extra lines when merging cells, matching classic notebook behavior.
+- A new "Date Created" column can be enabled via the settings or by right-clicking the column headers. The latest `jupyter-server` (`v2.18`+) is required for accurate values across operating systems.
+- A new "Open in Terminal" option in the context menu opens a terminal navigated to the selected directory.
+- Additional improvements include a configurable file name sort order, persistence of the sort state across sessions, automatic clearing of the file filter when changing directories, and a loading animation during file browser refresh.
 
-### Cell toolbar settings
+### Debugger improvements
 
-The cell toolbar settings are now exposed in the Settings Editor, making it easier to customize the cell toolbar appearance and behavior.
+An overlay with continue, step and stop buttons has been added, easing the control of the debugger steps. The Kernel Sources filter has been moved to the toolbar and now supports live filtering, making it easier to search through kernel source files while debugging.
 
 ### Keyboard shortcuts
 
-The `O` key has been defined as the keyboard shortcut to toggle cell outputs, restoring this familiar functionality from the classic notebook.
+- Shortcuts can now be added from the Keyboard Shortcuts editor for any command, without having to write JSON in the Advanced Settings Editor.
+- "Find and Replace" has been added to the Edit menu with the Ctrl + H (or Cmd + H on macOS) keyboard shortcut.
+- Ctrl + Y has been added as a redo shortcut on Windows and Linux.
+- Pressing the 1 to 6 keys will no longer convert a focused code or raw cell to Markdown, avoiding accidental conversions. These shortcuts continue working on Markdown cells, switching the heading level.
 
-### User interface and accessibility
+### Inline completion enhancements
 
-Automatic theme switching between light and dark modes is now available when system synchronization is enabled. Dialog components display buttons and checkboxes on separate lines for improved readability. Terminal selections show better visibility under high-contrast themes. Keyboard navigation and status bar tab ordering have been improved.
+Inline completion suggestions can now be rendered with syntax highlighting that matches the active editor language, with the "Ghost text syntax highlighting" setting. Ghost text is now also shown for all active cursors in a multi-cursor editing session.
+
+### Terminal enhancements
+
+Pressing Shift + Enter in the terminal now inserts a newline without executing the current line.
+
+### Keyboard navigation and accessibility
+
+The terminal no longer traps keyboard focus, allowing users to move focus away with the keyboard. Focus is now correctly restored after closing the command palette. Toolbar buttons now correctly reflect their pressed state for screen readers. The Keyboard Shortcuts settings panel has been updated to improve accessibility, and focus indicators have been improved across the interface.
+
+### Other improvements
+
+- The "Launch Jupyter Notebook File Browser" command has been moved from the Help menu to the View menu.
+- Autocompletion heuristics were improved; the autocompletion (which remains opt-in) should no longer trigger in unexpected scenarios.
+- The output scroll overlay collapse icon is now visible regardless of the output size and scroll state.
+- The fonts used across components were standardized, and fonts specified by themes or overrides are respected in every component of the application.
 
 ### Breaking changes
 
-Python 3.8 support has been dropped in this release.
+Python 3.9 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
@@ -324,6 +342,69 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-12-16&to=2025-12-17&type=c))
 
 @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-12-16..2025-12-17&type=Issues))
+
+## 7.5
+
+Jupyter Notebook 7.5 is based on JupyterLab 4.5, and includes a number of new features, bug fixes, and enhancements for extension developers. This release is compatible with extensions supporting JupyterLab 4.0. Extension authors are recommended to consult the [Extension Migration Guide](https://jupyterlab.readthedocs.io/en/latest/extension/extension_migration.html#jupyterlab-4-4-to-4-5) which lists deprecations and changes to the public API.
+
+Below are a few highlights for this new release. Most of the new features and improvements come from the update to JupyterLab 4.5, although they may not all be supported in Notebook 7.5.
+
+For reference you may have a look at the [JupyterLab 4.5 changelog](https://jupyterlab.readthedocs.io/en/latest/getting_started/changelog.html#v4-5) to learn more.
+
+### Notebook improvements
+
+The default windowing mode is now `contentVisibility` which improves cell rendering and alleviates previously reported issues. The minimap can be enabled for all windowing modes and all notebooks via the `Settings` menu, or by toggling the minimap per notebook with the `View` -> `Show Minimap` option.
+
+Additional fixes improve layout containment and scrollbar behavior when working with long cells.
+
+### Debugger and console enhancements
+
+The debugger's evaluate dialog has been replaced with an interactive console featuring syntax highlighting and code completion. The variables panel now preserves state when switching editors. Visual improvements include highlighted selected breakpoints, improved empty line handling, and a paused indicator. Debugger panels now reference cell execution counts.
+
+<img alt="Debugger panels with reference to execution counts and paused indicator as well as console evaluation"
+src="https://raw.githubusercontent.com/jupyter/notebook/main/docs/source/_static/changelog_assets/7.5-debugger.webp"
+class="jp-screenshot">
+
+Log Console users can configure default log levels and customize toolbars.
+
+### Terminal enhancements
+
+The terminal now includes search functionality, with search highlights that adapt to theme changes.
+
+### Media and content support
+
+Built-in audio and video viewers allow direct file playback within Jupyter Notebook.
+
+<img alt="Video file opened in a Jupyter Notebook tab"
+src="https://raw.githubusercontent.com/jupyter/notebook/main/docs/source/_static/changelog_assets/7.5-media-player.webp"
+class="jp-screenshot">
+
+### File browser enhancements
+
+- There is a new `allowFileUploads` setting to control upload permissions.
+- Menu options for creating Python, R, or Julia files are now available from the New menu.
+- The "Select All" command is now available with the Ctrl + A (or Cmd + A on macOS) keyboard shortcut in the file browser.
+- Breadcrumbs are now configurable through `breadcrumbsLeftItems` and `breadcrumbsRightItems` settings.
+
+### Settings editor improvements
+
+The `addExtraLineOnCellMerge` setting removes extra lines when merging cells, matching classic notebook behavior.
+
+### Cell toolbar settings
+
+The cell toolbar settings are now exposed in the Settings Editor, making it easier to customize the cell toolbar appearance and behavior.
+
+### Keyboard shortcuts
+
+The `O` key has been defined as the keyboard shortcut to toggle cell outputs, restoring this familiar functionality from the classic notebook.
+
+### User interface and accessibility
+
+Automatic theme switching between light and dark modes is now available when system synchronization is enabled. Dialog components display buttons and checkboxes on separate lines for improved readability. Terminal selections show better visibility under high-contrast themes. Keyboard navigation and status bar tab ordering have been improved.
+
+### Breaking changes
+
+Python 3.8 support has been dropped in this release.
 
 ## 7.5.1
 
