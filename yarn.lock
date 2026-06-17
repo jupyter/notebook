@@ -2156,7 +2156,7 @@ __metadata:
     "@jupyter-notebook/tree": ^7.6.0-rc.0
     "@jupyter-notebook/tree-extension": ^7.6.0-rc.0
     "@jupyter-notebook/ui-components": ^7.6.0-rc.0
-    "@jupyter/builder": ^1.0.0-beta.1
+    "@jupyter/builder": ^1.0.2
     "@jupyterlab/application-extension": ~4.6.0-rc.1
     "@jupyterlab/apputils-extension": ~4.6.0-rc.1
     "@jupyterlab/attachments": ~4.6.0-rc.1
@@ -2364,7 +2364,7 @@ __metadata:
   resolution: "@jupyter-notebook/lab-extension@workspace:packages/lab-extension"
   dependencies:
     "@jupyter-notebook/application": ^7.6.0-rc.0
-    "@jupyter/builder": ^1.0.0-beta.1
+    "@jupyter/builder": ^1.0.2
     "@jupyterlab/application": ~4.6.0-rc.1
     "@jupyterlab/apputils": ~4.7.0-rc.1
     "@jupyterlab/coreutils": ~6.6.0-rc.1
@@ -2527,11 +2527,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@jupyter/builder@npm:^1.0.0-beta.1":
-  version: 1.0.0-beta.1
-  resolution: "@jupyter/builder@npm:1.0.0-beta.1"
+"@jupyter/builder@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "@jupyter/builder@npm:1.0.2"
   dependencies:
-    "@jupyterlab/core-meta": 4.6.0-alpha.4
+    "@jupyterlab/core-meta": 4.6.0-beta.0
     "@module-federation/runtime-tools": ^2.0.0
     "@rspack/core": ^2.0.2
     ajv: ^8.12.0
@@ -2549,7 +2549,7 @@ __metadata:
     supports-color: ^7.2.0
     webpack-merge: ^5.8.0
     worker-loader: ^3.0.2
-  checksum: 70b0900546f11ceed9ce3cebeff3e21eed4b6212a20eb81a75a9aa3f94ba7232c312f8df66ba1c2dd9bc4d720abd64e58a36a423ef583ea48bb1635e918923ac
+  checksum: 7c11862c2ab83e4d5853fdd5d53b33aa90178ded2ff5a6899df924e1b08b41fae6073a697fbe6b822b4557cbdf86fde96a361d52475dc338c9ea7f527e5d82ee
   languageName: node
   linkType: hard
 
@@ -3051,10 +3051,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/core-meta@npm:4.6.0-alpha.4":
-  version: 4.6.0-alpha.4
-  resolution: "@jupyterlab/core-meta@npm:4.6.0-alpha.4"
-  checksum: 9ee7870b1a5f41a15d20bddd716bb916bc65888bb08b6d8fe6f51d71b9d7110e701b37dd0ae3fc83342839c74555da6d7b49006c638fd32808269e3558324c06
+"@jupyterlab/core-meta@npm:4.6.0-beta.0":
+  version: 4.6.0-beta.0
+  resolution: "@jupyterlab/core-meta@npm:4.6.0-beta.0"
+  checksum: 6d063281cf03fd169f40ea6adbbc691f5cd3a4ef3fccf70ed6c1dd4175ffa85e6628427b2839b6d6a10bf0a9c8ade711798db8d5a7f27ee72d1446374b1a5f2c
   languageName: node
   linkType: hard
 

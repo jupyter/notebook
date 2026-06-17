@@ -27,7 +27,7 @@
     "@jupyter-notebook/ui-components": "~7.6.0-rc.0",
     "@jupyter/react-components": "~0.16.7",
     "@jupyter/web-components": "~0.16.7",
-    "@jupyter/ydoc": "~4.0.0-b0",
+    "@jupyter/ydoc": "~4.0.0",
     "@jupyterlab/application": "~4.6.0-rc.1",
     "@jupyterlab/application-extension": "~4.6.0-rc.1",
     "@jupyterlab/apputils": "~4.7.0-rc.1",
@@ -197,7 +197,7 @@
     "yjs": "^13.5.40"
   },
   "devDependencies": {
-    "@jupyter/builder": "^1.0.0-beta.1",
+    "@jupyter/builder": "^1.0.2",
     "@module-federation/runtime-tools": "^2.0.0",
     "@rspack/cli": "^2.0.2",
     "@rspack/core": "^2.0.2",
