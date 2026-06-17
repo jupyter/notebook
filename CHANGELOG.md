@@ -95,6 +95,47 @@ Python 3.9 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.6.0rc1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.0-rc.0...0b827ef8d78d6363df4171a923c284e321b4b411))
+
+### Enhancements made
+
+- Fix missing filebrowser features [#7955](https://github.com/jupyter/notebook/pull/7955) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.6.0rc1 [#7966](https://github.com/jupyter/notebook/pull/7966) ([@jtpio](https://github.com/jtpio))
+- Bump form-data from 4.0.5 to 4.0.6 [#7961](https://github.com/jupyter/notebook/pull/7961) ([@jtpio](https://github.com/jtpio))
+- Bump dompurify from 3.4.0 to 3.4.10 [#7960](https://github.com/jupyter/notebook/pull/7960) ([@jtpio](https://github.com/jtpio))
+- Bump @babel/core from 7.23.0 to 7.29.6 [#7959](https://github.com/jupyter/notebook/pull/7959) ([@jtpio](https://github.com/jtpio))
+- Remove Python 3.15 pin on CI [#7957](https://github.com/jupyter/notebook/pull/7957) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- User facing changelog [#7954](https://github.com/jupyter/notebook/pull/7954) ([@jtpio](https://github.com/jtpio), [@krassowski](https://github.com/krassowski))
+
+### Other merged PRs
+
+- Bump ws from 8.20.1 to 8.21.0 in /ui-tests [#7965](https://github.com/jupyter/notebook/pull/7965) ([@jtpio](https://github.com/jtpio))
+- Bump form-data from 4.0.4 to 4.0.6 in /ui-tests [#7964](https://github.com/jupyter/notebook/pull/7964) ([@jtpio](https://github.com/jtpio))
+- Bump dompurify from 3.4.0 to 3.4.10 in /ui-tests [#7963](https://github.com/jupyter/notebook/pull/7963) ([@jtpio](https://github.com/jtpio))
+- Bump tar from 6.1.11 to 6.2.1 [#7962](https://github.com/jupyter/notebook/pull/7962) ([@jtpio](https://github.com/jtpio))
+- Bump ws from 7.5.9 to 7.5.11 [#7958](https://github.com/jupyter/notebook/pull/7958) ([@jtpio](https://github.com/jtpio))
+- Bump toshimaru/auto-author-assign from 3.0.2 to 3.0.3 in the actions group [#7956](https://github.com/jupyter/notebook/pull/7956) ([@jtpio](https://github.com/jtpio))
+- Bump shell-quote from 1.8.3 to 1.8.4 [#7952](https://github.com/jupyter/notebook/pull/7952) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-06-10&to=2026-06-17&type=c))
+
+@jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-06-10..2026-06-17&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2026-06-10..2026-06-17&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.6.0rc0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.0-beta.1...5f81fcaabb912bc36e194f6f3d3f0985f83d3223))
@@ -120,8 +161,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-05-29&to=2026-06-10&type=c))
 
 @goelakash ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agoelakash+updated%3A2026-05-29..2026-06-10&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-05-29..2026-06-10&type=Issues)) | @Yann-P ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AYann-P+updated%3A2026-05-29..2026-06-10&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.6.0b1
 
