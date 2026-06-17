@@ -199,7 +199,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          python -m pip install -U "jupyter-builder>=1.0.0b1,<2"
+          python -m pip install -U "jupyter-builder>=1.0.2,<2"
           jlpm
 
       - name: Measure bundle sizes
@@ -248,7 +248,7 @@ jobs:
           hatch run lint:build
           pipx run interrogate -v .
           pipx run doc8 --max-line-length=200 docs/source *.md
-          python -m pip install -U "jupyter-builder>=1.0.0b1,<2"
+          python -m pip install -U "jupyter-builder>=1.0.2,<2"
           jlpm
           jlpm eslint:check
           jlpm prettier:check
