@@ -2261,7 +2261,7 @@ __metadata:
     "@jupyterlab/coreutils": ~6.6.0
     "@jupyterlab/docregistry": ~4.6.0
     "@jupyterlab/rendermime-interfaces": ~3.14.0
-    "@jupyterlab/testutils": ~4.6.0-beta.0
+    "@jupyterlab/testutils": ~4.6.0
     "@jupyterlab/ui-components": ~4.6.0
     "@lumino/algorithm": ^2.0.4
     "@lumino/coreutils": ^2.2.2
@@ -2514,7 +2514,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.29.6
     "@babel/preset-env": ^7.10.2
-    "@jupyterlab/testutils": ~4.6.0-beta.0
+    "@jupyterlab/testutils": ~4.6.0
     "@jupyterlab/ui-components": ~4.6.0
     "@types/jest": ^29.2.5
     babel-loader: ^8.0.6
@@ -2623,7 +2623,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/application@npm:^4.6.0, @jupyterlab/application@npm:^4.6.0-beta.0, @jupyterlab/application@npm:~4.6.0":
+"@jupyterlab/application@npm:^4.6.0, @jupyterlab/application@npm:~4.6.0":
   version: 4.6.0
   resolution: "@jupyterlab/application@npm:4.6.0"
   dependencies:
@@ -2682,7 +2682,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/apputils@npm:^4.7.0, @jupyterlab/apputils@npm:^4.7.0-beta.0, @jupyterlab/apputils@npm:~4.7.0":
+"@jupyterlab/apputils@npm:^4.7.0, @jupyterlab/apputils@npm:~4.7.0":
   version: 4.7.0
   resolution: "@jupyterlab/apputils@npm:4.7.0"
   dependencies:
@@ -3058,7 +3058,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/coreutils@npm:^6.6.0, @jupyterlab/coreutils@npm:^6.6.0-beta.0, @jupyterlab/coreutils@npm:~6.6.0":
+"@jupyterlab/coreutils@npm:^6.6.0, @jupyterlab/coreutils@npm:~6.6.0":
   version: 6.6.0
   resolution: "@jupyterlab/coreutils@npm:6.6.0"
   dependencies:
@@ -3906,7 +3906,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/notebook@npm:^4.6.0, @jupyterlab/notebook@npm:^4.6.0-beta.0, @jupyterlab/notebook@npm:~4.6.0":
+"@jupyterlab/notebook@npm:^4.6.0, @jupyterlab/notebook@npm:~4.6.0":
   version: 4.6.0
   resolution: "@jupyterlab/notebook@npm:4.6.0"
   dependencies:
@@ -4051,7 +4051,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/rendermime@npm:^4.6.0, @jupyterlab/rendermime@npm:^4.6.0-beta.0, @jupyterlab/rendermime@npm:~4.6.0":
+"@jupyterlab/rendermime@npm:^4.6.0, @jupyterlab/rendermime@npm:~4.6.0":
   version: 4.6.0
   resolution: "@jupyterlab/rendermime@npm:4.6.0"
   dependencies:
@@ -4315,13 +4315,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/testing@npm:^4.6.0-beta.0":
-  version: 4.6.0-beta.0
-  resolution: "@jupyterlab/testing@npm:4.6.0-beta.0"
+"@jupyterlab/testing@npm:^4.6.0":
+  version: 4.6.0
+  resolution: "@jupyterlab/testing@npm:4.6.0"
   dependencies:
     "@babel/core": ^7.10.2
     "@babel/preset-env": ^7.10.2
-    "@jupyterlab/coreutils": ^6.6.0-beta.0
+    "@jupyterlab/coreutils": ^6.6.0
     "@lumino/coreutils": ^2.2.2
     "@lumino/signaling": ^2.1.5
     deepmerge: ^4.2.2
@@ -4334,20 +4334,20 @@ __metadata:
     ts-jest: ^29.1.0
   peerDependencies:
     typescript: ">=4.3"
-  checksum: 1179bedc29bd487dc64ebfb6b7bf135e03465ee8b4581c026024cb5f01aad61e4043fbc81753ff43909ea609769d11ecc07e8a36de18744936446fec366d277e
+  checksum: c178e230d1eb21474b5efe73c2924bc04c579f7460581df26a45c3660c30022f416d52c76f0a6c18476e9cc430463b29621d6dfd4e836dde0b2e9156bdbd2dde
   languageName: node
   linkType: hard
 
-"@jupyterlab/testutils@npm:~4.6.0-beta.0":
-  version: 4.6.0-beta.0
-  resolution: "@jupyterlab/testutils@npm:4.6.0-beta.0"
+"@jupyterlab/testutils@npm:~4.6.0":
+  version: 4.6.0
+  resolution: "@jupyterlab/testutils@npm:4.6.0"
   dependencies:
-    "@jupyterlab/application": ^4.6.0-beta.0
-    "@jupyterlab/apputils": ^4.7.0-beta.0
-    "@jupyterlab/notebook": ^4.6.0-beta.0
-    "@jupyterlab/rendermime": ^4.6.0-beta.0
-    "@jupyterlab/testing": ^4.6.0-beta.0
-  checksum: 8c8b0466384d8def13a2804dfb0c26d24050cdd8a5fb2eaf599fb4c1cdc8533c30a0aee038b7612963d1716c3e5d81f9413c9ac84f3953689a2ec5b113c58d9c
+    "@jupyterlab/application": ^4.6.0
+    "@jupyterlab/apputils": ^4.7.0
+    "@jupyterlab/notebook": ^4.6.0
+    "@jupyterlab/rendermime": ^4.6.0
+    "@jupyterlab/testing": ^4.6.0
+  checksum: 43b3e7c673210565675ed67fcffb16dcf669eae1b23b9657ac0bb84f361a8d1e160ab2c85db5045f16fd1cf32db7bfa37023a55a0b371d4b5cd4500af080bf3c
   languageName: node
   linkType: hard
 
