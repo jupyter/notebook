@@ -231,8 +231,7 @@
           "@jupyterlab/application-extension:context-menu",
           "@jupyterlab/application-extension:faviconbusy",
           "@jupyterlab/application-extension:router",
-          "@jupyterlab/application-extension:top-bar",
-          "@jupyterlab/application-extension:top-spacer"
+          "@jupyterlab/application-extension:top-bar"
         ],
         "@jupyterlab/apputils-extension": [
           "@jupyterlab/apputils-extension:kernels-settings",
@@ -325,7 +324,6 @@
           "@jupyterlab/filebrowser-extension:download",
           "@jupyterlab/filebrowser-extension:file-upload-status",
           "@jupyterlab/filebrowser-extension:open-with",
-          "@jupyterlab/filebrowser-extension:search",
           "@jupyterlab/filebrowser-extension:share-file"
         ],
         "@jupyter-notebook/tree-extension": true,
