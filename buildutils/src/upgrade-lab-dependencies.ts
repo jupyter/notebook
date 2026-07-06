@@ -22,6 +22,10 @@ const PACKAGE_JSON_PATHS: string[] = [
 
 const DEPENDENCY_GROUP = '@jupyterlab';
 
+// Packages outside of the @jupyterlab group that should be kept in sync
+// with the JupyterLab release
+const EXTRA_DEPENDENCIES = ['@playwright/test'];
+
 interface IVersion {
   major: number;
   minor: number;
@@ -96,6 +100,14 @@ async function updatePackageJson(newVersion: string): Promise<void> {
     `${baseUrl}/testutils/package.json`
   );
 
+  // use the same version of Playwright as the one used by galata
+  const playwrightVersion = galataPackageJson.dependencies['@playwright/test'];
+  if (!playwrightVersion) {
+    throw new Error(
+      'Failed to find @playwright/test in the galata package.json'
+    );
+  }
+
   for (const packageJsonPath of PACKAGE_JSON_PATHS) {
     const filePath: string = path.resolve(packageJsonPath);
     const existingPackageJson = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
@@ -105,6 +117,7 @@ async function updatePackageJson(newVersion: string): Promise<void> {
       ...newPackageJson.resolutions,
       [galataPackageJson.name]: galataPackageJson.version,
       [testutilsPackageJson.name]: testutilsPackageJson.version,
+      '@playwright/test': playwrightVersion,
     };
 
     updateDependencyVersion(existingPackageJson, newDependencies);
@@ -137,7 +150,11 @@ function updateDependencyVersion(existingJson: any, newJson: any): void {
     for (const [pkg, version] of Object.entries<string>(
       existingJson[section]
     )) {
-      if (pkg.startsWith(DEPENDENCY_GROUP) && pkg in newJson) {
+      if (
+        (pkg.startsWith(DEPENDENCY_GROUP) ||
+          EXTRA_DEPENDENCIES.includes(pkg)) &&
+        pkg in newJson
+      ) {
         if (version[0] === '^' || version[0] === '~') {
           updated[pkg] = version[0] + absoluteVersion(newJson[pkg]);
         } else {

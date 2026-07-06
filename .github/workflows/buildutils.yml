@@ -116,6 +116,7 @@ jobs:
           grep -nF 'jupyterlab>=4.5.0rc1,<4.6' pyproject.toml .pre-commit-config.yaml
           grep -nF '"@jupyterlab/application": "~4.5.0-rc.1"' app/package.json packages/lab-extension/package.json
           grep -nF '"@jupyterlab/testutils": "~4.5.0-rc.1"' packages/application/package.json packages/ui-components/package.json
+          grep -nF '"@playwright/test": "^1.56.0"' ui-tests/package.json
           git diff --name-only -- ui-tests/package.json | grep -Fx 'ui-tests/package.json'
 
   npm:
