@@ -70,8 +70,7 @@ function updateVersionInFile(
   fs.writeFileSync(filePath, updatedContent);
 }
 
-async function updatePackageJson(newVersion: string): Promise<void> {
-  const url = `https://raw.githubusercontent.com/jupyterlab/jupyterlab/v${newVersion}/jupyterlab/staging/package.json`;
+async function fetchPackageJson(url: string): Promise<any> {
   const response = await fetch(url);
 
   if (!response.ok) {
@@ -79,16 +78,23 @@ async function updatePackageJson(newVersion: string): Promise<void> {
     throw new Error(errorMessage);
   }
 
-  // fetch the new galata version
-  const galataUrl = `https://raw.githubusercontent.com/jupyterlab/jupyterlab/v${newVersion}/galata/package.json`;
-  const galataResponse = await fetch(galataUrl);
-  if (!galataResponse.ok) {
-    const errorMessage = `Failed to fetch galata/package.json from ${galataUrl}. HTTP status code: ${galataResponse.status}`;
-    throw new Error(errorMessage);
-  }
+  return response.json();
+}
 
-  const newPackageJson = await response.json();
-  const galataPackageJson = await galataResponse.json();
+async function updatePackageJson(newVersion: string): Promise<void> {
+  const baseUrl = `https://raw.githubusercontent.com/jupyterlab/jupyterlab/v${newVersion}`;
+  const newPackageJson = await fetchPackageJson(
+    `${baseUrl}/jupyterlab/staging/package.json`
+  );
+
+  // fetch the new galata and testutils versions, which are not part of
+  // the staging package.json
+  const galataPackageJson = await fetchPackageJson(
+    `${baseUrl}/galata/package.json`
+  );
+  const testutilsPackageJson = await fetchPackageJson(
+    `${baseUrl}/testutils/package.json`
+  );
 
   for (const packageJsonPath of PACKAGE_JSON_PATHS) {
     const filePath: string = path.resolve(packageJsonPath);
@@ -98,6 +104,7 @@ async function updatePackageJson(newVersion: string): Promise<void> {
       ...newPackageJson.devDependencies,
       ...newPackageJson.resolutions,
       [galataPackageJson.name]: galataPackageJson.version,
+      [testutilsPackageJson.name]: testutilsPackageJson.version,
     };
 
     updateDependencyVersion(existingPackageJson, newDependencies);
