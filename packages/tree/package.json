@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/tree",
-  "version": "7.6.0",
+  "version": "7.7.0-alpha.0",
   "description": "Jupyter Notebook - Tree",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {

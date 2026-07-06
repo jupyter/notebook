@@ -95,6 +95,37 @@ Python 3.9 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.7.0a0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.0...da65ebc72a55027cfd0e16829f07d36f5b169da7))
+
+### Enhancements made
+
+- Update to JupyterLab v4.7.0a0 [#7977](https://github.com/jupyter/notebook/pull/7977) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Remove stale plugin references from the plugin lists [#7978](https://github.com/jupyter/notebook/pull/7978) ([@jtpio](https://github.com/jtpio))
+- Fix headings for release notes missing stable anchor point [#7975](https://github.com/jupyter/notebook/pull/7975) ([@krassowski](https://github.com/krassowski), [@jasongrout](https://github.com/jasongrout))
+- Bump the actions group with 2 updates [#7971](https://github.com/jupyter/notebook/pull/7971) ([@jtpio](https://github.com/jtpio))
+- Add py.typed marker file [#7929](https://github.com/jupyter/notebook/pull/7929) ([@goelakash](https://github.com/goelakash), [@jtpio](https://github.com/jtpio))
+- Add UI test for notebooks-to-tree redirect on directories [#7928](https://github.com/jupyter/notebook/pull/7928) ([@goelakash](https://github.com/goelakash), [@jtpio](https://github.com/jtpio))
+
+### Other merged PRs
+
+- Bump dompurify from 3.4.10 to 3.4.11 [#7968](https://github.com/jupyter/notebook/pull/7968) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-06-18&to=2026-07-06&type=c))
+
+@goelakash ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agoelakash+updated%3A2026-06-18..2026-07-06&type=Issues)) | @jasongrout ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajasongrout+updated%3A2026-06-18..2026-07-06&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-06-18..2026-07-06&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2026-06-18..2026-07-06&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.6.0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.5.1...ff72659087428132698ebe7ccfd7cf8a52ed9fba))
@@ -200,8 +231,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2025-12-16&to=2026-06-18&type=c))
 
 @andrii-i ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2025-12-16..2026-06-18&type=Issues)) | @bodhisilberling ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abodhisilberling+updated%3A2025-12-16..2026-06-18&type=Issues)) | @brichet ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2025-12-16..2026-06-18&type=Issues)) | @Carreau ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ACarreau+updated%3A2025-12-16..2026-06-18&type=Issues)) | @Copilot ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ACopilot+updated%3A2025-12-16..2026-06-18&type=Issues)) | @Darshan808 ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ADarshan808+updated%3A2025-12-16..2026-06-18&type=Issues)) | @goelakash ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agoelakash+updated%3A2025-12-16..2026-06-18&type=Issues)) | @joaovml ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajoaovml+updated%3A2025-12-16..2026-06-18&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2025-12-16..2026-06-18&type=Issues)) | @KH-Coder865 ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AKH-Coder865+updated%3A2025-12-16..2026-06-18&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2025-12-16..2026-06-18&type=Issues)) | @martinRenou ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AmartinRenou+updated%3A2025-12-16..2026-06-18&type=Issues)) | @minrk ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aminrk+updated%3A2025-12-16..2026-06-18&type=Issues)) | @Mirochill ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AMirochill+updated%3A2025-12-16..2026-06-18&type=Issues)) | @RamiNoodle733 ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ARamiNoodle733+updated%3A2025-12-16..2026-06-18&type=Issues)) | @takluyver ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Atakluyver+updated%3A2025-12-16..2026-06-18&type=Issues)) | @xlumzee ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Axlumzee+updated%3A2025-12-16..2026-06-18&type=Issues)) | @yangsong97 ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ayangsong97+updated%3A2025-12-16..2026-06-18&type=Issues)) | @Yann-P ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AYann-P+updated%3A2025-12-16..2026-06-18&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.6.0rc1
 
