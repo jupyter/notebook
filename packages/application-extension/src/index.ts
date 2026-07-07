@@ -38,7 +38,10 @@ import {
   standardRendererFactories,
 } from '@jupyterlab/rendermime';
 
-import { ISettingRegistry } from '@jupyterlab/settingregistry';
+import {
+  ISettingConnector,
+  ISettingRegistry,
+} from '@jupyterlab/settingregistry';
 
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
@@ -54,6 +57,8 @@ import {
 } from '@jupyter-notebook/application';
 
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
+
+import { SettingConnector } from './settingconnector';
 
 import { PromiseDelegate } from '@lumino/coreutils';
 
@@ -1292,6 +1297,23 @@ const zen: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin providing a custom setting connector to override the default
+ * values of some of the JupyterLab plugin settings, for example to open
+ * the help (pager payloads) in the down area by default, like in the
+ * Classic Notebook.
+ */
+const settingsConnector: JupyterFrontEndPlugin<ISettingConnector> = {
+  id: '@jupyter-notebook/application-extension:settings-connector',
+  description:
+    'Provides a custom setting connector overriding some default setting values.',
+  autoStart: true,
+  provides: ISettingConnector,
+  activate: (app: JupyterFrontEnd): ISettingConnector => {
+    return new SettingConnector(app.serviceManager.settings);
+  },
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
@@ -1305,6 +1327,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   pathOpener,
   paths,
   rendermime,
+  settingsConnector,
   shell,
   sidePanelVisibility,
   shortcuts,

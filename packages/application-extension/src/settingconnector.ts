@@ -23,6 +23,13 @@ const SETTING_OVERRIDES: {
     [propertyName: string]: ISettingRegistry.IProperty['default'];
   };
 } = {
+  // Use a different set of file browser defaults than JupyterLab.
+  '@jupyterlab/filebrowser-extension:browser': {
+    showFileCheckboxes: true,
+    showFileSizeColumn: true,
+    singleClickNavigation: true,
+    sortNotebooksFirst: true,
+  },
   // Open the help (pager payloads) in the down area by default,
   // like in the Classic Notebook.
   '@jupyterlab/notebook-extension:tracker': {

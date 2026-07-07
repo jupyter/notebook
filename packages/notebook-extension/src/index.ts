@@ -33,10 +33,7 @@ import {
   INotebookTools,
 } from '@jupyterlab/notebook';
 
-import {
-  ISettingConnector,
-  ISettingRegistry,
-} from '@jupyterlab/settingregistry';
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 import { ITableOfContentsTracker } from '@jupyterlab/toc';
 
@@ -49,8 +46,6 @@ import { find } from '@lumino/algorithm';
 import { Poll } from '@lumino/polling';
 
 import { Widget } from '@lumino/widgets';
-
-import { SettingConnector } from './settingconnector';
 
 import { TrustedComponent } from './trusted';
 
@@ -944,23 +939,6 @@ const overrideMenuItems: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A plugin providing a custom setting connector to override the default
- * values of some of the JupyterLab plugin settings, for example to open
- * the help (pager payloads) in the down area by default, like in the
- * Classic Notebook.
- */
-const settingsConnector: JupyterFrontEndPlugin<ISettingConnector> = {
-  id: '@jupyter-notebook/notebook-extension:settings-connector',
-  description:
-    'Provides a custom setting connector overriding some default setting values.',
-  autoStart: true,
-  provides: ISettingConnector,
-  activate: (app: JupyterFrontEnd): ISettingConnector => {
-    return new SettingConnector(app.serviceManager.settings);
-  },
-};
-
-/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
@@ -974,7 +952,6 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   notebookToolsWidget,
   overrideMenuItems,
   scrollOutput,
-  settingsConnector,
   tabIcon,
   trusted,
 ];
