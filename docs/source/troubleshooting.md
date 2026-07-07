@@ -213,7 +213,7 @@ If you can't find an existing answer, you can ask questions at:
 
   > - [jupyter_core](https://github.com/jupyter/jupyter_core) - `secure_write()`
   >   and file path issues
-  > - [jupyter_client](https://github.com/jupyter/jupyter_core) - kernel management
+  > - [jupyter_client](https://github.com/jupyter/jupyter_client) - kernel management
   >   issues found in Notebook server's command window.
   > - [IPython](https://github.com/ipython/ipython) and
   >   [ipykernel](https://github.com/ipython/ipykernel) - kernel runtime issues

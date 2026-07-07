@@ -2,21 +2,21 @@
 // Distributed under the terms of the Modified BSD License.
 
 // Heavily inspired (and slightly tweaked) from:
-// https://github.com/jupyterlab/jupyterlab/blob/master/examples/federated/core_package/webpack.config.js
+// https://github.com/jupyterlab/jupyterlab/blob/master/examples/federated/core_package/rspack.config.js
 
 const fs = require('fs-extra');
 const path = require('path');
-const webpack = require('webpack');
+const rspack = require('@rspack/core');
 const merge = require('webpack-merge').default;
 const Handlebars = require('handlebars');
-const { ModuleFederationPlugin } = webpack.container;
+const { ModuleFederationPlugin } = rspack.container;
 const BundleAnalyzerPlugin =
   require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const Build = require('@jupyterlab/builder').Build;
-const WPPlugin = require('@jupyterlab/builder').WPPlugin;
+const Build = require('@jupyter/builder').Build;
+const WPPlugin = require('@jupyter/builder').WPPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const baseConfig = require('@jupyterlab/builder/lib/webpack.config.base');
+const baseConfig = require('@jupyter/builder/lib/webpack.config.base');
 
 const data = require('./package.json');
 
@@ -94,7 +94,7 @@ const extras = Build.ensureAssets({
 });
 
 /**
- * Create the webpack ``shared`` configuration
+ * Create the rspack ``shared`` configuration
  */
 function createShared(packageData) {
   // Set up module federation sharing config

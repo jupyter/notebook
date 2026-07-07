@@ -1,0 +1,43 @@
+# Performs static analysis in GitHub actions with https://github.com/woodruffw/zizmor
+name: Zizmor
+
+concurrency:
+  group: zizmor-${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches:
+      - "*"
+
+permissions:
+  contents: read
+
+jobs:
+  zizmor:
+    name: "Run Zizmor (github actions security)"
+    runs-on: ubuntu-latest
+    permissions:
+      security-events: write
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
+
+      - name: "Install uv"
+        uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+        with:
+          version: "latest"
+
+      - name: "Run zizmor"
+        run: uvx zizmor --format sarif . > results.sarif
+
+      - name: "Upload SARIF file"
+        uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
+        with:
+          # Path to SARIF file relative to the root of the repository
+          sarif_file: results.sarif
+          # Optional category for the results
+          # Used to differentiate multiple results for one commit
+          category: zizmor

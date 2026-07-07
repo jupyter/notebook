@@ -56,7 +56,7 @@ continue developing the Jupyter Notebook application and _sunrise_ it as
 Notebook 7.
 
 You can find more details about the changes currently taking place in the
-Jupyter Ecosystem in the [JEP 79] and [team-compass note].
+Jupyter Ecosystem in the [JEP 79][jep 79] and [team-compass note].
 
 ## New features in Notebook 7
 

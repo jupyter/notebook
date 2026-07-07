@@ -37,6 +37,22 @@ test('should update url when navigating in filebrowser', async ({
   expect(url.pathname).toEqual(`/tree/${tmpPath}/${SUBFOLDER}`);
 });
 
+test('Should redirect from notebooks route to tree route for directories', async ({
+  page,
+  tmpPath,
+}) => {
+  const dir = `${tmpPath}/${SUBFOLDER}`;
+  await page.contents.createDirectory(dir);
+
+  // Navigate to the directory via the /notebooks/ route
+  await page.goto(`notebooks/${dir}`);
+
+  // Should redirect to /tree/ since the path is a directory
+  await page.waitForURL(`**/tree/${dir}`);
+  const url = new URL(page.url());
+  expect(url.pathname).toEqual(`/tree/${dir}`);
+});
+
 test('Should activate file browser tab', async ({ page, tmpPath }) => {
   await page.goto(`tree/${tmpPath}`);
   await page.locator('.jp-TreePanel >> text="Running"').click();

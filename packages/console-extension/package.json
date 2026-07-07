@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/console-extension",
-  "version": "7.5.0-alpha.2",
+  "version": "7.7.0-alpha.0",
   "description": "Jupyter Notebook - Console Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -38,21 +38,28 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.5.0-alpha.2",
-    "@jupyterlab/application": "~4.5.0-alpha.3",
-    "@jupyterlab/console": "~4.5.0-alpha.3",
-    "@jupyterlab/coreutils": "~6.5.0-alpha.3",
-    "@lumino/algorithm": "^2.0.3"
+    "@jupyter-notebook/application": "^7.7.0-alpha.0",
+    "@jupyterlab/application": "~4.7.0-alpha.0",
+    "@jupyterlab/apputils": "~4.8.0-alpha.0",
+    "@jupyterlab/console": "~4.7.0-alpha.0",
+    "@jupyterlab/coreutils": "~6.7.0-alpha.0",
+    "@jupyterlab/notebook": "~4.7.0-alpha.0",
+    "@jupyterlab/translation": "~4.7.0-alpha.0",
+    "@jupyterlab/ui-components": "~4.7.0-alpha.0",
+    "@lumino/algorithm": "^2.0.4",
+    "@lumino/coreutils": "^2.2.2",
+    "@lumino/widgets": "^2.7.2"
   },
   "devDependencies": {
     "rimraf": "^3.0.2",
-    "typescript": "~5.5.4"
+    "typescript": "~5.9.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "jupyterlab": {
-    "extension": true
+    "extension": true,
+    "schemaDir": "schema"
   },
   "styleModule": "style/index.js"
 }

@@ -400,3 +400,7 @@ intersphinx_mapping = {
 
 spelling_lang = "en_US"
 spelling_word_list_filename = "spelling_wordlist.txt"
+
+
+def setup(app):
+    app.add_css_file("https://docs.jupyter.org/en/latest/_static/jupyter.css")

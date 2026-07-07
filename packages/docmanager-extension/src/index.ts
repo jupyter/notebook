@@ -32,7 +32,7 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
   description: 'Open documents in a new browser tab',
   activate: (
     app: JupyterFrontEnd,
-    notebookPathOpener: INotebookPathOpener,
+    notebookPathOpener: INotebookPathOpener | null,
     notebookShell: INotebookShell | null
   ) => {
     const baseUrl = PageConfig.getBaseUrl();

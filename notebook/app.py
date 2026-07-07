@@ -39,7 +39,7 @@ from ._version import __version__
 
 HERE = Path(__file__).parent.resolve()
 
-Flags = dict[t.Union[str, tuple[str, ...]], tuple[t.Union[dict[str, t.Any], Config], str]]
+Flags = dict[str | tuple[str, ...], tuple[dict[str, t.Any] | Config, str]]
 
 app_dir = Path(get_app_dir())
 version = __version__

@@ -189,18 +189,32 @@ const fileBrowserSettings: JupyterFrontEndPlugin<void> = {
       navigateToCurrentDirectory: false,
       singleClickNavigation: true,
       showLastModifiedColumn: true,
+      showDateCreatedColumn: false,
       showFileSizeColumn: true,
       showHiddenFiles: false,
       showFileCheckboxes: true,
       sortNotebooksFirst: true,
+      sortFileNamesNaturally: true,
       showFullPath: false,
+      clearFilterOnNavigation: true,
+      allowFileUploads: true,
     };
 
     // Apply defaults on plugin activation
     let key: keyof typeof defaultFileBrowserConfig;
     for (key in defaultFileBrowserConfig) {
-      browser[key] = defaultFileBrowserConfig[key];
+      const value = defaultFileBrowserConfig[key];
+      // only set the value if it is different, since some setters trigger
+      // a relayout of the file browser
+      if (browser[key] !== value) {
+        browser[key] = value;
+      }
     }
+
+    // Refresh the file browser after applying the defaults, which also
+    // resets the refresh poll in case an earlier tick failed and left it
+    // backing off
+    void browser.model.refresh();
 
     if (settingRegistry) {
       void settingRegistry.load(FILE_BROWSER_PLUGIN_ID).then((settings) => {
@@ -208,8 +222,9 @@ const fileBrowserSettings: JupyterFrontEndPlugin<void> = {
           let key: keyof typeof defaultFileBrowserConfig;
           for (key in defaultFileBrowserConfig) {
             const value = settings.get(key).user as boolean;
-            // only set the setting if it is defined by the user
-            if (value !== undefined) {
+            // only set the setting if it is defined by the user and different,
+            // since some setters trigger a relayout of the file browser
+            if (value !== undefined && browser[key] !== value) {
               browser[key] = value;
             }
           }
@@ -280,20 +295,22 @@ const loadPlugins: JupyterFrontEndPlugin<void> = {
 
     app.restored.then(async () => {
       const plugins = await connector.list('all');
-      plugins.ids.forEach(async (id: string) => {
-        const [extension] = id.split(':');
-        // load the plugin if it is built-in the notebook application explicitly
-        // either included as an extension or as a plugin directly
-        const hasPlugin = pluginsSet.has(extension) || pluginsSet.has(id);
-        if (!hasPlugin || isDisabled(id) || id in settingRegistry.plugins) {
-          return;
-        }
-        try {
-          await settingRegistry.load(id);
-        } catch (error) {
-          console.warn(`Settings failed to load for (${id})`, error);
-        }
-      });
+      await Promise.all(
+        plugins.ids.map(async (id: string) => {
+          const [extension] = id.split(':');
+          // load the plugin if it is built-in the notebook application explicitly
+          // either included as an extension or as a plugin directly
+          const hasPlugin = pluginsSet.has(extension) || pluginsSet.has(id);
+          if (!hasPlugin || isDisabled(id) || id in settingRegistry.plugins) {
+            return;
+          }
+          try {
+            await settingRegistry.load(id);
+          } catch (error) {
+            console.warn(`Settings failed to load for (${id})`, error);
+          }
+        })
+      );
     });
   },
 };
@@ -315,6 +332,12 @@ const openFileBrowser: JupyterFrontEndPlugin<void> = {
     commands.addCommand(CommandIDs.activate, {
       execute: () => {
         notebookTree.currentWidget = browser;
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
       },
     });
   },

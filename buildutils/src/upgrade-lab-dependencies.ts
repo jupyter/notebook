@@ -22,6 +22,10 @@ const PACKAGE_JSON_PATHS: string[] = [
 
 const DEPENDENCY_GROUP = '@jupyterlab';
 
+// Packages outside of the @jupyterlab group that should be kept in sync
+// with the JupyterLab release
+const EXTRA_DEPENDENCIES = ['@playwright/test'];
+
 interface IVersion {
   major: number;
   minor: number;
@@ -70,8 +74,7 @@ function updateVersionInFile(
   fs.writeFileSync(filePath, updatedContent);
 }
 
-async function updatePackageJson(newVersion: string): Promise<void> {
-  const url = `https://raw.githubusercontent.com/jupyterlab/jupyterlab/v${newVersion}/jupyterlab/staging/package.json`;
+async function fetchPackageJson(url: string): Promise<any> {
   const response = await fetch(url);
 
   if (!response.ok) {
@@ -79,16 +82,31 @@ async function updatePackageJson(newVersion: string): Promise<void> {
     throw new Error(errorMessage);
   }
 
-  // fetch the new galata version
-  const galataUrl = `https://raw.githubusercontent.com/jupyterlab/jupyterlab/v${newVersion}/galata/package.json`;
-  const galataResponse = await fetch(galataUrl);
-  if (!galataResponse.ok) {
-    const errorMessage = `Failed to fetch galata/package.json from ${galataUrl}. HTTP status code: ${galataResponse.status}`;
-    throw new Error(errorMessage);
-  }
+  return response.json();
+}
 
-  const newPackageJson = await response.json();
-  const galataPackageJson = await galataResponse.json();
+async function updatePackageJson(newVersion: string): Promise<void> {
+  const baseUrl = `https://raw.githubusercontent.com/jupyterlab/jupyterlab/v${newVersion}`;
+  const newPackageJson = await fetchPackageJson(
+    `${baseUrl}/jupyterlab/staging/package.json`
+  );
+
+  // fetch the new galata and testutils versions, which are not part of
+  // the staging package.json
+  const galataPackageJson = await fetchPackageJson(
+    `${baseUrl}/galata/package.json`
+  );
+  const testutilsPackageJson = await fetchPackageJson(
+    `${baseUrl}/testutils/package.json`
+  );
+
+  // use the same version of Playwright as the one used by galata
+  const playwrightVersion = galataPackageJson.dependencies['@playwright/test'];
+  if (!playwrightVersion) {
+    throw new Error(
+      'Failed to find @playwright/test in the galata package.json'
+    );
+  }
 
   for (const packageJsonPath of PACKAGE_JSON_PATHS) {
     const filePath: string = path.resolve(packageJsonPath);
@@ -98,6 +116,8 @@ async function updatePackageJson(newVersion: string): Promise<void> {
       ...newPackageJson.devDependencies,
       ...newPackageJson.resolutions,
       [galataPackageJson.name]: galataPackageJson.version,
+      [testutilsPackageJson.name]: testutilsPackageJson.version,
+      '@playwright/test': playwrightVersion,
     };
 
     updateDependencyVersion(existingPackageJson, newDependencies);
@@ -130,7 +150,11 @@ function updateDependencyVersion(existingJson: any, newJson: any): void {
     for (const [pkg, version] of Object.entries<string>(
       existingJson[section]
     )) {
-      if (pkg.startsWith(DEPENDENCY_GROUP) && pkg in newJson) {
+      if (
+        (pkg.startsWith(DEPENDENCY_GROUP) ||
+          EXTRA_DEPENDENCIES.includes(pkg)) &&
+        pkg in newJson
+      ) {
         if (version[0] === '^' || version[0] === '~') {
           updated[pkg] = version[0] + absoluteVersion(newJson[pkg]);
         } else {
@@ -148,7 +172,7 @@ function absoluteVersion(version: string): string {
   return version;
 }
 
-const versionPattern = /(jupyterlab)(>=[\d.]+(?:[a|b|rc]\d+)?,<[\d.]+)/g;
+const versionPattern = /(jupyterlab)(>=[\d.]+(?:(?:a|b|rc)\d+)?,<[\d.]+)/g;
 
 const FILES_TO_UPDATE = ['pyproject.toml', '.pre-commit-config.yaml'];
 

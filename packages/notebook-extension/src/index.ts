@@ -7,56 +7,43 @@ import {
 } from '@jupyterlab/application';
 
 import {
-  DOMUtils,
-  ICommandPalette,
   ISessionContext,
+  Dialog,
+  DOMUtils,
   IToolbarWidgetRegistry,
+  ICommandPalette,
+  showDialog,
 } from '@jupyterlab/apputils';
 
 import { Cell, CodeCell } from '@jupyterlab/cells';
 
 import { PageConfig, Text, Time, URLExt } from '@jupyterlab/coreutils';
 
-import { ReadonlyJSONObject } from '@lumino/coreutils';
+import { IDebugger, IDebuggerSidebar } from '@jupyterlab/debugger';
 
 import { IDocumentManager } from '@jupyterlab/docmanager';
 
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
-import {
-  IInspector,
-  InspectionHandler,
-  KernelConnector,
-} from '@jupyterlab/inspector';
-
-/**
- * Interface for inspection handler with custom mime bundle handling
- */
-interface ICustomInspectionHandler extends InspectionHandler {
-  onMimeBundleChange(mimeData: ReadonlyJSONObject): void;
-}
-
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import {
-  INotebookTools,
-  INotebookTracker,
   NotebookPanel,
+  INotebookTracker,
+  INotebookTools,
 } from '@jupyterlab/notebook';
 
-import { Kernel, KernelMessage } from '@jupyterlab/services';
-
-import { MimeModel } from '@jupyterlab/rendermime';
-
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
+
+import { ITableOfContentsTracker } from '@jupyterlab/toc';
 
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
 import { INotebookShell } from '@jupyter-notebook/application';
 
-import { Poll } from '@lumino/polling';
+import { find } from '@lumino/algorithm';
 
-import { Signal } from '@lumino/signaling';
+import { Poll } from '@lumino/polling';
 
 import { Widget } from '@lumino/widgets';
 
@@ -252,23 +239,70 @@ const closeTab: JupyterFrontEndPlugin<void> = {
     'Add a command to close the browser tab when clicking on "Close and Shut Down".',
   autoStart: true,
   requires: [IMainMenu],
-  optional: [ITranslator],
+  optional: [INotebookTracker, ISettingRegistry, ITranslator],
   activate: (
     app: JupyterFrontEnd,
     menu: IMainMenu,
+    tracker: INotebookTracker | null,
+    settingRegistry: ISettingRegistry | null,
     translator: ITranslator | null
   ) => {
     const { commands } = app;
     translator = translator ?? nullTranslator;
     const trans = translator.load('notebook');
 
+    let promptForConfirmation = true;
+
+    if (settingRegistry) {
+      const loadSettings = settingRegistry.load(closeTab.id);
+
+      const updateSettings = (settings: ISettingRegistry.ISettings): void => {
+        promptForConfirmation = settings.get('promptForConfirmation')
+          .composite as boolean;
+      };
+
+      Promise.all([loadSettings, app.restored])
+        .then(([settings]) => {
+          updateSettings(settings);
+          settings.changed.connect(updateSettings);
+        })
+        .catch((reason: Error) => {
+          console.error(
+            `Failed to load settings for ${closeTab.id}: ${reason.message}`
+          );
+        });
+    }
+
     const id = 'notebook:close-and-halt';
     commands.addCommand(id, {
-      label: trans.__('Close and Shut Down Notebook'),
+      label: () =>
+        promptForConfirmation
+          ? trans.__('Close and Shut Down Notebook…')
+          : trans.__('Close and Shut Down Notebook'),
       execute: async () => {
-        // Shut the kernel down, without confirmation
+        if (promptForConfirmation) {
+          const fileName =
+            tracker?.currentWidget?.title.label ?? trans.__('the notebook');
+          const result = await showDialog({
+            title: trans.__('Shut down the notebook?'),
+            body: trans.__('Are you sure you want to close "%1"?', fileName),
+            buttons: [
+              Dialog.cancelButton(),
+              Dialog.warnButton({ label: trans.__('Shut Down') }),
+            ],
+          });
+          if (!result.button.accept) {
+            return;
+          }
+        }
         await commands.execute('notebook:shutdown-kernel', { activate: false });
         window.close();
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
       },
     });
     menu.fileMenu.closeAndCleaners.add({
@@ -300,6 +334,12 @@ const openTreeTab: JupyterFrontEndPlugin<void> = {
       execute: async () => {
         const url = URLExt.join(PageConfig.getBaseUrl(), 'tree');
         window.open(url);
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
       },
     });
   },
@@ -371,6 +411,12 @@ const fullWidthNotebook: JupyterFrontEndPlugin<void> = {
       },
       isEnabled: () => tracker.currentWidget !== null,
       isToggled: () => fullWidth,
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
     });
 
     if (palette) {
@@ -759,6 +805,12 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
       isVisible: () =>
         shell.currentWidget !== null &&
         shell.currentWidget instanceof NotebookPanel,
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
     });
 
     if (palette) {
@@ -771,241 +823,118 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * A plugin providing a pager widget to display help and documentation
- * in the down panel, similar to classic notebook behavior.
+ * A plugin to replace the menu item activating the TOC panel, to allow toggling it.
  */
-const pager: JupyterFrontEndPlugin<void> = {
-  id: '@jupyter-notebook/notebook-extension:pager',
-  description:
-    'A plugin to toggle the inspector when a pager payload is received.',
+const overrideMenuItems: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:menu-override',
+  description: 'A plugin to override some menu items',
   autoStart: true,
-  requires: [INotebookTracker, IInspector],
-  optional: [ISettingRegistry, ITranslator],
+  optional: [
+    IDebuggerSidebar,
+    IMainMenu,
+    INotebookShell,
+    ITableOfContentsTracker,
+    ITranslator,
+  ],
   activate: (
     app: JupyterFrontEnd,
-    notebookTracker: INotebookTracker,
-    inspector: IInspector,
-    settingRegistry: ISettingRegistry | null,
+    debuggerSidebar: IDebugger.ISidebar | null,
+    mainMenu: IMainMenu | null,
+    shell: INotebookShell | null,
+    tocTracker: ITableOfContentsTracker | null,
     translator: ITranslator | null
   ) => {
-    translator = translator ?? nullTranslator;
+    if (!mainMenu || !shell) {
+      return;
+    }
+    const trans = (translator ?? nullTranslator).load('notebook');
+    const { commands } = app;
 
-    let openHelpInDownArea = true;
-
-    const kernelMessageHandlers: {
-      [sessionId: string]: {
-        kernel: Kernel.IKernelConnection;
-        handler: (
-          sender: Kernel.IKernelConnection,
-          args: Kernel.IAnyMessageArgs
-        ) => void;
-      };
-    } = {};
-
-    const cleanupKernelMessageHandler = (sessionId: string) => {
-      if (kernelMessageHandlers[sessionId]) {
-        const { kernel, handler } = kernelMessageHandlers[sessionId];
-        kernel.anyMessage.disconnect(handler);
-        delete kernelMessageHandlers[sessionId];
-      }
-    };
-
-    if (settingRegistry) {
-      const loadSettings = settingRegistry.load(pager.id);
-      const updateSettings = (settings: ISettingRegistry.ISettings): void => {
-        openHelpInDownArea = settings.get('openHelpInDownArea')
-          .composite as boolean;
-        setSource(app.shell.currentWidget);
-      };
-
-      Promise.all([loadSettings, app.restored])
-        .then(([settings]) => {
-          updateSettings(settings);
-          settings.changed.connect(updateSettings);
-        })
-        .catch((reason: Error) => {
-          console.error(
-            `Failed to load settings for ${pager.id}: ${reason.message}`
+    if (tocTracker) {
+      const TOC_PANEL_ID = 'table-of-contents';
+      commands.addCommand('toc:toggle-panel', {
+        label: trans.__('Table of Contents'),
+        isToggleable: true,
+        isToggled: () => {
+          const area = shell.getWidgetArea(TOC_PANEL_ID);
+          if (!area) {
+            return false;
+          }
+          const widget = find(
+            shell.widgets(area as INotebookShell.Area),
+            (w) => w.id === TOC_PANEL_ID
           );
-        });
+          if (!widget) {
+            return false;
+          }
+          return shell.isSidePanelVisible(area) && widget.isVisible;
+        },
+        execute: () => {
+          const area = shell.getWidgetArea(TOC_PANEL_ID);
+          if (!area) {
+            return;
+          }
+          const widget = find(
+            shell.widgets(area as INotebookShell.Area),
+            (w) => w.id === TOC_PANEL_ID
+          );
+          if (shell.isSidePanelVisible(area) && widget?.isVisible) {
+            shell.collapse(area);
+          } else {
+            shell.activateById(TOC_PANEL_ID);
+          }
+        },
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      });
     }
 
-    const setupPagerListener = (sessionContext: ISessionContext) => {
-      const sessionId = sessionContext.session?.id;
-      if (!sessionId) {
-        return;
-      }
-
-      // Always clean up existing handlers first
-      cleanupKernelMessageHandler(sessionId);
-
-      if (!openHelpInDownArea) {
-        return;
-      }
-
-      // Listen for kernel messages that may contain pager payloads
-      const kernelMessageHandler = async (
-        sender: Kernel.IKernelConnection,
-        args: Kernel.IAnyMessageArgs
-      ) => {
-        const { msg, direction } = args;
-
-        // only check 'execute_reply' from the shell channel for pager data
-        if (
-          direction === 'recv' &&
-          msg.channel === 'shell' &&
-          msg.header.msg_type === 'execute_reply'
-        ) {
-          const content = msg.content as KernelMessage.IExecuteReply;
-          if (
-            content.status === 'ok' &&
-            content.payload &&
-            content.payload.length > 0
-          ) {
-            const pagePayload = content.payload.find(
-              (item) => item.source === 'page'
-            );
-
-            if (pagePayload && pagePayload.data) {
-              // Remove the 'page' payload from the message to prevent it from also appearing in the cell's output area
-              content.payload = content.payload.filter(
-                (item) => item.source !== 'page'
-              );
-              if (content.payload.length === 0) {
-                // If no other payloads remain, delete the payload array from the content.
-                delete content.payload;
-              }
-
-              await app.commands.execute('inspector:open');
-
-              // Call our custom handler directly with the whole mime bundle
-              inspectionHandler.onMimeBundleChange(
-                pagePayload.data as ReadonlyJSONObject
-              );
-            }
+    if (debuggerSidebar) {
+      const DEBUGGER_PANEL_ID = 'jp-debugger-sidebar';
+      commands.addCommand('debugger:toggle-panel', {
+        label: trans.__('Debugger Panel'),
+        isToggleable: true,
+        isToggled: () => {
+          const area = shell.getWidgetArea(DEBUGGER_PANEL_ID);
+          if (!area) {
+            return false;
           }
-        }
-      };
-
-      // Connect to the kernel's anyMessage signal to catch
-      // pager payloads before the output area
-      if (sessionContext.session?.kernel) {
-        sessionContext.session.kernel.anyMessage.connect(kernelMessageHandler);
-        kernelMessageHandlers[sessionId] = {
-          kernel: sessionContext.session.kernel,
-          handler: kernelMessageHandler,
-        };
-      }
-    };
-
-    let inspectionHandler: ICustomInspectionHandler;
-
-    // Create a handler for each notebook that is created.
-    notebookTracker.widgetAdded.connect((_sender, panel) => {
-      // Use custom pager behavior
-      if (panel.sessionContext) {
-        setupPagerListener(panel.sessionContext);
-      }
-
-      panel.sessionContext.sessionChanged.connect(() => {
-        if (panel.sessionContext) {
-          setupPagerListener(panel.sessionContext);
-        }
-      });
-
-      panel.sessionContext.kernelChanged.connect(() => {
-        if (panel.sessionContext) {
-          setupPagerListener(panel.sessionContext);
-        }
-      });
-
-      const sessionContext = panel.sessionContext;
-      const rendermime = panel.content.rendermime;
-      const connector = new (class extends KernelConnector {
-        async fetch(request: InspectionHandler.IRequest): Promise<any> {
-          // no-op
-        }
-      })({ sessionContext });
-
-      // Define a custom inspection handler so we can persist the pager data even after
-      // switching cells or moving the cursor position
-      inspectionHandler = new (class extends InspectionHandler {
-        get inspected() {
-          return this._notebookInspected;
-        }
-
-        onEditorChange(text: string): void {
-          // no-op
-        }
-
-        onMimeBundleChange(mimeData: ReadonlyJSONObject): void {
-          const update: IInspector.IInspectorUpdate = { content: null };
-
-          if (mimeData) {
-            const mimeType = rendermime.preferredMimeType(mimeData);
-            if (mimeType) {
-              const widget = rendermime.createRenderer(mimeType);
-              // set trusted since this is coming from a cell execution
-              const trusted = true;
-              const model = new MimeModel({ data: mimeData, trusted });
-              void widget.renderModel(model);
-              update.content = widget;
-            }
+          const widget = find(
+            shell.widgets(area as INotebookShell.Area),
+            (w) => w.id === DEBUGGER_PANEL_ID
+          );
+          if (!widget) {
+            return false;
           }
-
-          // Emit the inspection update signal
-          this._notebookInspected.emit(update);
-        }
-
-        private _notebookInspected: Signal<
-          InspectionHandler,
-          IInspector.IInspectorUpdate
-        > = new Signal<InspectionHandler, IInspector.IInspectorUpdate>(this);
-      })({ connector, rendermime });
-
-      // Listen for parent disposal.
-      panel.disposed.connect(() => {
-        inspectionHandler.dispose();
+          return shell.isSidePanelVisible(area) && widget.isVisible;
+        },
+        execute: () => {
+          const area = shell.getWidgetArea(DEBUGGER_PANEL_ID);
+          if (!area) {
+            return;
+          }
+          const widget = find(
+            shell.widgets(area as INotebookShell.Area),
+            (w) => w.id === DEBUGGER_PANEL_ID
+          );
+          if (shell.isSidePanelVisible(area) && widget?.isVisible) {
+            shell.collapse(area);
+          } else {
+            shell.activateById(DEBUGGER_PANEL_ID);
+          }
+        },
+        describedBy: {
+          args: {
+            type: 'object',
+            properties: {},
+          },
+        },
       });
-    });
-
-    // Keep track of notebook instances and set inspector source.
-    const setSource = (widget: Widget | null): void => {
-      if (openHelpInDownArea) {
-        inspector.source = inspectionHandler;
-      } else {
-        if (widget && notebookTracker.currentWidget) {
-          // default to the JupyterLab behavior but with a single inspection handler,
-          // since there is only one active notebook at a time
-          const panel = notebookTracker.currentWidget;
-          const sessionContext = panel.sessionContext;
-          const rendermime = panel.content.rendermime;
-          const connector = new KernelConnector({ sessionContext });
-          const handler = new InspectionHandler({
-            connector,
-            rendermime,
-          });
-
-          const cell = panel.content.activeCell;
-          handler.editor = cell && cell.editor;
-
-          panel.content.activeCellChanged.connect((sender, cell) => {
-            void cell?.ready.then(() => {
-              if (cell === panel.content.activeCell && cell) {
-                handler.editor = cell.editor;
-              }
-            });
-          });
-
-          panel.disposed.connect(() => {
-            handler.dispose();
-          });
-          inspector.source = handler;
-        }
-      }
-    };
-    app.shell.currentChanged?.connect((_, args) => setSource(args.newValue));
-    void app.restored.then(() => setSource(app.shell.currentWidget));
+    }
   },
 };
 
@@ -1021,7 +950,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   kernelLogo,
   kernelStatus,
   notebookToolsWidget,
-  pager,
+  overrideMenuItems,
   scrollOutput,
   tabIcon,
   trusted,

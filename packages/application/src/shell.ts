@@ -82,8 +82,8 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
 
     this._topHandler = new PanelHandler();
     this._menuHandler = new PanelHandler();
-    this._leftHandler = new SidePanelHandler('left');
-    this._rightHandler = new SidePanelHandler('right');
+    this._leftHandler = new SidePanelHandler('left', this.translator);
+    this._rightHandler = new SidePanelHandler('right', this.translator);
     this._main = new Panel();
     const topWrapper = (this._topWrapper = new Panel());
     const menuWrapper = (this._menuWrapper = new Panel());
@@ -382,6 +382,69 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
         return this._downPanel.addWidget(widget);
       default:
         console.warn(`Cannot add widget to area: ${area}`);
+    }
+  }
+
+  /**
+   * Return a boolean whether the side panel is visible.
+   */
+  isSidePanelVisible(area: string): boolean {
+    if (area === 'left') {
+      return this._leftHandler.isVisible;
+    } else if (area === 'right') {
+      return this._rightHandler.isVisible;
+    }
+    return false;
+  }
+
+  /**
+   * Get the area of a widget, given its id.
+   *
+   * @param id - the widget id
+   * @returns the area where the widget belongs, or null.
+   */
+  getWidgetArea(id: string): string | null {
+    for (const area of ['main', 'top', 'left', 'right', 'menu', 'down']) {
+      const widget = find(
+        this.widgets(area as INotebookShell.Area),
+        (w) => w.id === id
+      );
+      if (widget) {
+        return area;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Expand an area.
+   */
+  expand(area: string): void {
+    if (!['top', 'left', 'right'].includes(area)) {
+      return;
+    }
+    if (area === 'top') {
+      this.expandTop();
+    } else if (area === 'left') {
+      this.expandLeft();
+    } else if (area === 'right') {
+      this.expandRight();
+    }
+  }
+
+  /**
+   * Collapse an area.
+   */
+  collapse(area: string): void {
+    if (!['top', 'left', 'right'].includes(area)) {
+      return;
+    }
+    if (area === 'top') {
+      this.collapseTop();
+    } else if (area === 'left') {
+      this.collapseLeft();
+    } else if (area === 'right') {
+      this.collapseRight();
     }
   }
 

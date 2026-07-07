@@ -3,7 +3,6 @@
 ![Github Actions Status](https://github.com/jupyter/notebook/workflows/Build/badge.svg)
 [![Documentation Status](https://readthedocs.org/projects/jupyter-notebook/badge/?version=latest)](https://jupyter-notebook.readthedocs.io/en/latest/?badge=latest)
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/jupyter/notebook/main?urlpath=tree)
-[![Gitpod](https://img.shields.io/badge/gitpod_editor-open-blue.svg)](https://gitpod.io/#https://github.com/jupyter/notebook)
 
 The Jupyter notebook is a web-based notebook environment for interactive
 computing.

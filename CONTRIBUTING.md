@@ -2,14 +2,14 @@
 
 Thanks for contributing to Jupyter Notebook!
 
-Make sure to follow [Project Jupyter's Code of Conduct](https://github.com/jupyter/governance/blob/master/conduct/code_of_conduct.md)
+Make sure to follow [Project Jupyter's Code of Conduct](https://jupyter.org/governance/conduct/code-of-conduct)
 for a friendly and welcoming collaborative environment.
 
 ## Setting up a development environment
 
 Note: You will need NodeJS to build the extension package.
 
-The `jlpm` command is JupyterLab's pinned version of [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
+The `jlpm` command is Jupyter's pinned version of [yarn](https://yarnpkg.com/) that is installed with Jupyter Builder. You may use
 `yarn` or `npm` in lieu of `jlpm` below.
 
 **Note**: we recommend using `mamba` to speed up the creation of the environment.
@@ -72,7 +72,7 @@ jupyter notebook
 
 ### Local changes in Notebook dependencies
 
-The development installation described above fetches JavaScript dependencies from [npmjs](https://www.npmjs.com/),
+The development installation described above fetches JavaScript dependencies from `npm`,
 according to the versions in the _package.json_ file.
 However, it is sometimes useful to be able to test changes in Notebook, with dependencies (e.g. `@jupyterlab` packages) that have not yet
 been published.
@@ -136,27 +136,6 @@ Check out the [Playwright Command Line Reference](https://playwright.dev/docs/te
 Running the end to end tests in headful mode will trigger something like the following:
 
 ![playwright-headed-demo](https://user-images.githubusercontent.com/591645/141274633-ca9f9c2f-eef6-430e-9228-a35827f8133d.gif)
-
-## Tasks caching
-
-The repository is configured to use the Lerna caching system (via `nx`) for some of the development scripts.
-
-This helps speed up rebuilds when running `jlpm run build` multiple times to avoid rebuilding packages that have not changed on disk.
-
-You can generate a graph to have a better idea of the dependencies between all the packages using the following command:
-
-```
-npx nx graph
-```
-
-Running the command will open a browser tab by default with a graph that looks like the following:
-
-![a screenshot showing the nx task graph](https://github.com/jupyter/notebook/assets/591645/34eb46f0-b0e5-44b6-9430-ae5fbd673a4b)
-
-To learn more about Lerna caching:
-
-- https://lerna.js.org/docs/features/cache-tasks
-- https://nx.dev/features/cache-task-results
 
 ### Updating reference snapshots
 
@@ -243,6 +222,5 @@ Alternatively you can also contribute to Jupyter Notebook without setting up a l
   - Run `pixi shell` in a terminal to activate the development environment
   - Use the commands above for building the extension and running the tests, for example: `jlpm build`
   - To start the application: `pixi run start`. A popup should appear with a button to open the Jupyter Notebook in a new browser tab. If the popup does not appear, you can navigate to the "Forwarded ports" panel to find the URL to the application.
-- [Gitpod](https://gitpod.io/#https://github.com/jupyter/notebook) integration is enabled. The Gitpod config automatically builds the Jupyter Notebook application and the documentation.
-- GitHub’s [built-in editor](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) is suitable for contributing small fixes.
+- GitHub's [built-in editor](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) is suitable for contributing small fixes.
 - A more advanced [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) editor can be accessed by pressing the dot (.) key while in the Jupyter Notebook GitHub repository

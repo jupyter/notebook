@@ -4,7 +4,7 @@ runs:
   using: 'composite'
   steps:
     - name: Base Setup
-      uses: jupyterlab/maintainer-tools/.github/actions/base-setup@v1
+      uses: jupyterlab/maintainer-tools/.github/actions/base-setup@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
 
     - name: Install dependencies
       shell: bash
@@ -16,29 +16,14 @@ runs:
       run: |
         hatch build
 
-    - name: Build npm distributions
-      shell: bash
-      run: |
-        mkdir pkgs
-        hatch run npm_pack
-        cp packages/*/*.tgz pkgs
-
     - name: Build checksum file
       shell: bash
       run: |
         cd dist
         sha256sum * | tee SHA256SUMS
-        cd ../pkgs
-        sha256sum * | tee SHA256SUMS
 
     - name: Upload distributions
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
       with:
         name: notebook-dist-${{ github.run_number }}
         path: ./dist
-
-    - name: Upload distributions
-      uses: actions/upload-artifact@v4
-      with:
-        name: notebook-pkgs-${{ github.run_number }}
-        path: ./pkgs

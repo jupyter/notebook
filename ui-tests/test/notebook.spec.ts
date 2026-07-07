@@ -237,6 +237,10 @@ test.describe('Notebook', () => {
 
     await waitForKernelReady(page);
 
+    // Wait for the first cell to be active
+    const firstCell = page.locator('.jp-Cell').first();
+    await expect(firstCell).toHaveClass(/jp-mod-active/);
+
     // run the two cells
     await page.keyboard.press('Shift+Enter');
     await page.keyboard.press('ControlOrMeta+Enter');
