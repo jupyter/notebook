@@ -1,6 +1,6 @@
-# Contextual Help (Pager)
+# Help Pager
 
-The Contextual Help (also known as the pager) is a feature that displays help documentation and function signatures when you request them in a Jupyter Notebook cell. It provides a convenient way to view documentation without leaving your current context.
+The pager is a feature that displays help documentation and function signatures when you request them in a Jupyter Notebook cell. It provides a convenient way to view documentation without leaving your current context.
 
 ```{image} ./_static/images/pager.png
 
@@ -40,27 +40,27 @@ You can customize the pager behavior through the notebook settings:
 
 ### Opening Help in Different Areas
 
-The pager behavior is controlled by the `openHelpInDownArea` setting:
+The pager behavior is controlled by the `helpInBottomPanel` setting:
 
 - **`true` (default)**: Help content opens in the down area
 - **`false`**: Help content displays inline within the cell output (like in JupyterLab)
 
 ### How to Change the Setting
 
-1. **Via Settings Menu**: Navigate to Settings → Advanced Settings Editor → Notebook
-2. **Via Configuration File**: Add the following to your notebook configuration:
+1. **Via the Settings Editor**: Navigate to Settings → Settings Editor (available from the home page), select the **Notebook** section, and toggle **Show Help in Bottom Panel**
+2. **Via Configuration File**: Add the following to your settings overrides:
 
 ```json
 {
-  "@jupyter-notebook/notebook-extension:pager": {
-    "openHelpInDownArea": false
+  "@jupyterlab/notebook-extension:tracker": {
+    "helpInBottomPanel": false
   }
 }
 ```
 
 ### Switching to the JupyterLab behavior
 
-If you prefer the JupyterLab approach where help content appears inline with your cell outputs, set `openHelpInDownArea` to `false`. This will display help content directly below the cell that requested it, similar to regular cell output.
+If you prefer the JupyterLab approach where help content appears inline with your cell outputs, set `helpInBottomPanel` to `false`. This will display help content directly below the cell that requested it, similar to regular cell output.
 
 Each mode has its own benefits.
 
