@@ -298,6 +298,7 @@
           "@jupyterlab/notebook-extension:code-console",
           "@jupyterlab/notebook-extension:export",
           "@jupyterlab/notebook-extension:factory",
+          "@jupyterlab/notebook-extension:page-handler",
           "@jupyterlab/notebook-extension:tracker",
           "@jupyterlab/notebook-extension:widget-factory"
         ],
@@ -324,6 +325,7 @@
           "@jupyterlab/filebrowser-extension:download",
           "@jupyterlab/filebrowser-extension:file-upload-status",
           "@jupyterlab/filebrowser-extension:open-with",
+          "@jupyterlab/filebrowser-extension:settings",
           "@jupyterlab/filebrowser-extension:share-file"
         ],
         "@jupyter-notebook/tree-extension": true,
