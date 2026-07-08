@@ -317,11 +317,11 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
           );
           if (tabIndex >= 0) {
             this._downPanel.currentIndex = tabIndex;
+            if (this._downPanel.isHidden) {
+              this._showDownPanel();
+            }
+            widget.activate();
           }
-          if (this._downPanel.isHidden) {
-            this._showDownPanel();
-          }
-          widget.activate();
         } else {
           widget.activate();
         }
