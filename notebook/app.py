@@ -73,6 +73,9 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
 
         server_root = self.settings.get("server_root_dir", "")
         server_root = server_root.replace(os.sep, "/")
+        # Expose the server root like JupyterLab does, so the recent documents
+        # can be filtered by server root
+        page_config.setdefault("serverRoot", server_root)
         server_root = os.path.normpath(Path(server_root).expanduser())
         try:
             # Remove the server_root from pref dir

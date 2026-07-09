@@ -61,3 +61,17 @@
 body[data-format='mobile'] #fileAction-placeholder {
   display: none;
 }
+
+/* Recents */
+
+/* Right-align the last opened time, instead of using the 55% / 45% column
+   split from the JupyterLab running panel, which is designed for a narrow
+   sidebar and leaves the time floating mid-panel in the full-width tree.
+
+   The "Forget" button after the time is left with its space reserved (it is
+   hidden with `visibility` upstream), so revealing it on hover or focus does
+   not swap it with the time or reflow the row */
+#jp-recents-tree .jp-RunningSessions-itemDetail {
+  flex: 0 0 auto;
+  margin-inline-start: auto;
+}
