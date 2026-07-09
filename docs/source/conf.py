@@ -172,6 +172,8 @@ html_theme = "pydata_sphinx_theme"
 # further.  For a list of options available for each theme, see the
 # documentation.
 html_theme_options = {
+    # The announcement will not show if https://jupyter.org/assets/banner.html is empty
+    # see https://github.com/jupyter/jupyter.github.io#site-wide-announcement-banner
     "announcement": "https://jupyter.org/assets/banner.html",
     "header_links_before_dropdown": 5,
     "icon_links": [
