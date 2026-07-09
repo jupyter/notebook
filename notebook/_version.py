@@ -3,8 +3,6 @@
 # Copyright (c) Jupyter Development Team.
 # Distributed under the terms of the Modified BSD License.
 import re
-import sys
-import random
 from collections import namedtuple
 
 # Use "hatch version xx.yy.zz" to handle version changes
