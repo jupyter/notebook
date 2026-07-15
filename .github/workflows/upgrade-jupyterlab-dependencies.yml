@@ -92,7 +92,7 @@ jobs:
           jlpm
           jlpm deduplicate
 
-      - uses: prefix-dev/setup-pixi@5185adfbffb4bd703da3010310260805d89ebb11 # v0.9.6
+      - uses: prefix-dev/setup-pixi@a09b6247153796b190642a2b53fac4241043cf6f # v0.10.0
         if: steps.detect-changes.outputs.has_changes == 'true'
         with:
           pixi-version: v0.41.4
