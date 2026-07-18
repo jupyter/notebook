@@ -19,7 +19,7 @@ updates:
     open-pull-requests-limit: 10
     versioning-strategy: increase
     cooldown:
-      default-days: 3
+      default-days: 7
     groups:
       babel:
         patterns:
@@ -52,7 +52,7 @@ updates:
       interval: 'weekly'
     open-pull-requests-limit: 5
     cooldown:
-      default-days: 3
+      default-days: 7
     groups:
       ui-tests-deps:
         patterns:
