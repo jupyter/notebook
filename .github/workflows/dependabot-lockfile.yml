@@ -1,7 +1,7 @@
 name: Dependabot lockfile fix
 
 on:
-  pull_request_target:
+  pull_request:
     branches: [main]
 
 permissions:
@@ -14,7 +14,7 @@ concurrency:
 jobs:
   fix-lockfile:
     if: >-
-      github.actor == 'dependabot[bot]' &&
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
       startsWith(github.head_ref, 'dependabot/npm_and_yarn/')
     runs-on: ubuntu-latest
 
@@ -26,10 +26,9 @@ jobs:
       - name: Checkout PR branch
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
-          token: ${{ secrets.DEPENDABOT_LOCKFILE_TOKEN || secrets.GITHUB_TOKEN }}
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Node
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
@@ -47,12 +46,15 @@ jobs:
         run: yarn install --mode=update-lockfile
 
       - name: Commit and push if changed
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if [[ -n "$(git status --porcelain)" ]]; then
             git add yarn.lock ui-tests/yarn.lock
             git commit -m "Regenerate yarn.lock [dependabot skip]"
+            git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
             git push
           else
             echo "Lockfiles already in sync — nothing to do."
