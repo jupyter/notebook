@@ -54,7 +54,12 @@ const FILE_BROWSER_FACTORY = 'FileBrowser';
  * The namespace for command IDs.
  */
 namespace CommandIDs {
-  // The command to activate the filebrowser widget in tree view.
+  // The command to show the filebrowser widget in tree view.
+  export const openDirectory = 'filebrowser:open-directory';
+
+  /**
+   * @deprecated Use `filebrowser:open-directory` instead.
+   */
   export const activate = 'filebrowser:activate';
 
   // Activate the file filter in the file browser
@@ -257,10 +262,21 @@ const openFileBrowser: JupyterFrontEndPlugin<void> = {
     browser: IDefaultFileBrowser
   ) => {
     const { commands } = app;
-    commands.addCommand(CommandIDs.activate, {
+    commands.addCommand(CommandIDs.openDirectory, {
       execute: () => {
         notebookTree.currentWidget = browser;
       },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
+    });
+
+    // Backward-compatible alias for older command ID.
+    commands.addCommand(CommandIDs.activate, {
+      execute: (args) => commands.execute(CommandIDs.openDirectory, args),
       describedBy: {
         args: {
           type: 'object',

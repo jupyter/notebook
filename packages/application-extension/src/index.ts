@@ -377,7 +377,7 @@ const pages: JupyterFrontEndPlugin<void> = {
       label: trans.__('File Browser'),
       execute: () => {
         if (page === 'tree') {
-          app.commands.execute('filebrowser:activate');
+          app.commands.execute('filebrowser:open-directory');
         } else {
           window.open(URLExt.join(baseUrl, 'tree'));
         }
