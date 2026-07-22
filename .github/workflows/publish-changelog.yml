@@ -9,10 +9,15 @@ on:
         description: "The branch to target"
         required: false
 
+permissions:
+  contents: read
+
 jobs:
   publish_changelog:
     runs-on: ubuntu-latest
     environment: release
+    permissions:
+      contents: read
     steps:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
 
