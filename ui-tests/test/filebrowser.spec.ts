@@ -84,6 +84,25 @@ test.describe('File Browser', () => {
     await nb2.close();
   });
 
+  test('Open a file from its path', async ({ page, tmpPath }) => {
+    await page.filebrowser.refresh();
+
+    await page.getByRole('menuitem', { name: 'File' }).click();
+    await page.getByRole('menuitem', { name: 'Open from Path' }).click();
+
+    const dialog = page.locator('.jp-Dialog');
+    await dialog.getByRole('textbox').fill(`${tmpPath}/empty.ipynb`);
+
+    const [notebook] = await Promise.all([
+      page.waitForEvent('popup'),
+      dialog.getByRole('button', { name: 'Open' }).click(),
+    ]);
+
+    await notebook.waitForLoadState();
+    expect(notebook.url()).toContain(`${tmpPath}/empty.ipynb`);
+    await notebook.close();
+  });
+
   test('Toggle the Date Created column from the header context menu', async ({
     page,
   }) => {

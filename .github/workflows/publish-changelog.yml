@@ -14,7 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: release
     steps:
-      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
 
       - uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3
         id: app-token
@@ -26,7 +26,7 @@ jobs:
 
       - name: Publish changelog
         id: publish-changelog
-        uses: jupyter-server/jupyter_releaser/.github/actions/publish-changelog@634ac751f8a58d3d4a19b63f58aad138e6355cc8 # v2
+        uses: jupyter-server/jupyter_releaser/.github/actions/publish-changelog@70e58c50c736ad496cca11fe4f2446033b68b027 # v2
         with:
           token: ${{ steps.app-token.outputs.token }}
           branch: ${{ github.event.inputs.branch }}

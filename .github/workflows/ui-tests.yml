@@ -37,7 +37,7 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Base Setup
-        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
 
       - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
@@ -145,7 +145,7 @@ jobs:
           path: playwright-report
 
       - name: Inline the report
-        uses: jupyterlab/maintainer-tools/.github/actions/inline-playwright-report@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
+        uses: jupyterlab/maintainer-tools/.github/actions/inline-playwright-report@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
         with:
           path: playwright-report
 

@@ -44,7 +44,7 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
 
       - name: Base Setup
-        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
 
       - name: Test the package
         run: hatch run cov:test
@@ -61,7 +61,7 @@ jobs:
           jupyter server extension list 2>&1 | grep -ie "notebook.*enabled" -
           python -m jupyterlab.browser_check
 
-      - uses: jupyterlab/maintainer-tools/.github/actions/upload-coverage@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/upload-coverage@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
 
   coverage:
     runs-on: ubuntu-latest
@@ -71,7 +71,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
-      - uses: jupyterlab/maintainer-tools/.github/actions/report-coverage@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/report-coverage@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
         with:
           fail_under: 78
 
@@ -82,7 +82,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
-      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
       - run: |
           sudo apt-get update
           sudo apt install enchant-2  # for spelling
@@ -99,7 +99,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
-      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
         with:
           dependency_type: minimum
           python_version: '3.10'
@@ -115,7 +115,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
-      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
         with:
           dependency_type: pre
       - name: Run the tests
@@ -181,8 +181,8 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
-      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
-      - uses: jupyterlab/maintainer-tools/.github/actions/check-links@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/check-links@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
         with:
           ignore_links: 'https://playwright.dev/docs/test-cli/ https://blog.jupyter.org/.* https://mybinder.org/v2/gh/jupyter/notebook/main https://nbviewer.jupyter.org https://stackoverflow.com https://github.com/[^/]+/?$'
           ignore_glob: 'ui-tests/test/notebooks/*'
@@ -195,7 +195,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
-      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
 
       - name: Install dependencies
         run: |
@@ -241,7 +241,7 @@ jobs:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
-      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@95d85449e4f3f352e261221f6529f8ed307f5728 # v1
+      - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
       - name: Run Linters
         run: |
           hatch run typing:test
