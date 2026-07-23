@@ -288,7 +288,8 @@
         "@jupyterlab/imageviewer-extension": true,
         "@jupyterlab/lsp-extension": true,
         "@jupyterlab/mainmenu-extension": [
-          "@jupyterlab/mainmenu-extension:plugin"
+          "@jupyterlab/mainmenu-extension:plugin",
+          "@jupyterlab/mainmenu-extension:recents"
         ],
         "@jupyterlab/markedparser-extension": true,
         "@jupyterlab/mathjax-extension": true,

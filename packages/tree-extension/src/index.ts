@@ -13,7 +13,7 @@ import {
   setToolbar,
 } from '@jupyterlab/apputils';
 
-import { PageConfig } from '@jupyterlab/coreutils';
+import { PageConfig, PathExt, Time } from '@jupyterlab/coreutils';
 
 import {
   FileBrowser,
@@ -24,7 +24,16 @@ import {
 
 import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
-import { IRunningSessionManagers, RunningSessions } from '@jupyterlab/running';
+import {
+  IRunningSessionManagers,
+  IRunningSessions,
+  RunningSessionManagers,
+  RunningSessions,
+} from '@jupyterlab/running';
+
+import { IRecentsManager, RecentDocument } from '@jupyterlab/docmanager';
+
+import { DocumentRegistry } from '@jupyterlab/docregistry';
 
 import {
   IJSONSettingEditorTracker,
@@ -35,9 +44,16 @@ import { ITranslator } from '@jupyterlab/translation';
 
 import {
   caretDownIcon,
+  fileIcon,
   folderIcon,
+  historyIcon,
+  LabIcon,
   runningIcon,
 } from '@jupyterlab/ui-components';
+
+import { CommandRegistry } from '@lumino/commands';
+
+import { Signal } from '@lumino/signaling';
 
 import { Menu, MenuBar } from '@lumino/widgets';
 
@@ -397,6 +413,166 @@ const notebookTreeWidget: JupyterFrontEndPlugin<INotebookTree> = {
 };
 
 /**
+ * Add a "Recently Opened" section to a running panel, listing the documents
+ * most recently opened in the application.
+ *
+ * This mirrors JupyterLab's `addRecentlyClosedSessionManager` from
+ * `@jupyterlab/running-extension`, but surfaces the recently *opened* documents
+ * tracked by the `IRecentsManager`.
+ */
+function addRecentlyOpenedSessionManager(
+  managers: IRunningSessionManagers,
+  recentsManager: IRecentsManager,
+  commands: CommandRegistry,
+  docRegistry: DocumentRegistry,
+  translator: ITranslator
+): void {
+  const trans = translator.load('notebook');
+
+  // Wrap the manager `changed` signal so the refresh button can also force a
+  // re-render, which is enough to pick up documents recorded by other pages
+  // since the list is re-read from the shared local storage on each render.
+  const runningChanged = new Signal<IRecentsManager, void>(recentsManager);
+  recentsManager.changed.connect(() => runningChanged.emit(undefined));
+
+  managers.add({
+    name: trans.__('Recently Opened'),
+    supportsMultipleViews: false,
+    running: () => {
+      // Only list documents, not the parent directories that are also recorded
+      // as recently opened by the document manager.
+      return recentsManager.recentlyOpened
+        .filter((recent) => recent.contentType !== 'directory')
+        .map((recent) => new RecentItem(recent));
+    },
+    shutdownAll: () => {
+      for (const recent of recentsManager.recentlyOpened) {
+        recentsManager.removeRecent(recent, 'opened');
+      }
+    },
+    refreshRunning: () => {
+      // drop entries pointing to files that no longer exist, and re-render
+      for (const recent of recentsManager.recentlyOpened) {
+        void recentsManager.validate(recent);
+      }
+      runningChanged.emit(undefined);
+    },
+    runningChanged,
+    shutdownLabel: trans.__('Forget'),
+    shutdownAllLabel: trans.__('Forget All'),
+    shutdownAllConfirmationText: trans.__(
+      'Are you sure you want to clear the list of recently opened documents?'
+    ),
+  });
+
+  class RecentItem implements IRunningSessions.IRunningItem {
+    constructor(recent: RecentDocument) {
+      this._recent = recent;
+    }
+    async open() {
+      const recent = this._recent;
+      const isValid = await recentsManager.validate(recent);
+      if (!isValid) {
+        return;
+      }
+      // On the tree page this navigates to the document in a new browser tab
+      // via the Notebook document opener.
+      await commands.execute('docmanager:open', {
+        path: recent.path,
+        factory: recent.factory,
+      });
+    }
+    shutdown() {
+      recentsManager.removeRecent(this._recent, 'opened');
+    }
+    icon() {
+      const fileTypes = docRegistry.getFileTypesForPath(this._recent.path);
+      for (const fileType of fileTypes) {
+        if (fileType.icon instanceof LabIcon) {
+          return fileType.icon;
+        }
+      }
+      return fileIcon;
+    }
+    label() {
+      return PathExt.basename(this._recent.path);
+    }
+    labelTitle() {
+      return this._recent.path;
+    }
+    detail() {
+      // the last opened time is an extra field stamped by the Notebook
+      // recents manager on top of JupyterLab's `RecentDocument`
+      const { lastOpened } = this._recent as RecentDocument & {
+        lastOpened?: number;
+      };
+      return lastOpened ? Time.formatHuman(new Date(lastOpened), 'short') : '';
+    }
+
+    private _recent: RecentDocument;
+  }
+}
+
+/**
+ * A plugin to add a tab listing recently opened documents to the tree view.
+ */
+const recents: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/tree-extension:recents',
+  description:
+    'A plugin to add a tab listing recently opened documents to the tree view.',
+  requires: [INotebookTree, ITranslator],
+  optional: [IRecentsManager],
+  autoStart: true,
+  activate: (
+    app: JupyterFrontEnd,
+    notebookTree: INotebookTree,
+    translator: ITranslator,
+    recentsManager: IRecentsManager | null
+  ): void => {
+    // The recents manager is optional: without it there is nothing to show.
+    if (!recentsManager) {
+      return;
+    }
+    const { commands, docRegistry } = app;
+    const trans = translator.load('notebook');
+
+    // Drop entries pointing to files that no longer exist. This is done on
+    // the tree page only, so the other pages (notebooks, edit, ...) do not
+    // send a request per recent document on every load.
+    for (const recent of [
+      ...recentsManager.recentlyOpened,
+      ...recentsManager.recentlyClosed,
+    ]) {
+      void recentsManager.validate(recent);
+    }
+
+    // Use a dedicated running session managers instance so the recents list
+    // does not get mixed into the "Running" tab.
+    const managers = new RunningSessionManagers();
+    addRecentlyOpenedSessionManager(
+      managers,
+      recentsManager,
+      commands,
+      docRegistry,
+      translator
+    );
+
+    const recentsPanel = new RunningSessions(managers, translator);
+    recentsPanel.id = 'jp-recents-tree';
+    recentsPanel.title.label = trans.__('Recents');
+    recentsPanel.title.icon = historyIcon;
+    recentsPanel.node.setAttribute('role', 'region');
+    recentsPanel.node.setAttribute(
+      'aria-label',
+      trans.__('Recently Opened Documents Section')
+    );
+
+    notebookTree.addWidget(recentsPanel);
+    notebookTree.tabBar.addTab(recentsPanel.title);
+  },
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
@@ -406,5 +582,6 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   loadPlugins,
   openFileBrowser,
   notebookTreeWidget,
+  recents,
 ];
 export default plugins;
