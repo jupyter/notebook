@@ -12,3 +12,48 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 10
+    versioning-strategy: increase
+    cooldown:
+      default-days: 7
+    groups:
+      babel:
+        patterns:
+          - '@babel/*'
+      jupyterlab:
+        patterns:
+          - '@jupyterlab/*'
+          - '@lumino/*'
+      typescript:
+        patterns:
+          - 'typescript'
+          - '@types/*'
+          - 'ts-*'
+      lint-and-format:
+        patterns:
+          - 'eslint*'
+          - '@typescript-eslint/*'
+          - 'prettier*'
+          - 'stylelint*'
+      dev-dependencies:
+        dependency-type: 'development'
+      minor-and-patch:
+        update-types:
+          - 'minor'
+          - 'patch'
+
+  - package-ecosystem: 'npm'
+    directory: '/ui-tests'
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 5
+    cooldown:
+      default-days: 7
+    groups:
+      ui-tests-deps:
+        patterns:
+          - '*'
