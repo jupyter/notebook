@@ -13,4 +13,4 @@ jobs:
       pull-requests: write
     steps:
       - name: enforce-triage-label
-        uses: jupyterlab/maintainer-tools/.github/actions/enforce-label@b48fcdb87e70c45789abd80d4042b06641e47b46 # v1
+        uses: jupyterlab/maintainer-tools/.github/actions/enforce-label@94b14ddfbdd1ed651e9f9343ae2409ab5c73a6a8 # v1
