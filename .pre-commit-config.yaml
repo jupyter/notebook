@@ -76,11 +76,11 @@ repos:
       - id: prettier
         name: prettier
         entry: 'npm run prettier:files'
-        language: node
+        language: system
         types_or: [json, ts, tsx, javascript, jsx, css, markdown]
         stages: [manual]
       - id: integrity
         name: integrity
         entry: 'npm run integrity --force'
-        language: node
+        language: system
         stages: [pre-push]
