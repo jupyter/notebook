@@ -27,7 +27,7 @@ The newest major version of Notebook is based on:
 
 This represents a significant change to the `jupyter/notebook` code base.
 
-To learn more about Notebook v7: https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html
+To learn more about Notebook v7: https://jupyter.org/enhancement-proposals/notebook-v7/
 
 ### Classic Notebook v6
 

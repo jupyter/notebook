@@ -1,18 +1,10 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
-import { PageConfig } from '@jupyterlab/coreutils';
-
-import type {
-  ISettingConnector,
+import {
   ISettingRegistry,
+  SettingConnector as BaseSettingConnector,
 } from '@jupyterlab/settingregistry';
-
-import type { IDataConnector } from '@jupyterlab/statedb';
-
-import { DataConnector } from '@jupyterlab/statedb';
-
-import { Throttler } from '@lumino/polling';
 
 /**
  * The default setting values overridden in Jupyter Notebook, mapping
@@ -41,34 +33,19 @@ const SETTING_OVERRIDES: {
  * A data connector for fetching settings.
  *
  * #### Notes
- * This connector is based on the default JupyterLab setting connector,
+ * This connector extends the default JupyterLab setting connector,
  * and additionally overrides the default values of some settings.
  */
-export class SettingConnector
-  extends DataConnector<ISettingRegistry.IPlugin, string>
-  implements ISettingConnector
-{
-  constructor(connector: IDataConnector<ISettingRegistry.IPlugin, string>) {
-    super();
-    this._connector = connector;
-  }
-
+export class SettingConnector extends BaseSettingConnector {
   /**
    * Fetch settings for a plugin.
    * @param id - The plugin ID
-   *
-   * #### Notes
-   * The REST API requests are throttled at one request per plugin per 100ms.
    */
-  fetch(id: string): Promise<ISettingRegistry.IPlugin | undefined> {
-    const throttlers = this._throttlers;
-    if (!(id in throttlers)) {
-      throttlers[id] = new Throttler(async () => {
-        const plugin = await this._connector.fetch(id);
-        return plugin && Private.overrideDefaults(plugin);
-      }, 100);
-    }
-    return throttlers[id].invoke();
+  override async fetch(
+    id: string
+  ): Promise<ISettingRegistry.IPlugin | undefined> {
+    const plugin = await super.fetch(id);
+    return plugin && Private.overrideDefaults(plugin);
   }
 
   override async list(query: 'ids'): Promise<{ ids: string[] }>;
@@ -78,33 +55,12 @@ export class SettingConnector
   override async list(
     query: 'active' | 'all' | 'ids' = 'all'
   ): Promise<{ ids: string[]; values?: ISettingRegistry.IPlugin[] }> {
-    const { isDisabled } = PageConfig.Extension;
-    const { ids, values } = await this._connector.list(
-      query === 'ids' ? 'ids' : undefined
-    );
-
     if (query === 'ids') {
-      return { ids };
+      return super.list(query);
     }
-
-    if (query === 'all') {
-      return { ids, values: values.map(Private.overrideDefaults) };
-    }
-
-    return {
-      ids: ids.filter((id) => !isDisabled(id)),
-      values: values
-        .filter(({ id }) => !isDisabled(id))
-        .map(Private.overrideDefaults),
-    };
+    const { ids, values } = await super.list(query);
+    return { ids, values: values.map(Private.overrideDefaults) };
   }
-
-  override async save(id: string, raw: string): Promise<void> {
-    await this._connector.save(id, raw);
-  }
-
-  private _connector: IDataConnector<ISettingRegistry.IPlugin, string>;
-  private _throttlers: { [key: string]: Throttler } = Object.create(null);
 }
 
 /**
