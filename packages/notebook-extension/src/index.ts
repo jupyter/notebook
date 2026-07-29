@@ -47,6 +47,8 @@ import { Poll } from '@lumino/polling';
 
 import { Widget } from '@lumino/widgets';
 
+import { cellInspector } from './cell-inspector';
+
 import { TrustedComponent } from './trusted';
 
 /**
@@ -942,6 +944,7 @@ const overrideMenuItems: JupyterFrontEndPlugin<void> = {
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
+  cellInspector,
   checkpoints,
   closeTab,
   openTreeTab,
