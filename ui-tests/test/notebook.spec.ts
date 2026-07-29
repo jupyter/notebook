@@ -3,7 +3,7 @@
 
 import path from 'path';
 
-import { expect } from '@jupyterlab/galata';
+import { expect, galata } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
@@ -253,5 +253,84 @@ test.describe('Notebook', () => {
     await page.keyboard.press('O');
 
     await page.waitForSelector('.jp-OutputPlaceholder', { state: 'hidden' });
+  });
+
+  test('Help pager should open in down area with question mark syntax', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'empty.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    await waitForKernelReady(page);
+
+    await page.click('.jp-Cell-inputArea');
+
+    // Enter code in the first cell
+    await page.locator(
+      '.jp-Cell-inputArea >> .cm-editor >> .cm-content[contenteditable="true"]'
+    ).type(`import math
+
+math.pi?`);
+
+    // Run the cell
+    runAndAdvance(page);
+
+    // The help should be displayed in the down area
+    const helpPanel = page.locator('#jp-help-panel');
+    await expect(helpPanel).toBeVisible();
+    await expect(helpPanel).toContainText('3.14');
+
+    // The cell output should remain empty
+    const cellOutput = page.locator('.jp-Cell-outputArea');
+    await expect(cellOutput.first()).toBeEmpty();
+  });
+
+  test.describe('Help pager disabled', () => {
+    test.use({
+      mockSettings: {
+        ...galata.DEFAULT_SETTINGS,
+        '@jupyterlab/notebook-extension:tracker': {
+          helpInBottomPanel: false,
+        },
+      },
+    });
+
+    test('Help should be displayed in the cell output', async ({
+      page,
+      tmpPath,
+    }) => {
+      const notebook = 'empty.ipynb';
+      await page.contents.uploadFile(
+        path.resolve(__dirname, `./notebooks/${notebook}`),
+        `${tmpPath}/${notebook}`
+      );
+      await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+      await waitForKernelReady(page);
+
+      await page.click('.jp-Cell-inputArea');
+
+      // Enter code in the first cell
+      await page.locator(
+        '.jp-Cell-inputArea >> .cm-editor >> .cm-content[contenteditable="true"]'
+      ).type(`import math
+
+math.pi?`);
+
+      // Run the cell
+      runAndAdvance(page);
+
+      // The help should be displayed inline in the cell output
+      const cellOutput = page.locator('.jp-Cell-outputArea');
+      await expect(cellOutput.first()).toContainText('3.14');
+
+      // The help panel should not be opened
+      await expect(page.locator('#jp-help-panel')).toHaveCount(0);
+    });
   });
 });

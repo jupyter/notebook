@@ -45,7 +45,7 @@ repos:
         files: "^notebook"
         stages: [manual]
         args: ["--install-types", "--non-interactive"]
-        additional_dependencies: ["traitlets>=5.13", "tornado", "jupyter_server>=2.10", "jupyterlab_server>=2.25", "jupyterlab>=4.7.0a0,<4.8"]
+        additional_dependencies: ["traitlets>=5.13", "tornado", "jupyter_server>=2.10", "jupyterlab_server>=2.25", "jupyterlab>=4.7.0a1,<4.8"]
 
   - repo: https://github.com/pre-commit/pygrep-hooks
     rev: 'v1.10.0'
@@ -76,11 +76,11 @@ repos:
       - id: prettier
         name: prettier
         entry: 'npm run prettier:files'
-        language: node
+        language: system
         types_or: [json, ts, tsx, javascript, jsx, css, markdown]
         stages: [manual]
       - id: integrity
         name: integrity
         entry: 'npm run integrity --force'
-        language: node
+        language: system
         stages: [pre-push]

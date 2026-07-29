@@ -21,6 +21,11 @@ import { PanelHandler, SidePanelHandler } from './panelhandler';
 import { TabPanelSvg } from '@jupyterlab/ui-components';
 
 /**
+ * The default relative size of the down area when it is expanded.
+ */
+const DEFAULT_DOWN_AREA_SIZE = 0.25;
+
+/**
  * The Jupyter Notebook application shell token.
  */
 export const INotebookShell = new Token<INotebookShell>(
@@ -137,6 +142,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     middlePanel.layout = middleLayout;
 
     const vsplitPanel = new SplitPanel();
+    this._vsplitPanel = vsplitPanel;
     vsplitPanel.id = 'jp-main-vsplit-panel';
     vsplitPanel.spacing = 1;
     vsplitPanel.orientation = 'vertical';
@@ -147,6 +153,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     });
     this._downPanel = downPanel;
     this._downPanel.id = 'jp-down-stack';
+    SplitPanel.setStretch(downPanel, 0);
 
     // TODO: Consider storing this as an attribute this._hsplitPanel if saving/restoring layout needed
     const hsplitPanel = new SplitPanel();
@@ -305,8 +312,16 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
         } else if (area === 'right') {
           this.expandRight(id);
         } else if (area === 'down') {
-          this._downPanel.show();
-          widget.activate();
+          const tabIndex = this._downPanel.tabBar.titles.findIndex(
+            (title) => title.owner.id === id
+          );
+          if (tabIndex >= 0) {
+            this._downPanel.currentIndex = tabIndex;
+            if (this._downPanel.isHidden) {
+              this._showDownPanel();
+            }
+            widget.activate();
+          }
         } else {
           widget.activate();
         }
@@ -535,8 +550,32 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
    */
   private _onTabPanelChanged(): void {
     if (this._downPanel.stackedPanel.widgets.length === 0) {
-      this._downPanel.hide();
+      this._hideDownPanel();
     }
+  }
+
+  /**
+   * Show the down panel, restoring its previous relative size.
+   */
+  private _showDownPanel(size: number = this._lastDownAreaSize): void {
+    const downSize = size > 0.0 ? size : DEFAULT_DOWN_AREA_SIZE;
+    this._lastDownAreaSize = downSize;
+    this._vsplitPanel.setRelativeSizes([
+      Math.max(1.0 - downSize, 0.0),
+      downSize,
+    ]);
+    this._downPanel.show();
+  }
+
+  /**
+   * Hide the down panel, saving its relative size to restore it later.
+   */
+  private _hideDownPanel(): void {
+    const size = this._vsplitPanel.relativeSizes()[1];
+    if (size > 0.0) {
+      this._lastDownAreaSize = size;
+    }
+    this._downPanel.hide();
   }
 
   private _topWrapper: Panel;
@@ -549,7 +588,9 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
   private _spacer_bottom: Widget;
   private _skipLinkWidgetHandler: Private.SkipLinkWidgetHandler;
   private _main: Panel;
+  private _vsplitPanel: SplitPanel;
   private _downPanel: TabPanel;
+  private _lastDownAreaSize: number = DEFAULT_DOWN_AREA_SIZE;
   private _translator: ITranslator = nullTranslator;
   private _currentChanged = new Signal<this, FocusTracker.IChangedArgs<Widget>>(
     this
