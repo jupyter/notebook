@@ -13,6 +13,7 @@ body[data-notebook='notebooks'] .jp-CellInspector {
   z-index: 5;
   top: 0;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   box-sizing: border-box;
@@ -147,6 +148,10 @@ body[data-notebook='notebooks'] .jp-CellInspector-details {
     gap: 6px;
     margin-left: var(--jp-code-padding);
     padding-right: 4px;
+  }
+
+  body[data-notebook='notebooks'] .jp-CellInspector-task {
+    min-width: min(12em, 100%);
   }
 
   body[data-notebook='notebooks'] .jp-CellInspector-secondary {

@@ -360,6 +360,27 @@ test.describe('Notebook', () => {
     await expect(inspector.locator('.jp-CellInspector-details')).toHaveText(
       'Type: Code · Lines: 3'
     );
+    await detailsButton.click();
+
+    const visibleRowCount = async (): Promise<number> =>
+      inspector
+        .locator(':scope > .jp-CellInspector-item')
+        .evaluateAll((items) => {
+          const tops = items
+            .filter((item) => item.getClientRects().length > 0)
+            .map((item) => {
+              const rect = item.getBoundingClientRect();
+              return Math.round(rect.top + rect.height / 2);
+            });
+          return new Set(tops).size;
+        });
+
+    await expect.poll(visibleRowCount).toBe(1);
+    await page.setViewportSize({ width: 240, height: 800 });
+    await expect.poll(visibleRowCount).toBe(2);
+    expect(
+      await inspector.evaluate((node) => node.scrollWidth <= node.clientWidth)
+    ).toBe(true);
   });
 
   test('Active cell inspector updates the cursor and execution timer', async ({
