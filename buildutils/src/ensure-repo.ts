@@ -49,8 +49,92 @@ const DIFFERENT_VERSIONS = [
 
 /**
  * Dependencies whose styles should not be imported, per package.
+ *
+ * These styles are already loaded by the application through other packages,
+ * so importing them again would change the CSS cascade order in the app
+ * bundle (and bundle duplicate assets in the federated lab extension).
  */
-const SKIP_CSS: { [key: string]: string[] } = {};
+const SKIP_CSS: { [key: string]: string[] } = {
+  '@jupyter-notebook/application': [
+    '@jupyterlab/apputils',
+    '@jupyterlab/docregistry',
+    '@lumino/widgets',
+  ],
+  '@jupyter-notebook/application-extension': [
+    '@jupyter-notebook/ui-components',
+    '@jupyterlab/application',
+    '@jupyterlab/apputils',
+    '@jupyterlab/console',
+    '@jupyterlab/docmanager',
+    '@jupyterlab/docregistry',
+    '@jupyterlab/mainmenu',
+    '@jupyterlab/rendermime',
+  ],
+  '@jupyter-notebook/console-extension': [
+    '@jupyter-notebook/application',
+    '@jupyterlab/application',
+    '@jupyterlab/apputils',
+    '@jupyterlab/console',
+    '@jupyterlab/notebook',
+    '@jupyterlab/ui-components',
+    '@lumino/widgets',
+  ],
+  '@jupyter-notebook/docmanager-extension': [
+    '@jupyter-notebook/application',
+    '@jupyterlab/application',
+    '@jupyterlab/docmanager',
+    '@jupyterlab/docregistry',
+  ],
+  '@jupyter-notebook/documentsearch-extension': [
+    '@jupyter-notebook/application',
+    '@jupyterlab/application',
+    '@jupyterlab/documentsearch',
+    '@lumino/widgets',
+  ],
+  '@jupyter-notebook/help-extension': [
+    '@jupyter-notebook/ui-components',
+    '@jupyterlab/application',
+    '@jupyterlab/apputils',
+    '@jupyterlab/mainmenu',
+  ],
+  // this federated extension runs in JupyterLab, which provides these styles
+  '@jupyter-notebook/lab-extension': [
+    '@jupyter-notebook/application',
+    '@jupyterlab/application',
+    '@jupyterlab/apputils',
+    '@jupyterlab/notebook',
+    '@jupyterlab/ui-components',
+    '@lumino/widgets',
+  ],
+  '@jupyter-notebook/notebook-extension': [
+    '@jupyter-notebook/application',
+    '@jupyterlab/application',
+    '@jupyterlab/apputils',
+    '@jupyterlab/cells',
+    '@jupyterlab/debugger',
+    '@jupyterlab/docmanager',
+    '@jupyterlab/docregistry',
+    '@jupyterlab/mainmenu',
+    '@jupyterlab/notebook',
+    '@jupyterlab/toc',
+    '@lumino/widgets',
+  ],
+  '@jupyter-notebook/terminal-extension': [
+    '@jupyter-notebook/application',
+    '@jupyterlab/application',
+    '@jupyterlab/terminal',
+  ],
+  '@jupyter-notebook/tree': ['@jupyterlab/ui-components', '@lumino/widgets'],
+  '@jupyter-notebook/tree-extension': [
+    '@jupyterlab/application',
+    '@jupyterlab/apputils',
+    '@jupyterlab/running',
+    '@jupyterlab/settingeditor',
+    '@jupyterlab/ui-components',
+    '@lumino/widgets',
+  ],
+  '@jupyter-notebook/ui-components': ['@jupyterlab/ui-components'],
+};
 
 /**
  * Extract the module specifiers imported by a source file.
@@ -121,31 +205,42 @@ function getDependencyData(
       require.resolve(`${name}/package.json`, { paths: [fromPath] })
     );
   } catch {
-    return readJSONFile(path.resolve('node_modules', name, 'package.json'));
+    try {
+      return readJSONFile(path.resolve('node_modules', name, 'package.json'));
+    } catch {
+      return {};
+    }
   }
 }
 
 /**
- * Build the dependency graph of the local packages and their first order
- * dependencies.
+ * Build the dependency graph of the local packages and their transitive
+ * dependencies, so that `dependenciesOf()` returns a proper topological
+ * order for CSS imports (a dependency style always precedes its dependents).
  */
 function getPackageGraph(
   pkgData: { [key: string]: any },
   pkgPaths: { [key: string]: string }
 ): DepGraph<any> {
-  const graph = new DepGraph<any>();
-  Object.keys(pkgData).forEach((name) => {
-    graph.addNode(name, pkgData[name]);
-    const deps: { [key: string]: string } = pkgData[name].dependencies ?? {};
+  const graph = new DepGraph<any>({ circular: true });
+  const addDependencies = (name: string, data: any, fromPath: string): void => {
+    const deps: { [key: string]: string } = data.dependencies ?? {};
     Object.keys(deps).forEach((depName) => {
-      if (!graph.hasNode(depName)) {
-        graph.addNode(
-          depName,
-          getDependencyData(pkgData, pkgPaths[name], depName)
-        );
+      const seen = graph.hasNode(depName);
+      if (!seen) {
+        graph.addNode(depName, getDependencyData(pkgData, fromPath, depName));
       }
       graph.addDependency(name, depName);
+      if (!seen) {
+        addDependencies(depName, graph.getNodeData(depName), fromPath);
+      }
     });
+  };
+  Object.keys(pkgData).forEach((name) => {
+    if (!graph.hasNode(name)) {
+      graph.addNode(name, pkgData[name]);
+    }
+    addDependencies(name, pkgData[name], pkgPaths[name]);
   });
   return graph;
 }
