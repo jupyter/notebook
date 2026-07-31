@@ -241,9 +241,17 @@ test.describe('Notebook', () => {
     const firstCell = page.locator('.jp-Cell').first();
     await expect(firstCell).toHaveClass(/jp-mod-active/);
 
+    // focus the notebook so keyboard shortcuts are handled
+    await firstCell.locator('.jp-InputArea-prompt').click();
+    await expect(firstCell).toBeFocused();
+
     // run the two cells
     await page.keyboard.press('Shift+Enter');
     await page.keyboard.press('ControlOrMeta+Enter');
+
+    await expect(page.locator('.jp-OutputArea-output')).toHaveCount(2, {
+      timeout: 30000,
+    });
 
     await page.keyboard.press('Escape');
     await page.keyboard.press('O');
