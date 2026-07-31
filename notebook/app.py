@@ -82,7 +82,7 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
                 )
             else:
                 page_config["preferredPath"] = "/"
-        except Exception:
+        except Exception:  # noqa: BLE001
             page_config["preferredPath"] = "/"
 
         mathjax_config = self.settings.get("mathjax_config", "TeX-AMS_HTML-full,Safe")

@@ -10,7 +10,8 @@ def _jupyter_server_extension_paths() -> list[dict[str, str]]:
 
 
 def _jupyter_server_extension_points() -> list[dict[str, Any]]:
-    from .app import JupyterNotebookApp
+    # Deferred import to avoid importing the app at package import time
+    from .app import JupyterNotebookApp  # noqa: PLC0415
 
     return [{"module": "notebook", "app": JupyterNotebookApp}]
 

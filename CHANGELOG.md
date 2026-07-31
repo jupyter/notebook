@@ -3385,7 +3385,7 @@ and also included in version 6.0.
   previously on all non-GET API requests to GET requests to API
   endpoints and the /files/ endpoint.
 - Check Host header to more securely protect localhost deployments
-  from DNS rebinding. This is a pre-emptive measure, not fixing a
+  from DNS rebinding. This is a preemptive measure, not fixing a
   known vulnerability. Use `.NotebookApp.allow_remote_access` and
   `.NotebookApp.local_hostnames` to configure access.
 - Upgrade bootstrap to 3.4, fixing an XSS vulnerability, which has
@@ -3606,7 +3606,7 @@ New features:
   Python 3.6 ([3816](https://github.com/jupyter/notebook/pull/3816))
 - Update jquery-ui to 1.12 ([3836](https://github.com/jupyter/notebook/pull/3836))
 - Check Host header to more securely protect localhost deployments
-  from DNS rebinding. This is a pre-emptive measure, not fixing a
+  from DNS rebinding. This is a preemptive measure, not fixing a
   known vulnerability ([3766](https://github.com/jupyter/notebook/pull/3766)). Use
   `.NotebookApp.allow_remote_access` and
   `.NotebookApp.local_hostnames` to configure access.
