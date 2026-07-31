@@ -27,10 +27,13 @@
     "lib/*.js.map",
     "lib/*.js",
     "schema/*.json",
-    "style/index.js"
+    "style/**/*.css",
+    "style/index.js",
+    "src/**/*.{ts,tsx}"
   ],
   "scripts": {
     "build": "jlpm run build:labextension:dev",
+    "build:all": "npm run build",
     "build:labextension": "jupyter-builder build .",
     "build:labextension:dev": "jupyter-builder build --development True .",
     "build:lib": "tsc -b",
