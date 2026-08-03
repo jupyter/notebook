@@ -17,7 +17,7 @@ import {
 
 import { Cell, CodeCell } from '@jupyterlab/cells';
 
-import { PageConfig, Text, Time, URLExt } from '@jupyterlab/coreutils';
+import { PageConfig, Time, URLExt } from '@jupyterlab/coreutils';
 
 import { IDebugger, IDebuggerSidebar } from '@jupyterlab/debugger';
 
@@ -517,9 +517,27 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
       widget.removeClass(KERNEL_STATUS_FADE_OUT_CLASS);
     };
 
+    // The labels are enumerated explicitly so the translation extractor picks
+    // them up, since msgids must be literal strings.
+    const statusLabels: Record<ISessionContext.KernelDisplayStatus, string> = {
+      unknown: trans.__('Kernel Unknown'),
+      starting: trans.__('Kernel Starting'),
+      idle: trans.__('Kernel Idle'),
+      busy: trans.__('Kernel Busy'),
+      terminating: trans.__('Kernel Terminating'),
+      restarting: trans.__('Kernel Restarting'),
+      autorestarting: trans.__('Kernel Autorestarting'),
+      dead: trans.__('Kernel Dead'),
+      connected: trans.__('Kernel Connected'),
+      connecting: trans.__('Kernel Connecting'),
+      disconnected: trans.__('Kernel Disconnected'),
+      initializing: trans.__('Kernel Initializing'),
+      '': '',
+    };
+
     const onStatusChanged = (sessionContext: ISessionContext) => {
       const status = sessionContext.kernelDisplayStatus;
-      let text = `Kernel ${Text.titleCase(status)}`;
+      let text = statusLabels[status];
       removeClasses();
       switch (status) {
         case 'busy':
@@ -539,7 +557,7 @@ const kernelStatus: JupyterFrontEndPlugin<void> = {
           widget.addClass(KERNEL_STATUS_FADE_OUT_CLASS);
           break;
       }
-      widget.node.textContent = trans.__(text);
+      widget.node.textContent = text;
     };
 
     const onChange = async () => {
