@@ -7144,12 +7144,12 @@ __metadata:
   linkType: hard
 
 "brace-expansion@npm:^1.1.7":
-  version: 1.1.16
-  resolution: "brace-expansion@npm:1.1.16"
+  version: 1.1.18
+  resolution: "brace-expansion@npm:1.1.18"
   dependencies:
     balanced-match: ^1.0.0
     concat-map: 0.0.1
-  checksum: 11ab2d5b39d61bc0d0de9240a5d08a5f210a5650885ca4876271ef5996b4c5d172d697b501d673fe099ab721aa8bf0348507ad23a6148e169856209d2f9cab94
+  checksum: aa84023a4118f9185b6f8c71ca3467c945878b141ba340261de209676442f81b08db5b7c7c119707cdecb7322fcfcdb71d8ffea55db9d1aad673d7c65469211f
   languageName: node
   linkType: hard
 
@@ -12811,12 +12811,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.3.11, nanoid@npm:^3.3.6":
-  version: 3.3.11
-  resolution: "nanoid@npm:3.3.11"
+"nanoid@npm:^3.3.16, nanoid@npm:^3.3.6":
+  version: 3.3.17
+  resolution: "nanoid@npm:3.3.17"
   bin:
     nanoid: bin/nanoid.cjs
-  checksum: 3be20d8866a57a6b6d218e82549711c8352ed969f9ab3c45379da28f405363ad4c9aeb0b39e9abc101a529ca65a72ff9502b00bf74a912c4b64a9d62dfd26c29
+  checksum: dbbfd5ccc15a9bce602797ee75b98ee5ad377bd217782b8d2e7438e6e0ba0c54529a9f60437910aa00e263224b3c074b51a1aa3e21084a3cb56347a6cbacc275
   languageName: node
   linkType: hard
 
@@ -13649,13 +13649,13 @@ __metadata:
   linkType: hard
 
 "postcss@npm:^8.3.11, postcss@npm:^8.4.21":
-  version: 8.5.10
-  resolution: "postcss@npm:8.5.10"
+  version: 8.5.25
+  resolution: "postcss@npm:8.5.25"
   dependencies:
-    nanoid: ^3.3.11
+    nanoid: ^3.3.16
     picocolors: ^1.1.1
     source-map-js: ^1.2.1
-  checksum: 9af9cd7f2f0d4b8456f6710e48d586328433509b695911fda942c24ac4db4e62c6fed8c6c6d8c8258326285f669494c2c36a4ff84aa160f0586eb545e5258bf5
+  checksum: 51e1fa610322a93220a461dc56a952b398d9bdb137e1f2530fed0ddebd37bf07f2729dfce31864b67b742636f30102833924ea600fa11a0f666130a66fae2a53
   languageName: node
   linkType: hard
 

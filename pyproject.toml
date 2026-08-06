@@ -78,6 +78,12 @@ dev = [
     "hatch"
 ]
 
+[dependency-groups]
+dev = [
+    "pre-commit",
+    "hatch"
+]
+
 [tool.hatch.version]
 path = "notebook/_version.py"
 validate-bump = false
@@ -103,7 +109,6 @@ include = [
     "/notebook",
     "/tests",
     "/package.json",
-    "/install.json",
     "/ts*.json",
     "/*.md"
 ]
@@ -146,7 +151,7 @@ detached = true
 dependencies = ["pre-commit"]
 [tool.hatch.envs.lint.scripts]
 build = [
-    "pre-commit run --all-files ruff",
+    "pre-commit run --all-files ruff-check",
     "pre-commit run --all-files ruff-format"
 ]
 
@@ -197,6 +202,7 @@ before-build-python = [
 [tool.pytest.ini_options]
 minversion = "6.0"
 xfail_strict = true
+log_level = "info"
 log_cli_level = "info"
 addopts = [
   "-ra", "--durations=10", "--color=yes", "--doctest-modules",
@@ -277,7 +283,8 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 # S101 Use of `assert` detected
 # F841 Local variable `foo` is assigned to but never used
-"tests/*" = ["S101", "F841", "ARG", "PTH"]
+# ASYNC230 Async functions should not open files with blocking methods like `open`
+"tests/*" = ["S101", "F841", "ARG", "PTH", "ASYNC230"]
 "docs/source/conf.py" = ["PTH"]
 "ui-tests/test/jupyter_server_config.py" = ["F821"]
 "*.ipynb" = ["E402", "B018", "E501", "T201", "RET"]

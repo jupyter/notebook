@@ -1,10 +1,11 @@
 ci:
+  autofix_commit_msg: 'Fix pre-commit issues'
   autoupdate_schedule: monthly
-  autoupdate_commit_msg: 'chore: update pre-commit hooks'
+  autoupdate_commit_msg: 'Update pre-commit hooks'
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-case-conflict
       - id: check-ast
@@ -21,12 +22,12 @@ repos:
       - id: trailing-whitespace
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
-    rev: 0.30.0
+    rev: 0.37.4
     hooks:
       - id: check-github-workflows
 
   - repo: https://github.com/codespell-project/codespell
-    rev: 'v2.3.0'
+    rev: 'v2.4.3'
     hooks:
       - id: codespell
         args: ['-L', 'hart,noteable', '--skip', "*.spec.ts"]
@@ -39,7 +40,7 @@ repos:
           )$
 
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: "v1.14.1"
+    rev: "v2.3.0"
     hooks:
       - id: mypy
         files: "^notebook"
@@ -55,9 +56,9 @@ repos:
       - id: rst-inline-touching-normal
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.8.6
+    rev: v0.16.1
     hooks:
-      - id: ruff
+      - id: ruff-check
         types_or: [ python, jupyter ]
         exclude: '^docs/source/examples/Notebook/Importing Notebooks.ipynb'
         args: ['--fix', '--show-fixes']
@@ -66,7 +67,7 @@ repos:
         exclude: '^docs/source/examples/Notebook/Importing Notebooks.ipynb'
 
   - repo: https://github.com/scientific-python/cookie
-    rev: '2024.08.19'
+    rev: '2026.06.18'
     hooks:
       - id: sp-repo-review
         additional_dependencies: ['repo-review[cli]']
