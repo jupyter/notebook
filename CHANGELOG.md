@@ -95,6 +95,32 @@ Python 3.9 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.6.2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.1...2f1f1622fc64e09b90ade87ed886fdfe1bc653fb))
+
+### Maintenance and upkeep improvements
+
+- Add nvd.nist.gov to the check_links ignore list [#8032](https://github.com/jupyter/notebook/pull/8032) ([@jtpio](https://github.com/jtpio))
+- Backport JupyterLab dependency updater improvements [#8031](https://github.com/jupyter/notebook/pull/8031) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.6.3 [#8030](https://github.com/jupyter/notebook/pull/8030) ([@jtpio](https://github.com/jtpio))
+- Switch local pre-commit hooks to language: system [#8002](https://github.com/jupyter/notebook/pull/8002) ([@jtpio](https://github.com/jtpio))
+
+### Documentation improvements
+
+- Update 'notebook v7 proposal' link in doc [#8004](https://github.com/jupyter/notebook/pull/8004) ([@brichet](https://github.com/brichet))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-07-22&to=2026-08-11&type=c))
+
+@brichet ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2026-07-22..2026-08-11&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-07-22..2026-08-11&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.6.1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.0...72c228d76d1a9e5aa81531f7cf3c6af410c5e53f))
@@ -112,8 +138,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-06-18&to=2026-07-22&type=c))
 
 @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-06-18..2026-07-22&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.6.0
 
