@@ -2261,7 +2261,7 @@ __metadata:
     "@jupyterlab/coreutils": ~6.6.3
     "@jupyterlab/docregistry": ~4.6.3
     "@jupyterlab/rendermime-interfaces": ~3.14.3
-    "@jupyterlab/testutils": ~4.6.2
+    "@jupyterlab/testutils": ~4.6.3
     "@jupyterlab/ui-components": ~4.6.3
     "@lumino/algorithm": ^2.0.4
     "@lumino/coreutils": ^2.2.2
@@ -2514,7 +2514,7 @@ __metadata:
   dependencies:
     "@babel/core": ^7.29.6
     "@babel/preset-env": ^7.10.2
-    "@jupyterlab/testutils": ~4.6.2
+    "@jupyterlab/testutils": ~4.6.3
     "@jupyterlab/ui-components": ~4.6.3
     "@types/jest": ^29.2.5
     babel-loader: ^8.0.6
@@ -2623,7 +2623,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/application@npm:^4.6.2, @jupyterlab/application@npm:^4.6.3, @jupyterlab/application@npm:~4.6.3":
+"@jupyterlab/application@npm:^4.6.3, @jupyterlab/application@npm:~4.6.3":
   version: 4.6.3
   resolution: "@jupyterlab/application@npm:4.6.3"
   dependencies:
@@ -2682,7 +2682,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/apputils@npm:^4.7.2, @jupyterlab/apputils@npm:^4.7.3, @jupyterlab/apputils@npm:~4.7.3":
+"@jupyterlab/apputils@npm:^4.7.3, @jupyterlab/apputils@npm:~4.7.3":
   version: 4.7.3
   resolution: "@jupyterlab/apputils@npm:4.7.3"
   dependencies:
@@ -3058,7 +3058,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/coreutils@npm:^6.6.2, @jupyterlab/coreutils@npm:^6.6.3, @jupyterlab/coreutils@npm:~6.6.3":
+"@jupyterlab/coreutils@npm:^6.6.3, @jupyterlab/coreutils@npm:~6.6.3":
   version: 6.6.3
   resolution: "@jupyterlab/coreutils@npm:6.6.3"
   dependencies:
@@ -3905,7 +3905,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/notebook@npm:^4.6.2, @jupyterlab/notebook@npm:^4.6.3, @jupyterlab/notebook@npm:~4.6.3":
+"@jupyterlab/notebook@npm:^4.6.3, @jupyterlab/notebook@npm:~4.6.3":
   version: 4.6.3
   resolution: "@jupyterlab/notebook@npm:4.6.3"
   dependencies:
@@ -4050,7 +4050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/rendermime@npm:^4.6.2, @jupyterlab/rendermime@npm:^4.6.3, @jupyterlab/rendermime@npm:~4.6.3":
+"@jupyterlab/rendermime@npm:^4.6.3, @jupyterlab/rendermime@npm:~4.6.3":
   version: 4.6.3
   resolution: "@jupyterlab/rendermime@npm:4.6.3"
   dependencies:
@@ -4314,13 +4314,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/testing@npm:^4.6.2":
-  version: 4.6.2
-  resolution: "@jupyterlab/testing@npm:4.6.2"
+"@jupyterlab/testing@npm:^4.6.3":
+  version: 4.6.3
+  resolution: "@jupyterlab/testing@npm:4.6.3"
   dependencies:
     "@babel/core": ^7.10.2
     "@babel/preset-env": ^7.10.2
-    "@jupyterlab/coreutils": ^6.6.2
+    "@jupyterlab/coreutils": ^6.6.3
     "@lumino/coreutils": ^2.2.2
     "@lumino/signaling": ^2.1.5
     deepmerge: ^4.2.2
@@ -4333,20 +4333,20 @@ __metadata:
     ts-jest: ^29.1.0
   peerDependencies:
     typescript: ">=4.3"
-  checksum: d3553029a57f2fe992e3b5308ff7a16b00d66babcb9c96fb2c433ef7b9cad9abbf4760bc316b7a5bb0f0c6bcbf2ce03052a5faf63bf9c1b516d3b73de11c9c04
+  checksum: b7339765672a2e0463cf0d5cc9128a45050af471c7a727fd28419e66fe8235a913a98b1c6bfc86159b4f616d4c9b410af0325fb125ca2d77f61364eb3b0eb74c
   languageName: node
   linkType: hard
 
-"@jupyterlab/testutils@npm:~4.6.2":
-  version: 4.6.2
-  resolution: "@jupyterlab/testutils@npm:4.6.2"
+"@jupyterlab/testutils@npm:~4.6.3":
+  version: 4.6.3
+  resolution: "@jupyterlab/testutils@npm:4.6.3"
   dependencies:
-    "@jupyterlab/application": ^4.6.2
-    "@jupyterlab/apputils": ^4.7.2
-    "@jupyterlab/notebook": ^4.6.2
-    "@jupyterlab/rendermime": ^4.6.2
-    "@jupyterlab/testing": ^4.6.2
-  checksum: a9afda89001208ddf3df6fe535b9d2aa2a31b96018735e8979697d7a8ebf941f3b51f9bb1903c010297da9c675efd046d72e7003bc4866ee5992b6fac48355ab
+    "@jupyterlab/application": ^4.6.3
+    "@jupyterlab/apputils": ^4.7.3
+    "@jupyterlab/notebook": ^4.6.3
+    "@jupyterlab/rendermime": ^4.6.3
+    "@jupyterlab/testing": ^4.6.3
+  checksum: d8e21ad79f65d5d7137202dc37eddfc3b6a9a70b6528895c2b01e1a9d66c2c08c6314bd5a861b3e5b7b36cd244b14cd0af7bc1b81e6d9a0429fd130ce63da6eb
   languageName: node
   linkType: hard
 
