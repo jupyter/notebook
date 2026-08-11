@@ -220,7 +220,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
         overflowMenuOptions: { isVisible: false },
       };
       const menubar = new MenuBar(overflowOptions);
-      switcher.title.label = trans.__('Open in...');
+      switcher.title.label = trans.__('Open in…');
       switcher.title.icon = caretDownIcon;
       menubar.addMenu(switcher);
 

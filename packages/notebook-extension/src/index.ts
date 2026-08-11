@@ -798,7 +798,7 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
         const command = 'application:toggle-panel';
         const args = {
           side: 'right',
-          title: 'Show Notebook Tools',
+          title: trans.__('Notebook Tools'),
           id: 'notebook-tools',
         };
 

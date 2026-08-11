@@ -889,7 +889,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
      * id, widget ID to activate in the side panel
      */
     app.commands.addCommand(CommandIDs.togglePanel, {
-      label: (args) => args['title'] as string,
+      label: (args) => trans.__('Show %1', args['title'] as string),
       caption: (args) => {
         // We do not substitute the parameter into the string because the parameter is not
         // localized (e.g., it is always 'left') even though the string is localized.
@@ -976,7 +976,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
             },
             title: {
               type: 'string',
-              description: 'The title shown for the side panel entry.',
+              description: 'The title of the side panel widget.',
             },
             id: {
               type: 'string',
@@ -1019,7 +1019,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
           command: CommandIDs.togglePanel,
           args: {
             side: area,
-            title: `Show ${widget.title.caption}`,
+            title: widget.title.caption,
             id: widget.id,
           },
         });
