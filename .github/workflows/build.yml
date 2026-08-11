@@ -184,7 +184,7 @@ jobs:
       - uses: jupyterlab/maintainer-tools/.github/actions/base-setup@94b14ddfbdd1ed651e9f9343ae2409ab5c73a6a8 # v1
       - uses: jupyterlab/maintainer-tools/.github/actions/check-links@94b14ddfbdd1ed651e9f9343ae2409ab5c73a6a8 # v1
         with:
-          ignore_links: 'https://playwright.dev/docs/test-cli/ https://blog.jupyter.org/.* https://mybinder.org/v2/gh/jupyter/notebook/main https://nbviewer.jupyter.org https://stackoverflow.com https://github.com/[^/]+/?$'
+          ignore_links: 'https://playwright.dev/docs/test-cli/ https://blog.jupyter.org/.* https://mybinder.org/v2/gh/jupyter/notebook/main https://nbviewer.jupyter.org https://stackoverflow.com https://github.com/[^/]+/?$ https://nvd.nist.gov/.*'
           ignore_glob: 'ui-tests/test/notebooks/*'
 
   bundle_size:
