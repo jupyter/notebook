@@ -27,6 +27,8 @@ import { DocumentRegistry } from '@jupyterlab/docregistry';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
+import { IMetadataFormProvider } from '@jupyterlab/metadataform';
+
 import {
   NotebookPanel,
   INotebookTracker,
@@ -39,13 +41,15 @@ import { ITableOfContentsTracker } from '@jupyterlab/toc';
 
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
+import { Collapser } from '@jupyterlab/ui-components';
+
 import { INotebookShell } from '@jupyter-notebook/application';
 
 import { find } from '@lumino/algorithm';
 
 import { Poll } from '@lumino/polling';
 
-import { Widget } from '@lumino/widgets';
+import { PanelLayout, Widget } from '@lumino/widgets';
 
 import { TrustedComponent } from './trusted';
 
@@ -781,12 +785,18 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
   description:
     'Add a command to open right sidebar for Editing Notebook Metadata when clicking on "Edit Notebook Metadata" under Edit menu',
   autoStart: true,
-  optional: [ICommandPalette, ITranslator, INotebookTools],
+  optional: [
+    ICommandPalette,
+    ITranslator,
+    INotebookTools,
+    IMetadataFormProvider,
+  ],
   activate: (
     app: JupyterFrontEnd,
     palette: ICommandPalette | null,
     translator: ITranslator | null,
-    notebookTools: INotebookTools | null
+    notebookTools: INotebookTools | null,
+    metadataForms: IMetadataFormProvider | null
   ) => {
     const { commands, shell } = app;
     translator = translator ?? nullTranslator;
@@ -804,20 +814,21 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
 
         // Check if Show Notebook Tools (Right Sidebar) is open (expanded)
         if (!commands.isToggled(command, args)) {
-          await commands.execute(command, args).then((_) => {
-            // For expanding the 'Advanced Tools' section (default: collapsed)
-            if (notebookTools) {
-              const tools = (notebookTools?.layout as any).widgets;
-              tools.forEach((tool: any) => {
-                if (
-                  tool.widget.title.label === trans.__('Advanced Tools') &&
-                  tool.collapsed
-                ) {
-                  tool.toggle();
-                }
-              });
+          await commands.execute(command, args);
+          // For expanding the 'Advanced Tools' section (default: collapsed)
+          const advancedToolsForm = metadataForms?.get('advancedToolsSection');
+          if (notebookTools && advancedToolsForm) {
+            const layout = notebookTools.layout as PanelLayout;
+            for (const section of layout.widgets) {
+              if (
+                section instanceof Collapser &&
+                section.widget === advancedToolsForm.parent &&
+                section.collapsed
+              ) {
+                section.toggle();
+              }
             }
-          });
+          }
         }
       },
       isVisible: () =>
