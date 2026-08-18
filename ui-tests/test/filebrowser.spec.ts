@@ -103,6 +103,40 @@ test.describe('File Browser', () => {
     await notebook.close();
   });
 
+  test('Open a notebook without starting a kernel', async ({
+    page,
+    tmpPath,
+  }) => {
+    await page.filebrowser.refresh();
+
+    await page.getByText('empty.ipynb').last().click({ button: 'right' });
+    await page.getByText('Open With', { exact: true }).hover();
+
+    const [notebook] = await Promise.all([
+      page.waitForEvent('popup'),
+      page.getByRole('menuitem', { name: 'Notebook (no kernel)' }).click(),
+    ]);
+
+    await notebook.waitForSelector('.jp-NotebookPanel');
+    const hasRunningSession = await notebook.evaluate(async (notebookPath) => {
+      const app = window.jupyterapp;
+      await app.started;
+      const currentWidget = app.shell.currentWidget as unknown as {
+        sessionContext: { ready: Promise<void> };
+      };
+      await currentWidget.sessionContext.ready;
+      await app.serviceManager.sessions.refreshRunning();
+      return Array.from(app.serviceManager.sessions.running()).some(
+        (session) => session.path === notebookPath
+      );
+    }, `${tmpPath}/empty.ipynb`);
+
+    await expect(notebook.getByTitle('Switch kernel')).toHaveText('No Kernel');
+    expect(hasRunningSession).toBe(false);
+
+    await notebook.close();
+  });
+
   test('Toggle the Date Created column from the header context menu', async ({
     page,
   }) => {

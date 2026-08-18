@@ -72,6 +72,13 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
               factory: widgetName,
             });
           }
+          if (
+            route === 'notebooks' &&
+            widget.context.sessionContext.kernelPreference.shouldStart === false
+          ) {
+            searchParams ??= new URLSearchParams();
+            searchParams.set('kernel', 'none');
+          }
 
           pathOpener.open({
             prefix: URLExt.join(baseUrl, route),

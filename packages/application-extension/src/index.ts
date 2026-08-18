@@ -269,9 +269,19 @@ const opener: JupyterFrontEndPlugin<void> = {
           }
 
           const factory = urlParams.get('factory') ?? defaultFactory;
-          docManager.open(file, factory, undefined, {
-            ref: '_noref',
-          });
+          const kernelPreference =
+            urlParams.get('kernel') === 'none'
+              ? { shouldStart: false, shouldReuse: false }
+              : undefined;
+          docManager.openOrReveal(
+            file,
+            factory,
+            undefined,
+            {
+              ref: '_noref',
+            },
+            kernelPreference
+          );
         });
       },
       describedBy: {
