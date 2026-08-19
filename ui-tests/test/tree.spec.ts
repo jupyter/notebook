@@ -37,6 +37,44 @@ test('should update url when navigating in filebrowser', async ({
   expect(url.pathname).toEqual(`/tree/${tmpPath}/${SUBFOLDER}`);
 });
 
+test('should create a terminal in the current directory', async ({
+  page,
+  tmpPath,
+}) => {
+  const dir = `${tmpPath}/${SUBFOLDER}`;
+  const marker = 'terminal-cwd.txt';
+  await page.contents.createDirectory(dir);
+  await page.filebrowser.refresh();
+  await page.dblclick(`.jp-FileBrowser-listing >> text=${SUBFOLDER}`);
+  await page.waitForSelector(`.jp-FileBrowser-crumbs >> text=/${SUBFOLDER}/`);
+
+  const [terminal] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.menu.clickMenuItem('New>Terminal'),
+  ]);
+
+  const terminalPanel = terminal.locator('.jp-Terminal');
+  await terminalPanel.waitFor();
+  await terminalPanel.locator('.xterm-screen').click();
+  const input = terminalPanel.locator('[aria-label="Terminal input"]');
+  await input.waitFor({ state: 'attached' });
+  await expect(input).toBeFocused();
+  await terminal.keyboard.type(`pwd > ${marker}`);
+  await terminal.keyboard.press('Enter');
+
+  const markerItem = page.locator(`.jp-FileBrowser-listing >> text=${marker}`);
+  await expect
+    .poll(
+      async () => {
+        await page.filebrowser.refresh();
+        return markerItem.count();
+      },
+      { timeout: 10_000 }
+    )
+    .toBeGreaterThan(0);
+  await terminal.close();
+});
+
 test('Should redirect from notebooks route to tree route for directories', async ({
   page,
   tmpPath,
