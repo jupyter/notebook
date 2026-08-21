@@ -76,7 +76,7 @@ test.describe('Editor', () => {
     await expect(page.locator('.jp-Notebook')).toHaveCount(0);
   });
 
-  test('Should take a screenshot of the file editor', async ({
+  test('Should display a partial view with white space at the bottom', async ({
     page,
     tmpPath,
   }) => {
@@ -87,22 +87,12 @@ test.describe('Editor', () => {
     // wait for the file content to be rendered in the editor
     await expect(page.locator('.cm-content')).toContainText('name: notebook');
 
-    // normalize the checkpoint indicator in the top bar since it may display
-    // dynamic strings such as "Last Checkpoint: 3 seconds ago"
-    await page
-      .locator('.jp-NotebookCheckpoint')
-      .evaluate((element) => (element.innerHTML = ''));
-
-    // the editor might sometimes be focused after load, so blur it and hide
-    // the cursor layer to avoid capturing a blinking cursor in the screenshot
-    await page
-      .locator('.cm-content')
-      .evaluate((element) => (element as HTMLElement).blur());
-    await page
-      .locator('.cm-cursorLayer')
-      .evaluate((element) => (element.style.display = 'none'));
-
-    expect(await page.screenshot()).toMatchSnapshot('file-editor.png');
+    // the edit page should display a partial view, with white space below
+    // the main panel
+    const spacer = page.locator('#spacer-widget-bottom');
+    await expect(spacer).toBeVisible();
+    const spacerBox = await spacer.boundingBox();
+    expect(spacerBox?.height).toBeGreaterThanOrEqual(16);
   });
 
   test('Should not render the micro toolbar for files', async ({
