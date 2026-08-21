@@ -103,6 +103,43 @@ test.describe('File Browser', () => {
     await notebook.close();
   });
 
+  test('Show the Upload button in the toolbar by default', async ({ page }) => {
+    const toolbar = page.locator('.jp-FileBrowser-toolbar');
+
+    await expect(toolbar.getByText('Upload')).toBeVisible();
+  });
+
+  test('Filter the file browser listing with the file filter', async ({
+    page,
+  }) => {
+    await page.filebrowser.refresh();
+
+    const toggleButton = page.locator(
+      'jp-button[data-command="filebrowser:toggle-file-filter"]'
+    );
+    const filterInput = page.locator('.jp-FileBrowser-filterBox input');
+    const listing = page.locator('.jp-DirListing-item');
+
+    // the file filter input is hidden by default
+    await expect(filterInput).toBeHidden();
+    await expect(listing).toHaveCount(3);
+
+    // clicking the toggle button shows the filter input
+    await toggleButton.click();
+    await expect(filterInput).toBeVisible();
+
+    // typing a query narrows down the listing
+    await filterInput.fill('folder1');
+    await expect(listing).toHaveCount(1);
+    await expect(listing).toHaveText(/folder1/);
+
+    // clicking the toggle button again hides the filter input and restores
+    // the full listing
+    await toggleButton.click();
+    await expect(filterInput).toBeHidden();
+    await expect(listing).toHaveCount(3);
+  });
+
   test('Toggle the Date Created column from the header context menu', async ({
     page,
   }) => {
@@ -136,5 +173,38 @@ test.describe('File Browser settings', () => {
 
     const header = page.locator('.jp-DirListing-header');
     await expect(header.locator('.jp-id-created')).toBeVisible();
+  });
+});
+
+test.describe('File Browser toolbar settings', () => {
+  test.use({
+    mockSettings: {
+      ...galata.DEFAULT_SETTINGS,
+      '@jupyter-notebook/tree-extension:widget': {
+        toolbar: [
+          {
+            name: 'uploader',
+            disabled: true,
+          },
+        ],
+      },
+    },
+  });
+
+  test('Should hide the Upload button when disabled in the settings', async ({
+    page,
+  }) => {
+    const toolbar = page.locator('.jp-FileBrowser-toolbar');
+
+    // other toolbar items should still be visible
+    await expect(toolbar.getByText('New', { exact: true })).toBeVisible();
+    await expect(
+      toolbar.locator('[data-jp-item-name="refresh"]')
+    ).toBeVisible();
+
+    // the Upload button should not be added to the toolbar
+    await expect(toolbar.locator('[data-jp-item-name="uploader"]')).toHaveCount(
+      0
+    );
   });
 });
