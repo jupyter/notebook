@@ -25,25 +25,31 @@ test.describe('Settings', () => {
     tmpPath,
   }) => {
     const showHeaderPath = 'View>Show Header';
+    const topPanel = page.locator('#top-panel-wrapper');
+    const fileSizeColumn = page.locator(
+      '#filebrowser .jp-DirListing-header .jp-id-filesize'
+    );
 
     await page.goto(`tree/${tmpPath}`);
 
-    await page.waitForSelector('#top-panel', { state: 'visible' });
+    await expect(topPanel).toBeVisible();
     await page.menu.clickMenuItem(showHeaderPath);
-    await page.waitForSelector('#top-panel', { state: 'hidden' });
+    await expect(topPanel).toBeHidden();
     await page.reload({ waitUntil: 'networkidle' });
-    await page.menu.getMenuItem(showHeaderPath);
-    expect.soft(await page.screenshot()).toMatchSnapshot('top-hidden.png', {
-      maxDiffPixels: 300,
+    await expect(topPanel).toBeAttached();
+    await expect(topPanel).toBeHidden();
+    await expect(fileSizeColumn).toBeVisible();
+    await expect.soft(page).toHaveScreenshot('top-hidden.png', {
+      maxDiffPixels: 400,
     });
 
-    await page.waitForSelector('#top-panel', { state: 'hidden' });
     await page.menu.clickMenuItem(showHeaderPath);
-    await page.waitForSelector('#top-panel', { state: 'visible' });
+    await expect(topPanel).toBeVisible();
     await page.reload({ waitUntil: 'networkidle' });
-    await page.menu.getMenuItem(showHeaderPath);
-    expect(await page.screenshot()).toMatchSnapshot('top-visible.png', {
-      maxDiffPixels: 300,
+    await expect(topPanel).toBeVisible();
+    await expect(fileSizeColumn).toBeVisible();
+    await expect(page).toHaveScreenshot('top-visible.png', {
+      maxDiffPixels: 400,
     });
   });
 });

@@ -6,7 +6,7 @@ import {
   JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
-import { PageConfig, PathExt, URLExt } from '@jupyterlab/coreutils';
+import { PathExt, URLExt } from '@jupyterlab/coreutils';
 
 import { IDocumentWidgetOpener } from '@jupyterlab/docmanager';
 
@@ -35,7 +35,7 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
     notebookPathOpener: INotebookPathOpener | null,
     notebookShell: INotebookShell | null
   ) => {
-    const baseUrl = PageConfig.getBaseUrl();
+    const baseUrl = app.serviceManager.serverSettings.baseUrl;
     const docRegistry = app.docRegistry;
     const pathOpener = notebookPathOpener ?? defaultNotebookPathOpener;
     let id = 0;

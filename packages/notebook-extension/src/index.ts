@@ -17,7 +17,7 @@ import {
 
 import { Cell, CodeCell } from '@jupyterlab/cells';
 
-import { PageConfig, Time, URLExt } from '@jupyterlab/coreutils';
+import { Time, URLExt } from '@jupyterlab/coreutils';
 
 import { IDebugger, IDebuggerSidebar } from '@jupyterlab/debugger';
 
@@ -26,6 +26,8 @@ import { IDocumentManager } from '@jupyterlab/docmanager';
 import { DocumentRegistry } from '@jupyterlab/docregistry';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
+
+import { IMetadataFormProvider } from '@jupyterlab/metadataform';
 
 import {
   NotebookPanel,
@@ -39,13 +41,15 @@ import { ITableOfContentsTracker } from '@jupyterlab/toc';
 
 import { ITranslator, nullTranslator } from '@jupyterlab/translation';
 
+import { Collapser } from '@jupyterlab/ui-components';
+
 import { INotebookShell } from '@jupyter-notebook/application';
 
 import { find } from '@lumino/algorithm';
 
 import { Poll } from '@lumino/polling';
 
-import { Widget } from '@lumino/widgets';
+import { PanelLayout, Widget } from '@lumino/widgets';
 
 import { TrustedComponent } from './trusted';
 
@@ -332,7 +336,10 @@ const openTreeTab: JupyterFrontEndPlugin<void> = {
     commands.addCommand(id, {
       label: trans.__('Open…'),
       execute: async () => {
-        const url = URLExt.join(PageConfig.getBaseUrl(), 'tree');
+        const url = URLExt.join(
+          app.serviceManager.serverSettings.baseUrl,
+          'tree'
+        );
         window.open(url);
       },
       describedBy: {
@@ -701,7 +708,7 @@ const tabIcon: JupyterFrontEndPlugin<void> = {
   requires: [INotebookTracker],
   activate: (app: JupyterFrontEnd, tracker: INotebookTracker) => {
     // the favicons are provided by Jupyter Server
-    const baseURL = PageConfig.getBaseUrl();
+    const baseURL = app.serviceManager.serverSettings.baseUrl;
     const notebookIcon = URLExt.join(
       baseURL,
       'static/favicons/favicon-notebook.ico'
@@ -781,12 +788,18 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
   description:
     'Add a command to open right sidebar for Editing Notebook Metadata when clicking on "Edit Notebook Metadata" under Edit menu',
   autoStart: true,
-  optional: [ICommandPalette, ITranslator, INotebookTools],
+  optional: [
+    ICommandPalette,
+    ITranslator,
+    INotebookTools,
+    IMetadataFormProvider,
+  ],
   activate: (
     app: JupyterFrontEnd,
     palette: ICommandPalette | null,
     translator: ITranslator | null,
-    notebookTools: INotebookTools | null
+    notebookTools: INotebookTools | null,
+    metadataForms: IMetadataFormProvider | null
   ) => {
     const { commands, shell } = app;
     translator = translator ?? nullTranslator;
@@ -798,26 +811,27 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
         const command = 'application:toggle-panel';
         const args = {
           side: 'right',
-          title: 'Show Notebook Tools',
+          title: trans.__('Notebook Tools'),
           id: 'notebook-tools',
         };
 
         // Check if Show Notebook Tools (Right Sidebar) is open (expanded)
         if (!commands.isToggled(command, args)) {
-          await commands.execute(command, args).then((_) => {
-            // For expanding the 'Advanced Tools' section (default: collapsed)
-            if (notebookTools) {
-              const tools = (notebookTools?.layout as any).widgets;
-              tools.forEach((tool: any) => {
-                if (
-                  tool.widget.title.label === trans.__('Advanced Tools') &&
-                  tool.collapsed
-                ) {
-                  tool.toggle();
-                }
-              });
+          await commands.execute(command, args);
+          // For expanding the 'Advanced Tools' section (default: collapsed)
+          const advancedToolsForm = metadataForms?.get('advancedToolsSection');
+          if (notebookTools && advancedToolsForm) {
+            const layout = notebookTools.layout as PanelLayout;
+            for (const section of layout.widgets) {
+              if (
+                section instanceof Collapser &&
+                section.widget === advancedToolsForm.parent &&
+                section.collapsed
+              ) {
+                section.toggle();
+              }
             }
-          });
+          }
         }
       },
       isVisible: () =>

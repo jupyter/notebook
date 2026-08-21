@@ -2409,10 +2409,12 @@ __metadata:
     "@jupyterlab/cells": ~4.7.0-alpha.1
     "@jupyterlab/debugger": ~4.7.0-alpha.1
     "@jupyterlab/docmanager": ~4.7.0-alpha.1
+    "@jupyterlab/metadataform": ~4.7.0-alpha.1
     "@jupyterlab/notebook": ~4.7.0-alpha.1
     "@jupyterlab/settingregistry": ~4.7.0-alpha.1
     "@jupyterlab/toc": ~6.7.0-alpha.1
     "@jupyterlab/translation": ~4.7.0-alpha.1
+    "@jupyterlab/ui-components": ~4.7.0-alpha.1
     "@lumino/algorithm": 2.0.4
     "@lumino/polling": ^2.1.5
     "@lumino/widgets": ^2.7.2
@@ -2428,7 +2430,7 @@ __metadata:
   resolution: "@jupyter-notebook/root@workspace:."
   dependencies:
     "@eslint/js": ^9.26.0
-    "@jupyter/eslint-plugin": ^1.0.1
+    "@jupyter/eslint-plugin": ^1.1.0
     "@jupyterlab/buildutils": ~4.7.0-alpha.1
     eslint: ^9.26.0
     eslint-config-prettier: ^10.0.0
@@ -2553,15 +2555,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyter/eslint-plugin@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@jupyter/eslint-plugin@npm:1.0.1"
+"@jupyter/eslint-plugin@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "@jupyter/eslint-plugin@npm:1.1.0"
   dependencies:
     "@typescript-eslint/utils": ^8.54.0
+    "@typescript-eslint/visitor-keys": ^8.54.0
     jsonc-eslint-parser: ^2.4.0
   peerDependencies:
     eslint: ">=9.0.0"
-  checksum: 74d79d31ce8bf5d9ad597984953d9baef300314570162ed34a40a2105041fadeda4842be96dd949c57338f47e3ee403f0e6380a99d5bfb558e467634a143dcb2
+  checksum: 38d5c9fd45e43eaecbae5a58f2e23d8f5c3798a6da0301017400d5cb3050d8b15332fb1b65cbdb0dbd6aa01a28a0565f780d9b81a91fe42962ad44d27192896b
   languageName: node
   linkType: hard
 
@@ -3830,7 +3833,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/metadataform@npm:^4.7.0-alpha.1":
+"@jupyterlab/metadataform@npm:^4.7.0-alpha.1, @jupyterlab/metadataform@npm:~4.7.0-alpha.1":
   version: 4.7.0-alpha.1
   resolution: "@jupyterlab/metadataform@npm:4.7.0-alpha.1"
   dependencies:
@@ -6046,6 +6049,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/types@npm:8.67.0":
+  version: 8.67.0
+  resolution: "@typescript-eslint/types@npm:8.67.0"
+  checksum: 7c995db42fd50f789d3c9b1eb60a5cb4706c2e0b3c686676448f28cd3bb7b448609452bc600e2d6553a6cbb2126542f440b21fe07c29acbf734e6bd865a748b9
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/typescript-estree@npm:8.54.0":
   version: 8.54.0
   resolution: "@typescript-eslint/typescript-estree@npm:8.54.0"
@@ -6087,6 +6097,16 @@ __metadata:
     "@typescript-eslint/types": 8.54.0
     eslint-visitor-keys: ^4.2.1
   checksum: 36aafcffee5223041e3c898a8622589ae04e89cfad3d785bf506ab2126606af5ddac48bd6dbbf1c1098a0e21206b4f9edc90971f9f11a220423a924345adb184
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/visitor-keys@npm:^8.54.0":
+  version: 8.67.0
+  resolution: "@typescript-eslint/visitor-keys@npm:8.67.0"
+  dependencies:
+    "@typescript-eslint/types": 8.67.0
+    eslint-visitor-keys: ^5.0.0
+  checksum: e4aa5a27cd6e8ffa8d9384533922f40e76de2f3aa5bef4eef5ba1da64ec1ba6eabeb66d05b8a10e00a8a7803495e3076b57b57dae9998319090f5237fbbf88f8
   languageName: node
   linkType: hard
 
@@ -8781,14 +8801,14 @@ __metadata:
   linkType: hard
 
 "dompurify@npm:^3.3.1":
-  version: 3.4.12
-  resolution: "dompurify@npm:3.4.12"
+  version: 3.4.13
+  resolution: "dompurify@npm:3.4.13"
   dependencies:
     "@types/trusted-types": ^2.0.7
   dependenciesMeta:
     "@types/trusted-types":
       optional: true
-  checksum: 477e944e669bac9247c9ebfa55c7ea5c73f3cc6cd6b21ee72e306000e3e53d308e7bdaac89e655a0e2661de2ffbdd877e6a92537d07ba1d70c6c441fcef8c65c
+  checksum: e4d3c08e453521098557118ffaaa6e2ab42f9222edd57ab592b69946d76127973640df13a9c260da3cf89b6c525ccaa58bf398d0b3aff01c3b7bc3fa589b7260
   languageName: node
   linkType: hard
 
@@ -9339,6 +9359,13 @@ __metadata:
   version: 4.2.1
   resolution: "eslint-visitor-keys@npm:4.2.1"
   checksum: 3a77e3f99a49109f6fb2c5b7784bc78f9743b834d238cdba4d66c602c6b52f19ed7bcd0a5c5dbbeae3a8689fd785e76c001799f53d2228b278282cf9f699fff5
+  languageName: node
+  linkType: hard
+
+"eslint-visitor-keys@npm:^5.0.0":
+  version: 5.0.1
+  resolution: "eslint-visitor-keys@npm:5.0.1"
+  checksum: d6cc6830536ab4a808f25325686c2c27862f27aab0c1ffed39627293b06cee05d95187da113cafd366314ea5be803b456115de71ad625e365020f20e2a6af89b
   languageName: node
   linkType: hard
 
@@ -12812,11 +12839,11 @@ __metadata:
   linkType: hard
 
 "nanoid@npm:^3.3.16, nanoid@npm:^3.3.6":
-  version: 3.3.17
-  resolution: "nanoid@npm:3.3.17"
+  version: 3.3.18
+  resolution: "nanoid@npm:3.3.18"
   bin:
     nanoid: bin/nanoid.cjs
-  checksum: dbbfd5ccc15a9bce602797ee75b98ee5ad377bd217782b8d2e7438e6e0ba0c54529a9f60437910aa00e263224b3c074b51a1aa3e21084a3cb56347a6cbacc275
+  checksum: db804317d337b41602666f23014e399d1263033d13a903955c246378256fd4e002519e87199ca40b19aff52274965ac7cc6e70c13a63e194e15c4664724602d3
   languageName: node
   linkType: hard
 

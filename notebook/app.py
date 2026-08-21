@@ -8,7 +8,6 @@ import typing as t
 from pathlib import Path
 
 from jupyter_client.utils import ensure_async  # type:ignore[attr-defined]
-from jupyter_core.application import base_aliases
 from jupyter_core.paths import jupyter_config_dir
 from jupyter_server.base.handlers import JupyterHandler
 from jupyter_server.extension.handler import (
@@ -82,7 +81,8 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
                 )
             else:
                 page_config["preferredPath"] = "/"
-        except Exception:  # noqa: BLE001
+        except Exception:
+            self.log.debug("Failed to compute preferred path", exc_info=True)
             page_config["preferredPath"] = "/"
 
         mathjax_config = self.settings.get("mathjax_config", "TeX-AMS_HTML-full,Safe")
@@ -239,9 +239,6 @@ class CustomCssHandler(NotebookBaseHandler):
             return self.write(css_f.read())
 
 
-aliases = dict(base_aliases)
-
-
 class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[misc]
     """The notebook server extension app."""
 
@@ -271,7 +268,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
         """,
     )
 
-    flags: Flags = flags  # type:ignore[assignment]
+    flags: Flags = dict(flags)  # type:ignore[assignment]
     flags["expose-app-in-browser"] = (
         {"JupyterNotebookApp": {"expose_app_in_browser": True}},
         "Expose the global app instance to browser via window.jupyterapp.",
