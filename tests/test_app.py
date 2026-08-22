@@ -1,6 +1,7 @@
 import os
 
 import pytest
+from jupyter_server.serverapp import flags as serverapp_flags
 from tornado.httpclient import HTTPClientError
 
 from notebook.app import JupyterNotebookApp, NotebookHandler, TreeHandler
@@ -16,6 +17,14 @@ def notebooks(jp_create_notebook, notebookapp):
     for nb in nbpaths:
         jp_create_notebook(nb)
     return nbpaths
+
+
+def test_notebook_app_flags_are_isolated():
+    notebook_flags = {"custom-css", "expose-app-in-browser"}
+
+    assert JupyterNotebookApp.flags is not serverapp_flags
+    assert notebook_flags <= JupyterNotebookApp.flags.keys()
+    assert notebook_flags.isdisjoint(serverapp_flags)
 
 
 async def test_notebook_handler(notebooks, jp_fetch):

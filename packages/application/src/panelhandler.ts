@@ -348,7 +348,7 @@ export class SidePanelPalette {
       category: 'View',
       args: {
         side: area,
-        title: `Show ${widget.title.caption}`,
+        title: widget.title.caption,
         id: widget.id,
       },
     });
@@ -409,7 +409,7 @@ type SidePanelPaletteOption = {
    * ### Notes
    * That command required 3 args :
    *      side: 'left' | 'right', the area to toggle
-   *      title: string, label of the command
+   *      title: string, title of the widget
    *      id: string, id of the widget to activate
    */
   command: string;

@@ -7,7 +7,7 @@ import {
   JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
-import { PageConfig, URLExt } from '@jupyterlab/coreutils';
+import { URLExt } from '@jupyterlab/coreutils';
 
 import { ITerminalTracker } from '@jupyterlab/terminal';
 
@@ -84,7 +84,7 @@ const redirect: JupyterFrontEndPlugin<void> = {
     tracker: ITerminalTracker,
     notebookPathOpener: INotebookPathOpener | null
   ) => {
-    const baseUrl = PageConfig.getBaseUrl();
+    const baseUrl = app.serviceManager.serverSettings.baseUrl;
     const opener = notebookPathOpener ?? defaultNotebookPathOpener;
 
     tracker.widgetAdded.connect((send, terminal) => {
