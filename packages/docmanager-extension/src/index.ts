@@ -124,15 +124,21 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
 };
 
 /**
- * The key used to persist the recent documents in the browser local storage.
+ * The prefix of the key used to persist the recent documents in the browser
+ * local storage.
  *
  * Using the local storage (rather than the application state database) allows
  * the list to be shared across the separate Notebook pages (tree, notebooks,
  * edit, ...). Each page reads the shared list on demand, so returning to the
  * tree page (or switching to the Recents tab) always reflects what the other
  * pages have recorded.
+ *
+ * The local storage is shared by every page of the origin, so the full key is
+ * namespaced by the server base URL and root directory: distinct servers
+ * served from the same origin (for example different JupyterHub named
+ * servers) must not display or evict each other's history.
  */
-const RECENTS_STORAGE_KEY = '@jupyter-notebook/docmanager:recents';
+const RECENTS_STORAGE_KEY_PREFIX = '@jupyter-notebook/docmanager:recents';
 
 /**
  * A manager for recently opened and closed documents.
@@ -406,6 +412,19 @@ namespace Private {
   };
 
   /**
+   * Get the local storage key for the current page.
+   *
+   * The key is namespaced by the server base URL and root directory, so the
+   * pages of a server share one list without mixing it with the lists of
+   * other servers served from the same origin.
+   */
+  export function getStorageKey(): string {
+    const baseUrl = PageConfig.getOption('baseUrl');
+    const serverRoot = PageConfig.getOption('serverRoot');
+    return `${RECENTS_STORAGE_KEY_PREFIX}:${baseUrl}:${serverRoot}`;
+  }
+
+  /**
    * Load the raw (serialized) recent documents from the local storage.
    *
    * Returns an empty string when there is nothing stored, so it can be compared
@@ -413,7 +432,7 @@ namespace Private {
    */
   export function loadRaw(): string {
     try {
-      return localStorage.getItem(RECENTS_STORAGE_KEY) ?? '';
+      return localStorage.getItem(getStorageKey()) ?? '';
     } catch (error) {
       console.warn('Failed to load the recent documents', error);
       return '';
@@ -463,7 +482,7 @@ namespace Private {
   export function saveRecents(recents: RecentsDatabase): string {
     const raw = JSON.stringify(recents);
     try {
-      localStorage.setItem(RECENTS_STORAGE_KEY, raw);
+      localStorage.setItem(getStorageKey(), raw);
     } catch (error) {
       console.warn('Failed to save the recent documents', error);
     }
