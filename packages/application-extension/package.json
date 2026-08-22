@@ -50,11 +50,9 @@
     "@jupyterlab/mainmenu": "~4.7.0-alpha.1",
     "@jupyterlab/rendermime": "~4.7.0-alpha.1",
     "@jupyterlab/settingregistry": "~4.7.0-alpha.1",
-    "@jupyterlab/statedb": "~4.7.0-alpha.1",
     "@jupyterlab/translation": "~4.7.0-alpha.1",
     "@lumino/coreutils": "^2.2.2",
     "@lumino/disposable": "^2.1.5",
-    "@lumino/polling": "^2.1.5",
     "@lumino/widgets": "^2.7.2"
   },
   "devDependencies": {

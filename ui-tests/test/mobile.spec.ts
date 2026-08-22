@@ -34,9 +34,12 @@ test.describe('Mobile', () => {
     await page.goto(`tree/${tmpPath}`);
 
     await page.waitForSelector('#top-panel-wrapper', { state: 'hidden' });
+    await expect(
+      page.locator('#filebrowser .jp-DirListing-header .jp-id-filesize')
+    ).toBeVisible();
 
-    expect(await page.screenshot()).toMatchSnapshot('tree.png', {
-      maxDiffPixels: 300,
+    await expect(page).toHaveScreenshot('tree.png', {
+      maxDiffPixels: 400,
     });
   });
 

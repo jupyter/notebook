@@ -190,7 +190,7 @@ const logo: JupyterFrontEndPlugin<void> = {
   description: 'The logo plugin.',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
-    const baseUrl = PageConfig.getBaseUrl();
+    const baseUrl = app.serviceManager.serverSettings.baseUrl;
     const node = document.createElement('a');
     node.href = `${baseUrl}tree`;
     node.target = '_blank';
@@ -357,7 +357,7 @@ const pages: JupyterFrontEndPlugin<void> = {
     palette: ICommandPalette | null
   ): void => {
     const trans = translator.load('notebook');
-    const baseUrl = PageConfig.getBaseUrl();
+    const baseUrl = app.serviceManager.serverSettings.baseUrl;
 
     app.commands.addCommand(CommandIDs.openLab, {
       label: trans.__('Open JupyterLab'),
@@ -464,7 +464,7 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
           return docManager.services.contents
             .get(path, { content: false })
             .then((model) => {
-              const baseUrl = PageConfig.getBaseUrl();
+              const baseUrl = app.serviceManager.serverSettings.baseUrl;
               opener.open({
                 prefix: URLExt.join(baseUrl, 'tree'),
                 path: model.path,
@@ -889,7 +889,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
      * id, widget ID to activate in the side panel
      */
     app.commands.addCommand(CommandIDs.togglePanel, {
-      label: (args) => args['title'] as string,
+      label: (args) => trans.__('Show %1', args['title'] as string),
       caption: (args) => {
         // We do not substitute the parameter into the string because the parameter is not
         // localized (e.g., it is always 'left') even though the string is localized.
@@ -976,7 +976,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
             },
             title: {
               type: 'string',
-              description: 'The title shown for the side panel entry.',
+              description: 'The title of the side panel widget.',
             },
             id: {
               type: 'string',
@@ -998,41 +998,42 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
      *
      * @param area - 'left' or 'right', the area of the side panel.
      * @param entryLabel - the name of the main entry in the View menu for that side panel.
-     * @returns - The disposable menu added to the View menu or null.
      */
     const updateMenu = (area: SidePanel.Area, entryLabel: string) => {
       if (menu === null) {
-        return null;
+        return;
       }
 
       // Remove the previous menu entry for this side panel.
       sidePanelMenu[area]?.dispose();
+      sidePanelMenu[area] = null;
+
+      // Nothing to add to the View menu if the side panel has no widget.
+      const widgets = Array.from(notebookShell.widgets(area));
+      if (widgets.length === 0) {
+        return;
+      }
 
       // Creates a new menu entry and populates it with side panel widgets.
       const newMenu = new Menu({ commands: app.commands });
       newMenu.title.label = entryLabel;
-      const widgets = notebookShell.widgets(area);
-      let menuToAdd = false;
 
       for (const widget of widgets) {
         newMenu.addItem({
           command: CommandIDs.togglePanel,
           args: {
             side: area,
-            title: `Show ${widget.title.caption}`,
+            title: widget.title.caption,
             id: widget.id,
           },
         });
-        menuToAdd = true;
       }
 
-      // If there are widgets, add the menu to the main menu entry.
-      if (menuToAdd) {
-        sidePanelMenu[area] = menu.viewMenu.addItem({
-          type: 'submenu',
-          submenu: newMenu,
-        });
-      }
+      // Add the menu to the main menu entry.
+      sidePanelMenu[area] = menu.viewMenu.addItem({
+        type: 'submenu',
+        submenu: newMenu,
+      });
     };
 
     app.restored.then(() => {

@@ -45,7 +45,7 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
     notebookPathOpener: INotebookPathOpener | null,
     notebookShell: INotebookShell | null
   ) => {
-    const baseUrl = PageConfig.getBaseUrl();
+    const baseUrl = app.serviceManager.serverSettings.baseUrl;
     const docRegistry = app.docRegistry;
     const pathOpener = notebookPathOpener ?? defaultNotebookPathOpener;
     let id = 0;
@@ -125,18 +125,9 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
 
 /**
  * The prefix of the key used to persist the recent documents in the browser
- * local storage.
- *
- * Using the local storage (rather than the application state database) allows
- * the list to be shared across the separate Notebook pages (tree, notebooks,
- * edit, ...). Each page reads the shared list on demand, so returning to the
- * tree page (or switching to the Recents tab) always reflects what the other
- * pages have recorded.
- *
- * The local storage is shared by every page of the origin, so the full key is
- * namespaced by the server base URL and root directory: distinct servers
- * served from the same origin (for example different JupyterHub named
- * servers) must not display or evict each other's history.
+ * local storage, so the list is shared across the separate Notebook pages.
+ * The full key is namespaced by base URL and server root, so servers sharing
+ * an origin (e.g. on JupyterHub) do not display or evict each other's history.
  */
 const RECENTS_STORAGE_KEY_PREFIX = '@jupyter-notebook/docmanager:recents';
 
@@ -412,11 +403,8 @@ namespace Private {
   };
 
   /**
-   * Get the local storage key for the current page.
-   *
-   * The key is namespaced by the server base URL and root directory, so the
-   * pages of a server share one list without mixing it with the lists of
-   * other servers served from the same origin.
+   * Get the local storage key for the current page, namespaced by base URL
+   * and server root to keep the lists of servers sharing an origin separate.
    */
   export function getStorageKey(): string {
     const baseUrl = PageConfig.getOption('baseUrl');

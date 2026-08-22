@@ -11,7 +11,7 @@ import { ICommandPalette } from '@jupyterlab/apputils';
 
 import { IConsoleTracker } from '@jupyterlab/console';
 
-import { PageConfig, URLExt } from '@jupyterlab/coreutils';
+import { URLExt } from '@jupyterlab/coreutils';
 
 import { INotebookTracker } from '@jupyterlab/notebook';
 
@@ -93,7 +93,7 @@ const redirect: JupyterFrontEndPlugin<void> = {
     notebookShell: INotebookShell | null,
     notebookTracker: INotebookTracker | null
   ) => {
-    const baseUrl = PageConfig.getBaseUrl();
+    const baseUrl = app.serviceManager.serverSettings.baseUrl;
     const opener = notebookPathOpener ?? defaultNotebookPathOpener;
 
     tracker.widgetAdded.connect(async (send, console) => {

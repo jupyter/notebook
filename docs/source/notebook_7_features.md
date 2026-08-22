@@ -118,7 +118,7 @@ Despite all the new features and as stated in [JEP 79][jep 79], Notebook 7 keeps
 
 > The Jupyter Notebook application offers a document-centric user experience. That is, in the Notebook application, the landing page that contains a file manager, running tools tab, and a few optional extras, is a launching point into opening standalone, individual documents. This document-centric experience is important for many users, and that is the first key point this proposal aims to preserve. Notebook v7 will be based on a different JavaScript implementation than v6, but it will preserve the document-centric experience, where each individual notebook opens in a separate browser tab and the visible tools and menus are focused on the open document.
 
-[jep 79]: https://jupyter.org/enhancement-proposals/79-notebook-v7/notebook-v7.html
+[jep 79]: https://jupyter.org/enhancement-proposals/notebook-v7/
 
 ## Compact View on Mobile Devices
 
