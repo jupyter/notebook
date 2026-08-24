@@ -26,7 +26,7 @@ jobs:
           persist-credentials: false
 
       - name: "Install uv"
-        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
           version: "latest"
 
@@ -34,7 +34,7 @@ jobs:
         run: uvx zizmor --format sarif . > results.sarif
 
       - name: "Upload SARIF file"
-        uses: github/codeql-action/upload-sarif@e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81 # v4.37.3
+        uses: github/codeql-action/upload-sarif@db488ddef3bf6cb639b32c2e9a7c0a7ea8271d28 # v4.37.8
         with:
           # Path to SARIF file relative to the root of the repository
           sarif_file: results.sarif
