@@ -70,17 +70,20 @@ namespace CommandIDs {
  * Plugin to add extra commands to the file browser to create
  * new notebooks, files, consoles and terminals
  */
+import { IMainMenu } from '@jupyterlab/mainmenu';
+
 const createNew: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:new',
   description:
     'Plugin to add extra commands to the file browser to create new notebooks, files, consoles and terminals.',
   requires: [ITranslator],
-  optional: [IToolbarWidgetRegistry],
+  optional: [IToolbarWidgetRegistry, IMainMenu],
   autoStart: true,
   activate: (
     app: JupyterFrontEnd,
     translator: ITranslator,
-    toolbarRegistry: IToolbarWidgetRegistry | null
+    toolbarRegistry: IToolbarWidgetRegistry | null,
+    mainMenu: IMainMenu | null
   ) => {
     const { commands, serviceManager } = app;
     const trans = translator.load('notebook');
@@ -134,6 +137,16 @@ const createNew: JupyterFrontEndPlugin<void> = {
           return menubar;
         }
       );
+    }
+
+    // Add "New Folder" to the top File > New menu.
+    // (Notebook, Console, Terminal, and Text File are already registered
+    // there by other plugins/extensions — this adds the missing entry.)
+    if (mainMenu) {
+      mainMenu.fileMenu.newMenu.addItem({
+        command: 'filebrowser:create-new-directory',
+        rank: 100,
+      });
     }
   },
 };
