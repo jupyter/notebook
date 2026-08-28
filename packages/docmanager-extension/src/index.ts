@@ -74,7 +74,9 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
           }
           if (
             route === 'notebooks' &&
-            widget.context.sessionContext.kernelPreference.shouldStart === false
+            widget.context.sessionContext.kernelPreference.shouldStart ===
+              false &&
+            widget.context.sessionContext.kernelPreference.shouldReuse === false
           ) {
             searchParams ??= new URLSearchParams();
             searchParams.set('kernel', 'none');

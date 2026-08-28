@@ -273,7 +273,7 @@ const opener: JupyterFrontEndPlugin<void> = {
             urlParams.get('kernel') === 'none'
               ? { shouldStart: false, shouldReuse: false }
               : undefined;
-          docManager.openOrReveal(
+          const widget = docManager.openOrReveal(
             file,
             factory,
             undefined,
@@ -282,6 +282,35 @@ const opener: JupyterFrontEndPlugin<void> = {
             },
             kernelPreference
           );
+
+          if (kernelPreference && widget) {
+            const { context } = widget;
+            const { sessionContext } = context;
+            const disconnect = () => {
+              sessionContext.kernelChanged.disconnect(clearNoKernelQuery);
+              context.disposed.disconnect(disconnect);
+            };
+            const clearNoKernelQuery = () => {
+              if (!sessionContext.session?.kernel) {
+                return;
+              }
+
+              const url = new URL(window.location.href);
+              if (url.searchParams.get('kernel') === 'none') {
+                url.searchParams.delete('kernel');
+                window.history.replaceState(
+                  window.history.state,
+                  '',
+                  url.toString()
+                );
+              }
+              disconnect();
+            };
+
+            sessionContext.kernelChanged.connect(clearNoKernelQuery);
+            context.disposed.connect(disconnect);
+            clearNoKernelQuery();
+          }
         });
       },
       describedBy: {
