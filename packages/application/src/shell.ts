@@ -605,6 +605,7 @@ export namespace Private {
      * Construct a new skipLink widget handler.
      */
     constructor(shell: INotebookShell) {
+      this._shell = shell;
       const skipLinkWidget = (this._skipLinkWidget = new Widget());
       const skipToMain = document.createElement('a');
       skipToMain.href = '#first-cell';
@@ -628,9 +629,44 @@ export namespace Private {
     private _focusMain() {
       const input = document.querySelector(
         '#main-panel .jp-InputArea-editor'
-      ) as HTMLInputElement;
-      input.tabIndex = 1;
-      input.focus();
+      ) as HTMLElement | null;
+      if (input) {
+        input.tabIndex = 1;
+        input.focus();
+        return;
+      }
+
+      const dirListing = document.querySelector(
+        '#main-panel .jp-DirListing-content'
+      ) as HTMLElement | null;
+      if (dirListing) {
+        dirListing.tabIndex = 1;
+        dirListing.focus();
+        return;
+      }
+
+      const cmContent = document.querySelector(
+        '#main-panel .cm-content'
+      ) as HTMLElement | null;
+      if (cmContent) {
+        cmContent.focus();
+        return;
+      }
+
+      const currentWidget = this._shell.currentWidget;
+      if (currentWidget) {
+        currentWidget.node.tabIndex = 1;
+        currentWidget.node.focus();
+        return;
+      }
+
+      const mainPanel = document.querySelector(
+        '#main-panel'
+      ) as HTMLElement | null;
+      if (mainPanel) {
+        mainPanel.tabIndex = 1;
+        mainPanel.focus();
+      }
     }
 
     /**
@@ -673,6 +709,7 @@ export namespace Private {
       return this._isDisposed;
     }
 
+    private _shell: INotebookShell;
     private _skipLinkWidget: Widget;
     private _isDisposed = false;
   }
