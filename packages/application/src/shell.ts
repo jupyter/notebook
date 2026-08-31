@@ -578,6 +578,17 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     this._downPanel.hide();
   }
 
+  /**
+   * Dispose of the resources held by the shell.
+   */
+  override dispose(): void {
+    if (this.isDisposed) {
+      return;
+    }
+    this._skipLinkWidgetHandler.dispose();
+    super.dispose();
+  }
+
   private _topWrapper: Panel;
   private _topHandler: PanelHandler;
   private _menuWrapper: Panel;
@@ -607,7 +618,7 @@ export namespace Private {
     constructor(shell: INotebookShell) {
       this._shell = shell;
       const skipLinkWidget = (this._skipLinkWidget = new Widget());
-      const skipToMain = document.createElement('a');
+      const skipToMain = (this._skipToMain = document.createElement('a'));
       skipToMain.href = '#first-cell';
       skipToMain.tabIndex = 1;
       skipToMain.text = 'Skip to Main';
@@ -627,27 +638,33 @@ export namespace Private {
     }
 
     private _focusMain() {
-      const input = document.querySelector(
-        '#main-panel .jp-InputArea-editor'
-      ) as HTMLElement | null;
+      const root = this._shell.node ?? document;
+      const input = (root.querySelector('#main-panel .jp-InputArea-editor') ??
+        document.querySelector(
+          '#main-panel .jp-InputArea-editor'
+        )) as HTMLElement | null;
       if (input) {
         input.tabIndex = 1;
         input.focus();
         return;
       }
 
-      const dirListing = document.querySelector(
+      const dirListing = (root.querySelector(
         '#main-panel .jp-DirListing-content'
-      ) as HTMLElement | null;
+      ) ??
+        document.querySelector(
+          '#main-panel .jp-DirListing-content'
+        )) as HTMLElement | null;
       if (dirListing) {
         dirListing.tabIndex = 1;
         dirListing.focus();
         return;
       }
 
-      const cmContent = document.querySelector(
-        '#main-panel .cm-content'
-      ) as HTMLElement | null;
+      const cmContent = (root.querySelector('#main-panel .cm-content') ??
+        document.querySelector(
+          '#main-panel .cm-content'
+        )) as HTMLElement | null;
       if (cmContent) {
         cmContent.focus();
         return;
@@ -660,9 +677,8 @@ export namespace Private {
         return;
       }
 
-      const mainPanel = document.querySelector(
-        '#main-panel'
-      ) as HTMLElement | null;
+      const mainPanel = (root.querySelector('#main-panel') ??
+        document.querySelector('#main-panel')) as HTMLElement | null;
       if (mainPanel) {
         mainPanel.tabIndex = 1;
         mainPanel.focus();
@@ -684,7 +700,7 @@ export namespace Private {
         return;
       }
       this._isDisposed = true;
-      this._skipLinkWidget.node.removeEventListener('click', this);
+      this._skipToMain.removeEventListener('click', this);
       this._skipLinkWidget.dispose();
     }
 
@@ -711,6 +727,7 @@ export namespace Private {
 
     private _shell: INotebookShell;
     private _skipLinkWidget: Widget;
+    private _skipToMain: HTMLAnchorElement;
     private _isDisposed = false;
   }
 }
