@@ -181,4 +181,85 @@ describe('Shell for tree view', () => {
       expect(widgets.length).toBeGreaterThan(0);
     });
   });
+
+  describe('#skipToMain', () => {
+    it('should focus the notebook input area editor if present', () => {
+      const widget = new Widget();
+      const editor = document.createElement('div');
+      editor.className = 'jp-InputArea-editor';
+      widget.node.appendChild(editor);
+      shell.add(widget, 'main');
+
+      const skipLink = shell.node.querySelector(
+        '#jp-skiplink a'
+      ) as HTMLAnchorElement;
+      expect(skipLink).not.toBeNull();
+
+      skipLink.click();
+      expect(document.activeElement).toBe(editor);
+      expect(editor.tabIndex).toBe(1);
+    });
+
+    it('should focus the directory listing content in tree view when editor is absent', () => {
+      const widget = new Widget();
+      const dirListing = document.createElement('div');
+      dirListing.className = 'jp-DirListing-content';
+      widget.node.appendChild(dirListing);
+      shell.add(widget, 'main');
+
+      const skipLink = shell.node.querySelector(
+        '#jp-skiplink a'
+      ) as HTMLAnchorElement;
+      expect(skipLink).not.toBeNull();
+
+      skipLink.click();
+      expect(document.activeElement).toBe(dirListing);
+      expect(dirListing.tabIndex).toBe(1);
+    });
+
+    it('should focus CodeMirror content if present when editor is absent', () => {
+      const widget = new Widget();
+      const cmContent = document.createElement('div');
+      cmContent.className = 'cm-content';
+      cmContent.tabIndex = 0;
+      widget.node.appendChild(cmContent);
+      shell.add(widget, 'main');
+
+      const skipLink = shell.node.querySelector(
+        '#jp-skiplink a'
+      ) as HTMLAnchorElement;
+      expect(skipLink).not.toBeNull();
+
+      skipLink.click();
+      expect(document.activeElement).toBe(cmContent);
+    });
+
+    it('should focus the current widget node if specific content classes are absent', () => {
+      const widget = new Widget();
+      shell.add(widget, 'main');
+
+      const skipLink = shell.node.querySelector(
+        '#jp-skiplink a'
+      ) as HTMLAnchorElement;
+      expect(skipLink).not.toBeNull();
+
+      skipLink.click();
+      expect(document.activeElement).toBe(widget.node);
+      expect(widget.node.tabIndex).toBe(1);
+    });
+
+    it('should focus main panel without throwing if main area is empty', () => {
+      const skipLink = shell.node.querySelector(
+        '#jp-skiplink a'
+      ) as HTMLAnchorElement;
+      expect(skipLink).not.toBeNull();
+
+      expect(() => {
+        skipLink.click();
+      }).not.toThrow();
+
+      const mainPanel = document.querySelector('#main-panel');
+      expect(document.activeElement).toBe(mainPanel);
+    });
+  });
 });
