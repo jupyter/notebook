@@ -284,31 +284,27 @@ const opener: JupyterFrontEndPlugin<void> = {
           );
 
           if (kernelPreference && widget) {
-            const { context } = widget;
-            const { sessionContext } = context;
-            const disconnect = () => {
-              sessionContext.kernelChanged.disconnect(clearNoKernelQuery);
-              context.disposed.disconnect(disconnect);
-            };
+            const { sessionContext } = widget.context;
+            /**
+             * `kernel=none` only describes how to open the notebook. Drop it
+             * as soon as a kernel runs, so a reload reconnects to that session.
+             */
             const clearNoKernelQuery = () => {
               if (!sessionContext.session?.kernel) {
                 return;
               }
 
               const url = new URL(window.location.href);
-              if (url.searchParams.get('kernel') === 'none') {
-                url.searchParams.delete('kernel');
-                window.history.replaceState(
-                  window.history.state,
-                  '',
-                  url.toString()
-                );
-              }
-              disconnect();
+              url.searchParams.delete('kernel');
+              window.history.replaceState(
+                window.history.state,
+                '',
+                url.toString()
+              );
+              sessionContext.kernelChanged.disconnect(clearNoKernelQuery);
             };
 
             sessionContext.kernelChanged.connect(clearNoKernelQuery);
-            context.disposed.connect(disconnect);
             clearNoKernelQuery();
           }
         });
