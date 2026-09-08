@@ -276,3 +276,54 @@ body[data-notebook='notebooks']
   text-decoration: underline;
   color: var(--jp-content-link-color);
 }
+/* ==========================================================================
+   LLM Cell Selector Styles
+   ========================================================================== */
+
+.jp-LLMCellSelector {
+  margin-right: 8px;
+  margin-left: 4px;
+  cursor: pointer;
+  width: 16px;
+  height: 16px;
+  accent-color: var(--jp-brand-color1);
+  vertical-align: middle;
+}
+
+/* Highlight the cell when selected */
+.jp-mod-selected-for-llm {
+  background-color: var(--jp-brand-color3) !important;
+  border-left: 4px solid var(--jp-brand-color1) !important;
+}
+
+/* Style the Floating Action Button (FAB) */
+.jp-LLMFloatingCopyButton {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 10000; /* Keeps it above all other Jupyter UI elements */
+  background-color: var(--jp-brand-color1);
+  color: white;
+  border: none;
+  border-radius: 50px; /* Pill shape */
+  padding: 12px 24px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: var(--jp-ui-font-size1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--jp-ui-font-family);
+}
+
+.jp-LLMFloatingCopyButton:hover {
+  background-color: var(--jp-brand-color0);
+  transform: translateY(-2px); /* Little lift effect on hover */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.jp-LLMFloatingCopyButton:active {
+  transform: translateY(0);
+}
