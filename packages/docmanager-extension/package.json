@@ -28,7 +28,8 @@
     "lib/*.js",
     "schema/*.json",
     "style/**/*.css",
-    "style/index.js"
+    "style/index.js",
+    "src/**/*.{ts,tsx}"
   ],
   "scripts": {
     "build": "tsc -b",
@@ -43,8 +44,6 @@
     "@jupyterlab/coreutils": "~6.7.0-alpha.1",
     "@jupyterlab/docmanager": "~4.7.0-alpha.1",
     "@jupyterlab/docregistry": "~4.7.0-alpha.1",
-    "@jupyterlab/services": "~7.7.0-alpha.1",
-    "@lumino/algorithm": "^2.0.4",
     "@lumino/signaling": "^2.1.5"
   },
   "devDependencies": {

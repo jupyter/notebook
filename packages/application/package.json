@@ -27,7 +27,8 @@
     "lib/*.js.map",
     "lib/*.js",
     "style/*.css",
-    "style/index.js"
+    "style/index.js",
+    "src/**/*.{ts,tsx}"
   ],
   "scripts": {
     "build": "tsc -b",
@@ -43,12 +44,16 @@
   },
   "dependencies": {
     "@jupyterlab/application": "~4.7.0-alpha.1",
+    "@jupyterlab/apputils": "~4.8.0-alpha.1",
     "@jupyterlab/coreutils": "~6.7.0-alpha.1",
     "@jupyterlab/docregistry": "~4.7.0-alpha.1",
+    "@jupyterlab/mainmenu": "~4.7.0-alpha.1",
     "@jupyterlab/rendermime-interfaces": "~3.15.0-alpha.1",
+    "@jupyterlab/translation": "~4.7.0-alpha.1",
     "@jupyterlab/ui-components": "~4.7.0-alpha.1",
     "@lumino/algorithm": "^2.0.4",
     "@lumino/coreutils": "^2.2.2",
+    "@lumino/disposable": "^2.1.5",
     "@lumino/messaging": "^2.0.4",
     "@lumino/polling": "^2.1.5",
     "@lumino/signaling": "^2.1.5",

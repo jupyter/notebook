@@ -28,7 +28,8 @@
     "lib/*.js",
     "schema/*.json",
     "style/**/*.css",
-    "style/index.js"
+    "style/index.js",
+    "src/**/*.{ts,tsx}"
   ],
   "scripts": {
     "build": "tsc -b",
@@ -42,7 +43,6 @@
     "@jupyter-notebook/ui-components": "^7.7.0-alpha.1",
     "@jupyterlab/application": "~4.7.0-alpha.1",
     "@jupyterlab/apputils": "~4.8.0-alpha.1",
-    "@jupyterlab/codeeditor": "~4.7.0-alpha.1",
     "@jupyterlab/console": "~4.7.0-alpha.1",
     "@jupyterlab/coreutils": "~6.7.0-alpha.1",
     "@jupyterlab/docmanager": "~4.7.0-alpha.1",
