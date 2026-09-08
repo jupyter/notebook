@@ -51,6 +51,8 @@ import { Poll } from '@lumino/polling';
 
 import { PanelLayout, Widget } from '@lumino/widgets';
 
+import { renameLabFileMenuItems } from './lab-menu-rename';
+
 import { TrustedComponent } from './trusted';
 
 /**
@@ -235,12 +237,12 @@ const checkpoints: JupyterFrontEndPlugin<void> = {
 };
 
 /**
- * Add a command to close the browser tab when clicking on "Close and Shut Down"
+ * Add a command to close the browser tab when clicking on "Close and Halt"
  */
 const closeTab: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/notebook-extension:close-tab',
   description:
-    'Add a command to close the browser tab when clicking on "Close and Shut Down".',
+    'Add a command to close the browser tab when clicking on "Close and Halt".',
   autoStart: true,
   requires: [IMainMenu],
   optional: [INotebookTracker, ISettingRegistry, ITranslator],
@@ -281,8 +283,8 @@ const closeTab: JupyterFrontEndPlugin<void> = {
     commands.addCommand(id, {
       label: () =>
         promptForConfirmation
-          ? trans.__('Close and Shut Down Notebook…')
-          : trans.__('Close and Shut Down Notebook'),
+          ? trans.__('Close and Halt…')
+          : trans.__('Close and Halt'),
       execute: async () => {
         if (promptForConfirmation) {
           const fileName =
@@ -967,6 +969,8 @@ const overrideMenuItems: JupyterFrontEndPlugin<void> = {
         },
       });
     }
+
+    void app.restored.then(() => renameLabFileMenuItems(mainMenu, trans));
   },
 };
 

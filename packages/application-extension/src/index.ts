@@ -695,7 +695,7 @@ const title: JupyterFrontEndPlugin<void> = {
       };
 
       commands.addCommand(CommandIDs.duplicate, {
-        label: () => trans.__('Duplicate'),
+        label: () => trans.__('Make a Copy…'),
         isEnabled,
         execute: async () => {
           if (!isEnabled()) {
