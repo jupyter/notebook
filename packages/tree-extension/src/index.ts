@@ -37,6 +37,7 @@ import {
   caretDownIcon,
   folderIcon,
   runningIcon,
+  terminalIcon,
 } from '@jupyterlab/ui-components';
 
 import { Menu, MenuBar } from '@lumino/widgets';
@@ -54,6 +55,9 @@ const FILE_BROWSER_FACTORY = 'FileBrowser';
  * The namespace for command IDs.
  */
 namespace CommandIDs {
+  // Create a terminal in the current file browser directory.
+  export const createNewTerminal = 'filebrowser:create-new-terminal';
+
   // The command to show the filebrowser widget in tree view.
   export const openDirectory = 'filebrowser:open-directory';
 
@@ -74,16 +78,38 @@ const createNew: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:new',
   description:
     'Plugin to add extra commands to the file browser to create new notebooks, files, consoles and terminals.',
-  requires: [ITranslator],
+  requires: [IFileBrowserFactory, ITranslator],
   optional: [IToolbarWidgetRegistry],
   autoStart: true,
   activate: (
     app: JupyterFrontEnd,
+    fileBrowserFactory: IFileBrowserFactory,
     translator: ITranslator,
     toolbarRegistry: IToolbarWidgetRegistry | null
   ) => {
     const { commands, serviceManager } = app;
     const trans = translator.load('notebook');
+
+    commands.addCommand(CommandIDs.createNewTerminal, {
+      label: trans.__('Terminal'),
+      icon: terminalIcon,
+      isEnabled: () => commands.isEnabled('terminal:create-new'),
+      isVisible: () => commands.isVisible('terminal:create-new'),
+      execute: () => {
+        const browser = fileBrowserFactory.tracker.currentWidget;
+        if (browser) {
+          return commands.execute('terminal:create-new', {
+            cwd: browser.model.path,
+          });
+        }
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
+    });
 
     const overflowOptions = {
       overflowMenuOptions: { isVisible: false },
@@ -105,7 +131,7 @@ const createNew: JupyterFrontEndPlugin<void> = {
       }
 
       const baseCommands = [
-        'terminal:create-new',
+        CommandIDs.createNewTerminal,
         'console:create',
         'filebrowser:create-new-file',
         'filebrowser:create-new-directory',
