@@ -72,6 +72,8 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
               factory: widgetName,
             });
           }
+          // Require both flags: `notebookStartsKernel=False` only sets
+          // `shouldStart: false` and must still reuse a running session.
           if (
             route === 'notebooks' &&
             widget.context.sessionContext.kernelPreference.shouldStart ===
