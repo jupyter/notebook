@@ -76,6 +76,40 @@ test.describe('Editor', () => {
     await expect(page.locator('.jp-Notebook')).toHaveCount(0);
   });
 
+  test('Should display a partial view with white space at the bottom', async ({
+    page,
+    tmpPath,
+  }) => {
+    const file = `${tmpPath}/${FILE}`;
+    await page.goto(`edit/${file}`);
+
+    await expect(page.locator('.cm-editor')).toBeVisible();
+    // wait for the file content to be rendered in the editor
+    await expect(page.locator('.cm-content')).toContainText('name: notebook');
+
+    // the edit page should display a partial view, with white space below
+    // the main panel
+    const spacer = page.locator('#spacer-widget-bottom');
+    await expect(spacer).toBeVisible();
+    const spacerBox = await spacer.boundingBox();
+    expect(spacerBox?.height).toBeGreaterThanOrEqual(16);
+  });
+
+  test('Should not render the micro toolbar for files', async ({
+    page,
+    tmpPath,
+  }) => {
+    const file = `${tmpPath}/${FILE}`;
+    await page.goto(`edit/${file}`);
+
+    await expect(page.locator('.cm-editor')).toBeVisible();
+
+    // the micro toolbar is added to the DOM but should be hidden via CSS
+    const microToolbar = page.locator('.jp-MainAreaWidget > .jp-Toolbar-micro');
+    await expect(microToolbar).toHaveCount(1);
+    await expect(microToolbar).toBeHidden();
+  });
+
   test('Renaming the file via the menu entry', async ({ page, tmpPath }) => {
     const file = `${tmpPath}/${FILE}`;
     await page.goto(`edit/${file}`);

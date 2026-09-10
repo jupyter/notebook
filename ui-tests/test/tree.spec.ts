@@ -64,3 +64,58 @@ test('Should activate file browser tab', async ({ page, tmpPath }) => {
   await page.menu.clickMenuItem('View>File Browser');
   await expect(page.locator('#main-panel #filebrowser')).toBeVisible();
 });
+
+test.describe('Toolbar New dropdown', () => {
+  test('New > New Folder should create a new folder', async ({
+    page,
+    tmpPath,
+  }) => {
+    await page.click('.jp-DropdownMenu >> text="New"');
+    await page.click(
+      '.lm-Menu [data-command="filebrowser:create-new-directory"]'
+    );
+
+    // the new folder is created in inline-rename mode, commit the default name
+    await page.waitForSelector('.jp-DirListing-editor');
+    await page.keyboard.press('Enter');
+
+    await expect(
+      page.locator('.jp-DirListing-item >> text="Untitled Folder"')
+    ).toBeVisible();
+    expect(
+      await page.contents.directoryExists(`${tmpPath}/Untitled Folder`)
+    ).toBe(true);
+  });
+
+  test('New > New File should create a new file', async ({ page, tmpPath }) => {
+    await page.click('.jp-DropdownMenu >> text="New"');
+    await page.click('.lm-Menu [data-command="filebrowser:create-new-file"]');
+
+    // the new file is created in inline-rename mode, commit the default name
+    await page.waitForSelector('.jp-DirListing-editor');
+    await page.keyboard.press('Enter');
+
+    await expect(
+      page.locator('.jp-DirListing-item >> text="untitled.txt"')
+    ).toBeVisible();
+    expect(await page.contents.fileExists(`${tmpPath}/untitled.txt`)).toBe(
+      true
+    );
+  });
+
+  test('New > Console should open a new console', async ({ page }) => {
+    await page.click('.jp-DropdownMenu >> text="New"');
+    await page.click('.lm-Menu [data-command="console:create"]');
+
+    // choose the default kernel in the kernel selection dialog
+    const [consolePage] = await Promise.all([
+      page.waitForEvent('popup'),
+      page.click('.jp-Dialog >> text="Select"'),
+    ]);
+    await consolePage.waitForLoadState();
+
+    expect(new URL(consolePage.url()).pathname).toContain('/consoles/');
+    await consolePage.waitForSelector('.jp-CodeConsole');
+    await consolePage.close();
+  });
+});

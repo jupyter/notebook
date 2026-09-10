@@ -156,6 +156,94 @@ test.describe('Notebook', () => {
     expect(await panel.screenshot()).toMatchSnapshot(imageName);
   });
 
+  test('Edit Notebook Metadata should open the right panel with Advanced Tools expanded', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'simple.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    await waitForKernelReady(page);
+
+    await page.menu.clickMenuItem('Edit>Edit Notebook Metadata');
+
+    const panel = page.locator('#jp-right-stack');
+    await expect(panel).toBeVisible();
+
+    const notebookTools = page.locator('#notebook-tools.jp-NotebookTools');
+    await expect(notebookTools).toBeVisible();
+
+    // The Advanced Tools section should be expanded
+    const advancedTools = notebookTools.locator('.jp-Collapse', {
+      hasText: 'Advanced Tools',
+    });
+    await expect(advancedTools.locator('.jp-Collapse-header')).not.toHaveClass(
+      /jp-Collapse-header-collapsed/
+    );
+    await expect(advancedTools.locator('.jp-Collapse-contents')).toBeVisible();
+  });
+
+  test('Tab title should reflect the current document', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'simple.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    // The tab title should be the notebook name with the ".ipynb" suffix stripped
+    await expect(page).toHaveTitle('simple');
+
+    // The tree page should have the default title
+    await page.goto(`tree/${tmpPath}`);
+    await expect(page).toHaveTitle('Home');
+  });
+
+  test('Favicon should switch to busy while a cell is running', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'empty.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    await waitForKernelReady(page);
+
+    const favicon = page.locator('link[rel*="icon"]');
+
+    await page.click('.jp-Cell-inputArea');
+
+    // Enter code in the first cell
+    await page
+      .locator(
+        '.jp-Cell-inputArea >> .cm-editor >> .cm-content[contenteditable="true"]'
+      )
+      .type('import time; time.sleep(3)');
+
+    // Run the cell
+    await runAndAdvance(page);
+
+    // The favicon should switch to the busy icon while the kernel is busy
+    await expect(favicon).toHaveAttribute('href', /favicon-busy-1\.ico/, {
+      timeout: 15000,
+    });
+
+    // And back to the idle notebook icon when the execution is done
+    await expect(favicon).toHaveAttribute('href', /favicon-notebook\.ico/, {
+      timeout: 30000,
+    });
+  });
+
   test('Clicking on "Close and Shut Down Notebook" should close the browser tab', async ({
     page,
     tmpPath,
