@@ -263,6 +263,177 @@ test.describe('Notebook', () => {
     await page.waitForSelector('.jp-OutputPlaceholder', { state: 'hidden' });
   });
 
+  test('Active cell inspector shows cell details and persists a task label', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'cell_inspector.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    await waitForKernelReady(page);
+
+    const cells = page.locator('.jp-Notebook-cell');
+    const inspector = page.locator('.jp-CellInspector');
+
+    await cells.nth(0).click();
+    await expect(inspector.locator('.jp-CellInspector-task')).toHaveText(
+      'Data preparation'
+    );
+    await expect(inspector).toHaveCSS('position', 'sticky');
+    await expect(inspector).toHaveCSS('border-left-width', '3px');
+    await page.keyboard.press('Enter');
+    const markdownEditor = cells
+      .nth(0)
+      .locator('.cm-content[contenteditable="true"]');
+    await markdownEditor.fill('Introductory text\n#');
+    await markdownEditor.pressSequentially('U');
+    await expect(inspector.locator('.jp-CellInspector-task')).toHaveText('U');
+    await markdownEditor.pressSequentially('pdated data preparation');
+    await expect(inspector.locator('.jp-CellInspector-task')).toHaveText(
+      'Updated data preparation'
+    );
+
+    await cells.nth(1).click();
+
+    await expect(inspector).toHaveCount(1);
+    await expect(cells.nth(1).locator('.jp-CellInspector')).toHaveCount(1);
+    await expect(inspector.locator('.jp-CellInspector-task')).toHaveText(
+      'Updated data preparation'
+    );
+    await expect(inspector.locator('.jp-CellInspector-type')).toHaveText(
+      'CODE'
+    );
+    await expect(inspector.locator('.jp-CellInspector-lines')).toHaveText(
+      '3 lines'
+    );
+    await expect(
+      inspector.locator('.jp-CellInspector-executionStatus')
+    ).toHaveText('[ ] Not run');
+
+    const codeEditor = cells
+      .nth(1)
+      .locator('.cm-content[contenteditable="true"]');
+    await codeEditor.fill('#');
+    await codeEditor.pressSequentially('L');
+    await expect(inspector.locator('.jp-CellInspector-task')).toHaveText('L');
+    await codeEditor.pressSequentially('oad source data');
+    await expect(inspector.locator('.jp-CellInspector-task')).toHaveText(
+      'Load source data'
+    );
+    await codeEditor.fill('# Load source data\nvalue = 1\nvalue');
+
+    await inspector.locator('.jp-CellInspector-task').click();
+    const taskInput = inspector.locator('.jp-CellInspector-taskInput');
+    await taskInput.fill('Explicit source task');
+    await taskInput.press('Enter');
+    await expect(inspector.locator('.jp-CellInspector-task')).toHaveText(
+      'Explicit source task'
+    );
+
+    await page.keyboard.press('ControlOrMeta+s');
+    await page.waitForTimeout(1000);
+    await page.reload({ waitUntil: 'networkidle' });
+    await cells.nth(1).click();
+    await expect(page.locator('.jp-CellInspector-task')).toHaveText(
+      'Explicit source task'
+    );
+
+    await cells.nth(2).click();
+    await expect(inspector).toHaveCount(1);
+    await expect(cells.nth(2).locator('.jp-CellInspector')).toHaveCount(1);
+    await expect(
+      inspector.locator('.jp-CellInspector-executionStatus')
+    ).toHaveText('Non-executable');
+
+    await page.setViewportSize({ width: 600, height: 800 });
+    await cells.nth(1).locator('.cm-content[contenteditable="true"]').click();
+    await page.keyboard.press('Control+End');
+    await expect(inspector.locator('.jp-CellInspector-type')).toBeHidden();
+    await expect(inspector.locator('.jp-CellInspector-lines')).toBeHidden();
+    await expect(
+      inspector.locator('.jp-CellInspector-cursorFull')
+    ).toBeHidden();
+    await expect(inspector.locator('.jp-CellInspector-cursorLine')).toHaveText(
+      'Ln 3'
+    );
+
+    const detailsButton = inspector.locator('.jp-CellInspector-detailsButton');
+    await expect(detailsButton).toBeVisible();
+    await detailsButton.click();
+    await expect(detailsButton).toHaveAttribute('aria-expanded', 'true');
+    await expect(inspector.locator('.jp-CellInspector-details')).toHaveText(
+      'Type: Code · Lines: 3'
+    );
+    await detailsButton.click();
+
+    const visibleRowCount = async (): Promise<number> =>
+      inspector
+        .locator(':scope > .jp-CellInspector-item')
+        .evaluateAll((items) => {
+          const tops = items
+            .filter((item) => item.getClientRects().length > 0)
+            .map((item) => {
+              const rect = item.getBoundingClientRect();
+              return Math.round(rect.top + rect.height / 2);
+            });
+          return new Set(tops).size;
+        });
+
+    await expect.poll(visibleRowCount).toBe(1);
+    await page.setViewportSize({ width: 240, height: 800 });
+    await expect.poll(visibleRowCount).toBe(2);
+    expect(
+      await inspector.evaluate((node) => node.scrollWidth <= node.clientWidth)
+    ).toBe(true);
+  });
+
+  test('Active cell inspector updates the cursor and execution timer', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'cell_inspector.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    await waitForKernelReady(page);
+
+    const codeCell = page.locator('.jp-Notebook-cell').nth(1);
+    const editor = codeCell.locator(
+      '.jp-Cell-inputArea .cm-content[contenteditable="true"]'
+    );
+    await editor.click();
+    await page.keyboard.press('Control+End');
+
+    const inspector = codeCell.locator('.jp-CellInspector');
+    await expect(inspector.locator('.jp-CellInspector-cursor')).toContainText(
+      'Ln 3'
+    );
+
+    await page.keyboard.press('ControlOrMeta+Enter');
+    await expect(
+      inspector.locator('.jp-CellInspector-executionStatus')
+    ).toHaveText('[*] Running');
+    await expect(inspector.locator('.jp-CellInspector-timer')).toHaveText(
+      /00:0[1-9]/
+    );
+    await expect(
+      inspector.locator('.jp-CellInspector-executionStatus')
+    ).toHaveText(/\[\d+\] Executed in/);
+    await expect(inspector.locator('.jp-CellInspector-timer')).toHaveText(
+      /00:0[2-9]/
+    );
+
+    await page.keyboard.press('Escape');
+    await expect(inspector.locator('.jp-CellInspector-cursor')).toBeHidden();
+  });
+
   test('Help pager should open in down area with question mark syntax', async ({
     page,
     tmpPath,

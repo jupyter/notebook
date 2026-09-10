@@ -6,6 +6,182 @@
 
 @import './variables.css';
 
+/* Active cell inspector */
+
+body[data-notebook='notebooks'] .jp-CellInspector {
+  position: sticky;
+  z-index: 5;
+  top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  min-height: 28px;
+  margin: 0 0 4px
+    calc(
+      var(--jp-cell-prompt-width) + var(--jp-cell-collapser-width, 0px) +
+        var(--jp-code-padding)
+    );
+  padding: 2px 8px;
+  border: 1px solid var(--jp-border-color1);
+  border-inline-start: 3px solid var(--jp-brand-color1);
+  border-radius: var(--jp-border-radius);
+  background: var(--jp-layout-color2);
+  box-shadow: var(--jp-elevation-z2);
+  color: var(--jp-ui-font-color1);
+  font-family: var(--jp-ui-font-family);
+  font-size: var(--jp-ui-font-size0);
+  line-height: 20px;
+}
+
+body[data-notebook='notebooks'] .jp-CellInspector-item {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+body[data-notebook='notebooks']
+  .jp-CellInspector-item:not(:first-child)::before {
+  content: '·';
+  margin-right: 8px;
+  color: var(--jp-ui-font-color3);
+}
+
+body[data-notebook='notebooks'] .jp-CellInspector-task {
+  flex: 1 1 auto;
+  min-width: 4em;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--jp-brand-color1);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: text;
+}
+
+body[data-notebook='notebooks'] .jp-CellInspector-task:disabled {
+  color: var(--jp-ui-font-color1);
+  cursor: default;
+}
+
+body[data-notebook='notebooks'] .jp-CellInspector-taskInput {
+  flex: 1 1 auto;
+  min-width: 4em;
+  height: 22px;
+  padding: 0 4px;
+  border: 1px solid var(--jp-brand-color1);
+  border-radius: 2px;
+  background: var(--jp-input-background);
+  color: var(--jp-ui-font-color0);
+  font: inherit;
+}
+
+body[data-notebook='notebooks'] .jp-CellInspector-task:focus-visible,
+body[data-notebook='notebooks'] .jp-CellInspector-detailsButton:focus-visible {
+  outline: 2px solid var(--jp-brand-color1);
+  outline-offset: 1px;
+}
+
+body[data-notebook='notebooks'] .jp-CellInspector-type {
+  color: var(--jp-ui-font-color2);
+  font-size: var(--jp-ui-font-size0);
+  letter-spacing: 0.04em;
+}
+
+body[data-notebook='notebooks'] .jp-CellInspector-cursorLine {
+  display: none;
+}
+
+body[data-notebook='notebooks'] .jp-CellInspector-execution {
+  margin-left: auto;
+  color: var(--jp-ui-font-color1);
+  font-variant-numeric: tabular-nums;
+}
+
+body[data-notebook='notebooks']
+  .jp-CellInspector.jp-mod-running
+  .jp-CellInspector-execution {
+  color: var(--jp-info-color1);
+  font-weight: 600;
+}
+
+body[data-notebook='notebooks']
+  .jp-CellInspector.jp-mod-modified
+  .jp-CellInspector-execution {
+  color: var(--jp-warn-color1);
+  font-weight: 600;
+}
+
+body[data-notebook='notebooks'] .jp-CellInspector-detailsButton {
+  display: none;
+  flex: 0 0 auto;
+  height: 22px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--jp-ui-font-color1);
+  font: inherit;
+  cursor: pointer;
+}
+
+body[data-notebook='notebooks'] .jp-CellInspector-details {
+  position: absolute;
+  z-index: 7;
+  top: calc(100% + 2px);
+  right: 0;
+  padding: 4px 8px;
+  border: 1px solid var(--jp-border-color2);
+  border-radius: var(--jp-border-radius);
+  background: var(--jp-layout-color0);
+  box-shadow: var(--jp-elevation-z4);
+  color: var(--jp-ui-font-color1);
+  white-space: nowrap;
+}
+
+@media only screen and (max-width: 760px) {
+  body[data-notebook='notebooks'] .jp-CellInspector {
+    gap: 6px;
+    margin-left: var(--jp-code-padding);
+    padding-right: 4px;
+  }
+
+  body[data-notebook='notebooks'] .jp-CellInspector-task {
+    min-width: min(12em, 100%);
+  }
+
+  body[data-notebook='notebooks'] .jp-CellInspector-secondary {
+    display: none;
+  }
+
+  body[data-notebook='notebooks'] .jp-CellInspector-detailsButton {
+    display: block;
+  }
+
+  body[data-notebook='notebooks']
+    .jp-CellInspector-item:not(:first-child)::before {
+    margin-right: 6px;
+  }
+
+  body[data-notebook='notebooks'] .jp-CellInspector-cursorFull {
+    display: none;
+  }
+
+  body[data-notebook='notebooks'] .jp-CellInspector-cursorLine {
+    display: inline;
+  }
+}
+
+@media print {
+  body[data-notebook='notebooks'] .jp-CellInspector {
+    display: none;
+  }
+}
+
 /**
   Document oriented look for the notebook.
   This includes changes to the look and feel of the JupyterLab Notebook
