@@ -4,8 +4,51 @@
 import path from 'path';
 
 import { expect, galata } from '@jupyterlab/galata';
+import type { Page } from '@playwright/test';
 
 import { test } from './fixtures';
+
+async function getNotebookSessionState(page: Page, notebookPath: string) {
+  return page.evaluate(async (path) => {
+    const app = window.jupyterapp;
+    await app.started;
+    const currentWidget = app.shell.currentWidget as unknown as {
+      sessionContext: {
+        ready: Promise<void>;
+        session: { id: string; kernel: unknown | null } | null;
+      };
+    };
+    await currentWidget.sessionContext.ready;
+    await app.serviceManager.sessions.refreshRunning();
+    const sessions = Array.from(app.serviceManager.sessions.running()).filter(
+      (session) => session.path === path
+    );
+    return {
+      currentSessionId: currentWidget.sessionContext.session?.id ?? null,
+      hasKernel: Boolean(currentWidget.sessionContext.session?.kernel),
+      sessionIds: sessions.map((session) => session.id),
+    };
+  }, notebookPath);
+}
+
+async function openWithoutKernel(page: Page): Promise<Page> {
+  await page.getByText('empty.ipynb').last().click({ button: 'right' });
+  await page.getByText('Open With', { exact: true }).hover();
+
+  const [notebook] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.getByRole('menuitem', { name: 'Notebook (no kernel)' }).click(),
+  ]);
+  await notebook.waitForSelector('.jp-NotebookPanel');
+  return notebook;
+}
+
+async function shutdownSession(page: Page, sessionId: string): Promise<void> {
+  await page.evaluate(async (sessionId) => {
+    await window.jupyterapp.started;
+    await window.jupyterapp.serviceManager.sessions.shutdown(sessionId);
+  }, sessionId);
+}
 
 test.describe('File Browser', () => {
   test.beforeEach(async ({ page, tmpPath }) => {
@@ -101,6 +144,159 @@ test.describe('File Browser', () => {
     await notebook.waitForLoadState();
     expect(notebook.url()).toContain(`${tmpPath}/empty.ipynb`);
     await notebook.close();
+  });
+
+  test('No-auto-start opening still reuses an existing session', async ({
+    page,
+    tmpPath,
+  }) => {
+    const treeUrl = new URL(page.url());
+    treeUrl.searchParams.set('notebookStartsKernel', 'false');
+    await page.goto(treeUrl.toString());
+
+    const notebookPath = `${tmpPath}/empty.ipynb`;
+    let notebook: Page | null = null;
+    let existingSessionId: string | null = null;
+    try {
+      existingSessionId = await page.evaluate(async (path) => {
+        const app = window.jupyterapp;
+        await app.started;
+        const session = await app.serviceManager.sessions.startNew({
+          path,
+          name: '',
+          type: 'notebook',
+          kernel: { name: 'python3' },
+        });
+        const id = session.id;
+        session.dispose();
+        return id;
+      }, notebookPath);
+
+      await page.filebrowser.refresh();
+
+      [notebook] = await Promise.all([
+        page.waitForEvent('popup'),
+        page.getByText('empty.ipynb').last().dblclick(),
+      ]);
+
+      await notebook.waitForSelector('.jp-NotebookPanel');
+      expect(new URL(notebook.url()).searchParams.get('kernel')).not.toBe(
+        'none'
+      );
+
+      const state = await getNotebookSessionState(notebook, notebookPath);
+      expect(state.currentSessionId).toBe(existingSessionId);
+      expect(state.hasKernel).toBe(true);
+      expect(state.sessionIds).toEqual([existingSessionId]);
+    } finally {
+      try {
+        if (notebook && !notebook.isClosed()) {
+          await notebook.close();
+        }
+      } finally {
+        if (existingSessionId) {
+          await shutdownSession(page, existingSessionId);
+        }
+      }
+    }
+  });
+
+  test('No-kernel launch reconnects after starting a kernel', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebookPath = `${tmpPath}/empty.ipynb`;
+    await page.filebrowser.refresh();
+
+    let notebook: Page | null = null;
+    let startedSessionId: string | null = null;
+    try {
+      notebook = await openWithoutKernel(page);
+      expect(new URL(notebook.url()).searchParams.get('kernel')).toBe('none');
+      await expect(notebook.getByTitle('Switch kernel')).toHaveText(
+        'No Kernel'
+      );
+      expect(await getNotebookSessionState(notebook, notebookPath)).toEqual({
+        currentSessionId: null,
+        hasKernel: false,
+        sessionIds: [],
+      });
+
+      await notebook.reload();
+      await notebook.waitForSelector('.jp-NotebookPanel');
+      expect(new URL(notebook.url()).searchParams.get('kernel')).toBe('none');
+      await expect(notebook.getByTitle('Switch kernel')).toHaveText(
+        'No Kernel'
+      );
+      expect(await getNotebookSessionState(notebook, notebookPath)).toEqual({
+        currentSessionId: null,
+        hasKernel: false,
+        sessionIds: [],
+      });
+
+      await notebook.evaluate(() => {
+        const url = new URL(window.location.href);
+        url.searchParams.set('preserved', 'value');
+        url.hash = 'preserved-fragment';
+        window.history.replaceState(
+          { ...window.history.state, preservedState: 'value' },
+          '',
+          url
+        );
+      });
+
+      startedSessionId = await notebook.evaluate(async () => {
+        const app = window.jupyterapp;
+        await app.started;
+        const currentWidget = app.shell.currentWidget as unknown as {
+          sessionContext: {
+            changeKernel(options: { name: string }): Promise<unknown>;
+            session: { id: string } | null;
+          };
+        };
+        await currentWidget.sessionContext.changeKernel({ name: 'python3' });
+        return currentWidget.sessionContext.session?.id ?? null;
+      });
+      expect(startedSessionId).not.toBeNull();
+
+      await expect
+        .poll(() => new URL(notebook!.url()).searchParams.get('kernel'))
+        .toBeNull();
+      expect(new URL(notebook.url()).searchParams.get('preserved')).toBe(
+        'value'
+      );
+      expect(new URL(notebook.url()).hash).toBe('#preserved-fragment');
+      expect(
+        await notebook.evaluate(() => window.history.state.preservedState)
+      ).toBe('value');
+      expect(await getNotebookSessionState(notebook, notebookPath)).toEqual({
+        currentSessionId: startedSessionId,
+        hasKernel: true,
+        sessionIds: [startedSessionId],
+      });
+
+      await notebook.reload();
+      await notebook.waitForSelector('.jp-NotebookPanel');
+
+      await expect(notebook.getByTitle('Switch kernel')).not.toHaveText(
+        'No Kernel'
+      );
+      expect(await getNotebookSessionState(notebook, notebookPath)).toEqual({
+        currentSessionId: startedSessionId,
+        hasKernel: true,
+        sessionIds: [startedSessionId],
+      });
+    } finally {
+      try {
+        if (notebook && !notebook.isClosed()) {
+          await notebook.close();
+        }
+      } finally {
+        if (startedSessionId) {
+          await shutdownSession(page, startedSessionId);
+        }
+      }
+    }
   });
 
   test('Toggle the Date Created column from the header context menu', async ({

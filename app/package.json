@@ -328,6 +328,9 @@
           "@jupyterlab/filebrowser-extension:settings",
           "@jupyterlab/filebrowser-extension:share-file"
         ],
+        "@jupyterlab/notebook-extension": [
+          "@jupyterlab/notebook-extension:open-with-no-kernel"
+        ],
         "@jupyter-notebook/tree-extension": true,
         "@jupyterlab/running-extension": [
           "@jupyterlab/running-extension:plugin"
