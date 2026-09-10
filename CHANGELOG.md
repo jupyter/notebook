@@ -3836,7 +3836,7 @@ involved in this release.
 
 ## 5.4.1
 
-A security release to fix [CVE-2018-8768](http://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-8768).
+A security release to fix [CVE-2018-8768](https://www.cve.org/CVERecord?id=CVE-2018-8768).
 
 Thanks to [Alex](https://hackerone.com/pisarenko) for identifying this
 bug, and Jonathan Kamens and Scott Sanderson at Quantopian for verifying
