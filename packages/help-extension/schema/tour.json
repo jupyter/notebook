@@ -1,0 +1,31 @@
+{
+  "tours": [
+    {
+      "id": "notebook-v7-welcome",
+      "label": "Welcome to Notebook v7",
+      "hasHelpEntry": true,
+      "steps": [
+        {
+          "target": "[data-icon='notebook-ui-components:jupyter']",
+          "content": "Welcome to Jupyter Notebook v7! Let's take a quick tour.",
+          "placement": "bottom"
+        },
+        {
+          "target": ".lm-MenuBar-content",
+          "content": "This is the main menu bar where you can manage files, edit cells, and run your code.",
+          "placement": "bottom"
+        },
+        {
+          "target": "[data-jp-item-name='save']",
+          "content": "Click here to save your notebook and create a checkpoint.",
+          "placement": "bottom"
+        },
+        {
+          "target": ".jp-CodeCell",
+          "content": "This is a code cell. You can type your Python code here and execute it!",
+          "placement": "right"
+        }
+      ]
+    }
+  ]
+}
