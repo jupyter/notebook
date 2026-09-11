@@ -92,4 +92,17 @@ test.describe('Editor', () => {
     const url = page.url();
     expect(url).toContain(newName);
   });
+
+  test('Should show the Text Editor Syntax Highlighting menu', async ({
+    page,
+    tmpPath,
+  }) => {
+    const file = `${tmpPath}/${FILE}`;
+    await page.goto(`edit/${file}`);
+
+    await page.menu.openLocator('View>Text Editor Syntax Highlighting');
+    expect(
+      await page.menu.isOpen('View>Text Editor Syntax Highlighting')
+    ).toBeTruthy();
+  });
 });
