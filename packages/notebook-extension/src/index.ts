@@ -862,6 +862,7 @@ const overrideMenuItems: JupyterFrontEndPlugin<void> = {
   description: 'A plugin to override some menu items',
   autoStart: true,
   optional: [
+    IDebugger,
     IDebuggerSidebar,
     IMainMenu,
     INotebookShell,
@@ -870,6 +871,7 @@ const overrideMenuItems: JupyterFrontEndPlugin<void> = {
   ],
   activate: (
     app: JupyterFrontEnd,
+    debuggerService: IDebugger | null,
     debuggerSidebar: IDebugger.ISidebar | null,
     mainMenu: IMainMenu | null,
     shell: INotebookShell | null,
@@ -927,6 +929,13 @@ const overrideMenuItems: JupyterFrontEndPlugin<void> = {
 
     if (debuggerSidebar) {
       const DEBUGGER_PANEL_ID = 'jp-debugger-sidebar';
+
+      debuggerService?.eventMessage.connect((_, event) => {
+        if (event.event === 'initialized') {
+          shell.activateById(DEBUGGER_PANEL_ID);
+        }
+      });
+
       commands.addCommand('debugger:toggle-panel', {
         label: trans.__('Debugger Panel'),
         isToggleable: true,

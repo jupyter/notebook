@@ -8,6 +8,7 @@ import { expect } from '@jupyterlab/galata';
 import { galata } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
+import { waitForKernelReady } from './utils';
 
 test.use({
   mockSettings: {
@@ -40,5 +41,27 @@ test.describe('Layout Customization', () => {
     expect(await panel.isVisible()).toBe(true);
 
     expect(await panel.screenshot()).toMatchSnapshot('debugger.png');
+  });
+
+  test('The debugger toolbar button should open the configured panel', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'simple.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    await waitForKernelReady(page);
+    await page.locator('.jp-DebuggerBugButton').click();
+
+    await expect(page.locator('.jp-DebuggerBugButton')).toHaveAttribute(
+      'aria-pressed',
+      'true'
+    );
+    await expect(page.locator('#jp-left-stack')).toBeVisible();
+    await expect(page.locator('#jp-debugger-sidebar')).toBeVisible();
   });
 });
