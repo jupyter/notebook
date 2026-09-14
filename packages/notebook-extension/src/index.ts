@@ -969,7 +969,166 @@ const overrideMenuItems: JupyterFrontEndPlugin<void> = {
     }
   },
 };
+/**
+ * A plugin to select cells and copy their content to the clipboard for LLM context.
+ * Uses a floating action button instead of the top toolbar.
+ */
+const cellSelectorForLLM: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:cell-selector-for-llm',
+  description: 'Adds checkboxes to cells and a floating button to copy them for LLM.',
+  autoStart: true,
+  requires: [INotebookTracker, ITranslator], // We no longer need IToolbarWidgetRegistry
+  activate: (
+    app: JupyterFrontEnd,
+    tracker: INotebookTracker,
+    translator: ITranslator
+  ) => {
+    const trans = translator.load('notebook');
 
+    // Map to store selected cell IDs per notebook
+    const selectedCellsMap = new Map<string, Set<string>>();
+
+    // 1. Create the Floating Action Button (FAB)
+    const floatingButton = document.createElement('button');
+    floatingButton.className = 'jp-LLMFloatingCopyButton';
+    floatingButton.textContent = trans.__('Copy Selected (0)');
+    floatingButton.title = trans.__('Copy selected cells to clipboard for LLM');
+    document.body.appendChild(floatingButton);
+
+    // Hide it initially until a notebook is opened
+    floatingButton.style.display = 'none';
+
+    const getSelectedSet = (notebookPanel: NotebookPanel) => {
+      const id = notebookPanel.id;
+      if (!selectedCellsMap.has(id)) {
+        selectedCellsMap.set(id, new Set<string>());
+      }
+      return selectedCellsMap.get(id)!;
+    };
+
+    const updateButtonText = (count: number) => {
+      floatingButton.textContent = trans.__('Copy Selected (%1)', count.toString());
+    };
+
+    // 2. Handle the Click Event
+    floatingButton.addEventListener('click', async () => {
+      const current = tracker.currentWidget;
+      if (!current) return;
+
+      const selectedSet = getSelectedSet(current);
+      if (selectedSet.size === 0) {
+        const originalText = floatingButton.textContent;
+        floatingButton.textContent = trans.__('None selected!');
+        setTimeout(() => {
+          floatingButton.textContent = originalText;
+        }, 1500);
+        return;
+      }
+
+      const selectedContents: string[] = [];
+      for (const widget of current.content.widgets) {
+        const cell = widget as Cell;
+        if (selectedSet.has(cell.model.id)) {
+          const cellType = cell.model.type;
+          const source = cell.model.sharedModel.getSource();
+          selectedContents.push(`--- ${cellType.toUpperCase()} CELL ---\n${source}`);
+        }
+      }
+
+      const textToCopy = selectedContents.join('\n\n');
+      try {
+        await navigator.clipboard.writeText(textToCopy);
+        const originalText = floatingButton.textContent;
+        floatingButton.textContent = trans.__('✅ Copied to Clipboard!');
+        setTimeout(() => {
+          floatingButton.textContent = originalText;
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+        alert(trans.__('Failed to copy to clipboard.'));
+      }
+    });
+
+    // 3. Show/Hide button and update count when switching notebooks
+    tracker.currentChanged.connect((_, current) => {
+      if (current) {
+        floatingButton.style.display = 'flex';
+        updateButtonText(getSelectedSet(current).size);
+      } else {
+        floatingButton.style.display = 'none';
+      }
+    });
+
+    // 4. Inject checkboxes into cells (Same logic as before)
+    const injectCheckboxes = (notebookPanel: NotebookPanel) => {
+      const notebook = notebookPanel.content;
+      const selectedSet = getSelectedSet(notebookPanel);
+
+      const updateCheckboxes = () => {
+        for (const widget of notebook.widgets) {
+          const cell = widget as Cell;
+          if (!cell.node.querySelector('.jp-LLMCellSelector')) {
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'jp-LLMCellSelector';
+            checkbox.title = trans.__('Select this cell for LLM context');
+
+            if (selectedSet.has(cell.model.id)) {
+              checkbox.checked = true;
+              cell.node.classList.add('jp-mod-selected-for-llm');
+            }
+
+            checkbox.addEventListener('change', (e) => {
+              const target = e.target as HTMLInputElement;
+              if (target.checked) {
+                selectedSet.add(cell.model.id);
+                cell.node.classList.add('jp-mod-selected-for-llm');
+              } else {
+                selectedSet.delete(cell.model.id);
+                cell.node.classList.remove('jp-mod-selected-for-llm');
+              }
+              // Update the floating button text when a checkbox is clicked
+              if (tracker.currentWidget === notebookPanel) {
+                updateButtonText(selectedSet.size);
+              }
+            });
+
+            const prompt = cell.node.querySelector('.jp-Cell-prompt');
+            if (prompt) {
+              prompt.insertBefore(checkbox, prompt.firstChild);
+            } else {
+              cell.node.insertBefore(checkbox, cell.node.firstChild);
+            }
+          }
+        }
+      };
+
+      updateCheckboxes();
+
+      notebook.model?.cells.changed.connect(() => {
+        setTimeout(updateCheckboxes, 50);
+      });
+    };
+
+    // Hook into notebook creation
+    tracker.widgetAdded.connect((_, notebookPanel) => {
+      notebookPanel.revealed.then(() => {
+        injectCheckboxes(notebookPanel);
+      });
+
+      notebookPanel.disposed.connect(() => {
+        selectedCellsMap.delete(notebookPanel.id);
+      });
+    });
+
+    // Handle currently active notebook on plugin start
+    if (tracker.currentWidget) {
+      tracker.currentWidget.revealed.then(() => {
+        injectCheckboxes(tracker.currentWidget!);
+      });
+    }
+  },
+};
 /**
  * Export the plugins as default.
  */
@@ -986,6 +1145,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   scrollOutput,
   tabIcon,
   trusted,
+  cellSelectorForLLM,
 ];
 
 export default plugins;
