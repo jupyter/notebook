@@ -7,6 +7,8 @@ import { PageConfig, URLExt } from '@jupyterlab/coreutils';
 
 import { PluginRegistry } from '@lumino/coreutils';
 
+import { Signal } from '@lumino/signaling';
+
 require('./style.js');
 require('./extraStyle.js');
 
@@ -44,6 +46,22 @@ async function createModule(scope, module) {
     );
     throw e;
   }
+}
+
+const IDLE_TIMEOUT = 5000;
+
+/**
+ * Resolve once the browser is idle, or on the next task when
+ * `requestIdleCallback` is not available (Safari before 16.4).
+ */
+function whenIdle() {
+  return new Promise(resolve => {
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(() => resolve(), { timeout: IDLE_TIMEOUT });
+    } else {
+      setTimeout(resolve, 0);
+    }
+  });
 }
 
 /**
@@ -85,13 +103,19 @@ async function main() {
   const disabled = [];
   const availablePlugins = [];
 
-  /**
-   * Iterate over active plugins in an extension.
-   *
-   * #### Notes
-   * This also populates the disabled
-   */
-  function* activePlugins(extension) {
+  // A package listed in `disabledExtensions` is disabled as a unit, including
+  // its plugins whose id does not start with the package name.
+  const isExtensionDisabled = name => {
+    return PageConfig.Extension.disabled.includes(name);
+  };
+
+  const warnAboutPackageLevelDisable = (pluginId, scope) => {
+    console.warn(
+      `Plugin ${pluginId} does not start with the name of the extension providing it (${scope}), which is disabled, so this plugin is disabled too. To keep it enabled, list the plugin ids to disable in disabledExtensions instead of ${scope}.`
+    );
+  };
+
+  function getPlugins(extension) {
     // Handle commonjs or es2015 modules
     let exports;
     if (Object.prototype.hasOwnProperty.call(extension, '__esModule')) {
@@ -100,22 +124,56 @@ async function main() {
       // CommonJS exports.
       exports = extension;
     }
+    return Array.isArray(exports) ? exports : [exports];
+  }
 
-    let plugins = Array.isArray(exports) ? exports : [exports];
-    for (let plugin of plugins) {
-      const isDisabled = PageConfig.Extension.isDisabled(plugin.id);
-      availablePlugins.push({
-        id: plugin.id,
-        description: plugin.description,
-        requires: plugin.requires ?? [],
-        optional: plugin.optional ?? [],
-        provides: plugin.provides ?? null,
-        autoStart: plugin.autoStart,
-        enabled: !isDisabled,
-        extension: extension.__scope__
-      });
+  function createPluginInfo(plugin, extension, isDisabled) {
+    return {
+      id: plugin.id,
+      description: plugin.description,
+      requires: plugin.requires ?? [],
+      optional: plugin.optional ?? [],
+      provides: plugin.provides ?? null,
+      autoStart: plugin.autoStart,
+      enabled: !isDisabled,
+      extension: extension.__scope__
+    };
+  }
+
+  function recordPlugin(plugin, extension, isDisabled) {
+    availablePlugins.push(createPluginInfo(plugin, extension, isDisabled));
+    if (isDisabled) {
+      disabled.push(plugin.id);
+    }
+  }
+
+  function collectDisabledPlugins(extension) {
+    const plugins = [];
+    for (let plugin of getPlugins(extension)) {
+      if (!PageConfig.Extension.isDisabled(plugin.id)) {
+        warnAboutPackageLevelDisable(plugin.id, extension.__scope__);
+      }
+      plugins.push(createPluginInfo(plugin, extension, true));
+    }
+    return plugins;
+  }
+
+  /**
+   * Iterate over active plugins in an extension.
+   *
+   * #### Notes
+   * This also populates the disabled
+   */
+  function* activePlugins(extension) {
+    for (let plugin of getPlugins(extension)) {
+      const disabledById = PageConfig.Extension.isDisabled(plugin.id);
+      const isDisabled =
+        disabledById || isExtensionDisabled(extension.__scope__);
+      if (isDisabled && !disabledById) {
+        warnAboutPackageLevelDisable(plugin.id, extension.__scope__);
+      }
+      recordPlugin(plugin, extension, isDisabled);
       if (isDisabled) {
-        disabled.push(plugin.id);
         continue;
       }
       yield plugin;
@@ -130,6 +188,7 @@ async function main() {
   const federatedExtensionPromises = [];
   const federatedMimeExtensionPromises = [];
   const federatedStylePromises = [];
+  const deferredDisabledFederatedModules = [];
 
   const extensions = await Promise.allSettled(
     extension_data.map(async data => {
@@ -153,18 +212,57 @@ async function main() {
     }
 
     const data = p.value;
+    const isDisabled = isExtensionDisabled(data.name);
     if (data.extension) {
-      federatedExtensionPromises.push(createModule(data.name, data.extension));
+      if (isDisabled) {
+        deferredDisabledFederatedModules.push({
+          name: data.name,
+          module: data.extension
+        });
+      } else {
+        federatedExtensionPromises.push(createModule(data.name, data.extension));
+      }
     }
     if (data.mimeExtension) {
-      federatedMimeExtensionPromises.push(
-        createModule(data.name, data.mimeExtension)
-      );
+      if (isDisabled) {
+        deferredDisabledFederatedModules.push({
+          name: data.name,
+          module: data.mimeExtension
+        });
+      } else {
+        federatedMimeExtensionPromises.push(
+          createModule(data.name, data.mimeExtension)
+        );
+      }
     }
-    if (data.style && !PageConfig.Extension.isDisabled(data.name)) {
+    if (data.style && !isDisabled) {
       federatedStylePromises.push(createModule(data.name, data.style));
     }
   });
+
+  // Only collects plugin metadata; disabled plugins must not be registered.
+  async function loadDeferredDisabledFederatedPlugins() {
+    const deferredDisabledFederatedPlugins = await Promise.allSettled(
+      deferredDisabledFederatedModules.map(data =>
+        createModule(data.name, data.module)
+      )
+    );
+    const disabledPlugins = [];
+
+    deferredDisabledFederatedPlugins.forEach(p => {
+      if (p.status === 'fulfilled') {
+        try {
+          disabledPlugins.push(...collectDisabledPlugins(p.value));
+        } catch (e) {
+          console.error(e);
+        }
+      } else {
+        console.error(p.reason);
+      }
+    });
+
+    return disabledPlugins;
+  }
 
   // Add the base frontend extensions
   const baseFrontendMods = await Promise.all(baseMods);
@@ -223,11 +321,18 @@ async function main() {
   const IServiceManager = require('@jupyterlab/services').IServiceManager;
   const serviceManager = await pluginRegistry.resolveRequiredService(IServiceManager);
 
+  const availablePluginsAdded = new Signal({});
+
   const app = new NotebookApp({
     pluginRegistry,
     serviceManager,
     mimeExtensions,
-    availablePlugins
+    disabled: {
+      matches: disabled,
+      patterns: PageConfig.Extension.disabled
+    },
+    availablePlugins,
+    availablePluginsAdded
   });
 
   // Expose global app instance when in dev mode or when toggled explicitly.
@@ -239,6 +344,17 @@ async function main() {
   }
 
   await app.start();
+
+  // Keep the disabled extensions from competing with the startup work.
+  app.restored
+    .then(whenIdle)
+    .then(loadDeferredDisabledFederatedPlugins)
+    .then(plugins => {
+      availablePluginsAdded.emit(plugins);
+    })
+    .catch(reason => {
+      console.error('Error when loading disabled federated extensions:', reason);
+    });
 }
 
 window.addEventListener('load', main);
