@@ -73,6 +73,15 @@ test('should create a terminal in the current directory', async ({
     )
     .toBeGreaterThan(0);
   await terminal.close();
+
+  const [editor] = await Promise.all([
+    page.waitForEvent('popup'),
+    markerItem.dblclick(),
+  ]);
+  await expect(editor.locator('.cm-editor .cm-content')).toContainText(
+    `/${dir}`
+  );
+  await editor.close();
 });
 
 test('Should redirect from notebooks route to tree route for directories', async ({
