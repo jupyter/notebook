@@ -111,8 +111,8 @@ namespace CommandIDs {
   export const togglePanel = 'application:toggle-panel';
 
   /**
- * Toggle fullscreen mode.
- */
+   * Toggle fullscreen mode.
+   */
   export const toggleFullscreenMode = 'application:toggle-fullscreen-mode';
   /**
    * Toggle the Zen mode
@@ -901,8 +901,6 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
   },
   autoStart: true,
 };
-
-
 
 /**
  * Plugin to toggle the left or right side panel's visibility.
