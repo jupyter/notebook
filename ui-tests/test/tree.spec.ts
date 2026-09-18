@@ -13,6 +13,21 @@ test('Tree', async ({ page }) => {
   expect(button).toBeDefined();
 });
 
+// The tree page uses the F11 shortcut, so the fullscreen command must be available here.
+test('should register the fullscreen command on the tree page', async ({
+  page,
+}) => {
+  await page.goto('tree');
+
+  const hasCommand = await page.evaluate(() =>
+    window.jupyterapp.commands.hasCommand(
+      'application:toggle-fullscreen-mode'
+    )
+  );
+
+  expect(hasCommand).toBe(true);
+});
+
 test('should go to subfolder', async ({ page, tmpPath }) => {
   const dir = `${tmpPath}/${SUBFOLDER}`;
   await page.contents.createDirectory(dir);

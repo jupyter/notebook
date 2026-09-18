@@ -111,6 +111,10 @@ namespace CommandIDs {
   export const togglePanel = 'application:toggle-panel';
 
   /**
+ * Toggle fullscreen mode.
+ */
+  export const toggleFullscreenMode = 'application:toggle-fullscreen-mode';
+  /**
    * Toggle the Zen mode
    */
   export const toggleZen = 'application:toggle-zen';
@@ -776,6 +780,39 @@ const title: JupyterFrontEndPlugin<void> = {
     void addTitle();
   },
 };
+/**
+ * Plugin to toggle browser fullscreen mode.
+ */
+const fullscreenMode: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/application-extension:fullscreen-mode',
+  description: 'Registers the fullscreen mode command.',
+  autoStart: true,
+  requires: [ITranslator],
+  activate: (app: JupyterFrontEnd, translator: ITranslator) => {
+    const trans = translator.load('notebook');
+
+    app.commands.addCommand(CommandIDs.toggleFullscreenMode, {
+      label: trans.__('Fullscreen Mode'),
+      execute: async () => {
+        // Leave fullscreen when it is already active.
+        if (document.fullscreenElement) {
+          await document.exitFullscreen();
+          return;
+        }
+
+        // Otherwise place the Notebook application in fullscreen mode.
+        await document.documentElement.requestFullscreen();
+      },
+      isToggled: () => document.fullscreenElement !== null,
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
+    });
+  },
+};
 
 /**
  * Plugin to toggle the top header visibility.
@@ -864,6 +901,8 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
   },
   autoStart: true,
 };
+
+
 
 /**
  * Plugin to toggle the left or right side panel's visibility.
@@ -1336,6 +1375,7 @@ const plugins: JupyterFrontEndPlugin<any>[] = [
   status,
   tabTitle,
   title,
+  fullscreenMode,
   topVisibility,
   tree,
   treePathUpdater,
