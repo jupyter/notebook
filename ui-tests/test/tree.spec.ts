@@ -20,9 +20,7 @@ test('should register the fullscreen command on the tree page', async ({
   await page.goto('tree');
 
   const hasCommand = await page.evaluate(() =>
-    window.jupyterapp.commands.hasCommand(
-      'application:toggle-fullscreen-mode'
-    )
+    window.jupyterapp.commands.hasCommand('application:toggle-fullscreen-mode')
   );
 
   expect(hasCommand).toBe(true);
