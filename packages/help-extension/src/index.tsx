@@ -150,7 +150,7 @@ const about: JupyterFrontEndPlugin<void> = {
           </span>
         );
         const version = trans.__('Version: %1', app.version);
-        const copyright = trans.__('© 2021-2025 Jupyter Notebook Contributors');
+        const copyright = trans.__('© 2021-2026 Jupyter Notebook Contributors');
         const body = (
           <>
             <span className="jp-AboutNotebook-version">{version}</span>
