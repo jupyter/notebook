@@ -92,17 +92,6 @@ jobs:
           jlpm
           jlpm deduplicate
 
-      - uses: prefix-dev/setup-pixi@d3f436a425481402e6a95a1d1fc10331c708cd9e # v0.10.2
-        if: steps.detect-changes.outputs.has_changes == 'true'
-        with:
-          pixi-version: v0.56.0
-          manifest-path: pyproject.toml
-          locked: false
-
-      - name: Update pixi.lock
-        if: steps.detect-changes.outputs.has_changes == 'true'
-        run: pixi install
-
       - name: Create a PR
         if: steps.detect-changes.outputs.has_changes == 'true'
         env:
