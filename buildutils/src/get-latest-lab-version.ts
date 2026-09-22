@@ -43,27 +43,35 @@ function extractCurrentJupyterLabVersion(): string {
   return match[1];
 }
 
-async function findVersion(versionTag: string): Promise<string> {
-  const url = 'https://api.github.com/repos/jupyterlab/jupyterlab/releases';
+async function fetchReleases(page: number): Promise<any[]> {
+  const url = `https://api.github.com/repos/jupyterlab/jupyterlab/releases?per_page=100&page=${page}`;
   const response = await fetch(url);
   if (!response.ok) {
-    const error_message = `Failed to fetch package.json from ${url}. HTTP status code: ${response.status}`;
+    const error_message = `Failed to fetch releases from ${url}. HTTP status code: ${response.status}`;
     throw new Error(error_message);
   }
+  return response.json();
+}
 
+async function findVersion(versionTag: string): Promise<string> {
   const currentVersion = extractCurrentJupyterLabVersion();
 
-  const releases: any = await response.json();
-  const version: string | null = extractVersionFromReleases(
-    releases,
-    versionTag,
-    currentVersion
-  );
-  if (version === null) {
-    const error_message = 'Invalid release tag';
-    throw new Error(error_message);
+  // The releases API is paginated, so an older tag may be on a later page
+  for (let page = 1; ; page++) {
+    const releases = await fetchReleases(page);
+    if (releases.length === 0) {
+      break;
+    }
+    const version: string | null = extractVersionFromReleases(
+      releases,
+      versionTag,
+      currentVersion
+    );
+    if (version !== null) {
+      return version.substring(1);
+    }
   }
-  return version.substring(1);
+  throw new Error('Invalid release tag');
 }
 
 async function getLatestLabVersion(): Promise<void> {
