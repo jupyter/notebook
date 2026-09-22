@@ -7,6 +7,11 @@ for a friendly and welcoming collaborative environment.
 
 ## Setting up a development environment
 
+### Prerequisites
+
+- **Python**: version 3.10 or higher (see `requires-python` in `pyproject.toml`)
+- **Node.js**: version 18 or higher (LTS) is recommended. Node.js is required to build the extension package.
+
 Note: You will need NodeJS to build the extension package.
 
 The `jlpm` command is Jupyter's pinned version of [yarn](https://yarnpkg.com/) that is installed with Jupyter Builder. You may use
@@ -46,6 +51,20 @@ There is also a `watch` script to watch for changes and rebuild the app automati
 ```bash
 jlpm watch
 ```
+
+### Live-reloading during development
+
+For an efficient development loop, run the watcher and the server side by side in two separate terminals:
+
+```bash
+# Terminal 1: watch for source changes and rebuild automatically
+jlpm watch
+
+# Terminal 2: start the Notebook server
+jupyter notebook
+```
+
+With this setup, changes to the source code are picked up by the watcher and rebuilt automatically. Refresh your browser tab to see the updated application; a full server restart is not needed for most front-end changes.
 
 To make sure the `notebook` server extension is installed:
 
@@ -102,6 +121,15 @@ and fetched from Notebook using `yarn install`.
 otherwise there will be errors with webpack during build.\
 In the previous example, both _@jupyterlab/ui-components_ and Notebook depend on _@jupyterlab/coreutils_. We
 strongly advise you to depend on the same version.
+
+### Troubleshooting
+
+If your local build isn't behaving as expected, here are a few things to check:
+
+- **Server extension not taking effect**: Confirm it's actually enabled by running `jupyter server extension list`. If `notebook` isn't listed as enabled, re-run `jupyter server extension enable notebook`.
+- **Frontend extension not showing up**: Confirm it's installed and linked by running `jupyter labextension list`. If it's missing, re-run `jlpm develop` and `jlpm build`.
+- **Webpack/build errors after using a local dependency (yalc)**: This is usually caused by a version mismatch between Notebook's dependencies and the locally linked package (see the "Local changes in Notebook dependencies" section above). Make sure shared dependencies (e.g. `@jupyterlab/coreutils`) are on matching versions.
+- **Stale build after pulling new changes**: Re-run `jlpm build` (or `jlpm watch` if you're actively developing) to make sure compiled assets are up to date with the latest source.
 
 ## Running Tests
 
