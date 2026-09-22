@@ -28,6 +28,24 @@ const openTerminalFromNewDropdown = async (
   return { terminal, name };
 };
 
+/**
+ * Open the Running tab on the tree page.
+ */
+const openRunningTab = async (page: IJupyterLabPageFixture): Promise<void> => {
+  await page.locator('.jp-TreePanel >> text="Running"').click();
+  await expect(
+    page.locator('#main-panel #jp-running-sessions-tree')
+  ).toBeVisible();
+};
+
+/**
+ * Locate a terminal entry in the running sessions list.
+ */
+const runningTerminal = (page: IJupyterLabPageFixture, name: string) =>
+  page.locator('#jp-running-sessions-tree .jp-RunningSessions-item', {
+    hasText: `terminals/${name}`,
+  });
+
 test.describe('Terminal', () => {
   test('Create a terminal from the New dropdown', async ({ page }) => {
     const { terminal } = await openTerminalFromNewDropdown(page);
@@ -65,17 +83,9 @@ test.describe('Terminal', () => {
     await expect(terminal.locator('.jp-Terminal')).toBeVisible();
     await terminal.close();
 
-    await page.locator('.jp-TreePanel >> text="Running"').click();
-    await expect(
-      page.locator('#main-panel #jp-running-sessions-tree')
-    ).toBeVisible();
+    await openRunningTab(page);
 
-    const item = page.locator(
-      '#jp-running-sessions-tree .jp-RunningSessions-item',
-      {
-        hasText: `terminals/${name}`,
-      }
-    );
+    const item = runningTerminal(page, name);
     await expect(item).toBeVisible();
 
     await item.hover();
@@ -84,33 +94,35 @@ test.describe('Terminal', () => {
     await expect(item).toHaveCount(0);
   });
 
-  test('Execute a command in the terminal', async ({ page, request }) => {
+  test('Execute a command in the terminal', async ({ page }) => {
     const { terminal, name } = await openTerminalFromNewDropdown(page);
 
     await expect(terminal.locator('.jp-Terminal .xterm-screen')).toBeVisible();
-    await terminal.locator('.jp-Terminal').click();
+
+    const item = runningTerminal(page, name);
+    await openRunningTab(page);
+    await expect(item).toBeVisible();
 
     // the terminal output is not exposed in the DOM (xterm renders to a
-    // canvas), so exit the shell and check the terminal session gets
-    // terminated as a result. The shell may not be ready to process input
-    // right away, so retry typing the command until the session is gone.
+    // canvas), so exit the shell and check the running session goes away as a
+    // result. The shell may not be ready to process input right away, so retry
+    // typing the command until the entry is gone.
     await expect
       .poll(
         async () => {
+          await terminal.locator('.jp-Terminal').click();
           await terminal.keyboard.type('exit');
           await terminal.keyboard.press('Enter');
-          const response = await request.get('/api/terminals');
-          const models = (await response.json()) as { name: string }[];
-          return models.map((model) => model.name);
+          return item.count();
         },
         { timeout: 30000 }
       )
-      .not.toContain(name);
+      .toBe(0);
 
     await terminal.close();
   });
 
-  test('Open a terminal directly from its URL', async ({ page, request }) => {
+  test('Open a terminal directly from its URL', async ({ page, tmpPath }) => {
     const { terminal, name } = await openTerminalFromNewDropdown(page);
 
     await expect(terminal.locator('.jp-Terminal')).toBeVisible();
@@ -123,8 +135,13 @@ test.describe('Terminal', () => {
 
     // the page should have connected to the existing terminal session
     // instead of creating a new one
-    const response = await request.get('/api/terminals');
-    const models = (await response.json()) as { name: string }[];
-    expect(models.map((model) => model.name)).toEqual([name]);
+    await page.goto(`tree/${tmpPath}`);
+    await openRunningTab(page);
+    const terminals = page.locator(
+      '#jp-running-sessions-tree .jp-RunningSessions-item',
+      { hasText: 'terminals/' }
+    );
+    await expect(terminals).toHaveCount(1);
+    await expect(terminals).toHaveText(new RegExp(`terminals/${name}`));
   });
 });
