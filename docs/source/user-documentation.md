@@ -9,6 +9,7 @@ notebook
 ui_components
 notebook_7_features
 pager
+recents
 examples/Notebook/examples_index.rst
 custom_css
 configuring/plugins
