@@ -177,7 +177,6 @@ test.describe('Notebook', () => {
     const notebookTools = page.locator('#notebook-tools.jp-NotebookTools');
     await expect(notebookTools).toBeVisible();
 
-    // The Advanced Tools section should be expanded
     const advancedTools = notebookTools.locator('.jp-Collapse', {
       hasText: 'Advanced Tools',
     });
@@ -201,7 +200,6 @@ test.describe('Notebook', () => {
     // The tab title should be the notebook name with the ".ipynb" suffix stripped
     await expect(page).toHaveTitle('simple');
 
-    // The tree page should have the default title
     await page.goto(`tree/${tmpPath}`);
     await expect(page).toHaveTitle('Home');
   });
@@ -233,12 +231,11 @@ test.describe('Notebook', () => {
     // Run the cell
     await runAndAdvance(page);
 
-    // The favicon should switch to the busy icon while the kernel is busy
     await expect(favicon).toHaveAttribute('href', /favicon-busy-1\.ico/, {
       timeout: 15000,
     });
 
-    // And back to the idle notebook icon when the execution is done
+    // the favicon goes back to the idle icon once execution is done
     await expect(favicon).toHaveAttribute('href', /favicon-notebook\.ico/, {
       timeout: 30000,
     });

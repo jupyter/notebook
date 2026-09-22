@@ -52,7 +52,6 @@ test.describe('Terminal', () => {
     await expect(microToolbar).toHaveCount(1);
     await expect(microToolbar).toBeHidden();
 
-    // there should not be any cell toolbar on the terminal page
     await expect(terminal.locator('.jp-cell-toolbar')).toHaveCount(0);
 
     await terminal.close();
@@ -66,7 +65,6 @@ test.describe('Terminal', () => {
     await expect(terminal.locator('.jp-Terminal')).toBeVisible();
     await terminal.close();
 
-    // open the Running tab on the tree page
     await page.locator('.jp-TreePanel >> text="Running"').click();
     await expect(
       page.locator('#main-panel #jp-running-sessions-tree')
@@ -80,7 +78,6 @@ test.describe('Terminal', () => {
     );
     await expect(item).toBeVisible();
 
-    // shut the terminal down from the running sessions list
     await item.hover();
     await item.locator('.jp-RunningSessions-itemShutdown').click();
 

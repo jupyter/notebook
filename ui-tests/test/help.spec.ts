@@ -12,7 +12,6 @@ test.describe('Help menu', () => {
     const dialog = page.locator('.jp-Dialog.jp-AboutNotebook');
     await expect(dialog).toBeVisible();
 
-    // The version reported in the dialog should be a valid version number
     await expect(dialog.locator('.jp-AboutNotebook-version')).toHaveText(
       /^Version: \d+\.\d+\.\d+/
     );
@@ -40,7 +39,6 @@ test.describe('Help menu', () => {
       dialog.locator('.jp-AboutNotebook-about-copyright')
     ).toBeVisible();
 
-    // Dismiss the dialog
     await dialog.getByRole('button', { name: 'Dismiss' }).click();
     await expect(dialog).toHaveCount(0);
   });

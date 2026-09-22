@@ -49,7 +49,6 @@ test.describe('Top bar', () => {
     const checkpoint = page.locator('.jp-NotebookCheckpoint');
     await expect(checkpoint).toHaveText('');
 
-    // make an edit to the notebook
     await page.click('.jp-Cell-inputArea');
     await page
       .locator(
@@ -84,13 +83,11 @@ test.describe('Top bar', () => {
     const trustedButton = page.locator('button.jp-NotebookTrustedStatus');
     await expect(trustedButton).toHaveText('Not Trusted');
 
-    // clicking on the button should open a confirmation dialog to trust the notebook
     await trustedButton.click();
     const dialog = page.locator('.jp-Dialog');
     await expect(dialog).toBeVisible();
     await expect(dialog).toContainText('Trust this notebook?');
 
-    // accepting the dialog should trust the notebook
     await dialog.locator('.jp-Dialog-button.jp-mod-accept').click();
     await expect(trustedButton).toHaveText('Trusted');
   });

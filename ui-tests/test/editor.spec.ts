@@ -84,7 +84,6 @@ test.describe('Editor', () => {
     await page.goto(`edit/${file}`);
 
     await expect(page.locator('.cm-editor')).toBeVisible();
-    // wait for the file content to be rendered in the editor
     await expect(page.locator('.cm-content')).toContainText('name: notebook');
 
     // the edit page should display a partial view, with white space below

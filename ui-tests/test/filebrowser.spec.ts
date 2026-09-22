@@ -314,21 +314,16 @@ test.describe('File Browser', () => {
     const filterInput = page.locator('.jp-FileBrowser-filterBox input');
     const listing = page.locator('.jp-DirListing-item');
 
-    // the file filter input is hidden by default
     await expect(filterInput).toBeHidden();
     await expect(listing).toHaveCount(3);
 
-    // clicking the toggle button shows the filter input
     await toggleButton.click();
     await expect(filterInput).toBeVisible();
 
-    // typing a query narrows down the listing
     await filterInput.fill('folder1');
     await expect(listing).toHaveCount(1);
     await expect(listing).toHaveText(/folder1/);
 
-    // clicking the toggle button again hides the filter input and restores
-    // the full listing
     await toggleButton.click();
     await expect(filterInput).toBeHidden();
     await expect(listing).toHaveCount(3);
@@ -396,7 +391,6 @@ test.describe('File Browser toolbar settings', () => {
       toolbar.locator('[data-jp-item-name="refresh"]')
     ).toBeVisible();
 
-    // the Upload button should not be added to the toolbar
     await expect(toolbar.locator('[data-jp-item-name="uploader"]')).toHaveCount(
       0
     );
