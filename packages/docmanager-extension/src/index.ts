@@ -72,6 +72,17 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
               factory: widgetName,
             });
           }
+          // Require both flags: `notebookStartsKernel=False` only sets
+          // `shouldStart: false` and must still reuse a running session.
+          if (
+            route === 'notebooks' &&
+            widget.context.sessionContext.kernelPreference.shouldStart ===
+              false &&
+            widget.context.sessionContext.kernelPreference.shouldReuse === false
+          ) {
+            searchParams ??= new URLSearchParams();
+            searchParams.set('kernel', 'none');
+          }
 
           pathOpener.open({
             prefix: URLExt.join(baseUrl, route),
