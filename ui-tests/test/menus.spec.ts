@@ -47,4 +47,17 @@ test.describe('Notebook Menus', () => {
       expect(await menu?.screenshot()).toMatchSnapshot(imageName.toLowerCase());
     });
   });
+
+  test('View menu should not have the Text Editor Syntax Highlighting entry', async ({
+    page,
+    tmpPath,
+  }) => {
+    await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
+    await waitForKernelReady(page);
+
+    await page.menu.open('View');
+    expect(
+      await page.menu.isOpen('View>Text Editor Syntax Highlighting')
+    ).toBeFalsy();
+  });
 });

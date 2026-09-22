@@ -1,6 +1,8 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
 
+import { PageConfig } from '@jupyterlab/coreutils';
+
 import {
   ISettingRegistry,
   SettingConnector as BaseSettingConnector,
@@ -29,12 +31,16 @@ const SETTING_OVERRIDES: {
   },
 };
 
+const FILE_EDITOR_PLUGIN_ID = '@jupyterlab/fileeditor-extension:plugin';
+
+const SYNTAX_HIGHLIGHTING_SUBMENU_ID = 'jp-mainmenu-view-codemirror-language';
+
 /**
  * A data connector for fetching settings.
  *
  * #### Notes
- * This connector extends the default JupyterLab setting connector,
- * and additionally overrides the default values of some settings.
+ * This connector extends the default JupyterLab setting connector with
+ * Jupyter Notebook-specific overrides.
  */
 export class SettingConnector extends BaseSettingConnector {
   /**
@@ -45,7 +51,7 @@ export class SettingConnector extends BaseSettingConnector {
     id: string
   ): Promise<ISettingRegistry.IPlugin | undefined> {
     const plugin = await super.fetch(id);
-    return plugin && Private.overrideDefaults(plugin);
+    return plugin && Private.applyOverrides(plugin);
   }
 
   override async list(query: 'ids'): Promise<{ ids: string[] }>;
@@ -59,7 +65,7 @@ export class SettingConnector extends BaseSettingConnector {
       return super.list(query);
     }
     const { ids, values } = await super.list(query);
-    return { ids, values: values.map(Private.overrideDefaults) };
+    return { ids, values: values.map(Private.applyOverrides) };
   }
 }
 
@@ -67,11 +73,17 @@ export class SettingConnector extends BaseSettingConnector {
  * A namespace for private module data.
  */
 namespace Private {
+  export function applyOverrides(
+    plugin: ISettingRegistry.IPlugin
+  ): ISettingRegistry.IPlugin {
+    return hideSyntaxHighlightingMenu(overrideDefaults(plugin));
+  }
+
   /**
    * Override the default values of the plugin settings listed
    * in `SETTING_OVERRIDES`.
    */
-  export function overrideDefaults(
+  function overrideDefaults(
     plugin: ISettingRegistry.IPlugin
   ): ISettingRegistry.IPlugin {
     const overrides = SETTING_OVERRIDES[plugin.id];
@@ -82,6 +94,27 @@ namespace Private {
     for (const [property, value] of Object.entries(overrides)) {
       if (property in properties) {
         properties[property].default = value;
+      }
+    }
+    return plugin;
+  }
+
+  function hideSyntaxHighlightingMenu(
+    plugin: ISettingRegistry.IPlugin
+  ): ISettingRegistry.IPlugin {
+    const page = PageConfig.getOption('notebookPage');
+    if (plugin.id !== FILE_EDITOR_PLUGIN_ID || page === 'edit') {
+      return plugin;
+    }
+    const menus = plugin.schema['jupyter.lab.menus']?.main ?? [];
+    for (const menu of menus) {
+      for (const item of menu.items ?? []) {
+        if (
+          item.type === 'submenu' &&
+          item.submenu?.id === SYNTAX_HIGHLIGHTING_SUBMENU_ID
+        ) {
+          item.disabled = true;
+        }
       }
     }
     return plugin;

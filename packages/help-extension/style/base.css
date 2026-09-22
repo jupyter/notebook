@@ -51,3 +51,7 @@
 .jp-AboutNotebook-about-copyright {
   padding-top: 25px;
 }
+
+.jp-AboutJupyter .jp-Dialog-content {
+  max-width: 480px;
+}
