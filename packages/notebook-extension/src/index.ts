@@ -624,6 +624,18 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
 
     const handlers: { [id: string]: () => void } = {};
 
+    // outputs render asynchronously, so the height measured on a model
+    // change can be stale: check again whenever the output area is resized
+    const observedCells = new WeakMap<Element, CodeCell>();
+    const resizeObserver = new ResizeObserver((entries) => {
+      entries.forEach((entry) => {
+        const cell = observedCells.get(entry.target);
+        if (cell && !cell.isDisposed) {
+          autoScroll(cell);
+        }
+      });
+    });
+
     const setAutoScroll = (cell: Cell) => {
       if (cell.model.type === 'code') {
         const codeCell = cell as CodeCell;
@@ -634,6 +646,12 @@ const scrollOutput: JupyterFrontEndPlugin<void> = {
         }
         handlers[id] = () => autoScroll(codeCell);
         codeCell.outputArea.model.changed.connect(handlers[id]);
+        const { node } = codeCell.outputArea;
+        if (!observedCells.has(node)) {
+          observedCells.set(node, codeCell);
+          resizeObserver.observe(node);
+          codeCell.disposed.connect(() => resizeObserver.unobserve(node));
+        }
       }
     };
 

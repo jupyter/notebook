@@ -17,7 +17,7 @@ from jupyter_server.extension.handler import (
 from jupyter_server.serverapp import flags
 from jupyter_server.utils import url_escape, url_is_absolute
 from jupyter_server.utils import url_path_join as ujoin
-from jupyterlab.commands import (  # type:ignore[import-untyped]
+from jupyterlab.commands import (
     get_app_dir,
     get_user_settings_dir,
     get_workspaces_dir,
@@ -301,11 +301,11 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
 
     @default("user_settings_dir")
     def _default_user_settings_dir(self) -> str:
-        return t.cast(str, get_user_settings_dir())
+        return get_user_settings_dir()
 
     @default("workspaces_dir")
     def _default_workspaces_dir(self) -> str:
-        return t.cast(str, get_workspaces_dir())
+        return get_workspaces_dir()
 
     def _prepare_templates(self) -> None:
         super(LabServerApp, self)._prepare_templates()
