@@ -4,6 +4,7 @@
 import path from 'path';
 
 import { expect, galata } from '@jupyterlab/galata';
+import type { Page } from '@playwright/test';
 
 import { test } from './fixtures';
 
@@ -71,17 +72,15 @@ test.describe('File Browser', () => {
 
     const toolbar = page.getByRole('toolbar');
 
-    const [nb1, nb2] = await Promise.all([
-      page.waitForEvent('popup'),
-      page.waitForEvent('popup'),
-      toolbar.getByText('Open').last().click(),
-    ]);
+    const popups: Page[] = [];
+    page.on('popup', (popup) => popups.push(popup));
+    await toolbar.getByText('Open').last().click();
+    await expect.poll(() => popups.length).toBe(2);
 
-    await nb1.waitForLoadState();
-    await nb1.close();
-
-    await nb2.waitForLoadState();
-    await nb2.close();
+    for (const popup of popups) {
+      await popup.waitForLoadState();
+      await popup.close();
+    }
   });
 
   test('Open a file from its path', async ({ page, tmpPath }) => {
