@@ -18,7 +18,7 @@ const openTerminalFromNewDropdown = async (
 ): Promise<{ terminal: Page; name: string }> => {
   const terminalPromise = page.waitForEvent('popup');
   await page.click('.jp-DropdownMenu >> text="New"');
-  await page.click('.lm-Menu [data-command="terminal:create-new"]');
+  await page.click('.lm-Menu [data-command="filebrowser:create-new-terminal"]');
   const terminal = await terminalPromise;
   await terminal.waitForLoadState();
 
