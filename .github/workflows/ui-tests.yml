@@ -84,12 +84,11 @@ jobs:
 
       - name: Update snapshots
         if: failure()
+        timeout-minutes: 6
         run: |
           cd ui-tests
-          # remove previous snapshots from other browser
-          jlpm rimraf "test/**/*-snapshots/*.png"
-          # generate new snapshots
-          jlpm run test:update --browser ${{ matrix.browser }}
+          # only regenerate snapshots for the tests that just failed
+          jlpm run test:update --browser ${{ matrix.browser }} --last-failed
 
       - name: Upload updated snapshots
         if: failure()
