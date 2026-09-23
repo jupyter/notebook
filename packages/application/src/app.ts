@@ -19,6 +19,8 @@ import { IRenderMime } from '@jupyterlab/rendermime-interfaces';
 
 import { Throttler } from '@lumino/polling';
 
+import { ISignal, Signal } from '@lumino/signaling';
+
 import { INotebookShell, NotebookShell } from './shell';
 
 /**
@@ -49,8 +51,19 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
       return acc;
     }, {} as Partial<JupyterLab.IInfo>);
 
-    // Populate application info.
-    this._info = { ...JupyterLab.defaultInfo, ...info };
+    // Populate application info with own lists, as the plugins announced after
+    // startup are appended in place.
+    const appInfo: JupyterLab.IInfo = {
+      ...JupyterLab.defaultInfo,
+      availablePlugins: [],
+      disabled: { patterns: [], matches: [] },
+      ...info,
+    };
+    this._availablePluginsChanged = new Signal<JupyterLab.IInfo, void>(appInfo);
+    this._info = Object.assign(appInfo, {
+      availablePluginsChanged: this._availablePluginsChanged,
+    });
+    options.availablePluginsAdded?.connect(this._onAvailablePluginsAdded, this);
 
     this.restored = this.shell.restored;
 
@@ -86,7 +99,7 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
   /**
    * The NotebookApp application information dictionary.
    */
-  get info(): JupyterLab.IInfo {
+  get info(): NotebookApp.IAppInfo {
     return this._info;
   }
 
@@ -168,7 +181,29 @@ export class NotebookApp extends JupyterFrontEnd<INotebookShell> {
     });
   }
 
-  private _info: JupyterLab.IInfo = JupyterLab.defaultInfo;
+  /**
+   * Add the announced plugins to the available plugins.
+   */
+  private _onAvailablePluginsAdded(
+    sender: unknown,
+    plugins: JupyterLab.IPluginInfo[]
+  ): void {
+    if (plugins.length === 0) {
+      return;
+    }
+    const disabled = new Set(this._info.disabled.matches);
+    for (const plugin of plugins) {
+      this._info.availablePlugins.push(plugin);
+      if (!plugin.enabled && !disabled.has(plugin.id)) {
+        this._info.disabled.matches.push(plugin.id);
+        disabled.add(plugin.id);
+      }
+    }
+    this._availablePluginsChanged.emit();
+  }
+
+  private _info: NotebookApp.IAppInfo;
+  private _availablePluginsChanged: Signal<JupyterLab.IInfo, void>;
   private _formatter = new Throttler(() => {
     Private.setFormat(this);
   }, 250);
@@ -183,7 +218,13 @@ export namespace NotebookApp {
    */
   export interface IOptions
     extends JupyterFrontEnd.IOptions<INotebookShell>,
-      Partial<IInfo> {}
+      Partial<IInfo> {
+    /**
+     * A signal announcing plugins discovered after startup, such as those of
+     * the disabled federated extensions; they are appended to `info`.
+     */
+    availablePluginsAdded?: ISignal<unknown, JupyterLab.IPluginInfo[]>;
+  }
 
   /**
    * The information about a Jupyter Notebook application.
@@ -198,6 +239,21 @@ export namespace NotebookApp {
      * The information about available plugins.
      */
     readonly availablePlugins: JupyterLab.IPluginInfo[];
+
+    /**
+     * The collection of disabled extension patterns and matched extensions.
+     */
+    readonly disabled: { patterns: string[]; matches: string[] };
+  }
+
+  /**
+   * The application information, with its change signal.
+   */
+  export interface IAppInfo extends JupyterLab.IInfo {
+    /**
+     * A signal emitted when `availablePlugins` changes.
+     */
+    readonly availablePluginsChanged: ISignal<JupyterLab.IInfo, void>;
   }
 
   /**
