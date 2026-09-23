@@ -142,8 +142,9 @@ ui-tests/.pnp.*
 # generated html
 notebook/templates/*.html
 
-# pixi environments
-.pixi
+# virtual environments and local lock files
+.venv/
+uv.lock
 *.egg-info
 
 # Temporary files used for testing
