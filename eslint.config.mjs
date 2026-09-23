@@ -27,7 +27,6 @@ export default defineConfig([
       '.idea/**',
       '.history/**',
       '.vscode/**',
-      '.pixi/**',
       '.venv/**',
       'docs/**',
       '**/*.js',

@@ -1,8 +1,10 @@
 {
   "name": "Jupyter Notebook",
-  "build": {
-    "dockerfile": "Dockerfile",
-    "context": ".."
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "features": {
+    "ghcr.io/devcontainers/features/node:2": {
+      "version": "22"
+    }
   },
   "forwardPorts": [8888],
   "customizations": {
@@ -11,11 +13,5 @@
       "extensions": ["ms-python.python", "charliermarsh.ruff", "GitHub.copilot"]
     }
   },
-  "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
-  },
-  "mounts": [
-    "source=${localWorkspaceFolderBasename}-pixi,target=${containerWorkspaceFolder}/.pixi,type=volume"
-  ],
-  "postCreateCommand": "sudo chown vscode .pixi && pixi install && pixi run develop && pixi run pre-commit install -f"
+  "postCreateCommand": "python -m pip install -e \".[dev,docs,test]\" && jlpm && jlpm build && jlpm develop && pre-commit install -f"
 }
