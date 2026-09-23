@@ -7,12 +7,13 @@ for a friendly and welcoming collaborative environment.
 
 ## Setting up a development environment
 
-Note: You will need NodeJS to build the extension package.
+You will need Python (3.10 or later) and [NodeJS](https://nodejs.org/) to build the extension package.
+Any tool can be used to create the environment, for example `venv`, `uv`, or `conda` / `mamba`.
 
 The `jlpm` command is Jupyter's pinned version of [yarn](https://yarnpkg.com/) that is installed with Jupyter Builder. You may use
 `yarn` or `npm` in lieu of `jlpm` below.
 
-**Note**: we recommend using `mamba` to speed up the creation of the environment.
+For example, with `mamba` (which can install both Python and NodeJS):
 
 ```bash
 # create a new environment
@@ -20,7 +21,11 @@ mamba create -n notebook -c conda-forge python nodejs -y
 
 # activate the environment
 mamba activate notebook
+```
 
+Then, from the root of the repository:
+
+```bash
 # Install package in development mode
 pip install -e ".[dev,docs,test]"
 
@@ -218,9 +223,8 @@ Now open a web browser and navigate to `http://localhost:8000` to access the doc
 
 Alternatively you can also contribute to Jupyter Notebook without setting up a local environment, directly from a web browser:
 
-- [GitHub CodeSpaces](https://github.com/codespaces) is directly integrated into GitHub. This repository uses the [pixi](https://pixi.sh/) package manager to set up the development environment. To contribute after the Codespace is started:
-  - Run `pixi shell` in a terminal to activate the development environment
+- [GitHub CodeSpaces](https://github.com/codespaces) is directly integrated into GitHub. This repository provides a [dev container](https://containers.dev/) configuration that installs Python, NodeJS and the development dependencies, and builds the extension when the Codespace is created. To contribute after the Codespace is started:
   - Use the commands above for building the extension and running the tests, for example: `jlpm build`
-  - To start the application: `pixi run start`. A popup should appear with a button to open the Jupyter Notebook in a new browser tab. If the popup does not appear, you can navigate to the "Forwarded ports" panel to find the URL to the application.
+  - To start the application: `jupyter notebook --no-browser --ServerApp.token='' --ServerApp.allow_remote_access=True`. A popup should appear with a button to open the Jupyter Notebook in a new browser tab. If the popup does not appear, you can navigate to the "Forwarded ports" panel to find the URL to the application.
 - GitHub's [built-in editor](https://docs.github.com/en/repositories/working-with-files/managing-files/editing-files) is suitable for contributing small fixes.
 - A more advanced [github.dev](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor) editor can be accessed by pressing the dot (.) key while in the Jupyter Notebook GitHub repository
