@@ -64,7 +64,6 @@ async function main() {
     withScope('{{ @key }}', require('{{ @key }}')),
   {{/each}}
   ];
-  const mimeExtensions = await Promise.all(mimeExtensionsMods);
 
   // Load the base plugins available on all pages
   let baseMods = [
@@ -194,6 +193,14 @@ async function main() {
       }
     } else {
       console.error(p.reason);
+    }
+  });
+
+  // Add the base mime extensions
+  const mimeExtensions = [];
+  mimeExtensionsMods.forEach(p => {
+    for (let plugin of activePlugins(p)) {
+      mimeExtensions.push(plugin);
     }
   });
 
