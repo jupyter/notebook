@@ -60,13 +60,13 @@ Handlebars.registerHelper('list_plugins', function () {
   Object.keys(this).forEach((extension) => {
     const plugin = page[extension];
     if (plugin === true) {
-      str += `require(\'${extension}\'),\n  `;
+      str += `withScope(\'${extension}\', require(\'${extension}\')),\n  `;
     } else if (Array.isArray(plugin)) {
       const plugins = plugin.map((p) => `'${p}',`).join('\n');
       str += `
-      require(\'${extension}\').default.filter(({id}) => [
+      withScope(\'${extension}\', require(\'${extension}\').default.filter(({id}) => [
        ${plugins}
-      ].includes(id)),
+      ].includes(id))),
       `;
     }
   });

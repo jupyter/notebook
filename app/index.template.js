@@ -47,12 +47,21 @@ async function createModule(scope, module) {
 }
 
 /**
+ * Tag a bundled module with the name of its package, as `createModule` does
+ * for the federated modules.
+ */
+function withScope(scope, module) {
+  module.__scope__ = scope;
+  return module;
+}
+
+/**
  * The main function
  */
 async function main() {
   const mimeExtensionsMods = [
   {{#each notebook_mime_extensions}}
-    require('{{ @key }}'),
+    withScope('{{ @key }}', require('{{ @key }}')),
   {{/each}}
   ];
   const mimeExtensions = await Promise.all(mimeExtensionsMods);
