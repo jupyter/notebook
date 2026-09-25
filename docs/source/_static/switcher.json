@@ -1,0 +1,32 @@
+[
+  {
+    "name": "latest",
+    "version": "latest",
+    "url": "https://jupyter-notebook.readthedocs.io/en/latest/"
+  },
+  {
+    "name": "stable",
+    "version": "stable",
+    "url": "https://jupyter-notebook.readthedocs.io/en/stable/"
+  },
+  {
+    "name": "7.6.1",
+    "version": "v7.6.1",
+    "url": "https://jupyter-notebook.readthedocs.io/en/v7.6.1/"
+  },
+  {
+    "name": "7.5.7",
+    "version": "v7.5.7",
+    "url": "https://jupyter-notebook.readthedocs.io/en/v7.5.7/"
+  },
+  {
+    "name": "7.4.7",
+    "version": "v7.4.7",
+    "url": "https://jupyter-notebook.readthedocs.io/en/v7.4.7/"
+  },
+  {
+    "name": "6.5.4",
+    "version": "v6.5.4",
+    "url": "https://jupyter-notebook.readthedocs.io/en/v6.5.4/"
+  }
+]
