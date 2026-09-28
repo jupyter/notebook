@@ -26,9 +26,9 @@
     "lib/*.d.ts",
     "lib/*.js.map",
     "lib/*.js",
-    "schema/*.json",
     "style/**/*.css",
-    "style/index.js"
+    "style/index.js",
+    "src/**/*.{ts,tsx}"
   ],
   "scripts": {
     "build": "tsc -b",
@@ -51,8 +51,7 @@
     "access": "public"
   },
   "jupyterlab": {
-    "extension": true,
-    "schemaDir": "schema"
+    "extension": true
   },
   "styleModule": "style/index.js"
 }
