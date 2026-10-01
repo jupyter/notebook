@@ -39,17 +39,13 @@ test.describe('Settings', () => {
     await expect(topPanel).toBeAttached();
     await expect(topPanel).toBeHidden();
     await expect(fileSizeColumn).toBeVisible();
-    await expect.soft(page).toHaveScreenshot('top-hidden.png', {
-      maxDiffPixels: 400,
-    });
+    await expect.soft(page).toHaveScreenshot('top-hidden.png');
 
     await page.menu.clickMenuItem(showHeaderPath);
     await expect(topPanel).toBeVisible();
     await page.reload({ waitUntil: 'networkidle' });
     await expect(topPanel).toBeVisible();
     await expect(fileSizeColumn).toBeVisible();
-    await expect(page).toHaveScreenshot('top-visible.png', {
-      maxDiffPixels: 400,
-    });
+    await expect(page).toHaveScreenshot('top-visible.png');
   });
 });
