@@ -989,11 +989,72 @@ const overrideMenuItems: JupyterFrontEndPlugin<void> = {
 };
 
 /**
+ * A plugin to open the debugger panel when the debugger is enabled,
+ * and optionally collapse it when the debugger is disabled.
+ */
+const debuggerPanel: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-notebook/notebook-extension:debugger-panel',
+  description:
+    'A plugin to open the debugger panel when the debugger is enabled.',
+  autoStart: true,
+  requires: [IDebugger, IDebuggerSidebar],
+  optional: [INotebookShell, ISettingRegistry],
+  activate: (
+    app: JupyterFrontEnd,
+    service: IDebugger,
+    sidebar: IDebugger.ISidebar,
+    shell: INotebookShell | null,
+    settingRegistry: ISettingRegistry | null
+  ) => {
+    if (!shell) {
+      return;
+    }
+
+    let autoCollapseSidebar = false;
+
+    if (settingRegistry) {
+      settingRegistry
+        .load('@jupyterlab/debugger-extension:main')
+        .then((settings) => {
+          const updateSettings = (): void => {
+            autoCollapseSidebar = settings.get('autoCollapseDebuggerSidebar')
+              .composite as boolean;
+          };
+          updateSettings();
+          settings.changed.connect(updateSettings);
+        })
+        .catch((reason) => {
+          console.error(
+            'Failed to load settings for the debugger panel.',
+            reason
+          );
+        });
+    }
+
+    service.eventMessage.connect((_, event) => {
+      if (event.event === 'initialized') {
+        shell.activateById(sidebar.id);
+      } else if (
+        event.event === 'terminated' &&
+        autoCollapseSidebar &&
+        sidebar.isVisible
+      ) {
+        const area = shell.getWidgetArea(sidebar.id);
+        if (area) {
+          shell.collapse(area);
+        }
+      }
+    });
+  },
+};
+
+/**
  * Export the plugins as default.
  */
 const plugins: JupyterFrontEndPlugin<any>[] = [
   checkpoints,
   closeTab,
+  debuggerPanel,
   openTreeTab,
   editNotebookMetadata,
   fullWidthNotebook,
