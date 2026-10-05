@@ -100,6 +100,23 @@ test.describe('Notebook', () => {
     expect(await checkCell(1)).toBe(false);
   });
 
+  test('Enabling the debugger should open the debugger panel', async ({
+    page,
+    tmpPath,
+  }) => {
+    await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
+
+    await waitForKernelReady(page);
+
+    const panel = page.locator('#jp-debugger-sidebar');
+    await expect(panel).toBeHidden();
+
+    await page.click('.jp-DebuggerBugButton');
+
+    await expect(panel).toBeVisible();
+    await expect(page.locator('#jp-right-stack')).toBeVisible();
+  });
+
   test('Open table of content left panel', async ({ page, tmpPath }) => {
     const notebook = 'simple_toc.ipynb';
     const menuPath = 'View>Left Sidebar>Show Table of Contents';
