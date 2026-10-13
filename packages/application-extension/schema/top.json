@@ -21,6 +21,7 @@
       "title": "Top Bar Visibility",
       "description": "Whether to show the top bar or not, yes for always showing, no for always not showing, automatic for adjusting to screen size",
       "default": "automatic",
+      "type": "string",
       "oneOf": [
         { "const": "yes", "title": "Yes" },
         { "const": "no", "title": "No" },
