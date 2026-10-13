@@ -429,7 +429,7 @@ const fullWidthNotebook: JupyterFrontEndPlugin<void> = {
     if (palette) {
       palette.addItem({
         command: CommandIDs.toggleFullWidth,
-        category: 'Notebook Operations',
+        category: trans.__('Notebook Operations'),
       });
     }
   },
@@ -866,7 +866,7 @@ const editNotebookMetadata: JupyterFrontEndPlugin<void> = {
     if (palette) {
       palette.addItem({
         command: CommandIDs.openEditNotebookMetadata,
-        category: 'Notebook Operations',
+        category: trans.__('Notebook Operations'),
       });
     }
   },

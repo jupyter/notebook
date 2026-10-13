@@ -128,8 +128,7 @@ test.describe('File Browser', () => {
   test('Open a file from its path', async ({ page, tmpPath }) => {
     await page.filebrowser.refresh();
 
-    await page.getByRole('menuitem', { name: 'File' }).click();
-    await page.getByRole('menuitem', { name: 'Open from Path' }).click();
+    await page.menu.clickMenuItem('File>Open from Path…');
 
     const dialog = page.locator('.jp-Dialog');
     await dialog.getByRole('textbox').fill(`${tmpPath}/empty.ipynb`);
