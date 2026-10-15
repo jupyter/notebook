@@ -69,6 +69,7 @@ export default defineConfig([
       'jupyter/plugin-activation-args': 'error',
       'jupyter/plugin-description': 'error',
       'jupyter/plugin-id-convention': 'error',
+      'jupyter/prefer-lazy-imports': 'error',
       'jupyter/token-format': 'error',
       'jupyter/no-translation-concatenation': 'error',
       'jupyter/no-dynamic-translation': 'error',
