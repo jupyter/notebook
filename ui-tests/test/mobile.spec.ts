@@ -38,9 +38,7 @@ test.describe('Mobile', () => {
       page.locator('#filebrowser .jp-DirListing-header .jp-id-filesize')
     ).toBeVisible();
 
-    await expect(page).toHaveScreenshot('tree.png', {
-      maxDiffPixels: 400,
-    });
+    await expect(page).toHaveScreenshot('tree.png');
   });
 
   test('The layout should be more compact on the notebook page', async ({
