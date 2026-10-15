@@ -71,29 +71,8 @@ export default defineConfig([
       'jupyter/plugin-id-convention': 'error',
       'jupyter/prefer-lazy-imports': [
         'error',
-        {
-          // The plugin defaults, plus the notebook packages that are always
-          // loaded at startup.
-          allowedPackages: [
-            '@jupyterlab/*',
-            '@lumino/*',
-            '!@lumino/datagrid',
-            '@jupyter/ydoc',
-            '@jupyter/react-components',
-            '@jupyter/web-components',
-            '@codemirror/language',
-            '@codemirror/state',
-            '@codemirror/view',
-            '@lezer/common',
-            '@lezer/highlight',
-            '@microsoft/fast-element',
-            '@microsoft/fast-foundation',
-            'react',
-            'react-dom',
-            'yjs',
-            '@jupyter-notebook/*',
-          ],
-        },
+        // Notebook packages are always loaded at startup.
+        { ignoreImports: ['@jupyter-notebook/*'] },
       ],
       'jupyter/token-format': 'error',
       'jupyter/no-translation-concatenation': 'error',
