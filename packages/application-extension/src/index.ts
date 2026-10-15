@@ -56,7 +56,6 @@ import {
   defaultNotebookPathOpener,
 } from '@jupyter-notebook/application';
 
-// eslint-disable-next-line jupyter/prefer-lazy-imports
 import { jupyterIcon } from '@jupyter-notebook/ui-components';
 
 import { SettingConnector } from './settingconnector';
