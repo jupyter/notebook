@@ -12,8 +12,6 @@ import { IMainMenu } from '@jupyterlab/mainmenu';
 
 import { ITranslator } from '@jupyterlab/translation';
 
-import { jupyterIcon } from '@jupyter-notebook/ui-components';
-
 import * as React from 'react';
 
 /**
@@ -100,7 +98,8 @@ const about: JupyterFrontEndPlugin<void> = {
 
     commands.addCommand(CommandIDs.about, {
       label: trans.__('About %1', app.name),
-      execute: () => {
+      execute: async () => {
+        const { jupyterIcon } = await import('@jupyter-notebook/ui-components');
         const title = (
           <>
             <span className="jp-AboutNotebook-header">
@@ -172,7 +171,8 @@ const about: JupyterFrontEndPlugin<void> = {
 
     commands.addCommand(CommandIDs.aboutJupyter, {
       label: trans.__('About Jupyter'),
-      execute: () => {
+      execute: async () => {
+        const { jupyterIcon } = await import('@jupyter-notebook/ui-components');
         const title = (
           <>
             <span className="jp-AboutNotebook-header">
