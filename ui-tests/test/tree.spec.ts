@@ -4,8 +4,14 @@
 import { test } from './fixtures';
 
 import { expect } from '@jupyterlab/galata';
+import type { Page } from '@playwright/test';
 
 const SUBFOLDER = 'subfolder';
+
+/**
+ * The routes of the pages opening a document, a console or a terminal.
+ */
+const ROUTES = ['notebooks', 'edit', 'consoles', 'terminals'];
 
 test('Tree', async ({ page }) => {
   await page.goto('tree');
@@ -100,26 +106,23 @@ test('Should redirect from notebooks route to tree route for directories', async
   expect(url.pathname).toEqual(`/tree/${dir}`);
 });
 
-test('should not show a file load error when path contains notebooks', async ({
-  page,
-  tmpPath,
-}) => {
-  const nestedPath = `${tmpPath}/test/notebooks/test`;
-  await page.contents.createDirectory(`${tmpPath}/test`);
-  await page.contents.createDirectory(`${tmpPath}/test/notebooks`);
-  await page.contents.createDirectory(nestedPath);
+ROUTES.forEach((route) => {
+  test(`should not route a tree path containing /${route}/`, async ({
+    page,
+    tmpPath,
+  }) => {
+    const dir = `${tmpPath}/test/${route}/test`;
+    await page.contents.createDirectory(dir);
 
-  await page.goto(`tree/${nestedPath}`);
-  await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/test/');
-  await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/notebooks/');
-  expect(new URL(page.url()).pathname).toEqual(`/tree/${nestedPath}`);
+    const popups: Page[] = [];
+    page.on('popup', (popup) => popups.push(popup));
 
-  await page.reload({ waitUntil: 'networkidle' });
-  await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/test/');
-  await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/notebooks/');
-  expect(new URL(page.url()).pathname).toEqual(`/tree/${nestedPath}`);
+    await page.goto(`tree/${dir}`, { waitUntil: 'networkidle' });
 
-  await expect(page.locator('text=File Load Error')).toHaveCount(0);
+    expect(new URL(page.url()).pathname).toEqual(`/tree/${dir}`);
+    await expect(page.locator('.jp-Dialog')).toHaveCount(0);
+    expect(popups).toHaveLength(0);
+  });
 });
 
 test('Should activate file browser tab', async ({ page, tmpPath }) => {
