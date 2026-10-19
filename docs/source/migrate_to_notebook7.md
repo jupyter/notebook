@@ -61,6 +61,7 @@ Jupyter Ecosystem in the [JEP 79][jep 79] and [team-compass note].
 ## New features in Notebook 7
 
 ```{toctree}
+:caption: New features
 :maxdepth: 2
 
 notebook_7_features.md
@@ -69,6 +70,7 @@ notebook_7_features.md
 ## Migration Guides
 
 ```{toctree}
+:caption: Migration Guides
 :maxdepth: 2
 
 migrating/frontend-extensions.md
