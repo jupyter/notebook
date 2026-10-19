@@ -1,6 +1,7 @@
 import os
 
 import pytest
+from jupyter_server.serverapp import ServerApp
 from jupyter_server.serverapp import flags as serverapp_flags
 from tornado.httpclient import HTTPClientError
 
@@ -25,6 +26,17 @@ def test_notebook_app_flags_are_isolated():
     assert JupyterNotebookApp.flags is not serverapp_flags
     assert notebook_flags <= JupyterNotebookApp.flags.keys()
     assert notebook_flags.isdisjoint(serverapp_flags)
+
+
+def test_notebook_app_flags_reach_serverapp():
+    ServerApp.clear_instance()
+    try:
+        serverapp = JupyterNotebookApp.make_serverapp()
+        serverapp.parse_command_line(["--expose-app-in-browser", "--custom-css"])
+        assert serverapp.config.JupyterNotebookApp.expose_app_in_browser is True
+        assert serverapp.config.JupyterNotebookApp.custom_css is True
+    finally:
+        ServerApp.clear_instance()
 
 
 async def test_notebook_handler(notebooks, jp_fetch):

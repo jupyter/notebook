@@ -37,9 +37,9 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Base Setup
-        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@94b14ddfbdd1ed651e9f9343ae2409ab5c73a6a8 # v1
+        uses: jupyterlab/maintainer-tools/.github/actions/base-setup@21b1cac622018fd37ec13a1c8081da814e10d94e # v1.0.0
 
-      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           name: notebook-dist-${{ github.run_number }}
           path: ./dist
@@ -67,7 +67,7 @@ jobs:
 
       - name: Upload Playwright Test assets
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: notebook-${{ matrix.browser }}-test-assets
           path: |
@@ -75,7 +75,7 @@ jobs:
 
       - name: Upload blob report
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: notebook-blobs-${{ matrix.browser }}
           path: ui-tests/blob-report
@@ -84,16 +84,15 @@ jobs:
 
       - name: Update snapshots
         if: failure()
+        timeout-minutes: 6
         run: |
           cd ui-tests
-          # remove previous snapshots from other browser
-          jlpm rimraf "test/**/*-snapshots/*.png"
-          # generate new snapshots
-          jlpm run test:update --browser ${{ matrix.browser }}
+          # only regenerate snapshots for the tests that just failed
+          jlpm run test:update --browser ${{ matrix.browser }} --last-failed
 
       - name: Upload updated snapshots
         if: failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: notebook-${{ matrix.browser }}-updated-snapshots
           path: ui-tests/test
@@ -126,7 +125,7 @@ jobs:
           echo "version=$PW_VERSION" >> $GITHUB_OUTPUT
 
       - name: Download blob artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
           path: blob-reports
           pattern: notebook-blobs-*
@@ -139,19 +138,19 @@ jobs:
           npx "playwright@$PW_VERSION" merge-reports --reporter html,github ./blob-reports/
 
       - name: Upload merged report
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: notebook-test-report
           path: playwright-report
 
       - name: Inline the report
-        uses: jupyterlab/maintainer-tools/.github/actions/inline-playwright-report@94b14ddfbdd1ed651e9f9343ae2409ab5c73a6a8 # v1
+        uses: jupyterlab/maintainer-tools/.github/actions/inline-playwright-report@21b1cac622018fd37ec13a1c8081da814e10d94e # v1.0.0
         with:
           path: playwright-report
 
       - name: Upload inlined report
         id: upload-report
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           archive: false
           name: notebook-test-report-standalone

@@ -37,6 +37,53 @@ test('should update url when navigating in filebrowser', async ({
   expect(url.pathname).toEqual(`/tree/${tmpPath}/${SUBFOLDER}`);
 });
 
+test('should create a terminal in the current directory', async ({
+  page,
+  tmpPath,
+}) => {
+  const dir = `${tmpPath}/${SUBFOLDER}`;
+  const marker = 'terminal-cwd.txt';
+  await page.contents.createDirectory(dir);
+  await page.filebrowser.refresh();
+  await page.dblclick(`.jp-FileBrowser-listing >> text=${SUBFOLDER}`);
+  await page.waitForSelector(`.jp-FileBrowser-crumbs >> text=/${SUBFOLDER}/`);
+
+  const [terminal] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.menu.clickMenuItem('New>Terminal'),
+  ]);
+
+  const terminalPanel = terminal.locator('.jp-Terminal');
+  await terminalPanel.waitFor();
+  await terminalPanel.locator('.xterm-screen').click();
+  const input = terminalPanel.locator('[aria-label="Terminal input"]');
+  await input.waitFor({ state: 'attached' });
+  await expect(input).toBeFocused();
+  await terminal.keyboard.type(`pwd > ${marker}`);
+  await terminal.keyboard.press('Enter');
+
+  const markerItem = page.locator(`.jp-FileBrowser-listing >> text=${marker}`);
+  await expect
+    .poll(
+      async () => {
+        await page.filebrowser.refresh();
+        return markerItem.count();
+      },
+      { timeout: 10_000 }
+    )
+    .toBeGreaterThan(0);
+  await terminal.close();
+
+  const [editor] = await Promise.all([
+    page.waitForEvent('popup'),
+    markerItem.dblclick(),
+  ]);
+  await expect(editor.locator('.cm-editor .cm-content')).toContainText(
+    `/${dir}`
+  );
+  await editor.close();
+});
+
 test('Should redirect from notebooks route to tree route for directories', async ({
   page,
   tmpPath,
@@ -53,6 +100,28 @@ test('Should redirect from notebooks route to tree route for directories', async
   expect(url.pathname).toEqual(`/tree/${dir}`);
 });
 
+test('should not show a file load error when path contains notebooks', async ({
+  page,
+  tmpPath,
+}) => {
+  const nestedPath = `${tmpPath}/test/notebooks/test`;
+  await page.contents.createDirectory(`${tmpPath}/test`);
+  await page.contents.createDirectory(`${tmpPath}/test/notebooks`);
+  await page.contents.createDirectory(nestedPath);
+
+  await page.goto(`tree/${nestedPath}`);
+  await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/test/');
+  await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/notebooks/');
+  expect(new URL(page.url()).pathname).toEqual(`/tree/${nestedPath}`);
+
+  await page.reload({ waitUntil: 'networkidle' });
+  await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/test/');
+  await page.waitForSelector('.jp-FileBrowser-crumbs >> text=/notebooks/');
+  expect(new URL(page.url()).pathname).toEqual(`/tree/${nestedPath}`);
+
+  await expect(page.locator('text=File Load Error')).toHaveCount(0);
+});
+
 test('Should activate file browser tab', async ({ page, tmpPath }) => {
   await page.goto(`tree/${tmpPath}`);
   await page.locator('.jp-TreePanel >> text="Running"').click();
@@ -63,4 +132,59 @@ test('Should activate file browser tab', async ({ page, tmpPath }) => {
 
   await page.menu.clickMenuItem('View>File Browser');
   await expect(page.locator('#main-panel #filebrowser')).toBeVisible();
+});
+
+test.describe('Toolbar New dropdown', () => {
+  test('New > New Folder should create a new folder', async ({
+    page,
+    tmpPath,
+  }) => {
+    await page.click('.jp-DropdownMenu >> text="New"');
+    await page.click(
+      '.lm-Menu [data-command="filebrowser:create-new-directory"]'
+    );
+
+    // the new folder is created in inline-rename mode, commit the default name
+    await page.waitForSelector('.jp-DirListing-editor');
+    await page.keyboard.press('Enter');
+
+    await expect(
+      page.locator('.jp-DirListing-item >> text="Untitled Folder"')
+    ).toBeVisible();
+    expect(
+      await page.contents.directoryExists(`${tmpPath}/Untitled Folder`)
+    ).toBe(true);
+  });
+
+  test('New > New File should create a new file', async ({ page, tmpPath }) => {
+    await page.click('.jp-DropdownMenu >> text="New"');
+    await page.click('.lm-Menu [data-command="filebrowser:create-new-file"]');
+
+    // the new file is created in inline-rename mode, commit the default name
+    await page.waitForSelector('.jp-DirListing-editor');
+    await page.keyboard.press('Enter');
+
+    await expect(
+      page.locator('.jp-DirListing-item >> text="untitled.txt"')
+    ).toBeVisible();
+    expect(await page.contents.fileExists(`${tmpPath}/untitled.txt`)).toBe(
+      true
+    );
+  });
+
+  test('New > Console should open a new console', async ({ page }) => {
+    await page.click('.jp-DropdownMenu >> text="New"');
+    await page.click('.lm-Menu [data-command="console:create"]');
+
+    // choose the default kernel in the kernel selection dialog
+    const [consolePage] = await Promise.all([
+      page.waitForEvent('popup'),
+      page.click('.jp-Dialog >> text="Select"'),
+    ]);
+    await consolePage.waitForLoadState();
+
+    expect(new URL(consolePage.url()).pathname).toContain('/consoles/');
+    await consolePage.waitForSelector('.jp-CodeConsole');
+    await consolePage.close();
+  });
 });

@@ -49,6 +49,7 @@ import {
   historyIcon,
   LabIcon,
   runningIcon,
+  terminalIcon,
 } from '@jupyterlab/ui-components';
 
 import { CommandRegistry } from '@lumino/commands';
@@ -70,6 +71,9 @@ const FILE_BROWSER_FACTORY = 'FileBrowser';
  * The namespace for command IDs.
  */
 namespace CommandIDs {
+  // Create a terminal in the current file browser directory.
+  export const createNewTerminal = 'filebrowser:create-new-terminal';
+
   // The command to show the filebrowser widget in tree view.
   export const openDirectory = 'filebrowser:open-directory';
 
@@ -90,16 +94,38 @@ const createNew: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:new',
   description:
     'Plugin to add extra commands to the file browser to create new notebooks, files, consoles and terminals.',
-  requires: [ITranslator],
+  requires: [IFileBrowserFactory, ITranslator],
   optional: [IToolbarWidgetRegistry],
   autoStart: true,
   activate: (
     app: JupyterFrontEnd,
+    fileBrowserFactory: IFileBrowserFactory,
     translator: ITranslator,
     toolbarRegistry: IToolbarWidgetRegistry | null
   ) => {
     const { commands, serviceManager } = app;
     const trans = translator.load('notebook');
+
+    commands.addCommand(CommandIDs.createNewTerminal, {
+      label: trans.__('Terminal'),
+      icon: terminalIcon,
+      isEnabled: () => commands.isEnabled('terminal:create-new'),
+      isVisible: () => commands.isVisible('terminal:create-new'),
+      execute: () => {
+        const browser = fileBrowserFactory.tracker.currentWidget;
+        if (browser) {
+          return commands.execute('terminal:create-new', {
+            cwd: browser.model.path,
+          });
+        }
+      },
+      describedBy: {
+        args: {
+          type: 'object',
+          properties: {},
+        },
+      },
+    });
 
     const overflowOptions = {
       overflowMenuOptions: { isVisible: false },
@@ -121,7 +147,7 @@ const createNew: JupyterFrontEndPlugin<void> = {
       }
 
       const baseCommands = [
-        'terminal:create-new',
+        CommandIDs.createNewTerminal,
         'console:create',
         'filebrowser:create-new-file',
         'filebrowser:create-new-directory',
@@ -192,12 +218,18 @@ const fileFilterCommand: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:file-filter-command',
   description: 'A plugin to add file filter command to the palette.',
   autoStart: true,
+  requires: [ITranslator],
   optional: [ICommandPalette],
-  activate: (app: JupyterFrontEnd, palette: ICommandPalette | null) => {
+  activate: (
+    app: JupyterFrontEnd,
+    translator: ITranslator,
+    palette: ICommandPalette | null
+  ) => {
     if (palette) {
+      const trans = translator.load('notebook');
       palette.addItem({
         command: CommandIDs.toggleFileFilter,
-        category: 'File Browser',
+        category: trans.__('File Browser'),
       });
     }
   },

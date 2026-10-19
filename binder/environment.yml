@@ -8,5 +8,5 @@ dependencies:
   - matplotlib
   - numpy
   - nodejs=20
-  - python >=3.10,<3.11
+  - python >=3.11,<3.12
   - xeus-python

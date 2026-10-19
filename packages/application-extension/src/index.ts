@@ -73,7 +73,7 @@ import { Menu, Widget } from '@lumino/widgets';
 /**
  * A regular expression to match path to notebooks and documents
  */
-const TREE_PATTERN = new RegExp('/(notebooks|edit)/(.*)');
+const TREE_PATTERN = new RegExp('^/(notebooks|edit)/(.*)$');
 
 /**
  * A regular expression to suppress the file extension from display for .ipynb files.
@@ -269,9 +269,44 @@ const opener: JupyterFrontEndPlugin<void> = {
           }
 
           const factory = urlParams.get('factory') ?? defaultFactory;
-          docManager.open(file, factory, undefined, {
-            ref: '_noref',
-          });
+          const kernelPreference =
+            urlParams.get('kernel') === 'none'
+              ? { shouldStart: false, shouldReuse: false }
+              : undefined;
+          const widget = docManager.openOrReveal(
+            file,
+            factory,
+            undefined,
+            {
+              ref: '_noref',
+            },
+            kernelPreference
+          );
+
+          if (kernelPreference && widget) {
+            const { sessionContext } = widget.context;
+            /**
+             * `kernel=none` only describes how to open the notebook. Drop it
+             * as soon as a kernel runs, so a reload reconnects to that session.
+             */
+            const clearNoKernelQuery = () => {
+              if (!sessionContext.session?.kernel) {
+                return;
+              }
+
+              const url = new URL(window.location.href);
+              url.searchParams.delete('kernel');
+              window.history.replaceState(
+                window.history.state,
+                '',
+                url.toString()
+              );
+              sessionContext.kernelChanged.disconnect(clearNoKernelQuery);
+            };
+
+            sessionContext.kernelChanged.connect(clearNoKernelQuery);
+            clearNoKernelQuery();
+          }
         });
       },
       describedBy: {
@@ -391,8 +426,14 @@ const pages: JupyterFrontEndPlugin<void> = {
     });
 
     if (palette) {
-      palette.addItem({ command: CommandIDs.openLab, category: 'View' });
-      palette.addItem({ command: CommandIDs.openTree, category: 'View' });
+      palette.addItem({
+        command: CommandIDs.openLab,
+        category: trans.__('View'),
+      });
+      palette.addItem({
+        command: CommandIDs.openTree,
+        category: trans.__('View'),
+      });
     }
   },
 };
@@ -845,7 +886,10 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
     }
 
     if (palette) {
-      palette.addItem({ command: CommandIDs.toggleTop, category: 'View' });
+      palette.addItem({
+        command: CommandIDs.toggleTop,
+        category: trans.__('View'),
+      });
     }
 
     const onChanged = (): void => {
@@ -1073,6 +1117,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
         const sidePanelPalette = new SidePanelPalette({
           commandPalette: palette as ICommandPalette,
           command: CommandIDs.togglePanel,
+          translator,
         });
 
         notebookShell.leftHandler.widgets.forEach((widget) => {
@@ -1292,7 +1337,10 @@ const zen: JupyterFrontEndPlugin<void> = {
     });
 
     if (palette) {
-      palette.addItem({ command: CommandIDs.toggleZen, category: 'Mode' });
+      palette.addItem({
+        command: CommandIDs.toggleZen,
+        category: trans.__('Mode'),
+      });
     }
   },
 };

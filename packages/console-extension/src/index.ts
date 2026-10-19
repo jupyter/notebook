@@ -244,7 +244,7 @@ const scratchpadConsole: JupyterFrontEndPlugin<void> = {
 
     if (palette) {
       palette.addItem({
-        category: 'Notebook Console',
+        category: trans.__('Notebook Console'),
         command,
         args: { isPalette: true },
       });

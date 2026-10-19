@@ -9,4 +9,3 @@ node_modules
 build
 CHANGELOG.md
 app/index.template.js
-.pixi

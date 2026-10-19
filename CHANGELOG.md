@@ -95,6 +95,80 @@ Python 3.9 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.7.0a2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.7.0-alpha.1...773d6a3b54d306fae2a5847058fb12bcca12a2fc))
+
+### Enhancements made
+
+- Defer loading disabled federated extensions during startup [#8056](https://github.com/jupyter/notebook/pull/8056) ([@jtpio](https://github.com/jtpio), [@krassowski](https://github.com/krassowski))
+- Open terminals in the current directory [#8041](https://github.com/jupyter/notebook/pull/8041) ([@jtpio](https://github.com/jtpio), [@brichet](https://github.com/brichet))
+- Enable opening notebooks without a kernel [#8039](https://github.com/jupyter/notebook/pull/8039) ([@jtpio](https://github.com/jtpio), [@Daniele-Cangi](https://github.com/Daniele-Cangi))
+- Show a dialog for the `Help > About Jupyter` menu entry [#8020](https://github.com/jupyter/notebook/pull/8020) ([@jtpio](https://github.com/jtpio), [@Yann-P](https://github.com/Yann-P))
+
+### Bugs fixed
+
+- Scope bundled plugins [#8073](https://github.com/jupyter/notebook/pull/8073) ([@jtpio](https://github.com/jtpio))
+- Fix handling of the CLI flags [#8060](https://github.com/jupyter/notebook/pull/8060) ([@jtpio](https://github.com/jtpio), [@brichet](https://github.com/brichet))
+- Only show the Editor Syntax Highlighting menu in the file editor [#8038](https://github.com/jupyter/notebook/pull/8038) ([@jtpio](https://github.com/jtpio), [@brichet](https://github.com/brichet))
+- Fix expanding the Advanced Tools section in localized UIs [#8037](https://github.com/jupyter/notebook/pull/8037) ([@jtpio](https://github.com/jtpio))
+- Make the kernel status text translatable [#8013](https://github.com/jupyter/notebook/pull/8013) ([@jtpio](https://github.com/jtpio))
+- Fix the shell layout settings schema [#8007](https://github.com/jupyter/notebook/pull/8007) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Remove pixi in favor of the standard Python and JavaScript tooling [#8071](https://github.com/jupyter/notebook/pull/8071) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.7.0a2 [#8070](https://github.com/jupyter/notebook/pull/8070) ([@jtpio](https://github.com/jtpio))
+- CI fixes [#8068](https://github.com/jupyter/notebook/pull/8068) ([@jtpio](https://github.com/jtpio))
+- Upgrade maintainer-tools [#8052](https://github.com/jupyter/notebook/pull/8052) ([@Yann-P](https://github.com/Yann-P), [@Carreau](https://github.com/Carreau))
+- Add more UI tests [#8042](https://github.com/jupyter/notebook/pull/8042) ([@jtpio](https://github.com/jtpio))
+- Stabilize some UI tests [#8036](https://github.com/jupyter/notebook/pull/8036) ([@jtpio](https://github.com/jtpio))
+- Bump `@jupyter/eslint-plugin` to `^1.1.0` [#8034](https://github.com/jupyter/notebook/pull/8034) ([@Darshan808](https://github.com/Darshan808), [@jtpio](https://github.com/jtpio))
+- Add nvd.nist.gov to the check_links ignore list [#8032](https://github.com/jupyter/notebook/pull/8032) ([@jtpio](https://github.com/jtpio))
+- Make more strings translatable [#8029](https://github.com/jupyter/notebook/pull/8029) ([@jtpio](https://github.com/jtpio))
+- Avoid mutating shared server flags [#8028](https://github.com/jupyter/notebook/pull/8028) ([@jtpio](https://github.com/jtpio), [@brichet](https://github.com/brichet))
+- Update pre-commit hooks [#8009](https://github.com/jupyter/notebook/pull/8009) ([@jtpio](https://github.com/jtpio))
+- Fix flaky toggle cell outputs UI test [#8008](https://github.com/jupyter/notebook/pull/8008) ([@jtpio](https://github.com/jtpio))
+- Switch local pre-commit hooks to language: system [#8002](https://github.com/jupyter/notebook/pull/8002) ([@jtpio](https://github.com/jtpio))
+- Import `SettingConnector` from `@jupyterlab/settingregistry` [#8001](https://github.com/jupyter/notebook/pull/8001) ([@jtpio](https://github.com/jtpio), [@brichet](https://github.com/brichet), [@krassowski](https://github.com/krassowski))
+
+### Documentation improvements
+
+- Update 'notebook v7 proposal' link in doc [#8004](https://github.com/jupyter/notebook/pull/8004) ([@brichet](https://github.com/brichet), [@jtpio](https://github.com/jtpio))
+
+### Other merged PRs
+
+- Bump the actions group with 2 updates [#8064](https://github.com/jupyter/notebook/pull/8064) ([@jtpio](https://github.com/jtpio))
+- Bump browserslist from 4.28.2 to 4.28.9 [#8054](https://github.com/jupyter/notebook/pull/8054) ([@jtpio](https://github.com/jtpio))
+- Bump @humanfs/node from 0.16.7 to 0.16.8 [#8053](https://github.com/jupyter/notebook/pull/8053) ([@jtpio](https://github.com/jtpio))
+- Bump fast-uri from 3.1.5 to 3.1.7 in /ui-tests [#8051](https://github.com/jupyter/notebook/pull/8051) ([@Carreau](https://github.com/Carreau), [@jtpio](https://github.com/jtpio))
+- Bump fast-uri from 3.1.2 to 3.1.7 [#8050](https://github.com/jupyter/notebook/pull/8050) ([@Carreau](https://github.com/Carreau))
+- Bump the actions group across 1 directory with 5 updates [#8048](https://github.com/jupyter/notebook/pull/8048) ([@jtpio](https://github.com/jtpio))
+- Bump nanoid from 3.3.17 to 3.3.18 [#8035](https://github.com/jupyter/notebook/pull/8035) ([@jtpio](https://github.com/jtpio))
+- Bump nanoid from 3.3.16 to 3.3.18 in /ui-tests [#8027](https://github.com/jupyter/notebook/pull/8027) ([@jtpio](https://github.com/jtpio))
+- Bump dompurify from 3.4.12 to 3.4.13 [#8024](https://github.com/jupyter/notebook/pull/8024) ([@jtpio](https://github.com/jtpio))
+- Bump dompurify from 3.4.10 to 3.4.13 in /ui-tests [#8023](https://github.com/jupyter/notebook/pull/8023) ([@jtpio](https://github.com/jtpio))
+- Bump postcss from 8.5.10 to 8.5.25 [#8018](https://github.com/jupyter/notebook/pull/8018) ([@jtpio](https://github.com/jtpio))
+- Bump fast-uri from 3.1.2 to 3.1.5 in /ui-tests [#8017](https://github.com/jupyter/notebook/pull/8017) ([@jtpio](https://github.com/jtpio))
+- Bump brace-expansion from 1.1.16 to 1.1.18 [#8012](https://github.com/jupyter/notebook/pull/8012) ([@jtpio](https://github.com/jtpio))
+- Bump brace-expansion from 1.1.16 to 1.1.18 in /ui-tests [#8011](https://github.com/jupyter/notebook/pull/8011) ([@jtpio](https://github.com/jtpio))
+- Bump postcss from 8.5.12 to 8.5.23 in /ui-tests [#7999](https://github.com/jupyter/notebook/pull/7999) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 14 updates [#7998](https://github.com/jupyter/notebook/pull/7998) ([@jtpio](https://github.com/jtpio))
+- Bump dompurify from 3.4.11 to 3.4.12 [#7995](https://github.com/jupyter/notebook/pull/7995) ([@jtpio](https://github.com/jtpio))
+- Bump body-parser from 1.20.3 to 1.20.6 [#7994](https://github.com/jupyter/notebook/pull/7994) ([@jtpio](https://github.com/jtpio))
+- Bump brace-expansion from 1.1.14 to 1.1.16 [#7993](https://github.com/jupyter/notebook/pull/7993) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-07-22&to=2026-09-23&type=c))
+
+@brichet ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2026-07-22..2026-09-23&type=Issues)) | @Carreau ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ACarreau+updated%3A2026-07-22..2026-09-23&type=Issues)) | @Daniele-Cangi ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ADaniele-Cangi+updated%3A2026-07-22..2026-09-23&type=Issues)) | @Darshan808 ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ADarshan808+updated%3A2026-07-22..2026-09-23&type=Issues)) | @defjaf ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adefjaf+updated%3A2026-07-22..2026-09-23&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-07-22..2026-09-23&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2026-07-22..2026-09-23&type=Issues)) | @Yann-P ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AYann-P+updated%3A2026-07-22..2026-09-23&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.7.0a1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.7.0-alpha.0...02b5d3da35516b46d276a110892b88f240518c07))
@@ -121,8 +195,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-07-06&to=2026-07-22&type=c))
 
 @andrii-i ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aandrii-i+updated%3A2026-07-06..2026-07-22&type=Issues)) | @brichet ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2026-07-06..2026-07-22&type=Issues)) | @Copilot ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ACopilot+updated%3A2026-07-06..2026-07-22&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-07-06..2026-07-22&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2026-07-06..2026-07-22&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.7.0a0
 

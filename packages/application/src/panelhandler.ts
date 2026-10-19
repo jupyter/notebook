@@ -317,6 +317,7 @@ export class SidePanelPalette {
   constructor(options: SidePanelPaletteOption) {
     this._commandPalette = options.commandPalette;
     this._command = options.command;
+    this._translator = options.translator ?? nullTranslator;
   }
 
   /**
@@ -343,9 +344,10 @@ export class SidePanelPalette {
     }
 
     // Add a new item in command palette.
+    const trans = this._translator.load('notebook');
     const disposableDelegate = this._commandPalette.addItem({
       command: this._command,
-      category: 'View',
+      category: trans.__('View'),
       args: {
         side: area,
         title: widget.title.caption,
@@ -374,6 +376,7 @@ export class SidePanelPalette {
 
   private _command: string;
   private _commandPalette: ICommandPalette;
+  private _translator: ITranslator;
   private _items: SidePanelPaletteItem[] = [];
 }
 
@@ -413,6 +416,11 @@ type SidePanelPaletteOption = {
    *      id: string, id of the widget to activate
    */
   command: string;
+
+  /**
+   * The application language translator.
+   */
+  translator?: ITranslator;
 };
 
 /**
