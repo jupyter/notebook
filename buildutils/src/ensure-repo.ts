@@ -334,8 +334,10 @@ function ensureResolutions(): string[] {
 
 /**
  * Ensure the repo integrity.
+ *
+ * @returns The changes made, per package.
  */
-async function ensureIntegrity(): Promise<boolean> {
+async function ensureIntegrity(): Promise<{ [key: string]: string[] }> {
   const messages: { [key: string]: string[] } = {};
 
   // Gather the package data.
@@ -427,25 +429,39 @@ async function ensureIntegrity(): Promise<boolean> {
     messages['@jupyter-notebook/app'] = resolutionMessages;
   }
 
-  if (Object.keys(messages).length > 0) {
-    console.debug(JSON.stringify(messages, null, 2));
-    if (process.argv.includes('--force')) {
-      console.debug(
-        '\n\nPlease run `jlpm integrity` locally and commit the changes'
-      );
-      process.exit(1);
-    }
-    run('jlpm');
-    console.debug('\n\nMade integrity changes; please commit the changes');
-    return false;
-  }
+  return messages;
+}
 
-  console.debug('Repo integrity verified!');
-  return true;
+/**
+ * Check the repo integrity, and fix it unless `--force` is passed.
+ */
+async function main(): Promise<void> {
+  let messages = await ensureIntegrity();
+  if (Object.keys(messages).length === 0) {
+    console.debug('Repo integrity verified!');
+    return;
+  }
+  console.debug(JSON.stringify(messages, null, 2));
+  if (process.argv.includes('--force')) {
+    console.debug(
+      '\n\nPlease run `jlpm integrity` locally and commit the changes'
+    );
+    process.exit(1);
+  }
+  // A change can call for another one, e.g. a newly added dependency must be
+  // installed and have its styles imported, so iterate until the repo is stable.
+  for (let pass = 0; pass < 3 && Object.keys(messages).length > 0; pass++) {
+    run('jlpm');
+    messages = await ensureIntegrity();
+    if (Object.keys(messages).length > 0) {
+      console.debug(JSON.stringify(messages, null, 2));
+    }
+  }
+  console.debug('\n\nMade integrity changes; please commit the changes');
 }
 
 if (require.main === module) {
-  void ensureIntegrity().catch((e) => {
+  void main().catch((e) => {
     process.exitCode = 1;
     console.error(e);
   });
