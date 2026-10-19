@@ -195,7 +195,7 @@ const interfaceSwitcher: JupyterFrontEndPlugin<void> = {
       if (palette) {
         palette.addItem({
           command,
-          category: 'Other',
+          category: trans.__('Other'),
           args: { isPalette: true },
         });
       }

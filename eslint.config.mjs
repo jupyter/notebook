@@ -64,8 +64,16 @@ export default defineConfig([
     },
     rules: {
       'jupyter/command-described-by': 'error',
+      'jupyter/command-id-convention': 'error',
+      'jupyter/no-schema-enum': 'error',
       'jupyter/plugin-activation-args': 'error',
       'jupyter/plugin-description': 'error',
+      'jupyter/plugin-id-convention': 'error',
+      'jupyter/prefer-lazy-imports': [
+        'error',
+        // Notebook packages are always loaded at startup.
+        { ignoreImports: ['@jupyter-notebook/*'] },
+      ],
       'jupyter/token-format': 'error',
       'jupyter/no-translation-concatenation': 'error',
       'jupyter/no-dynamic-translation': 'error',
@@ -99,6 +107,13 @@ export default defineConfig([
       curly: ['error', 'all'],
       eqeqeq: 'error',
       'prefer-arrow-callback': 'error',
+    },
+  },
+  {
+    files: ['ui-tests/test/**/*.ts', 'ui-tests/test/**/*.tsx'],
+    rules: {
+      'jupyter/galata-prefer-context-menu-helper': 'error',
+      'jupyter/galata-prefer-menu-helper': 'error',
     },
   },
   {

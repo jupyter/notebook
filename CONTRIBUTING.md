@@ -7,7 +7,7 @@ for a friendly and welcoming collaborative environment.
 
 ## Setting up a development environment
 
-You will need Python (3.10 or later) and [NodeJS](https://nodejs.org/) to build the extension package.
+You will need Python (3.11 or later) and [NodeJS](https://nodejs.org/) to build the extension package.
 Any tool can be used to create the environment, for example `venv`, `uv`, or `conda` / `mamba`.
 
 The `jlpm` command is Jupyter's pinned version of [yarn](https://yarnpkg.com/) that is installed with Jupyter Builder. You may use

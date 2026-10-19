@@ -77,7 +77,7 @@ import { Menu, Widget } from '@lumino/widgets';
 /**
  * A regular expression to match path to notebooks and documents
  */
-const TREE_PATTERN = new RegExp('/(notebooks|edit)/(.*)');
+const TREE_PATTERN = new RegExp('^/(notebooks|edit)/(.*)$');
 
 /**
  * A regular expression to suppress the file extension from display for .ipynb files.
@@ -430,8 +430,14 @@ const pages: JupyterFrontEndPlugin<void> = {
     });
 
     if (palette) {
-      palette.addItem({ command: CommandIDs.openLab, category: 'View' });
-      palette.addItem({ command: CommandIDs.openTree, category: 'View' });
+      palette.addItem({
+        command: CommandIDs.openLab,
+        category: trans.__('View'),
+      });
+      palette.addItem({
+        command: CommandIDs.openTree,
+        category: trans.__('View'),
+      });
     }
   },
 };
@@ -884,7 +890,10 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
     }
 
     if (palette) {
-      palette.addItem({ command: CommandIDs.toggleTop, category: 'View' });
+      palette.addItem({
+        command: CommandIDs.toggleTop,
+        category: trans.__('View'),
+      });
     }
 
     const onChanged = (): void => {
@@ -1112,6 +1121,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
         const sidePanelPalette = new SidePanelPalette({
           commandPalette: palette as ICommandPalette,
           command: CommandIDs.togglePanel,
+          translator,
         });
 
         notebookShell.leftHandler.widgets.forEach((widget) => {
@@ -1331,7 +1341,10 @@ const zen: JupyterFrontEndPlugin<void> = {
     });
 
     if (palette) {
-      palette.addItem({ command: CommandIDs.toggleZen, category: 'Mode' });
+      palette.addItem({
+        command: CommandIDs.toggleZen,
+        category: trans.__('Mode'),
+      });
     }
   },
 };

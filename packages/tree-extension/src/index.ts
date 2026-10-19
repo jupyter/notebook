@@ -206,12 +206,18 @@ const fileFilterCommand: JupyterFrontEndPlugin<void> = {
   id: '@jupyter-notebook/tree-extension:file-filter-command',
   description: 'A plugin to add file filter command to the palette.',
   autoStart: true,
+  requires: [ITranslator],
   optional: [ICommandPalette],
-  activate: (app: JupyterFrontEnd, palette: ICommandPalette | null) => {
+  activate: (
+    app: JupyterFrontEnd,
+    translator: ITranslator,
+    palette: ICommandPalette | null
+  ) => {
     if (palette) {
+      const trans = translator.load('notebook');
       palette.addItem({
         command: CommandIDs.toggleFileFilter,
-        category: 'File Browser',
+        category: trans.__('File Browser'),
       });
     }
   },
