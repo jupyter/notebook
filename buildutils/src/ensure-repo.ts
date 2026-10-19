@@ -246,6 +246,40 @@ function getPackageGraph(
 }
 
 /**
+ * Get the version range of the installed JupyterLab packages that no local
+ * package depends on yet.
+ *
+ * `ensurePackage()` looks up the `latest` npm tag of a dependency that is not
+ * declared anywhere in the repo, which does not match the JupyterLab
+ * prerelease the repo is pinned to. The installed version does, since all the
+ * `@jupyterlab/*` packages resolve to the same release.
+ */
+function getInstalledLabVersions(pkgData: { [key: string]: any }): {
+  [key: string]: string;
+} {
+  const declared = new Set<string>();
+  Object.values(pkgData).forEach((data) => {
+    Object.keys({ ...data.dependencies, ...data.devDependencies }).forEach(
+      (name) => declared.add(name)
+    );
+  });
+  const versions: { [key: string]: string } = {};
+  const labDir = path.resolve('node_modules', '@jupyterlab');
+  if (!fs.existsSync(labDir)) {
+    return versions;
+  }
+  fs.readdirSync(labDir).forEach((dir) => {
+    const name = `@jupyterlab/${dir}`;
+    const pkgJsonPath = path.join(labDir, dir, 'package.json');
+    if (declared.has(name) || !fs.existsSync(pkgJsonPath)) {
+      return;
+    }
+    versions[name] = `~${readJSONFile(pkgJsonPath).version}`;
+  });
+  return versions;
+}
+
+/**
  * Ensure the root eslint config only imports declared devDependencies.
  */
 function ensureRootDevDependencies(): string[] {
@@ -361,7 +395,7 @@ async function ensureIntegrity(): Promise<boolean> {
   });
 
   // Validate each package.
-  const depCache: { [key: string]: string } = {};
+  const depCache = getInstalledLabVersions(pkgData);
   for (const name of Object.keys(locals)) {
     if (SKIP_PACKAGES.includes(name)) {
       continue;
