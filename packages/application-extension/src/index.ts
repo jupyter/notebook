@@ -75,9 +75,9 @@ import {
 import { Menu, Widget } from '@lumino/widgets';
 
 /**
- * A regular expression to match path to notebooks and documents
+ * A regular expression to match the notebook and editor routes
  */
-const TREE_PATTERN = new RegExp('^/(notebooks|edit)/(.*)$');
+const DOCUMENT_PATTERN = new RegExp('^/(notebooks|edit)/(.*)$');
 
 /**
  * A regular expression to suppress the file extension from display for .ipynb files.
@@ -236,7 +236,7 @@ const opener: JupyterFrontEndPlugin<void> = {
     commands.addCommand(command, {
       execute: (args: any) => {
         const parsed = args as IRouter.ILocation;
-        const matches = parsed.path.match(TREE_PATTERN) ?? [];
+        const matches = parsed.path.match(DOCUMENT_PATTERN) ?? [];
         const [, , path] = matches;
         if (!path) {
           return;
@@ -331,7 +331,7 @@ const opener: JupyterFrontEndPlugin<void> = {
       },
     });
 
-    router.register({ command, pattern: TREE_PATTERN });
+    router.register({ command, pattern: DOCUMENT_PATTERN });
   },
 };
 
@@ -794,7 +794,7 @@ const title: JupyterFrontEndPlugin<void> = {
           if (!router) {
             return;
           }
-          const matches = router.current.path.match(TREE_PATTERN) ?? [];
+          const matches = router.current.path.match(DOCUMENT_PATTERN) ?? [];
           const [, route, path] = matches;
           if (!route || !path) {
             return;
