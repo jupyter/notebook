@@ -41,7 +41,7 @@ const opener: JupyterFrontEndPlugin<void> = {
   description: 'A plugin to open consoles in a new tab',
   activate: (app: JupyterFrontEnd, router: IRouter) => {
     const { commands } = app;
-    const consolePattern = new RegExp('/consoles/(.*)');
+    const consolePattern = new RegExp('^/consoles/(.*)$');
 
     const command = 'router:console';
     commands.addCommand(command, {

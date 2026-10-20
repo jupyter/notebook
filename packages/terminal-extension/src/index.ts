@@ -32,7 +32,7 @@ const opener: JupyterFrontEndPlugin<void> = {
     tracker: ITerminalTracker
   ) => {
     const { commands } = app;
-    const terminalPattern = new RegExp('/terminals/(.*)');
+    const terminalPattern = new RegExp('^/terminals/(.*)$');
 
     const command = 'router:terminal';
     commands.addCommand(command, {
