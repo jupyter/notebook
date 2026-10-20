@@ -236,6 +236,12 @@ class NotebookRecentsManager implements IRecentsManager {
     document: Omit<RecentDocument, 'root'>,
     event: 'opened' | 'closed'
   ): void {
+    // Only track documents: the document manager also records the parent
+    // directory of each document it opens, but directories are not listed
+    // anywhere in Notebook and would only take up space in the bounded list.
+    if (document.contentType === 'directory') {
+      return;
+    }
     // Read the shared list first so concurrent changes from other pages are
     // not lost.
     const recents = Private.loadRecents();
@@ -450,7 +456,21 @@ namespace Private {
   let lastRecents: RecentsDatabase = { opened: [], closed: [] };
 
   /**
+   * Whether a value loaded from the local storage is a usable recent document.
+   */
+  function isRecentDocument(value: unknown): value is StampedRecentDocument {
+    return (
+      typeof value === 'object' &&
+      value !== null &&
+      typeof (value as RecentDocument).path === 'string'
+    );
+  }
+
+  /**
    * Load the recent documents from the local storage.
+   *
+   * Malformed entries are dropped, so a stale or corrupted value does not
+   * break the recent documents on every page.
    */
   export function loadRecents(): RecentsDatabase {
     const raw = loadRaw();
@@ -462,8 +482,12 @@ namespace Private {
       try {
         const data = JSON.parse(raw);
         recents = {
-          opened: Array.isArray(data.opened) ? data.opened : [],
-          closed: Array.isArray(data.closed) ? data.closed : [],
+          opened: Array.isArray(data.opened)
+            ? data.opened.filter(isRecentDocument)
+            : [],
+          closed: Array.isArray(data.closed)
+            ? data.closed.filter(isRecentDocument)
+            : [],
         };
       } catch (error) {
         console.warn('Failed to parse the recent documents', error);

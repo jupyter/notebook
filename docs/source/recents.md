@@ -43,3 +43,18 @@ settings overrides:
   }
 }
 ```
+
+## Disabling the feature
+
+The recent documents are provided by separate plugins, which can be disabled
+like any other plugin. For example, to remove the `Recents` tab from the main
+page, open a terminal and run the following command:
+
+```shell
+jupyter labextension disable @jupyter-notebook/tree-extension:recents
+```
+
+Disabling `@jupyterlab/mainmenu-extension:recents` removes the
+`File > Open Recent` submenu instead, and disabling
+`@jupyter-notebook/docmanager-extension:recents` stops recording the recent
+documents altogether.

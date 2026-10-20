@@ -203,6 +203,26 @@ test.describe('Recents', () => {
       await expect(page.locator('.jp-Notebook')).toBeVisible();
     });
 
+    test('should list only documents in the File > Open Recent menu of the tree page', async ({
+      page,
+      tmpPath,
+    }) => {
+      await page.goto(`tree/${tmpPath}`);
+
+      const submenu = (await page.menu.openLocator(
+        'File>Open Recent'
+      )) as Locator;
+
+      // The notebook is listed, but not its parent directory, which the
+      // document manager also reports as recently opened.
+      await expect(
+        submenu.locator('.lm-Menu-item', { hasText: NOTEBOOK })
+      ).toBeVisible();
+      await expect(
+        submenu.locator('.lm-Menu-item', { hasText: tmpPath })
+      ).toHaveCount(1);
+    });
+
     test('should clear the recents from the File > Open Recent menu', async ({
       page,
       tmpPath,

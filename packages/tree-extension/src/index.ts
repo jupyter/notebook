@@ -471,11 +471,9 @@ function addRecentlyOpenedSessionManager(
     name: trans.__('Recently Opened'),
     supportsMultipleViews: false,
     running: () => {
-      // Only list documents, not the parent directories that are also recorded
-      // as recently opened by the document manager.
-      return recentsManager.recentlyOpened
-        .filter((recent) => recent.contentType !== 'directory')
-        .map((recent) => new RecentItem(recent));
+      return recentsManager.recentlyOpened.map(
+        (recent) => new RecentItem(recent)
+      );
     },
     shutdownAll: () => {
       for (const recent of recentsManager.recentlyOpened) {
