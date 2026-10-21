@@ -1,0 +1,22 @@
+<style>
+  #bd-docs-nav .bd-sidenav li:not(:has(> ul)) > .toctree-toggle {
+    display: none;
+  }
+  #bd-docs-nav .toctree-l1 > a {
+    font-weight: bold;
+  }
+</style>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="{{ _('Documentation Contents') }}">
+  <div class="bd-toc-item navbar-nav">
+    {{ generate_toctree_html(
+      "sidebar",
+      startdepth=0,
+      show_nav_level=4,
+      maxdepth=4,
+      collapse=False,
+      includehidden=True,
+      titles_only=True
+    ) }}
+  </div>
+</nav>
