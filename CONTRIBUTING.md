@@ -210,7 +210,7 @@ jlpm build:utils
 jlpm integrity
 ```
 
-A dependency that is only used for its styles, or whose styles must not be imported, is listed in `UNUSED` or `SKIP_CSS` in `buildutils/src/ensure-repo.ts`.
+The script fails when it finds a problem it cannot fix, such as a dependency that is declared but not imported. A dependency that is only used for its styles, or whose styles must not be imported, is listed in `UNUSED` or `SKIP_CSS` in `buildutils/src/ensure-repo.ts`.
 
 ## Documentation
 
