@@ -6,7 +6,7 @@ import {
   JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
-import { PathExt, URLExt } from '@jupyterlab/coreutils';
+import { URLExt } from '@jupyterlab/coreutils';
 
 import { IDocumentWidgetOpener } from '@jupyterlab/docmanager';
 
@@ -51,12 +51,13 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
 
         if (ref !== '_noref' && userLayoutArea === undefined) {
           const path = widget.context.path;
-          const ext = PathExt.extname(path);
+          const defaultFactory = docRegistry.defaultWidgetFactory(path);
           let route = 'edit';
-          if (
-            (widgetName === 'default' && ext === '.ipynb') ||
-            widgetName.includes('Notebook')
-          ) {
+          const factory =
+            widgetName === 'default'
+              ? defaultFactory
+              : docRegistry.getWidgetFactory(widgetName);
+          if (factory?.modelName === 'notebook') {
             // make sure to save the notebook before opening it in a new tab
             // so the kernel info is saved (if created from the New dropdown)
             if (widget.context.sessionContext.kernelPreference.name) {
@@ -65,7 +66,6 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
             route = 'notebooks';
           }
           // append ?factory only if it's not the default
-          const defaultFactory = docRegistry.defaultWidgetFactory(path);
           let searchParams = undefined;
           if (widgetName !== defaultFactory.name) {
             searchParams = new URLSearchParams({
