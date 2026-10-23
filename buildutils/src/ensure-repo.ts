@@ -391,7 +391,7 @@ function ensureResolutions(): string[] {
 /**
  * Ensure the repo integrity.
  *
- * @returns The changes made, per package.
+ * @returns The changes made and the problems found, per package.
  */
 async function ensureIntegrity(): Promise<{ [key: string]: string[] }> {
   const messages: { [key: string]: string[] } = {};
@@ -515,6 +515,14 @@ async function main(): Promise<void> {
     if (Object.keys(messages).length > 0) {
       console.debug(JSON.stringify(messages, null, 2));
     }
+  }
+  // Some problems are only reported, e.g. an unused dependency, so the
+  // command must fail rather than claim that the repo was fixed.
+  if (Object.keys(messages).length > 0) {
+    console.debug(
+      '\n\nSome integrity problems could not be fixed automatically; please fix them and run `jlpm integrity` again'
+    );
+    process.exit(1);
   }
   console.debug('\n\nMade integrity changes; please commit the changes');
 }
