@@ -280,6 +280,62 @@ function getInstalledLabVersions(pkgData: { [key: string]: any }): {
 }
 
 /**
+ * Directories that `ensurePackage()` never writes to.
+ */
+const SKIP_DIRS = ['lib', 'node_modules'];
+
+/**
+ * Read the files of a package, keyed by their path relative to the package.
+ *
+ * `ensurePackage()` rewrites some files without reporting it (the
+ * `tsconfig.json` references, the `@packageDocumentation` header of the entry
+ * point...), so the files are compared before and after calling it.
+ */
+function readPackageFiles(pkgPath: string): Map<string, string> {
+  const files = new Map<string, string>();
+  const visit = (dir: string): void => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const entryPath = path.join(dir, entry.name);
+      if (entry.isDirectory()) {
+        if (!SKIP_DIRS.includes(entry.name)) {
+          visit(entryPath);
+        }
+      } else if (entry.isFile()) {
+        files.set(
+          path.relative(pkgPath, entryPath),
+          fs.readFileSync(entryPath, 'utf8')
+        );
+      }
+    }
+  };
+  visit(pkgPath);
+  return files;
+}
+
+/**
+ * List the files that changed between two snapshots of a package and are not
+ * already mentioned in the messages returned by `ensurePackage()`.
+ */
+function getUnreportedChanges(
+  before: Map<string, string>,
+  after: Map<string, string>,
+  reported: string[]
+): string[] {
+  const messages: string[] = [];
+  const files = [...new Set([...before.keys(), ...after.keys()])].sort();
+  for (const file of files) {
+    if (
+      before.get(file) === after.get(file) ||
+      reported.some((message) => message.includes(file))
+    ) {
+      continue;
+    }
+    messages.push(`${after.has(file) ? 'Updated' : 'Removed'} ${file}`);
+  }
+  return messages;
+}
+
+/**
  * Ensure the root eslint config only imports declared devDependencies.
  */
 function ensureRootDevDependencies(): string[] {
@@ -413,7 +469,10 @@ async function ensureIntegrity(): Promise<{ [key: string]: string[] }> {
       cssModuleImports: cssModuleImports[name],
       differentVersions: DIFFERENT_VERSIONS,
     };
+    const before = readPackageFiles(pkgPaths[name]);
     const pkgMessages = await ensurePackage(options);
+    const after = readPackageFiles(pkgPaths[name]);
+    pkgMessages.push(...getUnreportedChanges(before, after, pkgMessages));
     if (pkgMessages.length > 0) {
       messages[name] = pkgMessages;
     }
