@@ -2689,7 +2689,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/application@npm:^4.6.4 || ~4.7.0-alpha.2, @jupyterlab/application@npm:^4.7.0-alpha.2, @jupyterlab/application@npm:~4.7.0-alpha.2":
+"@jupyterlab/application@npm:^4.5.7 || ~4.7.0-alpha.2, @jupyterlab/application@npm:^4.7.0-alpha.2, @jupyterlab/application@npm:~4.7.0-alpha.2":
   version: 4.7.0-alpha.2
   resolution: "@jupyterlab/application@npm:4.7.0-alpha.2"
   dependencies:
@@ -2872,7 +2872,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/cells@npm:^4.6.4 || ~4.7.0-alpha.2, @jupyterlab/cells@npm:^4.7.0-alpha.2, @jupyterlab/cells@npm:~4.7.0-alpha.2":
+"@jupyterlab/cells@npm:^4.5.7 || ~4.7.0-alpha.2, @jupyterlab/cells@npm:^4.7.0-alpha.2, @jupyterlab/cells@npm:~4.7.0-alpha.2":
   version: 4.7.0-alpha.2
   resolution: "@jupyterlab/cells@npm:4.7.0-alpha.2"
   dependencies:
@@ -3992,7 +3992,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/notebook@npm:^4.6.4 || ~4.7.0-alpha.2, @jupyterlab/notebook@npm:^4.7.0-alpha.2, @jupyterlab/notebook@npm:~4.7.0-alpha.2":
+"@jupyterlab/notebook@npm:^4.5.7 || ~4.7.0-alpha.2, @jupyterlab/notebook@npm:^4.7.0-alpha.2, @jupyterlab/notebook@npm:~4.7.0-alpha.2":
   version: 4.7.0-alpha.2
   resolution: "@jupyterlab/notebook@npm:4.7.0-alpha.2"
   dependencies:
@@ -4285,7 +4285,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/settingregistry@npm:^4.6.4 || ~4.7.0-alpha.2, @jupyterlab/settingregistry@npm:^4.7.0-alpha.2, @jupyterlab/settingregistry@npm:~4.7.0-alpha.2":
+"@jupyterlab/settingregistry@npm:^4.5.7 || ~4.7.0-alpha.2, @jupyterlab/settingregistry@npm:^4.7.0-alpha.2, @jupyterlab/settingregistry@npm:~4.7.0-alpha.2":
   version: 4.7.0-alpha.2
   resolution: "@jupyterlab/settingregistry@npm:4.7.0-alpha.2"
   dependencies:
@@ -4582,7 +4582,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/translation@npm:^4.6.4 || ~4.7.0-alpha.2, @jupyterlab/translation@npm:^4.7.0-alpha.2, @jupyterlab/translation@npm:~4.7.0-alpha.2":
+"@jupyterlab/translation@npm:^4.5.7 || ~4.7.0-alpha.2, @jupyterlab/translation@npm:^4.7.0-alpha.2, @jupyterlab/translation@npm:~4.7.0-alpha.2":
   version: 4.7.0-alpha.2
   resolution: "@jupyterlab/translation@npm:4.7.0-alpha.2"
   dependencies:
@@ -13223,11 +13223,11 @@ __metadata:
   resolution: "neat-notebook@workspace:packages/neat-notebook"
   dependencies:
     "@jupyter/builder": ^1.2.4
-    "@jupyterlab/application": ^4.6.4 || ~4.7.0-alpha.2
-    "@jupyterlab/cells": ^4.6.4 || ~4.7.0-alpha.2
-    "@jupyterlab/notebook": ^4.6.4 || ~4.7.0-alpha.2
-    "@jupyterlab/settingregistry": ^4.6.4 || ~4.7.0-alpha.2
-    "@jupyterlab/translation": ^4.6.4 || ~4.7.0-alpha.2
+    "@jupyterlab/application": ^4.5.7 || ~4.7.0-alpha.2
+    "@jupyterlab/cells": ^4.5.7 || ~4.7.0-alpha.2
+    "@jupyterlab/notebook": ^4.5.7 || ~4.7.0-alpha.2
+    "@jupyterlab/settingregistry": ^4.5.7 || ~4.7.0-alpha.2
+    "@jupyterlab/translation": ^4.5.7 || ~4.7.0-alpha.2
     "@lumino/widgets": ^2.7.2
     "@playwright/test": 1.63.0
     "@types/json-schema": ^7.0.11

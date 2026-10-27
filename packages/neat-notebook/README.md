@@ -6,22 +6,44 @@ settings. There is no server extension, kernel integration, or external service.
 
 ## Install the built extension
 
-Requires Notebook 7.6.3+ or JupyterLab 4.6.4+ (not Notebook 6).
+Requires Notebook 7.5.6+ or JupyterLab 4.5.7+ (not Notebook 6).
 Install the wheel into the environment that runs your Jupyter server:
 
 ```sh
-python -m pip install dist/neat_notebook-0.1.0-py3-none-any.whl
+python -m pip install dist/neat_notebook-0.1.2-py3-none-any.whl
 jupyter labextension list
 ```
 
 Restart Jupyter and reload the browser. End users do not need Node.js or a
 JupyterLab rebuild. This project has not been published to PyPI or npm.
 
+### Repair an installation of 0.1.0 on Notebook 7.5
+
+Version 0.1.0 required JupyterLab 4.6.4 and could upgrade it beyond Notebook 7.5's
+supported range. Versions 0.1.1 and later correct both the Python dependency and the
+frontend's shared-package compatibility ranges. To restore the original
+Notebook 7.5.6 / JupyterLab 4.5.7 combination, install the corrected wheel and
+restore JupyterLab in the same transaction:
+
+```sh
+python -m pip install 'jupyterlab==4.5.7' dist/neat_notebook-0.1.2-py3-none-any.whl
+python -m pip check
+```
+
+Restart Jupyter afterward. Do not reinstall the 0.1.0 wheel or use `--no-deps`
+to hide the conflict.
+
 ## Use
 
 Select a cell in command or edit mode. Its ribbon stays at the top of the visible
 part of that cell and occupies a separate row above the input, leaving the
 existing cell-action toolbar untouched.
+
+While a code cell is running, the ribbon stays with that cell even when
+`Shift+Enter`, `Alt+Enter`, or the Run button advances selection. Queuing another
+cell does not displace it. When execution ends, the ribbon follows the next
+running cell, or the selected cell if none are running. Selection and editor
+focus remain controlled by Jupyter.
 
 - Click the task label to edit it. Enter or blur saves; Escape cancels. Clear the
   label to restore its automatic name.

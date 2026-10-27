@@ -99,9 +99,9 @@ test('should create a terminal in the current directory', async ({
     page.waitForEvent('popup'),
     markerItem.dblclick(),
   ]);
-  await expect(editor.locator('.cm-editor .cm-content')).toContainText(
-    `/${dir}`
-  );
+  const content = editor.locator('.cm-editor .cm-content');
+  await content.waitFor();
+  await expect(content).toContainText(`/${dir}`);
   await editor.close();
 });
 

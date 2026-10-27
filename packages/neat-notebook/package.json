@@ -1,6 +1,6 @@
 {
   "name": "neat-notebook",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "A lightweight active-cell inspector for Jupyter Notebook 7 and JupyterLab 4.",
   "license": "BSD-3-Clause",
   "keywords": [
@@ -34,11 +34,11 @@
     "test:types": "tsc -p ui-tests/tsconfig.json"
   },
   "dependencies": {
-    "@jupyterlab/application": "^4.6.4 || ~4.7.0-alpha.2",
-    "@jupyterlab/cells": "^4.6.4 || ~4.7.0-alpha.2",
-    "@jupyterlab/notebook": "^4.6.4 || ~4.7.0-alpha.2",
-    "@jupyterlab/settingregistry": "^4.6.4 || ~4.7.0-alpha.2",
-    "@jupyterlab/translation": "^4.6.4 || ~4.7.0-alpha.2",
+    "@jupyterlab/application": "^4.5.7 || ~4.7.0-alpha.2",
+    "@jupyterlab/cells": "^4.5.7 || ~4.7.0-alpha.2",
+    "@jupyterlab/notebook": "^4.5.7 || ~4.7.0-alpha.2",
+    "@jupyterlab/settingregistry": "^4.5.7 || ~4.7.0-alpha.2",
+    "@jupyterlab/translation": "^4.5.7 || ~4.7.0-alpha.2",
     "@lumino/widgets": "^2.7.2"
   },
   "devDependencies": {

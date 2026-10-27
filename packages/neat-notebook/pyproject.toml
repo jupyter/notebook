@@ -9,7 +9,7 @@ readme = "README.md"
 license = "BSD-3-Clause"
 license-files = ["LICENSE"]
 requires-python = ">=3.11"
-dependencies = ["jupyterlab>=4.6.4,<5"]
+dependencies = ["jupyterlab>=4.5.7,<5"]
 dynamic = ["version"]
 classifiers = [
     "Framework :: Jupyter",
@@ -19,7 +19,7 @@ classifiers = [
 ]
 
 [project.optional-dependencies]
-notebook = ["notebook>=7.6.3,<8"]
+notebook = ["notebook>=7.5.6,<8"]
 test = ["pytest>=8", "pytest-xdist"]
 
 [tool.hatch.version]

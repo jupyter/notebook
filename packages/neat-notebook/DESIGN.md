@@ -48,7 +48,7 @@ colors, alternate fonts, custom scrollbars, or decorative motion.
 
 ## Layout and interaction
 
-The active cell owns one sticky row above its input wrapper. It never overlays
+The inspected cell owns one sticky row above its input wrapper. It never overlays
 the editor or changes the action toolbar. Use the existing prompt gutter on
 desktop. At 760px and below, use a 6px gap and a details disclosure for secondary
 information. Flex wrapping is content-driven, not forced by a breakpoint: one
@@ -70,8 +70,11 @@ Only state transitions enter the polite live region, not per-second timer ticks.
 
 ## Boundaries and failure states
 
-Only the currently tracked notebook's active cell displays a ribbon. Switching
-cells or tabs, deleting a cell, disabling the setting, and disposing a notebook
+Only the currently tracked notebook displays a ribbon. The running cell retains
+it while Jupyter advances selection or queues another cell; execution does not
+change focus or selection. On completion, error, or interruption, ownership
+passes to the next running cell, or the selected cell if none are running.
+Switching tabs, deleting a cell, disabling the setting, and disposing a notebook
 must remove the previous widget and timer. Timing stays in memory and is not
 written to the document. Kernel errors remain owned and displayed by Jupyter;
 the ribbon reports the model's execution state rather than inventing a new error

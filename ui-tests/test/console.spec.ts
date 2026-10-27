@@ -7,6 +7,8 @@ import { Locator } from '@playwright/test';
 
 import type { ICodeCellModel } from '@jupyterlab/cells';
 
+import type { ConsolePanel } from '@jupyterlab/console';
+
 import type { NotebookPanel } from '@jupyterlab/notebook';
 
 import path from 'path';
@@ -73,6 +75,7 @@ test.describe('ScratchPad', () => {
     tmpPath,
     browserName,
   }) => {
+    test.slow();
     await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
     await waitForNotebook(page, browserName);
     const cellInput = page
@@ -95,6 +98,14 @@ test.describe('ScratchPad', () => {
     const input = console.locator(
       '.jp-CodeConsole-input >> .cm-editor >> .cm-content[contenteditable="true"]'
     );
+    await console.waitFor();
+    await page.evaluate(async () => {
+      const panel = Array.from(window.jupyterapp.shell.widgets('right')).find(
+        (widget) => widget.hasClass('jp-ConsolePanel')
+      ) as ConsolePanel;
+      await panel.sessionContext.ready;
+      await panel.sessionContext.session?.kernel?.info;
+    });
     await input.fill('print(a)');
     await input.press('Shift+Enter');
 

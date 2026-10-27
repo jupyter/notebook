@@ -1,6 +1,7 @@
 import { expect, test as base } from '@playwright/test';
 import type { APIRequestContext, Page } from '@playwright/test';
 import type { JupyterFrontEnd, LabShell } from '@jupyterlab/application';
+import type { ICodeCellModel } from '@jupyterlab/cells';
 import type { NotebookPanel } from '@jupyterlab/notebook';
 import { randomUUID } from 'crypto';
 
@@ -39,6 +40,7 @@ async function ready(page: Page): Promise<void> {
     await panel.revealed;
     await panel.context.ready;
     await panel.sessionContext.ready;
+    await panel.sessionContext.session?.kernel?.info;
     await Promise.all(panel.content.widgets.map((cell) => cell.ready));
   });
 }
@@ -336,6 +338,124 @@ test('real execution timing freezes, modified state and reload fallback', async 
   expect(notebook.errors).toEqual([]);
 });
 
+for (const shortcut of ['Shift+Enter', 'Alt+Enter', 'Run button']) {
+  test(`${shortcut} keeps the ribbon on the running cell until completion`, async ({
+    page,
+    notebook,
+  }) => {
+    if (shortcut === 'Shift+Enter') {
+      await page.setViewportSize({ width: 600, height: 900 });
+    }
+    await editor(page).fill('# Slow task\nimport time\ntime.sleep(4)\n42');
+    const runningCell = cells(page).nth(1);
+    if (shortcut === 'Run button') {
+      await page
+        .getByRole('button', { name: /^Run this cell and advance/ })
+        .click();
+    } else {
+      await editor(page).press(shortcut);
+    }
+    await expect(cells(page).nth(2)).toHaveClass(/jp-mod-active/);
+    await expect(runningCell.locator('.jp-CellInspector')).toHaveCount(1);
+    await expect(task(page)).toHaveText('Slow task');
+    await expect(
+      inspector(page).locator('.jp-CellInspector-executionStatus')
+    ).toHaveText('[*] Running');
+    await expect(inspector(page).locator('.jp-CellInspector-timer')).toHaveText(
+      /00:0[1-9]/
+    );
+    await expect(
+      inspector(page).locator('.jp-CellInspector-cursor')
+    ).toBeHidden();
+    await expect(inspector(page)).toHaveCount(1);
+    await expect(cells(page).nth(2).locator('.jp-CellInspector')).toHaveCount(
+      1
+    );
+    await expect(runningCell.locator('.jp-CellInspector')).toHaveCount(0);
+    await runningCell.click();
+    await expect(task(page)).toHaveText('Slow task');
+    await expect(
+      inspector(page).locator('.jp-CellInspector-executionStatus')
+    ).toHaveText(/\[\d+\] Executed in/);
+    expect(notebook.errors).toEqual([]);
+  });
+}
+
+test('queued execution does not displace the current run', async ({
+  page,
+  notebook,
+}) => {
+  await cells(page).first().click();
+  await page.evaluate(async () => {
+    const app = (window as unknown as { jupyterapp: JupyterFrontEnd })
+      .jupyterapp;
+    await app.commands.execute('notebook:change-cell-to-code');
+  });
+  await editor(page, 0).fill('# Second request\nimport time\ntime.sleep(3)');
+  await editor(page).fill('# First request\nimport time\ntime.sleep(5)');
+  await editor(page).press('Shift+Enter');
+  await expect(cells(page).nth(1).locator('.jp-CellInspector')).toHaveCount(1);
+
+  // Queue an earlier cell: notebook order must not override the current run.
+  await editor(page, 0).press('Shift+Enter');
+  await expect(task(page)).toHaveText('First request');
+  await expect(cells(page).nth(1)).toHaveClass(/jp-mod-active/);
+  await expect(cells(page).nth(1).locator('.jp-CellInspector')).toHaveCount(1);
+  await expect(cells(page).first().locator('.jp-InputPrompt')).toHaveText(
+    '[*]:'
+  );
+  await expect(task(page)).toHaveText('Second request');
+  await expect(cells(page).first().locator('.jp-CellInspector')).toHaveCount(1);
+  await expect(inspector(page)).toHaveCount(1);
+  await expect(task(page)).toHaveText('First request');
+  await expect(
+    inspector(page).locator('.jp-CellInspector-executionStatus')
+  ).toHaveText(/\[\d+\] Executed in/);
+  expect(notebook.errors).toEqual([]);
+});
+
+for (const outcome of ['error', 'interrupt']) {
+  test(`${outcome} releases the running cell ribbon`, async ({
+    page,
+    notebook,
+  }) => {
+    await editor(page).fill(
+      outcome === 'error'
+        ? 'import time\ntime.sleep(3)\nraise ValueError("test failure")'
+        : 'import time\nprint("neat-ready", flush=True)\ntime.sleep(60)'
+    );
+    await editor(page).press('Shift+Enter');
+    await expect(cells(page).nth(1).locator('.jp-CellInspector')).toHaveCount(
+      1
+    );
+    await expect(inspector(page).locator('.jp-CellInspector-timer')).toHaveText(
+      /00:0[1-9]/
+    );
+    if (outcome === 'interrupt') {
+      await expect(
+        cells(page).nth(1).locator('.jp-OutputArea-output').first()
+      ).toContainText('neat-ready');
+      await page.evaluate(async () => {
+        const app = (window as unknown as { jupyterapp: JupyterFrontEnd })
+          .jupyterapp;
+        const panel = app.shell.currentWidget as NotebookPanel;
+        await panel.sessionContext.session!.kernel!.interrupt();
+      });
+    }
+    await expect(cells(page).last().locator('.jp-CellInspector')).toHaveCount(
+      1
+    );
+    await expect(inspector(page)).toHaveCount(1);
+    await expect(
+      inspector(page).locator('.jp-CellInspector-executionStatus')
+    ).toHaveText('Non-executable');
+    await expect(
+      cells(page).nth(1).locator('.jp-OutputArea-output').last()
+    ).toContainText(outcome === 'error' ? 'ValueError' : 'KeyboardInterrupt');
+    expect(notebook.errors).toEqual([]);
+  });
+}
+
 test('cursor, conditional wrapping, keyboard disclosure, themes and print', async ({
   page,
   notebook,
@@ -431,10 +551,12 @@ test('hidden input, deleting a running cell and notebook disposal', async ({
     (app.shell.currentWidget as NotebookPanel).content.activeCell!.inputHidden =
       false;
   });
-  await editor(page).press('ControlOrMeta+Enter');
+  await editor(page).press('Shift+Enter');
   await expect(
     inspector(page).locator('.jp-CellInspector-executionStatus')
   ).toHaveText('[*] Running');
+  await expect(cells(page).last()).toHaveClass(/jp-mod-active/);
+  await expect(cells(page).nth(1).locator('.jp-CellInspector')).toHaveCount(1);
   await page.evaluate(() => {
     const app = (window as unknown as { jupyterapp: JupyterFrontEnd })
       .jupyterapp;
@@ -443,6 +565,33 @@ test('hidden input, deleting a running cell and notebook disposal', async ({
   });
   await expect(cells(page)).toHaveCount(2);
   await expect(inspector(page)).toHaveCount(1);
+  await page.evaluate(() => {
+    const app = (window as unknown as { jupyterapp: JupyterFrontEnd })
+      .jupyterapp;
+    (app.shell.currentWidget as NotebookPanel).dispose();
+  });
+  await expect(inspector(page)).toHaveCount(0);
+  expect(notebook.errors).toEqual([]);
+});
+
+test('disposing a notebook removes its pinned running ribbon', async ({
+  page,
+  notebook,
+}) => {
+  // Isolate widget/timer disposal from the host debugger's busy-kernel teardown.
+  await page.evaluate(async () => {
+    const app = (window as unknown as { jupyterapp: JupyterFrontEnd })
+      .jupyterapp;
+    const panel = app.shell.currentWidget as NotebookPanel;
+    await panel.sessionContext.session?.kernel?.info;
+    (panel.content.widgets[1].model as ICodeCellModel).executionState =
+      'running';
+    panel.content.activeCellIndex = 2;
+  });
+  await expect(cells(page).nth(1).locator('.jp-CellInspector')).toHaveCount(1);
+  await expect(inspector(page).locator('.jp-CellInspector-timer')).toHaveText(
+    /00:0[1-9]/
+  );
   await page.evaluate(() => {
     const app = (window as unknown as { jupyterapp: JupyterFrontEnd })
       .jupyterapp;

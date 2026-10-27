@@ -5,10 +5,31 @@ from importlib.metadata import distribution
 from pathlib import Path
 
 import neat_notebook
+from packaging.requirements import Requirement
 
 
 def test_version():
-    assert neat_notebook.__version__ == distribution("neat-notebook").version == "0.1.0"
+    assert neat_notebook.__version__ == distribution("neat-notebook").version == "0.1.2"
+
+
+def test_supported_host_dependencies():
+    requirements = {
+        requirement.name: requirement
+        for value in distribution("neat-notebook").requires or []
+        if (requirement := Requirement(value)).name in {"jupyterlab", "notebook"}
+    }
+    lab = requirements["jupyterlab"]
+    assert lab.marker is None
+    assert "4.5.7" in lab.specifier
+    assert "4.6.4" in lab.specifier
+    assert "5.0.0" not in lab.specifier
+    notebook = requirements["notebook"]
+    assert notebook.marker is not None
+    assert notebook.marker.evaluate({"extra": "notebook"})
+    assert not notebook.marker.evaluate({"extra": ""})
+    assert "7.5.6" in notebook.specifier
+    assert "7.6.3" in notebook.specifier
+    assert "8.0.0" not in notebook.specifier
 
 
 def test_discovery():

@@ -514,9 +514,10 @@ class CellInspectorManager {
       const codeModel = model as ICodeCellModel;
       const handler = () => {
         this._updateTiming(codeModel);
-        if (this._notebook.activeCell?.model === model) {
+        if (this._inspectedCell?.model === model) {
           this._inspector?.refreshExecution();
         }
+        void this._showInspector();
       };
       this._modelHandlers.set(model, handler);
       model.stateChanged.connect(handler);
@@ -538,9 +539,30 @@ class CellInspectorManager {
     this._timings.set(model.id, timing);
   }
 
+  private get _targetCell(): Cell | null {
+    if (!this._enabled) {
+      return null;
+    }
+    const cells = this._notebook.widgets;
+    const isRunning = (cell: Cell) =>
+      !cell.isDisposed &&
+      cell instanceof CodeCell &&
+      cell.model?.executionState === 'running';
+
+    // Keep the current run pinned, even when another cell is queued or selected.
+    if (
+      this._inspectedCell &&
+      cells.includes(this._inspectedCell) &&
+      isRunning(this._inspectedCell)
+    ) {
+      return this._inspectedCell;
+    }
+    return cells.find(isRunning) ?? this._notebook.activeCell;
+  }
+
   private async _showInspector(force = false): Promise<void> {
     const request = ++this._showRequest;
-    const cell = this._enabled ? this._notebook.activeCell : null;
+    const cell = this._targetCell;
 
     if (!cell) {
       this._inspector?.dispose();
@@ -563,7 +585,7 @@ class CellInspectorManager {
       this._disposed ||
       cell.isDisposed ||
       request !== this._showRequest ||
-      this._notebook.activeCell !== cell ||
+      this._targetCell !== cell ||
       !this._enabled
     ) {
       return;
