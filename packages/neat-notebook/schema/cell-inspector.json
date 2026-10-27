@@ -1,0 +1,14 @@
+{
+  "title": "Neat Notebook",
+  "description": "A lightweight information ribbon for the active notebook cell.",
+  "properties": {
+    "enabled": {
+      "type": "boolean",
+      "title": "Show Active Cell Inspector",
+      "description": "Whether to show an information ribbon above the active notebook cell.",
+      "default": true
+    }
+  },
+  "additionalProperties": false,
+  "type": "object"
+}

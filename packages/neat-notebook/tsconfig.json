@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "composite": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "incremental": true,
+    "lib": ["DOM", "DOM.Iterable", "ES2018", "ES2020.Intl"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "noEmitOnError": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "outDir": "lib",
+    "rootDir": "src",
+    "strict": true,
+    "target": "ES2018",
+    "types": []
+  },
+  "include": ["src/**/*.ts"]
+}

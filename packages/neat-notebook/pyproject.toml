@@ -1,0 +1,53 @@
+[build-system]
+requires = ["hatchling>=1.27", "hatch-nodejs-version>=0.3.2", "jupyter-builder>=1.2.4,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "neat-notebook"
+description = "A lightweight active-cell inspector for Jupyter Notebook 7 and JupyterLab 4."
+readme = "README.md"
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
+requires-python = ">=3.11"
+dependencies = ["jupyterlab>=4.6.4,<5"]
+dynamic = ["version"]
+classifiers = [
+    "Framework :: Jupyter",
+    "Framework :: Jupyter :: JupyterLab :: 4",
+    "Framework :: Jupyter :: JupyterLab :: Extensions :: Prebuilt",
+    "Programming Language :: Python :: 3",
+]
+
+[project.optional-dependencies]
+notebook = ["notebook>=7.6.3,<8"]
+test = ["pytest>=8", "pytest-xdist"]
+
+[tool.hatch.version]
+source = "nodejs"
+
+[tool.hatch.build.hooks.version]
+path = "neat_notebook/_version.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["neat_notebook"]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"neat_notebook/labextension" = "share/jupyter/labextensions/neat-notebook"
+"install.json" = "share/jupyter/labextensions/neat-notebook/install.json"
+
+[tool.hatch.build.targets.sdist]
+artifacts = ["neat_notebook/labextension", "neat_notebook/_version.py"]
+exclude = ["node_modules", "lib", "dist", "test-results", "playwright-report", "*.tsbuildinfo"]
+
+[tool.hatch.build.hooks.jupyter-builder]
+dependencies = ["hatch-jupyter-builder>=0.10"]
+build-function = "hatch_jupyter_builder.npm_builder"
+ensured-targets = ["neat_notebook/labextension/package.json", "neat_notebook/labextension/static/style.js"]
+skip-if-exists = ["neat_notebook/labextension/static/style.js"]
+
+[tool.hatch.build.hooks.jupyter-builder.build-kwargs]
+build_cmd = "build:prod"
+npm = ["jlpm"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

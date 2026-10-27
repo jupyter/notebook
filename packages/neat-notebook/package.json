@@ -1,0 +1,88 @@
+{
+  "name": "neat-notebook",
+  "version": "0.1.0",
+  "description": "A lightweight active-cell inspector for Jupyter Notebook 7 and JupyterLab 4.",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "jupyter",
+    "jupyterlab-extension",
+    "notebook",
+    "cells"
+  ],
+  "packageManager": "yarn@3.5.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "style": "style/index.css",
+  "styleModule": "style/index.js",
+  "sideEffects": [
+    "style/*.css",
+    "style/index.js"
+  ],
+  "files": [
+    "lib",
+    "src",
+    "style",
+    "schema",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "jlpm build:lib && jupyter-builder build --development True .",
+    "build:lib": "tsc -b",
+    "build:prod": "jlpm build:lib && jupyter-builder build .",
+    "test:ui": "playwright test",
+    "test:types": "tsc -p ui-tests/tsconfig.json"
+  },
+  "dependencies": {
+    "@jupyterlab/application": "^4.6.4 || ~4.7.0-alpha.2",
+    "@jupyterlab/cells": "^4.6.4 || ~4.7.0-alpha.2",
+    "@jupyterlab/notebook": "^4.6.4 || ~4.7.0-alpha.2",
+    "@jupyterlab/settingregistry": "^4.6.4 || ~4.7.0-alpha.2",
+    "@jupyterlab/translation": "^4.6.4 || ~4.7.0-alpha.2",
+    "@lumino/widgets": "^2.7.2"
+  },
+  "devDependencies": {
+    "@jupyter/builder": "^1.2.4",
+    "@playwright/test": "1.63.0",
+    "@types/json-schema": "^7.0.11",
+    "@types/node": "^22.0.0",
+    "typescript": "~5.9.3"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
+  },
+  "jupyterlab": {
+    "extension": true,
+    "schemaDir": "schema",
+    "outputDir": "neat_notebook/labextension",
+    "disabledExtensions": [
+      "@jupyter-notebook/notebook-extension:cell-inspector"
+    ],
+    "sharedPackages": {
+      "@jupyterlab/application": {
+        "singleton": true,
+        "bundled": false
+      },
+      "@jupyterlab/cells": {
+        "singleton": true,
+        "bundled": false
+      },
+      "@jupyterlab/notebook": {
+        "singleton": true,
+        "bundled": false
+      },
+      "@jupyterlab/settingregistry": {
+        "singleton": true,
+        "bundled": false
+      },
+      "@jupyterlab/translation": {
+        "singleton": true,
+        "bundled": false
+      },
+      "@lumino/widgets": {
+        "singleton": true,
+        "bundled": false
+      }
+    }
+  }
+}

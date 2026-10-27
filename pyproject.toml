@@ -285,6 +285,7 @@ ignore = [
 # F841 Local variable `foo` is assigned to but never used
 # ASYNC230 Async functions should not open files with blocking methods like `open`
 "tests/*" = ["S101", "F841", "ARG", "PTH", "ASYNC230"]
+"packages/neat-notebook/tests/*" = ["S101"]
 "docs/source/conf.py" = ["PTH"]
 "ui-tests/test/jupyter_server_config.py" = ["F821"]
 "*.ipynb" = ["E402", "B018", "E501", "T201", "RET"]

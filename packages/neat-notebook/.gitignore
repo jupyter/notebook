@@ -1,0 +1,5 @@
+neat_notebook/labextension/
+neat_notebook/_version.py
+test-results/
+playwright-report/
+.yarn/

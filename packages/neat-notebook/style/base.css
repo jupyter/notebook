@@ -1,0 +1,170 @@
+/* Copyright (c) Jupyter Development Team. BSD-3-Clause. */
+/* Active cell inspector */
+
+.jp-Notebook .jp-CellInspector {
+  position: sticky;
+  z-index: 5;
+  top: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  box-sizing: border-box;
+  min-height: 28px;
+  margin: 0 0 4px
+    calc(
+      var(--jp-cell-prompt-width) + var(--jp-cell-collapser-width, 0px) +
+        var(--jp-code-padding)
+    );
+  padding: 2px 8px;
+  border: 1px solid var(--jp-border-color1);
+  border-inline-start: 3px solid var(--jp-brand-color1);
+  border-radius: var(--jp-border-radius);
+  background: var(--jp-layout-color2);
+  box-shadow: var(--jp-elevation-z2);
+  color: var(--jp-ui-font-color1);
+  font-family: var(--jp-ui-font-family);
+  font-size: var(--jp-ui-font-size0);
+  line-height: 20px;
+}
+
+.jp-Notebook .jp-CellInspector-item {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.jp-Notebook .jp-CellInspector-item:not(:first-child)::before {
+  content: '·';
+  margin-right: 8px;
+  color: var(--jp-ui-font-color3);
+}
+
+.jp-Notebook .jp-CellInspector-task {
+  flex: 1 1 auto;
+  min-width: 4em;
+  overflow: hidden;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--jp-brand-color1);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: text;
+}
+
+.jp-Notebook .jp-CellInspector-task:disabled {
+  color: var(--jp-ui-font-color1);
+  cursor: default;
+}
+
+.jp-Notebook .jp-CellInspector-taskInput {
+  flex: 1 1 auto;
+  min-width: 4em;
+  height: 22px;
+  padding: 0 4px;
+  border: 1px solid var(--jp-brand-color1);
+  border-radius: 2px;
+  background: var(--jp-input-background);
+  color: var(--jp-ui-font-color0);
+  font: inherit;
+}
+
+.jp-Notebook .jp-CellInspector-task:focus-visible,
+.jp-Notebook .jp-CellInspector-detailsButton:focus-visible {
+  outline: 2px solid var(--jp-brand-color1);
+  outline-offset: 1px;
+}
+
+.jp-Notebook .jp-CellInspector-type {
+  color: var(--jp-ui-font-color2);
+  font-size: var(--jp-ui-font-size0);
+  letter-spacing: 0.04em;
+}
+
+.jp-Notebook .jp-CellInspector-cursorLine {
+  display: none;
+}
+
+.jp-Notebook .jp-CellInspector-execution {
+  margin-left: auto;
+  color: var(--jp-ui-font-color1);
+  font-variant-numeric: tabular-nums;
+}
+
+.jp-Notebook .jp-CellInspector.jp-mod-running .jp-CellInspector-execution {
+  color: var(--jp-info-color1);
+  font-weight: 600;
+}
+
+.jp-Notebook .jp-CellInspector.jp-mod-modified .jp-CellInspector-execution {
+  color: var(--jp-warn-color1);
+  font-weight: 600;
+}
+
+.jp-Notebook .jp-CellInspector-detailsButton {
+  display: none;
+  flex: 0 0 auto;
+  height: 22px;
+  padding: 0 4px;
+  border: 0;
+  border-radius: 2px;
+  background: transparent;
+  color: var(--jp-ui-font-color1);
+  font: inherit;
+  cursor: pointer;
+}
+
+.jp-Notebook .jp-CellInspector-details {
+  position: absolute;
+  z-index: 7;
+  top: calc(100% + 2px);
+  right: 0;
+  padding: 4px 8px;
+  border: 1px solid var(--jp-border-color2);
+  border-radius: var(--jp-border-radius);
+  background: var(--jp-layout-color0);
+  box-shadow: var(--jp-elevation-z4);
+  color: var(--jp-ui-font-color1);
+  white-space: nowrap;
+}
+
+@media only screen and (max-width: 760px) {
+  .jp-Notebook .jp-CellInspector {
+    gap: 6px;
+    margin-left: var(--jp-code-padding);
+    padding-right: 4px;
+  }
+
+  .jp-Notebook .jp-CellInspector-task {
+    min-width: min(12em, 100%);
+  }
+
+  .jp-Notebook .jp-CellInspector-secondary {
+    display: none;
+  }
+
+  .jp-Notebook .jp-CellInspector-detailsButton {
+    display: block;
+  }
+
+  .jp-Notebook .jp-CellInspector-item:not(:first-child)::before {
+    margin-right: 6px;
+  }
+
+  .jp-Notebook .jp-CellInspector-cursorFull {
+    display: none;
+  }
+
+  .jp-Notebook .jp-CellInspector-cursorLine {
+    display: inline;
+  }
+}
+
+@media print {
+  .jp-Notebook .jp-CellInspector {
+    display: none;
+  }
+}
