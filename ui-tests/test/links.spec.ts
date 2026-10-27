@@ -21,9 +21,14 @@ test.describe('Local Links', () => {
   test('Open the current directory', async ({ page, tmpPath }) => {
     await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
 
+    const currentDirectoryLink = page
+      .getByRole('link', { name: 'Current Directory', exact: true })
+      .last();
+    await expect(currentDirectoryLink).toHaveAttribute('href', /\/files\//);
+
     const [current] = await Promise.all([
       page.waitForEvent('popup'),
-      page.getByText('Current Directory').last().click(),
+      currentDirectoryLink.click(),
     ]);
 
     await current.waitForLoadState();

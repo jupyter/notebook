@@ -6,7 +6,7 @@ import {
   JupyterFrontEndPlugin,
 } from '@jupyterlab/application';
 
-import { PageConfig, PathExt, URLExt } from '@jupyterlab/coreutils';
+import { PathExt, URLExt } from '@jupyterlab/coreutils';
 
 import { IDocumentWidgetOpener } from '@jupyterlab/docmanager';
 
@@ -35,7 +35,7 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
     notebookPathOpener: INotebookPathOpener | null,
     notebookShell: INotebookShell | null
   ) => {
-    const baseUrl = PageConfig.getBaseUrl();
+    const baseUrl = app.serviceManager.serverSettings.baseUrl;
     const docRegistry = app.docRegistry;
     const pathOpener = notebookPathOpener ?? defaultNotebookPathOpener;
     let id = 0;
@@ -71,6 +71,17 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
             searchParams = new URLSearchParams({
               factory: widgetName,
             });
+          }
+          // Require both flags: `notebookStartsKernel=False` only sets
+          // `shouldStart: false` and must still reuse a running session.
+          if (
+            route === 'notebooks' &&
+            widget.context.sessionContext.kernelPreference.shouldStart ===
+              false &&
+            widget.context.sessionContext.kernelPreference.shouldReuse === false
+          ) {
+            searchParams ??= new URLSearchParams();
+            searchParams.set('kernel', 'none');
           }
 
           pathOpener.open({

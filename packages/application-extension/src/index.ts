@@ -71,9 +71,9 @@ import {
 import { Menu, Widget } from '@lumino/widgets';
 
 /**
- * A regular expression to match path to notebooks and documents
+ * A regular expression to match the notebook and editor routes
  */
-const TREE_PATTERN = new RegExp('/(notebooks|edit)/(.*)');
+const DOCUMENT_PATTERN = new RegExp('^/(notebooks|edit)/(.*)$');
 
 /**
  * A regular expression to suppress the file extension from display for .ipynb files.
@@ -190,7 +190,7 @@ const logo: JupyterFrontEndPlugin<void> = {
   description: 'The logo plugin.',
   autoStart: true,
   activate: (app: JupyterFrontEnd) => {
-    const baseUrl = PageConfig.getBaseUrl();
+    const baseUrl = app.serviceManager.serverSettings.baseUrl;
     const node = document.createElement('a');
     node.href = `${baseUrl}tree`;
     node.target = '_blank';
@@ -232,7 +232,7 @@ const opener: JupyterFrontEndPlugin<void> = {
     commands.addCommand(command, {
       execute: (args: any) => {
         const parsed = args as IRouter.ILocation;
-        const matches = parsed.path.match(TREE_PATTERN) ?? [];
+        const matches = parsed.path.match(DOCUMENT_PATTERN) ?? [];
         const [, , path] = matches;
         if (!path) {
           return;
@@ -269,9 +269,44 @@ const opener: JupyterFrontEndPlugin<void> = {
           }
 
           const factory = urlParams.get('factory') ?? defaultFactory;
-          docManager.open(file, factory, undefined, {
-            ref: '_noref',
-          });
+          const kernelPreference =
+            urlParams.get('kernel') === 'none'
+              ? { shouldStart: false, shouldReuse: false }
+              : undefined;
+          const widget = docManager.openOrReveal(
+            file,
+            factory,
+            undefined,
+            {
+              ref: '_noref',
+            },
+            kernelPreference
+          );
+
+          if (kernelPreference && widget) {
+            const { sessionContext } = widget.context;
+            /**
+             * `kernel=none` only describes how to open the notebook. Drop it
+             * as soon as a kernel runs, so a reload reconnects to that session.
+             */
+            const clearNoKernelQuery = () => {
+              if (!sessionContext.session?.kernel) {
+                return;
+              }
+
+              const url = new URL(window.location.href);
+              url.searchParams.delete('kernel');
+              window.history.replaceState(
+                window.history.state,
+                '',
+                url.toString()
+              );
+              sessionContext.kernelChanged.disconnect(clearNoKernelQuery);
+            };
+
+            sessionContext.kernelChanged.connect(clearNoKernelQuery);
+            clearNoKernelQuery();
+          }
         });
       },
       describedBy: {
@@ -292,7 +327,7 @@ const opener: JupyterFrontEndPlugin<void> = {
       },
     });
 
-    router.register({ command, pattern: TREE_PATTERN });
+    router.register({ command, pattern: DOCUMENT_PATTERN });
   },
 };
 
@@ -357,7 +392,7 @@ const pages: JupyterFrontEndPlugin<void> = {
     palette: ICommandPalette | null
   ): void => {
     const trans = translator.load('notebook');
-    const baseUrl = PageConfig.getBaseUrl();
+    const baseUrl = app.serviceManager.serverSettings.baseUrl;
 
     app.commands.addCommand(CommandIDs.openLab, {
       label: trans.__('Open JupyterLab'),
@@ -391,8 +426,14 @@ const pages: JupyterFrontEndPlugin<void> = {
     });
 
     if (palette) {
-      palette.addItem({ command: CommandIDs.openLab, category: 'View' });
-      palette.addItem({ command: CommandIDs.openTree, category: 'View' });
+      palette.addItem({
+        command: CommandIDs.openLab,
+        category: trans.__('View'),
+      });
+      palette.addItem({
+        command: CommandIDs.openTree,
+        category: trans.__('View'),
+      });
     }
   },
 };
@@ -464,7 +505,7 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
           return docManager.services.contents
             .get(path, { content: false })
             .then((model) => {
-              const baseUrl = PageConfig.getBaseUrl();
+              const baseUrl = app.serviceManager.serverSettings.baseUrl;
               opener.open({
                 prefix: URLExt.join(baseUrl, 'tree'),
                 path: model.path,
@@ -749,7 +790,7 @@ const title: JupyterFrontEndPlugin<void> = {
           if (!router) {
             return;
           }
-          const matches = router.current.path.match(TREE_PATTERN) ?? [];
+          const matches = router.current.path.match(DOCUMENT_PATTERN) ?? [];
           const [, route, path] = matches;
           if (!route || !path) {
             return;
@@ -845,7 +886,10 @@ const topVisibility: JupyterFrontEndPlugin<void> = {
     }
 
     if (palette) {
-      palette.addItem({ command: CommandIDs.toggleTop, category: 'View' });
+      palette.addItem({
+        command: CommandIDs.toggleTop,
+        category: trans.__('View'),
+      });
     }
 
     const onChanged = (): void => {
@@ -889,7 +933,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
      * id, widget ID to activate in the side panel
      */
     app.commands.addCommand(CommandIDs.togglePanel, {
-      label: (args) => args['title'] as string,
+      label: (args) => trans.__('Show %1', args['title'] as string),
       caption: (args) => {
         // We do not substitute the parameter into the string because the parameter is not
         // localized (e.g., it is always 'left') even though the string is localized.
@@ -976,7 +1020,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
             },
             title: {
               type: 'string',
-              description: 'The title shown for the side panel entry.',
+              description: 'The title of the side panel widget.',
             },
             id: {
               type: 'string',
@@ -998,41 +1042,42 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
      *
      * @param area - 'left' or 'right', the area of the side panel.
      * @param entryLabel - the name of the main entry in the View menu for that side panel.
-     * @returns - The disposable menu added to the View menu or null.
      */
     const updateMenu = (area: SidePanel.Area, entryLabel: string) => {
       if (menu === null) {
-        return null;
+        return;
       }
 
       // Remove the previous menu entry for this side panel.
       sidePanelMenu[area]?.dispose();
+      sidePanelMenu[area] = null;
+
+      // Nothing to add to the View menu if the side panel has no widget.
+      const widgets = Array.from(notebookShell.widgets(area));
+      if (widgets.length === 0) {
+        return;
+      }
 
       // Creates a new menu entry and populates it with side panel widgets.
       const newMenu = new Menu({ commands: app.commands });
       newMenu.title.label = entryLabel;
-      const widgets = notebookShell.widgets(area);
-      let menuToAdd = false;
 
       for (const widget of widgets) {
         newMenu.addItem({
           command: CommandIDs.togglePanel,
           args: {
             side: area,
-            title: `Show ${widget.title.caption}`,
+            title: widget.title.caption,
             id: widget.id,
           },
         });
-        menuToAdd = true;
       }
 
-      // If there are widgets, add the menu to the main menu entry.
-      if (menuToAdd) {
-        sidePanelMenu[area] = menu.viewMenu.addItem({
-          type: 'submenu',
-          submenu: newMenu,
-        });
-      }
+      // Add the menu to the main menu entry.
+      sidePanelMenu[area] = menu.viewMenu.addItem({
+        type: 'submenu',
+        submenu: newMenu,
+      });
     };
 
     app.restored.then(() => {
@@ -1072,6 +1117,7 @@ const sidePanelVisibility: JupyterFrontEndPlugin<void> = {
         const sidePanelPalette = new SidePanelPalette({
           commandPalette: palette as ICommandPalette,
           command: CommandIDs.togglePanel,
+          translator,
         });
 
         notebookShell.leftHandler.widgets.forEach((widget) => {
@@ -1291,7 +1337,10 @@ const zen: JupyterFrontEndPlugin<void> = {
     });
 
     if (palette) {
-      palette.addItem({ command: CommandIDs.toggleZen, category: 'Mode' });
+      palette.addItem({
+        command: CommandIDs.toggleZen,
+        category: trans.__('Mode'),
+      });
     }
   },
 };

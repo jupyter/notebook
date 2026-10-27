@@ -20,19 +20,33 @@
   "definitions": {
     "layout": {
       "type": "object",
-      "properties": {
+      "patternProperties": {
         "[\\w-]+": {
           "type": "object",
           "properties": {
             "area": {
+              "type": "string",
               "oneOf": [
+                { "const": "main", "title": "Main" },
+                { "const": "top", "title": "Top" },
+                { "const": "menu", "title": "Menu" },
                 { "const": "left", "title": "Left" },
-                { "const": "right", "title": "Right" }
+                { "const": "right", "title": "Right" },
+                { "const": "down", "title": "Down" }
               ]
+            },
+            "options": {
+              "$ref": "#/definitions/options"
             }
           },
           "additionalProperties": false
         }
+      }
+    },
+    "options": {
+      "type": "object",
+      "properties": {
+        "rank": { "type": "number", "minimum": 0 }
       }
     }
   }

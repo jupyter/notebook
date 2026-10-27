@@ -27,7 +27,6 @@ export default defineConfig([
       '.idea/**',
       '.history/**',
       '.vscode/**',
-      '.pixi/**',
       '.venv/**',
       'docs/**',
       '**/*.js',
@@ -65,11 +64,27 @@ export default defineConfig([
     },
     rules: {
       'jupyter/command-described-by': 'error',
+      'jupyter/command-id-convention': 'error',
+      'jupyter/no-schema-enum': 'error',
       'jupyter/plugin-activation-args': 'error',
       'jupyter/plugin-description': 'error',
+      'jupyter/plugin-id-convention': 'error',
+      'jupyter/prefer-lazy-imports': [
+        'error',
+        // Notebook packages are always loaded at startup.
+        { ignoreImports: ['@jupyter-notebook/*'] },
+      ],
       'jupyter/token-format': 'error',
       'jupyter/no-translation-concatenation': 'error',
+      'jupyter/no-dynamic-translation': 'error',
+      'jupyter/incorrect-translator-usage': 'error',
       'jupyter/no-untranslated-string': 'error',
+      'jupyter/no-pageconfig-base-url': 'error',
+      'jupyter/require-signal-cleanup': 'error',
+      'jupyter/require-signal-this-arg': 'error',
+      'jupyter/prefer-signal-this-arg': 'error',
+      'jupyter/require-disposable-ownership': 'warn',
+      'jupyter/require-disposable-transfer': 'warn',
       'jupyter/require-soft-assertions-before-snapshots': 'error',
       '@typescript-eslint/naming-convention': [
         'error',
@@ -92,6 +107,13 @@ export default defineConfig([
       curly: ['error', 'all'],
       eqeqeq: 'error',
       'prefer-arrow-callback': 'error',
+    },
+  },
+  {
+    files: ['ui-tests/test/**/*.ts', 'ui-tests/test/**/*.tsx'],
+    rules: {
+      'jupyter/galata-prefer-context-menu-helper': 'error',
+      'jupyter/galata-prefer-menu-helper': 'error',
     },
   },
   {

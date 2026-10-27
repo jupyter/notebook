@@ -8,17 +8,16 @@ import typing as t
 from pathlib import Path
 
 from jupyter_client.utils import ensure_async  # type:ignore[attr-defined]
-from jupyter_core.application import base_aliases
 from jupyter_core.paths import jupyter_config_dir
 from jupyter_server.base.handlers import JupyterHandler
 from jupyter_server.extension.handler import (
     ExtensionHandlerJinjaMixin,
     ExtensionHandlerMixin,
 )
-from jupyter_server.serverapp import flags
+from jupyter_server.serverapp import ServerApp, flags
 from jupyter_server.utils import url_escape, url_is_absolute
 from jupyter_server.utils import url_path_join as ujoin
-from jupyterlab.commands import (  # type:ignore[import-untyped]
+from jupyterlab.commands import (
     get_app_dir,
     get_user_settings_dir,
     get_workspaces_dir,
@@ -83,6 +82,7 @@ class NotebookBaseHandler(ExtensionHandlerJinjaMixin, ExtensionHandlerMixin, Jup
             else:
                 page_config["preferredPath"] = "/"
         except Exception:
+            self.log.debug("Failed to compute preferred path", exc_info=True)
             page_config["preferredPath"] = "/"
 
         mathjax_config = self.settings.get("mathjax_config", "TeX-AMS_HTML-full,Safe")
@@ -239,9 +239,6 @@ class CustomCssHandler(NotebookBaseHandler):
             return self.write(css_f.read())
 
 
-aliases = dict(base_aliases)
-
-
 class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[misc]
     """The notebook server extension app."""
 
@@ -271,7 +268,7 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
         """,
     )
 
-    flags: Flags = flags  # type:ignore[assignment]
+    flags: Flags = dict(flags)  # type:ignore[assignment]
     flags["expose-app-in-browser"] = (
         {"JupyterNotebookApp": {"expose_app_in_browser": True}},
         "Expose the global app instance to browser via window.jupyterapp.",
@@ -304,11 +301,11 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
 
     @default("user_settings_dir")
     def _default_user_settings_dir(self) -> str:
-        return t.cast(str, get_user_settings_dir())
+        return get_user_settings_dir()
 
     @default("workspaces_dir")
     def _default_workspaces_dir(self) -> str:
-        return t.cast(str, get_workspaces_dir())
+        return get_workspaces_dir()
 
     def _prepare_templates(self) -> None:
         super(LabServerApp, self)._prepare_templates()
@@ -357,6 +354,16 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
         self.handlers.append(("/terminals/(.*)", TerminalHandler))
         self.handlers.append(("/custom/custom.css", CustomCssHandler))
         super().initialize_handlers()
+
+    @classmethod
+    def make_serverapp(cls, **kwargs: t.Any) -> ServerApp:
+        """
+        Add the notebook flags to the server that parses the command line,
+        because jupyter_server merges only the extension aliases.
+        """
+        serverapp = super().make_serverapp(**kwargs)
+        serverapp.flags.update(cls.flags)  # type:ignore[arg-type]
+        return serverapp
 
     def initialize(self, argv: list[str] | None = None) -> None:  # noqa: ARG002
         """Subclass because the ExtensionApp.initialize() method does not take arguments"""

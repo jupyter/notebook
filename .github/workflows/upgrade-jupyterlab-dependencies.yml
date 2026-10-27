@@ -45,7 +45,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install Node
-        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v6
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v6
         with:
           node-version: '20.x'
 
@@ -91,17 +91,6 @@ jobs:
           cd ui-tests
           jlpm
           jlpm deduplicate
-
-      - uses: prefix-dev/setup-pixi@a09b6247153796b190642a2b53fac4241043cf6f # v0.10.0
-        if: steps.detect-changes.outputs.has_changes == 'true'
-        with:
-          pixi-version: v0.41.4
-          manifest-path: pyproject.toml
-          locked: false
-
-      - name: Update pixi.lock
-        if: steps.detect-changes.outputs.has_changes == 'true'
-        run: pixi install
 
       - name: Create a PR
         if: steps.detect-changes.outputs.has_changes == 'true'

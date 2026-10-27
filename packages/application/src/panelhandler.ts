@@ -317,6 +317,7 @@ export class SidePanelPalette {
   constructor(options: SidePanelPaletteOption) {
     this._commandPalette = options.commandPalette;
     this._command = options.command;
+    this._translator = options.translator ?? nullTranslator;
   }
 
   /**
@@ -343,12 +344,13 @@ export class SidePanelPalette {
     }
 
     // Add a new item in command palette.
+    const trans = this._translator.load('notebook');
     const disposableDelegate = this._commandPalette.addItem({
       command: this._command,
-      category: 'View',
+      category: trans.__('View'),
       args: {
         side: area,
-        title: `Show ${widget.title.caption}`,
+        title: widget.title.caption,
         id: widget.id,
       },
     });
@@ -374,6 +376,7 @@ export class SidePanelPalette {
 
   private _command: string;
   private _commandPalette: ICommandPalette;
+  private _translator: ITranslator;
   private _items: SidePanelPaletteItem[] = [];
 }
 
@@ -409,10 +412,15 @@ type SidePanelPaletteOption = {
    * ### Notes
    * That command required 3 args :
    *      side: 'left' | 'right', the area to toggle
-   *      title: string, label of the command
+   *      title: string, title of the widget
    *      id: string, id of the widget to activate
    */
   command: string;
+
+  /**
+   * The application language translator.
+   */
+  translator?: ITranslator;
 };
 
 /**
