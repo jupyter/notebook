@@ -1,6 +1,7 @@
 node_modules
 .mypy_cache
 .ruff_cache
+.pytest_cache
 **/node_modules
 **/lib
 **/package.json

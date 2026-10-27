@@ -1,0 +1,2 @@
+# Unified diff context lines can consist of a single space.
+.yarn/patches/*.patch -whitespace

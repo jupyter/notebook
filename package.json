@@ -53,7 +53,8 @@
   "resolutions": {
     "@types/react": "^18.0.26",
     "react": "^18.2.0",
-    "yjs": "^13.5.40"
+    "yjs": "^13.5.40",
+    "@jupyterlab/shortcuts-extension@~5.5.0-alpha.2": "patch:@jupyterlab/shortcuts-extension@npm%3A5.5.0-alpha.2#./.yarn/patches/@jupyterlab-shortcuts-extension-npm-5.5.0-alpha.2-036445119a.patch"
   },
   "devDependencies": {
     "@eslint/js": "^9.26.0",

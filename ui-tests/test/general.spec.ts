@@ -9,7 +9,28 @@ import { test } from './fixtures';
 
 import { waitForNotebook } from './utils';
 
+test.use({ autoGoto: false });
+
 test.describe('General', () => {
+  test('Notebook startup registers shortcut settings without errors', async ({
+    page,
+    tmpPath,
+    browserName,
+  }) => {
+    const notebook = 'simple.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    const errors: string[] = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+    await waitForNotebook(page, browserName);
+
+    expect(errors).toEqual([]);
+  });
+
   test('The notebook should render', async ({ page, tmpPath, browserName }) => {
     const notebook = 'simple.ipynb';
     await page.contents.uploadFile(

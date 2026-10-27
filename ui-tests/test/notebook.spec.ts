@@ -7,7 +7,12 @@ import { expect, galata } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
-import { waitForNotebook, runAndAdvance, waitForKernelReady } from './utils';
+import {
+  waitForNotebook,
+  runAndAdvance,
+  waitForKernelReady,
+  waitForDocumentReady,
+} from './utils';
 
 const NOTEBOOK = 'example.ipynb';
 
@@ -36,6 +41,8 @@ test.describe('Notebook', () => {
     const notebook = `${tmpPath}/${NOTEBOOK}`;
     await page.goto(`notebooks/${notebook}`);
 
+    await waitForDocumentReady(page);
+
     // Click on the title (with .ipynb extension stripped)
     await page.click('text="example"');
 
@@ -46,11 +53,12 @@ test.describe('Notebook', () => {
       .locator(`text=File Path${NOTEBOOK}New Name >> input`)
       .fill(newName);
 
-    await Promise.all([
-      await page.click('text="Rename"'),
-      // wait until the URL is updated
-      await page.waitForNavigation(),
-    ]);
+    await page
+      .getByRole('button', { name: 'Rename File', exact: true })
+      .click();
+    await expect(page).toHaveURL((url) =>
+      decodeURIComponent(url.pathname).endsWith(`/${newName}`)
+    );
 
     // Check the URL contains the new name
     const url = page.url();
@@ -421,7 +429,8 @@ test.describe('Notebook', () => {
 
     await page.keyboard.press('ControlOrMeta+s');
     await page.waitForTimeout(1000);
-    await page.reload({ waitUntil: 'networkidle' });
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await expect(cells).toHaveCount(3);
     await cells.nth(1).click();
     await expect(page.locator('.jp-CellInspector-task')).toHaveText(
       'Explicit source task'
@@ -542,7 +551,7 @@ test.describe('Notebook', () => {
 math.pi?`);
 
     // Run the cell
-    runAndAdvance(page);
+    await runAndAdvance(page);
 
     // The help should be displayed in the down area
     const helpPanel = page.locator('#jp-help-panel');
@@ -587,7 +596,7 @@ math.pi?`);
 math.pi?`);
 
       // Run the cell
-      runAndAdvance(page);
+      await runAndAdvance(page);
 
       // The help should be displayed inline in the cell output
       const cellOutput = page.locator('.jp-Cell-outputArea');

@@ -6,6 +6,10 @@ import { test } from './fixtures';
 import { expect } from '@jupyterlab/galata';
 import type { Page } from '@playwright/test';
 
+import type { MainAreaWidget } from '@jupyterlab/apputils';
+
+import type { Terminal } from '@jupyterlab/terminal';
+
 const SUBFOLDER = 'subfolder';
 
 /**
@@ -61,6 +65,17 @@ test('should create a terminal in the current directory', async ({
 
   const terminalPanel = terminal.locator('.jp-Terminal');
   await terminalPanel.waitFor();
+  // Xterm renders to a canvas. Wait for its public readiness and connection
+  // state, rather than DOM text or the presence of its input element alone.
+  await terminal.waitForFunction(async () => {
+    const widget = window.jupyterapp.shell
+      .currentWidget as MainAreaWidget<Terminal> | null;
+    if (widget?.content.session.connectionStatus !== 'connected') {
+      return false;
+    }
+    await widget.content.ready;
+    return true;
+  });
   await terminalPanel.locator('.xterm-screen').click();
   const input = terminalPanel.locator('[aria-label="Terminal input"]');
   await input.waitFor({ state: 'attached' });

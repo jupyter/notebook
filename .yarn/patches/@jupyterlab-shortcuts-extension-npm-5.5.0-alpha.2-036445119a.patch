@@ -1,0 +1,30 @@
+diff --git a/lib/index.js b/lib/index.js
+index bb00b6f35144332bade0f42b03aff267f8978a54..863aba8448970f3be792fda1d07e9fb9fc5acc6e 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -230,7 +230,9 @@ List of commands followed by keyboard shortcuts:
+ List of keyboard shortcuts:`, commands);
+         }
+         registry.pluginChanged.connect(async (_, plugin) => {
+-            if (plugin !== shortcuts.id) {
++            // Initial loading below incorporates changes emitted before this
++            // plugin has been inserted into the registry.
++            if (plugin !== shortcuts.id && registry.plugins[shortcuts.id]) {
+                 // If the plugin changed its shortcuts, reload everything.
+                 const oldShortcuts = loaded[plugin];
+                 const newShortcuts = registry.plugins[plugin].schema['jupyter.lab.shortcuts'] || [];
+diff --git a/src/index.ts b/src/index.ts
+index c752ec8adb2642448f3f76014790f1c43e510a55..a27ffbad798703913f875164687d7d919699b81f 100644
+--- a/src/index.ts
++++ b/src/index.ts
+@@ -294,7 +294,9 @@ List of keyboard shortcuts:`,
+     }
+ 
+     registry.pluginChanged.connect(async (_, plugin) => {
+-      if (plugin !== shortcuts.id) {
++      // Initial loading below incorporates changes emitted before this
++      // plugin has been inserted into the registry.
++      if (plugin !== shortcuts.id && registry.plugins[shortcuts.id]) {
+         // If the plugin changed its shortcuts, reload everything.
+         const oldShortcuts = loaded[plugin];
+         const newShortcuts =

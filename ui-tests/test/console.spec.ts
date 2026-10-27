@@ -5,11 +5,15 @@ import { expect } from '@jupyterlab/galata';
 
 import { Locator } from '@playwright/test';
 
+import type { ICodeCellModel } from '@jupyterlab/cells';
+
+import type { NotebookPanel } from '@jupyterlab/notebook';
+
 import path from 'path';
 
 import { test } from './fixtures';
 
-import { waitForNotebook } from './utils';
+import { waitForKernelReady, waitForNotebook } from './utils';
 
 const NOTEBOOK = 'empty.ipynb';
 
@@ -27,14 +31,14 @@ test.describe('ScratchPad', () => {
     await page.goto('tree');
     const menu = (await page.menu.openLocator('File>New')) as Locator;
     const entry = menu.getByText('Scratchpad console');
-    expect(entry).not.toBeVisible();
+    await expect(entry).not.toBeVisible();
   });
 
   test('Should have a menu entry in Notebook', async ({ page, tmpPath }) => {
     await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
     const menu = (await page.menu.openLocator('File>New')) as Locator;
     const entry = menu.getByText('Scratchpad console');
-    expect(entry).toBeVisible();
+    await expect(entry).toBeVisible();
   });
 
   test('Should open scratchpad console with menu', async ({
@@ -42,6 +46,7 @@ test.describe('ScratchPad', () => {
     tmpPath,
   }) => {
     await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
+    await waitForKernelReady(page);
     const menu = (await page.menu.openLocator('File>New')) as Locator;
     await menu.getByText('Scratchpad console').click();
 
@@ -55,6 +60,7 @@ test.describe('ScratchPad', () => {
     tmpPath,
   }) => {
     await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
+    await waitForKernelReady(page);
     await page.locator('body').press('Control+B');
 
     const rightStack = page.locator('#jp-right-stack');
@@ -76,6 +82,11 @@ test.describe('ScratchPad', () => {
       .first();
     await cellInput.fill('a = 1');
     await cellInput.press('Shift+Enter');
+    await page.waitForFunction(() => {
+      const panel = window.jupyterapp.shell.currentWidget as NotebookPanel;
+      const model = panel.content.widgets[0].model as ICodeCellModel;
+      return model.executionCount === 1 && model.executionState === 'idle';
+    });
 
     await page.locator('body').press('Control+B');
 
@@ -88,6 +99,6 @@ test.describe('ScratchPad', () => {
     await input.press('Shift+Enter');
 
     const output = console.locator('.jp-OutputArea-output').first();
-    await expect(output).toHaveText('1');
+    await expect(output).toHaveText('1', { timeout: 30_000 });
   });
 });

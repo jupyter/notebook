@@ -4246,7 +4246,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/shortcuts-extension@npm:~5.5.0-alpha.2":
+"@jupyterlab/shortcuts-extension@npm:5.5.0-alpha.2":
   version: 5.5.0-alpha.2
   resolution: "@jupyterlab/shortcuts-extension@npm:5.5.0-alpha.2"
   dependencies:
@@ -4266,6 +4266,29 @@ __metadata:
     "@lumino/widgets": ^2.9.0
     react: ^18.2.0
   checksum: 7a0201b7721a058fb543ecc1b3ce9473401a7752c9ab91d3bcdce746904e86da66e79d91e5609c0272f7ff3b91962f4e8a5a5611b9349b0829b454c4f013db4b
+  languageName: node
+  linkType: hard
+
+"@jupyterlab/shortcuts-extension@patch:@jupyterlab/shortcuts-extension@npm%3A5.5.0-alpha.2#./.yarn/patches/@jupyterlab-shortcuts-extension-npm-5.5.0-alpha.2-036445119a.patch::locator=%40jupyter-notebook%2Froot%40workspace%3A.":
+  version: 5.5.0-alpha.2
+  resolution: "@jupyterlab/shortcuts-extension@patch:@jupyterlab/shortcuts-extension@npm%3A5.5.0-alpha.2#./.yarn/patches/@jupyterlab-shortcuts-extension-npm-5.5.0-alpha.2-036445119a.patch::version=5.5.0-alpha.2&hash=c70ddc&locator=%40jupyter-notebook%2Froot%40workspace%3A."
+  dependencies:
+    "@jupyterlab/application": ^4.7.0-alpha.2
+    "@jupyterlab/apputils": ^4.8.0-alpha.2
+    "@jupyterlab/codeeditor": ^4.7.0-alpha.2
+    "@jupyterlab/settingregistry": ^4.7.0-alpha.2
+    "@jupyterlab/translation": ^4.7.0-alpha.2
+    "@jupyterlab/ui-components": ^4.7.0-alpha.2
+    "@lumino/algorithm": ^2.0.5
+    "@lumino/commands": ^2.3.4
+    "@lumino/coreutils": ^2.2.3
+    "@lumino/disposable": ^2.1.6
+    "@lumino/domutils": ^2.0.5
+    "@lumino/keyboard": ^2.0.5
+    "@lumino/signaling": ^2.1.6
+    "@lumino/widgets": ^2.9.0
+    react: ^18.2.0
+  checksum: 7f6c785029ff88ebafb812b2f3c76a597510e465f6df8d6468000d11ff5641d15137cb0435fe14c28812f913ac88d777863f0ba7d6e08de2010ae1842a58d202
   languageName: node
   linkType: hard
 

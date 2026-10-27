@@ -1,13 +1,20 @@
-import { expect } from '@jupyterlab/galata';
+import { expect, galata } from '@jupyterlab/galata';
+
+import type { ConsolePanel } from '@jupyterlab/console';
+
+import type { NotebookPanel } from '@jupyterlab/notebook';
 
 import { test } from './fixtures';
 
-import { runAndAdvance } from './utils';
+import { runAndAdvance, waitForKernelReady } from './utils';
 
 test.use({ autoGoto: false });
 
 test.describe('Smoke', () => {
-  test('Tour', async ({ page, tmpPath }) => {
+  test('Tour', async ({ page, tmpPath, kernels, sessions }) => {
+    if (!kernels || !sessions) {
+      throw new Error('The smoke tour requires isolated runner tracking.');
+    }
     // Open the tree page
     await page.goto(`tree/${tmpPath}`);
     await page.locator('.jp-TreePanel >> text="Running"').click();
@@ -39,6 +46,7 @@ test.describe('Smoke', () => {
     } catch {
       // The kernel is already selected
     }
+    await waitForKernelReady(notebook);
 
     // Enter code in the first cell
     await notebook.locator(
@@ -48,7 +56,7 @@ test.describe('Smoke', () => {
 math.pi`);
 
     // Run the cell
-    runAndAdvance(notebook);
+    await runAndAdvance(notebook);
 
     // Enter code in the next cell
     await notebook
@@ -59,7 +67,7 @@ math.pi`);
       .type('import this');
 
     // Run the cell
-    runAndAdvance(notebook);
+    await runAndAdvance(notebook);
 
     // Save the notebook
     // TODO: re-enable after fixing the name on save dialog?
@@ -73,12 +81,64 @@ math.pi`);
       ),
     ]);
 
+    // Popups do not inherit page-level routes. Keep "Shut Down All" scoped to
+    // this tour's sessions, rather than shutting down other workers' kernels.
+    const ownedSessions = await Promise.all([
+      notebook.evaluate(() => {
+        const panel = window.jupyterapp.shell.currentWidget as NotebookPanel;
+        return panel.sessionContext.session?.model;
+      }),
+      console.evaluate(() => {
+        const panel = window.jupyterapp.shell.currentWidget as ConsolePanel;
+        return panel.console.sessionContext.session?.model;
+      }),
+    ]);
+    for (const session of ownedSessions) {
+      expect(session).toBeDefined();
+      expect(session?.kernel).toBeTruthy();
+      if (session?.kernel) {
+        sessions.set(session.id, session);
+        kernels.set(session.kernel.id, session.kernel);
+      }
+    }
+    await galata.Mock.mockRunners(tree2, kernels, 'kernels');
+    await galata.Mock.mockRunners(tree2, sessions, 'sessions', kernels);
+    await tree2.reload({ waitUntil: 'domcontentloaded' });
+    await tree2.waitForSelector('#main-panel');
+    await tree2.evaluate(async () => {
+      await window.jupyterapp.restored;
+    });
+
+    const ownedKernelIds = ownedSessions.map((session) => session!.kernel!.id);
+    await expect
+      .poll(() =>
+        tree2.evaluate(() =>
+          Array.from(window.jupyterapp.serviceManager.kernels.running())
+            .map((kernel) => kernel.id)
+            .sort()
+        )
+      )
+      .toEqual(ownedKernelIds.sort());
+
     // Shut down the kernels
     await tree2.locator('.jp-TreePanel >> text="Running"').click();
     await tree2.click('#main-panel jp-button :text("Shut Down All")');
     await tree2.press('.jp-Dialog', 'Enter');
 
+    // Confirmation closes before shutdownAll finishes refreshing its models.
+    // Keep the scoped routes installed until that asynchronous work is done.
+    await expect
+      .poll(() =>
+        tree2.evaluate(
+          () =>
+            Array.from(window.jupyterapp.serviceManager.kernels.running())
+              .length
+        )
+      )
+      .toBe(0);
+
     // Close the pages
+    await tree2.unrouteAll({ behavior: 'wait' });
     await tree2.close();
     await notebook.close();
     await console.close();

@@ -47,7 +47,10 @@ test.describe('Local Links', () => {
 
     const [folder] = await Promise.all([
       page.waitForEvent('popup'),
-      page.getByText('Open Test Folder').last().click(),
+      page
+        .getByRole('link', { name: 'Open Test Folder', exact: true })
+        .last()
+        .click(),
     ]);
 
     await folder.waitForLoadState();

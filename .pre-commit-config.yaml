@@ -20,6 +20,8 @@ repos:
       - id: debug-statements
       - id: end-of-file-fixer
       - id: trailing-whitespace
+        # Unified diff context lines must keep their prefix, even when empty.
+        exclude: '\.patch$'
 
   - repo: https://github.com/python-jsonschema/check-jsonschema
     rev: 0.37.4

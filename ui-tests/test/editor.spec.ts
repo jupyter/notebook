@@ -7,22 +7,30 @@ import { test } from './fixtures';
 
 import { expect } from '@jupyterlab/galata';
 
+import type { Page } from '@playwright/test';
+
+import { waitForDocumentReady } from './utils';
+
 const FILE = 'environment.yml';
 const NOTEBOOK = 'empty.ipynb';
 
 test.use({ autoGoto: false });
 
-const processRenameDialog = async (page, prevName: string, newName: string) => {
+const processRenameDialog = async (
+  page: Page,
+  prevName: string,
+  newName: string
+) => {
+  await waitForDocumentReady(page);
   // Rename in the input dialog
   await page
     .locator(`text=File Path${prevName}New Name >> input`)
     .fill(newName);
 
-  await Promise.all([
-    await page.click('text="Rename"'),
-    // wait until the URL is updated
-    await page.waitForNavigation(),
-  ]);
+  await page.getByRole('button', { name: 'Rename File', exact: true }).click();
+  await expect(page).toHaveURL((url) =>
+    decodeURIComponent(url.pathname).endsWith(`/${newName}`)
+  );
 };
 
 test.describe('Editor', () => {

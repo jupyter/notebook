@@ -37,6 +37,9 @@ test.describe('Mobile', () => {
     await expect(
       page.locator('#filebrowser .jp-DirListing-header .jp-id-filesize')
     ).toBeVisible();
+    await expect(page.locator('#filebrowser .jp-BreadCrumbs')).toContainText(
+      tmpPath
+    );
 
     await expect(page).toHaveScreenshot('tree.png');
   });

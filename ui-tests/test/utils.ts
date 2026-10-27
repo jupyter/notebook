@@ -2,6 +2,19 @@ import { IJupyterLabPageFixture } from '@jupyterlab/galata';
 
 import { Page } from '@playwright/test';
 
+import type { IDocumentWidget } from '@jupyterlab/docregistry';
+
+/**
+ * Wait for initial checkpoint and session setup, which follow context.ready.
+ */
+export async function waitForDocumentReady(page: Page): Promise<void> {
+  await page.evaluate(async () => {
+    const widget = window.jupyterapp.shell.currentWidget as IDocumentWidget;
+    await widget.context.ready;
+    await widget.context.sessionContext.ready;
+  });
+}
+
 /**
  * Run the selected cell and advance.
  */

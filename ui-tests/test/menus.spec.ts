@@ -6,6 +6,7 @@ import path from 'path';
 import { test } from './fixtures';
 
 import { expect } from '@jupyterlab/galata';
+
 import { waitForKernelReady } from './utils';
 
 const NOTEBOOK = 'empty.ipynb';
@@ -35,16 +36,33 @@ test.describe('Notebook Menus', () => {
 
   MENU_PATHS.forEach((menuPath) => {
     test(`Open menu item ${menuPath}`, async ({ page, tmpPath }) => {
+      if (menuPath === 'File>Save and Export Notebook As') {
+        // nbconvert discovers exporters on the server. This serialized work
+        // can take longer while other workers are opening notebooks too.
+        test.slow();
+      }
       await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
       await waitForKernelReady(page);
 
-      await page.menu.open(menuPath);
+      if (menuPath === 'File>Save and Export Notebook As') {
+        // Export formats are requested lazily when the notebook opens. Opening
+        // the submenu before that request resolves produces an empty menu.
+        await page.evaluate(async () => {
+          await window.jupyterapp.serviceManager.nbconvert.getExportFormats(
+            false
+          );
+        });
+      }
+
+      await page.menu.openLocator(menuPath);
       expect(await page.menu.isOpen(menuPath)).toBeTruthy();
 
       const imageName = `opened-menu-${menuPath.replace(/>/g, '-')}.png`;
-      const menu = await page.menu.getOpenMenu();
-      expect(menu).toBeDefined();
-      expect(await menu?.screenshot()).toMatchSnapshot(imageName.toLowerCase());
+      // Export formats load asynchronously and can replace the submenu DOM.
+      // A locator reacquires the visible menu instead of retaining a stale handle.
+      const menu = page.locator('.lm-Menu:visible .lm-Menu-content').last();
+      await expect(menu).toBeVisible();
+      await expect(menu).toHaveScreenshot(imageName.toLowerCase());
     });
   });
 

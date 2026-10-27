@@ -15,6 +15,7 @@ module.exports = {
     : [['list'], ['html', { open: 'on-failure' }]],
   use: {
     appPath: '',
+    baseURL: 'http://127.0.0.1:8888',
     trace: 'on-first-retry',
     video: 'retain-on-failure',
   },
