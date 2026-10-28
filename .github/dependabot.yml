@@ -12,3 +12,17 @@ updates:
     directory: '/'
     schedule:
       interval: 'weekly'
+  - package-ecosystem: 'npm'
+    directories:
+      - '/'
+      - '/ui-tests'
+    # `schedule.interval` is required but inert here since routine version
+    # updates are disabled below; security updates run off Dependabot alerts.
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 0
+    groups:
+      npm-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
