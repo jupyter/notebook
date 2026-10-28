@@ -13646,12 +13646,12 @@ __metadata:
   linkType: hard
 
 "postcss-selector-parser@npm:^6.0.2, postcss-selector-parser@npm:^6.0.4":
-  version: 6.0.13
-  resolution: "postcss-selector-parser@npm:6.0.13"
+  version: 6.1.5
+  resolution: "postcss-selector-parser@npm:6.1.5"
   dependencies:
     cssesc: ^3.0.0
     util-deprecate: ^1.0.2
-  checksum: f89163338a1ce3b8ece8e9055cd5a3165e79a15e1c408e18de5ad8f87796b61ec2d48a2902d179ae0c4b5de10fccd3a325a4e660596549b040bc5ad1b465f096
+  checksum: 48092b9e8d6b0b7470e460e5dd8922dad59404e73c7f3423e1bc32e14ad76140fc50812d38023259225f306e4a316c49528c75b2171955bbaa0b56894c0135f7
   languageName: node
   linkType: hard
 
