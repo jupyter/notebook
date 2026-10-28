@@ -211,12 +211,68 @@ const test = base.extend<
   },
 });
 
+test.use({ timezoneId: 'America/Los_Angeles' });
+
 const inspector = (page: Page) => page.locator('.jp-CellInspector');
 const task = (page: Page) => inspector(page).locator('.jp-CellInspector-task');
 const cells = (page: Page) =>
   page.locator('.jp-NotebookPanel:visible .jp-Notebook-cell');
 const editor = (page: Page, index = 1) =>
   cells(page).nth(index).locator('.cm-content[contenteditable="true"]');
+
+const rowCount = (page: Page) =>
+  inspector(page)
+    .locator(':scope > .jp-CellInspector-item')
+    .evaluateAll(
+      (items) =>
+        new Set(
+          items
+            .filter((item) => item.getClientRects().length)
+            .map((item) => {
+              const box = item.getBoundingClientRect();
+              return Math.round(box.top + box.height / 2);
+            })
+        ).size
+    );
+
+async function expectExecutionColor(page: Page, color: string): Promise<void> {
+  const execution = inspector(page).locator('.jp-CellInspector-execution');
+  const expected = await execution.evaluate((node, value) => {
+    const probe = document.createElement('span');
+    probe.style.color = value;
+    node.append(probe);
+    const resolved = getComputedStyle(probe).color;
+    probe.remove();
+    return resolved;
+  }, color);
+  await expect(execution).toHaveCSS('color', expected);
+  const contrast = await execution.evaluate((node) => {
+    const context = document.createElement('canvas').getContext('2d')!;
+    const background = getComputedStyle(
+      node.closest('.jp-CellInspector')!
+    ).backgroundColor;
+    const luminance = (color: string) => {
+      context.fillStyle = background;
+      context.fillRect(0, 0, 1, 1);
+      context.fillStyle = color;
+      context.fillRect(0, 0, 1, 1);
+      return Array.from(context.getImageData(0, 0, 1, 1).data)
+        .slice(0, 3)
+        .map((value) => value / 255)
+        .map((value) =>
+          value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4
+        )
+        .reduce(
+          (sum, value, index) => sum + value * [0.2126, 0.7152, 0.0722][index],
+          0
+        );
+    };
+    const text = luminance(getComputedStyle(node).color);
+    const surface = luminance(background);
+    return (Math.max(text, surface) + 0.05) / (Math.min(text, surface) + 0.05);
+  });
+  expect(contrast).toBeGreaterThanOrEqual(4.5);
+}
 
 test('live names, inline keyboard editing, metadata preservation and reload', async ({
   page,
@@ -260,7 +316,8 @@ test('live names, inline keyboard editing, metadata preservation and reload', as
   await expect(task(page)).toHaveText('Prepare training data');
   await task(page).click();
   await input.fill('');
-  await input.press('Tab');
+  await editor(page).click();
+  await expect(input).toBeHidden();
   await expect(task(page)).toHaveText('Load data');
   await page
     .evaluate(() => {
@@ -305,38 +362,130 @@ test('heading and cell-type fallbacks update while typing', async ({
   expect(notebook.errors).toEqual([]);
 });
 
-test('real execution timing freezes, modified state and reload fallback', async ({
-  page,
-  notebook,
-}) => {
-  await editor(page).fill('import time\ntime.sleep(3)\n42');
-  const status = inspector(page).locator('.jp-CellInspector-executionStatus');
-  const timer = inspector(page).locator('.jp-CellInspector-timer');
-  await expect(status).toHaveText('[ ] Not run');
-  await editor(page).press('ControlOrMeta+Enter');
-  await expect(status).toHaveText('[*] Running');
-  await expect(timer).toHaveText(/00:0[1-9]/);
-  await expect(status).toHaveText(/\[\d+\] Executed in/);
-  const duration = await timer.textContent();
-  await editor(page).press('Escape');
-  await task(page).focus();
-  await expect(timer).toHaveText(duration!);
-  await expect(status).toHaveAttribute('aria-live', 'polite');
-  await expect(timer).toHaveAttribute('aria-hidden', 'true');
-  await page.evaluate(async () => {
-    const app = (window as unknown as { jupyterapp: JupyterFrontEnd })
-      .jupyterapp;
-    await (app.shell.currentWidget as NotebookPanel).context.save();
+for (const theme of ['JupyterLab Light', 'JupyterLab Dark']) {
+  test(`execution colors, completion timestamps and reload fallback in ${theme}`, async ({
+    page,
+    request,
+    notebook,
+  }, testInfo) => {
+    await page.evaluate(async (theme) => {
+      const app = (window as unknown as { jupyterapp: JupyterFrontEnd })
+        .jupyterapp;
+      await app.commands.execute('apputils:change-theme', { theme });
+    }, theme);
+    await expect(page.locator('body')).toHaveAttribute(
+      'data-jp-theme-light',
+      String(theme === 'JupyterLab Light')
+    );
+    await page.clock.setFixedTime(new Date('2026-10-28T08:05:00-07:00'));
+    await editor(page).fill('import time\ntime.sleep(3)\n42');
+    const status = inspector(page).locator('.jp-CellInspector-executionStatus');
+    const timer = inspector(page).locator('.jp-CellInspector-timer');
+    const completed = inspector(page).locator(
+      'time.jp-CellInspector-completedAt'
+    );
+    await expect(status).toHaveText('[ ] Not run');
+    await expectExecutionColor(page, 'var(--jp-ui-font-color1)');
+    await expect(completed).toBeHidden();
+    await editor(page).press('ControlOrMeta+Enter');
+    await expect(status).toHaveText('[*] Running');
+    await expectExecutionColor(
+      page,
+      'color-mix(in srgb, var(--jp-warn-color1) 65%, var(--jp-ui-font-color0))'
+    );
+    await expect(completed).toBeHidden();
+    await page.screenshot({ path: testInfo.outputPath('running.png') });
+    await expect(timer).toHaveText(/00:0[1-9]/);
+    await expect(status).toHaveText(/\[\d+\] Executed in/);
+    await expectExecutionColor(
+      page,
+      'color-mix(in srgb, var(--jp-success-color1) 65%, var(--jp-ui-font-color0))'
+    );
+    await expect(completed).toBeVisible();
+    await expect(completed).toHaveText(' · Last run: 08:05 28/10/2026');
+    await expect(completed).toHaveAttribute(
+      'datetime',
+      '2026-10-28T15:05:00.000Z'
+    );
+    await expect(completed).toHaveAttribute('title', /local time/);
+    const duration = await timer.textContent();
+    await editor(page).press('Escape');
+    await task(page).focus();
+    await expect(timer).toHaveText(duration!);
+    await expect(status).toHaveAttribute('aria-live', 'polite');
+    await expect(timer).toHaveAttribute('aria-hidden', 'true');
+    expect(
+      await completed.evaluate((node) => node.closest('[aria-live]'))
+    ).toBeNull();
+    await page.screenshot({ path: testInfo.outputPath('completed.png') });
+    await editor(page).fill('import time\ntime.sleep(3)\n43');
+    await expect(status).toHaveText(/\[\d+\] Modified/);
+    await expect(completed).toHaveText(' · Last run: 08:05 28/10/2026');
+    await cells(page).nth(2).click();
+    await expect(completed).toBeHidden();
+    await editor(page).click();
+    await expect(completed).toHaveText(' · Last run: 08:05 28/10/2026');
+    await page.clock.setFixedTime(new Date('2027-01-01T00:04:00-08:00'));
+    await editor(page).press('ControlOrMeta+Enter');
+    await expect(status).toHaveText('[*] Running');
+    await expect(completed).toBeHidden();
+    await expect(status).toHaveText(/\[\d+\] Executed in/);
+    await expect(completed).toHaveText(' · Last run: 00:04 01/01/2027');
+    await expect(completed).toHaveAttribute(
+      'datetime',
+      '2027-01-01T08:04:00.000Z'
+    );
+    await page.setViewportSize({ width: 600, height: 800 });
+    await expect.poll(() => rowCount(page)).toBe(1);
+    await expect(completed).toBeHidden();
+    await expect(
+      inspector(page).locator('.jp-CellInspector-executionCompact')
+    ).toHaveText('[2]');
+    await expect(
+      inspector(page).locator('.jp-CellInspector-executionCompact')
+    ).toHaveAttribute('aria-hidden', 'true');
+    const details = inspector(page).getByRole('button', {
+      name: 'More cell information',
+    });
+    await details.focus();
+    await details.press('Enter');
+    await expect(
+      inspector(page).locator('.jp-CellInspector-details')
+    ).toHaveText('Type: Code · Lines: 3 · Last run: 00:04 01/01/2027');
+    await page.setViewportSize({ width: 240, height: 800 });
+    await expect.poll(() => rowCount(page)).toBe(2);
+    expect(
+      await inspector(page).evaluate(
+        (node) => node.scrollWidth <= node.clientWidth
+      )
+    ).toBe(true);
+    await page.screenshot({
+      path: testInfo.outputPath('completed-narrow.png'),
+    });
+    await details.press('Escape');
+    await page.setViewportSize({ width: 1280, height: 900 });
+    await page.evaluate(async () => {
+      const app = (window as unknown as { jupyterapp: JupyterFrontEnd })
+        .jupyterapp;
+      await (app.shell.currentWidget as NotebookPanel).context.save();
+    });
+    const saved = await (
+      await request.get(`/api/contents/${notebook.path}`)
+    ).json();
+    expect(saved.content.cells[1].metadata.jupyter).toEqual({
+      cellInspector: { note: 'preserve' },
+    });
+    await page.reload({ waitUntil: 'domcontentloaded' });
+    await ready(page);
+    await editor(page).click();
+    await expect(status).toHaveText(/\[\d+\] Executed$/);
+    await expect(timer).toBeEmpty();
+    await expect(completed).toBeHidden();
+    await editor(page).fill('43');
+    await expect(status).toHaveText(/\[\d+\] Modified/);
+    expect(notebook.errors).toEqual([]);
   });
-  await page.reload({ waitUntil: 'domcontentloaded' });
-  await ready(page);
-  await editor(page).click();
-  await expect(status).toHaveText(/\[\d+\] Executed$/);
-  await expect(timer).toBeEmpty();
-  await editor(page).fill('43');
-  await expect(status).toHaveText(/\[\d+\] Modified/);
-  expect(notebook.errors).toEqual([]);
-});
+}
 
 for (const shortcut of ['Shift+Enter', 'Alt+Enter', 'Run button']) {
   test(`${shortcut} keeps the ribbon on the running cell until completion`, async ({
@@ -471,21 +620,7 @@ test('cursor, conditional wrapping, keyboard disclosure, themes and print', asyn
   await expect(inspector(page)).toHaveCSS('position', 'sticky');
   await expect(inspector(page)).toHaveAttribute('role', 'group');
   await page.setViewportSize({ width: 600, height: 800 });
-  const rowCount = () =>
-    inspector(page)
-      .locator(':scope > .jp-CellInspector-item')
-      .evaluateAll(
-        (items) =>
-          new Set(
-            items
-              .filter((item) => item.getClientRects().length)
-              .map((item) => {
-                const box = item.getBoundingClientRect();
-                return Math.round(box.top + box.height / 2);
-              })
-          ).size
-      );
-  await expect.poll(rowCount).toBe(1);
+  await expect.poll(() => rowCount(page)).toBe(1);
   await expect(
     inspector(page).locator('.jp-CellInspector-cursorLine')
   ).toHaveText('Ln 3');
@@ -505,7 +640,7 @@ test('cursor, conditional wrapping, keyboard disclosure, themes and print', asyn
     inspector(page).locator('.jp-CellInspector-cursor')
   ).toBeHidden();
   await page.setViewportSize({ width: 240, height: 800 });
-  await expect.poll(rowCount).toBe(2);
+  await expect.poll(() => rowCount(page)).toBe(2);
   expect(
     await inspector(page).evaluate(
       (node) => node.scrollWidth <= node.clientWidth

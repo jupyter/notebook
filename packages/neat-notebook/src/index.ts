@@ -29,6 +29,7 @@ import { PanelLayout, Widget } from '@lumino/widgets';
 interface IExecutionTiming {
   startedAt?: number;
   lastDuration?: number;
+  completedAt?: number;
 }
 
 /**
@@ -97,11 +98,25 @@ class CellInspector extends Widget {
     this._executionStatus.setAttribute('aria-live', 'polite');
     this._executionStatus.setAttribute('aria-atomic', 'true');
 
+    this._executionCompact = document.createElement('span');
+    this._executionCompact.className = 'jp-CellInspector-executionCompact';
+    this._executionCompact.setAttribute('aria-hidden', 'true');
+
     this._executionTimer = document.createElement('span');
     this._executionTimer.className = 'jp-CellInspector-timer';
     this._executionTimer.setAttribute('aria-hidden', 'true');
 
-    this._execution.append(this._executionStatus, this._executionTimer);
+    this._completedAt = document.createElement('time');
+    this._completedAt.className =
+      'jp-CellInspector-completedAt jp-CellInspector-secondary';
+    this._completedAt.hidden = true;
+
+    this._execution.append(
+      this._executionStatus,
+      this._executionCompact,
+      this._executionTimer,
+      this._completedAt
+    );
 
     this._detailsButton = document.createElement('button');
     this._detailsButton.className =
@@ -296,6 +311,9 @@ class CellInspector extends Widget {
       type,
       lineCount
     );
+    if (this._completedAt.textContent && !this._completedAt.hidden) {
+      this._details.textContent += this._completedAt.textContent;
+    }
     this._renderCursor();
   }
 
@@ -337,6 +355,8 @@ class CellInspector extends Widget {
   private _renderExecution(): void {
     this.removeClass('jp-mod-running');
     this.removeClass('jp-mod-modified');
+    this.removeClass('jp-mod-executed');
+    this._completedAt.hidden = true;
 
     if (!(this._cell instanceof CodeCell)) {
       this._setExecutionText(this._trans.__('Non-executable'), '');
@@ -360,26 +380,53 @@ class CellInspector extends Widget {
     }
 
     this._stopTimer();
+    if (count !== null && this._timing.completedAt !== undefined) {
+      const date = new Date(this._timing.completedAt);
+      const timestamp = Private.formatCompletionTime(date);
+      this._completedAt.dateTime = date.toISOString();
+      this._completedAt.textContent = this._trans.__(
+        ' · Last run: %1',
+        timestamp
+      );
+      this._completedAt.title = this._trans.__(
+        'Last run completed at %1 (local time)',
+        timestamp
+      );
+      this._completedAt.hidden = false;
+    }
     if (count === null) {
       this._setExecutionText(this._trans.__('[ ] Not run'), '');
     } else if (model.isDirty) {
       this.addClass('jp-mod-modified');
       this._setExecutionText(this._trans.__('[%1] Modified', count), '');
-    } else if (this._timing.lastDuration !== undefined) {
-      this._setExecutionText(
-        this._trans.__('[%1] Executed in', count),
-        Private.formatDuration(this._timing.lastDuration)
-      );
     } else {
-      this._setExecutionText(this._trans.__('[%1] Executed', count), '');
+      this.addClass('jp-mod-executed');
+      if (this._timing.lastDuration !== undefined) {
+        this._setExecutionText(
+          this._trans.__('[%1] Executed in', count),
+          Private.formatDuration(this._timing.lastDuration)
+        );
+      } else {
+        this._setExecutionText(this._trans.__('[%1] Executed', count), '');
+      }
     }
   }
 
   private _setExecutionText(status: string, timer: string): void {
     if (this._executionStatus.textContent !== status) {
       this._executionStatus.textContent = status;
+      this._renderSummary();
     }
     this._executionTimer.textContent = timer ? ` ${timer}` : '';
+    this._executionCompact.textContent =
+      timer && this._cell instanceof CodeCell
+        ? this._trans.__(
+            '[%1]',
+            this._cell.model.executionState === 'running'
+              ? '*'
+              : this._cell.model.executionCount ?? ' '
+          )
+        : status;
   }
 
   private _startTimer(): void {
@@ -401,12 +448,14 @@ class CellInspector extends Widget {
   }
 
   private _cell: Cell;
+  private _completedAt: HTMLTimeElement;
   private _cursor: HTMLSpanElement;
   private _cursorFull: HTMLSpanElement;
   private _cursorLine: HTMLSpanElement;
   private _details: HTMLDivElement;
   private _detailsButton: HTMLButtonElement;
   private _execution: HTMLSpanElement;
+  private _executionCompact: HTMLSpanElement;
   private _executionStatus: HTMLSpanElement;
   private _executionTimer: HTMLSpanElement;
   private _lines: HTMLSpanElement;
@@ -534,6 +583,7 @@ class CellInspectorManager {
       }
     } else if (timing.startedAt !== undefined) {
       timing.lastDuration = performance.now() - timing.startedAt;
+      timing.completedAt = Date.now();
       timing.startedAt = undefined;
     }
     this._timings.set(model.id, timing);
@@ -801,6 +851,13 @@ namespace Private {
       default:
         return trans.__('Cell');
     }
+  }
+
+  export function formatCompletionTime(date: Date): string {
+    const pad = (value: number) => String(value).padStart(2, '0');
+    return `${pad(date.getHours())}:${pad(date.getMinutes())} ${pad(
+      date.getDate()
+    )}/${pad(date.getMonth() + 1)}/${date.getFullYear()}`;
   }
 
   export function formatDuration(milliseconds: number): string {

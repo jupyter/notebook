@@ -9,7 +9,7 @@ from packaging.requirements import Requirement
 
 
 def test_version():
-    assert neat_notebook.__version__ == distribution("neat-notebook").version == "0.1.2"
+    assert neat_notebook.__version__ == distribution("neat-notebook").version == "0.1.3"
 
 
 def test_supported_host_dependencies():

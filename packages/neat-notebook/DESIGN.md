@@ -33,15 +33,17 @@ assumptions are made; strings use Jupyter's translator with English fallback.
 This document mirrors the host's canonical tokens (Model B); it does not generate
 or replace them. `style/base.css` is the component styling source of truth.
 
-| Role                     | Runtime token or treatment                                               |
-| ------------------------ | ------------------------------------------------------------------------ |
-| Surface and text         | `--jp-layout-color2`, `--jp-ui-font-color1`                              |
-| Border and signature     | `--jp-border-color1`, 3px `--jp-brand-color1` start border               |
-| Editable label and focus | `--jp-brand-color1`, visible 2px outline                                 |
-| Running and modified     | `--jp-info-color1`, `--jp-warn-color1`, plus explicit text               |
-| Typography               | `--jp-ui-font-family`, `--jp-ui-font-size0`, 20px line height            |
-| Timing                   | Tabular digits; no animation; ticks excluded from the polite live region |
-| Elevation and shape      | `--jp-elevation-z2`, `--jp-border-radius`                                |
+| Role                     | Runtime token or treatment                                                    |
+| ------------------------ | ----------------------------------------------------------------------------- |
+| Surface and text         | `--jp-layout-color2`, `--jp-ui-font-color1`                                   |
+| Border and signature     | `--jp-border-color1`, 3px `--jp-brand-color1` start border                    |
+| Editable label and focus | `--jp-brand-color1`, visible 2px outline                                      |
+| Running                  | 65% `--jp-warn-color1` mixed with `--jp-ui-font-color0` (orange), plus text   |
+| Executed                 | 65% `--jp-success-color1` mixed with `--jp-ui-font-color0` (green), plus text |
+| Not run and modified     | `--jp-ui-font-color1`, `--jp-warn-color1`, plus explicit text                 |
+| Typography               | `--jp-ui-font-family`, `--jp-ui-font-size0`, 20px line height                 |
+| Timing                   | Tabular digits; no animation; ticks excluded from the polite live region      |
+| Elevation and shape      | `--jp-elevation-z2`, `--jp-border-radius`                                     |
 
 Light and dark palettes remain entirely host-owned. Do not introduce hardcoded
 colors, alternate fonts, custom scrollbars, or decorative motion.
@@ -60,6 +62,14 @@ cancels on Escape, and leaves IME composition alone. Keyboard save/cancel return
 focus to the task button. Read-only cells disable the label button. The details
 button exposes `aria-expanded` and `aria-controls`, and Escape closes it.
 Only state transitions enter the polite live region, not per-second timer ticks.
+Show the last completion in browser-local `HH:MM dd/mm/yyyy` format with semantic
+`time` markup. It shares the status color and remains available after editing.
+On narrow screens it moves into the existing details disclosure alongside type
+and total lines. Elapsed duration still uses the monotonic clock; completion
+dates use wall-clock time. Both are session-local and disappear after reload.
+Timed statuses use their execution marker and timer on narrow screens; other
+statuses keep their text. The full status always stays available to screen
+readers in the polite live region.
 
 ## Canonical UI Map
 

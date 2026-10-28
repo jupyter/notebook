@@ -88,6 +88,10 @@
   display: none;
 }
 
+.jp-Notebook .jp-CellInspector-executionCompact {
+  display: none;
+}
+
 .jp-Notebook .jp-CellInspector-execution {
   margin-left: auto;
   color: var(--jp-ui-font-color1);
@@ -95,8 +99,24 @@
 }
 
 .jp-Notebook .jp-CellInspector.jp-mod-running .jp-CellInspector-execution {
-  color: var(--jp-info-color1);
+  color: color-mix(
+    in srgb,
+    var(--jp-warn-color1) 65%,
+    var(--jp-ui-font-color0)
+  );
   font-weight: 600;
+}
+
+.jp-Notebook .jp-CellInspector.jp-mod-executed .jp-CellInspector-execution {
+  color: color-mix(
+    in srgb,
+    var(--jp-success-color1) 65%,
+    var(--jp-ui-font-color0)
+  );
+}
+
+.jp-Notebook .jp-CellInspector-completedAt {
+  font-weight: normal;
 }
 
 .jp-Notebook .jp-CellInspector.jp-mod-modified .jp-CellInspector-execution {
@@ -122,13 +142,15 @@
   z-index: 7;
   top: calc(100% + 2px);
   right: 0;
+  box-sizing: border-box;
+  max-width: 100%;
   padding: 4px 8px;
   border: 1px solid var(--jp-border-color2);
   border-radius: var(--jp-border-radius);
   background: var(--jp-layout-color0);
   box-shadow: var(--jp-elevation-z4);
   color: var(--jp-ui-font-color1);
-  white-space: nowrap;
+  white-space: normal;
 }
 
 @media only screen and (max-width: 760px) {
@@ -144,6 +166,18 @@
 
   .jp-Notebook .jp-CellInspector-secondary {
     display: none;
+  }
+
+  .jp-Notebook .jp-CellInspector-executionStatus {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .jp-Notebook .jp-CellInspector-executionCompact {
+    display: inline;
   }
 
   .jp-Notebook .jp-CellInspector-detailsButton {

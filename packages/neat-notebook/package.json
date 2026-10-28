@@ -1,6 +1,6 @@
 {
   "name": "neat-notebook",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "A lightweight active-cell inspector for Jupyter Notebook 7 and JupyterLab 4.",
   "license": "BSD-3-Clause",
   "keywords": [

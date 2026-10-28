@@ -10,7 +10,7 @@ Requires Notebook 7.5.6+ or JupyterLab 4.5.7+ (not Notebook 6).
 Install the wheel into the environment that runs your Jupyter server:
 
 ```sh
-python -m pip install dist/neat_notebook-0.1.2-py3-none-any.whl
+python -m pip install dist/neat_notebook-0.1.3-py3-none-any.whl
 jupyter labextension list
 ```
 
@@ -26,7 +26,7 @@ Notebook 7.5.6 / JupyterLab 4.5.7 combination, install the corrected wheel and
 restore JupyterLab in the same transaction:
 
 ```sh
-python -m pip install 'jupyterlab==4.5.7' dist/neat_notebook-0.1.2-py3-none-any.whl
+python -m pip install 'jupyterlab==4.5.7' dist/neat_notebook-0.1.3-py3-none-any.whl
 python -m pip check
 ```
 
@@ -52,11 +52,16 @@ focus remain controlled by Jupyter.
   Updates appear while typing, including `#Title` without a space.
 - The ribbon shows the type, source-line count (one for an empty cell), and cursor
   position while the editor is focused.
-- Code states are Not run, Running with elapsed time, Executed, and Modified.
-  Completed durations are session-local and disappear after reload. Timing uses
-  a monotonic clock and does not write notebook metadata.
-- On small screens, type and total lines move into a keyboard-accessible details
-  disclosure. The ribbon wraps only when its contents exceed the available width.
+- Code states are Not run (normal theme text), Running with elapsed time
+  (orange), Executed (green), and Modified (warning text).
+  Completed durations and last-run timestamps are session-local and disappear
+  after reload. Last run uses the browser's local time in `HH:MM dd/mm/yyyy`
+  format and remains available after editing the cell. Timing uses a monotonic
+  clock and does not write notebook metadata.
+- On small screens, type, total lines, and the last-run timestamp move into a
+  keyboard-accessible details disclosure. Timed statuses use their execution
+  marker and timer, with full text retained for screen readers. Other statuses
+  keep their text. The ribbon wraps only when its contents exceed the available width.
 - Markdown and Raw cells are non-executable. The ribbon is hidden when printing.
 
 Disable **Show Active Cell Inspector** under **Neat Notebook** in the host's
