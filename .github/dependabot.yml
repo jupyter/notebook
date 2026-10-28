@@ -8,10 +8,14 @@ updates:
       actions:
         patterns:
           - "*"
+    cooldown:
+      default-days: 7
   - package-ecosystem: 'pip'
     directory: '/'
     schedule:
       interval: 'weekly'
+    cooldown:
+      default-days: 7
   - package-ecosystem: 'npm'
     directories:
       - '/'
@@ -26,3 +30,5 @@ updates:
         applies-to: security-updates
         patterns:
           - "*"
+    cooldown:
+      default-days: 7
