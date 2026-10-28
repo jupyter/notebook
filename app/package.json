@@ -12,8 +12,8 @@
     "watch": "rspack --watch --config rspack.config.js"
   },
   "resolutions": {
-    "@codemirror/state": "~6.5.4",
-    "@codemirror/view": "~6.39.15",
+    "@codemirror/state": "~6.7.6",
+    "@codemirror/view": "~6.43.15",
     "@jupyter-notebook/application": "~7.7.0-alpha.2",
     "@jupyter-notebook/application-extension": "~7.7.0-alpha.2",
     "@jupyter-notebook/console-extension": "~7.7.0-alpha.2",
@@ -119,7 +119,7 @@
     "@lezer/common": "~1.5.0",
     "@lezer/highlight": "~1.2.0",
     "@lumino/algorithm": "~2.0.5",
-    "@lumino/application": "~2.4.10",
+    "@lumino/application": "~2.4.11",
     "@lumino/commands": "~2.3.4",
     "@lumino/coreutils": "~2.2.3",
     "@lumino/disposable": "~2.1.6",
@@ -129,7 +129,7 @@
     "@lumino/properties": "~2.0.5",
     "@lumino/signaling": "~2.1.6",
     "@lumino/virtualdom": "~2.0.5",
-    "@lumino/widgets": "~2.9.0",
+    "@lumino/widgets": "~2.10.0",
     "react": "~18.2.0",
     "react-dom": "~18.2.0",
     "yjs": "~13.6.8"
