@@ -2,6 +2,7 @@
   "name": "@jupyter-notebook/ui-tests",
   "private": true,
   "version": "0.1.0",
+  "packageManager": "yarn@3.5.0",
   "author": "Project Jupyter",
   "license": "BSD-3-Clause",
   "description": "Jupyter Notebook UI Tests",
