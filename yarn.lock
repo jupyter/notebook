@@ -2203,6 +2203,7 @@ __metadata:
     "@jupyterlab/pdf-extension": ~4.7.0-beta.0
     "@jupyterlab/pluginmanager-extension": ~4.7.0-beta.0
     "@jupyterlab/running-extension": ~4.7.0-beta.0
+    "@jupyterlab/services": ~7.7.0-beta.0
     "@jupyterlab/services-extension": ~4.7.0-beta.0
     "@jupyterlab/settingeditor": ~4.7.0-beta.0
     "@jupyterlab/settingeditor-extension": ~4.7.0-beta.0
@@ -2225,6 +2226,7 @@ __metadata:
     fs-extra: ^8.1.0
     glob: ~7.1.6
     handlebars: ^4.7.10
+    html-webpack-plugin: ^5.6.3
     react: ^18.2.0
     react-dom: ^18.2.0
     rimraf: ^3.0.2
@@ -2243,7 +2245,6 @@ __metadata:
     "@jupyter-notebook/ui-components": ^7.7.0-beta.0
     "@jupyterlab/application": ~4.7.0-beta.0
     "@jupyterlab/apputils": ~4.8.0-beta.0
-    "@jupyterlab/codeeditor": ~4.7.0-beta.0
     "@jupyterlab/console": ~4.7.0-beta.0
     "@jupyterlab/coreutils": ~6.7.0-beta.0
     "@jupyterlab/docmanager": ~4.7.0-beta.0
@@ -2267,13 +2268,17 @@ __metadata:
     "@babel/core": ^7.29.6
     "@babel/preset-env": ^7.12.1
     "@jupyterlab/application": ~4.7.0-beta.0
+    "@jupyterlab/apputils": ~4.8.0-beta.0
     "@jupyterlab/coreutils": ~6.7.0-beta.0
     "@jupyterlab/docregistry": ~4.7.0-beta.0
+    "@jupyterlab/mainmenu": ~4.7.0-beta.0
     "@jupyterlab/rendermime-interfaces": ~3.15.0-beta.0
     "@jupyterlab/testutils": ~4.7.0-beta.0
+    "@jupyterlab/translation": ~4.7.0-beta.0
     "@jupyterlab/ui-components": ~4.7.0-beta.0
     "@lumino/algorithm": ^2.0.4
     "@lumino/coreutils": ^2.2.2
+    "@lumino/disposable": ^2.1.5
     "@lumino/messaging": ^2.0.4
     "@lumino/polling": ^2.1.5
     "@lumino/signaling": ^2.1.5
@@ -2295,6 +2300,7 @@ __metadata:
     "@types/node": ^22.13.4
     "@types/semver": ^7.5.8
     commander: ^6.2.0
+    dependency-graph: ^0.11.0
     fs-extra: ^9.1.0
     rimraf: ^3.0.2
     semver: ^7.6.3
@@ -2331,8 +2337,6 @@ __metadata:
     "@jupyterlab/coreutils": ~6.7.0-beta.0
     "@jupyterlab/docmanager": ~4.7.0-beta.0
     "@jupyterlab/docregistry": ~4.7.0-beta.0
-    "@jupyterlab/services": ~7.7.0-beta.0
-    "@lumino/algorithm": ^2.0.4
     "@lumino/signaling": ^2.1.5
     rimraf: ^3.0.2
     typescript: ~5.9.3
@@ -2362,7 +2366,6 @@ __metadata:
     "@jupyterlab/mainmenu": ~4.7.0-beta.0
     "@jupyterlab/translation": ~4.7.0-beta.0
     react: ^18.2.0
-    react-dom: ^18.2.0
     rimraf: ^3.0.2
     typescript: ~5.9.3
   languageName: unknown
@@ -2377,12 +2380,10 @@ __metadata:
     "@jupyterlab/application": ~4.7.0-beta.0
     "@jupyterlab/apputils": ~4.8.0-beta.0
     "@jupyterlab/coreutils": ~6.7.0-beta.0
-    "@jupyterlab/docregistry": ~4.7.0-beta.0
     "@jupyterlab/notebook": ~4.7.0-beta.0
     "@jupyterlab/translation": ~4.7.0-beta.0
     "@jupyterlab/ui-components": ~4.7.0-beta.0
-    "@lumino/commands": ^2.3.3
-    "@lumino/disposable": ^2.1.5
+    "@lumino/widgets": ^2.7.2
     rimraf: ^3.0.2
     typescript: ~5.9.3
   languageName: unknown
@@ -2416,19 +2417,21 @@ __metadata:
     "@jupyterlab/application": ~4.7.0-beta.0
     "@jupyterlab/apputils": ~4.8.0-beta.0
     "@jupyterlab/cells": ~4.7.0-beta.0
+    "@jupyterlab/coreutils": ~6.7.0-beta.0
     "@jupyterlab/debugger": ~4.7.0-beta.0
     "@jupyterlab/docmanager": ~4.7.0-beta.0
+    "@jupyterlab/docregistry": ~4.7.0-beta.0
+    "@jupyterlab/mainmenu": ~4.7.0-beta.0
     "@jupyterlab/metadataform": ~4.7.0-beta.0
     "@jupyterlab/notebook": ~4.7.0-beta.0
     "@jupyterlab/settingregistry": ~4.7.0-beta.0
     "@jupyterlab/toc": ~6.7.0-beta.0
     "@jupyterlab/translation": ~4.7.0-beta.0
     "@jupyterlab/ui-components": ~4.7.0-beta.0
-    "@lumino/algorithm": 2.0.4
+    "@lumino/algorithm": ^2.0.4
     "@lumino/polling": ^2.1.5
     "@lumino/widgets": ^2.7.2
     react: ^18.2.0
-    react-dom: ^18.2.0
     rimraf: ^3.0.2
     typescript: ~5.9.3
   languageName: unknown
@@ -2447,7 +2450,7 @@ __metadata:
     eslint-plugin-prettier: ^5.0.0
     eslint-plugin-react: ^7.37.0
     globals: ^16.0.0
-    html-webpack-plugin: ^5.6.3
+    jsonc-eslint-parser: ^2.4.0
     npm-run-all: ^4.1.5
     prettier: ^2.8.5
     rimraf: ^3.0.2
@@ -2478,18 +2481,16 @@ __metadata:
     "@jupyterlab/application": ~4.7.0-beta.0
     "@jupyterlab/apputils": ~4.8.0-beta.0
     "@jupyterlab/coreutils": ~6.7.0-beta.0
-    "@jupyterlab/docmanager": ~4.7.0-beta.0
     "@jupyterlab/filebrowser": ~4.7.0-beta.0
-    "@jupyterlab/mainmenu": ~4.7.0-beta.0
-    "@jupyterlab/services": ~7.7.0-beta.0
+    "@jupyterlab/running": ~4.7.0-beta.0
     "@jupyterlab/settingeditor": ~4.7.0-beta.0
     "@jupyterlab/settingregistry": ~4.7.0-beta.0
-    "@jupyterlab/statedb": ~4.7.0-beta.0
     "@jupyterlab/translation": ~4.7.0-beta.0
     "@jupyterlab/ui-components": ~4.7.0-beta.0
-    "@lumino/algorithm": ^2.0.4
     "@lumino/commands": ^2.3.3
+    "@lumino/signaling": ^2.1.5
     "@lumino/widgets": ^2.7.2
+    react: ^18.2.0
     rimraf: ^3.0.2
     typescript: ~5.9.3
   languageName: unknown
@@ -2499,19 +2500,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@jupyter-notebook/tree@workspace:packages/tree"
   dependencies:
-    "@jupyterlab/application": ~4.7.0-beta.0
-    "@jupyterlab/apputils": ~4.8.0-beta.0
-    "@jupyterlab/coreutils": ~6.7.0-beta.0
-    "@jupyterlab/docmanager": ~4.7.0-beta.0
     "@jupyterlab/filebrowser": ~4.7.0-beta.0
-    "@jupyterlab/mainmenu": ~4.7.0-beta.0
-    "@jupyterlab/services": ~7.7.0-beta.0
-    "@jupyterlab/settingregistry": ~4.7.0-beta.0
-    "@jupyterlab/statedb": ~4.7.0-beta.0
-    "@jupyterlab/translation": ~4.7.0-beta.0
     "@jupyterlab/ui-components": ~4.7.0-beta.0
-    "@lumino/algorithm": ^2.0.4
-    "@lumino/commands": ^2.3.3
     "@lumino/coreutils": ^2.2.2
     "@lumino/widgets": ^2.7.2
     rimraf: ^3.0.2
@@ -2524,14 +2514,12 @@ __metadata:
   resolution: "@jupyter-notebook/ui-components@workspace:packages/ui-components"
   dependencies:
     "@babel/core": ^7.29.6
-    "@babel/preset-env": ^7.10.2
+    "@babel/preset-env": ^7.12.1
     "@jupyterlab/testutils": ~4.7.0-beta.0
     "@jupyterlab/ui-components": ~4.7.0-beta.0
     "@types/jest": ^29.2.5
     babel-loader: ^8.0.6
     jest: ^29.3.1
-    react: ^18.2.0
-    react-dom: ^18.2.0
     rimraf: ^3.0.2
     ts-jest: ^29.0.3
     typescript: ~5.9.3
@@ -2868,7 +2856,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/codeeditor@npm:^4.7.0-beta.0, @jupyterlab/codeeditor@npm:~4.7.0-beta.0":
+"@jupyterlab/codeeditor@npm:^4.7.0-beta.0":
   version: 4.7.0-beta.0
   resolution: "@jupyterlab/codeeditor@npm:4.7.0-beta.0"
   dependencies:
@@ -4122,7 +4110,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/running@npm:^4.7.0-beta.0":
+"@jupyterlab/running@npm:^4.7.0-beta.0, @jupyterlab/running@npm:~4.7.0-beta.0":
   version: 4.7.0-beta.0
   resolution: "@jupyterlab/running@npm:4.7.0-beta.0"
   dependencies:
@@ -4269,7 +4257,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jupyterlab/statedb@npm:^4.7.0-beta.0, @jupyterlab/statedb@npm:~4.7.0-beta.0":
+"@jupyterlab/statedb@npm:^4.7.0-beta.0":
   version: 4.7.0-beta.0
   resolution: "@jupyterlab/statedb@npm:4.7.0-beta.0"
   dependencies:
@@ -4747,13 +4735,6 @@ __metadata:
     "@lezer/highlight": ^1.0.0
     "@lezer/lr": ^1.0.0
   checksum: e834bcc5c0dee3eecb5362b3f10187e80908b6a293ebacf5750547a64b57ec710a068497334f109ecf4e5ea05e09e7e9c00e48ebbd30050673ea67b0929e5398
-  languageName: node
-  linkType: hard
-
-"@lumino/algorithm@npm:2.0.4":
-  version: 2.0.4
-  resolution: "@lumino/algorithm@npm:2.0.4"
-  checksum: ec1532fc294666fb483dd35082ec50ad979d0e9e1daf7a951ca045fd36a1ae88c7c73bf09c1aafed1ea826319f038ec2ed7058f58d214d5ed9f6a4cf61f232e8
   languageName: node
   linkType: hard
 
