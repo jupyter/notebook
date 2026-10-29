@@ -95,6 +95,51 @@ Python 3.9 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.7.0b0
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.7.0-alpha.2...136220e67759c7fca0d77f9fc784f09fd8b08eb4))
+
+### Bugs fixed
+
+- Anchor the console and terminal route patterns [#8091](https://github.com/jupyter/notebook/pull/8091) ([@jtpio](https://github.com/jtpio))
+- fix(application): anchor opener route regex for tree paths [#7903](https://github.com/jupyter/notebook/pull/7903) ([@The-Peacemaker](https://github.com/The-Peacemaker), [@goelakash](https://github.com/goelakash), [@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Pin the Python version in the Binder environment [#8110](https://github.com/jupyter/notebook/pull/8110) ([@jtpio](https://github.com/jtpio))
+- Update to JupyterLab v4.7.0b0 [#8108](https://github.com/jupyter/notebook/pull/8108) ([@jtpio](https://github.com/jtpio))
+- Pin `yarn-berry-deduplicate` to fix the deduplicate script [#8106](https://github.com/jupyter/notebook/pull/8106) ([@jtpio](https://github.com/jtpio))
+- Group dependabot npm security updates [#8103](https://github.com/jupyter/notebook/pull/8103) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 2 updates [#8092](https://github.com/jupyter/notebook/pull/8092) ([@jtpio](https://github.com/jtpio))
+- Enable `jupyter/prefer-lazy-imports` lint rule [#8090](https://github.com/jupyter/notebook/pull/8090) ([@Darshan808](https://github.com/Darshan808), [@jtpio](https://github.com/jtpio), [@krassowski](https://github.com/krassowski))
+- Bump `@jupyter/eslint-plugin` to `v1.4.0` and fix lint failures [#8087](https://github.com/jupyter/notebook/pull/8087) ([@Darshan808](https://github.com/Darshan808), [@jtpio](https://github.com/jtpio))
+- Drop Python 3.10, add Python 3.15 [#8084](https://github.com/jupyter/notebook/pull/8084) ([@jtpio](https://github.com/jtpio))
+- Remove maxDiffPixels workaround for file browser column widths [#8077](https://github.com/jupyter/notebook/pull/8077) ([@VaibhavGaneriwala](https://github.com/VaibhavGaneriwala), [@claude](https://github.com/claude), [@jtpio](https://github.com/jtpio))
+
+### Other merged PRs
+
+- Bump the npm-security-updates group across 1 directory with 2 updates [#8111](https://github.com/jupyter/notebook/pull/8111) ([@jtpio](https://github.com/jtpio))
+- Bump the npm-security-updates group across 2 directories with 12 updates [#8104](https://github.com/jupyter/notebook/pull/8104) ([@jtpio](https://github.com/jtpio))
+- Bump fast-uri from 3.1.7 to 3.1.9 in /ui-tests [#8100](https://github.com/jupyter/notebook/pull/8100) ([@jtpio](https://github.com/jtpio))
+- Bump dompurify from 3.4.16 to 3.4.17 in /ui-tests [#8099](https://github.com/jupyter/notebook/pull/8099) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 5 updates [#8086](https://github.com/jupyter/notebook/pull/8086) ([@jtpio](https://github.com/jtpio))
+- Bump dompurify from 3.4.13 to 3.4.16 in /ui-tests [#8085](https://github.com/jupyter/notebook/pull/8085) ([@jtpio](https://github.com/jtpio))
+- Bump fast-uri from 3.1.7 to 3.1.8 [#8082](https://github.com/jupyter/notebook/pull/8082) ([@jtpio](https://github.com/jtpio))
+- Bump brace-expansion from 1.1.18 to 1.1.21 in /ui-tests [#8081](https://github.com/jupyter/notebook/pull/8081) ([@jtpio](https://github.com/jtpio))
+- Bump dompurify from 3.4.13 to 3.4.16 [#8080](https://github.com/jupyter/notebook/pull/8080) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 2 updates [#8074](https://github.com/jupyter/notebook/pull/8074) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-09-23&to=2026-10-29&type=c))
+
+@claude ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aclaude+updated%3A2026-09-23..2026-10-29&type=Issues)) | @Darshan808 ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ADarshan808+updated%3A2026-09-23..2026-10-29&type=Issues)) | @goelakash ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agoelakash+updated%3A2026-09-23..2026-10-29&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-09-23..2026-10-29&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2026-09-23..2026-10-29&type=Issues)) | @The-Peacemaker ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AThe-Peacemaker+updated%3A2026-09-23..2026-10-29&type=Issues)) | @VaibhavGaneriwala ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AVaibhavGaneriwala+updated%3A2026-09-23..2026-10-29&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.7.0a2
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.7.0-alpha.1...773d6a3b54d306fae2a5847058fb12bcca12a2fc))
@@ -166,8 +211,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-07-22&to=2026-09-23&type=c))
 
 @brichet ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Abrichet+updated%3A2026-07-22..2026-09-23&type=Issues)) | @Carreau ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ACarreau+updated%3A2026-07-22..2026-09-23&type=Issues)) | @Daniele-Cangi ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ADaniele-Cangi+updated%3A2026-07-22..2026-09-23&type=Issues)) | @Darshan808 ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ADarshan808+updated%3A2026-07-22..2026-09-23&type=Issues)) | @defjaf ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Adefjaf+updated%3A2026-07-22..2026-09-23&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-07-22..2026-09-23&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2026-07-22..2026-09-23&type=Issues)) | @Yann-P ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AYann-P+updated%3A2026-07-22..2026-09-23&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.7.0a1
 
