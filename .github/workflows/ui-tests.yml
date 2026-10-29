@@ -26,7 +26,8 @@ jobs:
 
   ui-tests:
     needs: [build]
-    runs-on: ubuntu-latest
+    # Playwright 1.60 does not support ubuntu-26.04 (ubuntu-latest)
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     strategy:
       fail-fast: false
