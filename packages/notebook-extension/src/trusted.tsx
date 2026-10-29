@@ -47,10 +47,12 @@ const TrustedButton = ({
 }): JSX.Element => {
   const trans = translator.load('notebook');
   const [trusted, setTrusted] = useState(isTrusted(notebook));
+  const [viewOnly, setViewOnly] = useState(notebook.viewOnly);
 
   const checkTrust = () => {
     const v = isTrusted(notebook);
     setTrusted(v);
+    setViewOnly(notebook.viewOnly);
   };
 
   const trust = async () => {
@@ -61,18 +63,23 @@ const TrustedButton = ({
   useEffect(() => {
     notebook.modelContentChanged.connect(checkTrust);
     notebook.activeCellChanged.connect(checkTrust);
+    notebook.viewOnlyChanged.connect(checkTrust);
     checkTrust();
     return () => {
       notebook.modelContentChanged.disconnect(checkTrust);
       notebook.activeCellChanged.disconnect(checkTrust);
+      notebook.viewOnlyChanged.disconnect(checkTrust);
     };
   });
+
+  // A view-only notebook cannot be trusted, like with the notebook:trust command
+  const canTrust = !trusted && !viewOnly;
 
   return (
     <button
       className={'jp-NotebookTrustedStatus'}
-      style={!trusted ? { cursor: 'pointer' } : { cursor: 'help' }}
-      onClick={() => !trusted && trust()}
+      style={canTrust ? { cursor: 'pointer' } : { cursor: 'help' }}
+      onClick={() => canTrust && trust()}
       title={
         trusted
           ? trans.__('JavaScript enabled for notebook display')

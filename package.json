@@ -30,7 +30,7 @@
     "build:test": "npm run build:test --workspaces --if-present",
     "build:utils": "jlpm workspace @jupyter-notebook/buildutils run build",
     "clean": "npm run clean --workspaces --if-present",
-    "deduplicate": "jlpm dlx yarn-berry-deduplicate -s fewerHighest && jlpm install",
+    "deduplicate": "npx -y -p yarn-berry-deduplicate@6.1.3 -p @yarnpkg/core@4.9.1 yarn-berry-deduplicate -s fewerHighest && jlpm install",
     "develop": "jupyter-builder develop . --overwrite && node ./buildutils/lib/develop.js --overwrite",
     "eslint": "eslint . --fix",
     "eslint:check": "eslint .",
@@ -58,7 +58,7 @@
   "devDependencies": {
     "@eslint/js": "^9.26.0",
     "@jupyter/eslint-plugin": "^1.4.0",
-    "@jupyterlab/buildutils": "~4.7.0-alpha.2",
+    "@jupyterlab/buildutils": "~4.7.0-beta.0",
     "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-jest": "^28.0.0",
