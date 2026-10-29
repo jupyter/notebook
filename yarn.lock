@@ -4720,13 +4720,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@lezer/python@npm:^1.1.4":
-  version: 1.1.8
-  resolution: "@lezer/python@npm:1.1.8"
+"@lezer/python@npm:^1.1.18":
+  version: 1.1.18
+  resolution: "@lezer/python@npm:1.1.18"
   dependencies:
+    "@lezer/common": ^1.2.0
     "@lezer/highlight": ^1.0.0
     "@lezer/lr": ^1.0.0
-  checksum: e4a4e0b0fd871acff25111d4f767944b5015479776504b85c4431859c8a2859fdfa6362f204f3027cf9858c7ea907fd57244852a18b67da9eba3b2fe38d31b03
+  checksum: 774d5bee83106b586159e3330452e9a3a72706d98d77929c44480a653ed560a80db2aa8f2f270858d176ac8e7187f0c585109fdac579deca115173dcaee13f9f
   languageName: node
   linkType: hard
 
