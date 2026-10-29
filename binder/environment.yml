@@ -8,5 +8,6 @@ dependencies:
   - matplotlib
   - numpy
   - nodejs=20
-  - python >=3.11,<3.12
+  # repo2docker only picks up the Python version from a `python=X.Y` pin
+  - python=3.11
   - xeus-python
