@@ -95,6 +95,29 @@ Python 3.9 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.6.4
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.3...17566ad9613b4390cc18bf3836bd9e0f892b9543))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.6.5 [#8113](https://github.com/jupyter/notebook/pull/8113) ([@jtpio](https://github.com/jtpio))
+- Pin the UI tests to ubuntu-24.04 [#8109](https://github.com/jupyter/notebook/pull/8109) ([@jtpio](https://github.com/jtpio))
+- Pin `yarn-berry-deduplicate` to fix the deduplicate script [#8106](https://github.com/jupyter/notebook/pull/8106) ([@jtpio](https://github.com/jtpio))
+- Remove pixi in favor of the standard Python and JavaScript tooling [#8071](https://github.com/jupyter/notebook/pull/8071) ([@jtpio](https://github.com/jtpio))
+- CI fixes [#8068](https://github.com/jupyter/notebook/pull/8068) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-09-21&to=2026-10-30&type=c))
+
+@jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-09-21..2026-10-30&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.6.3
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.6.2...9c8d7c24006554dda8c5fc02c69f91d6449c712a))
@@ -111,8 +134,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-08-11&to=2026-09-21&type=c))
 
 @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-08-11..2026-09-21&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.6.2
 
