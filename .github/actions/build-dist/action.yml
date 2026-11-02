@@ -1,5 +1,9 @@
 name: 'Build Jupyter Notebook'
 description: 'Build Jupyter Notebook from source'
+inputs:
+  artifact_name:
+    description: Distribution artifact name
+    default: notebook-dist-${{ github.run_number }}
 runs:
   using: 'composite'
   steps:
@@ -25,5 +29,5 @@ runs:
     - name: Upload distributions
       uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
       with:
-        name: notebook-dist-${{ github.run_number }}
+        name: ${{ inputs.artifact_name }}
         path: ./dist
