@@ -1,4 +1,4 @@
-import { getLernaPaths, readJSONFile, run } from '@jupyterlab/buildutils';
+import { getYarnPaths, readJSONFile, run } from '@jupyterlab/buildutils';
 
 import fs from 'fs';
 import path from 'path';
@@ -63,7 +63,7 @@ function normalizeDependencySpecifier(
 }
 
 export function getWorkspacePackages(basePath = '.'): WorkspacePackage[] {
-  return getLernaPaths(basePath)
+  return getYarnPaths(basePath)
     .sort()
     .map((packagePath) => {
       const packageJsonPath = path.join(packagePath, 'package.json');
