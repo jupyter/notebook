@@ -89,6 +89,12 @@ async def test_tree_handler(notebooks, notebookapp, jp_fetch):
     await jp_fetch("tree", "foo.txt")
     assert redirected_url == "/a%40b/files/foo.txt"
 
+    await jp_fetch("tree", "notebook1.ipynb", params={"open-with": "json"})
+    assert redirected_url == "/a%40b/edit/notebook1.ipynb?open-with=json"
+
+    await jp_fetch("tree", "foo.txt", params={"open-with": "Markdown Preview"})
+    assert redirected_url == "/a%40b/edit/foo.txt?open-with=Markdown+Preview"
+
     with pytest.raises(HTTPClientError):
         await jp_fetch("tree", "does_not_exist.ipynb")
 
