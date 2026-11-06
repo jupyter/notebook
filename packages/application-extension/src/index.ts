@@ -515,6 +515,12 @@ const rendermime: JupyterFrontEndPlugin<IRenderMimeRegistry> = {
                 path: model.path,
                 target: '_blank',
               });
+            })
+            .catch((error) => {
+              if (error?.response?.status === 404) {
+                error.message = trans.__('Could not find path: %1', path);
+              }
+              void showErrorMessage(trans.__('Cannot open'), error);
             });
         },
         describedBy: {
