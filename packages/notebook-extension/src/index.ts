@@ -997,16 +997,15 @@ const debuggerPanel: JupyterFrontEndPlugin<void> = {
   description:
     'A plugin to open the debugger panel when the debugger is enabled.',
   autoStart: true,
-  requires: [IDebugger, IDebuggerSidebar],
-  optional: [INotebookShell, ISettingRegistry],
+  optional: [IDebugger, IDebuggerSidebar, INotebookShell, ISettingRegistry],
   activate: (
     app: JupyterFrontEnd,
-    service: IDebugger,
-    sidebar: IDebugger.ISidebar,
+    service: IDebugger | null,
+    sidebar: IDebugger.ISidebar | null,
     shell: INotebookShell | null,
     settingRegistry: ISettingRegistry | null
   ) => {
-    if (!shell) {
+    if (!service || !sidebar || !shell) {
       return;
     }
 
