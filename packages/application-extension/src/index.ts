@@ -272,33 +272,36 @@ const opener: JupyterFrontEndPlugin<void> = {
             });
           }
 
-          let factory = urlParams.get('factory') ?? defaultFactory;
-          const openWith = urlParams.get('open-with');
-          if (openWith && !urlParams.has('factory')) {
-            factory =
-              Private.resolveOpenWith(docRegistry, openWith) ?? defaultFactory;
-            // Same rule as the document opener: the notebook page and the edit
-            // page load different plugins.
-            const factoryRoute = factory.includes('Notebook')
-              ? 'notebooks'
-              : 'edit';
-            if (factoryRoute !== route) {
+          const factory = Private.resolveFactory(
+            docRegistry,
+            urlParams,
+            defaultFactory
+          );
+          // Same rule as the document opener: the notebook page and the edit
+          // page load different plugins.
+          const factoryRoute = factory.includes('Notebook')
+            ? 'notebooks'
+            : 'edit';
+          const isRequested =
+            urlParams.has('factory') || urlParams.has('open-with');
+          if (isRequested && factoryRoute !== route) {
+            urlParams.delete('factory');
+            if (factory === defaultFactory) {
               urlParams.delete('open-with');
-              if (factory !== defaultFactory) {
-                urlParams.set('factory', factory);
-              }
-              const url = new URL(
-                URLExt.join(
-                  app.serviceManager.serverSettings.baseUrl,
-                  factoryRoute,
-                  path
-                )
-              );
-              url.search = urlParams.toString();
-              url.hash = parsed.hash;
-              window.location.replace(url.toString());
-              return;
+            } else {
+              urlParams.set('open-with', factory);
             }
+            const url = new URL(
+              URLExt.join(
+                app.serviceManager.serverSettings.baseUrl,
+                factoryRoute,
+                path
+              )
+            );
+            url.search = urlParams.toString();
+            url.hash = parsed.hash;
+            window.location.replace(url.toString());
+            return;
           }
           const kernelPreference =
             urlParams.get('kernel') === 'none'
@@ -1403,6 +1406,38 @@ const settingsConnector: JupyterFrontEndPlugin<ISettingConnector> = {
  * A namespace for private module data.
  */
 namespace Private {
+  /**
+   * Resolve the `factory` and `open-with` query parameters to a widget factory name.
+   *
+   * `factory` is kept for existing links: it takes an exact widget factory name
+   * and has priority. Both fall back to the default widget factory.
+   */
+  export function resolveFactory(
+    docRegistry: DocumentRegistry,
+    urlParams: URLSearchParams,
+    defaultFactory: string
+  ): string {
+    const factory = urlParams.get('factory');
+    if (factory === null) {
+      const openWith = urlParams.get('open-with');
+      return (
+        (openWith && resolveOpenWith(docRegistry, openWith)) || defaultFactory
+      );
+    }
+    // Older versions of the document opener wrote `default` in links.
+    if (factory === 'default') {
+      return defaultFactory;
+    }
+    const widgetFactory = docRegistry.getWidgetFactory(factory);
+    if (!widgetFactory) {
+      console.warn(
+        `No widget factory named "${factory}", using the default viewer.`
+      );
+      return defaultFactory;
+    }
+    return widgetFactory.name;
+  }
+
   /**
    * Resolve an `open-with` value to a widget factory name.
    *

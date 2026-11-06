@@ -204,6 +204,11 @@ file with `ipynb`, you need an extension that converts the file to a notebook,
 such as Jupytext. When the value matches no viewer, the file opens in its
 default viewer.
 
+The `/notebooks` and `/edit` URLs also accept the `open-with` query parameter.
+Older versions of Notebook used the `factory` query parameter instead, with the
+exact name of a widget factory. Links with `factory` still work. When a URL has
+both parameters, `factory` has priority.
+
 ## Notebook user interface
 
 When you create a new notebook document, you will be presented with the

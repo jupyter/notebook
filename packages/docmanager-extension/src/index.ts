@@ -68,12 +68,12 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
             }
             route = 'notebooks';
           }
-          // append ?factory only if it's not the default
+          // append ?open-with only if it's not the default
           const defaultFactory = docRegistry.defaultWidgetFactory(path);
           let searchParams = undefined;
-          if (widgetName !== defaultFactory.name) {
+          if (widgetName !== 'default' && widgetName !== defaultFactory.name) {
             searchParams = new URLSearchParams({
-              factory: widgetName,
+              'open-with': widgetName,
             });
           }
           // Require both flags: `notebookStartsKernel=False` only sets

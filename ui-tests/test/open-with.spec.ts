@@ -110,7 +110,7 @@ test.describe('Open With', () => {
     );
 
     await expect(page).toHaveURL(
-      new RegExp(`/edit/${tmpPath}/${NOTEBOOK}\\?factory=JSON$`)
+      new RegExp(`/edit/${tmpPath}/${NOTEBOOK}\\?open-with=JSON$`)
     );
     await expect(page.locator('.jp-RenderedJSON')).toBeVisible();
   });
@@ -123,6 +123,57 @@ test.describe('Open With', () => {
     const page = await openUrl(
       { context, baseURL },
       `tree/${tmpPath}/${NOTEBOOK}?open-with=unknown`
+    );
+
+    await expect(page).toHaveURL(
+      new RegExp(`/notebooks/${tmpPath}/${NOTEBOOK}$`)
+    );
+    await expect(page.locator('.jp-Notebook')).toBeVisible();
+  });
+
+  test('Open With in the file browser uses open-with', async ({
+    page,
+    tmpPath,
+  }) => {
+    await page.goto(`tree/${tmpPath}`);
+
+    await page.getByText(NOTEBOOK).last().click({ button: 'right' });
+    await page.getByText('Open With', { exact: true }).hover();
+    const [editor] = await Promise.all([
+      page.waitForEvent('popup'),
+      page.getByRole('menuitem', { name: 'Editor', exact: true }).click(),
+    ]);
+
+    await expect(editor).toHaveURL(
+      new RegExp(`/edit/${tmpPath}/${NOTEBOOK}\\?open-with=Editor$`)
+    );
+    await expect(editor.locator('.jp-FileEditor .cm-editor')).toBeVisible();
+  });
+
+  test('Move an existing factory link to the page of its viewer', async ({
+    context,
+    baseURL,
+    tmpPath,
+  }) => {
+    const page = await openUrl(
+      { context, baseURL },
+      `notebooks/${tmpPath}/${NOTEBOOK}?factory=Editor`
+    );
+
+    await expect(page).toHaveURL(
+      new RegExp(`/edit/${tmpPath}/${NOTEBOOK}\\?open-with=Editor$`)
+    );
+    await expect(page.locator('.jp-FileEditor .cm-editor')).toBeVisible();
+  });
+
+  test('Use the default viewer for an unknown factory', async ({
+    context,
+    baseURL,
+    tmpPath,
+  }) => {
+    const page = await openUrl(
+      { context, baseURL },
+      `edit/${tmpPath}/${NOTEBOOK}?factory=unknown`
     );
 
     await expect(page).toHaveURL(
