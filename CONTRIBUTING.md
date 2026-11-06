@@ -201,6 +201,17 @@ automatically on save.
 Some of the hooks only run on CI by default, but you can invoke them by
 running with the `--hook-stage manual` argument.
 
+## Dependency Integrity
+
+The `integrity` script keeps the `package.json` files in `packages/` consistent with the source code: it adds the dependencies that are imported, reports the ones that are not, generates the `style/index.css` and `style/index.js` files from the dependencies that ship styles, and updates the TypeScript project references. CI runs it in check mode, so after adding or removing an import or a dependency, run it locally and commit the changes it makes:
+
+```shell
+jlpm build:utils
+jlpm integrity
+```
+
+The script fails when it finds a problem it cannot fix, such as a dependency that is declared but not imported. A dependency that is only used for its styles, or whose styles must not be imported, is listed in `UNUSED` or `SKIP_CSS` in `buildutils/src/ensure-repo.ts`.
+
 ## Documentation
 
 First make sure you have set up a development environment as described above.

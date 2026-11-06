@@ -3,6 +3,8 @@
 | Distributed under the terms of the Modified BSD License.
 |----------------------------------------------------------------------------*/
 
+@import './sidepanel.css';
+
 :root {
   --jp-private-topbar-height: 28px;
   /* Override the layout-2 color for the dark theme */

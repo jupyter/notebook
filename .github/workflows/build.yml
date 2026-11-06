@@ -253,7 +253,7 @@ jobs:
           jlpm eslint:check
           jlpm prettier:check
           jlpm build:utils
-          jlpm integrity
+          jlpm integrity --force
 
   tests_check: # This job does nothing and is only used for the branch protection
     if: always()
