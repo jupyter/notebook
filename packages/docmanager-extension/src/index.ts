@@ -109,7 +109,13 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
           ...widget.title.dataset,
         };
         if (!widget.isAttached) {
-          app.shell.add(widget, 'main', options || {});
+          // The document of the page goes to the main area, whatever the
+          // layout setting of its widget type: the page shows only that area.
+          app.shell.add(
+            widget,
+            'main',
+            ref === '_noref' ? { ...options, type: undefined } : options || {}
+          );
         }
         app.shell.activateById(widget.id);
         this._opened.emit(widget);
