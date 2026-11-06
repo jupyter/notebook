@@ -182,6 +182,28 @@ to the same kernel.
 {ref}`ipythonzmq`
 ```
 
+### Opening a file with another viewer
+
+To open a file with a viewer that is not its default viewer, add the `open-with`
+query parameter to the `/tree` URL of the file. The value can be a widget factory
+name, a file type name or a file extension. For example, `txt` opens the text
+editor, `json` opens the JSON viewer and `ipynb` opens the notebook viewer:
+
+```none
+http(s)://<server:port>/<notebook-location>/tree/path/to/notebook.ipynb?open-with=txt
+```
+
+To write a space in a widget factory name, use `+` or `%20`:
+
+```none
+http(s)://<server:port>/<notebook-location>/tree/path/to/README.md?open-with=Markdown+Preview
+```
+
+The available viewers depend on the installed extensions. To open a Markdown
+file with `ipynb`, you need an extension that converts the file to a notebook,
+such as Jupytext. When the value matches no viewer, the file opens in its
+default viewer.
+
 ## Notebook user interface
 
 When you create a new notebook document, you will be presented with the
