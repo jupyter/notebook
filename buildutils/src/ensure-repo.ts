@@ -10,7 +10,7 @@ import * as ts from 'typescript';
 
 import {
   ensurePackage,
-  getLernaPaths,
+  getYarnPaths,
   IEnsurePackageOptions,
   readJSONFile,
   run,
@@ -400,7 +400,7 @@ async function ensureIntegrity(): Promise<{ [key: string]: string[] }> {
   const pkgData: { [key: string]: any } = {};
   const pkgPaths: { [key: string]: string } = {};
   const locals: { [key: string]: string } = {};
-  for (const pkgPath of getLernaPaths().sort()) {
+  for (const pkgPath of getYarnPaths().sort()) {
     const data = readJSONFile(path.join(pkgPath, 'package.json'));
     pkgData[data.name] = data;
     pkgPaths[data.name] = pkgPath;

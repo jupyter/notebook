@@ -44,7 +44,7 @@
     "release:patch": "node ./buildutils/lib/release-patch.js",
     "set:workspace-version": "node ./buildutils/lib/set-workspace-version.js",
     "test": "npm test --workspaces --if-present",
-    "update:dependency": "node ./node_modules/@jupyterlab/buildutils/lib/update-dependency.js --lerna",
+    "update:dependency": "node ./node_modules/@jupyterlab/buildutils/lib/update-dependency.js --yarn",
     "upgrade:lab:dependencies": "node ./buildutils/lib/upgrade-lab-dependencies.js",
     "watch": "run-p watch:lib watch:app",
     "watch:app": "jlpm workspace @jupyter-notebook/app run watch",
@@ -58,7 +58,7 @@
   "devDependencies": {
     "@eslint/js": "^9.26.0",
     "@jupyter/eslint-plugin": "^1.4.0",
-    "@jupyterlab/buildutils": "~4.7.0-beta.0",
+    "@jupyterlab/buildutils": "~4.7.0-beta.1",
     "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.0.0",
     "eslint-plugin-jest": "^28.0.0",
