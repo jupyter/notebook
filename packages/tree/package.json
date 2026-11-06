@@ -38,8 +38,8 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyterlab/filebrowser": "~4.7.0-beta.0",
-    "@jupyterlab/ui-components": "~4.7.0-beta.0",
+    "@jupyterlab/filebrowser": "~4.7.0-beta.1",
+    "@jupyterlab/ui-components": "~4.7.0-beta.1",
     "@lumino/coreutils": "^2.2.2",
     "@lumino/widgets": "^2.7.2"
   },
