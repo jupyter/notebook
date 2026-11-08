@@ -352,7 +352,8 @@ class JupyterNotebookApp(NotebookConfigShimMixin, LabServerApp):  # type:ignore[
         self.handlers.append(("/edit(.*)", FileHandler))
         self.handlers.append(("/consoles/(.*)", ConsoleHandler))
         self.handlers.append(("/terminals/(.*)", TerminalHandler))
-        self.handlers.append(("/custom/custom.css", CustomCssHandler))
+        if self.custom_css:
+            self.handlers.append(("/custom/custom.css", CustomCssHandler))
         super().initialize_handlers()
 
     @classmethod
