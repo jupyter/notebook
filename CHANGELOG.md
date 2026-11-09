@@ -95,6 +95,30 @@ Python 3.9 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.7.0b1
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.7.0-beta.0...671061febf4528817877b1b10a501ec4c3edc2bd))
+
+### Enhancements made
+
+- Support the `open-with` parameter [#8122](https://github.com/jupyter/notebook/pull/8122) ([@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.7.0b1 [#8120](https://github.com/jupyter/notebook/pull/8120) ([@jtpio](https://github.com/jtpio))
+- Fix workspace dependencies, improve integrity script [#8010](https://github.com/jupyter/notebook/pull/8010) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-10-29&to=2026-11-09&type=c))
+
+@jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-10-29..2026-11-09&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.7.0b0
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.7.0-alpha.2...136220e67759c7fca0d77f9fc784f09fd8b08eb4))
@@ -137,8 +161,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-09-23&to=2026-10-29&type=c))
 
 @claude ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Aclaude+updated%3A2026-09-23..2026-10-29&type=Issues)) | @Darshan808 ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ADarshan808+updated%3A2026-09-23..2026-10-29&type=Issues)) | @goelakash ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Agoelakash+updated%3A2026-09-23..2026-10-29&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-09-23..2026-10-29&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2026-09-23..2026-10-29&type=Issues)) | @The-Peacemaker ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AThe-Peacemaker+updated%3A2026-09-23..2026-10-29&type=Issues)) | @VaibhavGaneriwala ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3AVaibhavGaneriwala+updated%3A2026-09-23..2026-10-29&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.7.0a2
 
