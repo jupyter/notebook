@@ -29,7 +29,7 @@ import { PageConfig, PathExt, URLExt } from '@jupyterlab/coreutils';
 
 import { IDocumentManager, renameDialog } from '@jupyterlab/docmanager';
 
-import { DocumentWidget } from '@jupyterlab/docregistry';
+import { DocumentRegistry, DocumentWidget } from '@jupyterlab/docregistry';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 
@@ -237,7 +237,7 @@ const opener: JupyterFrontEndPlugin<void> = {
       execute: (args: any) => {
         const parsed = args as IRouter.ILocation;
         const matches = parsed.path.match(DOCUMENT_PATTERN) ?? [];
-        const [, , path] = matches;
+        const [, route, path] = matches;
         if (!path) {
           return;
         }
@@ -272,7 +272,37 @@ const opener: JupyterFrontEndPlugin<void> = {
             });
           }
 
-          const factory = urlParams.get('factory') ?? defaultFactory;
+          const factory = Private.resolveFactory(
+            docRegistry,
+            urlParams,
+            defaultFactory
+          );
+          // Same rule as the document opener: the notebook page and the edit
+          // page load different plugins.
+          const factoryRoute = factory.includes('Notebook')
+            ? 'notebooks'
+            : 'edit';
+          const isRequested =
+            urlParams.has('factory') || urlParams.has('open-with');
+          if (isRequested && factoryRoute !== route) {
+            urlParams.delete('factory');
+            if (factory === defaultFactory) {
+              urlParams.delete('open-with');
+            } else {
+              urlParams.set('open-with', factory);
+            }
+            const url = new URL(
+              URLExt.join(
+                app.serviceManager.serverSettings.baseUrl,
+                factoryRoute,
+                path
+              )
+            );
+            url.search = urlParams.toString();
+            url.hash = parsed.hash;
+            window.location.replace(url.toString());
+            return;
+          }
           const kernelPreference =
             urlParams.get('kernel') === 'none'
               ? { shouldStart: false, shouldReuse: false }
@@ -1371,6 +1401,77 @@ const settingsConnector: JupyterFrontEndPlugin<ISettingConnector> = {
     return new SettingConnector(app.serviceManager.settings);
   },
 };
+
+/**
+ * A namespace for private module data.
+ */
+namespace Private {
+  /**
+   * Resolve the `factory` and `open-with` query parameters to a widget factory name.
+   *
+   * `factory` is kept for existing links: it takes an exact widget factory name
+   * and has priority. Both fall back to the default widget factory.
+   */
+  export function resolveFactory(
+    docRegistry: DocumentRegistry,
+    urlParams: URLSearchParams,
+    defaultFactory: string
+  ): string {
+    const factory = urlParams.get('factory');
+    if (factory === null) {
+      const openWith = urlParams.get('open-with');
+      return (
+        (openWith && resolveOpenWith(docRegistry, openWith)) || defaultFactory
+      );
+    }
+    // Older versions of the document opener wrote `default` in links.
+    if (factory === 'default') {
+      return defaultFactory;
+    }
+    const widgetFactory = docRegistry.getWidgetFactory(factory);
+    if (!widgetFactory) {
+      console.warn(
+        `No widget factory named "${factory}", using the default viewer.`
+      );
+      return defaultFactory;
+    }
+    return widgetFactory.name;
+  }
+
+  /**
+   * Resolve an `open-with` value to a widget factory name.
+   *
+   * The value is a widget factory name, a file type name or a file extension,
+   * as for the `open-with` query parameter of JupyterLab.
+   */
+  export function resolveOpenWith(
+    docRegistry: DocumentRegistry,
+    openWith: string
+  ): string | undefined {
+    const factory = docRegistry.getWidgetFactory(openWith);
+    if (factory) {
+      return factory.name;
+    }
+
+    const extension = (
+      openWith.startsWith('.') ? openWith : `.${openWith}`
+    ).toLowerCase();
+    const fileType =
+      docRegistry.getFileType(openWith) ??
+      Array.from(docRegistry.fileTypes()).find((fileType) =>
+        fileType.extensions.some((value) => value.toLowerCase() === extension)
+      );
+    const name = fileType
+      ? docRegistry.preferredWidgetFactories(fileType)[0]?.name
+      : undefined;
+    if (!name) {
+      console.warn(
+        `No viewer matches open-with value "${openWith}", using the default viewer.`
+      );
+    }
+    return name;
+  }
+}
 
 /**
  * Export the plugins as default.
