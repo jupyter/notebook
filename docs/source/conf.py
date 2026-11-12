@@ -203,7 +203,12 @@ html_theme_options = {
         "image_dark": "_static/logo-rectangle-dark.svg",
     },
     "use_edit_page_button": True,
+    "navbar_start": ["navbar-logo", "version-switcher"],
     "navigation_with_keys": False,
+    "switcher": {
+        "json_url": "https://jupyter-notebook.readthedocs.io/en/latest/_static/switcher.json",
+        "version_match": os.environ.get("READTHEDOCS_VERSION", "latest"),
+    },
 }
 
 # Output for github to be used in links
