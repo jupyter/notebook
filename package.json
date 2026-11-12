@@ -51,6 +51,7 @@
     "watch:lib": "jlpm workspace @jupyter-notebook/metapackage run watch"
   },
   "resolutions": {
+    "@lezer/python": "^1.1.18",
     "@types/react": "^18.0.26",
     "react": "^18.2.0",
     "yjs": "^13.5.40"
