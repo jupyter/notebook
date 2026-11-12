@@ -16,6 +16,10 @@
         "id": "jp-mainmenu-edit",
         "items": [
           {
+            "command": "notebook:insert-cell-below",
+            "rank": 5.5
+          },
+          {
             "type": "separator",
             "rank": 8.5
           },
