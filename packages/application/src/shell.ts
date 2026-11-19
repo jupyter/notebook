@@ -18,7 +18,7 @@ import {
   Widget,
 } from '@lumino/widgets';
 import { PanelHandler, SidePanelHandler } from './panelhandler';
-import { TabPanelSvg } from '@jupyterlab/ui-components';
+import { LabIcon, TabPanelSvg } from '@jupyterlab/ui-components';
 
 /**
  * The default relative size of the down area when it is expanded.
@@ -387,8 +387,13 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
         return this._leftHandler.addWidget(widget, rank);
       case 'right':
         return this._rightHandler.addWidget(widget, rank);
-      case 'down':
+      case 'down': {
+        const { title } = widget;
+        if (title.icon instanceof LabIcon) {
+          title.icon = title.icon.bindprops({ stylesheet: 'mainAreaTab' });
+        }
         return this._downPanel.addWidget(widget);
+      }
       default:
         console.warn(`Cannot add widget to area: ${area}`);
     }
