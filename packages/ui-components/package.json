@@ -33,7 +33,6 @@
     "build:prod": "tsc -b",
     "build:test": "tsc --build tsconfig.test.json",
     "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
-    "cleansvg": "svgo --config svgo.yaml",
     "docs": "typedoc src",
     "docs:init": "bash docs/build.sh",
     "test": "jest",
