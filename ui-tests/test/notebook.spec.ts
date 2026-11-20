@@ -309,6 +309,28 @@ test.describe('Notebook', () => {
     await expect(page.locator('.jp-LogConsole')).toBeVisible();
   });
 
+  test('Toggle the notebook toolbar from the View menu', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'simple.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    const menuPath = 'View>Show Toolbar';
+    const toolbar = page.locator('.jp-NotebookPanel-toolbar');
+    await expect(toolbar).toBeVisible();
+
+    await page.menu.clickMenuItem(menuPath);
+    await expect(toolbar).toBeHidden();
+
+    await page.menu.clickMenuItem(menuPath);
+    await expect(toolbar).toBeVisible();
+  });
+
   test('Toggle cell outputs with the O keyboard shortcut', async ({
     page,
     tmpPath,
