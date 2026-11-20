@@ -250,6 +250,13 @@ module.exports = [
       },
     },
     resolve: {
+      alias: {
+        // Use the TeX font of JupyterLab for MathJax, so the default font
+        // (New Computer Modern) is not bundled.
+        '#default-font': '@mathjax/mathjax-tex-font/mjs',
+        // Keep the absolute path of the build folder out of the bundle.
+        '#root/root.js': '@jupyterlab/mathjax-extension/lib/mathjaxroot.js',
+      },
       fallback: { util: false },
     },
     plugins: [
