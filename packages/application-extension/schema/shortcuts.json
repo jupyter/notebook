@@ -5,6 +5,11 @@
   "description": "Keyboard shortcuts for Jupyter Notebook",
   "jupyter.lab.shortcuts": [
     {
+      "command": "filemenu:close-and-cleanup",
+      "keys": ["Ctrl Shift Q"],
+      "selector": "#main"
+    },
+    {
       "args": {},
       "command": "notebook:toggle-cell-outputs",
       "keys": ["O"],

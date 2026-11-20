@@ -261,6 +261,29 @@ test.describe('Notebook', () => {
     expect(page.isClosed());
   });
 
+  test('Ctrl+Shift+Q should prompt to close and shut down the notebook', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'simple.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    // focus the notebook so the keyboard shortcut is handled
+    await page.locator('.jp-Cell').first().click();
+    await page.keyboard.press('Control+Shift+Q');
+
+    const dialog = page.locator('.jp-Dialog');
+    await expect(dialog).toContainText('Shut down the notebook?');
+
+    // cancel so the browser tab stays open
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+  });
+
   test('Toggle the full width of the notebook', async ({
     page,
     browserName,
