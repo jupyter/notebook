@@ -3,6 +3,7 @@
 Use this page to navigate to different parts of the user documentation.
 
 ```{toctree}
+:caption: User Documentation
 :maxdepth: 2
 
 notebook
@@ -14,5 +15,10 @@ custom_css
 configuring/plugins
 configuring/interface_customization
 troubleshooting
+```
+
+```{toctree}
+:maxdepth: 1
+
 changelog
 ```

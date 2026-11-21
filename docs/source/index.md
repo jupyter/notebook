@@ -26,6 +26,8 @@ Documentation](notebook.md).
 
 ```
 
+## Get started
+
 - [Installation](https://jupyter.readthedocs.io/en/latest/install.html)
 - [Starting the Notebook](https://jupyter.readthedocs.io/en/latest/running.html)
 
@@ -36,5 +38,10 @@ user-documentation
 configuration
 migrate_to_notebook7
 contributor
+```
+
+```{toctree}
+:maxdepth: 1
+
 changelog
 ```

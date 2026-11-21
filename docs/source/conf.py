@@ -204,8 +204,15 @@ html_theme_options = {
     },
     "use_edit_page_button": True,
     "navigation_with_keys": False,
+    "show_toc_level": 1,
+    "navigation_depth": 4,
+    "collapse_navigation": False,
 }
 
+html_sidebars = {
+    "index": ["sidebar-collapse", "sidebar-nav-bs-index.html"],
+    "**": ["sidebar-collapse", "sidebar-nav-bs.html"],
+}
 # Output for github to be used in links
 html_context = {
     "github_user": "jupyter",  # Username
