@@ -261,6 +261,29 @@ test.describe('Notebook', () => {
     expect(page.isClosed());
   });
 
+  test('Ctrl+Shift+Q should prompt to close and shut down the notebook', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'simple.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    // focus the notebook so the keyboard shortcut is handled
+    await page.locator('.jp-Cell').first().click();
+    await page.keyboard.press('Control+Shift+Q');
+
+    const dialog = page.locator('.jp-Dialog');
+    await expect(dialog).toContainText('Shut down the notebook?');
+
+    // cancel so the browser tab stays open
+    await page.keyboard.press('Escape');
+    await expect(dialog).toHaveCount(0);
+  });
+
   test('Toggle the full width of the notebook', async ({
     page,
     browserName,
@@ -307,6 +330,28 @@ test.describe('Notebook', () => {
     await page.menu.clickMenuItem(menuPath);
 
     await expect(page.locator('.jp-LogConsole')).toBeVisible();
+  });
+
+  test('Toggle the notebook toolbar from the View menu', async ({
+    page,
+    tmpPath,
+  }) => {
+    const notebook = 'simple.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    const menuPath = 'View>Show Toolbar';
+    const toolbar = page.locator('.jp-NotebookPanel-toolbar');
+    await expect(toolbar).toBeVisible();
+
+    await page.menu.clickMenuItem(menuPath);
+    await expect(toolbar).toBeHidden();
+
+    await page.menu.clickMenuItem(menuPath);
+    await expect(toolbar).toBeVisible();
   });
 
   test('Toggle cell outputs with the O keyboard shortcut', async ({
