@@ -95,6 +95,32 @@ Python 3.9 support has been dropped in this release.
 
 <!-- <START NEW CHANGELOG ENTRY> -->
 
+## 7.7.0b2
+
+([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.7.0-beta.1...2012f74de32dce9e1a8c0d42721a91de34ed9bab))
+
+### Bugs fixed
+
+- Add missing stylesheet for ? icon [#8128](https://github.com/jupyter/notebook/pull/8128) ([@krassowski](https://github.com/krassowski), [@jtpio](https://github.com/jtpio))
+- Optimize the Jupyter logo SVG and remove the unused `cleansvg` script [#8126](https://github.com/jupyter/notebook/pull/8126) ([@Darshan808](https://github.com/Darshan808), [@jtpio](https://github.com/jtpio))
+
+### Maintenance and upkeep improvements
+
+- Update to JupyterLab v4.7.0b2 [#8129](https://github.com/jupyter/notebook/pull/8129) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 6 updates [#8125](https://github.com/jupyter/notebook/pull/8125) ([@jtpio](https://github.com/jtpio))
+- Bump the actions group with 13 updates [#8124](https://github.com/jupyter/notebook/pull/8124) ([@jtpio](https://github.com/jtpio))
+
+### Contributors to this release
+
+The following people contributed discussions, new ideas, code and documentation contributions, and review.
+See [our definition of contributors](https://github-activity.readthedocs.io/en/latest/use/#how-does-this-tool-define-contributions-in-the-reports).
+
+([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-11-09&to=2026-11-23&type=c))
+
+@Darshan808 ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3ADarshan808+updated%3A2026-11-09..2026-11-23&type=Issues)) | @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-11-09..2026-11-23&type=Issues)) | @krassowski ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Akrassowski+updated%3A2026-11-09..2026-11-23&type=Issues))
+
+<!-- <END NEW CHANGELOG ENTRY> -->
+
 ## 7.7.0b1
 
 ([Full Changelog](https://github.com/jupyter/notebook/compare/@jupyter-notebook/application-extension@7.7.0-beta.0...671061febf4528817877b1b10a501ec4c3edc2bd))
@@ -116,8 +142,6 @@ See [our definition of contributors](https://github-activity.readthedocs.io/en/l
 ([GitHub contributors page for this release](https://github.com/jupyter/notebook/graphs/contributors?from=2026-10-29&to=2026-11-09&type=c))
 
 @jtpio ([activity](https://github.com/search?q=repo%3Ajupyter%2Fnotebook+involves%3Ajtpio+updated%3A2026-10-29..2026-11-09&type=Issues))
-
-<!-- <END NEW CHANGELOG ENTRY> -->
 
 ## 7.7.0b0
 
