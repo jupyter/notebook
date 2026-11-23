@@ -19,6 +19,19 @@ test('Tree', async ({ page }) => {
   expect(button).toBeDefined();
 });
 
+test('should skip to the main content using the keyboard', async ({ page }) => {
+  await page.goto('tree');
+  await page.keyboard.press('Tab');
+  await expect(page.getByRole('link', { name: 'Skip to Main' })).toBeFocused();
+
+  await page.keyboard.press('Enter');
+  const main = page.getByRole('main');
+  await expect(main).toBeFocused();
+
+  await page.keyboard.press('Tab');
+  await expect(main.locator(':focus')).toHaveCount(1);
+});
+
 test('should go to subfolder', async ({ page, tmpPath }) => {
   const dir = `${tmpPath}/${SUBFOLDER}`;
   await page.contents.createDirectory(dir);

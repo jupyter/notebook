@@ -99,6 +99,7 @@ export class NotebookShell extends Widget implements JupyterFrontEnd.IShell {
     this._menuHandler.panel.node.setAttribute('role', 'navigation');
     this._main.id = 'main-panel';
     this._main.node.setAttribute('role', 'main');
+    this._main.node.tabIndex = -1;
 
     this._spacer_top = new Widget();
     this._spacer_top.id = 'spacer-widget-top';
@@ -609,10 +610,10 @@ export namespace Private {
     /**
      * Construct a new skipLink widget handler.
      */
-    constructor(shell: INotebookShell) {
+    constructor(private readonly _shell: INotebookShell) {
       const skipLinkWidget = (this._skipLinkWidget = new Widget());
       const skipToMain = document.createElement('a');
-      skipToMain.href = '#first-cell';
+      skipToMain.href = '#main-panel';
       skipToMain.tabIndex = 1;
       skipToMain.text = 'Skip to Main';
       skipToMain.className = 'skip-link';
@@ -625,17 +626,20 @@ export namespace Private {
     handleEvent(event: Event): void {
       switch (event.type) {
         case 'click':
-          this._focusMain();
+          this._focusMain(event);
           break;
       }
     }
 
-    private _focusMain() {
-      const input = document.querySelector(
+    private _focusMain(event: Event): void {
+      const input = this._shell.node.querySelector<HTMLElement>(
         '#main-panel .jp-InputArea-editor'
-      ) as HTMLInputElement;
-      input.tabIndex = 1;
-      input.focus();
+      );
+      if (input) {
+        event.preventDefault();
+        input.tabIndex = -1;
+        input.focus();
+      }
     }
 
     /**
