@@ -12,6 +12,9 @@ on:
         description: "Comma separated list of steps to skip"
         required: false
 
+permissions:
+  contents: read
+
 jobs:
   publish_release:
     runs-on: ubuntu-latest
