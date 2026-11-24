@@ -24,6 +24,18 @@
           }
         ]
       }
+    ],
+    "context": [
+      {
+        "command": "notebook:insert-cell-above",
+        "selector": ".jp-Notebook .jp-Cell",
+        "rank": 4.1
+      },
+      {
+        "command": "notebook:insert-cell-below",
+        "selector": ".jp-Notebook .jp-Cell",
+        "rank": 4.2
+      }
     ]
   },
   "properties": {},
