@@ -1,5 +1,9 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
+/**
+ * @packageDocumentation
+ * @module docmanager-extension
+ */
 
 import {
   JupyterFrontEnd,
@@ -64,12 +68,12 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
             }
             route = 'notebooks';
           }
-          // append ?factory only if it's not the default
+          // append ?open-with only if it's not the default
           const defaultFactory = docRegistry.defaultWidgetFactory(path);
           let searchParams = undefined;
-          if (widgetName !== defaultFactory.name) {
+          if (widgetName !== 'default' && widgetName !== defaultFactory.name) {
             searchParams = new URLSearchParams({
-              factory: widgetName,
+              'open-with': widgetName,
             });
           }
           // Require both flags: `notebookStartsKernel=False` only sets
@@ -105,7 +109,13 @@ const opener: JupyterFrontEndPlugin<IDocumentWidgetOpener> = {
           ...widget.title.dataset,
         };
         if (!widget.isAttached) {
-          app.shell.add(widget, 'main', options || {});
+          // The document of the page goes to the main area, whatever the
+          // layout setting of its widget type: the page shows only that area.
+          app.shell.add(
+            widget,
+            'main',
+            ref === '_noref' ? { ...options, type: undefined } : options || {}
+          );
         }
         app.shell.activateById(widget.id);
         this._opened.emit(widget);

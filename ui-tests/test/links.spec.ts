@@ -58,4 +58,14 @@ test.describe('Local Links', () => {
     // Check that the link opened in a new tab
     expect(folder.url()).toContain(`tree/${tmpPath}/${SUBFOLDER}`);
   });
+
+  test('Show an error for a missing file', async ({ page, tmpPath }) => {
+    await page.goto(`notebooks/${tmpPath}/${NOTEBOOK}`);
+
+    await page.getByText('Missing File').last().click();
+
+    const dialog = page.locator('.jp-Dialog');
+    await expect(dialog).toContainText('Cannot open');
+    await expect(dialog).toContainText('Could not find path');
+  });
 });

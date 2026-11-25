@@ -36,6 +36,10 @@
         "id": "jp-mainmenu-view",
         "items": [
           {
+            "command": "viewmenu:show-toolbar",
+            "rank": 2.5
+          },
+          {
             "type": "submenu",
             "disabled": true,
             "submenu": {

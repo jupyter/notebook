@@ -1,5 +1,9 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
+/**
+ * @packageDocumentation
+ * @module console-extension
+ */
 
 import {
   IRouter,
@@ -41,7 +45,7 @@ const opener: JupyterFrontEndPlugin<void> = {
   description: 'A plugin to open consoles in a new tab',
   activate: (app: JupyterFrontEnd, router: IRouter) => {
     const { commands } = app;
-    const consolePattern = new RegExp('/consoles/(.*)');
+    const consolePattern = new RegExp('^/consoles/(.*)$');
 
     const command = 'router:console';
     commands.addCommand(command, {

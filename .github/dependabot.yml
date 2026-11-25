@@ -8,7 +8,27 @@ updates:
       actions:
         patterns:
           - "*"
+    cooldown:
+      default-days: 7
   - package-ecosystem: 'pip'
     directory: '/'
     schedule:
       interval: 'weekly'
+    cooldown:
+      default-days: 7
+  - package-ecosystem: 'npm'
+    directories:
+      - '/'
+      - '/ui-tests'
+    # `schedule.interval` is required but inert here since routine version
+    # updates are disabled below; security updates run off Dependabot alerts.
+    schedule:
+      interval: 'weekly'
+    open-pull-requests-limit: 0
+    groups:
+      npm-security-updates:
+        applies-to: security-updates
+        patterns:
+          - "*"
+    cooldown:
+      default-days: 7

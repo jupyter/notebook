@@ -1,5 +1,9 @@
 // Copyright (c) Jupyter Development Team.
 // Distributed under the terms of the Modified BSD License.
+/**
+ * @packageDocumentation
+ * @module terminal-extension
+ */
 
 import {
   IRouter,
@@ -32,7 +36,7 @@ const opener: JupyterFrontEndPlugin<void> = {
     tracker: ITerminalTracker
   ) => {
     const { commands } = app;
-    const terminalPattern = new RegExp('/terminals/(.*)');
+    const terminalPattern = new RegExp('^/terminals/(.*)$');
 
     const command = 'router:terminal';
     commands.addCommand(command, {

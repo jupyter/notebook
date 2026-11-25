@@ -6,6 +6,7 @@ import os
 import re
 import typing as t
 from pathlib import Path
+from urllib.parse import urlencode
 
 from jupyter_client.utils import ensure_async  # type:ignore[attr-defined]
 from jupyter_core.paths import jupyter_config_dir
@@ -139,6 +140,7 @@ class TreeHandler(NotebookBaseHandler):
         Display appropriate page for given path.
 
         - A directory listing is shown if path is a directory
+        - Redirected to the edit page if the `open-with` query parameter is set
         - Redirected to notebook page if path is a notebook
         - Render the raw file if path is any other file
         """
@@ -158,8 +160,14 @@ class TreeHandler(NotebookBaseHandler):
             return self.write(tpl)
         if await ensure_async(cm.file_exists(path)):
             # it's not a directory, we have redirecting to do
+            open_with = self.get_query_argument("open-with", "")
             model = await ensure_async(cm.get(path, content=False))
-            if model["type"] == "notebook":
+            if open_with:
+                # Only the frontend knows the viewers. The edit page resolves the
+                # value, and moves to the notebook page for a notebook viewer.
+                url = ujoin(self.base_url, "edit", url_escape(path))
+                url = f"{url}?{urlencode({'open-with': open_with})}"
+            elif model["type"] == "notebook":
                 url = ujoin(self.base_url, "notebooks", url_escape(path))
             else:
                 # Return raw content if file is not a notebook

@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/docmanager-extension",
-  "version": "7.7.0-alpha.2",
+  "version": "7.7.0-beta.2",
   "description": "Jupyter Notebook - Document Manager Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -28,7 +28,8 @@
     "lib/*.js",
     "schema/*.json",
     "style/**/*.css",
-    "style/index.js"
+    "style/index.js",
+    "src/**/*.{ts,tsx}"
   ],
   "scripts": {
     "build": "tsc -b",
@@ -38,13 +39,11 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.7.0-alpha.2",
-    "@jupyterlab/application": "~4.7.0-alpha.2",
-    "@jupyterlab/coreutils": "~6.7.0-alpha.2",
-    "@jupyterlab/docmanager": "~4.7.0-alpha.2",
-    "@jupyterlab/docregistry": "~4.7.0-alpha.2",
-    "@jupyterlab/services": "~7.7.0-alpha.2",
-    "@lumino/algorithm": "^2.0.4",
+    "@jupyter-notebook/application": "^7.7.0-beta.2",
+    "@jupyterlab/application": "~4.7.0-beta.2",
+    "@jupyterlab/coreutils": "~6.7.0-beta.2",
+    "@jupyterlab/docmanager": "~4.7.0-beta.2",
+    "@jupyterlab/docregistry": "~4.7.0-beta.2",
     "@lumino/signaling": "^2.1.5"
   },
   "devDependencies": {

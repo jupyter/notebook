@@ -1,6 +1,6 @@
 {
   "name": "@jupyter-notebook/application-extension",
-  "version": "7.7.0-alpha.2",
+  "version": "7.7.0-beta.2",
   "description": "Jupyter Notebook - Application Extension",
   "homepage": "https://github.com/jupyter/notebook",
   "bugs": {
@@ -28,7 +28,8 @@
     "lib/*.js",
     "schema/*.json",
     "style/**/*.css",
-    "style/index.js"
+    "style/index.js",
+    "src/**/*.{ts,tsx}"
   ],
   "scripts": {
     "build": "tsc -b",
@@ -38,19 +39,18 @@
     "watch": "tsc -b --watch"
   },
   "dependencies": {
-    "@jupyter-notebook/application": "^7.7.0-alpha.2",
-    "@jupyter-notebook/ui-components": "^7.7.0-alpha.2",
-    "@jupyterlab/application": "~4.7.0-alpha.2",
-    "@jupyterlab/apputils": "~4.8.0-alpha.2",
-    "@jupyterlab/codeeditor": "~4.7.0-alpha.2",
-    "@jupyterlab/console": "~4.7.0-alpha.2",
-    "@jupyterlab/coreutils": "~6.7.0-alpha.2",
-    "@jupyterlab/docmanager": "~4.7.0-alpha.2",
-    "@jupyterlab/docregistry": "~4.7.0-alpha.2",
-    "@jupyterlab/mainmenu": "~4.7.0-alpha.2",
-    "@jupyterlab/rendermime": "~4.7.0-alpha.2",
-    "@jupyterlab/settingregistry": "~4.7.0-alpha.2",
-    "@jupyterlab/translation": "~4.7.0-alpha.2",
+    "@jupyter-notebook/application": "^7.7.0-beta.2",
+    "@jupyter-notebook/ui-components": "^7.7.0-beta.2",
+    "@jupyterlab/application": "~4.7.0-beta.2",
+    "@jupyterlab/apputils": "~4.8.0-beta.2",
+    "@jupyterlab/console": "~4.7.0-beta.2",
+    "@jupyterlab/coreutils": "~6.7.0-beta.2",
+    "@jupyterlab/docmanager": "~4.7.0-beta.2",
+    "@jupyterlab/docregistry": "~4.7.0-beta.2",
+    "@jupyterlab/mainmenu": "~4.7.0-beta.2",
+    "@jupyterlab/rendermime": "~4.7.0-beta.2",
+    "@jupyterlab/settingregistry": "~4.7.0-beta.2",
+    "@jupyterlab/translation": "~4.7.0-beta.2",
     "@lumino/coreutils": "^2.2.2",
     "@lumino/disposable": "^2.1.5",
     "@lumino/widgets": "^2.7.2"

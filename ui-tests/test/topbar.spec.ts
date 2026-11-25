@@ -3,7 +3,7 @@
 
 import path from 'path';
 
-import { expect } from '@jupyterlab/galata';
+import { expect, galata } from '@jupyterlab/galata';
 
 import { test } from './fixtures';
 
@@ -90,6 +90,28 @@ test.describe('Top bar', () => {
 
     await dialog.locator('.jp-Dialog-button.jp-mod-accept').click();
     await expect(trustedButton).toHaveText('Trusted');
+  });
+
+  test('A view-only notebook cannot be trusted', async ({ page, tmpPath }) => {
+    // empty.ipynb contains a code cell
+    const notebook = 'empty.ipynb';
+    await page.contents.uploadFile(
+      path.resolve(__dirname, `./notebooks/${notebook}`),
+      `${tmpPath}/${notebook}`
+    );
+    await galata.Mock.makeNotebookReadonly(page);
+    await page.goto(`notebooks/${tmpPath}/${notebook}`);
+
+    await expect(
+      page.locator('[data-jp-item-name="read-only-indicator"]')
+    ).toBeVisible();
+
+    const trustedButton = page.locator('button.jp-NotebookTrustedStatus');
+    await expect(trustedButton).toHaveText('Not Trusted');
+
+    await trustedButton.click();
+    await expect(page.locator('.jp-Dialog')).toHaveCount(0);
+    await expect(trustedButton).toHaveText('Not Trusted');
   });
 
   test('A notebook without code cells should be trusted', async ({
