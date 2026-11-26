@@ -138,4 +138,17 @@ test.describe('Editor', () => {
       await page.menu.isOpen('View>Text Editor Syntax Highlighting')
     ).toBeTruthy();
   });
+
+  test('File menu should not have the Save and Export Notebook As entry', async ({
+    page,
+    tmpPath,
+  }) => {
+    const file = `${tmpPath}/${FILE}`;
+    await page.goto(`edit/${file}`);
+
+    await page.menu.open('File');
+    const menu = await page.menu.getOpenMenu();
+    expect(menu).toBeDefined();
+    await expect(menu!.getByText('Save and Export Notebook As')).toHaveCount(0);
+  });
 });

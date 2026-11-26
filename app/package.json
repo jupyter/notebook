@@ -304,7 +304,6 @@
         "@jupyterlab/notebook-extension": [
           "@jupyterlab/notebook-extension:cell-executor",
           "@jupyterlab/notebook-extension:code-console",
-          "@jupyterlab/notebook-extension:export",
           "@jupyterlab/notebook-extension:factory",
           "@jupyterlab/notebook-extension:page-handler",
           "@jupyterlab/notebook-extension:tracker",
@@ -365,6 +364,7 @@
           "@jupyterlab/notebook-extension:active-cell-tool",
           "@jupyterlab/notebook-extension:completer",
           "@jupyterlab/notebook-extension:copy-output",
+          "@jupyterlab/notebook-extension:export",
           "@jupyterlab/notebook-extension:metadata-editor",
           "@jupyterlab/notebook-extension:search",
           "@jupyterlab/notebook-extension:toc",
