@@ -191,3 +191,14 @@ test.describe('Toolbar New dropdown', () => {
     await consolePage.close();
   });
 });
+
+test('File menu should not have the Save and Export Notebook As entry', async ({
+  page,
+}) => {
+  await page.goto('tree');
+
+  await page.menu.open('File');
+  const menu = await page.menu.getOpenMenu();
+  expect(menu).toBeDefined();
+  await expect(menu!.getByText('Save and Export Notebook As')).toHaveCount(0);
+});
