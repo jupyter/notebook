@@ -90,6 +90,7 @@ validate-bump = false
 
 [tool.hatch.build.targets.wheel.shared-data]
 "notebook/labextension" = "share/jupyter/labextensions/@jupyter-notebook/lab-extension"
+"install.json" = "share/jupyter/labextensions/@jupyter-notebook/lab-extension/install.json"
 "notebook/schemas/@jupyter-notebook" = "share/jupyter/lab/schemas/@jupyter-notebook"
 "jupyter-config/jupyter_server_config.d" = "etc/jupyter/jupyter_server_config.d"
 "notebook.svg" = "share/icons/hicolor/scalable/apps/notebook.svg"
